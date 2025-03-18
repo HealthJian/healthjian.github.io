@@ -1,0 +1,24 @@
+/* 暗色模式样式 */
+body.dark-mode {
+    --text-color: #ffffff; /* 修改为纯白色 */
+    --background-color: #003366; /* 深蓝色背景 */
+    --card-background: #004080;
+    --navbar-background: rgba(0, 51, 102, 0.8); /* 半透明深蓝色 */
+    --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .theme-toggle .fa-sun {
+    display: inline-block;
+}
+
+body.dark-mode .theme-toggle .fa-moon {
+    display: none;
+}
+
+body.light-mode .theme-toggle .fa-sun {
+    display: none;
+}
+
+body.light-mode .theme-toggle .fa-moon {
+    display: inline-block;
+} 

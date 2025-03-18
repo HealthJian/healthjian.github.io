@@ -1,0 +1,434 @@
+/* 基础样式 */
+:root {
+    --primary-color: #007AFF;
+    --secondary-color: #5AC8FA;
+    --text-color: #000000; /* 修改为纯黑色 */
+    --background-color: #FAEBD7; /* 古董白 */
+    --card-background: #ffffff;
+    --navbar-background: rgba(250, 235, 215, 0.8); /* 半透明古董白 */
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --transition-speed: 0.3s;
+    --border-radius: 12px;
+    --font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+    padding-top: 70px; /* 为固定导航栏留出空间 */
+}
+
+/* 确保所有文本元素使用变量颜色 */
+body, p, h1, h2, h3, h4, h5, h6, a, span, div {
+    color: var(--text-color);
+    transition: color var(--transition-speed);
+}
+
+/* 特定元素的颜色可以保持不变 */
+.quote {
+    color: var(--primary-color);
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color var(--transition-speed);
+}
+
+a:hover {
+    color: var(--secondary-color);
+}
+
+/* 导航栏样式 */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: var(--navbar-background);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px var(--shadow-color);
+    transition: background-color var(--transition-speed);
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
+    height: 30px;
+    width: auto;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.site-name {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.menu {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+.menu a {
+    font-weight: 500;
+    position: relative;
+}
+
+.menu a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background-color: var(--primary-color);
+    transition: width var(--transition-speed);
+}
+
+.menu a:hover::after {
+    width: 100%;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.social-icons a {
+    font-size: 1.2rem;
+    transition: transform var(--transition-speed);
+}
+
+.social-icons a:hover {
+    transform: translateY(-3px);
+}
+
+.theme-toggle, .lang-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    border-radius: 50%;
+    transition: background-color var(--transition-speed);
+}
+
+.theme-toggle:hover, .lang-toggle:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* 主要内容样式 */
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.avatar-container {
+    margin-bottom: 20px;
+    position: relative;
+    display: inline-block;
+}
+
+.avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 5px 15px var(--shadow-color);
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    cursor: pointer;
+}
+
+.avatar:hover {
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0 10px 25px var(--shadow-color);
+}
+
+.quote {
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.bio {
+    max-width: 700px;
+    margin: 0 auto;
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.bio p {
+    margin-bottom: 15px;
+}
+
+/* 博客网格样式 */
+.blog-grid {
+    margin-top: 60px;
+}
+
+.blog-grid h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+    font-weight: 500;
+}
+
+.posts-container {
+    display: grid;
+    grid-template-columns: 1fr; /* 修改为单列 */
+    gap: 30px;
+    max-width: 800px; /* 限制宽度，使其更美观 */
+    margin: 0 auto; /* 居中显示 */
+}
+
+.post-card {
+    /* 调整卡片样式以适应单列布局 */
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    box-shadow: 0 5px 15px var(--shadow-color);
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px var(--shadow-color);
+}
+
+.post-date {
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 10px;
+}
+
+.post-card h3 {
+    font-size: 1.5rem; /* 增大标题字体 */
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.post-card p {
+    font-size: 1.1rem; /* 增大内容字体 */
+    line-height: 1.7;
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+.post-card a {
+    display: inline-block;
+    font-weight: 500;
+    position: relative;
+}
+
+.post-card a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background-color: var(--primary-color);
+    transition: width var(--transition-speed);
+}
+
+.post-card a:hover::after {
+    width: 100%;
+}
+
+/* 页脚样式 */
+footer {
+    background-color: var(--navbar-background);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 30px;
+    margin-top: 60px;
+    transition: background-color var(--transition-speed);
+    border-top: 1px solid rgba(0, 0, 0, 0.1); /* 添加顶部边框作为分隔线 */
+}
+
+body.dark-mode footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* 暗色模式下的分隔线 */
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-info p {
+    margin-bottom: 10px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 20px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 15px;
+    }
+    
+    .menu {
+        display: none; /* 在移动设备上隐藏菜单，可以添加汉堡菜单 */
+    }
+    
+    .posts-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* 博客动态样式 */
+.blog-updates {
+    margin-top: 60px;
+}
+
+.blog-updates h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+    font-weight: 500;
+}
+
+.updates-container {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.update-item {
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: 0 5px 15px var(--shadow-color);
+    display: flex;
+    gap: 20px;
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.update-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px var(--shadow-color);
+}
+
+.update-date {
+    min-width: 100px;
+    font-size: 0.9rem;
+    color: #888;
+    padding-top: 5px;
+}
+
+.update-content h3 {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.update-content p {
+    line-height: 1.6;
+}
+
+/* 数字花园样式 */
+.digital-garden {
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.8;
+    font-size: 1.05rem;
+    white-space: pre-line;
+}
+
+.digital-garden h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+    text-align: center;
+}
+
+.digital-garden h2 {
+    font-size: 1.5rem;
+    margin: 1.5rem 0 1rem;
+    color: var(--secondary-color);
+}
+
+.digital-garden ul {
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.digital-garden li {
+    margin-bottom: 0.5rem;
+}
+
+.digital-garden blockquote {
+    border-left: 4px solid var(--primary-color);
+    padding-left: 1rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: #666;
+}
+
+.digital-garden p {
+    margin-bottom: 1rem;
+} 

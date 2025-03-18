@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthJian的博客</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- 苹果风格字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="light-mode">
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">
+                <img src="images/githubherofigureimage.png" alt="Logo">
+                <span class="site-name" data-en="HealthJian Blog" data-zh="HealthJian">HealthJian</span>
+            </a>
+        </div>
+        <div class="nav-right">
+            <ul class="menu">
+                <li><a href="index.html" data-en="Home" data-zh="首页">首页</a></li>
+                <li><a href="pages/blog.html" data-en="Blog" data-zh="博客">博客</a></li>
+                <li><a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a></li>
+                <li><a href="pages/links.html" data-en="Links" data-zh="链接">链接</a></li>
+                <li><a href="pages/about.html" data-en="About" data-zh="关于">关于</a></li>
+            </ul>
+            <div class="social-icons">
+                <a href="https://steamcommunity.com/id/yoursteamid" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
+                <a href="mailto:gaojian1573@foxmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+            <button id="theme-toggle" class="theme-toggle" title="切换主题">
+                <i class="fas fa-moon"></i>
+                <i class="fas fa-sun"></i>
+            </button>
+            <button id="lang-toggle" class="lang-toggle" title="切换语言">
+                <span data-en="EN" data-zh="中">中</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main>
+        <section class="hero">
+            <div class="avatar-container">
+                <img src="images/healthjian.jpg" alt="头像" class="avatar">
+            </div>
+            <h1 class="quote" data-en="Life is short, but the world is vast." data-zh="人生不满百，常怀千岁忧。">人生不满百，常怀千岁忧。</h1>
+            <div class="bio">
+                <div class="digital-garden" data-en="# Jian's Digital Garden #
+
+ 🌱 About Me
+Hi, I'm Jian - a developer navigating between reality and idealism. My web development journey began serendipitously, but the moment my first demo came to life, I knew I'd found my calling. Even in time-starved days, code and writing remain my shield against anxiety.
+
+ ✍️ Blog Purpose
+- Tech Notes: Front-end development practices & insights
+- Humanistic Essays: Capturing ephemeral sparks of life
+- Knowledge Curation: Building systematic learning frameworks
+- Mental Sanctuary: Seeking inner peace through words
+
+ 🧠 Philosophy
+> &quot;How far one can go is determined not by speed in prosperity, but by the duration it takes to rediscover one's true self through adversity.&quot;
+
+As expressed in *Nineteen Ancient Poems*: &quot;Man's life is less than a hundred years, yet he harbors griefs for a thousand&quot;. This existential anxiety fuels my continuous creation. When screen glow illuminates my face, I know I'm making peace with the world in the most elegant way.
+
+[To be continued...]" data-zh="# Jian's Digital Garden #
+
+ 🌱 关于我
+你好，我是健 - 一名在现实与理想间跋涉的开发者。Web开发之旅始于偶然，但当第一个DEMO成功运行的那一刻，我知道自己找到了值得坚持的方向。即便在时间碎成沙漏的日常里，代码与文字始终是我对抗焦虑的盾牌。
+
+ ✍️ 博客目的
+- 技术札记：记录前端开发的实践与思考
+- 人文随笔：收藏生活中转瞬即逝的灵光
+- 知识管理：尝试构建系统化的学习图谱
+- 心灵疗愈：在字里行间寻找inner peace
+
+ 🧠 理念
+> &quot;一个人能走多远不在于他在顺境中能走得多快，而在于他在逆境中多久能找到曾经的自己。&quot;
+
+《古诗十九首》有云：&quot;人生不满百，常怀千岁忧&quot;。这种存在主义的焦虑，恰是我保持创作的永恒燃料。当屏幕蓝光映亮脸庞时，我知道自己正在用最优雅的方式与这个世界和解。
+
+[待续...]">
+            </div>
+        </div>
+
+        <section class="blog-grid">
+            <h2 data-en="Latest Posts" data-zh="最新文章">最新文章</h2>
+            <div class="posts-container">
+                <!-- 这里将动态加载博客文章 -->
+                <!-- 示例文章卡片 -->
+                <article class="post-card">
+                    <div class="post-date">2023-06-15</div>
+                    <h3 data-en="Getting Started with React" data-zh="React入门指南">React入门指南</h3>
+                    <p data-en="A beginner's guide to React framework and its core concepts." data-zh="React框架及其核心概念的入门指南。">React框架及其核心概念的入门指南。</p>
+                    <a href="pages/blog/react-getting-started.html" data-en="Read More" data-zh="阅读更多">阅读更多</a>
+                </article>
+                <article class="post-card">
+                    <div class="post-date">2023-05-28</div>
+                    <h3 data-en="CSS Grid Layout Explained" data-zh="CSS网格布局详解">CSS网格布局详解</h3>
+                    <p data-en="Understanding the power of CSS Grid for modern web layouts." data-zh="了解CSS网格在现代网页布局中的强大功能。">了解CSS网格在现代网页布局中的强大功能。</p>
+                    <a href="pages/blog/css-grid-explained.html" data-en="Read More" data-zh="阅读更多">阅读更多</a>
+                </article>
+                <article class="post-card">
+                    <div class="post-date">2023-05-10</div>
+                    <h3 data-en="JavaScript Promises" data-zh="JavaScript Promise详解">JavaScript Promise详解</h3>
+                    <p data-en="A deep dive into JavaScript Promises and async programming." data-zh="深入了解JavaScript Promise和异步编程。">深入了解JavaScript Promise和异步编程。</p>
+                    <a href="pages/blog/javascript-promises.html" data-en="Read More" data-zh="阅读更多">阅读更多</a>
+                </article>
+            </div>
+        </section>
+
+        <section class="blog-updates">
+            <h2 data-en="Recent Updates" data-zh="博客动态">博客动态</h2>
+            <div class="updates-container">
+                <div class="update-item">
+                    <div class="update-date">2023-07-20</div>
+                    <div class="update-content">
+                        <h3 data-en="Website Launch" data-zh="网站上线">网站上线</h3>
+                        <p data-en="The personal blog is officially launched today!" data-zh="个人博客今日正式上线！">个人博客今日正式上线！</p>
+                    </div>
+                </div>
+                <div class="update-item">
+                    <div class="update-date">2023-07-15</div>
+                    <div class="update-content">
+                        <h3 data-en="Design Completed" data-zh="设计完成">设计完成</h3>
+                        <p data-en="The website design has been finalized with Apple-style UI." data-zh="网站设计已完成，采用苹果风格UI。">网站设计已完成，采用苹果风格UI。</p>
+                    </div>
+                </div>
+                <div class="update-item">
+                    <div class="update-date">2023-07-10</div>
+                    <div class="update-content">
+                        <h3 data-en="Project Started" data-zh="项目启动">项目启动</h3>
+                        <p data-en="Started working on the personal blog project." data-zh="开始个人博客项目的开发工作。">开始个人博客项目的开发工作。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <p>&copy; 2025 CaiNiaojian&HealthJian all followed.</p>
+                <p data-en="Contact: " data-zh="联系方式：">联系方式：<a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
+                <p data-en="Location: " data-zh="地址：">地址：XX</p>
+            </div>
+            <div class="footer-links">
+                <a href="pages/changelog.html" data-en="ChangeLog" data-zh="更新日志">更新日志</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/language.js"></script>
+</body>
+</html> 

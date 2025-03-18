@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>博客 - HealthJian的博客</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    <link rel="stylesheet" href="../css/blog.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="light-mode">
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="../index.html" class="logo">
+                <img src="../images/githubherofigureimage.png" alt="Logo">
+                <span class="site-name" data-en="HealthJian Blog" data-zh="HealthJian">HealthJian</span>
+            </a>
+        </div>
+        <div class="nav-right">
+            <ul class="menu">
+                <li><a href="../index.html" data-en="Home" data-zh="首页">首页</a></li>
+                <li><a href="blog.html" data-en="Blog" data-zh="博客">博客</a></li>
+                <li><a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a></li>
+                <li><a href="links.html" data-en="Links" data-zh="链接">链接</a></li>
+                <li><a href="about.html" data-en="About" data-zh="关于">关于</a></li>
+            </ul>
+            <div class="social-icons">
+                <a href="https://steamcommunity.com/id/yoursteamid" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
+                <a href="mailto:gaojian1573@foxmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+            <button id="theme-toggle" class="theme-toggle" title="切换主题">
+                <i class="fas fa-moon"></i>
+                <i class="fas fa-sun"></i>
+            </button>
+            <button id="lang-toggle" class="lang-toggle" title="切换语言">
+                <span data-en="EN" data-zh="中">中</span>
+            </button>
+        </div>
+    </nav>
+
+    <main>
+        <section class="blog-header">
+            <h1 data-en="Blog Posts" data-zh="博客文章">博客文章</h1>
+            <div class="blog-search">
+                <input type="text" placeholder="搜索文章..." data-en-placeholder="Search posts..." data-zh-placeholder="搜索文章...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+        </section>
+
+        <section class="blog-filters">
+            <div class="filter-group">
+                <h3 data-en="Categories" data-zh="分类">分类</h3>
+                <div class="filter-tags">
+                    <button class="active" data-category="all" data-en="All" data-zh="全部">全部</button>
+                    <button data-category="tech" data-en="Technology" data-zh="技术">技术</button>
+                    <button data-category="life" data-en="Life" data-zh="生活">生活</button>
+                    <button data-category="thoughts" data-en="Thoughts" data-zh="随想">随想</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="blog-list">
+            <!-- 博客文章列表将通过JavaScript动态加载 -->
+        </section>
+
+        <div class="pagination">
+            <button class="prev" disabled><i class="fas fa-chevron-left"></i></button>
+            <span class="page-numbers">
+                <button class="active">1</button>
+                <button>2</button>
+                <button>3</button>
+            </span>
+            <button class="next"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <p>&copy; 2025 CaiNiaojian&HealthJian all followed.</p>
+                <p data-en="Contact: " data-zh="联系方式：">联系方式：<a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
+                <p data-en="Location: " data-zh="地址：">地址：XX</p>
+            </div>
+            <div class="footer-links">
+                <a href="changelog.html" data-en="ChangeLog" data-zh="更新日志">更新日志</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/language.js"></script>
+    <script src="../js/blog.js"></script>
+</body>
+</html> 
