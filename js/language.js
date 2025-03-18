@@ -37,13 +37,21 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             // 更新所有带有data-en和data-zh属性的元素
-            const elements = document.querySelectorAll('[data-en][data-zh]');
-            elements.forEach(element => {
-                element.textContent = element.getAttribute(`data-${newLang}`);
-            });
+            updateAllLanguageElements(newLang);
             
             // 保存语言偏好
             localStorage.setItem('language', newLang);
+            
+            // 如果在博客页面，重新加载当前页的文章以更新语言
+            if (window.location.href.includes('/blog.html')) {
+                const activePage = document.querySelector('.pagination .active');
+                if (activePage) {
+                    const currentPage = parseInt(activePage.textContent);
+                    loadPagePosts(currentPage);
+                } else {
+                    loadPagePosts(1);
+                }
+            }
         });
     }
     
@@ -55,10 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.classList.add(savedLang);
         
         // 更新所有文本
-        const elements = document.querySelectorAll('[data-en][data-zh]');
-        elements.forEach(element => {
-            element.textContent = element.getAttribute(`data-${savedLang}`);
-        });
+        updateAllLanguageElements(savedLang);
         
         // 更新引言文本和提示
         const quoteEl = document.querySelector('.quote-text');
@@ -74,4 +79,18 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     }
-}); 
+});
+
+// 更新所有带有语言属性的元素
+function updateAllLanguageElements(lang) {
+    const elements = document.querySelectorAll('[data-en][data-zh]');
+    elements.forEach(element => {
+        element.textContent = element.getAttribute(`data-${lang}`);
+    });
+    
+    // 更新搜索框占位符
+    const searchInputs = document.querySelectorAll('input[data-en-placeholder][data-zh-placeholder]');
+    searchInputs.forEach(input => {
+        input.placeholder = input.getAttribute(`data-${lang}-placeholder`);
+    });
+} 
