@@ -45,4 +45,29 @@ document.addEventListener('DOMContentLoaded', function() {
     if (langToggle) {
         langToggle.addEventListener('click', toggleLanguage);
     }
+});
+
+// 语言切换处理
+document.getElementById('lang-toggle').addEventListener('click', function() {
+    const currentLang = document.body.classList.contains('en') ? 'en' : 'zh';
+    const newLang = currentLang === 'en' ? 'zh' : 'en';
+    
+    document.body.classList.remove(currentLang);
+    document.body.classList.add(newLang);
+    
+    // 更新引言文本和提示
+    const quoteEl = document.querySelector('.quote-text');
+    const hintEl = document.querySelector('.language-hint');
+    
+    if (newLang === 'en') {
+        // 切换到英文时显示英文引言
+        quoteEl.textContent = 'Man\'s life is less than a hundred years, yet he harbors griefs for a thousand.';
+        hintEl.textContent = '[click language]';
+    } else {
+        // 切换到中文时显示中文引言
+        quoteEl.textContent = '人生不满百，常怀千岁忧。';
+        hintEl.textContent = '【点击语言】';
+    }
+    
+    // 更新其他元素...
 }); 

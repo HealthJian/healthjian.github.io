@@ -314,6 +314,33 @@ body.dark-mode footer {
 .footer-links {
     display: flex;
     gap: 20px;
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color var(--transition-speed);
+    position: relative;
+}
+
+.footer-links a:hover {
+    color: var(--primary-color);
+}
+
+.footer-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--primary-color);
+    transition: width var(--transition-speed);
+}
+
+.footer-links a:hover::after {
+    width: 100%;
 }
 
 /* 响应式设计 */
@@ -602,4 +629,43 @@ body.dark-mode footer {
     .qia-badge {
         align-self: flex-start;
     }
+}
+
+/* 查看全部文章链接 */
+.blog-section {
+    position: relative;
+}
+
+.view-all {
+    position: absolute;
+    top: 5px;
+    right: 0;
+}
+
+.view-all a {
+    display: inline-flex;
+    align-items: center;
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all var(--transition-speed);
+}
+
+.view-all a:hover {
+    color: var(--secondary-color);
+    transform: translateX(3px);
+}
+
+.view-all a i {
+    margin-left: 5px;
+    font-size: 0.8rem;
+}
+
+/* 为引言中的提示文字添加样式 */
+.language-hint {
+    font-size: 0.7rem;
+    opacity: 0.7;
+    font-weight: normal;
+    vertical-align: middle;
+    margin-left: 5px;
 } 
