@@ -1,0 +1,319 @@
+/* 关于页面特定样式 */
+
+/* 背景图片设置 - 35%模糊效果 */
+/* 注意：这里设置了背景图片的模糊效果，可以根据需要调整模糊程度 */
+.about-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../images/about_background.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(5px); /* 35%模糊效果，从8px调整为5px */
+    opacity: 0.7; /* 透明度保持不变 */
+    z-index: -1;
+}
+
+/* 日间模式背景叠加层 */
+body.light-mode .about-background::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(250, 235, 215, 0.5); /* 日间模式叠加古董白色 */
+    z-index: -1;
+}
+
+/* 夜间模式背景叠加层 */
+body.dark-mode .about-background::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 51, 102, 0.7); /* 夜间模式叠加深蓝色 */
+    z-index: -1;
+}
+
+/* 主要内容容器 */
+.about-container {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+/* 内容布局 */
+.about-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    padding: 40px;
+    box-shadow: 0 10px 30px var(--shadow-color);
+}
+
+/* 作者部分布局 */
+.author-section {
+    flex: 0 0 300px; /* 固定宽度 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 作者图片样式 */
+.author-image {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.author-image img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 20px; /* 圆角矩形 */
+    box-shadow: 0 5px 15px var(--shadow-color);
+    transition: transform var(--transition-speed);
+}
+
+.author-image img:hover {
+    transform: scale(1.02);
+}
+
+/* 文本内容样式 */
+.about-text {
+    flex: 1;
+    min-width: 300px;
+}
+
+.about-text h1 {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.about-description p {
+    margin-bottom: 20px;
+    line-height: 1.8;
+    font-size: 1.1rem;
+}
+
+/* 引用块样式 */
+.quote-block {
+    margin: 40px 0;
+    padding-left: 20px;
+    border-left: 4px solid var(--primary-color);
+}
+
+.quote-block blockquote {
+    font-size: 1.3rem;
+    font-style: italic;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+.quote-block cite {
+    font-size: 1rem;
+    color: var(--text-color);
+    opacity: 0.8;
+}
+
+/* 社交媒体图标网格 - 调整为两行三列的特定顺序 */
+.social-grid {
+    display: grid;
+    grid-template-areas: 
+        "wechat qq linkedin"
+        "steam github leetcode";
+    gap: 15px;
+    width: 100%;
+}
+
+/* 为每个社交项分配网格区域 */
+.social-grid a:nth-child(1) { grid-area: wechat; }   /* 微信 */
+.social-grid a:nth-child(2) { grid-area: qq; }       /* QQ */
+.social-grid a:nth-child(6) { grid-area: linkedin; } /* 领英 - 原本是第6个 */
+.social-grid a:nth-child(3) { grid-area: steam; }    /* Steam */
+.social-grid a:nth-child(5) { grid-area: github; }   /* GitHub */
+.social-grid a:nth-child(4) { grid-area: leetcode; } /* LeetCode */
+
+.social-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 5px;
+    border-radius: 10px;
+    background-color: rgba(var(--primary-color-rgb), 0.05);
+    transition: all var(--transition-speed);
+    text-align: center;
+}
+
+.social-item:hover {
+    transform: translateY(-3px);
+    background-color: rgba(var(--primary-color-rgb), 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.social-item i {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+    color: var(--primary-color);
+    display: block !important; /* 强制显示图标 */
+}
+
+/* 为特定图标设置颜色 */
+.social-item .fa-weixin {
+    color: #07C160; /* 微信绿色 */
+}
+
+.social-item .fa-qq {
+    color: #12B7F5; /* QQ蓝色 */
+}
+
+.social-item .fa-steam {
+    color: #171a21; /* Steam深色 */
+}
+
+.social-item .fa-code {
+    color: #FFA116; /* LeetCode橙色 */
+}
+
+.social-item .fa-github {
+    color: #333333; /* GitHub深灰色 */
+}
+
+.social-item .fa-linkedin-in {
+    color: #0077B5; /* LinkedIn蓝色 */
+}
+
+/* 保留自定义图标作为备用 */
+.custom-icon {
+    display: none; /* 默认隐藏自定义图标 */
+}
+
+/* 当Font Awesome图标加载失败时显示自定义图标 */
+body.icons-fallback .social-item i {
+    display: none !important;
+}
+
+body.icons-fallback .custom-icon {
+    display: flex;
+}
+
+/* 为了确保颜色变量在RGB格式下可用 */
+:root {
+    --primary-color-rgb: 0, 122, 255; /* 对应 #007AFF */
+}
+
+body.dark-mode {
+    --primary-color-rgb: 10, 132, 255; /* 暗色模式下可能略微调亮 */
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .about-content {
+        flex-direction: column;
+        padding: 30px;
+    }
+    
+    .author-section {
+        flex: 0 0 auto;
+        width: 100%;
+        margin-bottom: 30px;
+    }
+    
+    .author-image {
+        margin-bottom: 20px;
+    }
+    
+    .about-text h1 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+    
+    .quote-block {
+        margin: 30px 0;
+    }
+    
+    .quote-block blockquote {
+        font-size: 1.2rem;
+    }
+    
+    .social-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+    
+    .social-item {
+        padding: 10px 5px;
+    }
+    
+    .social-item i {
+        font-size: 1.3rem;
+    }
+    
+    .social-item span {
+        font-size: 0.7rem;
+    }
+}
+
+/* 自定义图标备选方案 */
+.icon-wechat:before {
+    content: "WeChat";
+    font-family: var(--font-family);
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #07C160; /* 微信绿色 */
+}
+
+.icon-qq:before {
+    content: "QQ";
+    font-family: var(--font-family);
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #12B7F5; /* QQ蓝色 */
+}
+
+.icon-linkedin:before {
+    content: "in";
+    font-family: var(--font-family);
+    font-size: 1rem;
+    font-weight: bold;
+    color: #0077B5; /* 领英蓝色 */
+}
+
+/* 为每个社交平台设置特定颜色 */
+.social-item.wechat .custom-icon {
+    background-color: #07C160; /* 微信绿色 */
+}
+
+.social-item.qq .custom-icon {
+    background-color: #12B7F5; /* QQ蓝色 */
+}
+
+.social-item.steam .custom-icon {
+    background-color: #171a21; /* Steam深色 */
+}
+
+.social-item.leetcode .custom-icon {
+    background-color: #FFA116; /* LeetCode橙色 */
+    font-size: 0.8rem;
+}
+
+.social-item.github .custom-icon {
+    background-color: #333333; /* GitHub深灰色 */
+}
+
+.social-item.linkedin .custom-icon {
+    background-color: #0077B5; /* LinkedIn蓝色 */
+} 

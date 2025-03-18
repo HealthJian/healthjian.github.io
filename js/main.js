@@ -18,6 +18,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 初始化分页功能
     initPagination();
+
+    // 检测Font Awesome图标是否正确加载
+    setTimeout(function() {
+        const testIcon = document.querySelector('.fab.fa-weixin');
+        if (testIcon && window.getComputedStyle(testIcon, ':before').content === 'none') {
+            // 图标未正确加载，添加备用类
+            document.body.classList.add('icons-fallback');
+        }
+    }, 1000);
 });
 
 // 这个函数可以用来动态加载博客文章
