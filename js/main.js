@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 在这里可以添加更多的交互功能
     // 例如：博客文章加载、搜索功能等
+
+    // 初始化分页功能
+    initPagination();
 });
 
 // 这个函数可以用来动态加载博客文章
@@ -72,4 +75,63 @@ function createPostElement(post) {
     
     return article;
     */
+}
+
+// 初始化分页功能
+function initPagination() {
+    const paginationContainer = document.querySelector('.blog-pagination');
+    if (!paginationContainer) return;
+    
+    const pageButtons = paginationContainer.querySelectorAll('button:not(.prev):not(.next)');
+    const prevButton = paginationContainer.querySelector('.prev');
+    const nextButton = paginationContainer.querySelector('.next');
+    
+    // 为页码按钮添加点击事件
+    pageButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // 移除所有按钮的active类
+            pageButtons.forEach(btn => btn.classList.remove('active'));
+            // 为当前点击的按钮添加active类
+            this.classList.add('active');
+            
+            // 获取当前页码
+            const currentPage = parseInt(this.textContent);
+            
+            // 更新上一页/下一页按钮状态
+            prevButton.disabled = currentPage === 1;
+            nextButton.disabled = currentPage === pageButtons.length;
+            
+            // 加载对应页的文章（这里可以调用加载文章的函数）
+            loadPagePosts(currentPage);
+        });
+    });
+    
+    // 为上一页按钮添加点击事件
+    prevButton.addEventListener('click', function() {
+        const activeButton = paginationContainer.querySelector('button.active');
+        const currentPage = parseInt(activeButton.textContent);
+        
+        if (currentPage > 1) {
+            // 点击上一页对应的页码按钮
+            pageButtons[currentPage - 2].click();
+        }
+    });
+    
+    // 为下一页按钮添加点击事件
+    nextButton.addEventListener('click', function() {
+        const activeButton = paginationContainer.querySelector('button.active');
+        const currentPage = parseInt(activeButton.textContent);
+        
+        if (currentPage < pageButtons.length) {
+            // 点击下一页对应的页码按钮
+            pageButtons[currentPage].click();
+        }
+    });
+}
+
+// 加载指定页的文章
+function loadPagePosts(page) {
+    console.log('加载第', page, '页的文章');
+    // 这里可以实现加载不同页文章的逻辑
+    // 例如通过AJAX请求或者显示/隐藏预先加载的文章
 } 

@@ -229,14 +229,12 @@ main {
 }
 
 .post-card {
-    /* 调整卡片样式以适应单列布局 */
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-    background-color: var(--card-background);
+    background-color: var(--card-background); /* 恢复为白色背景 */
     border-radius: var(--border-radius);
+    padding: 30px;
     box-shadow: 0 5px 15px var(--shadow-color);
     transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    border: 1px solid rgba(0, 0, 0, 0.05); /* 保留细微边框增强可见性 */
 }
 
 .post-card:hover {
@@ -431,4 +429,51 @@ body.dark-mode footer {
 
 .digital-garden p {
     margin-bottom: 1rem;
+}
+
+/* 添加博客文章分页样式 */
+.blog-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    gap: 10px;
+}
+
+.blog-pagination button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--card-background);
+    color: var(--text-color);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+    box-shadow: 0 2px 5px var(--shadow-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.blog-pagination button.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.blog-pagination button:hover:not(.active) {
+    background-color: var(--secondary-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.blog-pagination .prev,
+.blog-pagination .next {
+    font-size: 0.8rem;
+}
+
+.blog-pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
 } 
