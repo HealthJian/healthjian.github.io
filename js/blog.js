@@ -291,20 +291,8 @@ function getAllPosts() {
     // 获取第一页的文章
     const firstPagePosts = getBlogPosts();
     
-    // 获取第二页的文章
-    const secondPagePost = {
-        id: 4,
-        title: '我的第一篇博客',
-        title_en: 'My First Blog Post',
-        excerpt: '第一篇博客',
-        excerpt_en: 'My first blog post',
-        date: '2024-12-30',
-        category: 'life',
-        tags: ['博客', '随想']
-    };
-    
     // 合并所有文章
-    return [...firstPagePosts, secondPagePost];
+    return firstPagePosts;
 }
 
 function initFilters() {
@@ -359,35 +347,35 @@ function getBlogPosts() {
     return [
         {
             id: 1,
-            title: 'C语言入门：指针与内存管理',
-            title_en: 'C Language Basics: Pointers and Memory Management',
-            excerpt: 'C语言中指针是一个强大而复杂的概念，本文将深入探讨指针的基本概念、内存管理以及常见陷阱。',
-            excerpt_en: 'Pointers in C are a powerful yet complex concept. This article explores the basics of pointers, memory management, and common pitfalls.',
-            date: '2025-04-15',
+            title: 'C语言入门：常用调用API在算法题中的应用',
+            title_en: 'C Language Basics: Using APIs in Algorithm Problems',
+            excerpt: '在刷题过程中总是有思路却写不出代码，即使实现功能也往往非常复杂，但是却可以调用已经封装好的API，事半功倍。',
+            excerpt_en: 'While solving algorithm problems, we often have ideas but struggle to implement them efficiently. Using built-in APIs can significantly simplify our solutions.',
+            date: '2025-03-18',
             category: 'tech',
-            tags: ['C语言', '编程', '指针'],
+            tags: ['C语言', '算法', 'API'],
             url: '#'
         },
         {
             id: 2,
-            title: '数据结构：链表的实现与应用',
-            title_en: 'Data Structures: Implementation and Application of Linked Lists',
-            excerpt: '链表是一种基础而重要的数据结构，本文将介绍单链表、双链表的实现方法以及实际应用场景。',
-            excerpt_en: 'Linked lists are fundamental and important data structures. This article introduces the implementation of singly and doubly linked lists and their practical applications.',
-            date: '2025-04-10',
+            title: '数据结构：链表、栈、队列、串',
+            title_en: 'Data Structures: Lists, Stacks, Queues, and Strings',
+            excerpt: '学习数据结构往往离不开链表、栈、队列、串；但是知识总是学了忘，忘了继续学，所以总结一个文章，提供未来的继续学习。',
+            excerpt_en: 'Learning data structures inevitably involves lists, stacks, queues, and strings. Knowledge tends to fade with time, so here\'s a comprehensive guide for future reference.',
+            date: '2025-03-17',
             category: 'tech',
-            tags: ['数据结构', '链表', '算法'],
+            tags: ['数据结构', '链表', '栈', '队列'],
             url: '#'
         },
         {
             id: 3,
-            title: '前端开发：响应式设计原理',
-            title_en: 'Frontend Development: Principles of Responsive Design',
-            excerpt: '响应式设计是现代网页开发的核心概念，本文将探讨媒体查询、弹性布局和响应式图片等技术。',
-            excerpt_en: 'Responsive design is a core concept in modern web development. This article explores technologies such as media queries, flexible layouts, and responsive images.',
-            date: '2025-04-05',
+            title: '简单讲讲HTML+CSS+Javascript',
+            title_en: 'A Brief Introduction to HTML, CSS, and JavaScript',
+            excerpt: '简单唠唠前端三件套。',
+            excerpt_en: 'A simple overview of the frontend development trinity.',
+            date: '2025-03-16',
             category: 'tech',
-            tags: ['前端', 'CSS', '响应式设计'],
+            tags: ['前端', 'HTML', 'CSS', 'JavaScript'],
             url: '#'
         },
         {
