@@ -354,7 +354,7 @@ function getBlogPosts() {
             date: '2025-03-18',
             category: 'tech',
             tags: ['C语言', '算法', 'API'],
-            url: '#'
+            url: 'blog/tech/c-api-algorithms.html'
         },
         {
             id: 2,

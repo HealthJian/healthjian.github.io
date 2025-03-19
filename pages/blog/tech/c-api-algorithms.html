@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C语言入门：常用调用API在算法题中的应用 - HealthJian的博客</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/dark-mode.css">
+    <link rel="stylesheet" href="../../../css/blog-post.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="light-mode">
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="../../../index.html" class="logo">
+                <img src="../../../images/githubherofigureimage.png" alt="Logo">
+                <span class="site-name" data-en="HealthJian Blog" data-zh="HealthJian">HealthJian</span>
+            </a>
+        </div>
+        <div class="nav-right">
+            <ul class="menu">
+                <li><a href="../../../index.html" data-en="Home" data-zh="首页">首页</a></li>
+                <li><a href="../../blog.html" data-en="Blog" data-zh="博客">博客</a></li>
+                <li><a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a></li>
+                <li><a href="../../links.html" data-en="Links" data-zh="链接">链接</a></li>
+                <li><a href="../../about.html" data-en="About" data-zh="关于">关于</a></li>
+            </ul>
+            <div class="social-icons">
+                <a href="https://steamcommunity.com/id/yoursteamid" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
+                <a href="mailto:gaojian1573@foxmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+            <button id="theme-toggle" class="theme-toggle" title="切换主题">
+                <i class="fas fa-moon"></i>
+                <i class="fas fa-sun"></i>
+            </button>
+            <button id="lang-toggle" class="lang-toggle" title="切换语言">
+                <span data-en="EN" data-zh="中">中</span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="blog-post-container">
+        <!-- 侧边栏 -->
+        <aside class="blog-sidebar">
+            <div class="toc-container">
+                <h3 data-en="Table of Contents" data-zh="目录">目录</h3>
+                <ul class="toc-list">
+                    <li><a href="#section-1" data-en="I. Introduction" data-zh="一、引言">一、引言</a></li>
+                    <li><a href="#section-2" data-en="II. Memory Management" data-zh="二、内存管理">二、内存管理</a></li>
+                    <li><a href="#section-3" data-en="III. String Manipulation" data-zh="三、字符串操作">三、字符串操作</a></li>
+                    <li><a href="#section-4" data-en="IV. Mathematical Functions" data-zh="四、数学函数">四、数学函数</a></li>
+                    <li><a href="#section-5" data-en="V. Absolute Value Calculation" data-zh="五、绝对值计算">五、绝对值计算</a></li>
+                    <li><a href="#section-6" data-en="VI. Time Measurement" data-zh="六、时间测量">六、时间测量</a></li>
+                </ul>
+            </div>
+            
+            <div class="post-meta-info">
+                <div class="post-date">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>2025-03-18</span>
+                </div>
+                <div class="post-tags">
+                    <i class="fas fa-tags"></i>
+                    <span class="tag" data-en="C Language" data-zh="C语言">C语言</span>
+                    <span class="tag" data-en="Algorithm" data-zh="算法">算法</span>
+                    <span class="tag" data-en="API" data-zh="API">API</span>
+                </div>
+                <div class="post-category">
+                    <i class="fas fa-folder"></i>
+                    <span data-en="Technology" data-zh="技术">技术</span>
+                </div>
+            </div>
+            
+            <div class="post-navigation">
+                <h3 data-en="Navigation" data-zh="导航">导航</h3>
+                <div class="nav-buttons">
+                    <a href="../../blog.html" class="nav-button" data-en="Back to Blog" data-zh="返回博客列表">
+                        <i class="fas fa-arrow-left"></i>
+                        <span data-en="Back to Blog" data-zh="返回博客列表">返回博客列表</span>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 文章主体 -->
+        <main class="blog-post-main">
+            <article class="blog-post-content">
+                <header class="post-header">
+                    <h1 class="post-title">
+                        <div class="bilingual-content">
+                            <span class="zh-content">C语言入门：常用API在算法题中的优雅实践</span>
+                            <span class="en-content" style="display: none;">C Programming Basics: Elegant Use of Standard APIs in Algorithm Problems</span>
+                        </div>
+                    </h1>
+                </header>
+                
+                <div class="post-body">
+                    <section id="section-1">
+                        <h2 data-en="I. Introduction" data-zh="一、引言">一、引言</h2>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">在C语言编程中，标准库函数是解决算法问题的强大工具。通过合理使用这些API，开发者可以减少冗余代码编写，提高代码健壮性，并更专注于算法逻辑。这篇文章将介绍一些常用的标准库函数，并展示它们在算法题中的应用。</p>
+                            
+                            <p class="en-content" style="display: none;">In C programming, standard library functions are powerful tools for solving algorithm problems. By reasonably using these APIs, developers can reduce redundant code writing, improve code robustness, and focus more on algorithm logic. This article will introduce some commonly used standard library functions and demonstrate their applications in algorithm problems.</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">标准库函数是C语言中预定义的函数，包含在标准库头文件中。它们提供了丰富的功能，包括内存管理、数学计算、时间测量等。</p>
+                            
+                            <p class="en-content" style="display: none;">Standard library functions are predefined functions in C language, contained in standard library header files. They provide rich functionality, including memory management, mathematical calculations, time measurement, and more.</p>
+                        </div>
+                    </section>
+                    
+                    <section id="section-2">
+                        <h2 data-en="II. Memory Management" data-zh="二、内存管理">二、内存管理</h2>
+                        
+                        <h3 data-en="2.1 Dynamic Memory Allocation - malloc" data-zh="2.1 动态内存分配 - malloc">2.1 动态内存分配 - malloc</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>解释</strong><br>
+                            分配内存块，返回指向该内存块的指针（stdlib.h）</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Explanation</strong><br>
+                            Allocates a block of memory, returning a pointer to the allocated memory (stdlib.h)</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">void* malloc(size_t size);</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>应用实例</strong><br>
+                            创建动态数组：</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Application Example</strong><br>
+                            Creating a dynamic array:</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">int* arr = (int*)malloc(n * sizeof(int));</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>总结</strong><br>
+                            灵活分配内存，但需注意内存泄漏问题 <span class="emoji">🔄</span></p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Summary</strong><br>
+                            Flexible memory allocation, but be aware of memory leakage issues <span class="emoji">🔄</span></p>
+                        </div>
+                        
+                        <h3 data-en="2.2 Memory Deallocation - free" data-zh="2.2 内存释放 - free">2.2 内存释放 - free</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>解释</strong><br>
+                            释放由malloc分配的内存块（stdlib.h）</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Explanation</strong><br>
+                            Frees a block of memory allocated by malloc (stdlib.h)</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">void free(void* ptr);</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>应用实例</strong><br>
+                            释放动态数组：</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Application Example</strong><br>
+                            Freeing a dynamic array:</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">free(arr);</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>总结</strong><br>
+                            及时释放内存，避免内存泄漏 <span class="emoji">🔄</span></p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Summary</strong><br>
+                            Properly free memory to avoid leakage <span class="emoji">🔄</span></p>
+                        </div>
+                    </section>
+                    
+                    <section id="section-3">
+                        <h2 data-en="III. String Manipulation" data-zh="三、字符串操作">三、字符串操作</h2>
+                        
+                        <h3 data-en="3.1 String Copy - strcpy" data-zh="3.1 字符串复制 - strcpy">3.1 字符串复制 - strcpy</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>解释</strong><br>
+                            将一个字符串复制到另一个字符串（string.h）</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Explanation</strong><br>
+                            Copies a string to another string (string.h)</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">char* strcpy(char* dest, const char* src);</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>应用实例</strong><br>
+                            字符串复制操作：</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Application Example</strong><br>
+                            String copying operation:</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">strcpy(dest, src);</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>总结</strong><br>
+                            简单高效的字符串复制方法 <span class="emoji">📋</span></p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Summary</strong><br>
+                            Simple and efficient string copying method <span class="emoji">📋</span></p>
+                        </div>
+                        
+                        <h3 data-en="3.2 String Concatenation - strcat" data-zh="3.2 字符串连接 - strcat">3.2 字符串连接 - strcat</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>解释</strong><br>
+                            将一个字符串连接到另一个字符串的末尾（string.h）</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Explanation</strong><br>
+                            Concatenates a string to the end of another string (string.h)</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">char* strcat(char* dest, const char* src);</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>应用实例</strong><br>
+                            字符串连接操作：</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Application Example</strong><br>
+                            String concatenation operation:</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">strcat(dest, src);</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>总结</strong><br>
+                            简单高效的字符串连接方法 <span class="emoji">📋</span></p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Summary</strong><br>
+                            Simple and efficient string concatenation method <span class="emoji">📋</span></p>
+                        </div>
+                    </section>
+                    
+                    <section id="section-4">
+                        <h2 data-en="IV. Mathematical Functions" data-zh="四、数学函数">四、数学函数</h2>
+                        
+                        <h3 data-en="4.1 Integer Absolute Value - abs" data-zh="4.1 整数绝对值 - abs">4.1 整数绝对值 - abs</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>解释</strong><br>
+                            返回整数的绝对值（stdlib.h）</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Explanation</strong><br>
+                            Returns the absolute value of an integer (stdlib.h)</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">int abs(int x);</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>应用实例</strong><br>
+                            曼哈顿距离计算：</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Application Example</strong><br>
+                            Manhattan distance calculation:</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">int manhattanDistance(int x1, int y1, int x2, int y2){
+    return abs(x1 - x2) + abs(y1 - y2);
+}</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>总结</strong><br>
+                            比条件判断更简洁高效 <span class="emoji">📏</span></p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Summary</strong><br>
+                            More concise and efficient than conditional judgments <span class="emoji">📏</span></p>
+                        </div>
+                        
+                        <h3 data-en="4.2 Floating Point Absolute Value - fabs" data-zh="4.2 浮点绝对值 - fabs">4.2 浮点绝对值 - fabs</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>解释</strong><br>
+                            返回double类型的绝对值（math.h）</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Explanation</strong><br>
+                            Returns the absolute value of a double type (math.h)</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">double fabs(double x);</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>应用实例</strong><br>
+                            向量长度计算：</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Application Example</strong><br>
+                            Vector length calculation:</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">double vectorLength(double x, double y){
+    return sqrt(fabs(x)*fabs(x) + fabs(y)*fabs(y));
+}</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>总结</strong><br>
+                            处理浮点数运算的精度问题 <span class="emoji">🔬</span></p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Summary</strong><br>
+                            Handles precision issues in floating-point calculations <span class="emoji">🔬</span></p>
+                        </div>
+                    </section>
+                    
+                    <section id="section-5">
+                        <h2 data-en="V. Absolute Value Calculation" data-zh="五、绝对值计算">五、绝对值计算</h2>
+                        
+                        <h3 data-en="5.1 Integer Absolute Value - abs" data-zh="5.1 整数绝对值 - abs">5.1 整数绝对值 - abs</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>解释</strong><br>
+                            返回整数的绝对值（stdlib.h）</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Explanation</strong><br>
+                            Returns the absolute value of an integer (stdlib.h)</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">int abs(int x);</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>应用实例</strong><br>
+                            曼哈顿距离计算：</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Application Example</strong><br>
+                            Manhattan distance calculation:</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">int manhattanDistance(int x1, int y1, int x2, int y2){
+    return abs(x1 - x2) + abs(y1 - y2);
+}</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>总结</strong><br>
+                            比条件判断更简洁高效 <span class="emoji">📏</span></p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Summary</strong><br>
+                            More concise and efficient than conditional judgments <span class="emoji">📏</span></p>
+                        </div>
+                        
+                        <h3 data-en="5.2 Floating Point Absolute Value - fabs" data-zh="5.2 浮点绝对值 - fabs">5.2 浮点绝对值 - fabs</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>解释</strong><br>
+                            返回double类型的绝对值（math.h）</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Explanation</strong><br>
+                            Returns the absolute value of a double type (math.h)</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">double fabs(double x);</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>应用实例</strong><br>
+                            向量长度计算：</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Application Example</strong><br>
+                            Vector length calculation:</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">double vectorLength(double x, double y){
+    return sqrt(fabs(x)*fabs(x) + fabs(y)*fabs(y));
+}</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>总结</strong><br>
+                            处理浮点数运算的精度问题 <span class="emoji">🔬</span></p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Summary</strong><br>
+                            Handles precision issues in floating-point calculations <span class="emoji">🔬</span></p>
+                        </div>
+                    </section>
+                    
+                    <section id="section-6">
+                        <h2 data-en="VI. Time Measurement" data-zh="六、时间测量">六、时间测量</h2>
+                        
+                        <h3 data-en="6.1 Algorithm Timer - clock" data-zh="6.1 算法计时器 - clock">6.1 算法计时器 - clock</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>解释</strong><br>
+                            获取程序运行时钟周期数（time.h）</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Explanation</strong><br>
+                            Gets the number of clock cycles during program execution (time.h)</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">clock_t clock(void);
+// 计算公式：秒数 = (double)(end - start)/CLOCKS_PER_SEC</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>应用实例</strong><br>
+                            算法性能测试：</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Application Example</strong><br>
+                            Algorithm performance testing:</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">clock_t start = clock();
+// 执行算法代码
+bubbleSort(arr, n);
+clock_t end = clock();
+printf("Time: %f seconds", 
+    (double)(end - start)/CLOCKS_PER_SEC);</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>总结</strong><br>
+                            精确测量代码段执行时间 <span class="emoji">⏱️</span></p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Summary</strong><br>
+                            Precisely measures the execution time of code segments <span class="emoji">⏱️</span></p>
+                        </div>
+                    </section>
+                    
+                    <div class="post-conclusion">
+                        <h2 data-en="Conclusion: Philosophy of API Usage" data-zh="结语：API使用的哲学思考">结语：API使用的哲学思考</h2>
+                        
+                        <div class="bilingual-content">
+                            <blockquote class="zh-content">
+                                <p>"优秀的程序员应该站在巨人的肩膀上，而不是重复造轮子"</p>
+                            </blockquote>
+                            
+                            <blockquote class="en-content" style="display: none;">
+                                <p>"Excellent programmers should stand on the shoulders of giants, rather than reinventing the wheel"</p>
+                            </blockquote>
+                            
+                            <p class="zh-content">通过合理使用标准库API，我们可以在保证代码质量的同时提升开发效率。但需注意：</p>
+                            <ol class="zh-content">
+                                <li>深入理解API的实现原理</li>
+                                <li>时刻关注边界条件处理</li>
+                                <li>保持对底层机制的敬畏之心</li>
+                                <li>使用valgrind检测内存API的使用问题</li>
+                                <li>研究glibc源码理解API实现细节</li>
+                                <li>对比不同编译器的API行为差异</li>
+                            </ol>
+                            
+                            <p class="en-content" style="display: none;">By reasonably using standard library APIs, we can improve development efficiency while ensuring code quality. However, we need to pay attention to:</p>
+                            <ol class="en-content" style="display: none;">
+                                <li>Deeply understand the implementation principles of APIs</li>
+                                <li>Always pay attention to boundary condition handling</li>
+                                <li>Maintain reverence for underlying mechanisms</li>
+                                <li>Use valgrind to detect memory API usage issues</li>
+                                <li>Study glibc source code to understand API implementation details</li>
+                                <li>Compare API behavior differences across different compilers</li>
+                            </ol>
+                            
+                            <p class="zh-content">这篇文章展示了标准C库函数如何成为算法问题解决的强大工具。通过掌握这些API，开发者可以：</p>
+                            <ul class="zh-content">
+                                <li>减少冗余代码编写</li>
+                                <li>提高代码健壮性</li>
+                                <li>更专注于算法逻辑</li>
+                                <li>提升开发效率</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;">This article demonstrates how standard C library functions can become powerful tools in algorithm problem-solving. By mastering these APIs, developers can:</p>
+                            <ul class="en-content" style="display: none;">
+                                <li>Reduce redundant code writing</li>
+                                <li>Improve code robustness</li>
+                                <li>Focus more on algorithm logic</li>
+                                <li>Enhance development efficiency</li>
+                            </ul>
+                            
+                            <p class="zh-content">记住：关键是在利用现有工具和保持基本编程技能之间取得平衡。</p>
+                            
+                            <p class="en-content" style="display: none;">Remember: The key is to strike a balance between leveraging existing tools and maintaining fundamental programming skills.</p>
+                            
+                            <p class="zh-content">光标继续在编辑器中跳动，这次新增的API如同给工具箱补充了更精密的仪器。记住：每个标准库函数都是无数程序员智慧的结晶，合理使用它们，能让我们的代码同时具备优雅与力量。 <span class="emoji">💻✨</span></p>
+                            
+                            <p class="en-content" style="display: none;">The blinking cursor continues its dance, with these new APIs adding precision tools to our programming arsenal. Remember: Each standard library function embodies the collective wisdom of countless developers. Proper usage allows our code to achieve both elegance and power. <span class="emoji">💻✨</span></p>
+                        </div>
+                        
+                        <div class="post-signature">
+                            <p>— HealthJian <span class="emoji">✍️</span></p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- 评论区 -->
+            <div class="comments-section">
+                <h3 data-en="Comments" data-zh="评论">评论</h3>
+                <div class="comment-form">
+                    <textarea placeholder="写下你的想法..." data-en-placeholder="Write your thoughts..." data-zh-placeholder="写下你的想法..."></textarea>
+                    <button data-en="Submit" data-zh="提交">提交</button>
+                </div>
+                <div class="comments-container">
+                    <p class="no-comments" data-en="Be the first to comment!" data-zh="成为第一个评论的人！">成为第一个评论的人！ <span class="emoji">🎉</span></p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <p>&copy; 2025 CaiNiaojian&HealthJian all followed.</p>
+                <p data-en="Contact: " data-zh="联系方式：">联系方式：<a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
+                <p data-en="Location: " data-zh="地址：">地址：XX</p>
+            </div>
+            <div class="footer-links">
+                <a href="../../blog.html" data-en="Blog" data-zh="博客">博客</a>
+                <a href="../../about.html" data-en="About" data-zh="关于">关于</a>
+                <a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a>
+                <a href="../../changelog.html" data-en="ChangeLog" data-zh="更新日志">更新日志</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化代码高亮
+            hljs.highlightAll();
+        });
+    </script>
+    <script src="../../../js/main.js"></script>
+    <script src="../../../js/theme.js"></script>
+    <script src="../../../js/language.js"></script>
+    <script src="../../../js/blog-post.js"></script>
+</body>
+</html> 

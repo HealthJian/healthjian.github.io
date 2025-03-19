@@ -184,26 +184,31 @@ body.dark-mode .post-meta-info {
 
 /* 代码块样式 */
 .code-block {
-    margin: 25px 0;
-    background-color: #f8f8f8;
-    border-radius: 8px;
+    background-color: var(--code-background);
+    border-radius: 6px;
+    margin: 15px 0;
     overflow: hidden;
-}
-
-body.dark-mode .code-block {
-    background-color: #2d2d2d;
 }
 
 .code-block pre {
     margin: 0;
-    padding: 20px;
+    padding: 15px;
     overflow-x: auto;
 }
 
 .code-block code {
-    font-family: 'SF Mono', Consolas, Monaco, 'Andale Mono', monospace;
+    font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
     font-size: 0.9rem;
-    line-height: 1.6;
+    line-height: 1.5;
+}
+
+/* 确保代码高亮在暗模式下也有良好的可读性 */
+.dark-mode .code-block {
+    background-color: #1e1e1e;
+}
+
+.dark-mode .code-block code {
+    color: #d4d4d4;
 }
 
 /* 列表样式 */
