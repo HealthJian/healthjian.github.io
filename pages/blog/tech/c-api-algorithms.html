@@ -54,6 +54,8 @@
                     <li><a href="#section-4" data-en="IV. Mathematical Functions" data-zh="四、数学函数">四、数学函数</a></li>
                     <li><a href="#section-5" data-en="V. Absolute Value Calculation" data-zh="五、绝对值计算">五、绝对值计算</a></li>
                     <li><a href="#section-6" data-en="VI. Time Measurement" data-zh="六、时间测量">六、时间测量</a></li>
+                    <li><a href="#section-7" data-en="VII. Character Processing" data-zh="七、字符处理">七、字符处理</a></li>
+                    <li><a href="#section-8" data-en="VIII. Memory Operations" data-zh="八、内存操作">八、内存操作</a></li>
                 </ul>
             </div>
             
@@ -261,7 +263,51 @@
                     <section id="section-4">
                         <h2 data-en="IV. Mathematical Functions" data-zh="四、数学函数">四、数学函数</h2>
                         
-                        <h3 data-en="4.1 Integer Absolute Value - abs" data-zh="4.1 整数绝对值 - abs">4.1 整数绝对值 - abs</h3>
+                        <h3 data-en="4.1 Universal Sorting Master - qsort" data-zh="4.1 通用排序大师 - qsort">4.1 通用排序大师 - qsort</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>解释</strong><br>
+                            基于快速排序算法的通用排序接口</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Explanation</strong><br>
+                            Universal sorting interface based on quicksort algorithm</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">void qsort(void *base, size_t nmemb, size_t size,
+           int (*compar)(const void *, const void *));</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>应用实例</strong><br>
+                            结构体排序：</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Application Example</strong><br>
+                            Struct sorting:</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">typedef struct {
+    int id;
+    char name[20];
+} Student;
+
+int compare(const void *a, const void *b){
+    return ((Student*)a)->id - ((Student*)b)->id;
+}
+
+qsort(students, 100, sizeof(Student), compare);</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>总结</strong><br>
+                            掌握比较函数的编写是关键，注意类型转换 <span class="emoji">🔄</span></p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Summary</strong><br>
+                            Mastering the writing of comparison functions is key, pay attention to type conversion <span class="emoji">🔄</span></p>
+                        </div>
+                        
+                        <h3 data-en="4.2 Integer Absolute Value - abs" data-zh="4.2 整数绝对值 - abs">4.2 整数绝对值 - abs</h3>
                         
                         <div class="bilingual-content">
                             <p class="zh-content"><strong>解释</strong><br>
@@ -297,7 +343,7 @@
                             More concise and efficient than conditional judgments <span class="emoji">📏</span></p>
                         </div>
                         
-                        <h3 data-en="4.2 Floating Point Absolute Value - fabs" data-zh="4.2 浮点绝对值 - fabs">4.2 浮点绝对值 - fabs</h3>
+                        <h3 data-en="4.3 Floating Point Absolute Value - fabs" data-zh="4.3 浮点绝对值 - fabs">4.3 浮点绝对值 - fabs</h3>
                         
                         <div class="bilingual-content">
                             <p class="zh-content"><strong>解释</strong><br>
@@ -413,7 +459,45 @@
                     <section id="section-6">
                         <h2 data-en="VI. Time Measurement" data-zh="六、时间测量">六、时间测量</h2>
                         
-                        <h3 data-en="6.1 Algorithm Timer - clock" data-zh="6.1 算法计时器 - clock">6.1 算法计时器 - clock</h3>
+                        <h3 data-en="6.1 Ordered Array Searcher - bsearch" data-zh="6.1 有序数组搜索器 - bsearch">6.1 有序数组搜索器 - bsearch</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>解释</strong><br>
+                            基于二分查找算法的库函数实现</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Explanation</strong><br>
+                            Library function implementation based on binary search algorithm</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">void* bsearch(const void *key, const void *base,
+              size_t nmemb, size_t size,
+              int (*compar)(const void *, const void *));</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>应用实例</strong><br>
+                            有序数组查找：</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Application Example</strong><br>
+                            Ordered array search:</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">int arr[] = {1,3,5,7,9};
+int key = 5;
+int *found = bsearch(&key, arr, 5, sizeof(int), compare);</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>总结</strong><br>
+                            使用前必须确保数组有序 <span class="emoji">🔍</span></p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Summary</strong><br>
+                            Must ensure the array is ordered before use <span class="emoji">🔍</span></p>
+                        </div>
+                        
+                        <h3 data-en="6.2 Algorithm Timer - clock" data-zh="6.2 算法计时器 - clock">6.2 算法计时器 - clock</h3>
                         
                         <div class="bilingual-content">
                             <p class="zh-content"><strong>解释</strong><br>
@@ -451,6 +535,140 @@ printf("Time: %f seconds",
                             
                             <p class="en-content" style="display: none;"><strong>Summary</strong><br>
                             Precisely measures the execution time of code segments <span class="emoji">⏱️</span></p>
+                        </div>
+                    </section>
+                    
+                    <section id="section-7">
+                        <h2 data-en="VII. Character Processing" data-zh="七、字符处理">七、字符处理</h2>
+                        
+                        <h3 data-en="7.1 Character Classification Expert - isalpha" data-zh="7.1 字符分类专家 - isalpha">7.1 字符分类专家 - isalpha</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>解释</strong><br>
+                            检查字符是否为字母（a-z或A-Z）</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Explanation</strong><br>
+                            Checks if a character is a letter (a-z or A-Z)</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">int isalpha(int c);
+// 伪代码：return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>应用实例</strong><br>
+                            统计字符串中的字母数量：</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Application Example</strong><br>
+                            Counting the number of letters in a string:</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">int countLetters(const char *str){
+    int count = 0;
+    while(*str){
+        if(isalpha(*str)) count++;
+        str++;
+    }
+    return count;
+}</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>总结</strong><br>
+                            比手动范围判断更简洁可靠 <span class="emoji">📝</span></p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Summary</strong><br>
+                            More concise and reliable than manual range checking <span class="emoji">📝</span></p>
+                        </div>
+                        
+                        <h3 data-en="7.2 Digit Detector - isdigit" data-zh="7.2 数字检测器 - isdigit">7.2 数字检测器 - isdigit</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>解释</strong><br>
+                            验证字符是否为数字字符（0-9）</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Explanation</strong><br>
+                            Verifies if a character is a digit character (0-9)</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">int isdigit(int c);</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>应用实例</strong><br>
+                            字符串转整数：</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Application Example</strong><br>
+                            String to integer conversion:</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">int strToInt(const char *str){
+    int num = 0;
+    while(isdigit(*str)){
+        num = num * 10 + (*str - '0');
+        str++;
+    }
+    return num;
+}</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>总结</strong><br>
+                            简化数字字符的合法性校验 <span class="emoji">🔢</span></p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Summary</strong><br>
+                            Simplifies validation of digit characters <span class="emoji">🔢</span></p>
+                        </div>
+                    </section>
+                    
+                    <section id="section-8">
+                        <h2 data-en="VIII. Memory Operations" data-zh="八、内存操作">八、内存操作</h2>
+                        
+                        <h3 data-en="8.1 Memory Copy Expert - memcpy" data-zh="8.1 内存复制专家 - memcpy">8.1 内存复制专家 - memcpy</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>解释</strong><br>
+                            按字节复制内存块，要求内存不重叠</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Explanation</strong><br>
+                            Copies memory blocks byte by byte, requires non-overlapping memory</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">void* memcpy(void *dest, const void *src, size_t n);</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>应用实例</strong><br>
+                            矩阵转置操作：</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Application Example</strong><br>
+                            Matrix transpose operation:</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">void transpose(int *matrix, int n){
+    int temp;
+    for(int i=0; i<n; i++){
+        for(int j=i+1; j<n; j++){
+            temp = matrix[i*n + j];
+            matrix[i*n + j] = matrix[j*n + i];
+            matrix[j*n + i] = temp;
+        }
+    }
+}</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>总结</strong><br>
+                            比逐元素复制效率更高 <span class="emoji">🔄</span></p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Summary</strong><br>
+                            More efficient than copying elements one by one <span class="emoji">🔄</span></p>
                         </div>
                     </section>
                     
