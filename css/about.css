@@ -142,81 +142,112 @@ body.dark-mode .about-background::after {
 /* 为每个社交项分配网格区域 */
 .social-grid a:nth-child(1) { grid-area: wechat; }   /* 微信 */
 .social-grid a:nth-child(2) { grid-area: qq; }       /* QQ */
-.social-grid a:nth-child(6) { grid-area: linkedin; } /* 领英 - 原本是第6个 */
-.social-grid a:nth-child(3) { grid-area: steam; }    /* Steam */
+.social-grid a:nth-child(3) { grid-area: linkedin; } /* 领英 */
+.social-grid a:nth-child(4) { grid-area: steam; }    /* Steam */
 .social-grid a:nth-child(5) { grid-area: github; }   /* GitHub */
-.social-grid a:nth-child(4) { grid-area: leetcode; } /* LeetCode */
+.social-grid a:nth-child(6) { grid-area: leetcode; } /* LeetCode */
 
+/* 基础社交项样式 */
 .social-item {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    padding: 12px 5px;
-    border-radius: 10px;
-    background-color: rgba(var(--primary-color-rgb), 0.05);
+    padding: 15px 5px;
+    border-radius: 15px; /* 增加圆角 */
     transition: all var(--transition-speed);
     text-align: center;
+    height: 80px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 默认添加轻微阴影 */
+    backdrop-filter: blur(5px); /* 背景模糊效果 */
+    -webkit-backdrop-filter: blur(5px);
+    overflow: hidden; /* 确保渐变不超出边界 */
+    position: relative; /* 用于伪元素定位 */
+}
+
+.social-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+    z-index: 1;
+    pointer-events: none; /* 确保不影响点击 */
 }
 
 .social-item:hover {
     transform: translateY(-3px);
-    background-color: rgba(var(--primary-color-rgb), 0.1);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    opacity: 0.9;
 }
 
-.social-item i {
-    font-size: 1.5rem;
-    margin-bottom: 8px;
-    color: var(--primary-color);
-    display: block !important; /* 强制显示图标 */
+/* 确保内容在渐变上层 */
+.social-item span {
+    position: relative;
+    z-index: 2;
+    color: #FFFFFF; /* 统一使用白色文字 */
+    font-size: 1rem;
+    font-weight: 500;
+    transition: color var(--transition-speed);
 }
 
-/* 为特定图标设置颜色 */
-.social-item .fa-weixin {
-    color: #07C160; /* 微信绿色 */
+/* 各个平台的颜色 - 白天模式 */
+body.light-mode .social-item.wechat {
+    background: linear-gradient(135deg, #07C160, #05A050);
 }
 
-.social-item .fa-qq {
-    color: #12B7F5; /* QQ蓝色 */
+body.light-mode .social-item.qq {
+    background: linear-gradient(135deg, #FFC0CB, #FF9DA9);
 }
 
-.social-item .fa-steam {
-    color: #171a21; /* Steam深色 */
+body.light-mode .social-item.linkedin {
+    background: linear-gradient(135deg, #ADD8E6, #8BC0D0);
 }
 
-.social-item .fa-code {
-    color: #FFA116; /* LeetCode橙色 */
+body.light-mode .social-item.steam {
+    background: linear-gradient(135deg, #00008B, #000066);
 }
 
-.social-item .fa-github {
-    color: #333333; /* GitHub深灰色 */
+body.light-mode .social-item.leetcode {
+    background: linear-gradient(135deg, #D2B48C, #BC9F7A);
 }
 
-.social-item .fa-linkedin-in {
-    color: #0077B5; /* LinkedIn蓝色 */
+body.light-mode .social-item.github {
+    background: linear-gradient(135deg, #FFFFFF, #F5F5F5);
+    border: 1px solid #ddd; /* 添加边框以便在白色背景上可见 */
 }
 
-/* 保留自定义图标作为备用 */
-.custom-icon {
-    display: none; /* 默认隐藏自定义图标 */
+/* GitHub白天模式下的文字颜色特殊处理 */
+body.light-mode .social-item.github span {
+    color: #000000; /* GitHub在白天模式下使用黑色文字 */
 }
 
-/* 当Font Awesome图标加载失败时显示自定义图标 */
-body.icons-fallback .social-item i {
-    display: none !important;
+/* 各个平台的颜色 - 夜间模式 */
+body.dark-mode .social-item.wechat {
+    background: linear-gradient(135deg, #006400, #004d00);
 }
 
-body.icons-fallback .custom-icon {
-    display: flex;
+body.dark-mode .social-item.qq {
+    background: linear-gradient(135deg, #8B0000, #6B0000);
 }
 
-/* 为了确保颜色变量在RGB格式下可用 */
-:root {
-    --primary-color-rgb: 0, 122, 255; /* 对应 #007AFF */
+body.dark-mode .social-item.linkedin {
+    background: linear-gradient(135deg, #0000CD, #0000A0);
 }
 
-body.dark-mode {
-    --primary-color-rgb: 10, 132, 255; /* 暗色模式下可能略微调亮 */
+body.dark-mode .social-item.steam {
+    background: linear-gradient(135deg, #191970, #0F0F50);
+}
+
+body.dark-mode .social-item.leetcode {
+    background: linear-gradient(135deg, #8B4513, #6A3500);
+}
+
+body.dark-mode .social-item.github {
+    background: linear-gradient(135deg, #000000, #222222);
+    border: none;
 }
 
 /* 响应式设计 */
@@ -256,64 +287,19 @@ body.dark-mode {
     
     .social-item {
         padding: 10px 5px;
-    }
-    
-    .social-item i {
-        font-size: 1.3rem;
+        height: 70px;
     }
     
     .social-item span {
-        font-size: 0.7rem;
+        font-size: 0.8rem;
     }
+} 
+
+/* 为了确保颜色变量在RGB格式下可用 */
+:root {
+    --primary-color-rgb: 0, 122, 255; /* 对应 #007AFF */
 }
 
-/* 自定义图标备选方案 */
-.icon-wechat:before {
-    content: "WeChat";
-    font-family: var(--font-family);
-    font-size: 0.8rem;
-    font-weight: bold;
-    color: #07C160; /* 微信绿色 */
-}
-
-.icon-qq:before {
-    content: "QQ";
-    font-family: var(--font-family);
-    font-size: 0.8rem;
-    font-weight: bold;
-    color: #12B7F5; /* QQ蓝色 */
-}
-
-.icon-linkedin:before {
-    content: "in";
-    font-family: var(--font-family);
-    font-size: 1rem;
-    font-weight: bold;
-    color: #0077B5; /* 领英蓝色 */
-}
-
-/* 为每个社交平台设置特定颜色 */
-.social-item.wechat .custom-icon {
-    background-color: #07C160; /* 微信绿色 */
-}
-
-.social-item.qq .custom-icon {
-    background-color: #12B7F5; /* QQ蓝色 */
-}
-
-.social-item.steam .custom-icon {
-    background-color: #171a21; /* Steam深色 */
-}
-
-.social-item.leetcode .custom-icon {
-    background-color: #FFA116; /* LeetCode橙色 */
-    font-size: 0.8rem;
-}
-
-.social-item.github .custom-icon {
-    background-color: #333333; /* GitHub深灰色 */
-}
-
-.social-item.linkedin .custom-icon {
-    background-color: #0077B5; /* LinkedIn蓝色 */
+body.dark-mode {
+    --primary-color-rgb: 10, 132, 255; /* 暗色模式下可能略微调亮 */
 } 
