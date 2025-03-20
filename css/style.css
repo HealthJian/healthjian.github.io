@@ -668,4 +668,27 @@ body.dark-mode footer {
     font-weight: normal;
     vertical-align: middle;
     margin-left: 5px;
+}
+
+/* 简历链接样式 */
+.resume-link {
+    color: var(--primary-color);
+    text-decoration: underline;
+    margin-bottom: 15px;
+    display: inline-block;
+    transition: opacity 0.3s ease;
+}
+
+.resume-link span {
+    color: var(--primary-color); /* 确保span内的文本也是蓝色 */
+}
+
+.resume-link:hover {
+    opacity: 0.8;
+}
+
+/* 修改悬停时的文字颜色，保持与其他链接一致 */
+.resume-link:hover,
+.resume-link:hover span {
+    color: var(--secondary-color);
 } 
