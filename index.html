@@ -4,11 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HealthJian健康的博客</title>
+    
+    <!-- 预加载关键样式 -->
+    <link rel="preload" href="css/style.css" as="style">
+    <link rel="preload" href="css/dark-mode.css" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500&display=swap" as="style">
+    
+    <!-- 样式表 -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/dark-mode.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- 苹果风格字体 -->
+    
+    <!-- 苹果风格字体 - 优化加载 -->
     <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- 字体加载失败时的后备方案 -->
+    <style>
+        /* 如果主字体加载失败，确保有合适的后备字体 */
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', 
+                         Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 
+                         'Segoe UI Emoji', 'Segoe UI Symbol';
+        }
+    </style>
 </head>
 <body class="light-mode">
     <!-- 导航栏 -->
@@ -132,6 +150,13 @@ As expressed in *Nineteen Ancient Poems*: &quot;Man's life is less than a hundre
             <h2 data-en="Recent Updates" data-zh="博客动态">博客动态</h2>
             <div class="updates-container">
                 <div class="update-item">
+                    <div class="update-date">2025-03-25</div>
+                    <div class="update-content">
+                        <h3 data-en="Version 1.1.0 Released: Major Bug Fix 🚀" data-zh="1.1.0版本发布：重大Bug修复 🚀">1.1.0版本发布：重大Bug修复 🚀</h3>
+                        <p data-en="Fixed critical content display issue on first visit. No more needing to toggle language to see content! Check changelog for details.😊" data-zh="修复首次访问时内容不显示的问题。无需再点击语言切换即可查看内容！详情请查看更新日志。😊">修复首次访问时内容不显示的问题。无需再点击语言切换即可查看内容！详情请查看更新日志。😊</p>
+                    </div>
+                </div>
+                <div class="update-item">
                     <div class="update-date">2025-03-20</div>
                     <div class="update-content">
                         <h3 data-en="Avif Image Format is supported😀" data-zh="图片改用avif格式😀">图片改用avif格式😀</h3>
@@ -152,13 +177,6 @@ As expressed in *Nineteen Ancient Poems*: &quot;Man's life is less than a hundre
                         <p data-en="The website design has been finalized with Apple-style UI." data-zh="网站设计已完成，采用苹果风格UI。">网站设计已完成，采用苹果风格UI。</p>
                     </div>
                 </div>
-                <div class="update-item">
-                    <div class="update-date">2024-9-15</div>
-                    <div class="update-content">
-                        <h3 data-en="Project Started" data-zh="项目启动">项目启动</h3>
-                        <p data-en="Started working on the personal blog project." data-zh="开始个人博客项目的开发工作。">开始个人博客项目的开发工作。</p>
-                    </div>
-                </div>
             </div>
         </section>
 
@@ -173,7 +191,7 @@ As expressed in *Nineteen Ancient Poems*: &quot;Man's life is less than a hundre
                         <p data-en="When loading the site for the first time, there might be issues with text font rendering." data-zh="首次加载时会出现正文字体加载不出来的bug。">首次加载时会出现正文字体加载不出来的bug。</p>
                         <div class="qia-answer">
                             <span class="answer-label" data-en="Answer:" data-zh="解答：">解答：</span>
-                            <p data-en="If you encounter this issue, it's likely due to static page rendering errors. In most cases, the page will load, but CSS rendering may vary depending on network conditions. Simply click the language toggle to resolve this issue! 😊" data-zh="如果出现这样的问题，大概率是静态网页渲染出现了错误，一般情况下可以加载出来，但是CSS渲染因网络情况而异，点击语言切换即可解决！😊">如果出现这样的问题，大概率是静态网页渲染出现了错误，一般情况下可以加载出来，但是CSS渲染因网络情况而异，点击语言切换即可解决！😊</p>
+                            <p data-en="Good news! This issue has been fixed in version 1.1.0. The website now properly displays all content on first visit without requiring any user interaction. If you're still experiencing any issues, please refresh your browser cache.😊" data-zh="好消息！此问题已在1.1.0版本中修复。网站现在可以在首次访问时正确显示所有内容，无需任何用户交互。如果您仍然遇到问题，请刷新浏览器缓存。😊">好消息！此问题已在1.1.0版本中修复。网站现在可以在首次访问时正确显示所有内容，无需任何用户交互。如果您仍然遇到问题，请刷新浏览器缓存。😊</p>
                         </div>
                     </div>
                 </div>

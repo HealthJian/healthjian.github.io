@@ -12,8 +12,8 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    filter: blur(4px); /* 35%模糊效果，从8px调整为5px */
-    opacity: 0.5; /* 透明度保持不变 */
+    filter: blur(2px); /* 降低模糊效果，让背景更清晰 */
+    opacity: 0.6; /* 略微提高不透明度以增强清晰度 */
     z-index: -1;
 }
 

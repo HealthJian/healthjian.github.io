@@ -78,6 +78,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 hintEl.textContent = '【点击语言】';
             }
         }
+    } else {
+        // 如果没有保存的语言偏好，默认显示中文
+        document.body.classList.add('zh');
+        
+        // 更新所有文本为中文
+        updateAllLanguageElements('zh');
+        
+        // 确保引言和提示显示中文
+        const quoteEl = document.querySelector('.quote-text');
+        const hintEl = document.querySelector('.language-hint');
+        
+        if (quoteEl && hintEl) {
+            quoteEl.textContent = '人生不满百，常怀千岁忧。';
+            hintEl.textContent = '【点击语言】';
+        }
     }
 });
 

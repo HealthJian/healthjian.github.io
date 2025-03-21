@@ -2,6 +2,23 @@
 
 // 当文档加载完成后执行
 document.addEventListener('DOMContentLoaded', function() {
+    // 确保页面内容立即可见
+    document.body.style.visibility = 'visible';
+    
+    // 处理可能的字体加载问题
+    if ('fonts' in document) {
+        Promise.all([
+            document.fonts.load('1em SF Pro Display'),
+            document.fonts.load('1em "SF Pro Display"')
+        ]).then(function() {
+            console.log('字体加载成功');
+            document.body.classList.add('fonts-loaded');
+        }).catch(function() {
+            console.log('字体加载失败，使用后备字体');
+            document.body.classList.add('fonts-fallback');
+        });
+    }
+    
     // 头像交互效果
     const avatar = document.querySelector('.avatar');
     if (avatar) {

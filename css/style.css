@@ -12,6 +12,31 @@
     --font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
+/* 确保页面内容在字体加载前可见 */
+html {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* 确保字体平滑过渡 */
+.fonts-loaded {
+    /* 字体加载完成时可以添加特定样式 */
+    transition: font-family 0.1s ease-in-out;
+}
+
+.fonts-fallback {
+    /* 字体加载失败时的备用样式 */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* 图标加载失败的备用样式 */
+.icons-fallback .fas::before,
+.icons-fallback .fab::before,
+.icons-fallback .far::before {
+    content: "•"; /* 使用圆点作为图标的替代 */
+    margin-right: 5px;
+}
+
 * {
     margin: 0;
     padding: 0;
