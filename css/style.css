@@ -386,6 +386,39 @@ body.dark-mode footer {
         flex-direction: column;
         text-align: center;
     }
+
+    /* 博客动态响应式样式 */
+    .update-item {
+        flex-direction: column;
+        padding: 15px;
+    }
+    
+    .update-date {
+        margin-bottom: 10px;
+        padding: 0;
+        border-right: none; /* 移除右侧边框 */
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* 添加底部分隔线 */
+        padding-bottom: 10px; /* 底部增加间距 */
+        width: 100%; /* 确保宽度占满 */
+    }
+    
+    body.dark-mode .update-date {
+        border-bottom-color: rgba(255, 255, 255, 0.1); /* 暗色模式下的分隔线 */
+    }
+    
+    .update-content {
+        width: 100%; /* 确保宽度占满 */
+    }
+    
+    /* QIA部分响应式样式 */
+    .qia-item {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .qia-badge {
+        align-self: flex-start;
+    }
 }
 
 /* 博客动态样式 */
@@ -416,6 +449,7 @@ body.dark-mode footer {
     display: flex;
     gap: 20px;
     transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    align-items: center; /* 确保垂直居中 */
 }
 
 .update-item:hover {
@@ -427,17 +461,32 @@ body.dark-mode footer {
     min-width: 100px;
     font-size: 0.9rem;
     color: #888;
-    padding-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-right: 1px solid rgba(0, 0, 0, 0.1); /* 添加分隔线 */
+    padding-right: 15px; /* 日期右侧添加间距 */
+}
+
+body.dark-mode .update-date {
+    border-right-color: rgba(255, 255, 255, 0.1); /* 暗色模式下的分隔线 */
+}
+
+.update-content {
+    flex: 1;
 }
 
 .update-content h3 {
     margin-bottom: 10px;
     font-size: 1.2rem;
     font-weight: 500;
+    text-align: center;
 }
 
 .update-content p {
     line-height: 1.6;
+    text-align: center;
 }
 
 /* 数字花园样式 */
@@ -642,18 +691,6 @@ body.dark-mode footer {
     font-weight: 600;
     color: var(--primary-color);
     margin-right: 5px;
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-    .qia-item {
-        flex-direction: column;
-        gap: 15px;
-    }
-    
-    .qia-badge {
-        align-self: flex-start;
-    }
 }
 
 /* 查看全部文章链接 */

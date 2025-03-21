@@ -60,8 +60,8 @@
 ![Opera](https://img.shields.io/badge/-Opera-FF1B2D?style=flat&logo=opera&logoColor=white)
 ![image](./images/new_about_background.avif)
 
-## Issues 😀
-首次打开网站时不显示文字的问题。这确实是一个不正常的情况，我需要检查一下。
+# Issues 😀
+## 1.首次打开网站时不显示文字的问题。这确实是一个不正常的情况，我需要检查一下。
 - 根据我的分析，我发现问题所在。网站中的"数字花园"部分（div 的 class 为 digital-garden）包含两个语言版本：英文版通过 data-en 属性存储，中文版通过 data-zh 属性存储。这些内容在页面首次加载时不会自动显示，只有在点击语言切换按钮后，相应的语言文本才会通过 JavaScript 渲染出来。
 - 问题在于：language.js 中的代码只在用户手动切换语言后或者有保存的语言偏好时才会更新页面上的内容。这导致了首次访问网站时，不会自动显示任何语言内容，直到用户点击语言切换按钮。
 
