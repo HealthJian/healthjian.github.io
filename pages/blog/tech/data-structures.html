@@ -64,7 +64,7 @@
             <div class="post-meta-info">
                 <div class="post-date">
                     <i class="far fa-calendar-alt"></i>
-                    <span>2025-03-21</span> <!-- 更新实际发布日期 -->
+                    <span>2025-03-22</span> <!-- 更新实际发布日期 -->
                 </div>
                 <div class="post-tags">
                     <i class="fas fa-tags"></i>
@@ -134,23 +134,471 @@
                     
                     <!-- 第二部分 -->
                     <section id="section-2">
-                        <h2 data-en="II. Linked List" data-zh="二、链表">二、链表</h2>
+                        <h2 data-en="II. Linear List and Linked List" data-zh="二、线性表与链表">二、线性表与链表</h2>
                         
-                        <h3 data-en="2.1 Subsection One" data-zh="2.1 小节一">2.1 小节一</h3>
+                        <h3 data-en="2.1 Sequential List" data-zh="2.1 顺序表">2.1 顺序表</h3>
                         
                         <div class="bilingual-content">
-                            <p class="zh-content"><strong>概念解释</strong><br>
-                            在此处解释相关概念</p>
+                            <p class="zh-content"><strong>顺序表概念</strong><br>
+                            顺序表是线性表的一种实现方式，它使用一段连续的内存空间存储线性表中的元素。在计算机中，通常使用数组来实现顺序表。顺序表的特点是支持随机访问，即可以在O(1)时间内访问任意位置的元素。</p>
                             
-                            <p class="en-content" style="display: none;"><strong>Concept Explanation</strong><br>
-                            Explain related concepts here</p>
+                            <p class="en-content" style="display: none;"><strong>Sequential List Concept</strong><br>
+                            A sequential list is an implementation of a linear list that uses a contiguous memory space to store elements. In computers, arrays are typically used to implement sequential lists. The characteristic of sequential lists is that they support random access, meaning any element can be accessed in O(1) time.</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>顺序表的基本操作及时间复杂度</strong><br>
+                            • 查找：O(1)，可以直接通过索引访问<br>
+                            <div class="code-block">
+<pre><code class="language-c">// C语言实现查找操作
+int findElement(int arr[], int size, int index) {
+    if(index >= 0 && index < size)
+        return arr[index];  // O(1)时间复杂度
+    return -1;  // 索引无效
+}</code></pre>
+                            </div><br>
+                            • 插入：平均O(n)，需要移动插入位置后的所有元素<br>
+                            <div class="code-block">
+<pre><code class="language-c">// C语言实现插入操作
+void insertElement(int arr[], int size, int pos, int value) {
+    // 检查是否有足够空间和位置是否有效
+    if (pos < 0 || pos > size) return;
+    
+    // 从最后一个元素开始向后移动
+    for(int i = size; i > pos; i--) {
+        arr[i] = arr[i-1];  // 元素后移
+    }
+    arr[pos] = value;  // 插入新元素
+}</code></pre>
+                            </div><br>
+                            • 删除：平均O(n)，需要移动删除位置后的所有元素<br>
+                            <div class="code-block">
+<pre><code class="language-c">// C语言实现删除操作
+void deleteElement(int arr[], int* size, int pos) {
+    // 检查位置是否有效
+    if (pos < 0 || pos >= *size) return;
+    
+    // 将删除位置后的元素前移
+    for(int i = pos; i < *size - 1; i++) {
+        arr[i] = arr[i+1];
+    }
+    (*size)--;  // 减小数组大小
+}</code></pre>
+                            </div><br>
+                            • 修改：O(1)，直接通过索引修改<br>
+                            <div class="code-block">
+<pre><code class="language-c">// C语言实现修改操作
+void modifyElement(int arr[], int size, int index, int newValue) {
+    if(index >= 0 && index < size)
+        arr[index] = newValue;  // O(1)时间复杂度
+}</code></pre>
+                            </div></p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Basic Operations and Time Complexity of Sequential Lists</strong><br>
+                            • Search: O(1), direct access through index<br>
+                            • Insert: Average O(n), requires moving all elements after the insertion position<br>
+                            • Delete: Average O(n), requires moving all elements after the deletion position<br>
+                            • Modify: O(1), direct modification through index</p>
+                        </div>
+                        
+                        <h3 data-en="2.2 Linked List Introduction" data-zh="2.2 链表引入">2.2 链表引入</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>从顺序表到链表</strong><br>
+                            顺序表虽然支持快速的随机访问，但在插入和删除操作时效率较低。链表通过使用不连续的内存空间，每个节点包含数据域和指针域，解决了顺序表的这一缺点。链表中的节点通过指针相互连接，形成一个线性结构。</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>From Sequential List to Linked List</strong><br>
+                            Although sequential lists support fast random access, they are inefficient for insertion and deletion operations. Linked lists solve this disadvantage by using non-contiguous memory spaces, with each node containing a data field and a pointer field. Nodes in a linked list are connected through pointers, forming a linear structure.</p>
+                        </div>
+                        
+                        <h3 data-en="2.3 Singly Linked List" data-zh="2.3 单向链表">2.3 单向链表</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>单向链表的结构</strong><br>
+                            单向链表中的每个节点包含两部分：数据域和指针域。指针域存储指向下一个节点的指针。链表通常有一个头指针，指向链表的第一个节点。最后一个节点的指针域为空（NULL），表示链表结束。</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Structure of Singly Linked List</strong><br>
+                            Each node in a singly linked list contains two parts: a data field and a pointer field. The pointer field stores a pointer to the next node. A linked list typically has a head pointer pointing to the first node. The pointer field of the last node is NULL, indicating the end of the list.</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>单向链表的基本操作及时间复杂度</strong><br>
+                            • 查找：O(n)，需要从头节点开始遍历<br>
+                            <div class="code-block">
+<pre><code class="language-c">// C语言实现查找操作
+Node* findElement(Node* head, int value) {
+    Node* current = head;
+    while (current != NULL) {
+        if (current->data == value)
+            return current;
+        current = current->next;
+    }
+    return NULL;  // 未找到
+}</code></pre>
+                            </div><br>
+                            • 插入：O(1)，如果已知插入位置的前一个节点<br>
+                            <div class="code-block">
+<pre><code class="language-c">// C语言实现插入操作
+void insertAfter(Node* prevNode, int newValue) {
+    if (prevNode == NULL) return;
+    
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->data = newValue;
+    newNode->next = prevNode->next;
+    prevNode->next = newNode;
+}</code></pre>
+                            </div><br>
+                            • 删除：O(1)，如果已知删除位置的前一个节点<br>
+                            <div class="code-block">
+<pre><code class="language-c">// C语言实现删除操作
+void deleteAfter(Node* prevNode) {
+    if (prevNode == NULL || prevNode->next == NULL)
+        return;
+    
+    Node* toDelete = prevNode->next;
+    prevNode->next = toDelete->next;
+    free(toDelete);
+}</code></pre>
+                            </div><br>
+                            • 修改：O(n)，需要先查找到节点<br>
+                            <div class="code-block">
+<pre><code class="language-c">// C语言实现修改操作
+int modifyElement(Node* head, int oldValue, int newValue) {
+    Node* current = head;
+    while (current != NULL) {
+        if (current->data == oldValue) {
+            current->data = newValue;
+            return 1;
+        }
+        current = current->next;
+    }
+    return 0;  // 未找到要修改的元素
+}</code></pre>
+                            </div></p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Basic Operations and Time Complexity of Singly Linked Lists</strong><br>
+                            • Search: O(n), requires traversal from the head node<br>
+                            • Insert: O(1), if the previous node of the insertion position is known<br>
+                            • Delete: O(1), if the previous node of the deletion position is known<br>
+                            • Modify: O(n), requires finding the node first</p>
+                        </div>
+                        
+                        <h3 data-en="2.4 Doubly Linked List" data-zh="2.4 双向链表">2.4 双向链表</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>双向链表的结构</strong><br>
+                            双向链表中的每个节点包含三部分：数据域、前驱指针和后继指针。前驱指针指向前一个节点，后继指针指向后一个节点。双向链表可以从两个方向遍历，增加了灵活性。</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Structure of Doubly Linked List</strong><br>
+                            Each node in a doubly linked list contains three parts: a data field, a previous pointer, and a next pointer. The previous pointer points to the previous node, and the next pointer points to the next node. Doubly linked lists can be traversed in both directions, adding flexibility.</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>双向链表的基本操作及时间复杂度</strong><br>
+                            • 查找：O(n)，可以从头或尾开始遍历<br>
+                            <div class="code-block">
+<pre><code class="language-c">// C语言实现双向链表查找操作
+Node* search(Node* head, int value) {
+    Node* current = head;
+    while (current != NULL) {
+        if (current->data == value)
+            return current;
+        current = current->next;
+    }
+    return NULL;  // 未找到元素
+}</code></pre>
+                            </div><br>
+                            • 插入：O(1)，如果已知插入位置的节点<br>
+                            <div class="code-block">
+<pre><code class="language-c">// C语言实现双向链表插入操作
+void insertAfter(Node* node, int value) {
+    if (node == NULL) return;
+    
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->data = value;
+    
+    newNode->next = node->next;
+    newNode->prev = node;
+    
+    if (node->next != NULL)
+        node->next->prev = newNode;
+        
+    node->next = newNode;
+}</code></pre>
+                            </div><br>
+                            • 删除：O(1)，如果已知删除位置的节点<br>
+                            <div class="code-block">
+<pre><code class="language-c">// C语言实现双向链表删除操作
+void deleteNode(Node* node) {
+    if (node == NULL) return;
+    
+    if (node->prev != NULL)
+        node->prev->next = node->next;
+        
+    if (node->next != NULL)
+        node->next->prev = node->prev;
+        
+    free(node);
+}</code></pre>
+                            </div><br>
+                            • 修改：O(n)，需要先查找到节点<br>
+                            <div class="code-block">
+<pre><code class="language-c">// C语言实现双向链表修改操作
+int modifyElement(Node* head, int oldValue, int newValue) {
+    Node* node = search(head, oldValue);
+    if (node != NULL) {
+        node->data = newValue;
+        return 1;
+    }
+    return 0;  // 未找到要修改的元素
+}</code></pre>
+                            </div></p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Basic Operations and Time Complexity of Doubly Linked Lists</strong><br>
+                            • Search: O(n), can traverse from either head or tail<br>
+                            • Insert: O(1), if the node at the insertion position is known<br>
+                            • Delete: O(1), if the node at the deletion position is known<br>
+                            • Modify: O(n), requires finding the node first</p>
+                        </div>
+                        
+                        <h3 data-en="2.5 Common Algorithm Problems" data-zh="2.5 常见算法题型">2.5 常见算法题型</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>1. 有序链表合并</strong><br>
+                            将两个已排序的链表合并为一个新的有序链表。这是一个常见的基础算法问题，也是归并排序的核心操作。</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>1. Merge Two Sorted Lists</strong><br>
+                            Merge two sorted linked lists into a new sorted list. This is a common fundamental algorithm problem and also the core operation of merge sort.</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">// 合并两个有序链表（C语言）
+struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2) {
+    struct ListNode dummy;
+    struct ListNode* tail = &dummy;
+    
+    while (l1 && l2) {
+        if (l1->val < l2->val) {
+            tail->next = l1;
+            l1 = l1->next;
+        } else {
+            tail->next = l2;
+            l2 = l2->next;
+        }
+        tail = tail->next;
+    }
+    
+    tail->next = l1 ? l1 : l2;
+    return dummy.next;
+}</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>2. 链表集合操作 - 交集</strong><br>
+                            给定两个链表，求它们的交集（即在两个链表中都出现的元素）。通常假设链表中无重复元素。</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>2. Linked List Set Operations - Intersection</strong><br>
+                            Given two linked lists, find their intersection (elements that appear in both lists). Usually assumes no duplicate elements in the lists.</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">// 求两个链表的交集（C语言）
+struct ListNode* getIntersection(struct ListNode* headA, struct ListNode* headB) {
+    // 使用哈希表存储第一个链表的值
+    int hash[10000] = {0}; // 假设值的范围在0-9999之间
+    struct ListNode dummy;
+    struct ListNode* tail = &dummy;
+    dummy.next = NULL;
+    
+    // 将第一个链表的所有值标记在哈希表中
+    while (headA) {
+        hash[headA->val] = 1;
+        headA = headA->next;
+    }
+    
+    // 检查第二个链表中的值是否在哈希表中
+    while (headB) {
+        if (hash[headB->val] == 1) {
+            struct ListNode* newNode = (struct ListNode*)malloc(sizeof(struct ListNode));
+            newNode->val = headB->val;
+            newNode->next = NULL;
+            
+            tail->next = newNode;
+            tail = tail->next;
+            hash[headB->val] = 0; // 防止重复添加
+        }
+        headB = headB->next;
+    }
+    
+    return dummy.next;
+}</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>3. 链表集合操作 - 并集</strong><br>
+                            给定两个链表，求它们的并集（即包含两个链表中所有不重复的元素）。</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>3. Linked List Set Operations - Union</strong><br>
+                            Given two linked lists, find their union (all unique elements from both lists).</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">// 求两个链表的并集（C语言）
+struct ListNode* getUnion(struct ListNode* headA, struct ListNode* headB) {
+    int hash[10000] = {0}; // 假设值的范围在0-9999之间
+    struct ListNode dummy;
+    struct ListNode* tail = &dummy;
+    dummy.next = NULL;
+    
+    // 处理第一个链表
+    while (headA) {
+        if (hash[headA->val] == 0) {
+            hash[headA->val] = 1;
+            
+            struct ListNode* newNode = (struct ListNode*)malloc(sizeof(struct ListNode));
+            newNode->val = headA->val;
+            newNode->next = NULL;
+            
+            tail->next = newNode;
+            tail = tail->next;
+        }
+        headA = headA->next;
+    }
+    
+    // 处理第二个链表
+    while (headB) {
+        if (hash[headB->val] == 0) {
+            hash[headB->val] = 1;
+            
+            struct ListNode* newNode = (struct ListNode*)malloc(sizeof(struct ListNode));
+            newNode->val = headB->val;
+            newNode->next = NULL;
+            
+            tail->next = newNode;
+            tail = tail->next;
+        }
+        headB = headB->next;
+    }
+    
+    return dummy.next;
+}</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>4. 链表集合操作 - 补集</strong><br>
+                            给定两个链表A和B，求A相对于B的补集（即在A中出现但不在B中出现的元素）。</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>4. Linked List Set Operations - Complement</strong><br>
+                            Given two linked lists A and B, find the complement of A with respect to B (elements that appear in A but not in B).</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">// 求链表A相对于B的补集（C语言）
+struct ListNode* getComplement(struct ListNode* headA, struct ListNode* headB) {
+    int hash[10000] = {0}; // 假设值的范围在0-9999之间
+    struct ListNode dummy;
+    struct ListNode* tail = &dummy;
+    dummy.next = NULL;
+    
+    // 将B中所有元素标记在哈希表中
+    while (headB) {
+        hash[headB->val] = 1;
+        headB = headB->next;
+    }
+    
+    // 检查A中的元素是否不在B中
+    while (headA) {
+        if (hash[headA->val] == 0) {
+            struct ListNode* newNode = (struct ListNode*)malloc(sizeof(struct ListNode));
+            newNode->val = headA->val;
+            newNode->next = NULL;
+            
+            tail->next = newNode;
+            tail = tail->next;
+        }
+        headA = headA->next;
+    }
+    
+    return dummy.next;
+}</code></pre>
+                        </div>
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>5. 链表反转</strong><br>
+                            将一个单向链表反转，使所有节点的指向反向。这是面试中的经典问题。</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>5. Linked List Reversal</strong><br>
+                            Reverse a singly linked list, changing the direction of all node pointers. This is a classic interview problem.</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">// 链表反转代码示例（C语言）
+struct ListNode* reverseList(struct ListNode* head) {
+    struct ListNode* prev = NULL;
+    struct ListNode* curr = head;
+    while (curr != NULL) {
+        struct ListNode* next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    }
+    return prev;
+}</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>6. 检测环形链表</strong><br>
+                            判断一个链表是否包含环。可以使用快慢指针（Floyd's Cycle-Finding Algorithm）解决。</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>6. Detecting Cycle in a Linked List</strong><br>
+                            Determine if a linked list contains a cycle. This can be solved using the fast and slow pointer technique (Floyd's Cycle-Finding Algorithm).</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">// 检测环形链表代码示例（C语言）
+bool hasCycle(struct ListNode* head) {
+    if (head == NULL || head->next == NULL) return false;
+    
+    struct ListNode* slow = head;
+    struct ListNode* fast = head;
+    
+    while (fast != NULL && fast->next != NULL) {
+        slow = slow->next;
+        fast = fast->next->next;
+        if (slow == fast) return true;
+    }
+    
+    return false;
+}</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>7. 找出链表的中间节点</strong><br>
+                            找出单向链表的中间节点。同样可以使用快慢指针解决。</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>7. Finding the Middle Node of a Linked List</strong><br>
+                            Find the middle node of a singly linked list. This can also be solved using the fast and slow pointer technique.</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">// 找出链表中间节点代码示例（C语言）
+struct ListNode* middleNode(struct ListNode* head) {
+    struct ListNode* slow = head;
+    struct ListNode* fast = head;
+    
+    while (fast != NULL && fast->next != NULL) {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    
+    return slow;
+}</code></pre>
                         </div>
                         
                         <!-- 代码示例（如果需要） -->
                         <div class="code-block">
-                            <pre><code class="language-language_name">// 此处添加代码示例
-function example() {
-    console.log("Hello, World!");
+                            <pre><code class="language-c">// 此处添加代码示例
+void example() {
+    printf("Hello, World!\n");
 }</code></pre>
                         </div>
                         
