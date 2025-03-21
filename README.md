@@ -50,3 +50,12 @@
 - `/js` - JavaScript文件
 - `/images` - 图片资源
 - `/pages` - 子页面
+
+## 🌐 浏览器兼容性 / Browser Compatibility
+
+![Chrome](https://img.shields.io/badge/-Chrome-4285F4?style=flat&logo=google-chrome&logoColor=white)
+![Firefox](https://img.shields.io/badge/-Firefox-FF7139?style=flat&logo=firefox&logoColor=white) 
+![Safari](https://img.shields.io/badge/-Safari-000000?style=flat&logo=safari&logoColor=white)
+![Edge](https://img.shields.io/badge/-Edge-0078D7?style=flat&logo=microsoft-edge&logoColor=white)
+![Opera](https://img.shields.io/badge/-Opera-FF1B2D?style=flat&logo=opera&logoColor=white)
+![image](./images/new_about_background.avif)
