@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>并行计算复习 - HealthJian的博客</title>
+    <!-- 根据实际路径调整CSS引用路径 -->
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/dark-mode.css">
+    <link rel="stylesheet" href="../../../css/blog-post.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="light-mode">
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <!-- 根据实际部署的文件夹深度调整路径 -->
+            <a href="../../../index.html" class="logo">
+                <img src="../../../images/githubherofigureimage.png" alt="Logo">
+                <span class="site-name" data-en="HealthJian Blog" data-zh="HealthJian">HealthJian</span>
+            </a>
+        </div>
+        <div class="nav-right">
+            <ul class="menu">
+                <!-- 根据实际部署的文件夹深度调整路径 -->
+                <li><a href="../../../index.html" data-en="Home" data-zh="首页">首页</a></li>
+                <li><a href="../../../pages/blog.html" data-en="Blog" data-zh="博客">博客</a></li>
+                <li><a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a></li>
+                <li><a href="../../../pages/links.html" data-en="Links" data-zh="链接">链接</a></li>
+                <li><a href="../../../pages/about.html" data-en="About" data-zh="关于">关于</a></li>
+            </ul>
+            <div class="social-icons">
+                <a href="https://steamcommunity.com/id/yoursteamid" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
+                <a href="mailto:gaojian1573@foxmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+            <button id="theme-toggle" class="theme-toggle" title="切换主题">
+                <i class="fas fa-moon"></i>
+                <i class="fas fa-sun"></i>
+            </button>
+            <button id="lang-toggle" class="lang-toggle" title="切换语言">
+                <span data-en="EN" data-zh="中">中</span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="blog-post-container">
+        <!-- 侧边栏 -->
+        <aside class="blog-sidebar">
+            <div class="toc-container">
+                <h3 data-en="Table of Contents" data-zh="目录">目录</h3>
+                <ul class="toc-list">
+                    <!-- 文章目录，根据实际内容添加或修改 -->
+                    <li><a href="#section-1" data-en="I. Introduction" data-zh="一、引言">一、引言</a></li>
+                    <li><a href="#section-2" data-en="II. Section Two" data-zh="二、第二部分">二、第二部分</a></li>
+                    <li><a href="#section-3" data-en="III. Section Three" data-zh="三、第三部分">三、第三部分</a></li>
+                    <!-- 根据需要添加更多章节 -->
+                </ul>
+            </div>
+            
+            <div class="post-meta-info">
+                <div class="post-date">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>2025-03-18</span> <!-- 更新实际发布日期 -->
+                </div>
+                <div class="post-tags">
+                    <i class="fas fa-tags"></i>
+                    <!-- 根据文章主题修改标签 -->
+                    <span class="tag" data-en="Tag1" data-zh="标签1">标签1</span>
+                    <span class="tag" data-en="Tag2" data-zh="标签2">标签2</span>
+                    <span class="tag" data-en="Tag3" data-zh="标签3">标签3</span>
+                </div>
+                <div class="post-category">
+                    <i class="fas fa-folder"></i>
+                    <!-- 修改为实际分类 -->
+                    <span data-en="Category" data-zh="分类">分类</span>
+                </div>
+            </div>
+            
+            <div class="post-navigation">
+                <h3 data-en="Navigation" data-zh="导航">导航</h3>
+                <div class="nav-buttons">
+                    <a href="../blog.html" class="nav-button" data-en="Back to Blog" data-zh="返回博客列表">
+                        <i class="fas fa-arrow-left"></i>
+                        <span data-en="Back to Blog" data-zh="返回博客列表">返回博客列表</span>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 文章主体 -->
+        <main class="blog-post-main">
+            <article class="blog-post-content">
+                <header class="post-header">
+                    <h1 class="post-title">
+                        <div class="bilingual-content">
+                            <span class="zh-content">并行计算与GPU编程CUDA</span>
+                            <span class="en-content" style="display: none;">Parallel Computing and GPU Programming CUDA</span>
+                        </div>
+                    </h1>
+                </header>
+                
+                <div class="post-body">
+                    <!-- 第一部分：引言 -->
+                    <section id="section-1">
+                        <h2 data-en="I. Introduction" data-zh="一、引言">一、引言</h2>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">在这里添加引言内容，简要介绍文章主题和内容概要。</p>
+                            
+                            <p class="en-content" style="display: none;">Add introduction content here, briefly introducing the article topic and content overview.</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">可以添加更多段落进一步阐述主题背景和意义。</p>
+                            
+                            <p class="en-content" style="display: none;">You can add more paragraphs to further explain the background and significance of the topic.</p>
+                        </div>
+                    </section>
+                    
+                    <!-- 第二部分 -->
+                    <section id="section-2">
+                        <h2 data-en="II. Section Two" data-zh="二、第二部分">二、第二部分</h2>
+                        
+                        <h3 data-en="2.1 Subsection One" data-zh="2.1 小节一">2.1 小节一</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>概念解释</strong><br>
+                            在此处解释相关概念</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Concept Explanation</strong><br>
+                            Explain related concepts here</p>
+                        </div>
+                        
+                        <!-- 代码示例（如果需要） -->
+                        <div class="code-block">
+                            <pre><code class="language-language_name">// 此处添加代码示例
+function example() {
+    console.log("Hello, World!");
+}</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>示例分析</strong><br>
+                            分析上述代码或概念的应用示例：</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Example Analysis</strong><br>
+                            Analyze the application examples of the above code or concepts:</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>总结</strong><br>
+                            小节内容总结 <span class="emoji">📝</span></p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Summary</strong><br>
+                            Summary of the subsection content <span class="emoji">📝</span></p>
+                        </div>
+                        
+                        <h3 data-en="2.2 Subsection Two" data-zh="2.2 小节二">2.2 小节二</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>概念解释</strong><br>
+                            在此处解释相关概念</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Concept Explanation</strong><br>
+                            Explain related concepts here</p>
+                        </div>
+                        
+                        <!-- 图片示例（如果需要） -->
+                        <div class="image-container">
+                            <img src="../../images/example.jpg" alt="示例图片" class="article-image">
+                            <p class="image-caption" data-en="Example Image" data-zh="示例图片">示例图片</p>
+                        </div>
+                    </section>
+                    
+                    <!-- 第三部分 -->
+                    <section id="section-3">
+                        <h2 data-en="III. Section Three" data-zh="三、第三部分">三、第三部分</h2>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">此处添加第三部分的内容。可以包含段落、列表、代码示例等。</p>
+                            
+                            <p class="en-content" style="display: none;">Add content for section three here. Can include paragraphs, lists, code examples, etc.</p>
+                        </div>
+                        
+                        <!-- 列表示例 -->
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>要点列表：</strong></p>
+                            <ul class="zh-content">
+                                <li>第一个要点</li>
+                                <li>第二个要点</li>
+                                <li>第三个要点</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>Key Points:</strong></p>
+                            <ul class="en-content" style="display: none;">
+                                <li>First point</li>
+                                <li>Second point</li>
+                                <li>Third point</li>
+                            </ul>
+                        </div>
+                    </section>
+                    
+                    <!-- 结语 -->
+                    <div class="post-conclusion">
+                        <h2 data-en="Conclusion" data-zh="结语">结语</h2>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">总结文章的主要观点和结论。提供进一步思考或后续学习的建议。</p>
+                            
+                            <p class="en-content" style="display: none;">Summarize the main points and conclusions of the article. Provide suggestions for further thinking or subsequent learning.</p>
+                            
+                            <p class="zh-content">感谢阅读！如有问题或建议，欢迎在评论区留言。 <span class="emoji">💻✨</span></p>
+                            
+                            <p class="en-content" style="display: none;">Thanks for reading! If you have any questions or suggestions, please leave a message in the comments section. <span class="emoji">💻✨</span></p>
+                        </div>
+                        
+                        <div class="post-signature">
+                            <p>— HealthJian <span class="emoji">✍️</span></p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- 评论区 -->
+            <div class="comments-section">
+                <h3 data-en="Comments" data-zh="评论">评论</h3>
+                <div class="comment-form">
+                    <textarea placeholder="写下你的想法..." data-en-placeholder="Write your thoughts..." data-zh-placeholder="写下你的想法..."></textarea>
+                    <button data-en="Submit" data-zh="提交">提交</button>
+                </div>
+                <div class="comments-container">
+                    <p class="no-comments" data-en="Be the first to comment!" data-zh="成为第一个评论的人！">成为第一个评论的人！ <span class="emoji">🎉</span></p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <p>&copy; 2025 CaiNiaojian&HealthJian all followed.</p>
+                <p data-en="Contact: " data-zh="联系方式：">联系方式：<a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
+                <p data-en="Location: " data-zh="地址：">地址：XX</p>
+            </div>
+            <div class="footer-links">
+                <a href="../blog.html" data-en="Blog" data-zh="博客">博客</a>
+                <a href="../about.html" data-en="About" data-zh="关于">关于</a>
+                <a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a>
+                <a href="../changelog.html" data-en="ChangeLog" data-zh="更新日志">更新日志</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化代码高亮
+            hljs.highlightAll();
+        });
+    </script>
+    <script src="../../../js/main.js"></script>
+    <script src="../../../js/theme.js"></script>
+    <script src="../../../js/language.js"></script>
+    <script src="../../../js/blog-post.js"></script>
+</body>
+</html> 

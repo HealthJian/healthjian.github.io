@@ -344,51 +344,121 @@ function filterPosts(category) {
 
 // 获取博客文章数据
 function getBlogPosts() {
+    // 文章数据
     return [
         {
-            id: 1,
+            id: 'c-api-algorithms',
             title: 'C语言入门：常用调用API在算法题中的应用',
             title_en: 'C Language Basics: Using APIs in Algorithm Problems',
             excerpt: '在刷题过程中总是有思路却写不出代码，即使实现功能也往往非常复杂，但是却可以调用已经封装好的API，事半功倍。',
             excerpt_en: 'While solving algorithm problems, we often have ideas but struggle to implement them efficiently. Using built-in APIs can significantly simplify our solutions.',
             date: '2025-03-18',
+            url: 'pages/blog/tech/c-api-algorithms.html',
             category: 'tech',
             tags: ['C语言', '算法', 'API'],
-            url: 'blog/tech/c-api-algorithms.html'
+            tags_en: ['C Language', 'Algorithms', 'API']
         },
         {
-            id: 2,
+            id: 'data-structures',
             title: '数据结构：链表、栈、队列、串',
-            title_en: 'Data Structures: Lists, Stacks, Queues, and Strings',
+            title_en: 'Data Structures: Linked List, Stack, Queue, String',
             excerpt: '学习数据结构往往离不开链表、栈、队列、串；但是知识总是学了忘，忘了继续学，所以总结一个文章，提供未来的继续学习。',
             excerpt_en: 'Learning data structures inevitably involves lists, stacks, queues, and strings. Knowledge tends to fade with time, so here\'s a comprehensive guide for future reference.',
             date: '2025-03-17',
+            url: 'pages/blog/tech/data-structures.html',
             category: 'tech',
             tags: ['数据结构', '链表', '栈', '队列'],
-            url: '#'
+            tags_en: ['Data Structures', 'Linked List', 'Stack', 'Queue']
         },
         {
-            id: 3,
+            id: 'frontend-basics',
             title: '简单讲讲HTML+CSS+Javascript',
             title_en: 'A Brief Introduction to HTML, CSS, and JavaScript',
             excerpt: '简单唠唠前端三件套。',
             excerpt_en: 'A simple overview of the frontend development trinity.',
             date: '2025-03-16',
-            category: 'tech',
-            tags: ['前端', 'HTML', 'CSS', 'JavaScript'],
-            url: '#'
+            url: 'pages/blog/frontend-basics.html',
+            category: 'frontend',
+            tags: ['HTML', 'CSS', 'JavaScript'],
+            tags_en: ['HTML', 'CSS', 'JavaScript']
         },
         {
-            id: 4,
+            id: 'first-blog',
             title: '我的第一篇博客：代码与心灵的共振',
-            title_en: 'My First Blog: The Resonance of Code and Soul',
-            excerpt: '作为计算机科学专业的学生，我始终着迷于从无到有的创造过程。',
-            excerpt_en: 'As a computer science student, I\'ve always been fascinated by the process of creation from nothingness.',
-            date: '2024-12-30',
+            title_en: 'My First Blog: The Resonance Between Code and Soul',
+            excerpt: '作为一名程序员，我一直在寻找代码与人文思考之间的平衡点。这是我的第一篇博客，记录了我对编程与生活的思考。',
+            excerpt_en: 'As a programmer, I have always been searching for the balance between code and humanistic thinking. This is my first blog, recording my thoughts on programming and life.',
+            date: '2025-03-15',
+            url: 'pages/blog/life/first-blog.html',
             category: 'life',
-            tags: ['博客', '随想'],
-            url: 'blog/life/first-blog.html'
+            tags: ['博客', '随想', '生活'],
+            tags_en: ['Blog', 'Thoughts', 'Life']
+        },
+        
+        /* -------- 以下是新增文章数据（目前已注释） -------- */
+        /*
+        {
+            id: 'parallel-computing-gpu-programming',
+            title: '并行计算与GPU编程CUDA',
+            title_en: 'Parallel Computing and GPU Programming CUDA',
+            excerpt: '探索并行计算的核心概念和使用CUDA进行GPU编程的基础知识，了解如何利用图形处理器加速计算密集型任务。',
+            excerpt_en: 'Explore the core concepts of parallel computing and the fundamentals of GPU programming using CUDA, learning how to leverage graphics processors to accelerate computationally intensive tasks.',
+            date: '2025-04-01',
+            url: 'pages/blog/tech/parallel-computing-and-gpu-programming-cud.html',
+            category: 'tech',
+            tags: ['CUDA', 'GPU编程', '并行计算', '高性能计算'],
+            tags_en: ['CUDA', 'GPU Programming', 'Parallel Computing', 'High-Performance Computing']
+        },
+        {
+            id: 'machine-learning-fundamentals',
+            title: '机器学习基础与应用',
+            title_en: 'Machine Learning Fundamentals and Applications',
+            excerpt: '介绍机器学习的核心概念、常用算法以及在实际场景中的应用，帮助初学者建立机器学习的知识体系。',
+            excerpt_en: 'Introducing core concepts of machine learning, common algorithms, and their applications in real-world scenarios, helping beginners build a knowledge framework for machine learning.',
+            date: '2025-04-02',
+            url: 'pages/blog/tech/machine-learning.html',
+            category: 'tech',
+            tags: ['机器学习', '人工智能', '数据科学', '算法'],
+            tags_en: ['Machine Learning', 'Artificial Intelligence', 'Data Science', 'Algorithms']
+        },
+        {
+            id: 'advanced-mathematics-outline',
+            title: '高等数学Ⅱ知识梳理',
+            title_en: 'Outline for Advanced Mathematics Ⅱ',
+            excerpt: '系统梳理高等数学Ⅱ的重要概念、定理和方法，包括多元微积分、级数理论、微分方程等内容，为深入学习打下基础。',
+            excerpt_en: 'A systematic review of important concepts, theorems, and methods in Advanced Mathematics Ⅱ, including multivariable calculus, series theory, and differential equations, laying the foundation for in-depth study.',
+            date: '2025-04-03',
+            url: 'pages/blog/tech/outline-for-advanced-mathematicsⅡ.html',
+            category: 'tech',
+            tags: ['高等数学', '微积分', '级数', '微分方程'],
+            tags_en: ['Advanced Mathematics', 'Calculus', 'Series', 'Differential Equations']
+        },
+        {
+            id: 'recommendation-system-overview',
+            title: '推荐系统原理与实践',
+            title_en: 'Recommendation System Principles and Practices',
+            excerpt: '详解推荐系统的基本原理、主流算法和实际应用，从协同过滤到深度学习推荐模型，探讨个性化推荐的技术演进。',
+            excerpt_en: 'A detailed explanation of the basic principles, mainstream algorithms, and practical applications of recommendation systems, from collaborative filtering to deep learning recommendation models, discussing the technical evolution of personalized recommendations.',
+            date: '2025-04-04',
+            url: 'pages/blog/tech/recommendation-system.html',
+            category: 'tech',
+            tags: ['推荐系统', '机器学习', '协同过滤', '深度学习'],
+            tags_en: ['Recommendation System', 'Machine Learning', 'Collaborative Filtering', 'Deep Learning']
+        },
+        {
+            id: 'accomplishments',
+            title: '成就与优绩主义',
+            title_en: 'Accomplishments and Meritocracy',
+            excerpt: '探讨成就与优绩主义的本质，分析其在现代社会中的作用和影响。',
+            excerpt_en: 'Exploring the essence of accomplishments and meritocracy, analyzing its role and impact in modern society.',
+            date: '2025-04-05',
+            url: 'pages/blog/life/talk-about-accomplishments.html',
+            category: 'life',
+            tags: ['成就', '优绩主义', '大学生活'],
+            tags_en: ['Accomplishments', 'Meritocracy', 'College Life']
         }
+        */
+        /* -------- 新增文章数据结束 -------- */
     ];
 }
 
@@ -433,33 +503,81 @@ function displayPosts(posts) {
 
 // 获取标签的翻译
 function getTagTranslation(tag, targetLang) {
-    // 标签翻译映射
+    // 标签翻译字典
     const tagTranslations = {
-        // 中文标签及其英文翻译
-        'C语言': 'C Language',
-        '算法': 'Algorithm',
+        // 英文到中文的映射
         'API': 'API',
-        '数据结构': 'Data Structure',
-        '链表': 'Linked List',
-        '栈': 'Stack',
-        '队列': 'Queue',
-        '前端': 'Frontend',
-        'HTML': 'HTML',
-        'CSS': 'CSS',
-        'JavaScript': 'JavaScript',
-        '博客': 'Blog',
-        '随想': 'Thoughts',
-        
-        // 英文标签及其中文翻译
+        'Algorithms': '算法',
         'C Language': 'C语言',
-        'Algorithm': '算法',
-        'Data Structure': '数据结构',
+        'Data Structures': '数据结构',
         'Linked List': '链表',
         'Stack': '栈',
         'Queue': '队列',
+        'String': '串',
+        'HTML': 'HTML',
+        'CSS': 'CSS',
+        'JavaScript': 'JavaScript',
         'Frontend': '前端',
         'Blog': '博客',
-        'Thoughts': '随想'
+        'Thoughts': '随想',
+        'Life': '生活',
+        /* 新增标签翻译 */
+        'CUDA': 'CUDA',
+        'GPU Programming': 'GPU编程', 
+        'Parallel Computing': '并行计算',
+        'High-Performance Computing': '高性能计算',
+        'Machine Learning': '机器学习',
+        'Artificial Intelligence': '人工智能',
+        'Data Science': '数据科学',
+        'Advanced Mathematics': '高等数学',
+        'Calculus': '微积分',
+        'Series': '级数',
+        'Differential Equations': '微分方程',
+        'Recommendation System': '推荐系统',
+        'Collaborative Filtering': '协同过滤',
+        'Deep Learning': '深度学习',
+        'accomplishments': '成就',
+        'meritocracy': '优绩主义',
+        'College Life': '大学生活',
+        
+        
+        /* 新增标签翻译结束 */
+        
+        // 中文到英文的映射
+        'API': 'API',
+        '算法': 'Algorithms',
+        'C语言': 'C Language',
+        '数据结构': 'Data Structures',
+        '链表': 'Linked List',
+        '栈': 'Stack',
+        '队列': 'Queue',
+        '串': 'String',
+        'HTML': 'HTML',
+        'CSS': 'CSS',
+        'JavaScript': 'JavaScript',
+        '前端': 'Frontend',
+        '博客': 'Blog',
+        '随想': 'Thoughts',
+        '生活': 'Life',
+        /* 新增标签翻译 */
+        'CUDA': 'CUDA',
+        'GPU编程': 'GPU Programming',
+        '并行计算': 'Parallel Computing',
+        '高性能计算': 'High-Performance Computing',
+        '机器学习': 'Machine Learning',
+        '人工智能': 'Artificial Intelligence',
+        '数据科学': 'Data Science',
+        '高等数学': 'Advanced Mathematics',
+        '微积分': 'Calculus',
+        '级数': 'Series',
+        '微分方程': 'Differential Equations',
+        '推荐系统': 'Recommendation System',
+        '协同过滤': 'Collaborative Filtering',
+        '深度学习': 'Deep Learning',
+        '成就': 'accomplishments',
+        '优绩主义': 'meritocracy',
+        '大学生活': 'College Life',
+        /* 新增标签翻译结束 */
     };
     
     // 如果目标语言是英文
