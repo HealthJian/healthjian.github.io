@@ -239,19 +239,19 @@ function updateSearchPagination(totalPages, posts, postsPerPage = 4) {
 }
 
 /**
- * 显示特定页的搜索结果
+ * 显示搜索结果的指定页
  * @param {number} page - 页码
- * @param {Array} posts - 所有匹配的文章
- * @param {number} postsPerPage - 每页显示的文章数
+ * @param {Array} posts - 匹配的文章数组
+ * @param {number} postsPerPage - 每页显示的文章数量
  */
 function displaySearchPage(page, posts, postsPerPage = 4) {
-    // 计算当前页应显示的文章
-    const startIndex = (page - 1) * postsPerPage;
-    const endIndex = Math.min(startIndex + postsPerPage, posts.length);
-    const pageItems = posts.slice(startIndex, endIndex);
+    // 计算当前页应该显示的文章范围
+    const start = (page - 1) * postsPerPage;
+    const end = Math.min(start + postsPerPage, posts.length);
+    const pagePosts = posts.slice(start, end);
     
-    // 显示当前页的文章
-    displayPosts(pageItems);
+    // 显示文章
+    displayPosts(pagePosts);
 }
 
 /**
@@ -353,7 +353,7 @@ function getBlogPosts() {
             excerpt: '在刷题过程中总是有思路却写不出代码，即使实现功能也往往非常复杂，但是却可以调用已经封装好的API，事半功倍。',
             excerpt_en: 'While solving algorithm problems, we often have ideas but struggle to implement them efficiently. Using built-in APIs can significantly simplify our solutions.',
             date: '2025-03-18',
-            url: 'pages/blog/tech/c-api-algorithms.html',
+            url: 'blog/tech/c-api-algorithms.html',
             category: 'tech',
             tags: ['C语言', '算法', 'API'],
             tags_en: ['C Language', 'Algorithms', 'API']
@@ -365,22 +365,10 @@ function getBlogPosts() {
             excerpt: '学习数据结构往往离不开链表、栈、队列、串；但是知识总是学了忘，忘了继续学，所以总结一个文章，提供未来的继续学习。',
             excerpt_en: 'Learning data structures inevitably involves lists, stacks, queues, and strings. Knowledge tends to fade with time, so here\'s a comprehensive guide for future reference.',
             date: '2025-03-17',
-            url: 'pages/blog/tech/data-structures.html',
+            url: 'blog/tech/data-structures.html',
             category: 'tech',
             tags: ['数据结构', '链表', '栈', '队列'],
             tags_en: ['Data Structures', 'Linked List', 'Stack', 'Queue']
-        },
-        {
-            id: 'frontend-basics',
-            title: '简单讲讲HTML+CSS+Javascript',
-            title_en: 'A Brief Introduction to HTML, CSS, and JavaScript',
-            excerpt: '简单唠唠前端三件套。',
-            excerpt_en: 'A simple overview of the frontend development trinity.',
-            date: '2025-03-16',
-            url: 'pages/blog/frontend-basics.html',
-            category: 'frontend',
-            tags: ['HTML', 'CSS', 'JavaScript'],
-            tags_en: ['HTML', 'CSS', 'JavaScript']
         },
         {
             id: 'first-blog',
@@ -388,8 +376,8 @@ function getBlogPosts() {
             title_en: 'My First Blog: The Resonance Between Code and Soul',
             excerpt: '作为一名程序员，我一直在寻找代码与人文思考之间的平衡点。这是我的第一篇博客，记录了我对编程与生活的思考。',
             excerpt_en: 'As a programmer, I have always been searching for the balance between code and humanistic thinking. This is my first blog, recording my thoughts on programming and life.',
-            date: '2025-03-15',
-            url: 'pages/blog/life/first-blog.html',
+            date: '2025-03-16',
+            url: 'blog/life/first-blog.html',
             category: 'life',
             tags: ['博客', '随想', '生活'],
             tags_en: ['Blog', 'Thoughts', 'Life']
@@ -404,7 +392,7 @@ function getBlogPosts() {
             excerpt: '探索并行计算的核心概念和使用CUDA进行GPU编程的基础知识，了解如何利用图形处理器加速计算密集型任务。',
             excerpt_en: 'Explore the core concepts of parallel computing and the fundamentals of GPU programming using CUDA, learning how to leverage graphics processors to accelerate computationally intensive tasks.',
             date: '2025-04-01',
-            url: 'pages/blog/tech/parallel-computing-and-gpu-programming-cud.html',
+            url: 'blog/tech/parallel-computing-and-gpu-programming-cud.html',
             category: 'tech',
             tags: ['CUDA', 'GPU编程', '并行计算', '高性能计算'],
             tags_en: ['CUDA', 'GPU Programming', 'Parallel Computing', 'High-Performance Computing']
@@ -416,7 +404,7 @@ function getBlogPosts() {
             excerpt: '介绍机器学习的核心概念、常用算法以及在实际场景中的应用，帮助初学者建立机器学习的知识体系。',
             excerpt_en: 'Introducing core concepts of machine learning, common algorithms, and their applications in real-world scenarios, helping beginners build a knowledge framework for machine learning.',
             date: '2025-04-02',
-            url: 'pages/blog/tech/machine-learning.html',
+            url: 'blog/tech/machine-learning.html',
             category: 'tech',
             tags: ['机器学习', '人工智能', '数据科学', '算法'],
             tags_en: ['Machine Learning', 'Artificial Intelligence', 'Data Science', 'Algorithms']
@@ -428,7 +416,7 @@ function getBlogPosts() {
             excerpt: '系统梳理高等数学Ⅱ的重要概念、定理和方法，包括多元微积分、级数理论、微分方程等内容，为深入学习打下基础。',
             excerpt_en: 'A systematic review of important concepts, theorems, and methods in Advanced Mathematics Ⅱ, including multivariable calculus, series theory, and differential equations, laying the foundation for in-depth study.',
             date: '2025-04-03',
-            url: 'pages/blog/tech/outline-for-advanced-mathematicsⅡ.html',
+            url: 'blog/tech/outline-for-advanced-mathematicsⅡ.html',
             category: 'tech',
             tags: ['高等数学', '微积分', '级数', '微分方程'],
             tags_en: ['Advanced Mathematics', 'Calculus', 'Series', 'Differential Equations']
@@ -440,7 +428,7 @@ function getBlogPosts() {
             excerpt: '详解推荐系统的基本原理、主流算法和实际应用，从协同过滤到深度学习推荐模型，探讨个性化推荐的技术演进。',
             excerpt_en: 'A detailed explanation of the basic principles, mainstream algorithms, and practical applications of recommendation systems, from collaborative filtering to deep learning recommendation models, discussing the technical evolution of personalized recommendations.',
             date: '2025-04-04',
-            url: 'pages/blog/tech/recommendation-system.html',
+            url: 'blog/tech/recommendation-system.html',
             category: 'tech',
             tags: ['推荐系统', '机器学习', '协同过滤', '深度学习'],
             tags_en: ['Recommendation System', 'Machine Learning', 'Collaborative Filtering', 'Deep Learning']
@@ -452,7 +440,7 @@ function getBlogPosts() {
             excerpt: '探讨成就与优绩主义的本质，分析其在现代社会中的作用和影响。',
             excerpt_en: 'Exploring the essence of accomplishments and meritocracy, analyzing its role and impact in modern society.',
             date: '2025-04-05',
-            url: 'pages/blog/life/talk-about-accomplishments.html',
+            url: 'blog/life/talk-about-meritocracy.html',
             category: 'life',
             tags: ['成就', '优绩主义', '大学生活'],
             tags_en: ['Accomplishments', 'Meritocracy', 'College Life']
@@ -492,7 +480,7 @@ function displayPosts(posts) {
                         return `<span class="tag" data-en="${tagEn}" data-zh="${tagZh}">${currentLang === 'en' ? tagEn : tagZh}</span>`;
                     }).join('') : ''}
                 </div>
-                <a href="${post.url}" class="read-more" data-en="Read More" data-zh="阅读更多">${currentLang === 'en' ? 'Read More' : '阅读更多'}</a>
+                <a href="/pages/${post.url}" class="read-more" data-en="Read More" data-zh="阅读更多">${currentLang === 'en' ? 'Read More' : '阅读更多'}</a>
             </footer>
         </article>
     `).join('');

@@ -95,6 +95,13 @@
 2025-3-22
 - 疑似url错误、或者是地址错误！
 - 等待检查
+- 严重的路径问题，导致无法正确跳转到博客文章页面。让我分析一下这个错误：
+错误信息显示 "Cannot GET /pages/pages/blog/tech/c-api-algorithms.html"，这表明URL中出现了重复的 "pages/" 路径。系统试图访问 "/pages/pages/..." 而不是正确的 "/pages/..."。
+- 在 getBlogPosts 函数中，文章 URL 的路径是 "pages/blog/tech/c-api-algorithms.html"，但实际上，当用户在 /pages/blog.html 页面点击这个链接时，浏览器会将这个路径解释为 /pages/pages/blog/tech/c-api-algorithms.html，这就导致了404错误。
+
+### 解决方案：
+- 修改了getBlogPosts函数，确保文章URL的路径是正确的。
+- 差点改崩。。。😶
 
 ---
 <div align="center">
