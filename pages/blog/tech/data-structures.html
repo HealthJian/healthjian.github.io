@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../../../images/favicon.ico" />
     <title>数据结构：链表、栈、队列、串 - HealthJian的博客</title>
     <!-- 根据实际路径调整CSS引用路径 -->
     <link rel="stylesheet" href="../../../css/style.css">
@@ -64,7 +65,11 @@
             <div class="post-meta-info">
                 <div class="post-date">
                     <i class="far fa-calendar-alt"></i>
-                    <span>2025-03-22</span> <!-- 更新实际发布日期 -->
+                    <span>2025-03-22</span> <!-- 更新初次发布日期 -->
+                </div>
+                <div class="post-date">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>2025-03-24</span> <!-- 更新实际发布日期 -->
                 </div>
                 <div class="post-tags">
                     <i class="fas fa-tags"></i>
@@ -121,7 +126,7 @@
                         </div>
 
                         <div class="post-image">
-                            <img src="../../../images/bluesky.avif" alt="天空" class="responsive-image">
+                            <img src="../../../images/astronomy.avif" alt="天空" class="responsive-image">
                             <figcaption data-en="The sky" data-zh="天空">天空 <span class="emoji">🌙</span></figcaption>
                         </div>
 
@@ -637,28 +642,798 @@ void example() {
                     
                     <!-- 第三部分 -->
                     <section id="section-3">
-                        <h2 data-en="III. Section Three" data-zh="三、第三部分">三、第三部分</h2>
+                        <h2 data-en="III. Stack" data-zh="三、栈">三、栈</h2>
                         
                         <div class="bilingual-content">
-                            <p class="zh-content">此处添加第三部分的内容。可以包含段落、列表、代码示例等。</p>
+                            <p class="zh-content">栈是一种特殊的线性表，它只允许在一端（通常称为栈顶）进行插入和删除操作。栈遵循"后进先出"（Last In First Out，LIFO）的原则，这意味着最后放入栈中的元素将第一个被取出。</p>
                             
-                            <p class="en-content" style="display: none;">Add content for section three here. Can include paragraphs, lists, code examples, etc.</p>
+                            <p class="en-content" style="display: none;">A stack is a special type of linear list that only allows insertion and deletion operations at one end (usually called the top of the stack). Stacks follow the "Last In First Out" (LIFO) principle, which means that the last element placed in the stack will be the first one to be removed.</p>
                         </div>
                         
-                        <!-- 列表示例 -->
+                        <h3 data-en="3.1 Stack Concept and Basic Operations" data-zh="3.1 栈的概念与基本操作">3.1 栈的概念与基本操作</h3>
+                        
                         <div class="bilingual-content">
-                            <p class="zh-content"><strong>要点列表：</strong></p>
+                            <p class="zh-content"><strong>栈的基本概念</strong><br>
+                            栈是一种抽象数据类型，它的基本操作包括：<br>
+                            • 压栈（Push）：将元素添加到栈顶<br>
+                            • 出栈（Pop）：移除栈顶元素<br>
+                            • 获取栈顶元素（Top/Peek）：返回栈顶元素但不移除<br>
+                            • 判断栈是否为空（IsEmpty）：检查栈中是否有元素</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Basic Concept of Stack</strong><br>
+                            A stack is an abstract data type with the following basic operations:<br>
+                            • Push: Add an element to the top of the stack<br>
+                            • Pop: Remove the top element from the stack<br>
+                            • Top/Peek: Return the top element without removing it<br>
+                            • IsEmpty: Check if the stack contains any elements</p>
+                        </div>
+                        
+                        <div class="post-image">
+                            <img src="../../../images/stack-operation.jpg" alt="栈操作示意图" class="responsive-image">
+                            <figcaption data-en="Stack Operation Diagram" data-zh="栈操作示意图">栈操作示意图 <span class="emoji">📚</span></figcaption>
+                        </div>
+                        
+                        <h3 data-en="3.2 Implementation of Stack" data-zh="3.2 栈的实现方式">3.2 栈的实现方式</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>顺序栈（数组实现）</strong><br>
+                            顺序栈使用一维数组来存储栈中的元素，同时使用一个变量（通常称为top）来指示栈顶的位置。</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Sequential Stack (Array Implementation)</strong><br>
+                            A sequential stack uses a one-dimensional array to store the elements in the stack, along with a variable (usually called top) to indicate the position of the top of the stack.</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">// 顺序栈的C语言实现
+#define MAX_SIZE 100
+
+typedef struct {
+    int data[MAX_SIZE];  // 存储栈中元素的数组
+    int top;             // 栈顶指针
+} SeqStack;
+
+// 初始化栈
+void initStack(SeqStack *s) {
+    s->top = -1;  // 栈顶指针初始化为-1，表示空栈
+}
+
+// 判断栈是否为空
+int isEmpty(SeqStack *s) {
+    return s->top == -1;
+}
+
+// 判断栈是否已满
+int isFull(SeqStack *s) {
+    return s->top == MAX_SIZE - 1;
+}
+
+// 入栈操作
+int push(SeqStack *s, int element) {
+    if (isFull(s)) {
+        return 0;  // 栈已满，入栈失败
+    }
+    s->data[++(s->top)] = element;  // 栈顶指针加1，然后存入元素
+    return 1;  // 入栈成功
+}
+
+// 出栈操作
+int pop(SeqStack *s, int *element) {
+    if (isEmpty(s)) {
+        return 0;  // 栈为空，出栈失败
+    }
+    *element = s->data[(s->top)--];  // 取出栈顶元素，然后栈顶指针减1
+    return 1;  // 出栈成功
+}
+
+// 获取栈顶元素（不出栈）
+int getTop(SeqStack *s, int *element) {
+    if (isEmpty(s)) {
+        return 0;  // 栈为空，操作失败
+    }
+    *element = s->data[s->top];  // 取出栈顶元素
+    return 1;  // 操作成功
+}</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>链式栈（链表实现）</strong><br>
+                            链式栈使用链表结构存储元素，通常将链表的头部作为栈顶，这样可以方便地进行入栈和出栈操作。链式栈不会存在栈满的情况，只要内存足够，就可以一直入栈。</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Linked Stack (Linked List Implementation)</strong><br>
+                            A linked stack uses a linked list structure to store elements, usually with the head of the linked list as the top of the stack, making it convenient for push and pop operations. A linked stack will never be full as long as there is enough memory available.</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">// 链式栈的C语言实现
+typedef struct StackNode {
+    int data;                  // 数据域
+    struct StackNode *next;    // 指针域
+} StackNode, *LinkStack;
+
+// 初始化栈
+void initStack(LinkStack *s) {
+    *s = NULL;  // 头指针为NULL表示空栈
+}
+
+// 判断栈是否为空
+int isEmpty(LinkStack s) {
+    return s == NULL;
+}
+
+// 入栈操作
+void push(LinkStack *s, int element) {
+    // 创建新节点
+    StackNode *node = (StackNode *)malloc(sizeof(StackNode));
+    node->data = element;
+    
+    // 新节点插入到栈顶（链表头部）
+    node->next = *s;
+    *s = node;
+}
+
+// 出栈操作
+int pop(LinkStack *s, int *element) {
+    if (isEmpty(*s)) {
+        return 0;  // 栈为空，出栈失败
+    }
+    
+    StackNode *temp = *s;  // 暂存栈顶节点
+    *element = temp->data;  // 获取栈顶元素值
+    *s = temp->next;        // 栈顶指针指向下一个节点
+    free(temp);             // 释放原栈顶节点
+    return 1;  // 出栈成功
+}
+
+// 获取栈顶元素（不出栈）
+int getTop(LinkStack s, int *element) {
+    if (isEmpty(s)) {
+        return 0;  // 栈为空，操作失败
+    }
+    
+    *element = s->data;  // 获取栈顶元素值
+    return 1;  // 操作成功
+}</code></pre>
+                        </div>
+                        
+                        <h3 data-en="3.3 Applications of Stack" data-zh="3.3 栈的应用">3.3 栈的应用</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>1. 表达式求值</strong><br>
+                            栈可以用来对中缀表达式进行求值。通常的方法是先将中缀表达式转换为后缀表达式（逆波兰表示法），然后使用栈对后缀表达式求值。</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>1. Expression Evaluation</strong><br>
+                            Stacks can be used to evaluate infix expressions. The typical approach is to first convert the infix expression to a postfix expression (Reverse Polish Notation), and then use a stack to evaluate the postfix expression.</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">// 后缀表达式求值的C语言实现
+int evaluatePostfix(char* expression) {
+    SeqStack stack;
+    initStack(&stack);
+    
+    for (int i = 0; expression[i]; i++) {
+        // 如果是数字，将其转换为整数并入栈
+        if (isdigit(expression[i])) {
+            push(&stack, expression[i] - '0');
+        }
+        // 如果是运算符，弹出两个操作数，进行计算，然后将结果入栈
+        else if (expression[i] == '+' || expression[i] == '-' || 
+                 expression[i] == '*' || expression[i] == '/') {
+            int val1, val2;
+            pop(&stack, &val2);
+            pop(&stack, &val1);
+            
+            switch (expression[i]) {
+                case '+': push(&stack, val1 + val2); break;
+                case '-': push(&stack, val1 - val2); break;
+                case '*': push(&stack, val1 * val2); break;
+                case '/': push(&stack, val1 / val2); break;
+            }
+        }
+    }
+    
+    int result;
+    pop(&stack, &result);
+    return result;
+}</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>2. 括号匹配</strong><br>
+                            栈可以用来检查括号表达式是否正确嵌套。当遇到左括号时入栈，遇到右括号时与栈顶的左括号匹配并出栈。</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>2. Parenthesis Matching</strong><br>
+                            Stacks can be used to check if parentheses in an expression are correctly nested. When a left parenthesis is encountered, it is pushed onto the stack; when a right parenthesis is encountered, it is matched with the left parenthesis at the top of the stack and popped.</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">// 括号匹配检查的C语言实现
+int checkParenthesis(char* expression) {
+    SeqStack stack;
+    initStack(&stack);
+    
+    for (int i = 0; expression[i]; i++) {
+        char current = expression[i];
+        
+        // 如果是左括号，入栈
+        if (current == '(' || current == '[' || current == '{') {
+            push(&stack, current);
+        }
+        // 如果是右括号，检查与栈顶元素是否匹配
+        else if (current == ')' || current == ']' || current == '}') {
+            if (isEmpty(&stack)) {
+                return 0;  // 栈为空，没有匹配的左括号
+            }
+            
+            int top;
+            pop(&stack, &top);
+            
+            // 检查括号是否匹配
+            if ((current == ')' && top != '(') ||
+                (current == ']' && top != '[') ||
+                (current == '}' && top != '{')) {
+                return 0;  // 括号不匹配
+            }
+        }
+    }
+    
+    // 如果栈为空，表示所有括号都匹配
+    return isEmpty(&stack);
+}</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>3. 函数调用与递归</strong><br>
+                            计算机在处理函数调用时使用栈来保存函数调用的上下文信息。当一个函数调用另一个函数时，当前函数的状态（如局部变量、返回地址等）会被压入栈中，函数返回时再从栈中恢复。递归函数就是依靠这种机制实现的。</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>3. Function Calls and Recursion</strong><br>
+                            Computers use stacks to store context information for function calls. When one function calls another, the current function's state (such as local variables, return address, etc.) is pushed onto the stack, and restored when the function returns. Recursive functions rely on this mechanism to work.</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>3.1 递归与非递归示例：斐波那契数列</strong><br>
+                            斐波那契数列是一个经典的递归问题，每个数是前两个数的和：1, 1, 2, 3, 5, 8, 13...。下面展示了计算斐波那契数列的递归实现和基于栈的非递归实现。</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>3.1 Recursive and Non-recursive Example: Fibonacci Sequence</strong><br>
+                            The Fibonacci sequence is a classic recursion problem, where each number is the sum of the two preceding ones: 1, 1, 2, 3, 5, 8, 13.... Below are the recursive implementation and stack-based non-recursive implementation of the Fibonacci sequence calculation.</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">// 递归实现斐波那契数列
+int fibRecursive(int n) {
+    if (n <= 1) return n;
+    return fibRecursive(n-1) + fibRecursive(n-2);
+}
+
+// 基于栈的非递归实现
+int fibNonRecursive(int n) {
+    if (n <= 1) return n;
+    
+    // 使用迭代方法计算
+    int a = 0, b = 1, c;
+    for (int i = 2; i <= n; i++) {
+        c = a + b;
+        a = b;
+        b = c;
+    }
+    return b;
+}</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>3.2 递归与非递归示例：阶乘计算</strong><br>
+                            阶乘是另一个经典的递归应用：n! = n * (n-1)!。下面展示了计算阶乘的递归实现和基于栈的非递归实现。</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>3.2 Recursive and Non-recursive Example: Factorial Calculation</strong><br>
+                            Factorial is another classic application of recursion: n! = n * (n-1)!. Below are the recursive implementation and stack-based non-recursive implementation of factorial calculation.</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">// 递归实现阶乘
+int factorialRecursive(int n) {
+    if (n <= 1) return 1;
+    return n * factorialRecursive(n-1);
+}
+
+// 基于栈的非递归实现
+int factorialNonRecursive(int n) {
+    int result = 1;
+    for (int i = 2; i <= n; i++) {
+        result *= i;
+    }
+    return result;
+}</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>3.3 递归与非递归示例：汉诺塔问题</strong><br>
+                            汉诺塔是一个著名的递归问题，目标是将一组从小到大排列的圆盘从一根柱子移动到另一根柱子，过程中可以使用第三根柱子作为辅助，但不能将大圆盘放在小圆盘上。</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>3.3 Recursive and Non-recursive Example: Tower of Hanoi</strong><br>
+                            The Tower of Hanoi is a famous recursion problem. The goal is to move a stack of disks from one rod to another, using a third rod as auxiliary. A larger disk cannot be placed on top of a smaller disk.</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">// 递归实现汉诺塔
+void hanoiRecursive(int n, char from_rod, char to_rod, char aux_rod) {
+    if (n == 1) {
+        printf("移动圆盘 1 从 %c 到 %c\n", from_rod, to_rod);
+        return;
+    }
+    hanoiRecursive(n-1, from_rod, aux_rod, to_rod);
+    printf("移动圆盘 %d 从 %c 到 %c\n", n, from_rod, to_rod);
+    hanoiRecursive(n-1, aux_rod, to_rod, from_rod);
+}
+
+// 非递归（栈）实现汉诺塔
+void hanoiNonRecursive(int n, char from_rod, char to_rod, char aux_rod) {
+    typedef struct {
+        int n;
+        char from_rod;
+        char to_rod;
+        char aux_rod;
+        int state; // 0:初始状态, 1:移动了n-1个盘子到辅助柱, 2:移动了第n个盘子
+    } Frame;
+    
+    SeqStack stack;
+    initStack(&stack);
+    
+    // 创建初始栈帧
+    Frame* framePtr = (Frame*)malloc(sizeof(Frame));
+    framePtr->n = n;
+    framePtr->from_rod = from_rod;
+    framePtr->to_rod = to_rod;
+    framePtr->aux_rod = aux_rod;
+    framePtr->state = 0;
+    
+    push(&stack, (int)framePtr);
+    
+    while (!isEmpty(&stack)) {
+        int currentFramePtr;
+        getTop(&stack, &currentFramePtr);
+        Frame* currentFrame = (Frame*)currentFramePtr;
+        
+        if (currentFrame->n == 1) {
+            // 基本情况
+            printf("移动圆盘 1 从 %c 到 %c\n", currentFrame->from_rod, currentFrame->to_rod);
+            pop(&stack, &currentFramePtr);
+            free(currentFrame);
+        } else if (currentFrame->state == 0) {
+            // 将n-1个盘子从起始柱移到辅助柱
+            currentFrame->state = 1;
+            Frame* newFrame = (Frame*)malloc(sizeof(Frame));
+            newFrame->n = currentFrame->n - 1;
+            newFrame->from_rod = currentFrame->from_rod;
+            newFrame->to_rod = currentFrame->aux_rod;
+            newFrame->aux_rod = currentFrame->to_rod;
+            newFrame->state = 0;
+            push(&stack, (int)newFrame);
+        } else if (currentFrame->state == 1) {
+            // 将第n个盘子从起始柱移到目标柱
+            printf("移动圆盘 %d 从 %c 到 %c\n", currentFrame->n, currentFrame->from_rod, currentFrame->to_rod);
+            currentFrame->state = 2;
+            Frame* newFrame = (Frame*)malloc(sizeof(Frame));
+            newFrame->n = currentFrame->n - 1;
+            newFrame->from_rod = currentFrame->aux_rod;
+            newFrame->to_rod = currentFrame->to_rod;
+            newFrame->aux_rod = currentFrame->from_rod;
+            newFrame->state = 0;
+            push(&stack, (int)newFrame);
+        } else {
+            // 完成所有移动
+            pop(&stack, &currentFramePtr);
+            free(currentFrame);
+        }
+    }
+}</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>3.4 递归与非递归示例：二叉树遍历</strong><br>
+                            二叉树的遍历是递归的一个重要应用，包括前序遍历（根-左-右）、中序遍历（左-根-右）和后序遍历（左-右-根）。</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>3.4 Recursive and Non-recursive Example: Binary Tree Traversal</strong><br>
+                            Binary tree traversal is an important application of recursion, including preorder (root-left-right), inorder (left-root-right), and postorder (left-right-root) traversal.</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">// 二叉树节点结构
+typedef struct TreeNode {
+    int val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+} TreeNode;
+
+// 递归实现前序遍历
+void preorderRecursive(TreeNode* root) {
+    if (root == NULL) return;
+    printf("%d ", root->val);       // 访问根节点
+    preorderRecursive(root->left);  // 遍历左子树
+    preorderRecursive(root->right); // 遍历右子树
+}
+
+// 非递归（栈）实现前序遍历
+void preorderNonRecursive(TreeNode* root) {
+    if (root == NULL) return;
+    
+    SeqStack stack;
+    initStack(&stack);
+    push(&stack, (int)root);
+    
+    while (!isEmpty(&stack)) {
+        int nodePtr;
+        pop(&stack, &nodePtr);
+        TreeNode* node = (TreeNode*)nodePtr;
+        
+        printf("%d ", node->val); // 访问节点
+        
+        // 由于栈是后进先出，所以先压入右子节点，再压入左子节点
+        if (node->right != NULL) {
+            push(&stack, (int)node->right);
+        }
+        if (node->left != NULL) {
+            push(&stack, (int)node->left);
+        }
+    }
+}
+
+// 递归实现中序遍历
+void inorderRecursive(TreeNode* root) {
+    if (root == NULL) return;
+    inorderRecursive(root->left);  // 遍历左子树
+    printf("%d ", root->val);      // 访问根节点
+    inorderRecursive(root->right); // 遍历右子树
+}
+
+// 非递归（栈）实现中序遍历
+void inorderNonRecursive(TreeNode* root) {
+    if (root == NULL) return;
+    
+    SeqStack stack;
+    initStack(&stack);
+    TreeNode* current = root;
+    
+    while (current != NULL || !isEmpty(&stack)) {
+        // 将当前节点及其所有左子节点入栈
+        while (current != NULL) {
+            push(&stack, (int)current);
+            current = current->left;
+        }
+        
+        // 弹出栈顶节点并访问
+        int nodePtr;
+        pop(&stack, &nodePtr);
+        current = (TreeNode*)nodePtr;
+        printf("%d ", current->val);
+        
+        // 处理右子树
+        current = current->right;
+    }
+}</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>3.5 递归与非递归性能比较</strong><br>
+                            递归实现通常更简洁易懂，但在实际应用中，递归可能导致栈溢出或性能问题。非递归实现（使用显式栈）通常更高效，尤其是在处理大规模问题时，因为它避免了频繁的函数调用开销，更好地控制了内存的使用。</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>3.5 Performance Comparison between Recursive and Non-recursive Approaches</strong><br>
+                            Recursive implementations are usually more concise and easier to understand, but in practical applications, recursion may lead to stack overflow or performance issues. Non-recursive implementations (using explicit stacks) are usually more efficient, especially when dealing with large-scale problems, as they avoid the overhead of frequent function calls and provide better control over memory usage.</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>4. 浏览器的前进后退功能</strong><br>
+                            浏览器的历史记录通常使用两个栈来实现：一个用于存储后退的页面，另一个用于存储前进的页面。当用户访问新页面时，将当前页面压入后退栈；当用户点击后退按钮时，将当前页面从后退栈弹出并压入前进栈。</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>4. Browser Forward and Back Buttons</strong><br>
+                            Browser history is typically implemented using two stacks: one for back pages and another for forward pages. When a user visits a new page, the current page is pushed onto the back stack; when the user clicks the back button, the current page is popped from the back stack and pushed onto the forward stack.</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>5. 深度优先搜索（DFS）</strong><br>
+                            深度优先搜索是一种图的遍历算法，它使用栈来记录遍历过程中访问的节点。算法首先访问起始节点，然后沿着一条路径尽可能深入，直到无法继续前进，然后回溯到上一个节点，寻找新的路径。</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>5. Depth-First Search (DFS)</strong><br>
+                            Depth-First Search is a graph traversal algorithm that uses a stack to record nodes visited during the traversal. The algorithm first visits the starting node, then goes as deep as possible along a path until it cannot go further, then backtracks to the previous node to find new paths.</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">// 使用栈实现深度优先搜索的C语言实现
+void DFS(int graph[MAX_VERTICES][MAX_VERTICES], int startVertex, int vertices) {
+    int visited[MAX_VERTICES] = {0};
+    SeqStack stack;
+    initStack(&stack);
+    
+    // 访问起始节点并将其标记为已访问
+    printf("访问节点: %d\n", startVertex);
+    visited[startVertex] = 1;
+    push(&stack, startVertex);
+    
+    while (!isEmpty(&stack)) {
+        // 获取栈顶元素（但不出栈）
+        int currentVertex;
+        getTop(&stack, &currentVertex);
+        
+        // 寻找当前顶点的未访问邻居
+        int i;
+        for (i = 0; i < vertices; i++) {
+            if (graph[currentVertex][i] == 1 && !visited[i]) {
+                // 访问并标记邻居节点
+                printf("访问节点: %d\n", i);
+                visited[i] = 1;
+                push(&stack, i);
+                break;
+            }
+        }
+        
+        // 如果没有找到未访问的邻居，则回溯（出栈）
+        if (i == vertices) {
+            pop(&stack, &currentVertex);
+        }
+    }
+}</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>6. 撤销/重做功能</strong><br>
+                            文本编辑器和图形设计软件等应用中的撤销和重做功能也是使用栈来实现的。每次操作都会被压入"撤销栈"，当用户点击撤销时，从撤销栈弹出操作并压入"重做栈"。</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>6. Undo/Redo Functionality</strong><br>
+                            The undo and redo functionality in applications such as text editors and graphic design software is also implemented using stacks. Each operation is pushed onto an "undo stack", and when the user clicks undo, the operation is popped from the undo stack and pushed onto a "redo stack".</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">// 简单的撤销/重做功能实现
+typedef struct {
+    char operation[100];
+    char data[100];
+} Action;
+
+typedef struct {
+    Action actions[MAX_SIZE];
+    int top;
+} ActionStack;
+
+// 初始化操作栈
+void initActionStack(ActionStack *s) {
+    s->top = -1;
+}
+
+// 将操作压入栈
+void pushAction(ActionStack *s, const char *operation, const char *data) {
+    if (s->top < MAX_SIZE - 1) {
+        s->top++;
+        strcpy(s->actions[s->top].operation, operation);
+        strcpy(s->actions[s->top].data, data);
+    }
+}
+
+// 弹出栈顶操作
+int popAction(ActionStack *s, Action *action) {
+    if (s->top >= 0) {
+        *action = s->actions[s->top];
+        s->top--;
+        return 1;
+    }
+    return 0;
+}
+
+// 撤销操作
+void undo(ActionStack *undoStack, ActionStack *redoStack) {
+    Action action;
+    if (popAction(undoStack, &action)) {
+        pushAction(redoStack, action.operation, action.data);
+        printf("撤销操作: %s, 数据: %s\n", action.operation, action.data);
+        // 执行撤销逻辑...
+    } else {
+        printf("没有可撤销的操作\n");
+    }
+}
+
+// 重做操作
+void redo(ActionStack *undoStack, ActionStack *redoStack) {
+    Action action;
+    if (popAction(redoStack, &action)) {
+        pushAction(undoStack, action.operation, action.data);
+        printf("重做操作: %s, 数据: %s\n", action.operation, action.data);
+        // 执行重做逻辑...
+    } else {
+        printf("没有可重做的操作\n");
+    }
+}</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>7. 单调栈</strong><br>
+                            单调栈是一种特殊的栈，在这种栈中，元素以单调递增或单调递减的顺序排列。单调栈通常用于解决"下一个更大/更小元素"类型的问题。</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>7. Monotonic Stack</strong><br>
+                            A monotonic stack is a special type of stack where elements are arranged in monotonically increasing or decreasing order. Monotonic stacks are typically used to solve "next greater/smaller element" type problems.</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">// 使用单调栈查找每个元素的下一个更大元素
+int* nextGreaterElement(int* nums, int numsSize, int* returnSize) {
+    int* result = (int*)malloc(sizeof(int) * numsSize);
+    *returnSize = numsSize;
+    
+    // 初始化结果数组为-1
+    for (int i = 0; i < numsSize; i++) {
+        result[i] = -1;
+    }
+    
+    // 创建单调递减栈
+    SeqStack stack;
+    initStack(&stack);
+    
+    for (int i = 0; i < numsSize; i++) {
+        // 当前元素大于栈顶元素时，找到了栈顶元素的下一个更大元素
+        while (!isEmpty(&stack)) {
+            int top;
+            getTop(&stack, &top);
+            
+            if (nums[i] > nums[top]) {
+                pop(&stack, &top);
+                result[top] = nums[i];
+            } else {
+                break;
+            }
+        }
+        
+        // 将当前元素的索引压入栈
+        push(&stack, i);
+    }
+    
+    return result;
+}</code></pre>
+                        </div>
+                        
+                        <h3 data-en="3.4 Classic Stack Problems" data-zh="3.4 经典栈题目">3.4 经典栈题目</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>1. 最小栈</strong><br>
+                            设计一个支持push、pop、top操作，并能在常数时间内检索到最小元素的栈。</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>1. Min Stack</strong><br>
+                            Design a stack that supports push, pop, top operations, and retrieving the minimum element in constant time.</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">// 最小栈的C语言实现
+typedef struct {
+    SeqStack dataStack;  // 存储所有元素的栈
+    SeqStack minStack;   // 存储最小值的栈
+} MinStack;
+
+// 初始化最小栈
+void minStackInit(MinStack *obj) {
+    initStack(&obj->dataStack);
+    initStack(&obj->minStack);
+}
+
+// 入栈操作
+void minStackPush(MinStack *obj, int val) {
+    push(&obj->dataStack, val);
+    
+    // 如果最小值栈为空或当前元素不大于最小值栈顶元素，则入栈
+    if (isEmpty(&obj->minStack)) {
+        push(&obj->minStack, val);
+    } else {
+        int minTop;
+        getTop(&obj->minStack, &minTop);
+        if (val <= minTop) {
+            push(&obj->minStack, val);
+        }
+    }
+}
+
+// 出栈操作
+void minStackPop(MinStack *obj) {
+    if (isEmpty(&obj->dataStack)) {
+        return;
+    }
+    
+    // 获取并弹出数据栈的栈顶元素
+    int topElement;
+    pop(&obj->dataStack, &topElement);
+    
+    // 如果该元素等于最小值栈的栈顶元素，也弹出最小值栈的栈顶
+    int minTop;
+    getTop(&obj->minStack, &minTop);
+    if (topElement == minTop) {
+        pop(&obj->minStack, &minTop);
+    }
+}
+
+// 获取栈顶元素
+int minStackTop(MinStack *obj) {
+    int topElement;
+    getTop(&obj->dataStack, &topElement);
+    return topElement;
+}
+
+// 获取栈中的最小元素
+int minStackGetMin(MinStack *obj) {
+    int minElement;
+    getTop(&obj->minStack, &minElement);
+    return minElement;
+}</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>2. 用栈实现队列</strong><br>
+                            使用两个栈实现队列的功能，支持队列的入队（push）和出队（pop）操作。</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>2. Implement Queue using Stacks</strong><br>
+                            Implement a queue using two stacks, supporting the enqueue (push) and dequeue (pop) operations.</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-c">// 用栈实现队列的C语言实现
+typedef struct {
+    SeqStack stackIn;   // 用于入队操作的栈
+    SeqStack stackOut;  // 用于出队操作的栈
+} MyQueue;
+
+// 初始化队列
+void myQueueInit(MyQueue *obj) {
+    initStack(&obj->stackIn);
+    initStack(&obj->stackOut);
+}
+
+// 入队操作
+void myQueuePush(MyQueue *obj, int x) {
+    push(&obj->stackIn, x);
+}
+
+// 将入队栈的元素移到出队栈
+void transfer(MyQueue *obj) {
+    // 只有当出队栈为空时才需要转移
+    if (isEmpty(&obj->stackOut)) {
+        int element;
+        // 将入队栈的所有元素弹出并压入出队栈
+        while (!isEmpty(&obj->stackIn)) {
+            pop(&obj->stackIn, &element);
+            push(&obj->stackOut, element);
+        }
+    }
+}
+
+// 出队操作
+int myQueuePop(MyQueue *obj) {
+    transfer(obj);  // 确保出队栈有元素
+    int element;
+    pop(&obj->stackOut, &element);
+    return element;
+}
+
+// 查看队首元素
+int myQueuePeek(MyQueue *obj) {
+    transfer(obj);  // 确保出队栈有元素
+    int element;
+    getTop(&obj->stackOut, &element);
+    return element;
+}
+
+// 判断队列是否为空
+int myQueueEmpty(MyQueue *obj) {
+    return isEmpty(&obj->stackIn) && isEmpty(&obj->stackOut);
+}</code></pre>
+                        </div>
+                        
+                        <!-- 总结 -->
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>栈的优缺点</strong></p>
                             <ul class="zh-content">
-                                <li>第一个要点</li>
-                                <li>第二个要点</li>
-                                <li>第三个要点</li>
+                                <li>优点：实现简单，操作高效（O(1)时间复杂度）</li>
+                                <li>优点：符合特定的处理逻辑（LIFO原则）</li>
+                                <li>缺点：只能访问栈顶元素，访问其他元素需要进行出栈操作</li>
                             </ul>
                             
-                            <p class="en-content" style="display: none;"><strong>Key Points:</strong></p>
+                            <p class="en-content" style="display: none;"><strong>Advantages and Disadvantages of Stacks</strong></p>
                             <ul class="en-content" style="display: none;">
-                                <li>First point</li>
-                                <li>Second point</li>
-                                <li>Third point</li>
+                                <li>Advantage: Simple implementation, efficient operations (O(1) time complexity)</li>
+                                <li>Advantage: Aligns with specific processing logic (LIFO principle)</li>
+                                <li>Disadvantage: Can only access the top element; accessing other elements requires pop operations</li>
                             </ul>
                         </div>
                     </section>
