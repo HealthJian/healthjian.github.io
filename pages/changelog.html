@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/dark-mode.css">
     <link rel="stylesheet" href="../css/changelog.css">
+    <link rel="stylesheet" href="../css/github-calendar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
@@ -43,6 +44,38 @@
     </nav>
 
     <main>
+        <!-- GitHub 贡献日历 -->
+        <section class="github-calendar-container">
+            <div class="github-calendar-header">
+                <h2 data-en="GitHub Contribution Calendar" data-zh="GitHub 贡献日历">GitHub 贡献日历</h2>
+                <a href="https://github.com/CaiNiaojian" target="_blank" class="github-username">
+                    <i class="fab fa-github"></i>
+                    <span>CaiNiaojian</span>
+                </a>
+            </div>
+            
+            <div class="calendar-grid">
+                <!-- 日历格子将通过JavaScript动态生成 -->
+            </div>
+            
+            <div class="calendar-months">
+                <!-- 月份标签将通过JavaScript动态生成 -->
+            </div>
+            
+            <div class="contribution-stats">
+                <div class="stats-item">
+                    <span class="stats-count" id="total-contributions">0</span>
+                    <span class="stats-label" data-en="Total Contributions" data-zh="总贡献数">总贡献数</span>
+                </div>
+                <div class="stats-item">
+                    <span class="stats-count" id="longest-streak">0</span>
+                    <span class="stats-label" data-en="Longest Streak" data-zh="最长连续贡献">最长连续贡献</span>
+                </div>
+            </div>
+            
+            <div class="day-tooltip" style="opacity: 0;"></div>
+        </section>
+        
         <section class="changelog-header">
             <h1 data-en="ChangeLog" data-zh="更新日志">更新日志</h1>
             <p data-en="Track the evolution of this website" data-zh="记录网站的演变历程">记录网站的演变历程</p>
@@ -146,5 +179,6 @@
     <script src="../js/main.js"></script>
     <script src="../js/theme.js"></script>
     <script src="../js/language.js"></script>
+    <script src="../js/github-calendar.js"></script>
 </body>
 </html> 
