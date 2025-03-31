@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // 确保页面内容立即可见
     document.body.style.visibility = 'visible';
     
+    // 应用引言文本字体
+    applyQuoteFont();
+    
     // 处理可能的字体加载问题
     if ('fonts' in document) {
         Promise.all([
@@ -160,4 +163,18 @@ function loadPagePosts(page) {
     console.log('加载第', page, '页的文章');
     // 这里可以实现加载不同页文章的逻辑
     // 例如通过AJAX请求或者显示/隐藏预先加载的文章
+}
+
+// 应用引言文本的字体
+function applyQuoteFont() {
+    const quoteText = document.querySelector('.quote-text');
+    if (quoteText) {
+        // 根据当前语言设置字体
+        const currentLang = document.body.classList.contains('en') ? 'en' : 'zh';
+        if (currentLang === 'en') {
+            quoteText.style.fontFamily = "'Chewy', var(--font-family)";
+        } else {
+            quoteText.style.fontFamily = "'ZCOOL KuaiLe', var(--font-family)";
+        }
+    }
 } 

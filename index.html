@@ -19,6 +19,12 @@
     <!-- 苹果风格字体 - 优化加载 -->
     <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
     
+    <!-- 添加Chewy字体用于问候语 -->
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
+    
+    <!-- 添加ZCOOL KuaiLe中文字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+    
     <!-- 字体加载失败时的后备方案 -->
     <style>
         /* 如果主字体加载失败，确保有合适的后备字体 */
@@ -67,6 +73,12 @@
             <div class="avatar-container">
                 <img src="images/hero-master.avif" alt="头像" class="avatar">
             </div>
+            
+            <!-- 添加问候语元素 -->
+            <div class="greeting-text">
+                <span class="greeting" data-en="" data-zh=""></span>
+            </div>
+            
             <h1 class="quote">
                 <span class="quote-text">人生不满百，常怀千岁忧。</span>
                 <span class="language-hint">[点击语言]</span>
@@ -150,6 +162,13 @@ As expressed in *Nineteen Ancient Poems*: &quot;Man's life is less than a hundre
         <section class="blog-updates">
             <h2 data-en="Recent Updates" data-zh="博客动态">博客动态</h2>
             <div class="updates-container">
+                <div class="update-item">
+                    <div class="update-date">2025-03-31</div>
+                    <div class="update-content">
+                        <h3 data-en="Version 1.1.2 Released: UI Enhancements & Personalization! 🎨" data-zh="1.1.2版本发布：UI增强与个性化更新! 🎨">1.1.2版本发布：UI增强与个性化更新! 🎨</h3>
+                        <p data-en="We've added time-based greetings with cool typewriter effect, stylish new fonts, and more engaging visuals! Check changelog for details. 😊" data-zh="我们添加了基于时间的问候语（带打字机效果）、精美字体和更多视觉元素！查看更新日志了解详情。😊">我们添加了基于时间的问候语（带打字机效果）、精美字体和更多视觉元素！查看更新日志了解详情。😊</p>
+                    </div>
+                </div>
                 <div class="update-item">
                     <div class="update-date">2025-03-23</div>
                     <div class="update-content">
@@ -278,5 +297,6 @@ As expressed in *Nineteen Ancient Poems*: &quot;Man's life is less than a hundre
     <script src="js/main.js"></script>
     <script src="js/theme.js"></script>
     <script src="js/language.js"></script>
+    <script src="js/greeting.js"></script>
 </body>
 </html> 

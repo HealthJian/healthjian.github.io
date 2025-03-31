@@ -34,6 +34,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     quoteEl.textContent = '人生不满百，常怀千岁忧。';
                     hintEl.textContent = '【点击语言】';
                 }
+                
+                // 应用引言文本字体
+                if (typeof applyQuoteFont === 'function') {
+                    applyQuoteFont();
+                }
             }
             
             // 更新所有带有data-en和data-zh属性的元素
@@ -77,6 +82,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 quoteEl.textContent = '人生不满百，常怀千岁忧。';
                 hintEl.textContent = '【点击语言】';
             }
+            
+            // 应用引言文本字体
+            if (typeof applyQuoteFont === 'function') {
+                applyQuoteFont();
+            }
         }
     } else {
         // 如果没有保存的语言偏好，默认显示中文
@@ -92,6 +102,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (quoteEl && hintEl) {
             quoteEl.textContent = '人生不满百，常怀千岁忧。';
             hintEl.textContent = '【点击语言】';
+            
+            // 应用引言文本字体
+            if (typeof applyQuoteFont === 'function') {
+                applyQuoteFont();
+            }
         }
     }
 });
