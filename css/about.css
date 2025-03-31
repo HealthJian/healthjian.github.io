@@ -133,19 +133,19 @@ body.dark-mode .about-background::after {
 .social-grid {
     display: grid;
     grid-template-areas: 
-        "wechat qq linkedin"
+        "wechat bilibili linkedin"
         "steam github leetcode";
     gap: 15px;
     width: 100%;
 }
 
 /* 为每个社交项分配网格区域 */
-.social-grid a:nth-child(1) { grid-area: wechat; }   /* 微信 */
-.social-grid a:nth-child(2) { grid-area: qq; }       /* QQ */
-.social-grid a:nth-child(3) { grid-area: linkedin; } /* 领英 */
-.social-grid a:nth-child(4) { grid-area: steam; }    /* Steam */
-.social-grid a:nth-child(5) { grid-area: github; }   /* GitHub */
-.social-grid a:nth-child(6) { grid-area: leetcode; } /* LeetCode */
+.social-grid a:nth-child(1) { grid-area: wechat; }    /* 微信 */
+.social-grid a:nth-child(2) { grid-area: bilibili; }  /* Bilibili */
+.social-grid a:nth-child(3) { grid-area: linkedin; }  /* 领英 */
+.social-grid a:nth-child(4) { grid-area: steam; }     /* Steam */
+.social-grid a:nth-child(5) { grid-area: github; }    /* GitHub */
+.social-grid a:nth-child(6) { grid-area: leetcode; }  /* LeetCode */
 
 /* 基础社交项样式 */
 .social-item {
@@ -193,12 +193,24 @@ body.dark-mode .about-background::after {
     transition: color var(--transition-speed);
 }
 
-/* 各个平台的颜色 - 白天模式 */
+/* 社交图标样式 */
+.social-item span i {
+    font-size: 1.8rem; /* 增大图标大小 */
+    display: block;
+    margin-bottom: 4px;
+    transition: transform 0.3s ease;
+}
+
+.social-item:hover span i {
+    transform: scale(1.15); /* 悬停时图标稍微放大 */
+}
+
+/* 社交图标颜色 - 日间模式 */
 body.light-mode .social-item.wechat {
     background: linear-gradient(135deg, #07C160, #05A050);
 }
 
-body.light-mode .social-item.qq {
+body.light-mode .social-item.bilibili {
     background: linear-gradient(135deg, #FFC0CB, #FF9DA9);
 }
 
@@ -210,13 +222,13 @@ body.light-mode .social-item.steam {
     background: linear-gradient(135deg, #00008B, #000066);
 }
 
-body.light-mode .social-item.leetcode {
-    background: linear-gradient(135deg, #D2B48C, #BC9F7A);
-}
-
 body.light-mode .social-item.github {
     background: linear-gradient(135deg, #FFFFFF, #F5F5F5);
     border: 1px solid #ddd; /* 添加边框以便在白色背景上可见 */
+}
+
+body.light-mode .social-item.leetcode {
+    background: linear-gradient(135deg, #D2B48C, #BC9F7A);
 }
 
 /* GitHub白天模式下的文字颜色特殊处理 */
@@ -224,12 +236,12 @@ body.light-mode .social-item.github span {
     color: #000000; /* GitHub在白天模式下使用黑色文字 */
 }
 
-/* 各个平台的颜色 - 夜间模式 */
+/* 社交图标颜色 - 夜间模式 */
 body.dark-mode .social-item.wechat {
     background: linear-gradient(135deg, #006400, #004d00);
 }
 
-body.dark-mode .social-item.qq {
+body.dark-mode .social-item.bilibili {
     background: linear-gradient(135deg, #8B0000, #6B0000);
 }
 
@@ -292,6 +304,12 @@ body.dark-mode .social-item.github {
     
     .social-item span {
         font-size: 0.8rem;
+    }
+    
+    /* 移动端图标样式调整 */
+    .social-item span i {
+        font-size: 1.5rem;
+        margin-bottom: 2px;
     }
 } 
 
@@ -514,5 +532,54 @@ body.dark-mode .about-container .qia-container {
     
     .about-container .qia-badge {
         align-self: flex-start;
+    }
+} 
+
+/* 纪念猫咪样式 */
+.memorial-cat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.memorial-cat img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%; /* 圆形图片 */
+    object-fit: cover;
+    border: 3px solid var(--accent-color);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.memorial-cat img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border-color: var(--primary-color);
+}
+
+.memorial-cat p {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: var(--text-color-secondary);
+    font-style: italic;
+}
+
+body.dark-mode .memorial-cat img {
+    border-color: var(--primary-color);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* 在移动设备上调整猫咪纪念样式 */
+@media (max-width: 768px) {
+    .memorial-cat img {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .memorial-cat p {
+        font-size: 0.8rem;
     }
 } 
