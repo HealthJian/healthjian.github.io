@@ -262,6 +262,224 @@
                             <p class="en-content" style="display: none;"><strong>Summary</strong><br>
                             Simple and efficient string concatenation method <span class="emoji">📋</span></p>
                         </div>
+                        
+                        <h3 data-en="3.3 Comprehensive String APIs in C" data-zh="3.3 C语言中的字符串API全面介绍">3.3 C语言中的字符串API全面介绍</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">C语言中的字符串是以char数组的形式实现的，并以\0（空字符）作为结束标志。以下是一些常用的字符串操作函数，这些函数定义在&lt;string.h&gt;头文件中：</p>
+                            
+                            <p class="en-content" style="display: none;">In C language, strings are implemented as char arrays and terminated with a \0 (null character). Here are some commonly used string operation functions defined in the &lt;string.h&gt; header file:</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>字符串复制：</strong></p>
+                            <ul class="zh-content">
+                                <li><code>strcpy(char *dest, const char *src)</code>：将src字符串复制到dest。</li>
+                                <li><code>strncpy(char *dest, const char *src, size_t n)</code>：复制最多n个字符从src到dest。</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>String copying:</strong></p>
+                            <ul class="en-content" style="display: none;">
+                                <li><code>strcpy(char *dest, const char *src)</code>: Copies the src string to dest.</li>
+                                <li><code>strncpy(char *dest, const char *src, size_t n)</code>: Copies at most n characters from src to dest.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>字符串连接：</strong></p>
+                            <ul class="zh-content">
+                                <li><code>strcat(char *dest, const char *src)</code>：将src追加到dest末尾。</li>
+                                <li><code>strncat(char *dest, const char *src, size_t n)</code>：追加最多n个字符。</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>String concatenation:</strong></p>
+                            <ul class="en-content" style="display: none;">
+                                <li><code>strcat(char *dest, const char *src)</code>: Appends src to the end of dest.</li>
+                                <li><code>strncat(char *dest, const char *src, size_t n)</code>: Appends at most n characters.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>字符串比较：</strong></p>
+                            <ul class="zh-content">
+                                <li><code>strcmp(const char *s1, const char *s2)</code>：比较两个字符串，返回值为负数、零或正数。</li>
+                                <li><code>strncmp(const char *s1, const char *s2, size_t n)</code>：比较前n个字符。</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>String comparison:</strong></p>
+                            <ul class="en-content" style="display: none;">
+                                <li><code>strcmp(const char *s1, const char *s2)</code>: Compares two strings, returns a negative, zero, or positive value.</li>
+                                <li><code>strncmp(const char *s1, const char *s2, size_t n)</code>: Compares the first n characters.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>字符串长度：</strong></p>
+                            <ul class="zh-content">
+                                <li><code>strlen(const char *s)</code>：返回字符串s的长度（不包括\0）。</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>String length:</strong></p>
+                            <ul class="en-content" style="display: none;">
+                                <li><code>strlen(const char *s)</code>: Returns the length of string s (excluding \0).</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>查找字符：</strong></p>
+                            <ul class="zh-content">
+                                <li><code>strchr(const char *s, int c)</code>：在字符串s中查找字符c，返回指向第一个匹配字符的指针。</li>
+                                <li><code>strrchr(const char *s, int c)</code>：在字符串s中查找字符c，返回指向最后一个匹配字符的指针。</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>Character search:</strong></p>
+                            <ul class="en-content" style="display: none;">
+                                <li><code>strchr(const char *s, int c)</code>: Searches for character c in string s, returns pointer to the first match.</li>
+                                <li><code>strrchr(const char *s, int c)</code>: Searches for character c in string s, returns pointer to the last match.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>子字符串查找：</strong></p>
+                            <ul class="zh-content">
+                                <li><code>strstr(const char *haystack, const char *needle)</code>：在haystack中查找needle，返回指向第一次出现的位置的指针。</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>Substring search:</strong></p>
+                            <ul class="en-content" style="display: none;">
+                                <li><code>strstr(const char *haystack, const char *needle)</code>: Finds needle in haystack, returns pointer to the first occurrence.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>字符串填充：</strong></p>
+                            <ul class="zh-content">
+                                <li><code>memset(void *s, int c, size_t n)</code>：将内存区域s的前n个字节设置为c。</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>String filling:</strong></p>
+                            <ul class="en-content" style="display: none;">
+                                <li><code>memset(void *s, int c, size_t n)</code>: Sets the first n bytes of the memory area s to c.</li>
+                            </ul>
+                        </div>
+                        
+                        <h3 data-en="3.4 Advanced String Handling in C++" data-zh="3.4 C++中的字符串API">3.4 C++中的字符串API</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">C++提供了std::string类，它是更高级的字符串处理工具，定义在&lt;string&gt;头文件中。以下是常用方法：</p>
+                            
+                            <p class="en-content" style="display: none;">C++ provides the std::string class, which is a more advanced string processing tool defined in the &lt;string&gt; header file. Here are commonly used methods:</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>构造与赋值：</strong></p>
+                            <ul class="zh-content">
+                                <li><code>std::string()</code>：创建一个空字符串。</li>
+                                <li><code>std::string(const char *s)</code>：从C风格字符串构造。</li>
+                                <li><code>assign()</code>：赋值新内容。</li>
+                                <li><code>operator=</code>：赋值操作符。</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>Construction and assignment:</strong></p>
+                            <ul class="en-content" style="display: none;">
+                                <li><code>std::string()</code>: Creates an empty string.</li>
+                                <li><code>std::string(const char *s)</code>: Constructs from a C-style string.</li>
+                                <li><code>assign()</code>: Assigns new content.</li>
+                                <li><code>operator=</code>: Assignment operator.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>字符串长度：</strong></p>
+                            <ul class="zh-content">
+                                <li><code>size()</code> 或 <code>length()</code>：返回字符串长度。</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>String length:</strong></p>
+                            <ul class="en-content" style="display: none;">
+                                <li><code>size()</code> or <code>length()</code>: Returns the string length.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>字符串拼接：</strong></p>
+                            <ul class="zh-content">
+                                <li><code>append()</code>：追加内容。</li>
+                                <li><code>operator+</code>：拼接字符串。</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>String concatenation:</strong></p>
+                            <ul class="en-content" style="display: none;">
+                                <li><code>append()</code>: Appends content.</li>
+                                <li><code>operator+</code>: Concatenates strings.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>字符串比较：</strong></p>
+                            <ul class="zh-content">
+                                <li><code>compare()</code>：比较两个字符串。</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>String comparison:</strong></p>
+                            <ul class="en-content" style="display: none;">
+                                <li><code>compare()</code>: Compares two strings.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>子字符串：</strong></p>
+                            <ul class="zh-content">
+                                <li><code>substr(size_t pos, size_t len)</code>：提取子字符串。</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>Substring:</strong></p>
+                            <ul class="en-content" style="display: none;">
+                                <li><code>substr(size_t pos, size_t len)</code>: Extracts a substring.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>查找：</strong></p>
+                            <ul class="zh-content">
+                                <li><code>find()</code>：查找子字符串或字符。</li>
+                                <li><code>rfind()</code>：反向查找。</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>Search:</strong></p>
+                            <ul class="en-content" style="display: none;">
+                                <li><code>find()</code>: Searches for a substring or character.</li>
+                                <li><code>rfind()</code>: Searches backwards.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>修改：</strong></p>
+                            <ul class="zh-content">
+                                <li><code>insert()</code>：插入字符或子字符串。</li>
+                                <li><code>erase()</code>：删除部分字符串。</li>
+                                <li><code>replace()</code>：替换部分内容。</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>Modification:</strong></p>
+                            <ul class="en-content" style="display: none;">
+                                <li><code>insert()</code>: Inserts characters or a substring.</li>
+                                <li><code>erase()</code>: Deletes part of the string.</li>
+                                <li><code>replace()</code>: Replaces part of the content.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>填充：</strong></p>
+                            <ul class="zh-content">
+                                <li><code>resize(size_t n, char c)</code>：调整字符串长度，用字符c填充额外空间。</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>Filling:</strong></p>
+                            <ul class="en-content" style="display: none;">
+                                <li><code>resize(size_t n, char c)</code>: Adjusts the string length, filling extra space with character c.</li>
+                            </ul>
+                        </div>
                     </section>
                     
                     <section id="section-4">
