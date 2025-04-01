@@ -583,3 +583,152 @@ body.dark-mode .memorial-cat img {
         font-size: 0.8rem;
     }
 } 
+
+/* 奖项部分样式 */
+.awards-section {
+    margin: 80px auto 60px;
+    padding: 0 30px;
+    max-width: 90%;
+    position: relative;
+    z-index: 1;
+}
+
+.awards-section h2 {
+    margin-bottom: 25px;
+    font-size: 2rem;
+    font-weight: 500;
+    text-align: center;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.awards-section h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-color), transparent);
+    border-radius: 3px;
+}
+
+.awards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    background-color: rgba(255, 255, 255, 0.85);
+    border-radius: var(--border-radius);
+    padding: 30px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode .awards-container {
+    background-color: rgba(30, 30, 30, 0.85);
+}
+
+.year-group {
+    display: flex;
+    gap: 20px;
+    padding: 15px 0;
+    border-bottom: 1px dashed rgba(var(--primary-color-rgb), 0.3);
+}
+
+.year-group:last-child {
+    border-bottom: none;
+}
+
+.year-label {
+    flex: 0 0 100px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--accent-color);
+    padding-top: 8px;
+}
+
+.awards-list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.award-item {
+    padding: 12px 15px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: var(--border-radius);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.award-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: linear-gradient(to bottom, var(--accent-color), transparent);
+}
+
+.award-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode .award-item {
+    background-color: rgba(50, 50, 50, 0.7);
+}
+
+.award-name {
+    font-weight: 500;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    color: var(--text-color);
+}
+
+.award-detail {
+    font-size: 0.95rem;
+    color: var(--text-color-secondary);
+    opacity: 0.9;
+}
+
+/* 奖项部分响应式设计 */
+@media (max-width: 768px) {
+    .awards-section {
+        padding: 0 15px;
+        max-width: 95%;
+    }
+    
+    .awards-section h2 {
+        font-size: 1.7rem;
+    }
+    
+    .year-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .year-label {
+        flex: none;
+        padding-bottom: 5px;
+        border-bottom: 1px solid rgba(var(--primary-color-rgb), 0.2);
+    }
+    
+    .award-item {
+        padding: 10px;
+    }
+    
+    .award-name {
+        font-size: 1rem;
+    }
+    
+    .award-detail {
+        font-size: 0.9rem;
+    }
+} 
