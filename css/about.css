@@ -732,3 +732,79 @@ body.dark-mode .award-item {
         font-size: 0.9rem;
     }
 } 
+
+/* 个人信息样式 - 添加在社交图标下方 */
+.personal-info {
+    margin-top: 30px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+body.dark-mode .personal-info {
+    background-color: rgba(40, 40, 40, 0.7);
+}
+
+.personal-info::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--primary-color), var(--accent-color));
+    border-radius: var(--border-radius) 0 0 var(--border-radius);
+}
+
+.personal-info:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-left: 15px;
+}
+
+.info-item:last-child {
+    margin-bottom: 0;
+}
+
+.info-item i {
+    width: 24px;
+    color: var(--accent-color);
+    margin-right: 10px;
+    font-size: 1rem;
+}
+
+.info-item span {
+    color: var(--text-color);
+    font-size: 0.95rem;
+}
+
+/* 个人信息响应式设计 */
+@media (max-width: 768px) {
+    .personal-info {
+        padding: 15px;
+        margin-top: 20px;
+    }
+    
+    .info-item {
+        margin-bottom: 10px;
+        padding-left: 10px;
+    }
+    
+    .info-item i {
+        font-size: 0.9rem;
+    }
+    
+    .info-item span {
+        font-size: 0.85rem;
+    }
+} 
