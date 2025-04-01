@@ -347,6 +347,18 @@ function getBlogPosts() {
     // 文章数据
     return [
         {
+            id: 'Detailed Analysis of 2025 Graduate Entrance Examination Mathematics II Syllabus',
+            title: '2025年考研数学二大纲详解',
+            title_en: 'Detailed Analysis of 2025 Graduate Entrance Examination Mathematics II Syllabus',
+            excerpt: '系统梳理2025年考研数学二大纲的重要概念、定理和方法，包括多元微积分、级数理论、微分方程等内容，为深入学习打下基础。',
+            excerpt_en: 'A systematic review of important concepts, theorems, and methods in 2025 Graduate Entrance Examination Mathematics II Syllabus, including multivariable calculus, series theory, and differential equations, laying the foundation for in-depth study.',
+            date: '2025-04-01',
+            url: 'blog/tech/outline-for-advanced-mathematicsⅡ.html',
+            category: 'tech',
+            tags: ['考研', '数学', '大纲'],
+            tags_en: ['Graduate Entrance Examination', 'Mathematics', 'Syllabus']
+        },
+        {
             id: 'c-api-algorithms',
             title: 'C语言入门：常用调用API在算法题中的应用',
             title_en: 'C Language Basics: Using APIs in Algorithm Problems',
@@ -527,6 +539,9 @@ function getTagTranslation(tag, targetLang) {
         'accomplishments': '成就',
         'meritocracy': '优绩主义',
         'College Life': '大学生活',
+        '考研': 'Graduate Entrance Examination',
+        '数学': 'Mathematics',
+        '大纲': 'Syllabus',
         
         
         /* 新增标签翻译结束 */
@@ -565,6 +580,9 @@ function getTagTranslation(tag, targetLang) {
         '成就': 'accomplishments',
         '优绩主义': 'meritocracy',
         '大学生活': 'College Life',
+        '考研': 'Graduate Entrance Examination',
+        '数学': 'Mathematics',
+        '大纲': 'Syllabus',
         /* 新增标签翻译结束 */
     };
     

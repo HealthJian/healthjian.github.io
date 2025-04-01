@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>文章标题 - HealthJian的博客</title>
+    <title>2025年考研数学二大纲详解 - HealthJian的博客</title>
     <!-- 根据实际路径调整CSS引用路径 -->
-    <link rel="stylesheet" href="../../css/style.css">
-    <link rel="stylesheet" href="../../css/dark-mode.css">
-    <link rel="stylesheet" href="../../css/blog-post.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/dark-mode.css">
+    <link rel="stylesheet" href="../../../css/blog-post.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css">
     <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -17,19 +17,19 @@
     <nav class="navbar">
         <div class="nav-left">
             <!-- 根据实际部署的文件夹深度调整路径 -->
-            <a href="../../index.html" class="logo">
-                <img src="../../images/githubherofigureimage.png" alt="Logo">
+            <a href="../../../index.html" class="logo">
+                <img src="../../../images/githubherofigureimage.png" alt="Logo">
                 <span class="site-name" data-en="HealthJian Blog" data-zh="HealthJian">HealthJian</span>
             </a>
         </div>
         <div class="nav-right">
             <ul class="menu">
                 <!-- 根据实际部署的文件夹深度调整路径 -->
-                <li><a href="../../index.html" data-en="Home" data-zh="首页">首页</a></li>
-                <li><a href="../blog.html" data-en="Blog" data-zh="博客">博客</a></li>
+                <li><a href="../../../index.html" data-en="Home" data-zh="首页">首页</a></li>
+                <li><a href="../../blog.html" data-en="Blog" data-zh="博客">博客</a></li>
                 <li><a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a></li>
-                <li><a href="../links.html" data-en="Links" data-zh="链接">链接</a></li>
-                <li><a href="../about.html" data-en="About" data-zh="关于">关于</a></li>
+                <li><a href="../../links.html" data-en="Links" data-zh="链接">链接</a></li>
+                <li><a href="../../about.html" data-en="About" data-zh="关于">关于</a></li>
             </ul>
             <div class="social-icons">
                 <a href="https://steamcommunity.com/id/yoursteamid" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
@@ -51,37 +51,55 @@
             <div class="toc-container">
                 <h3 data-en="Table of Contents" data-zh="目录">目录</h3>
                 <ul class="toc-list">
-                    <!-- 文章目录，根据实际内容添加或修改 -->
-                    <li><a href="#section-1" data-en="I. Introduction" data-zh="一、引言">一、引言</a></li>
-                    <li><a href="#section-2" data-en="II. Section Two" data-zh="二、第二部分">二、第二部分</a></li>
-                    <li><a href="#section-3" data-en="III. Section Three" data-zh="三、第三部分">三、第三部分</a></li>
-                    <!-- 根据需要添加更多章节 -->
+                    <!-- 考研数学二大纲目录 -->
+                    <li><a href="#section-1" data-en="I. Examination Format and Structure" data-zh="一、考试形式和试卷结构">一、考试形式和试卷结构</a></li>
+                    <li><a href="#section-2" data-en="II. Advanced Mathematics" data-zh="二、高等数学">二、高等数学</a>
+                        <ul>
+                            <li><a href="#section-2-1" data-en="2.1 Functions, Limits, and Continuity" data-zh="2.1 函数、极限、连续">2.1 函数、极限、连续</a></li>
+                            <li><a href="#section-2-2" data-en="2.2 Differential Calculus of Univariate Function" data-zh="2.2 一元函数微分学">2.2 一元函数微分学</a></li>
+                            <li><a href="#section-2-3" data-en="2.3 Integral Calculus of Univariate Function" data-zh="2.3 一元函数积分学">2.3 一元函数积分学</a></li>
+                            <li><a href="#section-2-4" data-en="2.4 Multivariate Function Calculus" data-zh="2.4 多元函数微积分学">2.4 多元函数微积分学</a></li>
+                            <li><a href="#section-2-5" data-en="2.5 Ordinary Differential Equations" data-zh="2.5 常微分方程">2.5 常微分方程</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#section-3" data-en="III. Linear Algebra" data-zh="三、线性代数">三、线性代数</a>
+                        <ul>
+                            <li><a href="#section-3-1" data-en="3.1 Determinants" data-zh="3.1 行列式">3.1 行列式</a></li>
+                            <li><a href="#section-3-2" data-en="3.2 Matrices" data-zh="3.2 矩阵">3.2 矩阵</a></li>
+                            <li><a href="#section-3-3" data-en="3.3 Vectors" data-zh="3.3 向量">3.3 向量</a></li>
+                            <li><a href="#section-3-4" data-en="3.4 Systems of Linear Equations" data-zh="3.4 线性方程组">3.4 线性方程组</a></li>
+                            <li><a href="#section-3-5" data-en="3.5 Eigenvalues and Eigenvectors" data-zh="3.5 矩阵的特征值和特征向量">3.5 矩阵的特征值和特征向量</a></li>
+                            <li><a href="#section-3-6" data-en="3.6 Quadratic Forms" data-zh="3.6 二次型">3.6 二次型</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
             
             <div class="post-meta-info">
                 <div class="post-date">
                     <i class="far fa-calendar-alt"></i>
-                    <span>2025-03-18</span> <!-- 更新实际发布日期 -->
+                    <span>2025-04-01</span> <!-- 更新实际发布日期 -->
+                </div>
+                <div class="post-date">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>2025-04-01</span> <!-- 更新实际发布日期 -->
                 </div>
                 <div class="post-tags">
                     <i class="fas fa-tags"></i>
-                    <!-- 根据文章主题修改标签 -->
-                    <span class="tag" data-en="Tag1" data-zh="标签1">标签1</span>
-                    <span class="tag" data-en="Tag2" data-zh="标签2">标签2</span>
-                    <span class="tag" data-en="Tag3" data-zh="标签3">标签3</span>
+                    <span class="tag" data-en="Graduate Entrance Examination" data-zh="考研">考研</span>
+                    <span class="tag" data-en="Mathematics" data-zh="数学">数学</span>
+                    <span class="tag" data-en="Syllabus" data-zh="大纲">大纲</span>
                 </div>
                 <div class="post-category">
                     <i class="fas fa-folder"></i>
-                    <!-- 修改为实际分类 -->
-                    <span data-en="Category" data-zh="分类">分类</span>
+                    <span data-en="Study Notes" data-zh="学习笔记">学习笔记</span>
                 </div>
             </div>
             
             <div class="post-navigation">
                 <h3 data-en="Navigation" data-zh="导航">导航</h3>
                 <div class="nav-buttons">
-                    <a href="../blog.html" class="nav-button" data-en="Back to Blog" data-zh="返回博客列表">
+                    <a href="../../blog.html" class="nav-button" data-en="Back to Blog" data-zh="返回博客列表">
                         <i class="fas fa-arrow-left"></i>
                         <span data-en="Back to Blog" data-zh="返回博客列表">返回博客列表</span>
                     </a>
@@ -95,111 +113,764 @@
                 <header class="post-header">
                     <h1 class="post-title">
                         <div class="bilingual-content">
-                            <span class="zh-content">文章标题</span>
-                            <span class="en-content" style="display: none;">Article Title</span>
+                            <span class="zh-content">2025年考研数学二大纲详解</span>
+                            <span class="en-content" style="display: none;">Detailed Analysis of 2025 Graduate Entrance Examination Mathematics II Syllabus</span>
                         </div>
                     </h1>
                 </header>
                 
                 <div class="post-body">
-                    <!-- 第一部分：引言 -->
+                    <!-- 第一部分：考试形式和试卷结构 -->
                     <section id="section-1">
-                        <h2 data-en="I. Introduction" data-zh="一、引言">一、引言</h2>
+                        <h2 data-en="I. Examination Format and Structure" data-zh="一、考试形式和试卷结构">一、考试形式和试卷结构</h2>
                         
                         <div class="bilingual-content">
-                            <p class="zh-content">在这里添加引言内容，简要介绍文章主题和内容概要。</p>
+                            <p class="zh-content">考研数学二是理工科类专业考生参加硕士研究生入学考试时必须掌握的基础学科之一。本文将详细介绍2025年考研数学二的考试大纲，帮助考生了解考试形式、内容要求和重点难点，为备考提供指导。</p>
                             
-                            <p class="en-content" style="display: none;">Add introduction content here, briefly introducing the article topic and content overview.</p>
+                            <p class="en-content" style="display: none;">Mathematics II for Graduate Entrance Examination is one of the fundamental subjects that science and engineering candidates must master when taking the entrance examination for master's degree programs. This article will provide a detailed introduction to the 2025 syllabus for Mathematics II, helping candidates understand the examination format, content requirements, and key points, providing guidance for preparation.</p>
                         </div>
                         
                         <div class="bilingual-content">
-                            <p class="zh-content">可以添加更多段落进一步阐述主题背景和意义。</p>
-                            
-                            <p class="en-content" style="display: none;">You can add more paragraphs to further explain the background and significance of the topic.</p>
-                        </div>
-                    </section>
-                    
-                    <!-- 第二部分 -->
-                    <section id="section-2">
-                        <h2 data-en="II. Section Two" data-zh="二、第二部分">二、第二部分</h2>
-                        
-                        <h3 data-en="2.1 Subsection One" data-zh="2.1 小节一">2.1 小节一</h3>
-                        
-                        <div class="bilingual-content">
-                            <p class="zh-content"><strong>概念解释</strong><br>
-                            在此处解释相关概念</p>
-                            
-                            <p class="en-content" style="display: none;"><strong>Concept Explanation</strong><br>
-                            Explain related concepts here</p>
-                        </div>
-                        
-                        <!-- 代码示例（如果需要） -->
-                        <div class="code-block">
-                            <pre><code class="language-language_name">// 此处添加代码示例
-function example() {
-    console.log("Hello, World!");
-}</code></pre>
-                        </div>
-                        
-                        <div class="bilingual-content">
-                            <p class="zh-content"><strong>示例分析</strong><br>
-                            分析上述代码或概念的应用示例：</p>
-                            
-                            <p class="en-content" style="display: none;"><strong>Example Analysis</strong><br>
-                            Analyze the application examples of the above code or concepts:</p>
-                        </div>
-                        
-                        <div class="bilingual-content">
-                            <p class="zh-content"><strong>总结</strong><br>
-                            小节内容总结 <span class="emoji">📝</span></p>
-                            
-                            <p class="en-content" style="display: none;"><strong>Summary</strong><br>
-                            Summary of the subsection content <span class="emoji">📝</span></p>
-                        </div>
-                        
-                        <h3 data-en="2.2 Subsection Two" data-zh="2.2 小节二">2.2 小节二</h3>
-                        
-                        <div class="bilingual-content">
-                            <p class="zh-content"><strong>概念解释</strong><br>
-                            在此处解释相关概念</p>
-                            
-                            <p class="en-content" style="display: none;"><strong>Concept Explanation</strong><br>
-                            Explain related concepts here</p>
-                        </div>
-                        
-                        <!-- 图片示例（如果需要） -->
-                        <div class="image-container">
-                            <img src="../../images/example.jpg" alt="示例图片" class="article-image">
-                            <p class="image-caption" data-en="Example Image" data-zh="示例图片">示例图片</p>
-                        </div>
-                    </section>
-                    
-                    <!-- 第三部分 -->
-                    <section id="section-3">
-                        <h2 data-en="III. Section Three" data-zh="三、第三部分">三、第三部分</h2>
-                        
-                        <div class="bilingual-content">
-                            <p class="zh-content">此处添加第三部分的内容。可以包含段落、列表、代码示例等。</p>
-                            
-                            <p class="en-content" style="display: none;">Add content for section three here. Can include paragraphs, lists, code examples, etc.</p>
-                        </div>
-                        
-                        <!-- 列表示例 -->
-                        <div class="bilingual-content">
-                            <p class="zh-content"><strong>要点列表：</strong></p>
+                            <p class="zh-content"><strong>考试基本信息：</strong></p>
                             <ul class="zh-content">
-                                <li>第一个要点</li>
-                                <li>第二个要点</li>
-                                <li>第三个要点</li>
+                                <li><strong>满分及时间：</strong>试卷满分150分，考试时间180分钟。</li>
+                                <li><strong>答题方式：</strong>闭卷、笔试。</li>
+                                <li><strong>内容结构：</strong>高等数学约占80%，线性代数约占20%。</li>
                             </ul>
                             
-                            <p class="en-content" style="display: none;"><strong>Key Points:</strong></p>
+                            <p class="en-content" style="display: none;"><strong>Basic Examination Information:</strong></p>
                             <ul class="en-content" style="display: none;">
-                                <li>First point</li>
-                                <li>Second point</li>
-                                <li>Third point</li>
+                                <li><strong>Total Score and Duration:</strong> The paper is worth 150 points, with an examination time of 180 minutes.</li>
+                                <li><strong>Examination Format:</strong> Closed-book, written examination.</li>
+                                <li><strong>Content Structure:</strong> Advanced Mathematics accounts for approximately 80%, Linear Algebra accounts for approximately 20%.</li>
                             </ul>
                         </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>题型结构：</strong></p>
+                            <table class="zh-content exam-structure-table">
+                                <thead>
+                                    <tr>
+                                        <th>题型</th>
+                                        <th>数量</th>
+                                        <th>分值</th>
+                                        <th>总分</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>单项选择题</td>
+                                        <td>10小题</td>
+                                        <td>每题5分</td>
+                                        <td>50分</td>
+                                    </tr>
+                                    <tr>
+                                        <td>填空题</td>
+                                        <td>6小题</td>
+                                        <td>每题5分</td>
+                                        <td>30分</td>
+                                    </tr>
+                                    <tr>
+                                        <td>解答题（包括证明题）</td>
+                                        <td>6小题</td>
+                                        <td>分值不等</td>
+                                        <td>70分</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <p class="en-content" style="display: none;"><strong>Question Type Structure:</strong></p>
+                            <table class="en-content exam-structure-table" style="display: none;">
+                                <thead>
+                                    <tr>
+                                        <th>Question Type</th>
+                                        <th>Quantity</th>
+                                        <th>Points per Question</th>
+                                        <th>Total Points</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Multiple-Choice Questions</td>
+                                        <td>10 questions</td>
+                                        <td>5 points each</td>
+                                        <td>50 points</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fill-in-the-Blank Questions</td>
+                                        <td>6 questions</td>
+                                        <td>5 points each</td>
+                                        <td>30 points</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Solving Problems (including proofs)</td>
+                                        <td>6 questions</td>
+                                        <td>Varying points</td>
+                                        <td>70 points</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>备考建议：</strong></p>
+                            <p class="zh-content">考试内容以基础知识和基本技能为主，重点考察考生对数学基本概念、基本理论、基本方法的理解和掌握程度，以及分析问题和解决问题的能力。考生应系统复习教材内容，重视基础知识和基本方法的掌握，加强解题能力训练。</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Preparation Suggestions:</strong></p>
+                            <p class="en-content" style="display: none;">The examination content focuses on basic knowledge and fundamental skills, primarily testing candidates' understanding and mastery of basic mathematical concepts, theories, and methods, as well as their ability to analyze and solve problems. Candidates should systematically review textbook content, emphasize mastery of fundamental knowledge and methods, and strengthen problem-solving ability training.</p>
+                        </div>
+                    </section>
+                    
+                    <!-- 第二部分：高等数学 -->
+                    <section id="section-2">
+                        <h2 data-en="II. Advanced Mathematics" data-zh="二、高等数学">二、高等数学</h2>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">高等数学是考研数学二的主要内容，约占总分值的80%。包括函数与极限、一元函数微分学、一元函数积分学、多元函数微积分学和常微分方程等内容。</p>
+                            
+                            <p class="en-content" style="display: none;">Advanced Mathematics is the main content of Mathematics II for the Graduate Entrance Examination, accounting for approximately 80% of the total score. It includes functions and limits, differential calculus of univariate functions, integral calculus of univariate functions, multivariate calculus, and ordinary differential equations.</p>
+                        </div>
+                        
+                        <section id="section-2-1">
+                            <h3 data-en="2.1 Functions, Limits, and Continuity" data-zh="2.1 函数、极限、连续">2.1 函数、极限、连续</h3>
+                            
+                            <div class="bilingual-content">
+                                <p class="zh-content"><strong>考试内容：</strong></p>
+                                <ul class="zh-content">
+                                    <li>函数的概念及表示法</li>
+                                    <li>函数的性质：有界性、单调性、周期性和奇偶性</li>
+                                    <li>复合函数、反函数、分段函数和隐函数</li>
+                                    <li>基本初等函数的性质及其图形</li>
+                                    <li>初等函数</li>
+                                    <li>数列极限与函数极限的定义及其性质</li>
+                                    <li>无穷小与无穷大</li>
+                                    <li>极限的四则运算法则与极限存在准则</li>
+                                    <li>两个重要极限：$\lim\limits_{x\to 0}\frac{\sin x}{x}=1$, $\lim\limits_{n\to \infty}(1+\frac{1}{n})^n=e$</li>
+                                    <li>无穷小的比较</li>
+                                    <li>函数的连续性、间断点及其分类</li>
+                                    <li>闭区间上连续函数的性质</li>
+                                </ul>
+                                
+                                <p class="en-content" style="display: none;"><strong>Examination Content:</strong></p>
+                                <ul class="en-content" style="display: none;">
+                                    <li>Concept and notation of functions</li>
+                                    <li>Properties of functions: boundedness, monotonicity, periodicity, and parity</li>
+                                    <li>Composite functions, inverse functions, piecewise functions, and implicit functions</li>
+                                    <li>Properties and graphs of basic elementary functions</li>
+                                    <li>Elementary functions</li>
+                                    <li>Definitions and properties of sequence limits and function limits</li>
+                                    <li>Infinitesimals and infinities</li>
+                                    <li>Four arithmetic rules of limits and criteria for limit existence</li>
+                                    <li>Two important limits: $\lim\limits_{x\to 0}\frac{\sin x}{x}=1$, $\lim\limits_{n\to \infty}(1+\frac{1}{n})^n=e$</li>
+                                    <li>Comparison of infinitesimals</li>
+                                    <li>Continuity of functions, discontinuity points and their classification</li>
+                                    <li>Properties of continuous functions on closed intervals</li>
+                                </ul>
+                            </div>
+
+                            <div class="bilingual-content">
+                                <p class="zh-content"><strong>考试要求：</strong></p>
+                                <ol class="zh-content">
+                                    <li>理解函数、极限、连续等基本概念。</li>
+                                    <li>掌握函数的基本性质和常用的初等函数。</li>
+                                    <li>掌握极限的四则运算法则和两个重要极限。</li>
+                                    <li>会求函数的极限，会利用等价无穷小代换求极限。</li>
+                                    <li>理解函数连续性的概念，会判别函数间断点的类型。</li>
+                                    <li>掌握闭区间上连续函数的性质并会应用这些性质。</li>
+                                </ol>
+                                
+                                <p class="en-content" style="display: none;"><strong>Examination Requirements:</strong></p>
+                                <ol class="en-content" style="display: none;">
+                                    <li>Understand the basic concepts of functions, limits, and continuity.</li>
+                                    <li>Master the basic properties of functions and commonly used elementary functions.</li>
+                                    <li>Master the four arithmetic rules of limits and two important limits.</li>
+                                    <li>Be able to calculate function limits and use equivalent infinitesimal substitution to find limits.</li>
+                                    <li>Understand the concept of function continuity and be able to identify the types of discontinuity points.</li>
+                                    <li>Master the properties of continuous functions on closed intervals and be able to apply these properties.</li>
+                                </ol>
+                            </div>
+                        </section>
+                        
+                        <section id="section-2-2">
+                            <h3 data-en="2.2 Differential Calculus of Univariate Function" data-zh="2.2 一元函数微分学">2.2 一元函数微分学</h3>
+                            
+                            <div class="bilingual-content">
+                                <p class="zh-content"><strong>考试内容：</strong></p>
+                                <ul class="zh-content">
+                                    <li>导数和微分的概念</li>
+                                    <li>导数的几何意义和物理意义</li>
+                                    <li>函数可导性与连续性之间的关系</li>
+                                    <li>导数的四则运算法则</li>
+                                    <li>基本初等函数的导数</li>
+                                    <li>复合函数、反函数、隐函数和参数方程所确定的函数的导数</li>
+                                    <li>高阶导数</li>
+                                    <li>微分的概念和微分的运算法则</li>
+                                    <li>一阶微分形式的不变性</li>
+                                    <li>微分中值定理</li>
+                                    <li>洛必达（L'Hospital）法则</li>
+                                    <li>函数单调性的判别法</li>
+                                    <li>函数的极值及其求法</li>
+                                    <li>函数图形的凹凸性、拐点及其判别法</li>
+                                    <li>函数图形的渐近线</li>
+                                    <li>函数图形的描绘</li>
+                                    <li>曲率的概念</li>
+                                    <li>曲率圆与曲率半径</li>
+                                </ul>
+                                
+                                <p class="en-content" style="display: none;"><strong>Examination Content:</strong></p>
+                                <ul class="en-content" style="display: none;">
+                                    <li>Concepts of derivatives and differentials</li>
+                                    <li>Geometric and physical meanings of derivatives</li>
+                                    <li>Relationship between differentiability and continuity of functions</li>
+                                    <li>Four arithmetic rules of derivatives</li>
+                                    <li>Derivatives of basic elementary functions</li>
+                                    <li>Derivatives of composite functions, inverse functions, implicit functions, and functions determined by parametric equations</li>
+                                    <li>Higher-order derivatives</li>
+                                    <li>Concept of differentials and rules of differential operations</li>
+                                    <li>Invariance of first-order differential forms</li>
+                                    <li>Mean value theorems of differentials</li>
+                                    <li>L'Hospital's rule</li>
+                                    <li>Criteria for monotonicity of functions</li>
+                                    <li>Extrema of functions and methods to find them</li>
+                                    <li>Concavity, convexity, inflection points of function graphs and their criteria</li>
+                                    <li>Asymptotes of function graphs</li>
+                                    <li>Sketching function graphs</li>
+                                    <li>Concept of curvature</li>
+                                    <li>Curvature circle and radius of curvature</li>
+                                </ul>
+                            </div>
+
+                            <div class="bilingual-content">
+                                <p class="zh-content"><strong>考试要求：</strong></p>
+                                <ol class="zh-content">
+                                    <li>理解导数和微分的概念，理解导数与微分的关系。</li>
+                                    <li>了解导数的几何意义，会求切线方程和法线方程。</li>
+                                    <li>理解函数可导与连续的关系。</li>
+                                    <li>掌握导数的四则运算法则和复合函数的求导法则，熟练掌握基本初等函数的导数公式。</li>
+                                    <li>了解高阶导数的概念，会求简单函数的高阶导数。</li>
+                                    <li>会求分段函数的导数。</li>
+                                    <li>会求由参数方程所确定的函数的导数。</li>
+                                    <li>会求隐函数的导数。</li>
+                                    <li>掌握微分的四则运算法则和一阶微分形式的不变性。</li>
+                                    <li>理解并会用罗尔（Rolle）定理、拉格朗日（Lagrange）中值定理和泰勒（Taylor）定理。</li>
+                                    <li>掌握用洛必达法则求未定式极限的方法。</li>
+                                    <li>理解函数的极值、单调性与导数的关系，掌握函数单调性的判别法，了解函数极值的第一充分条件和第二充分条件，会求函数的极值，会用导数解决简单的最大值与最小值问题。</li>
+                                    <li>会用导数判断函数图形的凹凸性，会求函数图形的拐点。</li>
+                                    <li>会求函数图形的水平、铅直和斜渐近线。</li>
+                                    <li>会综合利用导数的知识描绘函数的图形。</li>
+                                    <li>了解曲率的概念，会计算曲率。</li>
+                                </ol>
+                                
+                                <p class="en-content" style="display: none;"><strong>Examination Requirements:</strong></p>
+                                <ol class="en-content" style="display: none;">
+                                    <li>Understand the concepts of derivatives and differentials, and understand the relationship between derivatives and differentials.</li>
+                                    <li>Understand the geometric meaning of derivatives and be able to find equations of tangent lines and normal lines.</li>
+                                    <li>Understand the relationship between differentiability and continuity of functions.</li>
+                                    <li>Master the four arithmetic rules of derivatives and the chain rule for composite functions, and be proficient in the derivative formulas of basic elementary functions.</li>
+                                    <li>Understand the concept of higher-order derivatives and be able to find higher-order derivatives of simple functions.</li>
+                                    <li>Be able to find derivatives of piecewise functions.</li>
+                                    <li>Be able to find derivatives of functions determined by parametric equations.</li>
+                                    <li>Be able to find derivatives of implicit functions.</li>
+                                    <li>Master the four arithmetic rules of differentials and the invariance of first-order differential forms.</li>
+                                    <li>Understand and be able to use Rolle's theorem, Lagrange's mean value theorem, and Taylor's theorem.</li>
+                                    <li>Master the method of using L'Hospital's rule to find limits of indeterminate forms.</li>
+                                    <li>Understand the relationship between function extrema, monotonicity, and derivatives; master the criteria for function monotonicity; understand the first and second sufficient conditions for function extrema; be able to find function extrema; and be able to use derivatives to solve simple maximum and minimum problems.</li>
+                                    <li>Be able to use derivatives to determine the concavity and convexity of function graphs and find inflection points.</li>
+                                    <li>Be able to find horizontal, vertical, and oblique asymptotes of function graphs.</li>
+                                    <li>Be able to comprehensively use knowledge of derivatives to sketch function graphs.</li>
+                                    <li>Understand the concept of curvature and be able to calculate curvature.</li>
+                                </ol>
+                            </div>
+                        </section>
+                        
+                        <section id="section-2-3">
+                            <h3 data-en="2.3 Integral Calculus of Univariate Function" data-zh="2.3 一元函数积分学">2.3 一元函数积分学</h3>
+                            
+                            <div class="bilingual-content">
+                                <p class="zh-content"><strong>考试内容：</strong></p>
+                                <ul class="zh-content">
+                                    <li>原函数与不定积分的概念</li>
+                                    <li>不定积分的基本性质</li>
+                                    <li>基本积分公式</li>
+                                    <li>定积分的概念与基本性质</li>
+                                    <li>定积分中值定理</li>
+                                    <li>积分上限的函数及其导数</li>
+                                    <li>牛顿-莱布尼茨（Newton-Leibniz）公式</li>
+                                    <li>不定积分和定积分的换元积分法与分部积分法</li>
+                                    <li>有理函数、三角函数的积分</li>
+                                    <li>反常积分的概念及其收敛性</li>
+                                    <li>定积分的应用：几何应用与物理应用</li>
+                                </ul>
+                                
+                                <p class="en-content" style="display: none;"><strong>Examination Content:</strong></p>
+                                <ul class="en-content" style="display: none;">
+                                    <li>Concepts of antiderivatives and indefinite integrals</li>
+                                    <li>Basic properties of indefinite integrals</li>
+                                    <li>Basic integration formulas</li>
+                                    <li>Concept and basic properties of definite integrals</li>
+                                    <li>Mean value theorem for definite integrals</li>
+                                    <li>Functions with variable upper limits of integration and their derivatives</li>
+                                    <li>Newton-Leibniz formula</li>
+                                    <li>Substitution method and integration by parts for indefinite and definite integrals</li>
+                                    <li>Integration of rational functions and trigonometric functions</li>
+                                    <li>Concept and convergence of improper integrals</li>
+                                    <li>Applications of definite integrals: geometric and physical applications</li>
+                                </ul>
+                            </div>
+
+                            <div class="bilingual-content">
+                                <p class="zh-content"><strong>考试要求：</strong></p>
+                                <ol class="zh-content">
+                                    <li>理解原函数与不定积分的概念，掌握不定积分的基本性质。</li>
+                                    <li>熟练掌握基本积分公式。</li>
+                                    <li>掌握换元积分法与分部积分法。</li>
+                                    <li>会求简单有理函数、简单三角函数的积分。</li>
+                                    <li>理解定积分的概念与性质。</li>
+                                    <li>掌握牛顿-莱布尼茨公式。</li>
+                                    <li>了解反常积分的概念，会求简单的反常积分。</li>
+                                    <li>掌握用定积分表达和计算一些几何量与物理量（如平面图形的面积、平面曲线的弧长、旋转体的体积与侧面积、平行截面面积为已知的立体体积、功、引力、压力、质心、形心等）。</li>
+                                </ol>
+                                
+                                <p class="en-content" style="display: none;"><strong>Examination Requirements:</strong></p>
+                                <ol class="en-content" style="display: none;">
+                                    <li>Understand the concepts of antiderivatives and indefinite integrals, and master the basic properties of indefinite integrals.</li>
+                                    <li>Be proficient in basic integration formulas.</li>
+                                    <li>Master the substitution method and integration by parts.</li>
+                                    <li>Be able to calculate integrals of simple rational functions and simple trigonometric functions.</li>
+                                    <li>Understand the concept and properties of definite integrals.</li>
+                                    <li>Master the Newton-Leibniz formula.</li>
+                                    <li>Understand the concept of improper integrals and be able to calculate simple improper integrals.</li>
+                                    <li>Master how to express and calculate various geometric and physical quantities using definite integrals (such as the area of a plane figure, the arc length of a plane curve, the volume and lateral area of a solid of revolution, the volume of a solid with known cross-sectional area, work, gravity, pressure, center of mass, centroid, etc.).</li>
+                                </ol>
+                            </div>
+                        </section>
+                        
+                        <section id="section-2-4">
+                            <h3 data-en="2.4 Multivariate Function Calculus" data-zh="2.4 多元函数微积分学">2.4 多元函数微积分学</h3>
+                            
+                            <div class="bilingual-content">
+                                <p class="zh-content"><strong>考试内容：</strong></p>
+                                <ul class="zh-content">
+                                    <li>多元函数的概念</li>
+                                    <li>二元函数的极限与连续的概念</li>
+                                    <li>偏导数与全微分的概念</li>
+                                    <li>全微分形式的不变性</li>
+                                    <li>多元复合函数、隐函数的求导法则</li>
+                                    <li>二元函数的泰勒公式</li>
+                                    <li>多元函数的极值及其求法</li>
+                                    <li>多元函数的极值在几何上的应用</li>
+                                    <li>条件极值、拉格朗日乘数法</li>
+                                    <li>二重积分的概念、基本性质与计算</li>
+                                </ul>
+                                
+                                <p class="en-content" style="display: none;"><strong>Examination Content:</strong></p>
+                                <ul class="en-content" style="display: none;">
+                                    <li>Concept of multivariate functions</li>
+                                    <li>Concepts of limits and continuity of bivariate functions</li>
+                                    <li>Concepts of partial derivatives and total differentials</li>
+                                    <li>Invariance of total differential forms</li>
+                                    <li>Derivative rules for multivariate composite functions and implicit functions</li>
+                                    <li>Taylor's formula for bivariate functions</li>
+                                    <li>Extrema of multivariate functions and methods to find them</li>
+                                    <li>Geometric applications of extrema of multivariate functions</li>
+                                    <li>Constrained extrema and Lagrange multiplier method</li>
+                                    <li>Concept, basic properties, and calculation of double integrals</li>
+                                </ul>
+                            </div>
+
+                            <div class="bilingual-content">
+                                <p class="zh-content"><strong>考试要求：</strong></p>
+                                <ol class="zh-content">
+                                    <li>了解多元函数的概念。</li>
+                                    <li>了解二元函数的极限与连续的概念。</li>
+                                    <li>理解多元函数偏导数与全微分的概念，会求多元复合函数一阶、二阶偏导数。</li>
+                                    <li>了解全微分形式的不变性及多元复合函数和隐函数的求导法则，了解方向导数与梯度的概念。</li>
+                                    <li>了解二元函数的极值和条件极值的概念，掌握多元函数极值存在的必要条件，了解二元函数极值存在的充分条件，会求多元函数的极值，会用拉格朗日乘数法求条件极值，会求简单多元函数的最大、最小值，并会解决一些简单的应用问题。</li>
+                                    <li>了解二重积分的概念、基本性质，掌握二重积分的计算方法（直角坐标、极坐标等）。</li>
+                                </ol>
+                                
+                                <p class="en-content" style="display: none;"><strong>Examination Requirements:</strong></p>
+                                <ol class="en-content" style="display: none;">
+                                    <li>Understand the concept of multivariate functions.</li>
+                                    <li>Understand the concepts of limits and continuity of bivariate functions.</li>
+                                    <li>Understand the concepts of partial derivatives and total differentials of multivariate functions, and be able to find first-order and second-order partial derivatives of multivariate composite functions.</li>
+                                    <li>Understand the invariance of total differential forms and the derivative rules for multivariate composite functions and implicit functions; understand the concepts of directional derivatives and gradients.</li>
+                                    <li>Understand the concepts of extrema and constrained extrema of bivariate functions; master the necessary conditions for the existence of extrema of multivariate functions; understand the sufficient conditions for the existence of extrema of bivariate functions; be able to find extrema of multivariate functions; be able to use the Lagrange multiplier method to find constrained extrema; be able to find the maximum and minimum values of simple multivariate functions; and be able to solve some simple application problems.</li>
+                                    <li>Understand the concept and basic properties of double integrals; master the methods of calculating double integrals (rectangular coordinates, polar coordinates, etc.).</li>
+                                </ol>
+                            </div>
+                        </section>
+                        
+                        <section id="section-2-5">
+                            <h3 data-en="2.5 Ordinary Differential Equations" data-zh="2.5 常微分方程">2.5 常微分方程</h3>
+                            
+                            <div class="bilingual-content">
+                                <p class="zh-content"><strong>考试内容：</strong></p>
+                                <ul class="zh-content">
+                                    <li>常微分方程的基本概念</li>
+                                    <li>变量可分离的微分方程</li>
+                                    <li>齐次微分方程</li>
+                                    <li>一阶线性微分方程</li>
+                                    <li>可降阶的高阶微分方程</li>
+                                    <li>高阶线性微分方程</li>
+                                    <li>常系数齐次线性微分方程</li>
+                                    <li>常系数非齐次线性微分方程</li>
+                                    <li>欧拉方程</li>
+                                    <li>常微分方程的简单应用</li>
+                                </ul>
+                                
+                                <p class="en-content" style="display: none;"><strong>Examination Content:</strong></p>
+                                <ul class="en-content" style="display: none;">
+                                    <li>Basic concepts of ordinary differential equations</li>
+                                    <li>Variables separable differential equations</li>
+                                    <li>Homogeneous differential equations</li>
+                                    <li>First-order linear differential equations</li>
+                                    <li>Higher-order differential equations that can be reduced to lower order</li>
+                                    <li>Higher-order linear differential equations</li>
+                                    <li>Homogeneous linear differential equations with constant coefficients</li>
+                                    <li>Non-homogeneous linear differential equations with constant coefficients</li>
+                                    <li>Euler equations</li>
+                                    <li>Simple applications of ordinary differential equations</li>
+                                </ul>
+                            </div>
+
+                            <div class="bilingual-content">
+                                <p class="zh-content"><strong>考试要求：</strong></p>
+                                <ol class="zh-content">
+                                    <li>了解微分方程的基本概念。</li>
+                                    <li>掌握变量可分离的微分方程及一阶线性微分方程的解法。</li>
+                                    <li>会解齐次微分方程、伯努利（Bernoulli）方程、全微分方程。</li>
+                                    <li>会用降阶法解下列形式的微分方程：$y^{(n)}=f(x)$, $y''=f(x, y')$, $y''=f(y, y')$。</li>
+                                    <li>理解线性微分方程解的性质及解的结构定理。</li>
+                                    <li>掌握二阶常系数齐次线性微分方程的解法，并会解简单的高阶常系数齐次线性微分方程。</li>
+                                    <li>会解自由项为多项式、指数函数、正弦函数、余弦函数以及它们的和与积的二阶常系数非齐次线性微分方程。</li>
+                                    <li>了解欧拉方程及其解法。</li>
+                                    <li>会用微分方程解决一些简单的应用问题。</li>
+                                </ol>
+                                
+                                <p class="en-content" style="display: none;"><strong>Examination Requirements:</strong></p>
+                                <ol class="en-content" style="display: none;">
+                                    <li>Understand the basic concepts of differential equations.</li>
+                                    <li>Master the methods for solving variables separable differential equations and first-order linear differential equations.</li>
+                                    <li>Be able to solve homogeneous differential equations, Bernoulli equations, and exact differential equations.</li>
+                                    <li>Be able to use the method of order reduction to solve differential equations of the following forms: $y^{(n)}=f(x)$, $y''=f(x, y')$, $y''=f(y, y')$.</li>
+                                    <li>Understand the properties of solutions to linear differential equations and the structure theorem of solutions.</li>
+                                    <li>Master the method for solving second-order homogeneous linear differential equations with constant coefficients, and be able to solve simple higher-order homogeneous linear differential equations with constant coefficients.</li>
+                                    <li>Be able to solve second-order non-homogeneous linear differential equations with constant coefficients where the non-homogeneous term is a polynomial, exponential function, sine function, cosine function, or their sum or product.</li>
+                                    <li>Understand Euler equations and their solutions.</li>
+                                    <li>Be able to use differential equations to solve some simple application problems.</li>
+                                </ol>
+                            </div>
+                        </section>
+                    </section>
+                    
+                    <!-- 第三部分：线性代数 -->
+                    <section id="section-3">
+                        <h2 data-en="III. Linear Algebra" data-zh="三、线性代数">三、线性代数</h2>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">线性代数是考研数学二的重要组成部分，约占总分值的20%。包括行列式、矩阵、向量、线性方程组、特征值和特征向量、二次型等内容。</p>
+                            
+                            <p class="en-content" style="display: none;">Linear Algebra is an important component of Mathematics II for the Graduate Entrance Examination, accounting for approximately 20% of the total score. It includes determinants, matrices, vectors, systems of linear equations, eigenvalues and eigenvectors, and quadratic forms.</p>
+                        </div>
+                        
+                        <section id="section-3-1">
+                            <h3 data-en="3.1 Determinants" data-zh="3.1 行列式">3.1 行列式</h3>
+                            
+                            <div class="bilingual-content">
+                                <p class="zh-content"><strong>考试内容：</strong></p>
+                                <ul class="zh-content">
+                                    <li>行列式的概念和性质</li>
+                                    <li>行列式按行（列）展开定理</li>
+                                </ul>
+                                
+                                <p class="en-content" style="display: none;"><strong>Examination Content:</strong></p>
+                                <ul class="en-content" style="display: none;">
+                                    <li>Concept and properties of determinants</li>
+                                    <li>Expansion theorem of determinants by row (column)</li>
+                                </ul>
+                            </div>
+
+                            <div class="bilingual-content">
+                                <p class="zh-content"><strong>考试要求：</strong></p>
+                                <ol class="zh-content">
+                                    <li>了解行列式的概念，掌握行列式的性质。</li>
+                                    <li>会应用行列式的性质和行列式按行（列）展开定理计算行列式。</li>
+                                </ol>
+                                
+                                <p class="en-content" style="display: none;"><strong>Examination Requirements:</strong></p>
+                                <ol class="en-content" style="display: none;">
+                                    <li>Understand the concept of determinants and master the properties of determinants.</li>
+                                    <li>Be able to apply the properties of determinants and the expansion theorem by row (column) to calculate determinants.</li>
+                                </ol>
+                            </div>
+                        </section>
+                        
+                        <section id="section-3-2">
+                            <h3 data-en="3.2 Matrices" data-zh="3.2 矩阵">3.2 矩阵</h3>
+                            
+                            <div class="bilingual-content">
+                                <p class="zh-content"><strong>考试内容：</strong></p>
+                                <ul class="zh-content">
+                                    <li>矩阵的概念</li>
+                                    <li>矩阵的线性运算</li>
+                                    <li>矩阵的乘法</li>
+                                    <li>方阵的幂</li>
+                                    <li>方阵乘积的行列式</li>
+                                    <li>矩阵的转置</li>
+                                    <li>逆矩阵的概念和性质</li>
+                                    <li>矩阵可逆的充分必要条件</li>
+                                    <li>伴随矩阵</li>
+                                    <li>矩阵的初等变换</li>
+                                    <li>初等矩阵</li>
+                                    <li>矩阵的秩</li>
+                                    <li>矩阵的等价</li>
+                                    <li>分块矩阵及其运算</li>
+                                </ul>
+                                
+                                <p class="en-content" style="display: none;"><strong>Examination Content:</strong></p>
+                                <ul class="en-content" style="display: none;">
+                                    <li>Concept of matrices</li>
+                                    <li>Linear operations of matrices</li>
+                                    <li>Multiplication of matrices</li>
+                                    <li>Powers of square matrices</li>
+                                    <li>Determinant of the product of square matrices</li>
+                                    <li>Transpose of matrices</li>
+                                    <li>Concept and properties of inverse matrices</li>
+                                    <li>Necessary and sufficient conditions for a matrix to be invertible</li>
+                                    <li>Adjoint matrices</li>
+                                    <li>Elementary transformations of matrices</li>
+                                    <li>Elementary matrices</li>
+                                    <li>Rank of matrices</li>
+                                    <li>Equivalence of matrices</li>
+                                    <li>Block matrices and their operations</li>
+                                </ul>
+                            </div>
+
+                            <div class="bilingual-content">
+                                <p class="zh-content"><strong>考试要求：</strong></p>
+                                <ol class="zh-content">
+                                    <li>理解矩阵的概念，掌握矩阵的线性运算、乘法、转置、逆矩阵的概念和性质。</li>
+                                    <li>掌握矩阵可逆的充分必要条件，理解伴随矩阵的概念，会用伴随矩阵求逆矩阵。</li>
+                                    <li>理解矩阵初等变换的概念，掌握用矩阵初等变换求矩阵的秩和矩阵的逆。</li>
+                                    <li>了解矩阵的等价的概念，理解矩阵的秩的概念及其性质，掌握矩阵的秩的计算方法。</li>
+                                    <li>了解分块矩阵及其运算。</li>
+                                </ol>
+                                
+                                <p class="en-content" style="display: none;"><strong>Examination Requirements:</strong></p>
+                                <ol class="en-content" style="display: none;">
+                                    <li>Understand the concept of matrices and master the linear operations, multiplication, transposition, inverse, concepts, and properties of matrices.</li>
+                                    <li>Master the necessary and sufficient conditions for a matrix to be invertible, understand the concept of adjoint matrices, and be able to use adjoint matrices to find inverse matrices.</li>
+                                    <li>Understand the concept of elementary transformations of matrices and master how to use elementary transformations to find the rank and inverse of matrices.</li>
+                                    <li>Understand the concept of equivalence of matrices, understand the concept and properties of the rank of matrices, and master the methods of calculating the rank of matrices.</li>
+                                    <li>Understand block matrices and their operations.</li>
+                                </ol>
+                            </div>
+                        </section>
+                        
+                        <section id="section-3-3">
+                            <h3 data-en="3.3 Vectors" data-zh="3.3 向量">3.3 向量</h3>
+                            
+                            <div class="bilingual-content">
+                                <p class="zh-content"><strong>考试内容：</strong></p>
+                                <ul class="zh-content">
+                                    <li>向量的概念</li>
+                                    <li>向量的线性组合与线性表示</li>
+                                    <li>向量组的线性相关与线性无关</li>
+                                    <li>向量组的极大线性无关组</li>
+                                    <li>等价向量组</li>
+                                    <li>向量组的秩</li>
+                                    <li>向量空间及其子空间</li>
+                                    <li>向量空间的基与维数</li>
+                                    <li>基变换与坐标变换</li>
+                                    <li>向量的内积</li>
+                                    <li>线性变换</li>
+                                    <li>正交向量与规范正交基</li>
+                                    <li>正交变换</li>
+                                    <li>欧几里得空间</li>
+                                </ul>
+                                
+                                <p class="en-content" style="display: none;"><strong>Examination Content:</strong></p>
+                                <ul class="en-content" style="display: none;">
+                                    <li>Concept of vectors</li>
+                                    <li>Linear combinations and linear representations of vectors</li>
+                                    <li>Linear dependence and independence of vector groups</li>
+                                    <li>Maximal linearly independent groups of vectors</li>
+                                    <li>Equivalent vector groups</li>
+                                    <li>Rank of vector groups</li>
+                                    <li>Vector spaces and their subspaces</li>
+                                    <li>Basis and dimension of vector spaces</li>
+                                    <li>Basis transformation and coordinate transformation</li>
+                                    <li>Inner product of vectors</li>
+                                    <li>Linear transformations</li>
+                                    <li>Orthogonal vectors and orthonormal bases</li>
+                                    <li>Orthogonal transformations</li>
+                                    <li>Euclidean spaces</li>
+                                </ul>
+                            </div>
+
+                            <div class="bilingual-content">
+                                <p class="zh-content"><strong>考试要求：</strong></p>
+                                <ol class="zh-content">
+                                    <li>理解向量的概念，理解向量的线性组合与线性表示的概念。</li>
+                                    <li>理解向量组线性相关、线性无关的概念，掌握向量组线性相关、线性无关的判别方法。</li>
+                                    <li>理解向量组的极大线性无关组和向量组的秩的概念，掌握求向量组的极大线性无关组和秩的方法。</li>
+                                    <li>了解向量空间及其子空间的概念。</li>
+                                    <li>了解内积空间的概念，掌握向量的内积、长度、正交的概念。</li>
+                                    <li>理解正交向量组与规范正交向量组的概念，掌握施密特（Schmidt）正交化方法。</li>
+                                </ol>
+                                
+                                <p class="en-content" style="display: none;"><strong>Examination Requirements:</strong></p>
+                                <ol class="en-content" style="display: none;">
+                                    <li>Understand the concept of vectors and the concepts of linear combinations and linear representations of vectors.</li>
+                                    <li>Understand the concepts of linear dependence and independence of vector groups, and master the methods for determining linear dependence and independence of vector groups.</li>
+                                    <li>Understand the concepts of maximal linearly independent groups of vectors and the rank of vector groups, and master the methods for finding maximal linearly independent groups and the rank of vector groups.</li>
+                                    <li>Understand the concepts of vector spaces and their subspaces.</li>
+                                    <li>Understand the concept of inner product spaces, and master the concepts of inner product, length, and orthogonality of vectors.</li>
+                                    <li>Understand the concepts of orthogonal vector groups and orthonormal vector groups, and master the Schmidt orthogonalization method.</li>
+                                </ol>
+                            </div>
+                        </section>
+                        
+                        <section id="section-3-4">
+                            <h3 data-en="3.4 Systems of Linear Equations" data-zh="3.4 线性方程组">3.4 线性方程组</h3>
+                            
+                            <div class="bilingual-content">
+                                <p class="zh-content"><strong>考试内容：</strong></p>
+                                <ul class="zh-content">
+                                    <li>线性方程组的克拉默（Cramer）法则</li>
+                                    <li>非齐次线性方程组有解的充分必要条件</li>
+                                    <li>齐次线性方程组有非零解的充分必要条件</li>
+                                    <li>线性方程组解的性质和结构</li>
+                                    <li>线性方程组的基础解系和通解</li>
+                                    <li>向量空间的维数与线性方程组解的关系</li>
+                                </ul>
+                                
+                                <p class="en-content" style="display: none;"><strong>Examination Content:</strong></p>
+                                <ul class="en-content" style="display: none;">
+                                    <li>Cramer's rule for systems of linear equations</li>
+                                    <li>Necessary and sufficient conditions for non-homogeneous linear systems to have solutions</li>
+                                    <li>Necessary and sufficient conditions for homogeneous linear systems to have non-zero solutions</li>
+                                    <li>Properties and structure of solutions to linear systems</li>
+                                    <li>Fundamental solution systems and general solutions of linear systems</li>
+                                    <li>Relationship between the dimension of vector spaces and solutions to linear systems</li>
+                                </ul>
+                            </div>
+
+                            <div class="bilingual-content">
+                                <p class="zh-content"><strong>考试要求：</strong></p>
+                                <ol class="zh-content">
+                                    <li>理解线性方程组的克拉默法则。</li>
+                                    <li>理解非齐次线性方程组有解和唯一解的充分必要条件。</li>
+                                    <li>理解齐次线性方程组有非零解的充分必要条件。</li>
+                                    <li>理解齐次线性方程组解的性质及解空间的结构。</li>
+                                    <li>掌握求解线性方程组的方法。</li>
+                                    <li>会用伴随矩阵和初等变换方法求解线性方程组。</li>
+                                </ol>
+                                
+                                <p class="en-content" style="display: none;"><strong>Examination Requirements:</strong></p>
+                                <ol class="en-content" style="display: none;">
+                                    <li>Understand Cramer's rule for systems of linear equations.</li>
+                                    <li>Understand the necessary and sufficient conditions for non-homogeneous linear systems to have solutions and unique solutions.</li>
+                                    <li>Understand the necessary and sufficient conditions for homogeneous linear systems to have non-zero solutions.</li>
+                                    <li>Understand the properties of solutions to homogeneous linear systems and the structure of solution spaces.</li>
+                                    <li>Master the methods for solving systems of linear equations.</li>
+                                    <li>Be able to use adjoint matrices and elementary transformation methods to solve systems of linear equations.</li>
+                                </ol>
+                            </div>
+                        </section>
+                        
+                        <section id="section-3-5">
+                            <h3 data-en="3.5 Eigenvalues and Eigenvectors" data-zh="3.5 矩阵的特征值和特征向量">3.5 矩阵的特征值和特征向量</h3>
+                            
+                            <div class="bilingual-content">
+                                <p class="zh-content"><strong>考试内容：</strong></p>
+                                <ul class="zh-content">
+                                    <li>矩阵的特征值和特征向量的概念</li>
+                                    <li>特征值和特征向量的性质</li>
+                                    <li>矩阵的相似概念和性质</li>
+                                    <li>矩阵可相似对角化的充分必要条件</li>
+                                    <li>实对称矩阵的特征值、特征向量及其相似对角化</li>
+                                </ul>
+                                
+                                <p class="en-content" style="display: none;"><strong>Examination Content:</strong></p>
+                                <ul class="en-content" style="display: none;">
+                                    <li>Concepts of eigenvalues and eigenvectors of matrices</li>
+                                    <li>Properties of eigenvalues and eigenvectors</li>
+                                    <li>Concept and properties of similar matrices</li>
+                                    <li>Necessary and sufficient conditions for matrices to be diagonalizable</li>
+                                    <li>Eigenvalues, eigenvectors, and diagonalization of real symmetric matrices</li>
+                                </ul>
+                            </div>
+
+                            <div class="bilingual-content">
+                                <p class="zh-content"><strong>考试要求：</strong></p>
+                                <ol class="zh-content">
+                                    <li>理解矩阵的特征值和特征向量的概念及性质，掌握求矩阵特征值和特征向量的方法。</li>
+                                    <li>理解相似矩阵的概念及性质，掌握矩阵可相似对角化的充分必要条件。</li>
+                                    <li>理解实对称矩阵的特征值和特征向量的性质。</li>
+                                    <li>会用正交变换将实对称矩阵相似对角化。</li>
+                                </ol>
+                                
+                                <p class="en-content" style="display: none;"><strong>Examination Requirements:</strong></p>
+                                <ol class="en-content" style="display: none;">
+                                    <li>Understand the concepts and properties of eigenvalues and eigenvectors of matrices, and master the methods for finding eigenvalues and eigenvectors of matrices.</li>
+                                    <li>Understand the concept and properties of similar matrices, and master the necessary and sufficient conditions for matrices to be diagonalizable.</li>
+                                    <li>Understand the properties of eigenvalues and eigenvectors of real symmetric matrices.</li>
+                                    <li>Be able to use orthogonal transformations to diagonalize real symmetric matrices.</li>
+                                </ol>
+                            </div>
+                        </section>
+                        
+                        <section id="section-3-6">
+                            <h3 data-en="3.6 Quadratic Forms" data-zh="3.6 二次型">3.6 二次型</h3>
+                            
+                            <div class="bilingual-content">
+                                <p class="zh-content"><strong>考试内容：</strong></p>
+                                <ul class="zh-content">
+                                    <li>二次型及其矩阵表示</li>
+                                    <li>合同变换与合同矩阵</li>
+                                    <li>二次型的秩</li>
+                                    <li>惯性定理</li>
+                                    <li>二次型的标准形和规范形</li>
+                                    <li>正定二次型</li>
+                                    <li>用正交变换和配方法化二次型为标准形</li>
+                                </ul>
+                                
+                                <p class="en-content" style="display: none;"><strong>Examination Content:</strong></p>
+                                <ul class="en-content" style="display: none;">
+                                    <li>Quadratic forms and their matrix representations</li>
+                                    <li>Congruent transformations and congruent matrices</li>
+                                    <li>Rank of quadratic forms</li>
+                                    <li>Law of inertia</li>
+                                    <li>Standard forms and canonical forms of quadratic forms</li>
+                                    <li>Positive definite quadratic forms</li>
+                                    <li>Using orthogonal transformations and the method of completing the square to convert quadratic forms to standard forms</li>
+                                </ul>
+                            </div>
+
+                            <div class="bilingual-content">
+                                <p class="zh-content"><strong>考试要求：</strong></p>
+                                <ol class="zh-content">
+                                    <li>了解二次型的概念，掌握二次型矩阵的概念。</li>
+                                    <li>理解合同变换与合同矩阵的概念。</li>
+                                    <li>掌握二次型的秩的概念，了解惯性定理。</li>
+                                    <li>了解二次型的标准形、规范形等概念。</li>
+                                    <li>掌握用正交变换和配方法化二次型为标准形的方法。</li>
+                                    <li>理解正定二次型的概念和判别法。</li>
+                                </ol>
+                                
+                                <p class="en-content" style="display: none;"><strong>Examination Requirements:</strong></p>
+                                <ol class="en-content" style="display: none;">
+                                    <li>Understand the concept of quadratic forms and master the concept of quadratic form matrices.</li>
+                                    <li>Understand the concepts of congruent transformations and congruent matrices.</li>
+                                    <li>Master the concept of the rank of quadratic forms and understand the law of inertia.</li>
+                                    <li>Understand the concepts of standard forms and canonical forms of quadratic forms.</li>
+                                    <li>Master the methods of using orthogonal transformations and the method of completing the square to convert quadratic forms to standard forms.</li>
+                                    <li>Understand the concept and criteria of positive definite quadratic forms.</li>
+                                </ol>
+                            </div>
+                        </section>
                     </section>
                     
                     <!-- 结语 -->
@@ -207,13 +878,35 @@ function example() {
                         <h2 data-en="Conclusion" data-zh="结语">结语</h2>
                         
                         <div class="bilingual-content">
-                            <p class="zh-content">总结文章的主要观点和结论。提供进一步思考或后续学习的建议。</p>
+                            <p class="zh-content">2025年考研数学二大纲内容覆盖了高等数学和线性代数两大部分，重点考察考生对数学基本概念、基本理论和基本方法的理解和掌握程度，以及运用数学知识分析问题和解决问题的能力。</p>
                             
-                            <p class="en-content" style="display: none;">Summarize the main points and conclusions of the article. Provide suggestions for further thinking or subsequent learning.</p>
+                            <p class="en-content" style="display: none;">The 2025 syllabus for Mathematics II covers two major parts: Advanced Mathematics and Linear Algebra, focusing on testing candidates' understanding and mastery of basic mathematical concepts, theories, and methods, as well as their ability to analyze and solve problems using mathematical knowledge.</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">备考建议：</p>
+                            <ul class="zh-content">
+                                <li><strong>打好基础：</strong>数学考研需要扎实的基础，理解并熟练掌握基本概念、定理和方法是关键。</li>
+                                <li><strong>重视计算：</strong>数学考研题目计算量较大，需要多做练习提高计算速度和准确性。</li>
+                                <li><strong>系统复习：</strong>按照大纲内容系统复习，不要顾此失彼，保证各部分内容均衡发展。</li>
+                                <li><strong>注重应用：</strong>数学知识的应用很重要，要多做综合性的应用题，提高解决实际问题的能力。</li>
+                                <li><strong>总结归纳：</strong>做好知识点的总结和归纳，构建完整的知识体系，有助于加深理解和记忆。</li>
+                            </ul>
                             
-                            <p class="zh-content">感谢阅读！如有问题或建议，欢迎在评论区留言。 <span class="emoji">💻✨</span></p>
+                            <p class="en-content" style="display: none;">Preparation Suggestions:</p>
+                            <ul class="en-content" style="display: none;">
+                                <li><strong>Build a Solid Foundation:</strong> Mathematics for the graduate entrance examination requires a solid foundation; understanding and mastering basic concepts, theorems, and methods is key.</li>
+                                <li><strong>Emphasize Calculation:</strong> Mathematics examination questions involve a large amount of calculation; practice more to improve calculation speed and accuracy.</li>
+                                <li><strong>Systematic Review:</strong> Review systematically according to the syllabus content; ensure balanced development of each section.</li>
+                                <li><strong>Focus on Application:</strong> The application of mathematical knowledge is important; work on comprehensive application problems to improve the ability to solve practical problems.</li>
+                                <li><strong>Summarize and Induct:</strong> Summarize and induct knowledge points; construct a complete knowledge system to deepen understanding and memory.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">希望本文对各位考研的同学能够有所帮助，祝大家考研成功！ <span class="emoji">📚✨</span></p>
                             
-                            <p class="en-content" style="display: none;">Thanks for reading! If you have any questions or suggestions, please leave a message in the comments section. <span class="emoji">💻✨</span></p>
+                            <p class="en-content" style="display: none;">I hope this article will be helpful to all the students preparing for the graduate entrance examination. Wish you all success in your examination! <span class="emoji">📚✨</span></p>
                         </div>
                         
                         <div class="post-signature">
@@ -246,23 +939,30 @@ function example() {
                 <p data-en="Location: " data-zh="地址：">地址：XX</p>
             </div>
             <div class="footer-links">
-                <a href="../blog.html" data-en="Blog" data-zh="博客">博客</a>
-                <a href="../about.html" data-en="About" data-zh="关于">关于</a>
+                <a href="../../blog.html" data-en="Blog" data-zh="博客">博客</a>
+                <a href="../../about.html" data-en="About" data-zh="关于">关于</a>
                 <a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a>
                 <a href="../changelog.html" data-en="ChangeLog" data-zh="更新日志">更新日志</a>
             </div>
         </div>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // 初始化代码高亮
-            hljs.highlightAll();
+    <!-- MathJax for LaTeX support -->
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$','$'], ['\\(','\\)']],
+                processEscapes: true
+            }
         });
     </script>
-    <script src="../../js/main.js"></script>
-    <script src="../../js/theme.js"></script>
-    <script src="../../js/language.js"></script>
-    <script src="../../js/blog-post.js"></script>
+
+    <script src="../../../js/main.js"></script>
+    <script src="../../../js/theme.js"></script>
+    <script src="../../../js/language.js"></script>
+    <script src="../../../js/blog-post.js"></script>
 </body>
 </html> 
