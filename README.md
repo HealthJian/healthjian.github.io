@@ -116,6 +116,7 @@
 
 ## 6. 跳转接口有一些错误
 ## 7.pages\blog\noval\one\chapter33.html是错误的！！
+## 8.pages\project\project.html里面的夜间模式有bug
 ---
 <div align="center">
   <p>千里之行，始于足下 👣</p>
