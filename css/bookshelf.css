@@ -1,0 +1,375 @@
+/* 书架页面样式 */
+:root {
+    --shelf-bg-light: rgba(255, 255, 255, 0.8);
+    --shelf-bg-dark: rgba(32, 32, 36, 0.85);
+    --card-shadow-light: 0 8px 30px rgba(0, 0, 0, 0.12);
+    --card-shadow-dark: 0 8px 30px rgba(0, 0, 0, 0.25);
+    --card-hover-transform: translateY(-8px);
+    --card-border-radius: 16px;
+    --card-transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+/* 页面容器 */
+.bookshelf-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* 书架介绍部分 */
+.shelf-intro {
+    margin-bottom: 4rem;
+    text-align: left;
+    position: relative;
+}
+
+.shelf-intro h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--heading-color);
+    position: relative;
+    display: inline-block;
+}
+
+.shelf-intro h1::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background-color: var(--accent-color);
+    border-radius: 2px;
+}
+
+.shelf-intro p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    max-width: 800px;
+    color: var(--text-color);
+}
+
+/* 分类标题 */
+.category-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(var(--border-color-rgb), 0.15);
+    padding-bottom: 1rem;
+}
+
+.category-header h2 {
+    font-size: 1.8rem;
+    color: var(--heading-color);
+    margin: 0;
+    position: relative;
+}
+
+.category-header .category-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background-color: var(--accent-color);
+    color: white;
+    border-radius: 50%;
+    font-size: 0.85rem;
+    margin-left: 1rem;
+}
+
+/* 书本网格 */
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2.5rem;
+    margin-bottom: 5rem;
+}
+
+/* 书本卡片 */
+.book-card {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-color);
+    border-radius: var(--card-border-radius);
+    overflow: hidden;
+    box-shadow: var(--card-shadow-light);
+    transition: var(--card-transition);
+    position: relative;
+    height: 100%;
+    border: 1px solid rgba(var(--border-color-rgb), 0.08);
+    border-top: 4px solid var(--accent-color);
+}
+
+body.dark-mode .book-card {
+    box-shadow: var(--card-shadow-dark);
+}
+
+.book-card:hover {
+    transform: var(--card-hover-transform);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.book-info {
+    padding: 1.8rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.book-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    color: var(--heading-color);
+    line-height: 1.3;
+    position: relative;
+    padding-bottom: 0.8rem;
+}
+
+.book-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background-color: var(--accent-color);
+    border-radius: 1.5px;
+}
+
+.book-author {
+    font-size: 1rem;
+    color: var(--text-color-light);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+}
+
+.book-author i {
+    margin-right: 0.5rem;
+    color: var(--accent-color);
+}
+
+.book-tags {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+    gap: 0.6rem;
+}
+
+.book-tag {
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    background-color: rgba(var(--accent-color-rgb), 0.1);
+    color: var(--accent-color);
+    transition: all 0.3s ease;
+    letter-spacing: 0.02em;
+}
+
+.book-card:hover .book-tag {
+    background-color: rgba(var(--accent-color-rgb), 0.15);
+}
+
+.book-description {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-color);
+    margin-bottom: 2rem;
+    flex-grow: 1;
+}
+
+.book-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    border-top: 1px solid rgba(var(--border-color-rgb), 0.1);
+    padding-top: 1.2rem;
+}
+
+.book-status {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.status-icon {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+.status-completed .status-icon {
+    background-color: #4CAF50;
+}
+
+.status-ongoing .status-icon {
+    background-color: #2196F3;
+}
+
+.book-stats {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    color: var(--text-color-light);
+}
+
+.book-stats i {
+    margin-right: 0.5rem;
+    color: var(--accent-color);
+}
+
+.book-action {
+    display: block;
+    text-align: center;
+    padding: 1.2rem;
+    font-weight: 500;
+    font-size: 1rem;
+    background-color: var(--accent-color);
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    letter-spacing: 0.03em;
+}
+
+.book-action:hover {
+    background-color: var(--accent-color-dark);
+}
+
+/* 空书架样式 */
+.empty-shelf {
+    text-align: center;
+    padding: 5rem 2rem;
+    background-color: rgba(var(--bg-color-secondary-rgb), 0.3);
+    border-radius: var(--card-border-radius);
+    margin-bottom: 5rem;
+    border: 1px solid rgba(var(--border-color-rgb), 0.08);
+}
+
+.empty-shelf i {
+    font-size: 4rem;
+    color: var(--text-color-light);
+    opacity: 0.5;
+    margin-bottom: 1.5rem;
+    display: block;
+}
+
+.empty-shelf p {
+    font-size: 1.2rem;
+    color: var(--text-color-light);
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* 页面分隔线 */
+.section-divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(var(--text-color-rgb), 0.1), transparent);
+    margin: 4rem 0;
+}
+
+/* 底部按钮 */
+.bookshelf-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3rem;
+    margin-bottom: 5rem;
+}
+
+.shelf-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    background-color: rgba(var(--bg-color-secondary-rgb), 0.7);
+    color: var(--text-color);
+    border: 1px solid rgba(var(--border-color-rgb), 0.1);
+}
+
+.shelf-button:hover {
+    background-color: rgba(var(--bg-color-secondary-rgb), 0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.shelf-button i {
+    margin-right: 0.7rem;
+}
+
+.shelf-button.primary {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+}
+
+.shelf-button.primary:hover {
+    background-color: var(--accent-color-dark);
+}
+
+.shelf-button.primary i {
+    margin-left: 0.7rem;
+    margin-right: 0;
+}
+
+/* 响应式样式 */
+@media (max-width: 1200px) {
+    .books-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .bookshelf-container {
+        padding: 0 1.5rem;
+    }
+
+    .shelf-intro h1 {
+        font-size: 2rem;
+    }
+
+    .books-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .category-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .book-info {
+        padding: 1.2rem;
+    }
+
+    .book-title {
+        font-size: 1.3rem;
+    }
+
+    .book-description {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .books-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .bookshelf-actions {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .shelf-button {
+        width: 100%;
+    }
+} 

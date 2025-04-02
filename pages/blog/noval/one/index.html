@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>梅尔罗德 - HealthJian的博客</title>
+    <!-- 根据实际路径调整CSS引用路径 -->
+    <link rel="stylesheet" href="../../../../css/style.css">
+    <link rel="stylesheet" href="../../../../css/dark-mode.css">
+    <link rel="stylesheet" href="../../../../css/blog-post.css">
+    <link rel="stylesheet" href="../../../../css/noval.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* 页面特定样式 */
+        .novel-contents {
+            background-color: rgba(var(--bg-color-rgb), 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(var(--border-color-rgb), 0.2);
+        }
+        
+        .toc-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: var(--heading-color);
+            border-bottom: 1px solid rgba(var(--border-color-rgb), 0.5);
+            padding-bottom: 0.8rem;
+        }
+        
+        .toc-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .toc-item {
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            padding: 0.8rem 1rem;
+            background-color: rgba(var(--bg-color-secondary-rgb), 0.5);
+        }
+        
+        .toc-item:hover {
+            transform: translateX(5px);
+            background-color: rgba(var(--accent-color-rgb), 0.1);
+        }
+        
+        .toc-item a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-color);
+        }
+        
+        .toc-item-title {
+            font-weight: 500;
+        }
+        
+        .toc-item-date {
+            font-size: 0.85rem;
+            color: var(--text-color-light);
+        }
+        
+        .toc-item-status {
+            font-size: 0.8rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            margin-left: 0.5rem;
+        }
+        
+        .status-completed {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+        }
+        
+        .status-ongoing {
+            background-color: rgba(33, 150, 243, 0.2);
+            color: #2196F3;
+        }
+        
+        .status-planned {
+            background-color: rgba(156, 39, 176, 0.2);
+            color: #9C27B0;
+        }
+        
+        .novel-introduction {
+            margin-bottom: 3rem;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+        
+        .copyright-notice {
+            background-color: rgba(var(--bg-color-rgb), 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 3rem;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .copyright-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--heading-color);
+        }
+        
+        .quote-box {
+            font-family: 'Noto Serif SC', serif;
+            font-style: italic;
+            padding: 1.5rem;
+            background-color: rgba(var(--bg-color-secondary-rgb), 0.5);
+            border-radius: 8px;
+            margin: 2rem 0;
+            position: relative;
+        }
+        
+        .quote-box::before {
+            content: '"';
+            font-size: 4rem;
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            color: rgba(var(--text-color-rgb), 0.1);
+            font-family: serif;
+        }
+        
+        .author-note {
+            margin-top: 2rem;
+            font-style: italic;
+            text-align: right;
+            color: var(--text-color-light);
+        }
+        
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(var(--text-color-rgb), 0.2), transparent);
+            margin: 3rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .novel-contents, .copyright-notice {
+                padding: 1.5rem;
+            }
+            
+            .toc-item {
+                padding: 0.6rem;
+            }
+            
+            .toc-item a {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            .toc-item-date {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body class="light-mode novel-page">
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <!-- 根据实际部署的文件夹深度调整路径 -->
+            <a href="../../../../index.html" class="logo">
+                <img src="../../../../images/githubherofigureimage.png" alt="Logo">
+                <span class="site-name" data-en="HealthJian Blog" data-zh="HealthJian">HealthJian</span>
+            </a>
+        </div>
+        <div class="nav-right">
+            <ul class="menu">
+                <!-- 根据实际部署的文件夹深度调整路径 -->
+                <li><a href="../../../../index.html" data-en="Home" data-zh="首页">首页</a></li>
+                <li><a href="../../../blog.html" data-en="Blog" data-zh="博客">博客</a></li>
+                <li><a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a></li>
+                <li><a href="../../../links.html" data-en="Links" data-zh="链接">链接</a></li>
+                <li><a href="../../../about.html" data-en="About" data-zh="关于">关于</a></li>
+            </ul>
+            <div class="social-icons">
+                <a href="https://steamcommunity.com/id/yoursteamid" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
+                <a href="mailto:gaojian1573@foxmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+            <button id="theme-toggle" class="theme-toggle" title="切换主题">
+                <i class="fas fa-moon"></i>
+                <i class="fas fa-sun"></i>
+            </button>
+            <button id="lang-toggle" class="lang-toggle" title="切换语言">
+                <span data-en="EN" data-zh="中">中</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- 小说内容容器 -->
+    <div class="novel-container">
+        <!-- 小说标题和元信息 -->
+        <header class="novel-header">
+            <h1 class="novel-title">
+                <div class="bilingual-content">
+                    <span class="zh-content">梅尔罗德</span>
+                    <span class="en-content" style="display: none;">Melrod</span>
+                </div>
+            </h1>
+            <div class="novel-subtitle">
+                <div class="bilingual-content">
+                    <span class="zh-content">——城市暗影下的正义与真相</span>
+                    <span class="en-content" style="display: none;">— Justice and Truth beneath the City's Shadows</span>
+                </div>
+            </div>
+            <div class="novel-meta">
+                <div class="novel-meta-item">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>2025-04-01</span>
+                </div>
+                <div class="novel-meta-item">
+                    <i class="fas fa-book"></i>
+                    <span data-en="Novel" data-zh="小说">小说</span>
+                </div>
+                <div class="novel-meta-item">
+                    <i class="fas fa-tags"></i>
+                    <span class="tag" data-en="Crime Thriller" data-zh="犯罪悬疑">犯罪悬疑</span>
+                </div>
+                <div class="novel-meta-item">
+                    <i class="fas fa-user"></i>
+                    <span>HealthJian</span>
+                </div>
+            </div>
+        </header>
+        
+        <!-- 小说简介 -->
+        <article class="novel-content">
+            <div class="novel-introduction">
+                <div class="bilingual-content">
+                    <p class="zh-content">在梅罗德这座看似繁华的城市背后，实则暗流涌动，危机四伏。</p>
+                    
+                    <p class="en-content" style="display: none;">Behind the seemingly prosperous city of Melrod, there are undercurrents and dangers.</p>
+                </div>
+                
+                <div class="bilingual-content">
+                    <p class="zh-content">平静被一声巨响打破，梅罗德港口突发爆炸，瞬间火光冲天，照亮了黑夜。身为警察却伪装成记者的卢卡斯，本在执行秘密任务，却因这场爆炸被卷入更大的漩涡。</p>
+                    
+                    <p class="en-content" style="display: none;">The calm was broken by a loud noise, a sudden explosion at Melrod port, with flames instantly lighting up the night sky. Lucas, a police officer disguised as a journalist, was on a secret mission but got dragged into a bigger whirlpool because of this explosion.</p>
+                </div>
+                
+                <div class="bilingual-content">
+                    <p class="zh-content">港口三区警局分队遇袭，激烈的枪战爆发，生死瞬间交错。卢卡斯与搭档安德利临危受命，投身于枪林弹雨之中。然而，局势愈发复杂，南门出现神秘的武装人员，集装箱里惊现烧焦的残骸，每一个线索都指向更深的阴谋。</p>
+                    
+                    <p class="en-content" style="display: none;">The Port District 3 police squad was ambushed, a fierce gunfight erupted, and life and death intertwined in an instant. Lucas and his partner Andrey were commissioned in the crisis, plunging into the hail of bullets. However, the situation became increasingly complex, with mysterious armed personnel appearing at the south gate and charred remains found in a container, each clue pointing to a deeper conspiracy.</p>
+                </div>
+                
+                <div class="quote-box">
+                    <div class="bilingual-content">
+                        <p class="zh-content">在真相与谎言交织的城市里，唯有正义才能照亮黑暗的角落。</p>
+                        
+                        <p class="en-content" style="display: none;">In a city where truth and lies intertwine, only justice can illuminate the dark corners.</p>
+                    </div>
+                </div>
+                
+                <div class="bilingual-content">
+                    <p class="zh-content">随着调查的深入，更多的人物浮出水面。检察官、警长、联邦安全局人员纷纷登场，各怀心思，为了权力、利益或是正义，展开了一场惊心动魄的博弈。</p>
+                    
+                    <p class="en-content" style="display: none;">As the investigation deepened, more characters emerged. Prosecutors, sheriffs, and Federal Security Bureau personnel appeared one after another, each with their own intentions, engaging in a thrilling game for power, profit, or justice.</p>
+                </div>
+                
+                <div class="bilingual-content">
+                    <p class="zh-content">在这混乱的局势中，卢卡斯结识了美丽而神秘的艾琳。他们的爱情在血雨腥风中悄然萌芽，却不知艾琳的父亲卡尔，竟与案件有着千丝万缕的联系。</p>
+                    
+                    <p class="en-content" style="display: none;">In this chaotic situation, Lucas met the beautiful and mysterious Erin. Their love quietly sprouted amidst the bloodshed, unaware that Erin's father, Carl, had intricate connections to the case.</p>
+                </div>
+                
+                <div class="bilingual-content">
+                    <p class="zh-content">爆炸背后的黑手究竟是谁？是隐藏在警局内部的腐败势力，还是另有其人？卢卡斯能否在这错综复杂的局面中揭开真相，又能否守护住自己的爱情？</p>
+                    
+                    <p class="en-content" style="display: none;">Who is the mastermind behind the explosion? Is it the corrupt forces hidden within the police station, or someone else? Can Lucas uncover the truth in this complex situation, and can he protect his love?</p>
+                </div>
+                
+                <div class="bilingual-content">
+                    <p class="zh-content">《梅尔罗德》，带你走进这座危机四伏的城市，一同探寻真相与正义的答案。</p>
+                    
+                    <p class="en-content" style="display: none;">"Melrod" takes you into this perilous city to explore the answers to truth and justice together.</p>
+                </div>
+            </div>
+            
+            <div class="section-divider"></div>
+            
+            <!-- 目录 -->
+            <div class="novel-contents">
+                <h2 class="toc-title" data-en="Table of Contents" data-zh="目录">目录</h2>
+                
+                <ul class="toc-list">
+                    <li class="toc-item">
+                        <a href="chapter-intro.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Prelude I" data-zh="序Ⅰ">序Ⅰ</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-01</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter1.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 1: Explosion at Melrod Port" data-zh="第一节：梅罗德港口的爆炸">第一节：梅罗德港口的爆炸</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-01</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter2.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 2: The Mess" data-zh="第二节：烂摊子">第二节：烂摊子</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-01</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter3.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 3: Port District 3" data-zh="第三节：港口三区">第三节：港口三区</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter4.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 4: Shadows at the South Gate" data-zh="第四节：港口南门的暗影">第四节：港口南门的暗影</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter5.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 5: Remains in the Container" data-zh="第五节：集装箱里的残骸">第五节：集装箱里的残骸</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter6.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 6: Smoke Rings on the Shore" data-zh="第六节：岸边的烟圈">第六节：岸边的烟圈</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter7.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 7: Autopsy" data-zh="第七节：验尸">第七节：验尸</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter8.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 8: Autopsy" data-zh="第八节：验尸">第八节：验尸</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter9.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 9: The Briefing" data-zh="第九节：训话">第九节：训话</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter10.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 10: Owen" data-zh="第十节：欧文">第十节：欧文</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter11.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 11: The Chief" data-zh="第十一节：局长">第十一节：局长</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter12.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 12: Blood and Fire at the Corner" data-zh="第十二节：街角的血与火">第十二节：街角的血与火</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter13.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 13: Silence" data-zh="第十三节：沉默">第十三节：沉默</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter14.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 14: Hero" data-zh="第十四节：英雄">第十四节：英雄</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter15.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 15: Seafood" data-zh="第十五节：海鲜">第十五节：海鲜</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter16.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 16: Headline" data-zh="第十六节：头条">第十六节：头条</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter17.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 17: Carl" data-zh="第十七节：卡尔">第十七节：卡尔</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter18.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 18: Carl" data-zh="第十八节：卡尔">第十八节：卡尔</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter19.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 19: Erin" data-zh="第十九节：艾琳">第十九节：艾琳</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter20.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 20: Erin" data-zh="第二十节：艾琳">第二十节：艾琳</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter21.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 21: Fire and Blood on the Bridge" data-zh="第二十一节：大桥上的火与血">第二十一节：大桥上的火与血</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter22.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 22: Medal and Fury" data-zh="第二十二节：勋章与怒火">第二十二节：勋章与怒火</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter23.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 23: Close Call" data-zh="第二十三节：九死一生">第二十三节：九死一生</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter24.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 24: Warmth" data-zh="第二十四节：暖意">第二十四节：暖意</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter25.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 25: Public Opinion" data-zh="第二十五节：舆论">第二十五节：舆论</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter26.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 26: Thunder" data-zh="第二十六节：雷霆">第二十六节：雷霆</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter27.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 27: Tropical Hotel" data-zh="第二十七节：热带酒店">第二十七节：热带酒店</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter28.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 28: Smoke and Secret Investigation of the Action Team" data-zh="第二十八节：行动组的烟雾与暗查">第二十八节：行动组的烟雾与暗查</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter29.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 29: Martin's Photos" data-zh="第二十九节：马丁的照片">第二十九节：马丁的照片</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+
+                    <li class="toc-item">
+                        <a href="chapter30.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 30: Victor" data-zh="第三十节：维克托">第三十节：维克托</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+
+                    <li class="toc-item">
+                        <a href="chapter31.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 31: Raid" data-zh="第三十一节：突袭">第三十一节：突袭</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+
+                    <li class="toc-item">
+                        <a href="chapter32.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 32: Fierce Battle" data-zh="第三十二节：激战">第三十二节：激战</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter33.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Chapter 33: Pool of Blood" data-zh="第三十三节：血泊">第三十三节：血泊</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+                    
+                    <li class="toc-item">
+                        <a href="chapter-final.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Final Chapter" data-zh="终章">终章</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-04-02</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="toc-more">
+                    <a href="full-contents.html" class="toc-more-link">
+                        <span data-en="View Complete Table of Contents" data-zh="查看完整目录">查看完整目录</span>
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- 版权声明 -->
+            <div class="copyright-notice">
+                <h3 class="copyright-title" data-en="Copyright Notice" data-zh="版权声明">版权声明</h3>
+                
+                <div class="bilingual-content">
+                    <p class="zh-content">《梅尔罗德》是一部原创作品，版权归作者 HealthJian 所有。本作品受中国版权法和国际版权条约保护。</p>
+                    
+                    <p class="en-content" style="display: none;">《Melrod》 is an original work, copyright belongs to the author HealthJian. This work is protected by Chinese copyright law and international copyright treaties.</p>
+                </div>
+                
+                <div class="bilingual-content">
+                    <p class="zh-content"><strong>使用条款：</strong></p>
+                    <ul class="zh-content">
+                        <li>本作品仅供个人阅读和学习使用，未经授权不得用于商业用途。</li>
+                        <li>读者可以分享本作品的链接，但不得以任何形式复制、修改或重新发布本作品的全部或部分内容。</li>
+                        <li>引用本作品内容时，请注明出处并提供原文链接。</li>
+                        <li>本作品中的任何角色、情节和对话纯属虚构，如有雷同，纯属巧合。</li>
+                    </ul>
+                    
+                    <p class="en-content" style="display: none;"><strong>Terms of Use:</strong></p>
+                    <ul class="en-content" style="display: none;">
+                        <li>This work is for personal reading and learning purposes only and may not be used for commercial purposes without authorization.</li>
+                        <li>Readers may share the link to this work but may not copy, modify, or republish all or part of this work in any form.</li>
+                        <li>When quoting content from this work, please indicate the source and provide a link to the original.</li>
+                        <li>Any characters, plots, and dialogues in this work are purely fictional; any resemblance is purely coincidental.</li>
+                    </ul>
+                </div>
+                
+                <div class="bilingual-content">
+                    <p class="zh-content">感谢您尊重创作者的劳动成果。如有任何问题或合作意向，请通过以下方式联系我：<a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
+                    
+                    <p class="en-content" style="display: none;">Thank you for respecting the creator's work. If you have any questions or cooperation intentions, please contact me at: <a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
+                </div>
+                
+                <div class="author-note">
+                    <div class="bilingual-content">
+                        <p class="zh-content">"写作是一次精神旅行，我希望这段旅程能与你产生共鸣。"</p>
+                        
+                        <p class="en-content" style="display: none;">"Writing is a spiritual journey, and I hope this journey resonates with you."</p>
+                    </div>
+                    <div class="bilingual-content">
+                        <p class="zh-content">— HealthJian，2025年春</p>
+                        
+                        <p class="en-content" style="display: none;">— HealthJian, Spring 2025</p>
+                    </div>
+                </div>
+            </div>
+        </article>
+        
+        <!-- 导航按钮 -->
+        <div class="novel-navigation">
+            <a href="../../../blog.html" class="nav-button" data-en="Back to Blog" data-zh="返回博客列表">
+                <i class="fas fa-arrow-left"></i>
+                <span data-en="Back to Blog" data-zh="返回博客列表">返回博客列表</span>
+            </a>
+            <a href="chapter1.html" class="nav-button" data-en="Start Reading" data-zh="开始阅读">
+                <span data-en="Start Reading" data-zh="开始阅读">开始阅读</span>
+                <i class="fas fa-book-open"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <p>&copy; 2025 CaiNiaojian&HealthJian all followed.</p>
+                <p data-en="Contact: " data-zh="联系方式：">联系方式：<a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
+                <p data-en="Location: " data-zh="地址：">地址：中国，江苏</p>
+            </div>
+            <div class="footer-links">
+                <a href="../license.html" data-en="License" data-zh="许可证">许可证</a>
+                <a href="../../../blog.html" data-en="Blog" data-zh="博客">博客</a>
+                <a href="../../../changelog.html" data-en="ChangeLog" data-zh="更新日志">更新日志</a>
+                <a href="../../../about.html" data-en="About" data-zh="关于">关于</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../../../js/main.js"></script>
+    <script src="../../../../js/theme.js"></script>
+    <script src="../../../../js/language.js"></script>
+</body>
+</html> 
