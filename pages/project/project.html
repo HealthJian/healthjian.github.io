@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../../images/favicon.ico" />
+    <title data-en="Projects - HealthJian's Blog" data-zh="项目 - HealthJian的博客">项目 - HealthJian的博客</title>
+    
+    <!-- 样式表 -->
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/dark-mode.css">
+    <link rel="stylesheet" href="../../css/project.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- 苹果风格字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="light-mode">
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="../../index.html" class="logo">
+                <img src="../../images/githubherofigureimage.png" alt="Logo">
+                <span class="site-name" data-en="HealthJian Blog" data-zh="HealthJian">HealthJian</span>
+            </a>
+        </div>
+        <div class="nav-right">
+            <ul class="menu">
+                <li><a href="../../index.html" data-en="Home" data-zh="首页">首页</a></li>
+                <li><a href="../blog.html" data-en="Blog" data-zh="博客">博客</a></li>
+                <li><a href="project.html" data-en="Projects" data-zh="项目">项目</a></li>
+                <li><a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a></li>
+                <li><a href="../links.html" data-en="Links" data-zh="链接">链接</a></li>
+                <li><a href="../about.html" data-en="About" data-zh="关于">关于</a></li>
+            </ul>
+            <div class="social-icons">
+                <a href="https://steamcommunity.com/id/yoursteamid" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
+                <a href="mailto:gaojian1573@foxmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+            <button id="theme-toggle" class="theme-toggle" title="切换主题">
+                <i class="fas fa-moon"></i>
+                <i class="fas fa-sun"></i>
+            </button>
+            <button id="lang-toggle" class="lang-toggle" title="切换语言">
+                <span data-en="EN" data-zh="中">中</span>
+            </button>
+        </div>
+    </nav>
+
+    <main>
+        <!-- 项目页面头部 -->
+        <section class="project-header">
+            <h1 data-en="My Projects" data-zh="我的项目">我的项目</h1>
+            <p data-en="A showcase of my work, personal projects, and contributions to the tech community. Each project represents a milestone in my journey as a developer." data-zh="这里展示了我的作品、个人项目以及对技术社区的贡献。每个项目都代表了我作为开发者旅程中的一个里程碑。">这里展示了我的作品、个人项目以及对技术社区的贡献。每个项目都代表了我作为开发者旅程中的一个里程碑。</p>
+        </section>
+
+        <!-- 项目过滤器 -->
+        <section class="project-filters">
+            <div class="filter-group">
+                <button class="filter-button active" data-filter="all" data-en="All" data-zh="全部">全部</button>
+                <button class="filter-button" data-filter="web" data-en="Web" data-zh="网页开发">网页开发</button>
+                <button class="filter-button" data-filter="mobile" data-en="Mobile" data-zh="移动应用">移动应用</button>
+                <button class="filter-button" data-filter="ai" data-en="AI" data-zh="人工智能">人工智能</button>
+                <button class="filter-button" data-filter="design" data-en="Design" data-zh="设计">设计</button>
+                <button class="filter-button" data-filter="research" data-en="Research" data-zh="研究">研究</button>
+            </div>
+        </section>
+
+        <!-- 项目网格 -->
+        <div class="project-grid">
+            <!-- 
+            项目卡片1 
+            <article class="project-card" data-tags="web,design">
+                <img src="../../images/project1.jpg" alt="项目1" class="project-image">
+                <div class="project-content">
+                    <h3 class="project-title" data-en="Personal Blog Platform" data-zh="个人博客平台">个人博客平台</h3>
+                    <p class="project-description" data-en="A modern, responsive blog platform built with HTML5, CSS3, and JavaScript. Features dark mode, bilingual support, and a custom CMS." data-zh="使用HTML5、CSS3和JavaScript构建的现代响应式博客平台。特点包括暗黑模式、双语支持和自定义内容管理系统。">使用HTML5、CSS3和JavaScript构建的现代响应式博客平台。特点包括暗黑模式、双语支持和自定义内容管理系统。</p>
+                    <div class="project-tags">
+                        <span class="project-tag" data-en="HTML5" data-zh="HTML5">HTML5</span>
+                        <span class="project-tag" data-en="CSS3" data-zh="CSS3">CSS3</span>
+                        <span class="project-tag" data-en="JavaScript" data-zh="JavaScript">JavaScript</span>
+                        <span class="project-tag" data-en="Responsive" data-zh="响应式">响应式</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link primary" data-en="View Demo" data-zh="查看演示">
+                            <i class="fas fa-eye"></i>
+                            <span>查看演示</span>
+                        </a>
+                        <a href="#" class="project-link secondary" data-en="Source Code" data-zh="源代码">
+                            <i class="fab fa-github"></i>
+                            <span>源代码</span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            项目卡片2 
+            <article class="project-card" data-tags="mobile,ai">
+                <img src="../../images/project2.jpg" alt="项目2" class="project-image">
+                <div class="project-content">
+                    <h3 class="project-title" data-en="Health Tracker App" data-zh="健康追踪应用">健康追踪应用</h3>
+                    <p class="project-description" data-en="A mobile app that uses AI to track health metrics, provide personalized recommendations, and monitor progress over time." data-zh="一款使用人工智能追踪健康指标、提供个性化建议并监控长期进展的移动应用。">一款使用人工智能追踪健康指标、提供个性化建议并监控长期进展的移动应用。</p>
+                    <div class="project-tags">
+                        <span class="project-tag" data-en="React Native" data-zh="React Native">React Native</span>
+                        <span class="project-tag" data-en="TensorFlow" data-zh="TensorFlow">TensorFlow</span>
+                        <span class="project-tag" data-en="Firebase" data-zh="Firebase">Firebase</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link primary" data-en="App Store" data-zh="App Store">
+                            <i class="fab fa-app-store"></i>
+                            <span>App Store</span>
+                        </a>
+                        <a href="#" class="project-link secondary" data-en="Learn More" data-zh="了解更多">
+                            <i class="fas fa-info-circle"></i>
+                            <span>了解更多</span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            项目卡片3 
+            <article class="project-card" data-tags="web,research">
+                <img src="../../images/project3.jpg" alt="项目3" class="project-image">
+                <div class="project-content">
+                    <h3 class="project-title" data-en="Data Visualization Dashboard" data-zh="数据可视化仪表板">数据可视化仪表板</h3>
+                    <p class="project-description" data-en="An interactive dashboard for visualizing complex datasets. Features real-time updates, customizable charts, and advanced filtering options." data-zh="用于可视化复杂数据集的交互式仪表板。功能包括实时更新、可自定义图表和高级筛选选项。">用于可视化复杂数据集的交互式仪表板。功能包括实时更新、可自定义图表和高级筛选选项。</p>
+                    <div class="project-tags">
+                        <span class="project-tag" data-en="Vue.js" data-zh="Vue.js">Vue.js</span>
+                        <span class="project-tag" data-en="D3.js" data-zh="D3.js">D3.js</span>
+                        <span class="project-tag" data-en="Node.js" data-zh="Node.js">Node.js</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link primary" data-en="Live Demo" data-zh="在线演示">
+                            <i class="fas fa-desktop"></i>
+                            <span>在线演示</span>
+                        </a>
+                        <a href="#" class="project-link secondary" data-en="Documentation" data-zh="文档">
+                            <i class="fas fa-book"></i>
+                            <span>文档</span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            项目卡片4 
+            <article class="project-card" data-tags="ai,research">
+                <img src="../../images/project4.jpg" alt="项目4" class="project-image">
+                <div class="project-content">
+                    <h3 class="project-title" data-en="NLP Research Paper" data-zh="自然语言处理研究论文">自然语言处理研究论文</h3>
+                    <p class="project-description" data-en="A research paper exploring advancements in natural language processing for sentiment analysis in multilingual contexts." data-zh="一篇探讨多语言环境中情感分析的自然语言处理进展的研究论文。">一篇探讨多语言环境中情感分析的自然语言处理进展的研究论文。</p>
+                    <div class="project-tags">
+                        <span class="project-tag" data-en="NLP" data-zh="自然语言处理">自然语言处理</span>
+                        <span class="project-tag" data-en="Machine Learning" data-zh="机器学习">机器学习</span>
+                        <span class="project-tag" data-en="Python" data-zh="Python">Python</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link primary" data-en="Read Paper" data-zh="阅读论文">
+                            <i class="fas fa-file-alt"></i>
+                            <span>阅读论文</span>
+                        </a>
+                        <a href="#" class="project-link secondary" data-en="GitHub Repo" data-zh="GitHub仓库">
+                            <i class="fab fa-github"></i>
+                            <span>GitHub仓库</span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            项目卡片5 
+            <article class="project-card" data-tags="design,web">
+                <img src="../../images/project5.jpg" alt="项目5" class="project-image">
+                <div class="project-content">
+                    <h3 class="project-title" data-en="UI/UX Design System" data-zh="UI/UX设计系统">UI/UX设计系统</h3>
+                    <p class="project-description" data-en="A comprehensive design system with components, guidelines, and best practices for creating consistent user interfaces." data-zh="一个包含组件、指南和最佳实践的全面设计系统，用于创建一致的用户界面。">一个包含组件、指南和最佳实践的全面设计系统，用于创建一致的用户界面。</p>
+                    <div class="project-tags">
+                        <span class="project-tag" data-en="Figma" data-zh="Figma">Figma</span>
+                        <span class="project-tag" data-en="Storybook" data-zh="Storybook">Storybook</span>
+                        <span class="project-tag" data-en="React" data-zh="React">React</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link primary" data-en="View Design" data-zh="查看设计">
+                            <i class="fas fa-palette"></i>
+                            <span>查看设计</span>
+                        </a>
+                        <a href="#" class="project-link secondary" data-en="Component Library" data-zh="组件库">
+                            <i class="fas fa-cubes"></i>
+                            <span>组件库</span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            项目卡片6 
+            <article class="project-card" data-tags="mobile,design">
+                <img src="../../images/project6.jpg" alt="项目6" class="project-image">
+                <div class="project-content">
+                    <h3 class="project-title" data-en="Augmented Reality App" data-zh="增强现实应用">增强现实应用</h3>
+                    <p class="project-description" data-en="An AR application that allows users to visualize 3D models in real-world environments through their mobile devices." data-zh="一款增强现实应用，允许用户通过移动设备在现实环境中可视化3D模型。">一款增强现实应用，允许用户通过移动设备在现实环境中可视化3D模型。</p>
+                    <div class="project-tags">
+                        <span class="project-tag" data-en="ARKit" data-zh="ARKit">ARKit</span>
+                        <span class="project-tag" data-en="Swift" data-zh="Swift">Swift</span>
+                        <span class="project-tag" data-en="Unity" data-zh="Unity">Unity</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link primary" data-en="Download" data-zh="下载">
+                            <i class="fas fa-download"></i>
+                            <span>下载</span>
+                        </a>
+                        <a href="#" class="project-link secondary" data-en="Case Study" data-zh="案例研究">
+                            <i class="fas fa-clipboard-list"></i>
+                            <span>案例研究</span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+            -->
+        </div>
+        
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <p>&copy; 2025 <strong>CaiNiaojian&HealthJian</strong> all followed.</p>
+                <p data-en="Contact: " data-zh="联系方式：">联系方式：<a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
+                <p data-en="Location: " data-zh="地址：">地址：中国，江苏</p>
+            </div>
+            <div class="footer-links">
+                <a href="../../index.html" data-en="Home" data-zh="首页">首页</a>
+                <a href="../blog/noval/novel.html" data-en="Novel" data-zh="小说">小说</a>
+                <a href="../changelog.html" data-en="ChangeLog" data-zh="更新日志">更新日志</a>
+                <a href="../about.html" data-en="About" data-zh="关于">关于</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript文件 -->
+    <script src="../../js/theme.js"></script>
+    <script src="../../js/language.js"></script>
+    <script src="../../js/project.js"></script>
+</body>
+</html>
