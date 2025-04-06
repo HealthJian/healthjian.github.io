@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>从零构建个人博客：技术栈与架构详解 - HealthJian的博客</title>
+    <!-- 根据实际路径调整CSS引用路径 -->
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/dark-mode.css">
+    <link rel="stylesheet" href="../../../css/blog-post.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="light-mode">
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <!-- 根据实际部署的文件夹深度调整路径 -->
+            <a href="../../../index.html" class="logo">
+                <img src="../../../images/githubherofigureimage.png" alt="Logo">
+                <span class="site-name" data-en="HealthJian Blog" data-zh="HealthJian">HealthJian</span>
+            </a>
+        </div>
+        <div class="nav-right">
+            <ul class="menu">
+                <!-- 根据实际部署的文件夹深度调整路径 -->
+                <li><a href="../../../index.html" data-en="Home" data-zh="首页">首页</a></li>
+                <li><a href="../../blog.html" data-en="Blog" data-zh="博客">博客</a></li>
+                <li><a href="../../../pages/project/project.html" data-en="Projects" data-zh="项目">项目</a></li>
+                <li><a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a></li>
+                <li><a href="../../links.html" data-en="Links" data-zh="链接">链接</a></li>
+                <li><a href="../../about.html" data-en="About" data-zh="关于">关于</a></li>
+            </ul>
+            <div class="social-icons">
+                <a href="https://steamcommunity.com/id/yoursteamid" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
+                <a href="mailto:gaojian1573@foxmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+            <button id="theme-toggle" class="theme-toggle" title="切换主题">
+                <i class="fas fa-moon"></i>
+                <i class="fas fa-sun"></i>
+            </button>
+            <button id="lang-toggle" class="lang-toggle" title="切换语言">
+                <span data-en="EN" data-zh="中">中</span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="blog-post-container">
+        <!-- 侧边栏 -->
+        <aside class="blog-sidebar">
+            <div class="toc-container">
+                <h3 data-en="Table of Contents" data-zh="目录">目录</h3>
+                <ul class="toc-list">
+                    <!-- 文章目录，根据实际内容添加或修改 -->
+                    <li><a href="#section-1" data-en="I. Introduction" data-zh="一、引言">一、引言</a></li>
+                    <li><a href="#section-2" data-en="II. Technical Stack" data-zh="二、技术栈">二、技术栈</a></li>
+                    <li><a href="#section-3" data-en="III. Website Architecture" data-zh="三、网站架构">三、网站架构</a></li>
+                    <li><a href="#section-4" data-en="IV. JavaScript Implementation" data-zh="四、JavaScript实现">四、JavaScript实现</a></li>
+                    <li><a href="#section-5" data-en="V. Deployment Solutions" data-zh="五、部署方案">五、部署方案</a></li>
+                </ul>
+            </div>
+            
+            <div class="post-meta-info">
+                <div class="post-date">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>2025-04-06</span>
+                </div>
+                <div class="post-date">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>2025-04-06</span>
+                </div>
+                <div class="post-tags">
+                    <i class="fas fa-tags"></i>
+                    <span class="tag" data-en="Web Development" data-zh="Web开发">Web开发</span>
+                    <span class="tag" data-en="Front-end" data-zh="前端">前端</span>
+                    <span class="tag" data-en="HTML/CSS/JS" data-zh="HTML/CSS/JS">HTML/CSS/JS</span>
+                </div>
+                <div class="post-category">
+                    <i class="fas fa-folder"></i>
+                    <span data-en="Technology" data-zh="技术">技术</span>
+                </div>
+            </div>
+            
+            <div class="post-navigation">
+                <h3 data-en="Navigation" data-zh="导航">导航</h3>
+                <div class="nav-buttons">
+                    <a href="../../blog.html" class="nav-button" data-en="Back to Blog" data-zh="返回博客列表">
+                        <i class="fas fa-arrow-left"></i>
+                        <span data-en="Back to Blog" data-zh="返回博客列表">返回博客列表</span>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 文章主体 -->
+        <main class="blog-post-main">
+            <article class="blog-post-content">
+                <header class="post-header">
+                    <h1 class="post-title">
+                        <div class="bilingual-content">
+                            <span class="zh-content">从零构建个人博客：技术栈与架构详解</span>
+                            <span class="en-content" style="display: none;">Building a Personal Blog from Scratch: Tech Stack and Architecture</span>
+                        </div>
+                    </h1>
+                </header>
+                
+                <div class="post-body">
+                    <!-- 第一部分：引言 -->
+                    <section id="section-1">
+                        <h2 data-en="I. Introduction" data-zh="一、引言">一、引言</h2>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>背景</strong><br>
+                            在当今数字时代，个人博客不仅是展示专业技能的窗口，也是记录个人成长和分享知识的平台。
+                            作为一名Web开发爱好者，我决定从零开始构建这个博客网站，而不是依赖现成的博客平台或内容管理系统，
+                            这个过程充满了挑战和收获。<span class="emoji">🚀</span></p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Background</strong><br>
+                            In today's digital age, a personal blog serves not only as a window to showcase professional skills 
+                            but also as a platform to document personal growth and share knowledge. As a Web development enthusiast, 
+                            I decided to build this blog website from scratch, rather than relying on ready-made blogging platforms 
+                            or content management systems—a process filled with challenges and rewards.<span class="emoji">🚀</span></p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>本文目标</strong><br>
+                            本文将详细介绍这个博客的技术栈、架构设计、核心JavaScript功能实现以及部署方案。
+                            无论你是Web开发新手还是有经验的开发者，希望这篇文章能为你提供一些启发，
+                            帮助你理解如何构建一个功能完善且个性化的静态博客网站。<span class="emoji">📝</span></p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Article Objective</strong><br>
+                            This article will detail the technical stack, architectural design, 
+                            core JavaScript functionality implementation, and deployment solutions of this blog. 
+                            Whether you're a Web development beginner or an experienced developer, I hope this article 
+                            provides some inspiration and helps you understand how to build a fully functional and 
+                            personalized static blog website.<span class="emoji">📝</span></p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>核心理念</strong><br>
+                            与使用WordPress或其他CMS相比，从零构建博客的优势在于完全掌控网站的各个方面，
+                            从性能优化到用户体验设计，同时也是提升前端开发技能的绝佳机会。
+                            正如我在设计这个博客时所遵循的理念：<strong>"简洁、高效、个性化"</strong>。<span class="emoji">💡</span></p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Core Philosophy</strong><br>
+                            Compared to using WordPress or other CMS, building a blog from scratch 
+                            offers the advantage of complete control over every aspect of the website, from performance 
+                            optimization to user experience design, while also being an excellent opportunity to enhance 
+                            front-end development skills. This aligns with the philosophy I followed when designing this blog: 
+                            <strong>"Simplicity, Efficiency, and Personalization."</strong><span class="emoji">💡</span></p>
+                        </div>
+                    </section>
+                    
+                    <!-- 第二部分 -->
+                    <section id="section-2">
+                        <h2 data-en="II. Technical Stack" data-zh="二、技术栈">二、技术栈</h2>
+                        
+                        <h3 data-en="2.1 Core Technologies" data-zh="2.1 核心技术">2.1 核心技术</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>前端三件套</strong><br>
+                            这个博客采用了纯前端技术栈构建，不依赖任何后端服务或数据库，完全由静态文件组成。
+                            这种架构具有部署简单、加载迅速的优势。<span class="emoji">⚡</span></p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Frontend Trio</strong><br>
+                            This blog is built with a pure frontend technology stack, without relying on any backend services 
+                            or databases, consisting entirely of static files. This architecture offers advantages in 
+                            simple deployment and fast loading.<span class="emoji">⚡</span></p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>技术选择详解</strong><br>
+                            具体技术选择及其优势：</p>
+                            <ul class="zh-content">
+                                <li><strong>HTML5</strong> - 语义化标签提升了网站结构清晰度和SEO表现</li>
+                                <li><strong>CSS3</strong> - 自定义变量、Flexbox和Grid布局、媒体查询实现响应式设计</li>
+                                <li><strong>原生JavaScript</strong> - 不依赖任何框架，实现主题切换、语言国际化、动态内容加载等功能</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>Detailed Technology Choices</strong><br>
+                            Specific technology choices and their advantages:</p>
+                            <ul class="en-content" style="display: none;">
+                                <li><strong>HTML5</strong> - Semantic tags improve website structure clarity and SEO performance</li>
+                                <li><strong>CSS3</strong> - Custom variables, Flexbox and Grid layouts, media queries for responsive design</li>
+                                <li><strong>Vanilla JavaScript</strong> - No dependencies on any frameworks, implementing theme switching, language internationalization, dynamic content loading, and more</li>
+                            </ul>
+                        </div>
+                        
+                        <h3 data-en="2.2 External Libraries" data-zh="2.2 外部库">2.2 外部库</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>精选辅助库</strong><br>
+                            虽然尽量减少外部依赖，但为了增强特定功能和用户体验，我选择了几个轻量级库：<span class="emoji">📚</span></p>
+                            <ul class="zh-content">
+                                <li><strong>Font Awesome</strong> - 提供丰富的图标集</li>
+                                <li><strong>Google Fonts</strong> - 引入多种精美字体，如SF Pro Display（主字体）、Chewy和ZCOOL KuaiLe（特殊标题）</li>
+                                <li><strong>Highlight.js</strong> - 代码高亮功能</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>Selected Auxiliary Libraries</strong><br>
+                            While minimizing external dependencies, I selected a few lightweight libraries to enhance specific functionalities and user experience:<span class="emoji">📚</span></p>
+                            <ul class="en-content" style="display: none;">
+                                <li><strong>Font Awesome</strong> - Provides a rich icon set</li>
+                                <li><strong>Google Fonts</strong> - Introduces various beautiful fonts, such as SF Pro Display (main font), Chewy and ZCOOL KuaiLe (special headings)</li>
+                                <li><strong>Highlight.js</strong> - Code highlighting functionality</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- 代码示例 -->
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>引入方式</strong><br>
+                            外部库引用示例：</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Import Method</strong><br>
+                            External library reference example:</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-html">&lt;!-- 外部库引用示例 --&gt;
+&lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"&gt;
+&lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css"&gt;
+&lt;link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet"&gt;
+&lt;link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet"&gt;
+&lt;link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet"&gt;</code></pre>
+                        </div>
+                        
+                        <h3 data-en="2.3 Development Tools" data-zh="2.3 开发工具">2.3 开发工具</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>工具链</strong><br>
+                            开发过程中使用的工具：<span class="emoji">🛠️</span></p>
+                            <ul class="zh-content">
+                                <li><strong>Visual Studio Code</strong> - 主要代码编辑器，配置了HTML/CSS/JS插件增强开发体验</li>
+                                <li><strong>Git & GitHub</strong> - 版本控制和代码托管，同时也用于网站部署</li>
+                                <li><strong>Browser DevTools</strong> - 调试和优化网站性能、响应式设计测试</li>
+                                <li><strong>Lighthouse</strong> - 网站性能、可访问性、SEO和最佳实践评估</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>Toolchain</strong><br>
+                            Tools used during development:<span class="emoji">🛠️</span></p>
+                            <ul class="en-content" style="display: none;">
+                                <li><strong>Visual Studio Code</strong> - Primary code editor, configured with HTML/CSS/JS plugins to enhance development experience</li>
+                                <li><strong>Git & GitHub</strong> - Version control and code hosting, also used for website deployment</li>
+                                <li><strong>Browser DevTools</strong> - Debugging and optimizing website performance, responsive design testing</li>
+                                <li><strong>Lighthouse</strong> - Website performance, accessibility, SEO, and best practices assessment</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>技术栈选择理由</strong><br>
+                            对于个人博客项目，我优先考虑了以下因素：<span class="emoji">💭</span></p>
+                            <ul class="zh-content">
+                                <li>简洁高效：无需复杂的构建流程和依赖管理</li>
+                                <li>长期可维护：使用基础且经典的技术，降低技术债务</li>
+                                <li>学习价值：深入理解Web基础，提升原生JavaScript编程能力</li>
+                                <li>性能优先：轻量级技术栈确保网站加载速度快</li>
+                                <li>部署便捷：静态网站可以轻松部署在任何托管服务上</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>Reasons for Tech Stack Choice</strong><br>
+                            For a personal blog project, I prioritized the following factors: <span class="emoji">💭</span></p>
+                            <ul class="en-content" style="display: none;">
+                                <li>Simplicity and Efficiency: No need for complex build processes and dependency management</li>
+                                <li>Long-term Maintainability: Using basic and classic technologies reduces technical debt</li>
+                                <li>Learning Value: Deepening understanding of Web fundamentals, improving vanilla JavaScript programming skills</li>
+                                <li>Performance Priority: Lightweight tech stack ensures fast website loading</li>
+                                <li>Deployment Convenience: Static websites can be easily deployed on any hosting service</li>
+                            </ul>
+                        </div>
+                    </section>
+                    
+                    <!-- 第三部分 -->
+                    <section id="section-3">
+                        <h2 data-en="III. Website Architecture" data-zh="三、网站架构">三、网站架构</h2>
+                        
+                        <h3 data-en="3.1 File Structure" data-zh="3.1 文件结构">3.1 文件结构</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>组织原则</strong><br>
+                            博客采用了模块化的文件结构，按功能和类型组织文件，便于维护和扩展：<span class="emoji">📂</span></p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Organization Principles</strong><br>
+                            The blog adopts a modularized file structure, organizing files by function and type, facilitating maintenance and expansion:<span class="emoji">📂</span></p>
+                        </div>
+                        
+                        <!-- 代码示例 -->
+                        <div class="code-block">
+                            <pre><code class="language-text">healthjianblog/
+├── index.html                 # 网站首页
+├── css/                       # 样式文件目录
+│   ├── style.css              # 全局样式
+│   ├── dark-mode.css          # 暗黑模式样式
+│   ├── blog.css               # 博客列表样式
+│   ├── blog-post.css          # 博客文章页样式
+│   └── ...                    # 其他样式文件
+├── js/                        # JavaScript文件目录
+│   ├── main.js                # 主要功能
+│   ├── theme.js               # 主题切换功能
+│   ├── language.js            # 语言切换功能
+│   ├── blog.js                # 博客相关功能
+│   └── ...                    # 其他功能模块
+├── images/                    # 图片资源目录
+├── pages/                     # 页面目录
+│   ├── blog.html              # 博客列表页
+│   ├── about.html             # 关于页面
+│   ├── links.html             # 链接页面
+│   ├── project/               # 项目展示页目录
+│   │   ├── project.html       # 项目列表页
+│   │   └── ...                # 项目详情页
+│   └── blog/                  # 博客文章目录
+│       ├── tech/              # 技术类文章
+│       ├── life/              # 生活类文章
+│       └── thoughts/          # 随想类文章
+└── README.md                  # 项目说明</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>结构优势</strong><br>
+                            这种组织方式有以下优点：</p>
+                            <ul class="zh-content">
+                                <li>清晰的资源分类，易于查找和管理</li>
+                                <li>模块化的JavaScript和CSS文件，有利于代码复用</li>
+                                <li>文章按主题分类，简化内容管理</li>
+                                <li>直观的目录结构，易于新成员理解项目</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>Structural Advantages</strong><br>
+                            This organization method has the following advantages:</p>
+                            <ul class="en-content" style="display: none;">
+                                <li>Clear resource categorization, easy to find and manage</li>
+                                <li>Modularized JavaScript and CSS files, conducive to code reuse</li>
+                                <li>Articles categorized by topic, simplifying content management</li>
+                                <li>Intuitive directory structure, easy for new members to understand the project</li>
+                            </ul>
+                        </div>
+                        
+                        <h3 data-en="3.2 Design Philosophy" data-zh="3.2 设计理念">3.2 设计理念</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>核心设计原则</strong><br>
+                            博客设计遵循以下核心理念：<span class="emoji">🎨</span></p>
+                            <ul class="zh-content">
+                                <li><strong>内容为王</strong> - 简洁的设计突出内容本身，避免过多视觉干扰</li>
+                                <li><strong>用户体验优先</strong> - 直观的导航、合理的布局、舒适的阅读体验</li>
+                                <li><strong>响应式设计</strong> - 适配从手机到桌面的各种设备尺寸</li>
+                                <li><strong>可访问性</strong> - 考虑色彩对比度、键盘导航等无障碍设计</li>
+                                <li><strong>性能优化</strong> - 资源按需加载、图片优化、代码精简</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>Core Design Principles</strong><br>
+                            The blog design follows these core philosophies:<span class="emoji">🎨</span></p>
+                            <ul class="en-content" style="display: none;">
+                                <li><strong>Content First</strong> - Clean design highlights the content itself, avoiding excessive visual distractions</li>
+                                <li><strong>User Experience Priority</strong> - Intuitive navigation, rational layout, comfortable reading experience</li>
+                                <li><strong>Responsive Design</strong> - Adapts to various device sizes from mobile to desktop</li>
+                                <li><strong>Accessibility</strong> - Considers color contrast, keyboard navigation, and other barrier-free design elements</li>
+                                <li><strong>Performance Optimization</strong> - Resources loaded as needed, image optimization, code minimization</li>
+                            </ul>
+                        </div>
+                        
+                        <h3 data-en="3.3 Component Structure" data-zh="3.3 组件结构">3.3 组件结构</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>无框架组件化</strong><br>
+                            虽然没有使用前端框架，但博客仍然采用了"组件化"的思想来组织HTML结构，每个页面主要分为以下几个组件：<span class="emoji">🧩</span></p>
+                            <ul class="zh-content">
+                                <li><strong>导航栏（Navbar）</strong> - 包含logo、菜单、社交图标和主题/语言切换按钮</li>
+                                <li><strong>页面内容（Main Content）</strong> - 根据页面类型展示不同内容</li>
+                                <li><strong>页脚（Footer）</strong> - 包含版权信息、联系方式和快速导航链接</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>Frameworkless Componentization</strong><br>
+                            Although no frontend framework is used, the blog still adopts a "component-based" approach to organize the HTML structure, with each page mainly divided into the following components:<span class="emoji">🧩</span></p>
+                            <ul class="en-content" style="display: none;">
+                                <li><strong>Navigation Bar (Navbar)</strong> - Includes logo, menu, social icons, and theme/language toggle buttons</li>
+                                <li><strong>Main Content</strong> - Displays different content based on page type</li>
+                                <li><strong>Footer</strong> - Contains copyright information, contact details, and quick navigation links</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>文章页组件</strong><br>
+                            对于博客文章页，还包含：</p>
+                            <ul class="zh-content">
+                                <li><strong>侧边栏（Sidebar）</strong> - 展示目录、文章元信息和导航</li>
+                                <li><strong>文章内容（Article）</strong> - 包含标题、正文和结语</li>
+                                <li><strong>评论区（Comments）</strong> - 允许读者互动</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>Article Page Components</strong><br>
+                            For blog article pages, also includes:</p>
+                            <ul class="en-content" style="display: none;">
+                                <li><strong>Sidebar</strong> - Displays table of contents, article meta information, and navigation</li>
+                                <li><strong>Article Content</strong> - Contains title, body text, and conclusion</li>
+                                <li><strong>Comments Section</strong> - Allows reader interaction</li>
+                            </ul>
+                        </div>
+                        
+                        <h3 data-en="3.4 Multilingual Support" data-zh="3.4 多语言支持">3.4 多语言支持</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>双语实现策略</strong><br>
+                            博客实现了中英双语支持，采用了以下策略：<span class="emoji">🌐</span></p>
+                            <ul class="zh-content">
+                                <li>使用HTML数据属性（data-en和data-zh）存储不同语言的文本</li>
+                                <li>创建.bilingual-content容器包裹需要双语显示的长文本内容</li>
+                                <li>通过添加/移除body上的CSS类（en/zh）控制当前语言显示</li>
+                                <li>使用localStorage存储用户语言偏好</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>Bilingual Implementation Strategy</strong><br>
+                            The blog implements Chinese-English bilingual support using the following strategies:<span class="emoji">🌐</span></p>
+                            <ul class="en-content" style="display: none;">
+                                <li>Using HTML data attributes (data-en and data-zh) to store text in different languages</li>
+                                <li>Creating .bilingual-content containers to wrap long text content that needs bilingual display</li>
+                                <li>Controlling current language display by adding/removing CSS classes (en/zh) on the body</li>
+                                <li>Using localStorage to store user language preferences</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- 代码示例 -->
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>代码实现</strong><br>
+                            双语支持的HTML结构示例：</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Code Implementation</strong><br>
+                            HTML structure example of bilingual support:</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-html">&lt;!-- 简短文本的双语实现 --&gt;
+&lt;h2 data-en="About Me" data-zh="关于我"&gt;关于我&lt;/h2&gt;
+
+&lt;!-- 长文本的双语实现 --&gt;
+&lt;div class="bilingual-content"&gt;
+    &lt;p class="zh-content"&gt;这是中文内容&lt;/p&gt;
+    &lt;p class="en-content" style="display: none;"&gt;This is English content&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+                        </div>
+                    </section>
+                    
+                    <!-- 第四部分 -->
+                    <section id="section-4">
+                        <h2 data-en="IV. JavaScript Implementation" data-zh="四、JavaScript实现">四、JavaScript实现</h2>
+                        
+                        <h3 data-en="4.1 Theme Switching" data-zh="4.1 主题切换功能">4.1 主题切换功能</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>功能描述</strong><br>
+                            博客实现了亮色/暗色主题切换功能，核心实现包括：<span class="emoji">🌓</span></p>
+                            <ul class="zh-content">
+                                <li>使用CSS变量定义不同主题的颜色方案</li>
+                                <li>通过在body上切换CSS类（light-mode/dark-mode）实现主题转换</li>
+                                <li>使用localStorage存储用户主题偏好</li>
+                                <li>根据当前时间自动选择默认主题（白天/黑夜）</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>Feature Description</strong><br>
+                            The blog implements light/dark theme switching functionality, with core implementations including:<span class="emoji">🌓</span></p>
+                            <ul class="en-content" style="display: none;">
+                                <li>Using CSS variables to define color schemes for different themes</li>
+                                <li>Implementing theme conversion by switching CSS classes (light-mode/dark-mode) on the body</li>
+                                <li>Using localStorage to store user theme preferences</li>
+                                <li>Automatically selecting the default theme based on current time (day/night)</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- 代码示例 -->
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>核心代码</strong><br>
+                            主题切换功能的JavaScript实现：</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Core Code</strong><br>
+                            JavaScript implementation of theme switching functionality:</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-javascript">// 根据当前时间获取合适的主题
+function getThemeByTime() {
+    const hour = new Date().getHours();
+    // 6:00-18:00 为日间模式，19:00-5:00 为夜间模式
+    return (hour >= 6 && hour <= 18) ? 'light-mode' : 'dark-mode';
+}
+
+// 检查用户之前的主题偏好
+function checkThemePreference() {
+    const savedTheme = localStorage.getItem('theme');
+    // 如果用户手动设置了主题，优先使用
+    if (savedTheme) {
+        document.body.className = savedTheme;
+        updateThemeToggleIcon(savedTheme);
+    } 
+    // 如果没有手动设置，根据时间自动判断
+    else {
+        const timeBasedTheme = getThemeByTime();
+        document.body.className = timeBasedTheme;
+        updateThemeToggleIcon(timeBasedTheme);
+    }
+}
+
+// 切换主题
+function toggleTheme() {
+    if (document.body.classList.contains('dark-mode')) {
+        document.body.classList.remove('dark-mode');
+        document.body.classList.add('light-mode');
+        localStorage.setItem('theme', 'light-mode');
+        updateThemeToggleIcon('light-mode');
+    } else {
+        document.body.classList.remove('light-mode');
+        document.body.classList.add('dark-mode');
+        localStorage.setItem('theme', 'dark-mode');
+        updateThemeToggleIcon('dark-mode');
+    }
+}</code></pre>
+                        </div>
+
+                        <h3 data-en="4.2 Language Switching" data-zh="4.2 语言切换功能">4.2 语言切换功能</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>多语言实现</strong><br>
+                            博客的多语言实现原理：<span class="emoji">🔄</span></p>
+                            <ul class="zh-content">
+                                <li>通过在body上切换CSS类（en/zh）控制当前语言</li>
+                                <li>使用数据属性存储双语文本</li>
+                                <li>针对更长的内容，使用带有显示/隐藏控制的容器元素</li>
+                                <li>使用localStorage保存用户语言偏好</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>Multilingual Implementation</strong><br>
+                            Implementation principles of the blog's multilingual functionality:<span class="emoji">🔄</span></p>
+                            <ul class="en-content" style="display: none;">
+                                <li>Controlling the current language by switching CSS classes (en/zh) on the body</li>
+                                <li>Using data attributes to store bilingual text</li>
+                                <li>For longer content, using container elements with display/hide controls</li>
+                                <li>Using localStorage to save user language preferences</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- 代码示例 -->
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>核心实现</strong><br>
+                            语言切换的JavaScript函数：</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Core Implementation</strong><br>
+                            JavaScript function for language switching:</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-javascript">// 更新所有带有语言属性的元素
+function updateAllLanguageElements(lang) {
+    const elements = document.querySelectorAll('[data-en][data-zh]');
+    elements.forEach(element => {
+        element.textContent = element.getAttribute(`data-${lang}`);
+    });
+    
+    // 更新搜索框占位符
+    const searchInputs = document.querySelectorAll('input[data-en-placeholder][data-zh-placeholder]');
+    searchInputs.forEach(input => {
+        input.placeholder = input.getAttribute(`data-${lang}-placeholder`);
+    });
+    
+    // 更新长文本内容的显示/隐藏
+    const zhContents = document.querySelectorAll('.zh-content');
+    const enContents = document.querySelectorAll('.en-content');
+    
+    if (lang === 'zh') {
+        zhContents.forEach(el => el.style.display = 'block');
+        enContents.forEach(el => el.style.display = 'none');
+    } else {
+        zhContents.forEach(el => el.style.display = 'none');
+        enContents.forEach(el => el.style.display = 'block');
+    }
+}</code></pre>
+                        </div>
+                        
+                        <h3 data-en="4.3 Dynamic Content Loading" data-zh="4.3 动态内容加载">4.3 动态内容加载</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>动态加载优势</strong><br>
+                            博客列表页使用JavaScript动态加载文章内容，这种方式相比于静态HTML有以下优势：<span class="emoji">🔄</span></p>
+                            <ul class="zh-content">
+                                <li>更容易实现文章过滤、搜索和分页功能</li>
+                                <li>便于将来扩展，比如从API或JSON文件加载内容</li>
+                                <li>避免重复的HTML代码，提高维护效率</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>Dynamic Loading Advantages</strong><br>
+                            The blog list page uses JavaScript to dynamically load article content, 
+                                which has the following advantages compared to static HTML:<span class="emoji">🔄</span></p>
+                            <ul class="en-content" style="display: none;">
+                                <li>Easier implementation of article filtering, search, and pagination</li>
+                                <li>Convenient for future expansion, such as loading content from API or JSON files</li>
+                                <li>Avoids repetitive HTML code, improving maintenance efficiency</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- 代码示例 -->
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>实现示例</strong><br>
+                            博客文章数据和加载函数：</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Implementation Example</strong><br>
+                            Blog post data and loading function:</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-javascript">// 博客文章数据示例
+const blogPosts = [
+    {
+        id: 1,
+        title: { zh: "从零构建个人博客：技术栈与架构详解", en: "Building a Personal Blog from Scratch: Tech Stack and Architecture" },
+        excerpt: { zh: "详细介绍个人博客的技术栈、架构设计和核心功能实现...", en: "Detailed introduction to the tech stack, architecture design, and core functionality implementation of a personal blog..." },
+        date: "2025-04-25",
+        category: "tech",
+        tags: ["web-development", "frontend", "html-css-js"],
+        url: "blog/tech/blog-building.html"
+    },
+    // 更多文章...
+];
+
+// 加载特定页面的文章
+function loadPagePosts(page, filter = 'all') {
+    const postsPerPage = 6;
+    const startIndex = (page - 1) * postsPerPage;
+    const endIndex = startIndex + postsPerPage;
+    
+    // 根据筛选条件过滤文章
+    let filteredPosts = blogPosts;
+    if (filter !== 'all') {
+        filteredPosts = blogPosts.filter(post => post.tags.includes(filter) || post.category === filter);
+    }
+    
+    const currentPosts = filteredPosts.slice(startIndex, endIndex);
+    const blogList = document.querySelector('.blog-list');
+    blogList.innerHTML = '';
+    
+    // 当前语言
+    const currentLang = document.body.classList.contains('en') ? 'en' : 'zh';
+    
+    // 生成文章卡片HTML
+    currentPosts.forEach(post => {
+        const postElement = document.createElement('article');
+        postElement.className = 'blog-post';
+        postElement.innerHTML = `
+            <div class="blog-post-header">
+                <div class="blog-post-meta">
+                    <span class="post-date">${post.date}</span>
+                </div>
+            </div>
+            <h2 class="blog-post-title">${post.title[currentLang]}</h2>
+            <p class="blog-post-excerpt">${post.excerpt[currentLang]}</p>
+            <div class="blog-post-footer">
+                <a href="${post.url}" class="read-more" data-en="Read More" data-zh="阅读更多">
+                    ${currentLang === 'en' ? 'Read More' : '阅读更多'}
+                </a>
+            </div>
+        `;
+        blogList.appendChild(postElement);
+    });
+    
+    // 更新分页状态
+    updatePagination(page, Math.ceil(filteredPosts.length / postsPerPage));
+}</code></pre>
+                        </div>
+                        
+                        <h3 data-en="4.4 Performance Optimization" data-zh="4.4 性能优化技巧">4.4 性能优化技巧</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>优化策略</strong><br>
+                            在JavaScript实现中采用了多种性能优化措施：<span class="emoji">⚡</span></p>
+                            <ul class="zh-content">
+                                <li><strong>事件委托</strong> - 减少事件监听器数量，提高性能</li>
+                                <li><strong>防抖与节流</strong> - 优化频繁触发的事件处理（如搜索、滚动）</li>
+                                <li><strong>异步加载</strong> - 非关键资源延迟加载</li>
+                                <li><strong>代码模块化</strong> - 按需加载不同功能模块</li>
+                                <li><strong>缓存DOM查询</strong> - 避免重复查询DOM元素</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>Optimization Strategies</strong><br>
+                            Various performance optimization measures were adopted 
+                                in the JavaScript implementation:<span class="emoji">⚡</span></p>
+                            <ul class="en-content" style="display: none;">
+                                <li><strong>Event Delegation</strong> - Reducing the number of event listeners for better performance</li>
+                                <li><strong>Debouncing and Throttling</strong> - Optimizing frequently triggered event handlers (e.g., search, scroll)</li>
+                                <li><strong>Asynchronous Loading</strong> - Delayed loading of non-critical resources</li>
+                                <li><strong>Code Modularization</strong> - Loading different functional modules as needed</li>
+                                <li><strong>Caching DOM Queries</strong> - Avoiding repeated querying of DOM elements</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- 代码示例：防抖函数 -->
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>防抖示例</strong><br>
+                            防抖函数和搜索优化实现：</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Debounce Example</strong><br>
+                            Debounce function and search optimization implementation:</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-javascript">// 防抖函数实现
+function debounce(func, delay) {
+    let timeout;
+    return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            func.apply(this, args);
+        }, delay);
+    };
+}
+
+// 博客搜索实现（带防抖）
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.querySelector('.blog-search input');
+    
+    // 使用防抖优化搜索，避免每输入一个字符就触发搜索
+    const debouncedSearch = debounce(function() {
+        const searchTerm = this.value.toLowerCase().trim();
+        performSearch(searchTerm);
+    }, 300);
+    
+    if (searchInput) {
+        searchInput.addEventListener('input', debouncedSearch);
+    }
+});</code></pre>
+                        </div>
+                    </section>
+                    
+                    <!-- 第五部分 -->
+                    <section id="section-5">
+                        <h2 data-en="V. Deployment Solutions" data-zh="五、部署方案">五、部署方案</h2>
+                        
+                        <h3 data-en="5.1 Deployment Options" data-zh="5.1 部署选项">5.1 部署选项</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>可选部署平台</strong><br>
+                            作为一个纯静态网站，这个博客有多种部署选择：<span class="emoji">🚀</span></p>
+                            <ul class="zh-content">
+                                <li><strong>GitHub Pages</strong> - 免费且集成Git工作流，是个人博客的理想选择</li>
+                                <li><strong>Netlify</strong> - 提供持续部署、自定义域名和HTTPS支持</li>
+                                <li><strong>Vercel</strong> - 针对前端项目优化，提供全球CDN加速</li>
+                                <li><strong>传统Web主机</strong> - 通过FTP上传静态文件</li>
+                                <li><strong>云存储服务</strong> - 如阿里云OSS、腾讯云COS、AWS S3等</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>Available Deployment Platforms</strong><br>
+                            As a pure static website, this blog has multiple deployment options:<span class="emoji">🚀</span></p>
+                            <ul class="en-content" style="display: none;">
+                                <li><strong>GitHub Pages</strong> - Free and integrated with Git workflow, ideal for personal blogs</li>
+                                <li><strong>Netlify</strong> - Offers continuous deployment, custom domains, and HTTPS support</li>
+                                <li><strong>Vercel</strong> - Optimized for frontend projects, provides global CDN acceleration</li>
+                                <li><strong>Traditional Web Hosting</strong> - Upload static files via FTP</li>
+                                <li><strong>Cloud Storage Services</strong> - Such as Alibaba Cloud OSS, Tencent Cloud COS, AWS S3, etc.</li>
+                            </ul>
+                        </div>
+                        
+                        <h3 data-en="5.2 GitHub Pages Deployment" data-zh="5.2 GitHub Pages部署">5.2 GitHub Pages部署</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>部署流程</strong><br>
+                            我选择使用GitHub Pages作为主要部署平台，部署流程如下：<span class="emoji">🔄</span></p>
+                            <ol class="zh-content">
+                                <li>创建名为<code>username.github.io</code>的GitHub仓库（其中username是你的GitHub用户名）</li>
+                                <li>将本地代码推送到该仓库</li>
+                                <li>在仓库设置中启用GitHub Pages</li>
+                                <li>（可选）配置自定义域名并设置HTTPS</li>
+                            </ol>
+                            
+                            <p class="en-content" style="display: none;"><strong>Deployment Process</strong><br>
+                            I chose GitHub Pages as the primary deployment platform, 
+                                with the deployment process as follows:<span class="emoji">🔄</span></p>
+                            <ol class="en-content" style="display: none;">
+                                <li>Create a GitHub repository named <code>username.github.io</code> 
+                                    (where username is your GitHub username)</li>
+                                <li>Push local code to the repository</li>
+                                <li>Enable GitHub Pages in repository settings</li>
+                                <li>(Optional) Configure custom domain and set up HTTPS</li>
+                            </ol>
+                        </div>
+                        
+                        <!-- 代码示例：部署命令 -->
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>部署命令</strong><br>
+                            GitHub Pages部署的Git命令示例：</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Deployment Commands</strong><br>
+                            Git command examples for GitHub Pages deployment:</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-bash"># 初始化Git仓库（如果尚未初始化）
+git init
+
+# 添加所有文件到Git
+git add .
+
+# 提交更改
+git commit -m "Initial commit for blog deployment"
+
+# 添加GitHub远程仓库
+git remote add origin https://github.com/username/username.github.io.git
+
+# 推送代码到主分支
+git push -u origin main</code></pre>
+                        </div>
+                        
+                        <h3 data-en="5.3 CI/CD Implementation" data-zh="5.3 CI/CD实现">5.3 CI/CD实现</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>自动化部署</strong><br>
+                            为了简化更新流程，我设置了基本的CI/CD流水线：<span class="emoji">⚙️</span></p>
+                            <ul class="zh-content">
+                                <li>使用GitHub Actions自动部署变更</li>
+                                <li>配置简单的检查确保HTML、CSS和JavaScript文件的质量</li>
+                                <li>实现自动化测试，验证网站各个页面是否正常加载</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>Automated Deployment</strong><br>
+                            To simplify the update process, I set up a basic CI/CD pipeline:<span class="emoji">⚙️</span></p>
+                            <ul class="en-content" style="display: none;">
+                                <li>Using GitHub Actions to automatically deploy changes</li>
+                                <li>Configuring simple checks to ensure the quality of HTML, CSS, and JavaScript files</li>
+                                <li>Implementing automated tests to verify that various pages of the website load properly</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>工作流配置</strong><br>
+                            GitHub Actions工作流示例：</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Workflow Configuration</strong><br>
+                            GitHub Actions workflow example:</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-yaml"># GitHub Actions工作流示例 (.github/workflows/deploy.yml)
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Validate HTML
+        run: |
+          npx html-validate "**/*.html"
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages
+          folder: .</code></pre>
+                        </div>
+                        
+                        <h3 data-en="5.4 Performance Monitoring" data-zh="5.4 性能监控">5.4 性能监控</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>监控工具</strong><br>
+                            部署后，我使用以下工具监控网站性能：<span class="emoji">📊</span></p>
+                            <ul class="zh-content">
+                                <li><strong>Google Analytics</strong> - 分析访问流量和用户行为</li>
+                                <li><strong>Google Search Console</strong> - 监控搜索引擎索引状态</li>
+                                <li><strong>Lighthouse</strong> - 定期检查性能、可访问性和SEO得分</li>
+                                <li><strong>PageSpeed Insights</strong> - 分析并优化页面加载速度</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>Monitoring Tools</strong><br>
+                            After deployment, I use the following tools to monitor website performance:<span class="emoji">📊</span></p>
+                            <ul class="en-content" style="display: none;">
+                                <li><strong>Google Analytics</strong> - Analyzing traffic and user behavior</li>
+                                <li><strong>Google Search Console</strong> - Monitoring search engine indexing status</li>
+                                <li><strong>Lighthouse</strong> - Regularly checking performance, accessibility, and SEO scores</li>
+                                <li><strong>PageSpeed Insights</strong> - Analyzing and optimizing page load speed</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>持续优化</strong><br>
+                            基于监控结果，持续进行优化调整，包括：<span class="emoji">🔧</span></p>
+                            <ul class="zh-content">
+                                <li>优化图片尺寸和格式（如使用WebP）</li>
+                                <li>实现图片懒加载</li>
+                                <li>根据用户访问数据调整内容组织</li>
+                                <li>优化关键渲染路径，提高首屏加载速度</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>Continuous Optimization</strong><br>
+                            Based on monitoring results, continuous optimization adjustments include:<span class="emoji">🔧</span></p>
+                            <ul class="en-content" style="display: none;">
+                                <li>Optimizing image size and format (such as using WebP)</li>
+                                <li>Implementing lazy loading for images</li>
+                                <li>Adjusting content organization based on user visit data</li>
+                                <li>Optimizing critical rendering path to improve first screen load speed</li>
+                            </ul>
+                        </div>
+                    </section>
+                    
+                    <!-- 结语 -->
+                    <div class="post-conclusion">
+                        <h2 data-en="Conclusion" data-zh="结语">结语</h2>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>学习收获</strong><br>
+                            从零构建个人博客是一次宝贵的学习经历，它不仅强化了我对Web基础技术的理解，
+                            也让我深入思考用户体验、性能优化和可访问性等重要方面。
+                            通过这个项目，我实践了"简洁高效"的设计理念，打造了一个既满足功能需求又具备个性化特色的博客平台。<span class="emoji">🎓</span></p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Learning Gains</strong><br>
+                            Building a personal blog from scratch has been a valuable learning experience, 
+                            not only reinforcing my understanding of fundamental Web technologies but also prompting deep reflection 
+                            on important aspects such as user experience, performance optimization, and accessibility. 
+                            Through this project, I practiced the design philosophy of "simplicity and efficiency," 
+                            creating a blog platform that both meets functional requirements and possesses personalized characteristics.<span class="emoji">🎓</span></p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>技术总结</strong><br>
+                            这个博客采用纯静态设计，优先考虑内容展示和用户体验，
+                            同时通过模块化的JavaScript实现了主题切换、多语言支持和动态内容加载等特性。
+                            部署在GitHub Pages上，既节省了成本，又简化了维护流程。<span class="emoji">💻</span></p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Technical Summary</strong><br>
+                            This blog adopts a pure static design, prioritizing content display and user experience, 
+                            while implementing features such as theme switching, multilingual support, and dynamic content loading 
+                            through modularized JavaScript. Deployed on GitHub Pages, it both saves costs and simplifies the maintenance process.<span class="emoji">💻</span></p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>实用建议</strong><br>
+                            对于有兴趣构建自己博客的读者，我的建议是：从简单开始，专注于内容而不是复杂的技术栈；
+                            逐步迭代，根据实际需求添加功能；重视性能和用户体验，它们往往比华丽的效果更重要。<span class="emoji">💡</span></p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Practical Advice</strong><br>
+                            For readers interested in building their own blogs, my advice is: 
+                            start simple, focus on content rather than complex tech stacks; iterate gradually, 
+                            adding features based on actual needs; value performance and user experience, 
+                            which are often more important than fancy effects. <span class="emoji">💡</span></p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>核心理念</strong><br>
+                            最后，博客的核心永远是内容。技术只是展示内容的工具，真正吸引读者的是有价值、有见解的文章。
+                            希望这篇技术分享能对你有所启发，欢迎在评论区交流你的想法和经验！ <span class="emoji">💻✨</span></p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Core Philosophy</strong><br>
+                            Finally, the core of a blog is always its content. 
+                            Technology is just a tool to display content, and what truly attracts readers are valuable and insightful articles. 
+                            I hope this technical sharing can inspire you, and welcome to share your thoughts and experiences 
+                            in the comments section! <span class="emoji">💻✨</span></p>
+                        </div>
+                        
+                        <div class="post-signature">
+                            <p>— HealthJian <span class="emoji">✍️</span></p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- 评论区 -->
+            <div class="comments-section">
+                <h3 data-en="Comments" data-zh="评论">评论</h3>
+                <div class="comment-form">
+                    <textarea placeholder="写下你的想法..." data-en-placeholder="Write your thoughts..." data-zh-placeholder="写下你的想法..."></textarea>
+                    <button data-en="Submit" data-zh="提交">提交</button>
+                </div>
+                <div class="comments-container">
+                    <p class="no-comments" data-en="Be the first to comment!" data-zh="成为第一个评论的人！">成为第一个评论的人！ <span class="emoji">🎉</span></p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <p>&copy; 2025 CaiNiaojian&HealthJian all followed.</p>
+                <p data-en="Contact: " data-zh="联系方式：">联系方式：<a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
+                <p data-en="Location: " data-zh="地址：">地址：XX</p>
+            </div>
+            <div class="footer-links">
+                <a href="../../blog.html" data-en="Blog" data-zh="博客">博客</a>
+                <a href="../../about.html" data-en="About" data-zh="关于">关于</a>
+                <a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a>
+                <a href="../changelog.html" data-en="ChangeLog" data-zh="更新日志">更新日志</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化代码高亮
+            hljs.highlightAll();
+        });
+    </script>
+    <script src="../../../js/main.js"></script>
+    <script src="../../../js/theme.js"></script>
+    <script src="../../../js/language.js"></script>
+    <script src="../../../js/blog-post.js"></script>
+</body>
+</html> 

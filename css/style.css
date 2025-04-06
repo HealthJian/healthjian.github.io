@@ -263,10 +263,13 @@ main {
     margin: 0 auto;
     font-size: 1.1rem;
     line-height: 1.8;
+    overflow: hidden;
+    word-wrap: break-word;
 }
 
 .bio p {
     margin-bottom: 15px;
+    max-width: 100%;
 }
 
 /* 博客网格样式 */
@@ -407,11 +410,11 @@ body.dark-mode footer {
 /* 响应式设计 */
 @media (max-width: 768px) {
     .navbar {
-        padding: 15px;
+        padding: 10px 15px;
     }
     
     .menu {
-        display: none; /* 在移动设备上隐藏菜单，可以添加汉堡菜单 */
+        display: none;
     }
     
     .posts-container {
@@ -454,6 +457,34 @@ body.dark-mode footer {
     
     .qia-badge {
         align-self: flex-start;
+    }
+
+    /* Bio和数字花园响应式 */
+    .bio {
+        max-width: 95%;
+        padding: 0 10px;
+    }
+    
+    .digital-garden {
+        max-width: 100%; /* 移动端全宽 */
+        font-size: 1rem;
+    }
+    
+    .digital-garden h1 {
+        font-size: 1.8rem;
+    }
+    
+    .digital-garden h2 {
+        font-size: 1.3rem;
+    }
+    
+    /* 确保Quote文本不溢出 */
+    .quote {
+        font-size: 1.5rem;
+        max-width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+        word-wrap: break-word;
     }
 }
 
@@ -532,6 +563,9 @@ body.dark-mode .update-date {
     line-height: 1.8;
     font-size: 1.05rem;
     white-space: pre-line;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
 .digital-garden h1 {
@@ -566,6 +600,7 @@ body.dark-mode .update-date {
 
 .digital-garden p {
     margin-bottom: 1rem;
+    max-width: 100%;
 }
 
 /* 添加博客文章分页样式 */

@@ -131,6 +131,9 @@ body.dark-mode .post-meta-info {
 .blog-post-content {
     flex: 1;
     min-width: 0;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
 
 .post-header {
@@ -155,6 +158,10 @@ body.dark-mode .post-meta-info {
 .post-body {
     line-height: 1.8;
     font-size: 1.05rem;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    max-width: 100%;
 }
 
 .post-body section {
@@ -173,13 +180,53 @@ body.dark-mode .post-meta-info {
     margin-bottom: 20px;
 }
 
-/* 双语内容 */
+/* 双语内容通用规则 */
 .bilingual-content {
     position: relative;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    margin-bottom: 20px;
 }
 
-.bilingual-content p {
+.bilingual-content p, 
+.bilingual-content ul, 
+.bilingual-content ol,
+.bilingual-content li {
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
     transition: opacity var(--transition-speed);
+    box-sizing: border-box;
+}
+
+/* 英文内容特殊处理 */
+.en-content {
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+    hyphens: auto;
+    max-width: 100% !important;
+}
+
+/* 长单词处理 */
+.post-body p,
+.post-body li,
+.post-body a,
+.post-body span,
+.post-body h2,
+.post-body h3,
+.post-body h4 {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    max-width: 100%;
+}
+
+/* 极长单词处理 */
+.post-body *:not(pre):not(code) {
+    overflow-wrap: break-word !important;
+    word-wrap: break-word !important;
+    word-break: break-word !important;
 }
 
 /* 代码块样式 */
@@ -188,18 +235,35 @@ body.dark-mode .post-meta-info {
     border-radius: 6px;
     margin: 15px 0;
     overflow: hidden;
+    max-width: 100%;
+    box-sizing: border-box;
+    position: relative;
 }
 
 .code-block pre {
     margin: 0;
     padding: 15px;
     overflow-x: auto;
+    white-space: pre-wrap;       /* CSS3 */
+    white-space: -moz-pre-wrap;  /* Firefox */
+    white-space: -pre-wrap;      /* Opera <7 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* IE & Chrome */
+    max-width: 100%;
+    box-sizing: border-box;
+    tab-size: 2;                 /* 减小制表符宽度 */
+    -moz-tab-size: 2;
 }
 
 .code-block code {
     font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
     font-size: 0.9rem;
     line-height: 1.5;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-all;
+    display: block; /* 确保代码块占据整个宽度 */
 }
 
 /* 确保代码高亮在暗模式下也有良好的可读性 */
@@ -374,6 +438,18 @@ body.dark-mode .comments-section {
     .feature-cards {
         grid-template-columns: 1fr;
     }
+    
+    /* 代码块响应式 */
+    .code-block {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .code-block pre {
+        width: 100%;
+        box-sizing: border-box;
+    }
 }
 
 @media (max-width: 768px) {
@@ -384,4 +460,58 @@ body.dark-mode .comments-section {
     .post-body h2 {
         font-size: 1.5rem;
     }
+    
+    .code-block pre {
+        padding: 10px; /* 在小屏幕上减少内边距 */
+    }
+    
+    .code-block code {
+        font-size: 0.8rem; /* 小屏幕上减小字体 */
+    }
+    
+    .bilingual-content p,
+    .bilingual-content ul,
+    .bilingual-content ol,
+    .bilingual-content li {
+        font-size: 0.95rem; /* 小屏幕上减小字体 */
+    }
+    
+    /* 小屏幕上优化布局 */
+    .post-body {
+        padding: 0 5px;
+    }
+    
+    .blog-post-content {
+        padding: 0 5px;
+    }
+}
+
+/* 长链接/长词处理 */
+.post-body a, .post-body code, .post-body pre {
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+/* 确保列表项不会溢出 */
+.post-body ul, 
+.post-body ol {
+    padding-left: 20px;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.post-body ul li, 
+.post-body ol li {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    margin-bottom: 15px;
+}
+
+/* 修复特别长的URL或路径 */
+code, pre, .code-block, a {
+    overflow-wrap: break-word !important;
+    word-wrap: break-word !important;
+    word-break: break-word !important;
+    max-width: 100%;
 } 

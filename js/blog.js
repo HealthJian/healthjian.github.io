@@ -347,6 +347,18 @@ function getBlogPosts() {
     // 文章数据
     return [
         {
+            id: 'blog-building',
+            title: '从零开始构建博客：技术栈、架构设计与实现',
+            title_en: 'Building a Blog from Scratch: Technical Stack, Architecture Design, and Implementation',
+            excerpt: '本文将详细介绍这个博客的技术栈、架构设计、核心JavaScript功能实现以及部署方案。',
+            excerpt_en: 'This article will detail the technical stack, architectural design, core JavaScript functionality implementation, and deployment solutions of this blog.',
+            date: '2025-04-06',
+            url: 'blog/tech/blog-building.html',
+            category: 'tech',
+            tags: ['博客', '技术栈', '架构设计', 'JavaScript'],
+            tags_en: ['Blog', 'Technical Stack', 'Architecture Design', 'JavaScript']
+        },
+        {
             id: 'Detailed Analysis of 2025 Graduate Entrance Examination Mathematics II Syllabus',
             title: '2025年考研数学二大纲详解',
             title_en: 'Detailed Analysis of 2025 Graduate Entrance Examination Mathematics II Syllabus',
@@ -542,8 +554,11 @@ function getTagTranslation(tag, targetLang) {
         '考研': 'Graduate Entrance Examination',
         '数学': 'Mathematics',
         '大纲': 'Syllabus',
-        
-        
+        '博客': 'Blog',
+        '技术栈': 'Technical Stack',
+        '架构设计': 'Architecture Design',
+        'JavaScript': 'JavaScript',
+        '部署方案': 'Deployment Solutions',
         /* 新增标签翻译结束 */
         
         // 中文到英文的映射
@@ -583,6 +598,11 @@ function getTagTranslation(tag, targetLang) {
         '考研': 'Graduate Entrance Examination',
         '数学': 'Mathematics',
         '大纲': 'Syllabus',
+        '博客': 'Blog',
+        '技术栈': 'Technical Stack',
+        '架构设计': 'Architecture Design',
+        'JavaScript': 'JavaScript',
+        '部署方案': 'Deployment Solutions',
         /* 新增标签翻译结束 */
     };
     
