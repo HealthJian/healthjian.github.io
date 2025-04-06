@@ -22,17 +22,14 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // 更新引言文本和提示
             const quoteEl = document.querySelector('.quote-text');
-            const hintEl = document.querySelector('.language-hint');
             
-            if (quoteEl && hintEl) {
+            if (quoteEl) {
                 if (newLang === 'en') {
                     // 切换到英文时显示英文引言
-                    quoteEl.textContent = 'Man\'s life is less than a hundred years, yet he harbors griefs for a thousand.';
-                    hintEl.textContent = '[click language]';
+                    quoteEl.textContent = 'Think less, and happiness will chase after you!';
                 } else {
                     // 切换到中文时显示中文引言
-                    quoteEl.textContent = '人生不满百，常怀千岁忧。';
-                    hintEl.textContent = '【点击语言】';
+                    quoteEl.textContent = '只要想的少 快乐追着跑！';
                 }
                 
                 // 应用引言文本字体
@@ -72,15 +69,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // 更新引言文本和提示
         const quoteEl = document.querySelector('.quote-text');
-        const hintEl = document.querySelector('.language-hint');
         
-        if (quoteEl && hintEl) {
+        if (quoteEl) {
             if (savedLang === 'en') {
-                quoteEl.textContent = 'Man\'s life is less than a hundred years, yet he harbors griefs for a thousand.';
-                hintEl.textContent = '[click language]';
+                quoteEl.textContent = 'Think less, and happiness will chase after you!';
             } else {
-                quoteEl.textContent = '人生不满百，常怀千岁忧。';
-                hintEl.textContent = '【点击语言】';
+                quoteEl.textContent = '只要想的少 快乐追着跑！';
             }
             
             // 应用引言文本字体
@@ -95,13 +89,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // 更新所有文本为中文
         updateAllLanguageElements('zh');
         
-        // 确保引言和提示显示中文
+        // 确保引言显示中文
         const quoteEl = document.querySelector('.quote-text');
-        const hintEl = document.querySelector('.language-hint');
         
-        if (quoteEl && hintEl) {
-            quoteEl.textContent = '人生不满百，常怀千岁忧。';
-            hintEl.textContent = '【点击语言】';
+        if (quoteEl) {
+            quoteEl.textContent = '只要想的少 快乐追着跑！';
             
             // 应用引言文本字体
             if (typeof applyQuoteFont === 'function') {
