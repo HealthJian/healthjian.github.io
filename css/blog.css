@@ -10,6 +10,23 @@
     color: var(--primary-color);
 }
 
+/* 博客标题样式 - 添加特定字体 */
+.blog-title-styled {
+    /* 基础样式 */
+    transition: font-family 0.3s ease;
+}
+
+/* 英文字体将通过JavaScript应用Chewy */
+body.en .blog-title-styled {
+    font-family: 'Chewy', cursive;
+    letter-spacing: 1px;
+}
+
+/* 中文字体将通过JavaScript应用ZCOOL KuaiLe */
+body.zh .blog-title-styled {
+    font-family: 'ZCOOL KuaiLe', sans-serif;
+}
+
 .blog-search {
     display: flex;
     max-width: 500px;
