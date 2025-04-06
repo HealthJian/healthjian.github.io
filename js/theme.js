@@ -1,15 +1,25 @@
 // 主题切换功能
 
+// 根据当前时间获取合适的主题
+function getThemeByTime() {
+    const hour = new Date().getHours();
+    // 6:00-18:00 为日间模式，19:00-5:00 为夜间模式
+    return (hour >= 6 && hour <= 18) ? 'light-mode' : 'dark-mode';
+}
+
 // 检查用户之前的主题偏好
 function checkThemePreference() {
     const savedTheme = localStorage.getItem('theme');
+    // 如果用户手动设置了主题，优先使用
     if (savedTheme) {
         document.body.className = savedTheme;
         updateThemeToggleIcon(savedTheme);
-    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        // 如果用户系统偏好暗色模式
-        document.body.className = 'dark-mode';
-        updateThemeToggleIcon('dark-mode');
+    } 
+    // 如果没有手动设置，根据时间自动判断
+    else {
+        const timeBasedTheme = getThemeByTime();
+        document.body.className = timeBasedTheme;
+        updateThemeToggleIcon(timeBasedTheme);
     }
 }
 
