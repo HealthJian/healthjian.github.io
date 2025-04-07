@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在 Windows 上安装 MinGW-w64 教程 - HealthJian的博客</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/dark-mode.css">
+    <link rel="stylesheet" href="../../../css/blog-post.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Highlight.js亮色主题 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css" id="light-code-theme">
+    <!-- Highlight.js暗色主题 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css" id="dark-code-theme" disabled>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <style>
+        /* 确保代码块在暗色模式下有正确的背景色和文本颜色 */
+        body.dark-mode .code-block {
+            background-color: #282c34;
+        }
+        
+        body.dark-mode .code-block pre {
+            color: #abb2bf;
+        }
+        
+        /* 修复firefox在暗色模式下的代码显示问题 */
+        @-moz-document url-prefix() {
+            body.dark-mode .code-block pre code {
+                color: #abb2bf;
+            }
+        }
+    </style>
+</head>
+<body class="light-mode">
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="../../../index.html" class="logo">
+                <img src="../../../images/githubherofigureimage.png" alt="Logo">
+                <span class="site-name" data-en="HealthJian Blog" data-zh="HealthJian">HealthJian</span>
+            </a>
+        </div>
+        <div class="nav-right">
+            <ul class="menu">
+                <li><a href="../../../index.html" data-en="Home" data-zh="首页">首页</a></li>
+                <li><a href="../../blog.html" data-en="Blog" data-zh="博客">博客</a></li>
+                <li><a href="../../../pages/project/project.html" data-en="Projects" data-zh="项目">项目</a></li>
+                <li><a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a></li>
+                <li><a href="../../links.html" data-en="Links" data-zh="链接">链接</a></li>
+                <li><a href="../../about.html" data-en="About" data-zh="关于">关于</a></li>
+            </ul>
+            <div class="social-icons">
+                <a href="https://steamcommunity.com/id/yoursteamid" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
+                <a href="mailto:gaojian1573@foxmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+            <button id="theme-toggle" class="theme-toggle" title="切换主题">
+                <i class="fas fa-moon"></i>
+                <i class="fas fa-sun"></i>
+            </button>
+            <button id="lang-toggle" class="lang-toggle" title="切换语言">
+                <span data-en="EN" data-zh="中">中</span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="blog-post-container">
+        <!-- 侧边栏 -->
+        <aside class="blog-sidebar">
+            <div class="toc-container">
+                <h3 data-en="Table of Contents" data-zh="目录">目录</h3>
+                <ul class="toc-list">
+                    <li><a href="#section-1" data-en="Overview" data-zh="步骤概览">步骤概览</a></li>
+                    <li><a href="#section-2" data-en="Detailed Steps" data-zh="详细步骤">详细步骤</a></li>
+                    <li><a href="#section-3" data-en="Installation Verification" data-zh="验证安装">验证安装</a></li>
+                </ul>
+            </div>
+            
+            <div class="post-meta-info">
+                <div class="post-date">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>2025-04-08</span>
+                </div>
+                <div class="post-date">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>2025-04-08</span>
+                </div>
+                <div class="post-tags">
+                    <i class="fas fa-tags"></i>
+                    <span class="tag" data-en="C++" data-zh="C++">C++</span>
+                    <span class="tag" data-en="MinGW" data-zh="MinGW">MinGW</span>
+                    <span class="tag" data-en="Tutorial" data-zh="教程">教程</span>
+                </div>
+                <div class="post-category">
+                    <i class="fas fa-folder"></i>
+                    <span data-en="Technology" data-zh="技术">技术</span>
+                </div>
+            </div>
+            
+            <div class="post-navigation">
+                <h3 data-en="Navigation" data-zh="导航">导航</h3>
+                <div class="nav-buttons">
+                    <a href="../../blog.html" class="nav-button" data-en="Back to Blog" data-zh="返回博客列表">
+                        <i class="fas fa-arrow-left"></i>
+                        <span data-en="Back to Blog" data-zh="返回博客列表">返回博客列表</span>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 文章主体 -->
+        <main class="blog-post-main">
+            <article class="blog-post-content">
+                <header class="post-header">
+                    <h1 class="post-title">
+                        <div class="bilingual-content">
+                            <span class="zh-content">在 Windows 上安装 MinGW-w64 (g++ 编译器) 教程</span>
+                            <span class="en-content" style="display: none;">Installing MinGW-w64 (g++ compiler) on Windows: A Tutorial</span>
+                        </div>
+                    </h1>
+                </header>
+                
+                <div class="post-body">
+                    <!-- 引言 -->
+                    <div class="bilingual-content">
+                        <p class="zh-content">
+                            在 Windows 系统上进行 C/C++ 开发需要安装合适的编译工具链。MinGW-w64 是一个流行的选择，它提供了 GCC 编译器工具链的 Windows 移植版本。
+                            本教程将指导你如何通过 MSYS2 安装并配置 MinGW-w64，以便在 Windows 上使用 g++ 编译器进行 C++ 开发。<span class="emoji">🛠️</span>
+                        </p>
+                        <p class="en-content" style="display: none;">
+                            C/C++ development on Windows requires the installation of an appropriate compiler toolchain. MinGW-w64 is a popular choice, providing a Windows port of the GCC compiler toolchain.
+                            This tutorial will guide you through installing and configuring MinGW-w64 via MSYS2, allowing you to use the g++ compiler for C++ development on Windows.<span class="emoji">🛠️</span>
+                        </p>
+                    </div>
+                    
+                    <div class="bilingual-content">
+                        <p class="zh-content">
+                            我们推荐使用 MSYS2 来安装和管理 MinGW-w64，因为它提供了一个方便的包管理器，使工具的安装和更新变得更加简单。<span class="emoji">📦</span>
+                        </p>
+                        <p class="en-content" style="display: none;">
+                            We recommend using MSYS2 to install and manage MinGW-w64, as it provides a convenient package manager that makes tool installation and updates much simpler.<span class="emoji">📦</span>
+                        </p>
+                    </div>
+
+                    <!-- 第一部分：步骤概览 -->
+                    <section id="section-1">
+                        <h2 data-en="Steps Overview" data-zh="步骤概览">步骤概览</h2>
+                        
+                        <div class="bilingual-content">
+                            <ol class="zh-content">
+                                <li><strong>下载并安装 MSYS2</strong> - 获取包管理系统</li>
+                                <li><strong>更新 MSYS2 基础包</strong> - 确保系统是最新的</li>
+                                <li><strong>通过 MSYS2 安装 MinGW-w64 GCC 工具链</strong> - 包含 g++ 编译器</li>
+                                <li><strong>将 MinGW-w64 的 bin 目录添加到 Windows 的 PATH 环境变量</strong> - 使命令可全局访问</li>
+                                <li><strong>验证安装</strong> - 确认一切工作正常</li>
+                            </ol>
+                            
+                            <ol class="en-content" style="display: none;">
+                                <li><strong>Download and install MSYS2</strong> - Get the package management system</li>
+                                <li><strong>Update MSYS2 base packages</strong> - Ensure the system is up-to-date</li>
+                                <li><strong>Install MinGW-w64 GCC toolchain via MSYS2</strong> - Including the g++ compiler</li>
+                                <li><strong>Add MinGW-w64 bin directory to Windows PATH environment variable</strong> - Make commands globally accessible</li>
+                                <li><strong>Verify the installation</strong> - Confirm everything is working properly</li>
+                            </ol>
+                        </div>
+                    </section>
+                    
+                    <!-- 第二部分：详细步骤 -->
+                    <section id="section-2">
+                        <h2 data-en="Detailed Steps" data-zh="详细步骤">详细步骤</h2>
+                        
+                        <h3 data-en="1. Download and Install MSYS2" data-zh="1. 下载并安装 MSYS2">1. 下载并安装 MSYS2</h3>
+                        
+                        <div class="bilingual-content">
+                            <ul class="zh-content">
+                                <li>访问 <a href="https://www.msys2.org/" target="_blank">MSYS2 官方网站</a></li>
+                                <li>在首页找到 "Installation" 部分，下载最新的 .exe 安装程序</li>
+                                <li>运行下载的安装程序，按照提示进行安装</li>
+                                <li>建议保持默认的安装路径 (例如 C:\msys64)</li>
+                                <li>安装完成后，勾选 "Run MSYS2 now" 并点击 "Finish"</li>
+                            </ul>
+                            
+                            <ul class="en-content" style="display: none;">
+                                <li>Visit the <a href="https://www.msys2.org/" target="_blank">MSYS2 official website</a></li>
+                                <li>Find the "Installation" section on the homepage and download the latest .exe installer</li>
+                                <li>Run the downloaded installer and follow the prompts</li>
+                                <li>It's recommended to keep the default installation path (e.g., C:\msys64)</li>
+                                <li>After installation completes, check "Run MSYS2 now" and click "Finish"</li>
+                            </ul>
+                        </div>
+                        
+                        <h3 data-en="2. Update MSYS2 Base Packages" data-zh="2. 更新 MSYS2 基础包">2. 更新 MSYS2 基础包</h3>
+                        
+                        <div class="bilingual-content">
+                            <ul class="zh-content">
+                                <li>MSYS2 安装完成后会打开一个类似 Linux 终端的窗口 (MSYS2 MSYS)</li>
+                                <li>在这个窗口中，首先更新包数据库和核心系统包。输入以下命令并按 Enter：</li>
+                            </ul>
+                            
+                            <ul class="en-content" style="display: none;">
+                                <li>After MSYS2 installation completes, a Linux-like terminal window (MSYS2 MSYS) will open</li>
+                                <li>In this window, first update the package database and core system packages. Enter the following command and press Enter:</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-bash">pacman -Syu</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <ul class="zh-content">
+                                <li>它可能会提示你关闭窗口 (Terminate batch job (Y/N)?)，按 Y 然后按 Enter。你需要手动关闭这个 MSYS2 窗口</li>
+                                <li>从 Windows 开始菜单重新启动 MSYS2 (找到 "MSYS2 MSYS" 并运行)</li>
+                                <li>再次运行更新命令，以确保所有基础包都是最新的：</li>
+                            </ul>
+                            
+                            <ul class="en-content" style="display: none;">
+                                <li>It might prompt you to close the window (Terminate batch job (Y/N)?); press Y then Enter. You need to manually close this MSYS2 window</li>
+                                <li>Restart MSYS2 from the Windows Start menu (find "MSYS2 MSYS" and run it)</li>
+                                <li>Run the update command again to ensure all base packages are up to date:</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-bash">pacman -Su</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <ul class="zh-content">
+                                <li>根据提示完成更新</li>
+                            </ul>
+                            
+                            <ul class="en-content" style="display: none;">
+                                <li>Follow the prompts to complete the update</li>
+                            </ul>
+                        </div>
+                        
+                        <h3 data-en="3. Install MinGW-w64 GCC Toolchain" data-zh="3. 安装 MinGW-w64 GCC 工具链">3. 安装 MinGW-w64 GCC 工具链</h3>
+                        
+                        <div class="bilingual-content">
+                            <ul class="zh-content">
+                                <li>在仍然打开的 MSYS2 MSYS 窗口中，现在安装适用于 64 位 Windows 的 MinGW-w64 GCC 工具链。运行以下命令：</li>
+                            </ul>
+                            
+                            <ul class="en-content" style="display: none;">
+                                <li>In the still open MSYS2 MSYS window, now install the MinGW-w64 GCC toolchain for 64-bit Windows. Run the following command:</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-bash">pacman -S --needed base-devel mingw-w64-x86_64-toolchain</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <ul class="zh-content">
+                                <li>系统会列出将要安装的包 (包括 gcc, g++, make 等)</li>
+                                <li>当询问选择时，直接按 Enter (选择全部)</li>
+                                <li>当询问是否继续安装时，输入 Y 并按 Enter</li>
+                                <li>等待安装过程完成</li>
+                            </ul>
+                            
+                            <ul class="en-content" style="display: none;">
+                                <li>The system will list the packages to be installed (including gcc, g++, make, etc.)</li>
+                                <li>When asked for selection, simply press Enter (to select all)</li>
+                                <li>When asked if you want to continue installation, type Y and press Enter</li>
+                                <li>Wait for the installation process to complete</li>
+                            </ul>
+                        </div>
+                        
+                        <h3 data-en="4. Add MinGW-w64 to Windows PATH" data-zh="4. 添加 MinGW-w64 到 Windows PATH">4. 添加 MinGW-w64 到 Windows PATH</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>查找 bin 目录</strong></p>
+                            <ul class="zh-content">
+                                <li>找到 MinGW-w64 的 bin 目录：</li>
+                                <li>默认安装路径通常为 C:\msys64\mingw64\bin</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>Locate the bin directory</strong></p>
+                            <ul class="en-content" style="display: none;">
+                                <li>Find the MinGW-w64 bin directory:</li>
+                                <li>The default installation path is usually C:\msys64\mingw64\bin</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>添加到 PATH 环境变量</strong></p>
+                            <ul class="zh-content">
+                                <li>在 Windows 搜索栏中搜索 "环境变量"，打开系统属性</li>
+                                <li>点击 "高级" 选项卡下的 "环境变量" 按钮</li>
+                                <li>在 "用户变量" 中选中 Path，然后点击 "编辑"</li>
+                                <li>点击 "新建"，将 MinGW-w64 bin 目录路径粘贴进去 (例如 C:\msys64\mingw64\bin)</li>
+                                <li>点击 "确定" 关闭所有窗口</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>Add to PATH environment variable</strong></p>
+                            <ul class="en-content" style="display: none;">
+                                <li>Search for "environment variables" in the Windows search bar, open System Properties</li>
+                                <li>Click the "Environment Variables" button under the "Advanced" tab</li>
+                                <li>In "User variables," select Path and click "Edit"</li>
+                                <li>Click "New" and paste the MinGW-w64 bin directory path (e.g., C:\msys64\mingw64\bin)</li>
+                                <li>Click "OK" to close all windows</li>
+                            </ul>
+                        </div>
+                    </section>
+                    
+                    <!-- 第三部分：验证安装 -->
+                    <section id="section-3">
+                        <h2 data-en="Installation Verification" data-zh="验证安装">验证安装</h2>
+                        
+                        <div class="bilingual-content">
+                            <ul class="zh-content">
+                                <li>关闭所有已经打开的 PowerShell 或 CMD 窗口</li>
+                                <li>打开一个新的 PowerShell 或 CMD 窗口</li>
+                                <li>输入以下命令检查 g++ 版本：</li>
+                            </ul>
+                            
+                            <ul class="en-content" style="display: none;">
+                                <li>Close all open PowerShell or CMD windows</li>
+                                <li>Open a new PowerShell or CMD window</li>
+                                <li>Enter the following command to check the g++ version:</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-bash">g++ --version</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">如果看到类似下面的版本信息输出，说明 g++ 安装成功并且 PATH 配置正确：</p>
+                            <p class="en-content" style="display: none;">If you see version information output similar to the following, it means g++ has been successfully installed and the PATH is correctly configured:</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-bash">g++ (Rev2, Built by MSYS2 project) 13.2.0
+Copyright (C) 2023 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">您还可以通过编译一个简单的 C++ 程序来进一步验证安装：</p>
+                            <p class="en-content" style="display: none;">You can further verify the installation by compiling a simple C++ program:</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">1. 创建一个名为 <code>hello.cpp</code> 的文件，内容如下：</p>
+                            <p class="en-content" style="display: none;">1. Create a file named <code>hello.cpp</code> with the following content:</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-cpp">#include &lt;iostream&gt;
+
+int main() {
+    std::cout << "Hello, world!" << std::endl;
+    return 0;
+}</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">2. 在命令行中编译并运行这个程序：</p>
+                            <p class="en-content" style="display: none;">2. Compile and run this program from the command line:</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-bash">g++ hello.cpp -o hello
+hello</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">如果看到输出 "Hello, world!"，则表示您的 g++ 编译器工作正常。</p>
+                            <p class="en-content" style="display: none;">If you see the output "Hello, world!", it indicates that your g++ compiler is working properly.</p>
+                        </div>
+                    </section>
+                    
+                    <!-- 结论部分 -->
+                    <div class="post-conclusion">
+                        <h2 data-en="Conclusion" data-zh="结语">结语</h2>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                恭喜！你已经成功在 Windows 系统上安装了 MinGW-w64 工具链，包括 g++ 编译器。现在你可以在 Windows 上便捷地进行 C/C++ 开发了。
+                                这个设置不仅适用于小型项目，还可以用于更复杂的开发工作。<span class="emoji">🎉</span>
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                Congratulations! You have successfully installed the MinGW-w64 toolchain, including the g++ compiler, on your Windows system. Now you can conveniently develop C/C++ applications on Windows.
+                                This setup is suitable not only for small projects but also for more complex development work.<span class="emoji">🎉</span>
+                            </p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                如果你在安装过程中遇到任何问题，可以查阅 <a href="https://www.msys2.org/wiki/MSYS2-installation/" target="_blank">MSYS2 官方文档</a> 或在下方留言，我会尽快回复。<span class="emoji">📚</span>
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                If you encounter any issues during the installation process, you can refer to the <a href="https://www.msys2.org/wiki/MSYS2-installation/" target="_blank">MSYS2 official documentation</a> or leave a comment below, and I will respond as soon as possible.<span class="emoji">📚</span>
+                            </p>
+                        </div>
+                        
+                        <div class="post-signature">
+                            <p>— HealthJian <span class="emoji">✍️</span></p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- 评论区 -->
+            <div class="comments-section">
+                <h3 data-en="Comments" data-zh="评论">评论</h3>
+                <div class="comment-form">
+                    <textarea placeholder="写下你的想法..." data-en-placeholder="Write your thoughts..." data-zh-placeholder="写下你的想法..."></textarea>
+                    <button data-en="Submit" data-zh="提交">提交</button>
+                </div>
+                <div class="comments-container">
+                    <p class="no-comments" data-en="Be the first to comment!" data-zh="成为第一个评论的人！">成为第一个评论的人！ <span class="emoji">🎉</span></p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <p>&copy; 2025 CaiNiaojian&HealthJian all followed.</p>
+                <p data-en="Contact: " data-zh="联系方式：">联系方式：<a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
+                <p data-en="Location: " data-zh="地址：">地址：中国，江苏</p>
+            </div>
+            <div class="footer-links">
+                <a href="../../blog.html" data-en="Blog" data-zh="博客">博客</a>
+                <a href="../../about.html" data-en="About" data-zh="关于">关于</a>
+                <a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a>
+                <a href="../../changelog.html" data-en="ChangeLog" data-zh="更新日志">更新日志</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化代码高亮
+            hljs.highlightAll();
+            
+            // 设置初始代码高亮主题
+            updateCodeTheme();
+            
+            // 监听主题切换
+            const themeToggle = document.getElementById('theme-toggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', function() {
+                    // 延迟一小段时间执行，确保body类已更新
+                    setTimeout(updateCodeTheme, 50);
+                });
+            }
+            
+            // 更新代码高亮主题
+            function updateCodeTheme() {
+                const isDarkMode = document.body.classList.contains('dark-mode');
+                const lightTheme = document.getElementById('light-code-theme');
+                const darkTheme = document.getElementById('dark-code-theme');
+                
+                if (isDarkMode) {
+                    lightTheme.disabled = true;
+                    darkTheme.disabled = false;
+                } else {
+                    lightTheme.disabled = false;
+                    darkTheme.disabled = true;
+                }
+                
+                // 重新应用代码高亮
+                hljs.highlightAll();
+            }
+        });
+    </script>
+    <script src="../../../js/main.js"></script>
+    <script src="../../../js/theme.js"></script>
+    <script src="../../../js/language.js"></script>
+    <script src="../../../js/blog-post.js"></script>
+</body>
+</html> 

@@ -347,6 +347,18 @@ function getBlogPosts() {
     // 文章数据
     return [
         {
+            id: 'mingw-installation',
+            title: 'Mingw安装教程',
+            title_en: 'Mingw Installation Tutorial',
+            excerpt: 'Mingw是一款常用的Windows下的C/C++编译器，本文将详细介绍Mingw的安装教程。',
+            excerpt_en: 'Mingw is a commonly used C/C++ compiler in Windows. This article will detail the installation tutorial of Mingw.',
+            date: '2025-04-07',
+            url: 'blog/tech/mingw-installation.html',
+            category: 'tech',
+            tags: ['Mingw', 'C/C++', '编译器', 'Windows'],
+            tags_en: ['Mingw', 'C/C++', 'Compiler', 'Windows']
+        },
+        {
             id: 'blog-building',
             title: '从零开始构建博客：技术栈、架构设计与实现',
             title_en: 'Building a Blog from Scratch: Technical Stack, Architecture Design, and Implementation',
@@ -559,6 +571,10 @@ function getTagTranslation(tag, targetLang) {
         '架构设计': 'Architecture Design',
         'JavaScript': 'JavaScript',
         '部署方案': 'Deployment Solutions',
+        'Mingw': 'Mingw',
+        'C/C++': 'C/C++',
+        '编译器': 'Compiler',
+        'Windows': 'Windows',
         /* 新增标签翻译结束 */
         
         // 中文到英文的映射
@@ -603,6 +619,10 @@ function getTagTranslation(tag, targetLang) {
         '架构设计': 'Architecture Design',
         'JavaScript': 'JavaScript',
         '部署方案': 'Deployment Solutions',
+        'Mingw': 'Mingw',
+        'C/C++': 'C/C++',
+        '编译器': 'Compiler',
+        'Windows': 'Windows',
         /* 新增标签翻译结束 */
     };
     
