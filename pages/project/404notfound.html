@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 未找到 - HealthJian的博客</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/dark-mode.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .error-container {
+            max-width: 800px;
+            margin: 100px auto;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .error-code {
+            font-size: 120px;
+            font-weight: 700;
+            margin: 0;
+            color: var(--primary-color);
+            opacity: 0.8;
+            line-height: 1;
+        }
+        
+        .error-title {
+            font-size: 32px;
+            margin: 20px 0;
+            color: var(--text-color);
+        }
+        
+        .error-message {
+            font-size: 18px;
+            margin-bottom: 40px;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .error-image {
+            max-width: 300px;
+            margin: 20px auto;
+            opacity: 0.8;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 25px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all var(--transition-speed);
+            margin: 10px;
+        }
+        
+        .back-button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .suggestions {
+            margin-top: 50px;
+            background-color: var(--card-background);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
+        
+        .suggestions h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+        
+        .suggestions-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .suggestions-list a {
+            background-color: rgba(0, 122, 255, 0.1);
+            color: var(--primary-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: all var(--transition-speed);
+        }
+        
+        .suggestions-list a:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .error-code {
+                font-size: 80px;
+            }
+            
+            .error-title {
+                font-size: 24px;
+            }
+            
+            .error-image {
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body class="light-mode">
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="../../index.html" class="logo">
+                <img src="../../images/githubherofigureimage.png" alt="Logo">
+                <span class="site-name" data-en="HealthJian Blog" data-zh="HealthJian">HealthJian</span>
+            </a>
+        </div>
+        <div class="nav-right">
+            <ul class="menu">
+                <li><a href="../../index.html" data-en="Home" data-zh="首页">首页</a></li>
+                <li><a href="../blog.html" data-en="Blog" data-zh="博客">博客</a></li>
+                <li><a href="project.html" data-en="Projects" data-zh="项目">项目</a></li>
+                <li><a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a></li>
+                <li><a href="../links.html" data-en="Links" data-zh="链接">链接</a></li>
+                <li><a href="../about.html" data-en="About" data-zh="关于">关于</a></li>
+            </ul>
+            <div class="social-icons">
+                <a href="https://steamcommunity.com/id/yoursteamid" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
+                <a href="mailto:gaojian1573@foxmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+            <button id="theme-toggle" class="theme-toggle" title="切换主题">
+                <i class="fas fa-moon"></i>
+                <i class="fas fa-sun"></i>
+            </button>
+            <button id="lang-toggle" class="lang-toggle" title="切换语言">
+                <span data-en="EN" data-zh="中">中</span>
+            </button>
+        </div>
+    </nav>
+
+    <main>
+        <div class="error-container">
+            <h1 class="error-code">404</h1>
+            <h2 class="error-title">
+                <div class="bilingual-content">
+                    <span class="data-zh">页面未找到</span>
+                    <span class="data-en" style="display: none;">Page Not Found</span>
+                </div>
+            </h2>
+            <p class="error-message">
+                <div class="bilingual-content">
+                    <span class="data-zh">很抱歉，您要访问的页面不存在或已被移动。请检查URL是否正确，或返回首页重新开始。</span>
+                    <span class="data-en" style="display: none;">Sorry, the page you are looking for does not exist or has been moved. Please check that the URL is correct, or return to the homepage and start again.</span>
+                </div>
+            </p>
+            
+            <div>
+                <a href="../../index.html" class="back-button" data-en="Back to Home" data-zh="返回首页">返回首页</a>
+                <a href="../blog.html" class="back-button" data-en="Browse Blog" data-zh="浏览博客">浏览博客</a>
+            </div>
+            
+            <div class="suggestions">
+                <h3 data-en="You might be interested in:" data-zh="您可能对以下内容感兴趣：">您可能对以下内容感兴趣：</h3>
+                <div class="suggestions-list">
+                    <a href="../blog/tech/blog-building.html" data-en="Blog Building" data-zh="博客搭建">博客搭建</a>
+                    <a href="../blog/tech/c-api-algorithms.html" data-en="C API Algorithms" data-zh="C语言API算法">C语言API算法</a>
+                    <a href="../blog/noval/one/index.html" data-en="Novel: Melrod" data-zh="小说：梅尔罗德">小说：梅尔罗德</a>
+                    <a href="project.html" data-en="Projects" data-zh="项目展示">项目展示</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <p>&copy; 2025 CaiNiaojian&HealthJian all followed.</p>
+                <p data-en="Contact: " data-zh="联系方式：">联系方式：<a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
+                <p data-en="Location: " data-zh="地址：">地址：中国，江苏</p>
+            </div>
+            <div class="footer-links">
+                <a href="../../index.html" data-en="Home" data-zh="首页">首页</a>
+                <a href="../blog.html" data-en="Blog" data-zh="博客">博客</a>
+                <a href="../blog/noval/one/index.html" data-en="Novel" data-zh="小说">小说</a>
+                <a href="../about.html" data-en="About" data-zh="关于">关于</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+    <script src="../../js/theme.js"></script>
+    <script src="../../js/language.js"></script>
+</body>
+</html> 
