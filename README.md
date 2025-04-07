@@ -58,7 +58,9 @@
 ![Safari](https://img.shields.io/badge/-Safari-000000?style=flat&logo=safari&logoColor=white)
 ![Edge](https://img.shields.io/badge/-Edge-0078D7?style=flat&logo=microsoft-edge&logoColor=white)
 ![Opera](https://img.shields.io/badge/-Opera-FF1B2D?style=flat&logo=opera&logoColor=white)
-![image](./images/new_about_background.avif)
+<div align="center">
+  <img src="./images/new_about_background.avif" width="40%" alt="背景图片">
+</div>
 
 # Issues 😀
 ## 1.首次打开网站时不显示文字的问题。这确实是一个不正常的情况。
