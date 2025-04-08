@@ -8,8 +8,8 @@
 
 ## 📝 内容展示
 
-🔍 这个网站不仅展示我的技术博客文章，还包含个人项目展示和技术心得分享。
-🔍 This website not only showcases my technical blog posts, but also includes personal project demonstrations and technical insights sharing.
+🔍 这个网站不仅展示我的技术博客文章，还包含个人项目展示和技术心得分享。目前已有多篇技术博客，包括C语言API应用、数据结构基础知识等，同时展示了基于C++的宝可梦游戏等个人项目。未来还将更新机器学习、CUDA编程、高等数学等多个领域的内容。
+🔍 This website not only showcases my technical blog posts, but also includes personal project demonstrations and technical insights sharing. Currently featuring multiple technical blogs on C language API applications, data structure fundamentals, and personal projects like a C++-based Pokémon game. Future updates will include content on machine learning, CUDA programming, advanced mathematics, and more.
 
 
 ## 💻 技术栈
