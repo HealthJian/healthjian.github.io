@@ -347,6 +347,18 @@ function getBlogPosts() {
     // 文章数据
     return [
         {
+            id:'cannot-rely-on-exam',
+            title: '人生无法通过考研上岸',
+            title_en: 'Life Cannot Be Saved Through Graduate School Exams',
+            excerpt: '考研辅导机构不会告诉你，人生是片没有彼岸的汪洋。那些被装订成册的成功学案例，不过是资本浪潮暂时托起的浪花。真正的救赎或许始于承认：我们从来都不是溺水者，又何须执着于虚构的"岸"？',
+            excerpt_en: 'Graduate exam coaching institutions won\'t tell you that life is an ocean without another shore. Those bound success study cases are merely waves temporarily lifted by capital tides. True redemption perhaps begins with acknowledging: we were never drowning, so why obsess over a fictional "shore"?',
+            date: '2025-04-09',
+            url: 'blog/life/cannot-rely-on-exam.html',
+            category: 'life',
+            tags: ['考研', '随笔', '人生', '思考'],
+            tags_en: ['Graduate Entrance Examination', 'Essay', 'Life', 'Thought']
+        },
+        {
             id: 'mingw-installation',
             title: 'Mingw安装教程',
             title_en: 'Mingw Installation Tutorial',
@@ -575,6 +587,14 @@ function getTagTranslation(tag, targetLang) {
         'C/C++': 'C/C++',
         '编译器': 'Compiler',
         'Windows': 'Windows',
+        '考研辅导机构': 'Graduate Exam Coaching Institutions',
+        '人生': 'Life',
+        '彼岸': 'Shore',
+        '汪洋': 'Ocean',
+        '成功学': 'Success Studies',
+        '资本浪潮': 'Capital Tides',
+        '随笔': 'Essay',
+        '思考': 'Thought',
         /* 新增标签翻译结束 */
         
         // 中文到英文的映射
@@ -623,6 +643,19 @@ function getTagTranslation(tag, targetLang) {
         'C/C++': 'C/C++',
         '编译器': 'Compiler',
         'Windows': 'Windows',
+        '考研辅导机构': 'Graduate Exam Coaching Institutions',
+        '人生': 'Life',
+        '彼岸': 'Shore',
+        '汪洋': 'Ocean',
+        '成功学': 'Success Studies',
+        '资本浪潮': 'Capital Tides',
+        '上岸': 'Coming Ashore',
+        '学术现实': 'Academic Reality',
+        '数字表演': 'Digital Performance',
+        '另类成功故事': 'Alternative Success Stories',
+        '重新定义成功': 'Redefining Success',
+        '随笔': 'Essay',
+        '思考': 'Thought',
         /* 新增标签翻译结束 */
     };
     
