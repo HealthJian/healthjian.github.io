@@ -47,6 +47,9 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.classList.add('icons-fallback');
         }
     }, 1000);
+
+    // 调用SVG兼容性处理函数
+    handleAboutSvgCompatibility();
 });
 
 // 这个函数可以用来动态加载博客文章
@@ -176,5 +179,33 @@ function applyQuoteFont() {
         } else {
             quoteText.style.fontFamily = "'ZCOOL KuaiLe', var(--font-family)";
         }
+    }
+}
+
+// 处理about页面SVG图标兼容性
+function handleAboutSvgCompatibility() {
+    // 检查是否在about页面
+    if (window.location.href.includes('/about.html')) {
+        // 确保SVG加载完成
+        window.addEventListener('load', function() {
+            const svgElement = document.querySelector('.about-text h1 svg');
+            if (svgElement) {
+                // 重新应用mask以确保兼容性
+                const rectElement = svgElement.querySelector('rect[mask]');
+                if (rectElement) {
+                    const maskId = rectElement.getAttribute('mask').replace('url(#', '').replace(')', '');
+                    rectElement.setAttribute('mask', `url(#${maskId})`);
+                    
+                    // 如果在某些浏览器中SVG仍不可见，可以尝试强制重绘
+                    setTimeout(() => {
+                        const parentNode = svgElement.parentNode;
+                        const svgClone = svgElement.cloneNode(true);
+                        if (parentNode) {
+                            parentNode.replaceChild(svgClone, svgElement);
+                        }
+                    }, 100);
+                }
+            }
+        });
     }
 } 

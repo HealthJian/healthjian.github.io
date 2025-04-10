@@ -808,3 +808,47 @@ body.dark-mode .personal-info {
         font-size: 0.85rem;
     }
 } 
+
+/* SVG 图标样式 - 添加在文件末尾 */
+/* 设置about页面中SVG图标的样式 */
+.about-text h1 svg {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+    width: 48px;
+    height: 48px;
+    z-index: 2;
+}
+
+/* 确保SVG中的mask元素正确渲染 */
+.about-text h1 svg mask {
+    -webkit-mask-type: luminance;
+    mask-type: luminance;
+}
+
+/* 为不同浏览器添加兼容性支持 */
+.about-text h1 svg mask path,
+.about-text h1 svg mask g,
+.about-text h1 svg mask circle,
+.about-text h1 svg mask ellipse {
+    fill-opacity: inherit;
+    stroke: #fff;
+}
+
+/* 移动设备SVG图标响应式调整 */
+@media (max-width: 768px) {
+    .about-text h1 svg {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+/* 明确设置rect元素的样式 */
+.about-text h1 svg rect[mask] {
+    fill: #a95b5b;
+}
+
+/* 暗黑模式下 SVG 颜色调整 */
+body.dark-mode .about-text h1 svg rect[mask] {
+    fill: #cf6a6a;
+} 

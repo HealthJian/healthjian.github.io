@@ -11,6 +11,26 @@
     <link rel="stylesheet" href="../css/blog-post.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* 确保SVG正确显示的关键样式 */
+        .about-text h1 svg {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 10px;
+            width: 48px;
+            height: 48px;
+        }
+        .about-text h1 svg mask {
+            -webkit-mask-type: luminance;
+            mask-type: luminance;
+        }
+        .about-text h1 svg rect[mask] {
+            fill: #a95b5b;
+        }
+        body.dark-mode .about-text h1 svg rect[mask] {
+            fill: #cf6a6a;
+        }
+    </style>
 </head>
 <body class="light-mode">
     <!-- 导航栏 -->
@@ -102,42 +122,44 @@
             </div>
             <div class="about-text">
                 <h1 data-en="About the Author" data-zh="关于作者">关于作者
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" style="vertical-align: middle; margin-left: 10px;">
-                        <mask id="lineMdRedditLoop0">
-                            <g fill="#fff" fill-opacity="0">
-                                <ellipse cx="12" cy="14.71" stroke="#fff" stroke-dasharray="48" stroke-dashoffset="48" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" data-swindex="0" rx="8" ry="5.29">
-                                    <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.6s" values="48;0"></animate>
-                                    <animate fill="freeze" attributeName="fill-opacity" begin="0.6s" dur="0.4s" values="0;1"></animate>
-                                </ellipse>
-                                <circle cx="7.24" cy="11.97" r="2.24">
-                                    <set attributeName="fill-opacity" begin="1s" to="1"></set>
-                                    <animate fill="freeze" attributeName="cx" begin="1s" dur="0.2s" values="7.24;3.94"></animate>
-                                </circle>
-                                <circle cx="16.76" cy="11.97" r="2.24">
-                                    <set attributeName="fill-opacity" begin="1s" to="1"></set>
-                                    <animate fill="freeze" attributeName="cx" begin="1s" dur="0.2s" values="16.76;20.06"></animate>
-                                </circle>
-                                <circle cx="18.45" cy="4.23" r="1.61">
-                                    <set attributeName="fill-opacity" begin="2.6s" to="1"></set>
-                                    <animate attributeName="cx" begin="2.4s" dur="6s" repeatCount="indefinite" values="18.45;5.75;18.45"></animate>
-                                </circle>
-                            </g>
-                            <path fill="none" stroke="#fff" stroke-dasharray="12" stroke-dashoffset="12" stroke-linecap="round" stroke-linejoin="round" stroke-width=".8" data-swindex="1" d="M12 8.75L13.18 3.11L18.21 4.18">
-                                <animate fill="freeze" attributeName="stroke-dashoffset" begin="2.4s" dur="0.2s" values="12;0"></animate>
-                                <animate attributeName="d" begin="2.4s" dur="6s" repeatCount="indefinite" values="M12 8.75L13.18 3.11L18.21 4.18;M12 8.75L12 2L12 4.18;M12 8.75L10.82 3.11L5.79 4.18;M12 8.75L12 2L12 4.18;M12 8.75L13.18 3.11L18.21 4.18"></animate>
-                            </path>
-                            <g fill-opacity="0">
-                                <circle cx="8.45" cy="13.59" r="1.61">
-                                    <animate fill="freeze" attributeName="fill-opacity" begin="1.2s" dur="0.4s" values="0;1"></animate>
-                                </circle>
-                                <circle cx="15.55" cy="13.59" r="1.61">
-                                    <animate fill="freeze" attributeName="fill-opacity" begin="1.6s" dur="0.4s" values="0;1"></animate>
-                                </circle>
-                            </g>
-                            <path fill="none" stroke="#000" stroke-dasharray="8" stroke-dashoffset="8" stroke-linecap="round" stroke-width=".8" data-swindex="1" d="M8.47 17.52C8.47 17.52 9.41 18.58 12 18.58C14.58 18.58 15.53 17.52 15.53 17.52">
-                                <animate fill="freeze" attributeName="stroke-dashoffset" begin="2s" dur="0.2s" values="8;0"></animate>
-                            </path>
-                        </mask>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" style="vertical-align: middle; margin-left: 10px;" aria-hidden="true" focusable="false">
+                        <defs>
+                            <mask id="lineMdRedditLoop0" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse">
+                                <g fill="#fff" fill-opacity="0">
+                                    <ellipse cx="12" cy="14.71" stroke="#fff" stroke-dasharray="48" stroke-dashoffset="48" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" data-swindex="0" rx="8" ry="5.29">
+                                        <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.6s" values="48;0"></animate>
+                                        <animate fill="freeze" attributeName="fill-opacity" begin="0.6s" dur="0.4s" values="0;1"></animate>
+                                    </ellipse>
+                                    <circle cx="7.24" cy="11.97" r="2.24">
+                                        <set attributeName="fill-opacity" begin="1s" to="1"></set>
+                                        <animate fill="freeze" attributeName="cx" begin="1s" dur="0.2s" values="7.24;3.94"></animate>
+                                    </circle>
+                                    <circle cx="16.76" cy="11.97" r="2.24">
+                                        <set attributeName="fill-opacity" begin="1s" to="1"></set>
+                                        <animate fill="freeze" attributeName="cx" begin="1s" dur="0.2s" values="16.76;20.06"></animate>
+                                    </circle>
+                                    <circle cx="18.45" cy="4.23" r="1.61">
+                                        <set attributeName="fill-opacity" begin="2.6s" to="1"></set>
+                                        <animate attributeName="cx" begin="2.4s" dur="6s" repeatCount="indefinite" values="18.45;5.75;18.45"></animate>
+                                    </circle>
+                                </g>
+                                <path fill="none" stroke="#fff" stroke-dasharray="12" stroke-dashoffset="12" stroke-linecap="round" stroke-linejoin="round" stroke-width=".8" data-swindex="1" d="M12 8.75L13.18 3.11L18.21 4.18">
+                                    <animate fill="freeze" attributeName="stroke-dashoffset" begin="2.4s" dur="0.2s" values="12;0"></animate>
+                                    <animate attributeName="d" begin="2.4s" dur="6s" repeatCount="indefinite" values="M12 8.75L13.18 3.11L18.21 4.18;M12 8.75L12 2L12 4.18;M12 8.75L10.82 3.11L5.79 4.18;M12 8.75L12 2L12 4.18;M12 8.75L13.18 3.11L18.21 4.18"></animate>
+                                </path>
+                                <g fill-opacity="0">
+                                    <circle cx="8.45" cy="13.59" r="1.61">
+                                        <animate fill="freeze" attributeName="fill-opacity" begin="1.2s" dur="0.4s" values="0;1"></animate>
+                                    </circle>
+                                    <circle cx="15.55" cy="13.59" r="1.61">
+                                        <animate fill="freeze" attributeName="fill-opacity" begin="1.6s" dur="0.4s" values="0;1"></animate>
+                                    </circle>
+                                </g>
+                                <path fill="none" stroke="#fff" stroke-dasharray="8" stroke-dashoffset="8" stroke-linecap="round" stroke-width=".8" data-swindex="1" d="M8.47 17.52C8.47 17.52 9.41 18.58 12 18.58C14.58 18.58 15.53 17.52 15.53 17.52">
+                                    <animate fill="freeze" attributeName="stroke-dashoffset" begin="2s" dur="0.2s" values="8;0"></animate>
+                                </path>
+                            </mask>
+                        </defs>
                         <rect width="24" height="24" fill="#a95b5b" mask="url(#lineMdRedditLoop0)"></rect>
                     </svg>
                 </h1>
