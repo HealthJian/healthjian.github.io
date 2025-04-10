@@ -50,6 +50,11 @@ function toggleTheme() {
         localStorage.setItem('theme', 'dark-mode');
         updateThemeToggleIcon('dark-mode');
     }
+    
+    // 如果存在updateSvgByTime函数，则更新SVG图标
+    if (typeof updateSvgByTime === 'function') {
+        updateSvgByTime();
+    }
 }
 
 // 当文档加载完成后执行

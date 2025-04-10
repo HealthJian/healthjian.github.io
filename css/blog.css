@@ -4,10 +4,70 @@
     margin-bottom: 40px;
 }
 
+/* SVG动态图容器样式 */
+.blog-svg-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+    padding-top: 1rem;
+    position: relative;
+    height: 140px;
+    overflow: visible;
+}
+
+.blog-svg-container svg {
+    width: 120px;
+    height: 120px;
+    transform-origin: center;
+    transition: all 0.3s ease;
+}
+
+/* 日间/夜间SVG图标切换 */
+.blog-svg-container .day-svg,
+.blog-svg-container .night-svg {
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* 默认显示日间图标，隐藏夜间图标 */
+.blog-svg-container .day-svg {
+    opacity: 1;
+    visibility: visible;
+}
+
+.blog-svg-container .night-svg {
+    width: 110px;
+    height: 110px;
+    top: 0.5rem;
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* 夜间模式下切换图标显示 */
+body.dark-mode .blog-svg-container .day-svg {
+    opacity: 0;
+    visibility: hidden;
+}
+
+body.dark-mode .blog-svg-container .night-svg {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* 暗黑模式下SVG颜色调整 */
+body.dark-mode .blog-svg-container svg path[data-swindex="2"] {
+    stroke: #e5e7eb;
+}
+
 .blog-header h1 {
     font-size: 2.5rem;
     margin-bottom: 20px;
     color: var(--primary-color);
+    font-weight: 600;
+    position: relative;
+    z-index: 1;
 }
 
 /* 博客标题样式 - 添加特定字体 */

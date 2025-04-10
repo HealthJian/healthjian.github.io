@@ -17,6 +17,9 @@ function initBlog() {
     
     // 初始化分页
     initPagination();
+    
+    // 初始化SVG交互效果
+    initSvgInteraction();
 }
 
 function initSearch() {
@@ -771,4 +774,160 @@ function loadPagePosts(page) {
     
     // 显示当前页的文章
     displayPosts(pageItems);
+}
+
+// 初始化SVG交互效果
+function initSvgInteraction() {
+    // 切换日间/夜间SVG图标显示
+    updateSvgByTime();
+    
+    // 每分钟检查一次时间，更新SVG图标
+    setInterval(updateSvgByTime, 60000);
+    
+    // 获取SVG元素
+    const daySvg = document.querySelector('.blog-svg-container .day-svg');
+    const nightSvg = document.querySelector('.blog-svg-container .night-svg');
+    
+    // 为日间SVG添加交互效果
+    if (daySvg) {
+        // 鼠标悬停效果
+        daySvg.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateX(-50%) scale(1.1)';
+            // 保持在适当的位置，不会与标题重叠
+            this.style.top = '1rem';
+            
+            // 加速旋转动画
+            const animateTransform = this.querySelector('animateTransform');
+            if (animateTransform) {
+                animateTransform.setAttribute('dur', '3s');
+            }
+        });
+        
+        // 鼠标离开效果
+        daySvg.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateX(-50%) scale(1)';
+            this.style.top = '1rem';
+            
+            // 恢复原来的动画速度
+            const animateTransform = this.querySelector('animateTransform');
+            if (animateTransform) {
+                animateTransform.setAttribute('dur', '6s');
+            }
+        });
+        
+        // 点击效果
+        daySvg.addEventListener('click', function() {
+            this.style.transform = 'translateX(-50%) scale(0.9)';
+            setTimeout(() => {
+                this.style.transform = 'translateX(-50%) scale(1)';
+            }, 200);
+        });
+    }
+    
+    // 为夜间SVG添加交互效果
+    if (nightSvg) {
+        // 鼠标悬停效果
+        nightSvg.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateX(-50%) scale(1.1)';
+            // 保持在适当的位置，不会与标题重叠
+            this.style.top = '0.5rem'; // 与CSS中设置的值一致
+            
+            // 加速旋转动画
+            const animateTransforms = this.querySelectorAll('animateTransform');
+            if (animateTransforms.length) {
+                animateTransforms.forEach(animate => {
+                    animate.setAttribute('dur', '3s');
+                });
+            }
+        });
+        
+        // 鼠标离开效果
+        nightSvg.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateX(-50%) scale(1)';
+            this.style.top = '0.5rem'; // 与CSS中设置的值一致
+            
+            // 恢复原来的动画速度
+            const animateTransforms = this.querySelectorAll('animateTransform');
+            if (animateTransforms.length) {
+                animateTransforms.forEach(animate => {
+                    animate.setAttribute('dur', '6s');
+                });
+            }
+        });
+        
+        // 点击效果
+        nightSvg.addEventListener('click', function() {
+            this.style.transform = 'translateX(-50%) scale(0.9)';
+            setTimeout(() => {
+                this.style.transform = 'translateX(-50%) scale(1)';
+            }, 200);
+        });
+    }
+}
+
+/**
+ * 根据当前时间更新SVG图标显示
+ * 6:00-18:00 显示日间图标
+ * 19:00-5:00 显示夜间图标
+ */
+function updateSvgByTime() {
+    const currentHour = new Date().getHours();
+    const isDayTime = currentHour >= 6 && currentHour <= 18;
+    const isNightTime = currentHour >= 19 || currentHour <= 5;
+    
+    // 获取SVG元素
+    const daySvg = document.querySelector('.blog-svg-container .day-svg');
+    const nightSvg = document.querySelector('.blog-svg-container .night-svg');
+    
+    if (!daySvg || !nightSvg) return;
+    
+    // 如果使用深色模式，则强制显示夜间图标
+    if (document.body.classList.contains('dark-mode')) {
+        daySvg.style.opacity = '0';
+        daySvg.style.visibility = 'hidden';
+        nightSvg.style.opacity = '1';
+        nightSvg.style.visibility = 'visible';
+        nightSvg.style.top = '0.5rem'; // 与CSS中设置的值一致
+        return;
+    }
+    
+    // 根据时间段显示对应的图标
+    if (isDayTime) {
+        // 白天时间显示日间图标
+        daySvg.style.opacity = '1';
+        daySvg.style.visibility = 'visible';
+        daySvg.style.top = '1rem'; // 确保定位正确
+        nightSvg.style.opacity = '0';
+        nightSvg.style.visibility = 'hidden';
+    } else if (isNightTime) {
+        // 夜晚时间显示夜间图标
+        daySvg.style.opacity = '0';
+        daySvg.style.visibility = 'hidden';
+        nightSvg.style.opacity = '1';
+        nightSvg.style.visibility = 'visible';
+        nightSvg.style.top = '0.5rem'; // 与CSS中设置的值一致
+    }
+}
+
+// 更新分页按钮状态
+function updatePaginationButtons() {
+    const activePage = document.querySelector('.pagination .page-numbers button.active');
+    const prevButton = document.querySelector('.pagination .prev');
+    const nextButton = document.querySelector('.pagination .next');
+    
+    if (activePage && prevButton && nextButton) {
+        // 如果是第一页，禁用上一页按钮
+        if (!activePage.previousElementSibling) {
+            prevButton.disabled = true;
+        } else {
+            prevButton.disabled = false;
+        }
+        
+        // 如果是最后一页，禁用下一页按钮
+        if (!activePage.nextElementSibling) {
+            nextButton.disabled = true;
+        } else {
+            nextButton.disabled = false;
+        }
+    }
 } 

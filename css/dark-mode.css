@@ -21,4 +21,19 @@ body.light-mode .theme-toggle .fa-sun {
 
 body.light-mode .theme-toggle .fa-moon {
     display: inline-block;
-} 
+}
+
+/* 暗色模式下SVG样式调整 */
+.dark-mode .blog-svg-container svg path[data-swindex="2"] {
+    stroke: #e5e7eb;
+}
+
+.dark-mode .blog-svg-container svg [data-swindex="1"] {
+    stroke: #fbbf24;
+}
+
+.dark-mode .blog-svg-container svg circle[data-swindex="0"] {
+    filter: brightness(0.9);
+}
+
+/* 其他暗色模式元素样式 */ 
