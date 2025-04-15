@@ -350,6 +350,18 @@ function getBlogPosts() {
     // 文章数据
     return [
         {
+            id: 'svm',
+            title: '支持向量机（SVM）算法详解',
+            title_en: 'Support Vector Machine (SVM) Algorithm',
+            excerpt: '支持向量机（SVM）是一种用于分类和回归分析的机器学习算法。本文将详细介绍SVM的原理、应用场景、算法实现以及优化方法。',
+            excerpt_en: 'Support Vector Machine (SVM) is a machine learning algorithm for classification and regression analysis. This article will detail the principles, applications, algorithm implementation, and optimization methods of SVM.',
+            date: '2025-04-14',
+            url: 'blog/tech/svm.html',
+            category: 'tech',
+            tags: ['支持向量机', '机器学习', '分类', '回归'],
+            tags_en: ['Support Vector Machine', 'Machine Learning', 'Classification', 'Regression']
+        },
+        {
             id: 'machinelearningBostonshouseprices',
             title: '实验一：波士顿房价预测报告',
             title_en: 'Experiment 1: Boston House Price Prediction Report',
@@ -616,6 +628,20 @@ function getTagTranslation(tag, targetLang) {
         '特征选择': 'Feature Selection',
         '模型训练': 'Model Training',
         '评估': 'Evaluation',
+        '混淆矩阵': 'Confusion Matrix',
+        '分类报告': 'Classification Report',
+        '结果总结': 'Result Summary',
+        '优化后': 'Optimized',
+        '假阴性': 'False Negative',
+        '假阳性': 'False Positive',
+        '支持向量机': 'Support Vector Machine',
+        '分类': 'Classification',
+        '回归': 'Regression',
+        '机器学习': 'Machine Learning',
+        '房价预测': 'House Price Prediction',
+        '数据预处理': 'Data Preprocessing',
+        
+        
         /* 新增标签翻译结束 */
         
         // 中文到英文的映射
@@ -683,6 +709,26 @@ function getTagTranslation(tag, targetLang) {
         '特征选择': 'Feature Selection',
         '模型训练': 'Model Training',
         '评估': 'Evaluation',
+        '混淆矩阵': 'Confusion Matrix',
+        '分类报告': 'Classification Report',
+        '结果总结': 'Result Summary',
+        '优化后': 'Optimized',
+        '假阴性': 'False Negative',
+        '假阳性': 'False Positive',
+        '房价预测': 'House Price Prediction',
+        '数据预处理': 'Data Preprocessing',
+        '特征选择': 'Feature Selection',
+        '模型训练': 'Model Training',
+        '评估': 'Evaluation',
+        '混淆矩阵': 'Confusion Matrix',
+        '分类报告': 'Classification Report',
+        '支持向量机': 'Support Vector Machine',
+        '分类': 'Classification',
+        '回归': 'Regression',
+        '机器学习': 'Machine Learning',
+        '房价预测': 'House Price Prediction',
+        '数据预处理': 'Data Preprocessing',
+        
         /* 新增标签翻译结束 */
     };
     
