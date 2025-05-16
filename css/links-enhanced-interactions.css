@@ -1,0 +1,178 @@
+/* 链接页面交互增强
+ * 作者: HealthJian
+ * 日期: 2025-05-16
+ * 描述: 为链接页面提供更丰富的交互效果和视觉体验
+ */
+
+/* 卡片悬停 3D 效果 */
+.site-card, .friend-card {
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  perspective: 1000px;
+}
+
+.site-card-inner, .friend-info {
+  transition: transform 0.5s ease;
+  transform-style: preserve-3d;
+}
+
+.site-card:hover .site-card-inner {
+  transform: translateZ(20px);
+}
+
+.friend-card:hover .friend-info {
+  transform: translateZ(20px);
+}
+
+/* 鼠标跟随效果 */
+.site-card::before, .friend-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at var(--mouse-x, 0) var(--mouse-y, 0), 
+                             rgba(255, 255, 255, 0.1) 0%, 
+                             rgba(255, 255, 255, 0) 50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.site-card:hover::before, .friend-card:hover::before {
+  opacity: 1;
+}
+
+/* 分类标签增强 */
+.category-tag {
+  position: relative;
+  overflow: hidden;
+}
+
+.category-tag::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, 
+                             rgba(255, 255, 255, 0) 0%, 
+                             rgba(255, 255, 255, 0.2) 50%, 
+                             rgba(255, 255, 255, 0) 100%);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.category-tag:hover::after {
+  transform: translateX(100%);
+}
+
+/* 平滑滚动 */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 链接按钮波纹效果 */
+.site-link, .friend-link {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(0);
+  animation: ripple 0.6s linear;
+  pointer-events: none;
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* 图标脉动效果 */
+.site-icon i {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* 标题装饰线条 */
+.section-title::before {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-color), transparent);
+  bottom: -10px;
+  left: 0;
+  border-radius: 3px;
+}
+
+/* 卡片阴影增强 */
+.site-card, .friend-card {
+  box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.site-card:hover, .friend-card:hover {
+  box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.2);
+}
+
+/* 滚动到顶部按钮 */
+.scroll-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--accent-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  z-index: 100;
+}
+
+.scroll-top.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-top:hover {
+  background: var(--accent-color-secondary);
+  transform: translateY(-5px);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .scroll-top {
+    width: 40px;
+    height: 40px;
+    bottom: 20px;
+    right: 20px;
+  }
+}

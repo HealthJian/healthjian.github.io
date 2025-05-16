@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/dark-mode.css">
     <link rel="stylesheet" href="../css/links.css">
+    <link rel="stylesheet" href="../css/links-enhanced.css">
+    <link rel="stylesheet" href="../css/links-enhanced-animations.css">
+    <link rel="stylesheet" href="../css/links-enhanced-interactions.css">
+    <link rel="stylesheet" href="../css/links-enhanced-final.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
@@ -45,10 +49,19 @@
 
     <!-- 主要内容 -->
     <main class="links-container">
+        <!-- 装饰元素 -->
+        <div class="decoration-dot decoration-dot-1"></div>
+        <div class="decoration-dot decoration-dot-2"></div>
+        <div class="decoration-dot decoration-dot-3"></div>
         <!-- 页面标题 -->
         <header class="links-header">
             <h1 data-en="Links & Friends" data-zh="链接与朋友">链接与朋友</h1>
             <p data-en="Explore my digital universe and connect with fellow creators." data-zh="探索我的数字宇宙，与志同道合的创作者建立联系。">探索我的数字宇宙，与志同道合的创作者建立联系。<span class="emoji">✨</span></p>
+            <div class="header-decoration">
+                <svg width="100%" height="30" viewBox="0 0 1200 30" preserveAspectRatio="none">
+                    <path d="M0,0 C300,30 900,30 1200,0 L1200,30 L0,30 Z" fill="var(--accent-color)" opacity="0.1"></path>
+                </svg>
+            </div>
             
             <!-- 趣味分类标签 -->
             <div class="fun-category">
@@ -642,6 +655,10 @@
                 </div>
             </div>
         </section>
+        <!-- 滚动到顶部按钮 -->
+        <div class="scroll-top" id="scrollTop">
+            <i class="fas fa-arrow-up"></i>
+        </div>
     </main>
 
     <!-- 页脚 -->
@@ -664,6 +681,7 @@
     <script src="../js/main.js"></script>
     <script src="../js/theme.js"></script>
     <script src="../js/language.js"></script>
+    <script src="../js/interaction.js"></script> <!-- 添加交互效果JS文件 -->
     <script>
         // 分类标签切换
         document.addEventListener('DOMContentLoaded', function() {
@@ -752,6 +770,54 @@
                     this.reset();
                 });
             }
+            
+            // 卡片鼠标跟随效果
+            const cards = document.querySelectorAll('.site-card, .friend-card');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', function(e) {
+                    const rect = this.getBoundingClientRect();
+                    const x = ((e.clientX - rect.left) / this.offsetWidth) * 100;
+                    const y = ((e.clientY - rect.top) / this.offsetHeight) * 100;
+                    this.style.setProperty('--mouse-x', x + '%');
+                    this.style.setProperty('--mouse-y', y + '%');
+                });
+            });
+            
+            // 链接按钮波纹效果
+            const links = document.querySelectorAll('.site-link, .friend-link');
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('ripple');
+                    this.appendChild(ripple);
+                    
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+                    ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+                    
+                    setTimeout(() => ripple.remove(), 600);
+                });
+            });
+            
+            // 滚动到顶部按钮
+            const scrollTopBtn = document.getElementById('scrollTop');
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    scrollTopBtn.classList.add('visible');
+                } else {
+                    scrollTopBtn.classList.remove('visible');
+                }
+            });
+            
+            scrollTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
         });
         
         // 显示申请表单
@@ -786,11 +852,15 @@
             const originalText = btn.innerText;
             btn.innerText = document.documentElement.lang === 'en' ? 'Copied!' : '已复制!';
             
-            // 3秒后恢复按钮文本
+            // 添加成功动画
+            btn.classList.add('copy-success');
+            
+            // 3秒后恢复按钮文本和样式
             setTimeout(() => {
                 btn.innerText = originalText;
+                btn.classList.remove('copy-success');
             }, 3000);
         }
     </script>
 </body>
-</html> 
+</html>

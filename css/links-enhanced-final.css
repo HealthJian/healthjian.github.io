@@ -1,0 +1,195 @@
+/* 链接页面最终增强
+ * 作者: HealthJian
+ * 日期: 2025-05-16
+ * 描述: 为链接页面提供最终的视觉润色和交互增强
+ */
+
+/* 复制按钮增强 */
+.copy-btn {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.copy-btn:hover {
+  background: var(--accent-color-secondary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.copy-success {
+  background: #34C759 !important;
+  animation: success-pulse 1s ease;
+}
+
+@keyframes success-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* 代码框美化 */
+.code-box {
+  position: relative;
+  background: var(--bg-color-secondary);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 1.5rem;
+}
+
+.code-box pre {
+  margin: 0;
+  padding: 1.5rem;
+  overflow-x: auto;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.code-box code {
+  color: var(--code-color);
+}
+
+/* 表单输入框增强 */
+.form-group input,
+.form-group textarea,
+.form-group select {
+  transition: all 0.3s ease;
+  border: 2px solid var(--border-color);
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(var(--accent-color-rgb), 0.2);
+  transform: translateY(-2px);
+}
+
+/* 提交按钮增强 */
+.submit-btn {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--accent-color), var(--accent-color-secondary));
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(var(--accent-color-rgb), 0.3);
+}
+
+.submit-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.7s ease;
+}
+
+.submit-btn:hover::after {
+  left: 100%;
+}
+
+/* 友链卡片增强 */
+.friend-card {
+  position: relative;
+}
+
+.friend-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, 
+                             rgba(255, 255, 255, 0.1) 0%, 
+                             rgba(255, 255, 255, 0) 50%);
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* 站点卡片增强 */
+.site-card {
+  position: relative;
+}
+
+.site-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, 
+                             rgba(255, 255, 255, 0.1) 0%, 
+                             rgba(255, 255, 255, 0) 50%);
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* 标题装饰 */
+.section-title {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 2rem;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, 
+                             var(--accent-color) 0%, 
+                             transparent 100%);
+}
+
+/* 暗色模式适配 */
+.dark-mode .code-box {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.dark-mode .code-box code {
+  color: #e0e0e0;
+}
+
+.dark-mode .copy-btn {
+  background: var(--accent-color);
+}
+
+.dark-mode .copy-btn:hover {
+  background: var(--accent-color-secondary);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .code-box pre {
+    padding: 1rem;
+    font-size: 0.85rem;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+}
