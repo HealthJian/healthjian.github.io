@@ -1,0 +1,199 @@
+/* 项目页面交互增强
+ * 作者: HealthJian
+ * 日期: 2025-05-16
+ * 描述: 为项目页面提供更丰富的交互效果和视觉体验
+ */
+
+/* 卡片悬停 3D 效果 */
+.project-card {
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  perspective: 1000px;
+}
+
+.project-content {
+  transition: transform 0.5s ease;
+  transform-style: preserve-3d;
+}
+
+.project-card:hover .project-content {
+  transform: translateZ(20px);
+}
+
+/* 鼠标跟随效果 */
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at var(--mouse-x, 0) var(--mouse-y, 0), 
+                             rgba(255, 255, 255, 0.1) 0%, 
+                             rgba(255, 255, 255, 0) 50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.project-card:hover::before {
+  opacity: 1;
+}
+
+/* 过滤按钮增强 */
+.filter-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.filter-button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, 
+                             rgba(255, 255, 255, 0) 0%, 
+                             rgba(255, 255, 255, 0.2) 50%, 
+                             rgba(255, 255, 255, 0) 100%);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.filter-button:hover::after {
+  transform: translateX(100%);
+}
+
+/* 平滑滚动 */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 链接按钮波纹效果 */
+.project-link {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(0);
+  animation: ripple 0.6s linear;
+  pointer-events: none;
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* 标题装饰线条 */
+.project-title {
+  position: relative;
+  display: inline-block;
+}
+
+.project-title::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -5px;
+  left: 0;
+  background: linear-gradient(90deg, var(--accent-color), transparent);
+  transition: width 0.3s ease;
+}
+
+.project-card:hover .project-title::after {
+  width: 100%;
+}
+
+/* 标签悬停效果 */
+.project-tag {
+  transition: all 0.3s ease;
+}
+
+.project-tag:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 3px 8px rgba(var(--accent-color-rgb), 0.2);
+}
+
+/* 项目卡片倾斜效果 */
+.project-card {
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+.tilt-effect {
+  transform: perspective(1000px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg));
+}
+
+/* 滚动到顶部按钮 */
+.scroll-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--accent-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  z-index: 100;
+}
+
+.scroll-top.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-top:hover {
+  background: var(--accent-color-secondary);
+  transform: translateY(-5px);
+}
+
+/* 项目卡片悬停时的图标动画 */
+.project-link i {
+  transition: transform 0.3s ease;
+}
+
+.project-link:hover i {
+  transform: translateX(3px);
+}
+
+/* 项目周期标签悬停效果 */
+.project-period {
+  transition: all 0.3s ease;
+}
+
+.project-card:hover .project-period {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(var(--accent-color-rgb), 0.3);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .scroll-top {
+    width: 40px;
+    height: 40px;
+    bottom: 20px;
+    right: 20px;
+  }
+  
+  .project-card {
+    transform: none !important;
+  }
+}

@@ -1,0 +1,196 @@
+/* 项目页面最终增强
+ * 作者: HealthJian
+ * 日期: 2025-05-16
+ * 描述: 为项目页面提供最终的视觉润色和交互增强
+ */
+
+/* 页面整体增强 */
+main {
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* 项目标题增强 */
+.project-title {
+  background: linear-gradient(120deg, var(--text-color), var(--text-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+  transition: all 0.3s ease;
+}
+
+.project-card:hover .project-title {
+  background: linear-gradient(120deg, var(--accent-color), var(--accent-color-secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 项目卡片增强 */
+.project-card {
+  border: 1px solid rgba(var(--accent-color-rgb), 0.05);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.project-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, 
+                             rgba(var(--accent-color-rgb), 0.3), 
+                             transparent 50%,
+                             rgba(var(--accent-color-rgb), 0.1));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.project-card:hover::after {
+  opacity: 1;
+}
+
+/* 项目标签增强 */
+.project-tag {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.project-tag::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, 
+                             rgba(var(--accent-color-rgb), 0.1), 
+                             rgba(var(--accent-color-rgb), 0.2));
+  z-index: -1;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+.project-tag:hover::before {
+  transform: translateX(0);
+}
+
+/* 项目链接按钮增强 */
+.project-link {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.project-link.primary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+                             rgba(255, 255, 255, 0.1), 
+                             rgba(255, 255, 255, 0));
+  z-index: -1;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+.project-link.primary:hover::after {
+  transform: translateX(0);
+}
+
+/* 过滤按钮增强 */
+.filter-button {
+  border-width: 2px;
+}
+
+.filter-button.active {
+  box-shadow: 0 5px 15px rgba(var(--accent-color-rgb), 0.3);
+}
+
+/* 声明样式增强 */
+.disclaimer {
+  position: relative;
+  overflow: hidden;
+}
+
+.disclaimer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  background: linear-gradient(135deg, transparent 50%, var(--accent-color) 50%);
+  z-index: 1;
+}
+
+/* 项目头部增强 */
+.project-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+  border-radius: 3px;
+}
+
+/* 滚动到顶部按钮增强 */
+.scroll-top {
+  background: linear-gradient(135deg, var(--accent-color), var(--accent-color-secondary));
+}
+
+.scroll-top::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), transparent);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+/* 暗色模式适配 */
+.dark-mode .project-card::after {
+  background: linear-gradient(135deg, 
+                             rgba(var(--accent-color-rgb), 0.3), 
+                             transparent 50%,
+                             rgba(var(--accent-color-rgb), 0.2));
+}
+
+.dark-mode .project-title {
+  background: linear-gradient(120deg, var(--text-color), var(--text-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.dark-mode .project-card:hover .project-title {
+  background: linear-gradient(120deg, var(--accent-color), var(--accent-color-secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .project-header::after {
+    width: 80px;
+  }
+  
+  .disclaimer::after {
+    width: 20px;
+    height: 20px;
+  }
+}

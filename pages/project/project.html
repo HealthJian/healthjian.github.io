@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="../../css/style.css">
     <link rel="stylesheet" href="../../css/dark-mode.css">
     <link rel="stylesheet" href="../../css/project.css">
+    <link rel="stylesheet" href="../../css/project-enhanced.css">
+    <link rel="stylesheet" href="../../css/project-enhanced-animations.css">
+    <link rel="stylesheet" href="../../css/project-enhanced-interactions.css">
+    <link rel="stylesheet" href="../../css/project-enhanced-final.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <!-- 苹果风格字体 -->
@@ -48,6 +52,11 @@
     </nav>
 
     <main>
+        <!-- 装饰元素 -->
+        <div class="decoration-dot decoration-dot-1"></div>
+        <div class="decoration-dot decoration-dot-2"></div>
+        <div class="decoration-dot decoration-dot-3"></div>
+        
         <!-- 项目页面头部 -->
         <section class="project-header">
             <h1 data-en="My Projects" data-zh="我的项目">我的项目</h1>
@@ -227,6 +236,10 @@
             </article>
         </div>
         
+        <!-- 滚动到顶部按钮 -->
+        <div class="scroll-top" id="scrollTop">
+            <i class="fas fa-arrow-up"></i>
+        </div>
     </main>
 
     <!-- 页脚 -->
@@ -251,5 +264,86 @@
     <script src="../../js/theme.js"></script>
     <script src="../../js/language.js"></script>
     <script src="../../js/project.js"></script>
+    
+    <script>
+        // 滚动到顶部按钮
+        const scrollTopBtn = document.getElementById('scrollTop');
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+        
+        scrollTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // 卡片鼠标跟随效果
+        const cards = document.querySelectorAll('.project-card');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / this.offsetWidth) * 100;
+                const y = ((e.clientY - rect.top) / this.offsetHeight) * 100;
+                this.style.setProperty('--mouse-x', x + '%');
+                this.style.setProperty('--mouse-y', y + '%');
+                
+                // 倾斜效果
+                const rotateX = ((y - 50) / 50) * -5; // -5 to 5 degrees
+                const rotateY = ((x - 50) / 50) * 5; // -5 to 5 degrees
+                this.style.setProperty('--rotate-x', rotateX + 'deg');
+                this.style.setProperty('--rotate-y', rotateY + 'deg');
+                this.classList.add('tilt-effect');
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.classList.remove('tilt-effect');
+            });
+        });
+        
+        // 链接按钮波纹效果
+        const links = document.querySelectorAll('.project-link');
+        links.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                ripple.classList.add('ripple');
+                this.appendChild(ripple);
+                
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+                ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+                
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+        
+        // 滚动显示动画
+        const scrollElements = document.querySelectorAll('.project-card, .disclaimer, .project-filters');
+        
+        function checkScroll() {
+            scrollElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('scroll-reveal');
+                    element.classList.add('revealed');
+                }
+            });
+        }
+        
+        // 初始检查
+        window.addEventListener('load', checkScroll);
+        // 滚动时检查
+        window.addEventListener('scroll', checkScroll);
+    </script>
 </body>
 </html>
