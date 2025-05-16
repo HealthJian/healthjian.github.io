@@ -1,0 +1,267 @@
+/* 博客页面最终增强
+ * 作者: HealthJian
+ * 日期: 2025-05-16
+ * 描述: 为博客页面提供最终的视觉润色和交互增强
+ */
+
+/* 页面整体增强 */
+main {
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* 博客标题增强 */
+.blog-title-styled {
+  background: linear-gradient(120deg, var(--text-color), var(--text-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .blog-title-styled {
+  text-shadow: 0 0 20px rgba(var(--accent-color-rgb), 0.3);
+}
+
+/* 博客卡片增强 */
+.blog-post {
+  border: 1px solid rgba(var(--accent-color-rgb), 0.05);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.blog-post::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, 
+                             rgba(var(--accent-color-rgb), 0.3), 
+                             transparent 50%,
+                             rgba(var(--accent-color-rgb), 0.1));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.blog-post:hover::after {
+  opacity: 1;
+}
+
+/* 博客标签增强 */
+.tag {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  padding: 5px 10px;
+  border-radius: 6px;
+  background: rgba(var(--accent-color-rgb), 0.08);
+  color: var(--accent-color);
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(var(--accent-color-rgb), 0.1);
+}
+
+.tag::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, 
+                             rgba(var(--accent-color-rgb), 0.1), 
+                             rgba(var(--accent-color-rgb), 0.2));
+  z-index: -1;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  border-radius: inherit;
+}
+
+.tag:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(var(--accent-color-rgb), 0.2);
+  color: var(--accent-color-secondary);
+}
+
+.tag:hover::before {
+  transform: translateX(0);
+}
+
+/* 搜索框微调 - 避免与主样式冲突 */
+.blog-search button:hover i {
+  transform: scale(1.2);
+}
+
+.blog-search-inner {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+}
+
+/* 过滤器最终增强 */
+.blog-filters {
+  position: relative;
+  z-index: 5;
+}
+
+.blog-filters::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -20px;
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, 
+                           rgba(var(--accent-color-rgb), 0.08), 
+                           transparent 70%);
+  border-radius: 50%;
+  z-index: -1;
+  transition: all 0.5s ease;
+}
+
+.blog-filters:hover::after {
+  transform: scale(1.5);
+}
+
+/* 过滤按钮最终增强 */
+.filter-tags button {
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.filter-tags button::before {
+  border-radius: inherit;
+}
+
+.filter-tags button.active {
+  box-shadow: 
+    0 8px 20px rgba(var(--accent-color-rgb), 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.02em;
+}
+
+.filter-tags button.active::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.3), transparent 70%);
+  opacity: 0.2;
+  border-radius: inherit;
+  z-index: 0;
+}
+
+/* 添加微妙的闪光效果 */
+.filter-tags button.active::after {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  filter: blur(5px);
+  top: -5px;
+  right: -5px;
+  opacity: 0.5;
+  animation: sparkle 2s infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.2); }
+}
+
+/* 分页按钮增强 */
+.pagination button.active {
+  position: relative;
+}
+
+.pagination button.active::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), transparent);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.5;
+}
+
+/* 博客头部增强 */
+.blog-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 30%, 
+                             rgba(var(--accent-color-rgb), 0.05), 
+                             transparent 70%);
+  z-index: -1;
+}
+
+/* 博客日期和元数据增强 */
+.blog-post-meta {
+  position: relative;
+  display: inline-block;
+  padding-left: 20px;
+}
+
+.blog-post-meta::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 2px;
+  background: var(--accent-color);
+  border-radius: 2px;
+}
+
+/* 滚动到顶部按钮增强 */
+.scroll-top {
+  background: linear-gradient(135deg, var(--accent-color), var(--accent-color-secondary));
+}
+
+.scroll-top::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), transparent);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+/* 暗色模式适配 */
+.dark-mode .blog-post::after {
+  background: linear-gradient(135deg, 
+                             rgba(var(--accent-color-rgb), 0.3), 
+                             transparent 50%,
+                             rgba(var(--accent-color-rgb), 0.2));
+}
+
+.dark-mode .blog-title-styled {
+  background: linear-gradient(120deg, var(--text-color), var(--text-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .blog-header::after {
+    width: 80px;
+  }
+  
+  .blog-post-meta::before {
+    width: 8px;
+  }
+}

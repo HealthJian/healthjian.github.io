@@ -1,0 +1,230 @@
+/* 博客页面动画增强
+ * 作者: HealthJian
+ * 日期: 2025-05-16
+ * 描述: 为博客页面提供流畅的动画和过渡效果
+ */
+
+/* 页面加载动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* 装饰元素动画 */
+.decoration-dot-1 {
+  animation: float 8s ease-in-out infinite;
+}
+
+.decoration-dot-2 {
+  animation: float 12s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+.decoration-dot-3 {
+  animation: float 10s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+/* 博客标题动画 */
+.blog-title-styled {
+  animation: scaleIn 0.8s ease-out forwards;
+}
+
+/* SVG图标动画增强 */
+.blog-svg-container .day-svg,
+.blog-svg-container .night-svg {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* 搜索框动画 */
+.blog-search {
+  animation: fadeIn 0.8s ease-out forwards;
+  animation-delay: 0.2s;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+/* 过滤器动画 */
+.blog-filters {
+  animation: fadeIn 0.8s ease-out forwards;
+  animation-delay: 0.4s;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+.filter-tags button {
+  animation: fadeIn 0.5s ease-out forwards;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+.filter-tags button:nth-child(1) {
+  animation-delay: 0.5s;
+}
+
+.filter-tags button:nth-child(2) {
+  animation-delay: 0.6s;
+}
+
+.filter-tags button:nth-child(3) {
+  animation-delay: 0.7s;
+}
+
+.filter-tags button:nth-child(4) {
+  animation-delay: 0.8s;
+}
+
+/* 博客文章列表动画 */
+.blog-post {
+  animation: fadeIn 0.8s ease-out forwards;
+  opacity: 0;
+  animation-fill-mode: forwards;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+              box-shadow 0.4s ease;
+}
+
+/* 为博客文章添加交错动画 */
+.blog-post:nth-child(1) {
+  animation-delay: 0.6s;
+}
+
+.blog-post:nth-child(2) {
+  animation-delay: 0.8s;
+}
+
+.blog-post:nth-child(3) {
+  animation-delay: 1s;
+}
+
+.blog-post:nth-child(4) {
+  animation-delay: 1.2s;
+}
+
+/* 分页动画 */
+.pagination {
+  animation: fadeIn 0.8s ease-out forwards;
+  animation-delay: 1.4s;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+/* 滚动显示动画 */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 搜索结果动画 */
+.search-result-enter {
+  animation: slideInRight 0.5s ease-out forwards;
+}
+
+.search-result-exit {
+  animation: slideInLeft 0.5s ease-out forwards;
+}
+
+/* 点击动画 */
+@keyframes buttonPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(var(--accent-color-rgb), 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(var(--accent-color-rgb), 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--accent-color-rgb), 0);
+  }
+}
+
+.filter-tags button.active {
+  animation: buttonPulse 1.5s;
+}
+
+/* 暗色模式动画调整 */
+.dark-mode .decoration-dot {
+  filter: blur(50px);
+}
+
+/* 响应式动画调整 */
+@media (max-width: 768px) {
+  .blog-post {
+    animation-delay: 0.3s;
+  }
+  
+  .filter-tags button {
+    animation-delay: 0.3s;
+  }
+  
+  .pagination {
+    animation-delay: 0.8s;
+  }
+}

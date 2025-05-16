@@ -1,0 +1,195 @@
+/* 博客页面交互增强
+ * 作者: HealthJian
+ * 日期: 2025-05-16
+ * 描述: 为博客页面提供丰富的交互效果和视觉体验
+ */
+
+/* 卡片悬停 3D 效果 */
+.blog-post {
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  perspective: 1000px;
+}
+
+.blog-post-content {
+  transition: transform 0.5s ease;
+  transform-style: preserve-3d;
+}
+
+.blog-post:hover .blog-post-content {
+  transform: translateZ(20px);
+}
+
+/* 鼠标跟随效果 */
+.blog-post::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at var(--mouse-x, 0) var(--mouse-y, 0), 
+                             rgba(255, 255, 255, 0.1) 0%, 
+                             rgba(255, 255, 255, 0) 50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.blog-post:hover::before {
+  opacity: 1;
+}
+
+/* 过滤按钮增强 */
+.filter-tags button {
+  position: relative;
+  overflow: hidden;
+}
+
+.filter-tags button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, 
+                             rgba(255, 255, 255, 0) 0%, 
+                             rgba(255, 255, 255, 0.2) 50%, 
+                             rgba(255, 255, 255, 0) 100%);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.filter-tags button:hover::after {
+  transform: translateX(100%);
+}
+
+/* 平滑滚动 */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 波纹效果 */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(0);
+  animation: ripple 0.6s linear;
+  pointer-events: none;
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* 标题装饰线条 */
+.blog-post-title {
+  position: relative;
+  display: inline-block;
+}
+
+.blog-post-title::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -5px;
+  left: 0;
+  background: linear-gradient(90deg, var(--accent-color), transparent);
+  transition: width 0.3s ease;
+}
+
+.blog-post:hover .blog-post-title::after {
+  width: 100%;
+}
+
+/* 标签悬停效果 */
+.tag {
+  transition: all 0.3s ease;
+}
+
+.tag:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 3px 8px rgba(var(--accent-color-rgb), 0.2);
+}
+
+/* 博客卡片倾斜效果 */
+.blog-post {
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+.tilt-effect {
+  transform: perspective(1000px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg));
+}
+
+/* 滚动到顶部按钮 */
+.scroll-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--accent-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  z-index: 100;
+}
+
+.scroll-top.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-top:hover {
+  background: var(--accent-color-secondary);
+  transform: translateY(-5px);
+}
+
+/* 搜索框交互增强 */
+.blog-search input:focus + button {
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 5px 15px rgba(var(--accent-color-rgb), 0.3);
+}
+
+/* 分页按钮交互增强 */
+.pagination button:active {
+  transform: scale(0.95);
+}
+
+/* 博客文章图片悬停效果 */
+.blog-post img {
+  transition: all 0.3s ease;
+}
+
+.blog-post:hover img {
+  transform: scale(1.05);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .scroll-top {
+    width: 40px;
+    height: 40px;
+    bottom: 20px;
+    right: 20px;
+  }
+  
+  .blog-post {
+    transform: none !important;
+  }
+}

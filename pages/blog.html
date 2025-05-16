@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/dark-mode.css">
     <link rel="stylesheet" href="../css/blog.css">
+    <link rel="stylesheet" href="../css/blog-enhanced.css">
+    <link rel="stylesheet" href="../css/blog-enhanced-animations.css">
+    <link rel="stylesheet" href="../css/blog-enhanced-interactions.css">
+    <link rel="stylesheet" href="../css/blog-enhanced-final.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
     
@@ -50,18 +54,27 @@
     </nav>
 
     <main>
+        <!-- 装饰元素 -->
+        <div class="decoration-dot decoration-dot-1"></div>
+        <div class="decoration-dot decoration-dot-2"></div>
+        <div class="decoration-dot decoration-dot-3"></div>
         <section class="blog-header">
             <div class="blog-svg-container">
                 <!-- 日间SVG图标 -->
-                <svg class="day-svg" xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 512 512"><defs><linearGradient id="meteoconsHorizonFill0" x1="150" x2="234" y1="119.2" y2="264.8" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fbbf24"></stop><stop offset=".5" stop-color="#fbbf24"></stop><stop offset="1" stop-color="#f59e0b"></stop></linearGradient><clipPath id="meteoconsHorizonFill1"><path fill="none" d="M0 0h512v306H0z"></path></clipPath><symbol id="meteoconsHorizonFill2" viewBox="0 0 384 384"><circle cx="192" cy="192" r="84" fill="url(#meteoconsHorizonFill0)" stroke="#f8af18" stroke-miterlimit="10" stroke-width="6" data-swindex="0"></circle><path fill="none" stroke="#fbbf24" stroke-linecap="round" stroke-miterlimit="10" stroke-width="24" data-swindex="1" d="M192 61.7V12m0 360v-49.7m92.2-222.5l35-35M64.8 319.2l35.1-35.1m0-184.4l-35-35m254.5 254.5l-35.1-35.1M61.7 192H12m360 0h-49.7"><animateTransform additive="sum" attributeName="transform" dur="6s" repeatCount="indefinite" type="rotate" values="0 192 192; 45 192 192"></animateTransform></path></symbol></defs><g clip-path="url(#meteoconsHorizonFill1)"><use width="384" height="384" href="#meteoconsHorizonFill2" transform="translate(64 100)"></use></g><path fill="none" stroke="#374151" stroke-linecap="round" stroke-linejoin="round" stroke-width="18" data-swindex="2" d="M128 332h256"></path></svg>
+                <svg class="day-svg" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 512 512"><defs><linearGradient id="meteoconsHorizonFill0" x1="150" x2="234" y1="119.2" y2="264.8" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fbbf24"></stop><stop offset=".5" stop-color="#fbbf24"></stop><stop offset="1" stop-color="#f59e0b"></stop></linearGradient><clipPath id="meteoconsHorizonFill1"><path fill="none" d="M0 0h512v306H0z"></path></clipPath><symbol id="meteoconsHorizonFill2" viewBox="0 0 384 384"><circle cx="192" cy="192" r="84" fill="url(#meteoconsHorizonFill0)" stroke="#f8af18" stroke-miterlimit="10" stroke-width="6" data-swindex="0"></circle><path fill="none" stroke="#fbbf24" stroke-linecap="round" stroke-miterlimit="10" stroke-width="24" data-swindex="1" d="M192 61.7V12m0 360v-49.7m92.2-222.5l35-35M64.8 319.2l35.1-35.1m0-184.4l-35-35m254.5 254.5l-35.1-35.1M61.7 192H12m360 0h-49.7"><animateTransform additive="sum" attributeName="transform" dur="6s" repeatCount="indefinite" type="rotate" values="0 192 192; 45 192 192"></animateTransform></path></symbol></defs><g clip-path="url(#meteoconsHorizonFill1)"><use width="384" height="384" href="#meteoconsHorizonFill2" transform="translate(64 100)"></use></g><path fill="none" stroke="#374151" stroke-linecap="round" stroke-linejoin="round" stroke-width="18" data-swindex="2" d="M128 332h256"></path></svg>
                 
                 <!-- 夜间SVG图标 -->
-                <svg class="night-svg" xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 512 512"><defs><linearGradient id="meteoconsHazeNightFill0" x1="17.3" x2="89.3" y1="43.1" y2="167.8" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#d4d7dd"></stop><stop offset=".5" stop-color="#d4d7dd"></stop><stop offset="1" stop-color="#bec1c6"></stop></linearGradient><linearGradient id="meteoconsHazeNightFill1" x1="107.3" x2="179.3" y1="-8.8" y2="115.9" href="#meteoconsHazeNightFill0"></linearGradient><linearGradient id="meteoconsHazeNightFill2" x1="174.8" x2="246.8" y1="-47.8" y2="76.9" href="#meteoconsHazeNightFill0"></linearGradient><linearGradient id="meteoconsHazeNightFill3" x2="89.3" y1="-4.9" y2="119.8" href="#meteoconsHazeNightFill0"></linearGradient><linearGradient id="meteoconsHazeNightFill4" x1="107.3" x2="179.3" y1="-56.9" y2="67.9" href="#meteoconsHazeNightFill0"></linearGradient><linearGradient id="meteoconsHazeNightFill5" x1="174.8" x2="246.8" y1="-95.8" y2="28.9" href="#meteoconsHazeNightFill0"></linearGradient><linearGradient id="meteoconsHazeNightFill6" x1="54.3" x2="187.2" y1="29" y2="259.1" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#86c3db"></stop><stop offset=".5" stop-color="#86c3db"></stop><stop offset="1" stop-color="#5eafcf"></stop></linearGradient><symbol id="meteoconsHazeNightFill7" viewBox="0 0 270 270"><path fill="url(#meteoconsHazeNightFill6)" stroke="#72b9d5" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" data-swindex="0" d="M252.3 168.6A133.4 133.4 0 0 1 118 36.2A130.5 130.5 0 0 1 122.5 3A133 133 0 0 0 3 134.6C3 207.7 63 267 137.2 267c62.5 0 114.8-42.2 129.8-99.2a135.6 135.6 0 0 1-14.8.8Z"><animateTransform additive="sum" attributeName="transform" dur="6s" repeatCount="indefinite" type="rotate" values="-15 135 135; 9 135 135; -15 135 135"></animateTransform></path></symbol><symbol id="meteoconsHazeNightFill8" viewBox="0 0 264 72"><g><path fill="none" stroke="url(#meteoconsHazeNightFill0)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="24" data-swindex="1" d="M12 60h30"></path><path fill="none" stroke="url(#meteoconsHazeNightFill1)" stroke-dasharray="60 60" stroke-linecap="round" stroke-miterlimit="10" stroke-width="24" data-swindex="1" d="M102 60h90"></path><path fill="none" stroke="url(#meteoconsHazeNightFill2)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="24" data-swindex="1" d="M222 60h30"></path><animateTransform additive="sum" attributeName="transform" dur="6s" repeatCount="indefinite" type="translate" values="-24 0; 24 0; -24 0"></animateTransform></g><g><path fill="none" stroke="url(#meteoconsHazeNightFill3)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="24" data-swindex="1" d="M12 12h30"></path><path fill="none" stroke="url(#meteoconsHazeNightFill4)" stroke-dasharray="60 60" stroke-linecap="round" stroke-miterlimit="10" stroke-width="24" data-swindex="1" d="M102 12h90"></path><path fill="none" stroke="url(#meteoconsHazeNightFill5)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="24" data-swindex="1" d="M222 12h30"></path><animateTransform additive="sum" attributeName="transform" dur="6s" repeatCount="indefinite" type="translate" values="24 0; -24 0; 24 0"></animateTransform></g></symbol><clipPath id="meteoconsHazeNightFill9"><path fill="none" d="M0 0h512v306H0z"></path></clipPath></defs><g clip-path="url(#meteoconsHazeNightFill9)"><use width="270" height="270" href="#meteoconsHazeNightFill7" transform="translate(121 121)"></use></g><use width="264" height="72" href="#meteoconsHazeNightFill8" transform="translate(124 336)"></use></svg>
+                <svg class="night-svg" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 512 512"><defs><linearGradient id="meteoconsHazeNightFill0" x1="17.3" x2="89.3" y1="43.1" y2="167.8" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#d4d7dd"></stop><stop offset=".5" stop-color="#d4d7dd"></stop><stop offset="1" stop-color="#bec1c6"></stop></linearGradient><linearGradient id="meteoconsHazeNightFill1" x1="107.3" x2="179.3" y1="-8.8" y2="115.9" href="#meteoconsHazeNightFill0"></linearGradient><linearGradient id="meteoconsHazeNightFill2" x1="174.8" x2="246.8" y1="-47.8" y2="76.9" href="#meteoconsHazeNightFill0"></linearGradient><linearGradient id="meteoconsHazeNightFill3" x2="89.3" y1="-4.9" y2="119.8" href="#meteoconsHazeNightFill0"></linearGradient><linearGradient id="meteoconsHazeNightFill4" x1="107.3" x2="179.3" y1="-56.9" y2="67.9" href="#meteoconsHazeNightFill0"></linearGradient><linearGradient id="meteoconsHazeNightFill5" x1="174.8" x2="246.8" y1="-95.8" y2="28.9" href="#meteoconsHazeNightFill0"></linearGradient><linearGradient id="meteoconsHazeNightFill6" x1="54.3" x2="187.2" y1="29" y2="259.1" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#86c3db"></stop><stop offset=".5" stop-color="#86c3db"></stop><stop offset="1" stop-color="#5eafcf"></stop></linearGradient><symbol id="meteoconsHazeNightFill7" viewBox="0 0 270 270"><path fill="url(#meteoconsHazeNightFill6)" stroke="#72b9d5" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" data-swindex="0" d="M252.3 168.6A133.4 133.4 0 0 1 118 36.2A130.5 130.5 0 0 1 122.5 3A133 133 0 0 0 3 134.6C3 207.7 63 267 137.2 267c62.5 0 114.8-42.2 129.8-99.2a135.6 135.6 0 0 1-14.8.8Z"><animateTransform additive="sum" attributeName="transform" dur="6s" repeatCount="indefinite" type="rotate" values="-15 135 135; 9 135 135; -15 135 135"></animateTransform></path></symbol><symbol id="meteoconsHazeNightFill8" viewBox="0 0 264 72"><g><path fill="none" stroke="url(#meteoconsHazeNightFill0)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="24" data-swindex="1" d="M12 60h30"></path><path fill="none" stroke="url(#meteoconsHazeNightFill1)" stroke-dasharray="60 60" stroke-linecap="round" stroke-miterlimit="10" stroke-width="24" data-swindex="1" d="M102 60h90"></path><path fill="none" stroke="url(#meteoconsHazeNightFill2)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="24" data-swindex="1" d="M222 60h30"></path><animateTransform additive="sum" attributeName="transform" dur="6s" repeatCount="indefinite" type="translate" values="-24 0; 24 0; -24 0"></animateTransform></g><g><path fill="none" stroke="url(#meteoconsHazeNightFill3)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="24" data-swindex="1" d="M12 12h30"></path><path fill="none" stroke="url(#meteoconsHazeNightFill4)" stroke-dasharray="60 60" stroke-linecap="round" stroke-miterlimit="10" stroke-width="24" data-swindex="1" d="M102 12h90"></path><path fill="none" stroke="url(#meteoconsHazeNightFill5)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="24" data-swindex="1" d="M222 12h30"></path><animateTransform additive="sum" attributeName="transform" dur="6s" repeatCount="indefinite" type="translate" values="24 0; -24 0; 24 0"></animateTransform></g></symbol><clipPath id="meteoconsHazeNightFill9"><path fill="none" d="M0 0h512v306H0z"></path></clipPath></defs><g clip-path="url(#meteoconsHazeNightFill9)"><use width="270" height="270" href="#meteoconsHazeNightFill7" transform="translate(121 121)"></use></g><use width="264" height="72" href="#meteoconsHazeNightFill8" transform="translate(124 336)"></use></svg>
             </div>
             <h1 class="blog-title-styled" data-en="Blog Posts" data-zh="博客文章">博客文章</h1>
             <div class="blog-search">
-                <input type="text" placeholder="搜索文章..." data-en-placeholder="Search posts..." data-zh-placeholder="搜索文章...">
-                <button><i class="fas fa-search"></i></button>
+                <div class="blog-search-container">
+                    <div class="blog-search-inner">
+                        <i class="fas fa-search blog-search-icon"></i>
+                        <input type="text" placeholder="搜索文章..." data-en-placeholder="Search posts..." data-zh-placeholder="搜索文章...">
+                        <button><i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -90,6 +103,11 @@
             </span>
             <button class="next"><i class="fas fa-chevron-right"></i></button>
         </div>
+        
+        <!-- 滚动到顶部按钮 -->
+        <div class="scroll-top" id="scrollTop">
+            <i class="fas fa-arrow-up"></i>
+        </div>
     </main>
 
     <!-- 页脚 -->
@@ -116,7 +134,86 @@
         document.addEventListener('DOMContentLoaded', function() {
             // 初始化博客功能
             initBlog();
+            
+            // 滚动到顶部按钮
+            const scrollTopBtn = document.getElementById('scrollTop');
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    scrollTopBtn.classList.add('visible');
+                } else {
+                    scrollTopBtn.classList.remove('visible');
+                }
+            });
+            
+            scrollTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // 卡片鼠标跟随效果
+            const cards = document.querySelectorAll('.blog-post');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', function(e) {
+                    const rect = this.getBoundingClientRect();
+                    const x = ((e.clientX - rect.left) / this.offsetWidth) * 100;
+                    const y = ((e.clientY - rect.top) / this.offsetHeight) * 100;
+                    this.style.setProperty('--mouse-x', x + '%');
+                    this.style.setProperty('--mouse-y', y + '%');
+                    
+                    // 倾斜效果
+                    const rotateX = ((y - 50) / 50) * -3; // -3 to 3 degrees
+                    const rotateY = ((x - 50) / 50) * 3; // -3 to 3 degrees
+                    this.style.setProperty('--rotate-x', rotateX + 'deg');
+                    this.style.setProperty('--rotate-y', rotateY + 'deg');
+                    this.classList.add('tilt-effect');
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.classList.remove('tilt-effect');
+                });
+            });
+            
+            // 按钮波纹效果
+            const buttons = document.querySelectorAll('.filter-tags button, .pagination button, .blog-search button');
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('ripple');
+                    this.appendChild(ripple);
+                    
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+                    ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+                    
+                    setTimeout(() => ripple.remove(), 600);
+                });
+            });
+            
+            // 滚动显示动画
+            const scrollElements = document.querySelectorAll('.blog-post, .blog-filters, .pagination');
+            
+            function checkScroll() {
+                scrollElements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const elementVisible = 150;
+                    
+                    if (elementTop < window.innerHeight - elementVisible) {
+                        element.classList.add('scroll-reveal');
+                        element.classList.add('revealed');
+                    }
+                });
+            }
+            
+            // 初始检查
+            window.addEventListener('load', checkScroll);
+            // 滚动时检查
+            window.addEventListener('scroll', checkScroll);
         });
     </script>
 </body>
-</html> 
+</html>

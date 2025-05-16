@@ -1,0 +1,486 @@
+/* 博客页面增强样式
+ * 作者: HealthJian
+ * 日期: 2025-05-16
+ * 描述: 为博客页面提供现代化的视觉设计和交互体验
+ */
+
+/* 页面整体增强 */
+main {
+  position: relative;
+  overflow-x: hidden;
+  padding: 0 20px;
+}
+
+/* 装饰元素 */
+.decoration-dot {
+  position: absolute;
+  border-radius: 50%;
+  z-index: -1;
+  filter: blur(40px);
+  opacity: 0.5;
+  transition: all 0.5s ease;
+}
+
+.decoration-dot-1 {
+  width: 200px;
+  height: 200px;
+  background: linear-gradient(135deg, var(--accent-color), transparent);
+  top: -50px;
+  left: -100px;
+}
+
+.decoration-dot-2 {
+  width: 250px;
+  height: 250px;
+  background: linear-gradient(135deg, var(--accent-color-secondary), transparent);
+  bottom: 20%;
+  right: -100px;
+}
+
+.decoration-dot-3 {
+  width: 150px;
+  height: 150px;
+  background: linear-gradient(135deg, var(--accent-color), var(--accent-color-secondary));
+  top: 40%;
+  left: -50px;
+}
+
+/* 博客头部区域 - 增强版 */
+.blog-header {
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+  overflow: hidden;
+  padding: 40px 0 20px;
+}
+
+.blog-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+  border-radius: 3px;
+}
+
+/* 博客标题增强 */
+.blog-title-styled {
+  font-size: 2.5rem;
+  text-align: center;
+  margin: 0 0 20px;
+  background: linear-gradient(135deg, var(--accent-color), var(--accent-color-secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  position: relative;
+  width: 100%;
+  display: block;
+  z-index: 1;
+  font-weight: 600;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+.blog-title-styled::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+  border-radius: 3px;
+}
+
+.blog-title-styled::before {
+  content: '';
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, rgba(var(--accent-color-rgb), 0.1), transparent);
+  border-radius: 50%;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: -1;
+}
+
+/* 注意: 这里不覆盖原始的blog-svg-container样式，因为它在blog.css中已经定义 */
+
+/* 增强版SVG效果 */
+.blog-svg-container svg {
+  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.1));
+}
+
+/* 搜索框全新设计 - 现代精致版 */
+.blog-search {
+  position: relative;
+  max-width: 380px;
+  width: 100%;
+  margin: 0 auto 30px;
+  z-index: 10;
+}
+
+/* 搜索框外层容器 */
+.blog-search-container {
+  position: relative;
+  width: 100%;
+  background: #fff;
+  border-radius: 50px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.blog-search-container:hover,
+.blog-search-container:focus-within {
+  box-shadow: 
+    0 15px 35px rgba(var(--accent-color-rgb), 0.3),
+    0 5px 15px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+/* 搜索框内层 */
+.blog-search-inner {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 42px;
+  position: relative;
+}
+
+/* 暗色模式适配 */
+.dark-mode .blog-search-inner {
+  background: #222;
+}
+
+/* 搜索图标 */
+.blog-search-icon {
+  position: absolute;
+  left: 15px;
+  color: #999;
+  font-size: 0.9rem;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.blog-search input:focus ~ .blog-search-icon {
+  color: var(--accent-color-secondary);
+  transform: scale(1.1);
+}
+
+/* 输入框样式 */
+.blog-search input {
+  width: 100%;
+  height: 100%;
+  padding: 0 50px 0 40px;
+  border: none;
+  background: transparent;
+  font-size: 0.95rem;
+  color: #333;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.dark-mode .blog-search input {
+  color: #f0f0f0;
+}
+
+.blog-search input:focus {
+  outline: none;
+}
+
+.blog-search input::placeholder {
+  color: #999;
+  font-weight: 300;
+  transition: all 0.3s ease;
+}
+
+.dark-mode .blog-search input::placeholder {
+  color: #777;
+}
+
+.blog-search input:focus::placeholder {
+  opacity: 0.7;
+  transform: translateX(5px);
+}
+
+/* 搜索按钮 */
+.blog-search button {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  background: #f0f0f0;
+  border: none;
+  border-radius: 50%;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.blog-search button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.8), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.blog-search button:hover {
+  background: var(--accent-color-secondary);
+  transform: scale(1.05);
+}
+
+.blog-search button:hover::before {
+  opacity: 0.2;
+}
+
+.blog-search button:active {
+  transform: scale(0.95);
+}
+
+.blog-search button i {
+  font-size: 0.8rem;
+  transition: transform 0.3s ease;
+}
+
+.blog-search button:hover i {
+  transform: scale(1.2);
+}
+
+/* 装饰元素 */
+.blog-search::before,
+.blog-search::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  z-index: -1;
+  filter: blur(20px);
+  opacity: 0.15;
+  transition: all 0.5s ease;
+}
+
+.blog-search::before {
+  top: -20px;
+  left: -20px;
+  width: 120px;
+  height: 120px;
+  background: var(--accent-color-secondary);
+}
+
+.blog-search::after {
+  bottom: -30px;
+  right: -30px;
+  width: 150px;
+  height: 150px;
+  background: var(--accent-color);
+}
+
+.blog-search:hover::before,
+.blog-search:focus-within::before {
+  transform: scale(1.2);
+  opacity: 0.2;
+}
+
+.blog-search:hover::after,
+.blog-search:focus-within::after {
+  transform: scale(1.1);
+  opacity: 0.2;
+}
+
+/* 博客过滤器部分 - 增强版 */
+.blog-filters {
+  background: #fff;
+  border-radius: 15px;
+  padding: 15px 20px;
+  margin: 0 auto 40px;
+  max-width: 400px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  position: relative;
+  z-index: 5;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* 暗色模式适配 */
+.dark-mode .blog-filters {
+  background: #2a2a2a;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.blog-filters:hover {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+}
+
+/* 过滤器标题 */
+.filter-group h3 {
+  position: relative;
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  padding-left: 15px;
+  display: inline-block;
+  font-weight: 500;
+}
+
+.dark-mode .filter-group h3 {
+  color: #f0f0f0;
+}
+
+/* 标签按钮样式 */
+.filter-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-left: 5px;
+}
+
+.filter-tags button {
+  padding: 7px 15px;
+  border-radius: 30px;
+  border: 1px solid #e5e5e5;
+  background: #f8f8f8;
+  color: #555;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  font-weight: 500;
+}
+
+.dark-mode .filter-tags button {
+  background: #3a3a3a;
+  color: #f0f0f0;
+}
+
+.filter-tags button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  background: #f0f0f0;
+  border-color: #ddd;
+}
+
+.dark-mode .filter-tags button:hover {
+  background: #444;
+}
+
+.filter-tags button.active {
+  background: linear-gradient(135deg, var(--accent-color), var(--accent-color-secondary));
+  color: white;
+  box-shadow: 0 4px 12px rgba(var(--accent-color-rgb), 0.3);
+  border-color: transparent;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.filter-tags button.active:hover {
+  background: linear-gradient(135deg, var(--accent-color-secondary), var(--accent-color));
+  box-shadow: 0 6px 15px rgba(var(--accent-color-rgb), 0.4);
+  transform: translateY(-3px);
+}
+
+/* 装饰元素 */
+.filter-group::before {
+  content: '';
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  width: 80px;
+  height: 80px;
+  background: var(--accent-color);
+  opacity: 0.05;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+/* 添加分类图标 */
+.filter-group h3::before {
+  content: '\f03a';
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  margin-right: 10px;
+  color: var(--accent-color);
+}
+
+/* 分页增强 */
+.pagination {
+  margin-top: 60px;
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.pagination button {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(var(--card-background-rgb), 0.8);
+  border: 2px solid rgba(var(--accent-color-rgb), 0.2);
+  color: var(--text-color);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pagination button.active {
+  background: linear-gradient(135deg, var(--accent-color), var(--accent-color-secondary));
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 5px 15px rgba(var(--accent-color-rgb), 0.3);
+}
+
+.pagination button:not(:disabled):hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(var(--accent-color-rgb), 0.2);
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .decoration-dot {
+    opacity: 0.3;
+  }
+  
+  .blog-filters {
+    padding: 15px;
+  }
+  
+  .filter-tags button {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+  
+  .pagination {
+    gap: 10px;
+  }
+  
+  .pagination button {
+    width: 35px;
+    height: 35px;
+  }
+}
