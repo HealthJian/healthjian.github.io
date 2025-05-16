@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>实验二：SVM 乳腺癌检测报告 - HealthJian的博客</title>
+    <!-- 根据实际路径调整CSS引用路径 -->
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/dark-mode.css">
+    <link rel="stylesheet" href="../../../css/blog-post.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="light-mode">
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <!-- 根据实际部署的文件夹深度调整路径 -->
+            <a href="../../../index.html" class="logo">
+                <img src="../../../images/githubherofigureimage.png" alt="Logo">
+                <span class="site-name" data-en="HealthJian Blog" data-zh="HealthJian">HealthJian</span>
+            </a>
+        </div>
+        <div class="nav-right">
+            <ul class="menu">
+                <!-- 根据实际部署的文件夹深度调整路径 -->
+                <li><a href="../../../index.html" data-en="Home" data-zh="首页">首页</a></li>
+                <li><a href="../../blog.html" data-en="Blog" data-zh="博客">博客</a></li>
+                <li><a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a></li>
+                <li><a href="../../links.html" data-en="Links" data-zh="链接">链接</a></li>
+                <li><a href="../../about.html" data-en="About" data-zh="关于">关于</a></li>
+            </ul>
+            <div class="social-icons">
+                <a href="https://steamcommunity.com/id/yoursteamid" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
+                <a href="mailto:gaojian1573@foxmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+            <button id="theme-toggle" class="theme-toggle" title="切换主题">
+                <i class="fas fa-moon"></i>
+                <i class="fas fa-sun"></i>
+            </button>
+            <button id="lang-toggle" class="lang-toggle" title="切换语言">
+                <span data-en="EN" data-zh="中">中</span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="blog-post-container">
+        <!-- 侧边栏 -->
+        <aside class="blog-sidebar">
+            <div class="toc-container">
+                <h3 data-en="Table of Contents" data-zh="目录">目录</h3>
+                <ul class="toc-list">
+                    <!-- 文章目录，根据实际内容添加或修改 -->
+                    <li><a href="#section-1" data-en="I. Introduction" data-zh="一、引言">一、引言</a></li>
+                    <li><a href="#section-2" data-en="II. Data Loading & EDA" data-zh="二、数据加载与探索性数据分析">二、数据加载与探索性数据分析</a></li>
+                    <li><a href="#section-3" data-en="III. SVM Theory" data-zh="三、SVM 数学原理">三、SVM 数学原理</a></li>
+                    <li><a href="#section-4" data-en="IV. Feature Engineering" data-zh="四、特征工程与预处理">四、特征工程与预处理</a></li>
+                    <li><a href="#section-5" data-en="V. Model Training & Evaluation" data-zh="五、模型训练与评估">五、模型训练与评估</a></li>
+                    <li><a href="#section-6" data-en="VI. Hyperparameter Tuning" data-zh="六、超参数调优">六、超参数调优</a></li>
+                    <li><a href="#section-7" data-en="VII. Results & Evaluation" data-zh="七、预测与结果评估">七、预测与结果评估</a></li>
+                    <li><a href="#section-8" data-en="VIII. Conclusion" data-zh="八、结论">八、结论</a></li>
+                    <li><a href="#section-resources" data-en="Resources & Code" data-zh="资源与代码">资源与代码</a></li>
+                </ul>
+            </div>
+            
+            <div class="post-meta-info">
+                <div class="post-date">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>2024-03-18</span> <!-- 更新实际发布日期 -->
+                </div>
+                <div class="post-tags">
+                    <i class="fas fa-tags"></i>
+                    <!-- 根据文章主题修改标签 -->
+                    <span class="tag" data-en="SVM" data-zh="SVM">SVM</span>
+                    <span class="tag" data-en="Machine Learning" data-zh="机器学习">机器学习</span>
+                    <span class="tag" data-en="Breast Cancer" data-zh="乳腺癌">乳腺癌</span>
+                </div>
+                <div class="post-category">
+                    <i class="fas fa-folder"></i>
+                    <!-- 修改为实际分类 -->
+                    <span data-en="Machine Learning" data-zh="机器学习">机器学习</span>
+                </div>
+            </div>
+            
+            <div class="post-navigation">
+                <h3 data-en="Navigation" data-zh="导航">导航</h3>
+                <div class="nav-buttons">
+                    <a href="../../blog.html" class="nav-button" data-en="Back to Blog" data-zh="返回博客列表">
+                        <i class="fas fa-arrow-left"></i>
+                        <span data-en="Back to Blog" data-zh="返回博客列表">返回博客列表</span>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 文章主体 -->
+        <main class="blog-post-main">
+            <article class="blog-post-content">
+                <header class="post-header">
+                    <h1 class="post-title">
+                        <div class="bilingual-content">
+                            <span class="zh-content">实验二：SVM 乳腺癌检测报告</span>
+                            <span class="en-content" style="display: none;">Experiment 2: SVM Breast Cancer Detection Report</span>
+                        </div>
+                    </h1>
+                </header>
+                
+                <div class="post-body">
+                    <!-- 摘要部分 -->
+                    <section>
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                本报告详尽记录了应用支持向量机 (SVM) 对公开的威斯康星州乳腺癌（诊断）数据集进行二分类预测的完整实验流程与分析。实验核心目标聚焦于利用描述细胞核形态学特性的 30 个数值型特征，构建一个高性能模型以准确区分恶性 (Malignant) 与良性 (Benign) 乳腺肿瘤。遵循标准的机器学习实践，实验始于数据加载和全面的探索性数据分析 (EDA)。通过细致的可视化，包括按特征类型（均值、标准误、最差值）分组的相关性热力图、基于标准化值的特征分布小提琴图以及 PCA 降维图，我们揭示了特征间显著的相关性结构（如半径、周长、面积特征的高度相关），确认了不同类别样本在关键特征（如凹度、凹点数）上的分布差异，并验证了数据的可分离性。关键的预处理步骤是对特征进行了标准化，以适应 SVM 对尺度的敏感性。实验的核心环节在于系统性比较了四种常用 SVM 核函数（Linear, Poly, RBF, Sigmoid）的分类性能，采用准确率、ROC 曲线下面积 (AUC)、混淆矩阵及分类报告（精确率、召回率、F1 分数）作为评估指标。性能对比清晰表明，非线性的 RBF 核与线性 Linear 核在此数据集上展现出最优越的性能。基于此发现，我们运用网格搜索 (GridSearchCV) 结合交叉验证，对性能最佳的核函数进行了细致的超参数调优，重点优化了惩罚参数 `C` 和核系数 `gamma`。最终，优化后的 SVM 模型在测试集上表现卓越，其性能通过混淆矩阵和分类报告得以验证：模型不仅实现了极高的整体准确率（通常稳定在 98% 以上），更重要的是，其在识别恶性肿瘤方面展现出高召回率，将恶性误诊为良性的假阴性 (FN) 案例数量控制在极低水平，这对于临床应用具有重大意义。本次实验不仅成功构建了一个有效的乳腺癌分类模型，也为理解和应用 SVM 解决实际生物医学分类问题提供了宝贵的实践经验。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                This report documents in detail the complete experimental process and analysis of applying Support Vector Machine (SVM) for binary classification prediction on the public Wisconsin Breast Cancer (Diagnostic) dataset. The core objective of the experiment focuses on using 30 numerical features describing cell nucleus morphological characteristics to build a high-performance model to accurately distinguish between malignant and benign breast tumors. Following standard machine learning practices, the experiment begins with data loading and comprehensive exploratory data analysis (EDA). Through detailed visualizations, including correlation heatmaps grouped by feature types (means, standard errors, worst values), violin plots of feature distributions based on standardized values, and PCA dimensionality reduction plots, we reveal significant correlation structures between features (such as high correlation between radius, perimeter, and area features), confirm distribution differences in key features (such as concavity, concave points) between different sample categories, and verify the separability of the data. The key preprocessing step is feature standardization to accommodate SVM's sensitivity to scale. The core aspect of the experiment is a systematic comparison of the classification performance of four commonly used SVM kernel functions (Linear, Poly, RBF, Sigmoid), using accuracy, area under the ROC curve (AUC), confusion matrix, and classification report (precision, recall, F1 score) as evaluation metrics. Performance comparison clearly shows that the nonlinear RBF kernel and the linear kernel exhibit the most superior performance on this dataset. Based on this finding, we use grid search (GridSearchCV) combined with cross-validation to finely tune the hyperparameters of the best-performing kernel function, focusing on optimizing the penalty parameter `C` and the kernel coefficient `gamma`. Finally, the optimized SVM model performs excellently on the test set, its performance verified through confusion matrix and classification report: the model not only achieves extremely high overall accuracy (typically stable above 98%), more importantly, it exhibits high recall in identifying malignant tumors, keeping the number of false negative (FN) cases (malignant misdiagnosed as benign) at an extremely low level, which is of great significance for clinical applications. This experiment not only successfully builds an effective breast cancer classification model but also provides valuable practical experience for understanding and applying SVM to solve actual biomedical classification problems.
+                            </p>
+                        </div>
+                    </section>
+                    
+                    <!-- 第一部分：引言 -->
+                    <section id="section-1">
+                        <h2 data-en="I. Introduction" data-zh="一、引言">一、引言</h2>
+                        
+                        <h3 data-en="1.1 Project Background & Significance" data-zh="1.1 项目背景与意义">1.1 项目背景与意义</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                乳腺癌作为全球范围内威胁女性健康的主要恶性肿瘤之一，其发病率和死亡率长期居高不下，给患者、家庭乃至社会带来了沉重的负担。临床实践反复证明，早期发现和精确诊断是显著提高乳腺癌患者五年生存率、改善预后和降低治疗成本的关键所在。目前，乳腺癌的诊断流程通常结合了多种手段，包括临床体检、影像学检查（如钼靶 X 线摄影、超声、MRI）以及组织病理学分析。其中，通过细针穿刺 (Fine Needle Aspiration, FNA) 或核心活检获取组织样本，并由病理医生在显微镜下观察细胞形态特征，是确定肿瘤性质（良性或恶性）的金标准。然而，这些传统方法也面临着一些挑战和局限性。首先，影像学检查可能存在一定的假阳性或假阴性率，尤其对于致密型乳腺或早期微小病灶。其次，病理诊断虽然准确性高，但依赖于病理医生的专业知识和经验，不同医生之间可能存在观察和判读上的差异（inter-observer variability），且阅片过程耗时较长。此外，活检本身具有一定的侵入性，可能给患者带来不适和风险。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                Breast cancer, as one of the major malignant tumors threatening women's health worldwide, has long had high incidence and mortality rates, placing a heavy burden on patients, families, and society. Clinical practice has repeatedly proven that early detection and accurate diagnosis are key to significantly improving the five-year survival rate of breast cancer patients, improving prognosis, and reducing treatment costs. Currently, the diagnostic process for breast cancer typically combines multiple approaches, including clinical examinations, imaging studies (such as mammography, ultrasound, MRI), and histopathological analysis. Among these, obtaining tissue samples through Fine Needle Aspiration (FNA) or core biopsy, and the observation of cellular morphological features by pathologists under a microscope, is the gold standard for determining the nature of the tumor (benign or malignant). However, these traditional methods also face some challenges and limitations. First, imaging studies may have a certain rate of false positives or false negatives, especially for dense breasts or early microscopic lesions. Second, while pathological diagnosis is highly accurate, it depends on the professional knowledge and experience of the pathologist, there may be differences in observation and interpretation between different doctors (inter-observer variability), and the slide reading process is time-consuming. In addition, biopsy itself has a certain degree of invasiveness and may cause discomfort and risk to patients.
+                            </p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                近年来，人工智能，特别是机器学习技术的飞速发展，为改进医学诊断流程、提高效率和精度带来了革命性的机遇。机器学习算法擅长从高维、复杂的数据中学习隐藏的模式和规律，这使其在处理医学影像、基因组学数据以及本实验所关注的细胞形态学数据方面具有巨大潜力。通过将从 FNA 样本数字图像中定量提取的细胞核特征（如大小、形状、纹理等）作为输入，机器学习模型可以学习构建一个客观、可重复的分类器，辅助医生进行良恶性肿瘤的鉴别。这不仅有望提高诊断的一致性和速度，减少不必要的侵入性检查，还可能发现人类视觉难以察觉的细微病理特征，为更早期的诊断和更精准的预后判断提供支持。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                In recent years, the rapid development of artificial intelligence, especially machine learning technology, has brought revolutionary opportunities for improving medical diagnostic processes, efficiency, and accuracy. Machine learning algorithms excel at learning hidden patterns and regularities from high-dimensional, complex data, giving them tremendous potential in processing medical images, genomics data, and the cellular morphological data that this experiment focuses on. By using cell nuclear features (such as size, shape, texture, etc.) quantitatively extracted from digital images of FNA samples as input, machine learning models can learn to build an objective, repeatable classifier to assist doctors in differentiating between benign and malignant tumors. This not only promises to improve the consistency and speed of diagnosis, reduce unnecessary invasive examinations, but may also discover subtle pathological features that are difficult for human vision to perceive, providing support for earlier diagnosis and more precise prognosis judgment.
+                            </p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                在众多机器学习算法中，支持向量机 (Support Vector Machine, SVM) 因其优秀的泛化能力和处理高维数据的有效性，在生物医学分类任务中得到了广泛应用。SVM 的核心思想是找到一个最优的超平面，以最大间隔 (maximum margin) 将不同类别的样本点分开。对于非线性可分的数据，SVM 通过引入核函数（如线性核、多项式核、RBF 核、Sigmoid 核）将数据巧妙地映射到更高维甚至无限维的特征空间，从而在高维空间中找到线性决策边界。这种"核技巧"使得 SVM 能够有效地处理复杂的非线性关系，而无需显式地计算高维空间的坐标，保持了计算效率。其最大间隔的特性也赋予了模型良好的泛化性能，不易过拟合，尤其是在样本量相对有限的情况下。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                Among many machine learning algorithms, Support Vector Machine (SVM) has been widely used in biomedical classification tasks due to its excellent generalization ability and effectiveness in handling high-dimensional data. The core idea of SVM is to find an optimal hyperplane that separates samples of different categories with maximum margin. For non-linearly separable data, SVM cleverly maps the data to a higher-dimensional or even infinite-dimensional feature space by introducing kernel functions (such as linear kernel, polynomial kernel, RBF kernel, Sigmoid kernel), thus finding a linear decision boundary in the high-dimensional space. This "kernel trick" allows SVM to effectively handle complex non-linear relationships without explicitly calculating the coordinates in the high-dimensional space, maintaining computational efficiency. Its maximum margin characteristic also endows the model with good generalization performance, making it less prone to overfitting, especially when the sample size is relatively limited.
+                            </p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                本项目选择经典的威斯康星州乳腺癌（诊断）数据集进行实验研究，该数据集正是基于 FNA 图像计算得到的细胞核特征。选用此数据集具有多重意义：首先，它是一个公开、标注良好、被广泛用于机器学习分类任务性能评估的基准数据集，便于比较和复现结果；其次，它直接关联临床实践中通过 FNA 获取细胞学特征进行诊断的场景，使得基于此数据集训练的模型具有潜在的临床应用价值；最后，通过在本数据集上系统性地应用和比较不同 SVM 核函数及优化策略，可以深入理解 SVM 算法的工作原理、参数影响以及在实际生物医学问题中的应用方法。因此，本实验不仅旨在构建一个高性能的乳腺癌分类器，更重要的是通过这个过程，探索和展示机器学习技术，特别是 SVM，在辅助癌症诊断、提高医疗效率和精度方面的巨大潜力，为未来更智能化的医疗诊断系统研发提供参考和基础。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                This project chooses the classic Wisconsin Breast Cancer (Diagnostic) dataset for experimental research, which is based on cell nuclear features calculated from FNA images. The use of this dataset has multiple significances: first, it is a public, well-annotated benchmark dataset widely used for performance evaluation of machine learning classification tasks, facilitating comparison and reproduction of results; second, it directly relates to the scenario in clinical practice where cytological features obtained through FNA are used for diagnosis, making models trained on this dataset potentially clinically applicable; finally, by systematically applying and comparing different SVM kernel functions and optimization strategies on this dataset, we can gain an in-depth understanding of how the SVM algorithm works, the impact of parameters, and how it can be applied to actual biomedical problems. Therefore, this experiment aims not only to build a high-performance breast cancer classifier but, more importantly, through this process, to explore and demonstrate the enormous potential of machine learning technology, especially SVM, in assisting cancer diagnosis, improving medical efficiency and accuracy, and providing reference and foundation for the development of more intelligent medical diagnostic systems in the future.
+                            </p>
+                        </div>
+                        
+                        <h3 data-en="1.2 Experiment Goals" data-zh="1.2 实验目标">1.2 实验目标</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                本次实验的核心目标是利用威斯康星州乳腺癌（诊断）数据集，构建并优化一个基于 SVM 的分类模型，以准确区分恶性和良性肿瘤。具体子目标包括：
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                The core objective of this experiment is to build and optimize an SVM-based classification model using the Wisconsin Breast Cancer (Diagnostic) dataset to accurately distinguish between malignant and benign tumors. Specific sub-objectives include:
+                            </p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <ol class="zh-content">
+                                <li><strong>数据理解与探索</strong>: 加载数据集，理解特征含义，利用统计分析和可视化手段探索数据分布、特征相关性以及特征与诊断结果的关系。</li>
+                                <li><strong>数据预处理</strong>: 对特征数据进行标准化处理，以适应 SVM 算法的要求。</li>
+                                <li><strong>SVM 核函数比较</strong>: 系统性地训练和评估使用不同核函数（Linear, Poly, RBF, Sigmoid）的 SVM 模型。</li>
+                                <li><strong>模型评估与选择</strong>: 使用准确率、ROC 曲线、AUC 值、混淆矩阵和分类报告（精确率、召回率、F1 分数）等指标评估和比较不同核函数的性能，选择最优核函数。</li>
+                                <li><strong>超参数优化</strong>: 对选定的最佳核函数，使用网格搜索 (GridSearchCV) 寻找最优的超参数组合（如 `C`, `gamma`）。</li>
+                                <li><strong>结果分析与报告</strong>: 分析可视化结果和模型性能指标，总结实验发现，并撰写实验报告。</li>
+                            </ol>
+                            
+                            <ol class="en-content" style="display: none;">
+                                <li><strong>Data Understanding & Exploration</strong>: Load the dataset, understand feature meanings, explore data distribution, feature correlations, and the relationship between features and diagnostic results using statistical analysis and visualization techniques.</li>
+                                <li><strong>Data Preprocessing</strong>: Standardize feature data to accommodate the requirements of the SVM algorithm.</li>
+                                <li><strong>SVM Kernel Function Comparison</strong>: Systematically train and evaluate SVM models using different kernel functions (Linear, Poly, RBF, Sigmoid).</li>
+                                <li><strong>Model Evaluation & Selection</strong>: Use metrics such as accuracy, ROC curves, AUC values, confusion matrices, and classification reports (precision, recall, F1 score) to evaluate and compare the performance of different kernel functions, and select the optimal kernel function.</li>
+                                <li><strong>Hyperparameter Optimization</strong>: For the selected best kernel function, use grid search (GridSearchCV) to find the optimal combination of hyperparameters (such as `C`, `gamma`).</li>
+                                <li><strong>Results Analysis & Reporting</strong>: Analyze visualization results and model performance metrics, summarize experimental findings, and write an experimental report.</li>
+                            </ol>
+                        </div>
+                        
+                        <h3 data-en="1.3 Dataset Overview" data-zh="1.3 数据集概述">1.3 数据集概述</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                本实验使用的数据集是公开的威斯康星州乳腺癌（诊断）数据集，可从 UCI 机器学习库获取。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                The dataset used in this experiment is the publicly available Wisconsin Breast Cancer (Diagnostic) dataset, which can be obtained from the UCI Machine Learning Repository.
+                            </p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <ul class="zh-content">
+                                <li><strong>数据来源</strong>: 从乳腺肿块的细针穿刺 (FNA) 数字图像中计算得出。</li>
+                                <li><strong>数据文件</strong>: 主要使用 `data/exp2/data.csv`。</li>
+                                <li><strong>样本数量</strong>: 569 个样本。</li>
+                                <li><strong>特征数量</strong>: 32 列，包括 'id'、'diagnosis' (目标变量) 和 30 个数值型特征。</li>
+                                <li><strong>特征描述</strong>: 30 个特征是基于 10 个基本细胞核特性计算得出的均值 (mean)、标准误 (se) 和最差值 (worst)。这 10 个基本特性包括：
+                                    <ul>
+                                        <li><code>radius</code>: <strong>半径</strong> (从中心到周长上点的距离的平均值)</li>
+                                        <li><code>texture</code>: <strong>纹理</strong> (灰度值的标准差)</li>
+                                        <li><code>perimeter</code>: <strong>周长</strong></li>
+                                        <li><code>area</code>: <strong>面积</strong></li>
+                                        <li><code>smoothness</code>: <strong>平滑度</strong> (半径长度的局部变化)</li>
+                                        <li><code>compactness</code>: <strong>紧凑度</strong> (周长² / 面积 - 1.0)</li>
+                                        <li><code>concavity</code>: <strong>凹度</strong> (轮廓凹陷部分的严重程度)</li>
+                                        <li><code>concave points</code>: <strong>凹点数</strong> (轮廓凹陷部分的数量)</li>
+                                        <li><code>symmetry</code>: <strong>对称性</strong></li>
+                                        <li><code>fractal dimension</code>: <strong>分形维数</strong> ("海岸线近似" - 1)</li>
+                                    </ul>
+                                </li>
+                                <li><strong>目标变量</strong>: <code>diagnosis</code>，包含两个类别：'M' (Malignant - 恶性) 和 'B' (Benign - 良性)。实验中将其编码为 1 (恶性) 和 0 (良性)。</li>
+                                <li><strong>类别分布</strong>: 数据相对均衡，包含 357 例良性 (62.74%) 和 212 例恶性 (37.26%)。</li>
+                                <li><strong>缺失值</strong>: 原始数据集中无缺失值，但加载代码中包含了处理潜在缺失列（如 'Unnamed: 32'）和填充缺失值的逻辑。</li>
+                            </ul>
+                            
+                            <ul class="en-content" style="display: none;">
+                                <li><strong>Data Source</strong>: Computed from digital images of Fine Needle Aspiration (FNA) of breast masses.</li>
+                                <li><strong>Data File</strong>: Primarily using `data/exp2/data.csv`.</li>
+                                <li><strong>Sample Size</strong>: 569 samples.</li>
+                                <li><strong>Number of Features</strong>: 32 columns, including 'id', 'diagnosis' (target variable), and 30 numerical features.</li>
+                                <li><strong>Feature Description</strong>: The 30 features are computed based on the mean, standard error (se), and worst values of 10 basic cell nucleus characteristics. These 10 basic characteristics include:
+                                    <ul>
+                                        <li><code>radius</code>: <strong>Radius</strong> (mean of distances from center to points on the perimeter)</li>
+                                        <li><code>texture</code>: <strong>Texture</strong> (standard deviation of gray-scale values)</li>
+                                        <li><code>perimeter</code>: <strong>Perimeter</strong></li>
+                                        <li><code>area</code>: <strong>Area</strong></li>
+                                        <li><code>smoothness</code>: <strong>Smoothness</strong> (local variation in radius lengths)</li>
+                                        <li><code>compactness</code>: <strong>Compactness</strong> (perimeter² / area - 1.0)</li>
+                                        <li><code>concavity</code>: <strong>Concavity</strong> (severity of concave portions of the contour)</li>
+                                        <li><code>concave points</code>: <strong>Concave Points</strong> (number of concave portions of the contour)</li>
+                                        <li><code>symmetry</code>: <strong>Symmetry</strong></li>
+                                        <li><code>fractal dimension</code>: <strong>Fractal Dimension</strong> ("coastline approximation" - 1)</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Target Variable</strong>: <code>diagnosis</code>, containing two categories: 'M' (Malignant) and 'B' (Benign). In the experiment, these are encoded as 1 (malignant) and 0 (benign).</li>
+                                <li><strong>Class Distribution</strong>: The data is relatively balanced, containing 357 benign cases (62.74%) and 212 malignant cases (37.26%).</li>
+                                <li><strong>Missing Values</strong>: No missing values in the original dataset, but the loading code includes logic for handling potential missing columns (such as 'Unnamed: 32') and filling missing values.</li>
+                            </ul>
+                        </div>
+                    </section>
+                    
+                    <!-- 第二部分：数据加载与探索性数据分析 -->
+                    <section id="section-2">
+                        <h2 data-en="II. Data Loading & EDA" data-zh="二、数据加载与探索性数据分析">二、数据加载与探索性数据分析 (EDA)</h2>
+                        
+                        <h3 data-en="2.1 Data Loading & Preliminary Processing" data-zh="2.1 数据加载与初步处理">2.1 数据加载与初步处理</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                脚本首先使用 <code>pandas</code> 加载 <code>data/exp2/data.csv</code> 数据集。执行了以下初步处理：
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                The script first loads the `data/exp2/data.csv` dataset using `pandas`. It performs the following preliminary processing:
+                            </p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <ul class="zh-content">
+                                <li>移除了不用于模型训练的 <code>id</code> 列。</li>
+                                <li>移除了在 <code>data.csv</code> 中存在的全空列 <code>Unnamed: 32</code>。</li>
+                                <li>将目标变量 <code>diagnosis</code> 从 'M'/'B' 映射为 1/0 的数值类型。</li>
+                                <li>分离特征数据 <code>X</code> (30个特征) 和目标变量 <code>y</code> (<code>diagnosis</code>)。</li>
+                                <li>检查并确认处理后的数据中无缺失值。</li>
+                                <li>打印了目标变量的类别分布情况。</li>
+                            </ul>
+                            
+                            <ul class="en-content" style="display: none;">
+                                <li>Removed the <code>id</code> column not used for model training.</li>
+                                <li>Removed the empty column <code>Unnamed: 32</code> present in <code>data.csv</code>.</li>
+                                <li>Mapped the target variable <code>diagnosis</code> from 'M'/'B' to numeric types 1/0.</li>
+                                <li>Separated feature data <code>X</code> (30 features) and target variable <code>y</code> (<code>diagnosis</code>).</li>
+                                <li>Checked and confirmed there are no missing values in the processed data.</li>
+                                <li>Printed the class distribution of the target variable.</li>
+                            </ul>
+                        </div>
+                        
+                        <h3 data-en="2.2 Exploratory Data Analysis (EDA)" data-zh="2.2 探索性数据分析 (EDA)">2.2 探索性数据分析 (EDA)</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                为了深入理解数据特性，进行了以下 EDA：
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                To gain a deeper understanding of data characteristics, the following EDA was conducted:
+                            </p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>特征相关性分析</strong>:</p>
+                            <p class="en-content" style="display: none;"><strong>Feature Correlation Analysis</strong>:</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                计算了 30 个数值特征之间的皮尔逊相关系数。为了避免单个大型热力图信息密度过高，将特征按度量类型（Mean, SE, Worst）分为三组，分别绘制相关性热力图：
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                Calculated Pearson correlation coefficients between 30 numerical features. To avoid high information density in a single large heatmap, features were divided into three groups by measurement type (Mean, SE, Worst), and correlation heatmaps were drawn separately:
+                            </p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>Mean 特征相关性</strong>:</p>
+                            <p class="en-content" style="display: none;"><strong>Mean Feature Correlation</strong>:</p>
+                        </div>
+                        
+                        <div class="image-container">
+                            <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/blog/machinelearning/svm/output/correlation_heatmap_mean.png" alt="Mean 特征相关性热力图" class="article-image">
+                            <p class="image-caption" data-en="Mean Feature Correlation Heatmap" data-zh="Mean 特征相关性热力图">Mean 特征相关性热力图</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                <em>分析</em>: <code>radius_mean</code>, <code>perimeter_mean</code>, <code>area_mean</code> 之间以及 <code>concavity_mean</code>, <code>concave points_mean</code> 之间存在强正相关。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                <em>Analysis</em>: There is strong positive correlation between <code>radius_mean</code>, <code>perimeter_mean</code>, <code>area_mean</code> as well as between <code>concavity_mean</code> and <code>concave points_mean</code>.
+                            </p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>SE 特征相关性</strong>:</p>
+                            <p class="en-content" style="display: none;"><strong>SE Feature Correlation</strong>:</p>
+                        </div>
+                        
+                        <div class="image-container">
+                            <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/blog/machinelearning/svm/output/correlation_heatmap_se.png" alt="SE 特征相关性热力图" class="article-image">
+                            <p class="image-caption" data-en="SE Feature Correlation Heatmap" data-zh="SE 特征相关性热力图">SE 特征相关性热力图</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                <em>分析</em>: SE 特征内部也存在类似的相关性模式，如 <code>radius_se</code>, <code>perimeter_se</code>, <code>area_se</code> 强相关。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                <em>Analysis</em>: Similar correlation patterns also exist within SE features, such as strong correlation between <code>radius_se</code>, <code>perimeter_se</code>, and <code>area_se</code>.
+                            </p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>Worst 特征相关性</strong>:</p>
+                            <p class="en-content" style="display: none;"><strong>Worst Feature Correlation</strong>:</p>
+                        </div>
+                        
+                        <div class="image-container">
+                            <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/blog/machinelearning/svm/output/correlation_heatmap_worst.png" alt="Worst 特征相关性热力图" class="article-image">
+                            <p class="image-caption" data-en="Worst Feature Correlation Heatmap" data-zh="Worst 特征相关性热力图">Worst 特征相关性热力图</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                <em>分析</em>: Worst 特征同样显示出组内强相关性，如 <code>radius_worst</code>, <code>perimeter_worst</code>, <code>area_worst</code>。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                <em>Analysis</em>: Worst features also show strong intra-group correlation, such as between <code>radius_worst</code>, <code>perimeter_worst</code>, and <code>area_worst</code>.
+                            </p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                <em>总体评价</em>: 分组热力图清晰展示了特征组内部的高度相关性，提示了潜在的多重共线性问题。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                <em>Overall Evaluation</em>: The grouped heatmaps clearly show high correlation within feature groups, suggesting potential multicollinearity issues.
+                            </p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>特征分布分析</strong>:</p>
+                            <p class="en-content" style="display: none;"><strong>Feature Distribution Analysis</strong>:</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                为了比较不同诊断结果下特征的分布，绘制了前 10 个 Mean 特征的小提琴图。由于原始特征尺度差异大，<strong>绘图时对特征值进行了标准化处理</strong>。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                To compare the distribution of features under different diagnostic results, violin plots of the first 10 Mean features were drawn. Due to large scale differences in the original features, <strong>feature values were standardized for plotting</strong>.
+                            </p>
+                        </div>
+                        
+                        <div class="image-container">
+                            <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/blog/machinelearning/svm/output/feature_distribution_violinplot.png" alt="特征分布小提琴图 (标准化值)" class="article-image">
+                            <p class="image-caption" data-en="Feature Distribution Violin Plot (Standardized Values)" data-zh="特征分布小提琴图 (标准化值)">特征分布小提琴图 (标准化值)</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                <em>分析</em>: 标准化后的小提琴图清晰显示，对于大多数 Mean 特征，恶性肿瘤样本（salmon色）的分布中位数和整体范围通常高于良性肿瘤样本（skyblue色），表明这些特征具有良好的区分潜力。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                <em>Analysis</em>: The standardized violin plots clearly show that for most Mean features, the distribution median and overall range of malignant tumor samples (salmon color) are typically higher than those of benign tumor samples (skyblue color), indicating that these features have good discriminative potential.
+                            </p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>降维可视化 (PCA)</strong>:</p>
+                            <p class="en-content" style="display: none;"><strong>Dimensionality Reduction Visualization (PCA)</strong>:</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                使用主成分分析 (PCA) 将 30 维特征降到 2 维进行可视化。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                Principal Component Analysis (PCA) was used to reduce the 30-dimensional features to 2 dimensions for visualization.
+                            </p>
+                        </div>
+                        
+                        <div class="image-container">
+                            <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/blog/machinelearning/svm/output/pca_visualization.png" alt="PCA 降维可视化" class="article-image">
+                            <p class="image-caption" data-en="PCA Dimensionality Reduction Visualization" data-zh="PCA 降维可视化">PCA 降维可视化</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                <em>分析</em>: 图中显示，即使在二维空间中，良性（绿点）和恶性（红方块）样本也表现出较好的可分离性，说明数据内部结构适合分类任务。前两个主成分解释了相当一部分数据方差（具体比例在运行时输出）。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                <em>Analysis</em>: The figure shows that even in two-dimensional space, benign (green dots) and malignant (red squares) samples exhibit good separability, indicating that the internal structure of the data is suitable for classification tasks. The first two principal components explain a considerable portion of the data variance (specific proportion output during runtime).
+                            </p>
+                        </div>
+                    </section>
+                    
+                    <!-- 第三部分 -->
+                    <section id="section-3">
+                        <h2 data-en="III. SVM Theory" data-zh="三、SVM 数学原理">三、SVM 数学原理</h2>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                支持向量机 (SVM) 是一种强大的监督学习算法，广泛应用于分类和回归任务。其核心思想是找到一个最优的决策边界（对于二分类问题，通常是一个超平面），使得不同类别样本之间的间隔最大化。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                Support Vector Machine (SVM) is a powerful supervised learning algorithm widely used for classification and regression tasks. Its core idea is to find an optimal decision boundary (for binary classification problems, usually a hyperplane) that maximizes the margin between samples of different categories.
+                            </p>
+                        </div>
+                        
+                        <h3 data-en="3.1 Linear SVM" data-zh="3.1 线性 SVM">3.1 线性 SVM</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                对于线性可分的数据集，假设我们有一个包含 \(n\) 个样本的数据集 \(\{(x_i, y_i)\}_{i=1}^n\)，其中 \(x_i \in \mathbb{R}^p\) 是 \(p\) 维特征向量，\(y_i \in \{-1, 1\}\) 是类别标签。SVM 旨在找到一个超平面 \(w \cdot x + b = 0\)，其中 \(w\) 是法向量，\(b\) 是偏置项。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                For a linearly separable dataset, suppose we have a dataset of \(n\) samples \(\{(x_i, y_i)\}_{i=1}^n\), where \(x_i \in \mathbb{R}^p\) is a \(p\)-dimensional feature vector, and \(y_i \in \{-1, 1\}\) is a class label. SVM aims to find a hyperplane \(w \cdot x + b = 0\), where \(w\) is the normal vector and \(b\) is the bias term.
+                            </p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                该超平面需要满足以下条件：
+                                \[y_i (w \cdot x_i + b) \ge 1, \quad \forall i=1, ..., n\]
+                                这个条件确保所有样本点都被正确分类，并且距离超平面至少有一定的间隔。两个支撑超平面（距离决策超平面最近的样本点所在的超平面）分别是 \(w \cdot x + b = 1\) 和 \(w \cdot x + b = -1\)。它们之间的距离称为<strong>间隔 (margin)</strong>，等于 \(\frac{2}{\|w\|}\)。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                The hyperplane needs to satisfy the following condition:
+                                \[y_i (w \cdot x_i + b) \ge 1, \quad \forall i=1, ..., n\]
+                                This condition ensures that all sample points are correctly classified and are at least a certain distance from the hyperplane. The two support hyperplanes (the hyperplanes on which the closest sample points to the decision hyperplane lie) are \(w \cdot x + b = 1\) and \(w \cdot x + b = -1\). The distance between them is called the <strong>margin</strong>, equal to \(\frac{2}{\|w\|}\).
+                            </p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                SVM 的目标是<strong>最大化这个间隔</strong>，这等价于<strong>最小化 \(\|w\|^2\)</strong>（或 \(\frac{1}{2}\|w\|^2\) 以方便计算）。因此，线性可分 SVM 的基本型（硬间隔 SVM）可以表示为以下约束优化问题：
+                                \[
+                                \begin{aligned}
+                                & \min_{w, b} & & \frac{1}{2} \|w\|^2 \\
+                                & \text{s.t.} & & y_i (w \cdot x_i + b) \ge 1, \quad i = 1, ..., n
+                                \end{aligned}
+                                \]
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                The goal of SVM is to <strong>maximize this margin</strong>, which is equivalent to <strong>minimizing \(\|w\|^2\)</strong> (or \(\frac{1}{2}\|w\|^2\) for computational convenience). Therefore, the basic form of linearly separable SVM (hard-margin SVM) can be represented as the following constrained optimization problem:
+                                \[
+                                \begin{aligned}
+                                & \min_{w, b} & & \frac{1}{2} \|w\|^2 \\
+                                & \text{s.t.} & & y_i (w \cdot x_i + b) \ge 1, \quad i = 1, ..., n
+                                \end{aligned}
+                                \]
+                            </p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                在现实数据中，样本通常不是完全线性可分的。为了处理这种情况，引入了<strong>软间隔 SVM</strong>。软间隔允许一些样本点不满足间隔约束（即允许被错误分类或落在间隔内部），但需要为此付出一定的代价。通过引入松弛变量 \(\xi_i \ge 0\)，约束条件变为 \(y_i (w \cdot x_i + b) \ge 1 - \xi_i\)。优化目标变为：
+                                \[
+                                \begin{aligned}
+                                & \min_{w, b, \xi} & & \frac{1}{2} \|w\|^2 + C \sum_{i=1}^n \xi_i \\
+                                & \text{s.t.} & & y_i (w \cdot x_i + b) \ge 1 - \xi_i, \quad \xi_i \ge 0, \quad i = 1, ..., n
+                                \end{aligned}
+                                \]
+                                其中 \(C > 0\) 是<strong>惩罚参数</strong>（正则化参数），它控制着最大化间隔和最小化分类错误之间的权衡。\(C\) 越大，对误分类的惩罚越重，模型倾向于选择更小的间隔以减少训练错误；\(C\) 越小，对误分类的容忍度越高，模型倾向于选择更大的间隔，可能容忍更多的训练错误以获得更好的泛化能力。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                In real-world data, samples are often not completely linearly separable. To handle this situation, <strong>soft-margin SVM</strong> was introduced. Soft margin allows some sample points to not satisfy the margin constraint (i.e., allows them to be misclassified or fall inside the margin), but at a certain cost. By introducing slack variables \(\xi_i \ge 0\), the constraint becomes \(y_i (w \cdot x_i + b) \ge 1 - \xi_i\). The optimization objective becomes:
+                                \[
+                                \begin{aligned}
+                                & \min_{w, b, \xi} & & \frac{1}{2} \|w\|^2 + C \sum_{i=1}^n \xi_i \\
+                                & \text{s.t.} & & y_i (w \cdot x_i + b) \ge 1 - \xi_i, \quad \xi_i \ge 0, \quad i = 1, ..., n
+                                \end{aligned}
+                                \]
+                                where \(C > 0\) is the <strong>penalty parameter</strong> (regularization parameter), which controls the trade-off between maximizing the margin and minimizing classification errors. The larger \(C\) is, the heavier the penalty for misclassification, and the model tends to choose a smaller margin to reduce training errors; the smaller \(C\) is, the higher the tolerance for misclassification, and the model tends to choose a larger margin, potentially tolerating more training errors to achieve better generalization ability.
+                            </p>
+                        </div>
+                        
+                        <h3 data-en="3.2 Kernel Trick" data-zh="3.2 核技巧 (Kernel Trick)">3.2 核技巧 (Kernel Trick)</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                对于线性不可分的数据，SVM 使用<strong>核技巧</strong>来处理。其思想是将原始特征空间 \(\mathcal{X}\) 中的数据通过一个非线性映射函数 \(\phi: \mathcal{X} \to \mathcal{F}\) 映射到一个更高维甚至无限维的特征空间 \(\mathcal{F}\)，使得数据在新的特征空间 \(\mathcal{F}\) 中变得线性可分（或近似线性可分）。然后，在高维特征空间中应用线性 SVM。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                For non-linearly separable data, SVM uses the <strong>kernel trick</strong> to handle it. The idea is to map the data from the original feature space \(\mathcal{X}\) to a higher-dimensional or even infinite-dimensional feature space \(\mathcal{F}\) through a non-linear mapping function \(\phi: \mathcal{X} \to \mathcal{F}\), making the data linearly separable (or approximately linearly separable) in the new feature space \(\mathcal{F}\). Then, linear SVM is applied in the high-dimensional feature space.
+                            </p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                核技巧的关键在于，我们不需要显式地计算高维特征 \(\phi(x)\)，也不需要知道映射函数 \(\phi\) 的具体形式。我们只需要定义一个<strong>核函数 (Kernel Function)</strong> \(K(x_i, x_j) = \phi(x_i) \cdot \phi(x_j)\)，它直接计算了两个样本在<strong>高维空间中的内积</strong>。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                The key to the kernel trick is that we do not need to explicitly calculate the high-dimensional features \(\phi(x)\), nor do we need to know the specific form of the mapping function \(\phi\). We only need to define a <strong>kernel function</strong> \(K(x_i, x_j) = \phi(x_i) \cdot \phi(x_j)\), which directly calculates the <strong>inner product of two samples in the high-dimensional space</strong>.
+                            </p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                通过求解 SVM 的对偶问题，可以发现决策函数仅依赖于样本之间的内积。因此，可以将对偶问题和决策函数中的内积 \(x_i \cdot x_j\) 替换为核函数 \(K(x_i, x_j)\)。最终的决策函数形式为：
+                                \[ f(x) = \text{sign} \left( \sum_{i=1}^n \alpha_i y_i K(x_i, x) + b \right) \]
+                                其中 \(\alpha_i\) 是通过求解对偶问题得到的拉格朗日乘子，只有支持向量（距离超平面最近或被错误分类的样本）对应的 \(\alpha_i\) 才非零。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                By solving the dual problem of SVM, it can be found that the decision function only depends on the inner product between samples. Therefore, the inner product \(x_i \cdot x_j\) in the dual problem and decision function can be replaced with the kernel function \(K(x_i, x_j)\). The final form of the decision function is:
+                                \[ f(x) = \text{sign} \left( \sum_{i=1}^n \alpha_i y_i K(x_i, x) + b \right) \]
+                                where \(\alpha_i\) are Lagrange multipliers obtained by solving the dual problem, and only the \(\alpha_i\) corresponding to support vectors (samples closest to the hyperplane or misclassified) are non-zero.
+                            </p>
+                        </div>
+                        
+                        <h3 data-en="3.3 Common Kernel Functions" data-zh="3.3 常用核函数">3.3 常用核函数</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                本实验中比较了以下几种常用的核函数：
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                This experiment compared the following commonly used kernel functions:
+                            </p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <ol class="zh-content">
+                                <li><strong>线性核 (Linear Kernel)</strong>: \(K(x_i, x_j) = x_i \cdot x_j\)。这实际上等价于在原始空间进行线性分类。</li>
+                                <li><strong>多项式核 (Polynomial Kernel)</strong>: \(K(x_i, x_j) = (\gamma (x_i \cdot x_j) + r)^d\)。其中 \(\gamma\) 是核系数，\(r\) 是常数项，\(d\) 是多项式的阶数。可以捕捉特征之间的多项式关系。</li>
+                                <li><strong>径向基函数核 (Radial Basis Function Kernel, RBF Kernel)</strong>，也称高斯核: \(K(x_i, x_j) = \exp(-\gamma \|x_i - x_j\|^2)\)。其中 \(\gamma > 0\) 是核系数，控制了单个样本影响的范围（\(\gamma\) 越大，影响范围越小）。RBF 核可以将数据映射到无限维空间，具有很强的非线性拟合能力，是 SVM 中最常用和默认的核函数之一。</li>
+                                <li><strong>Sigmoid 核 (Sigmoid Kernel)</strong>: \(K(x_i, x_j) = \tanh(\gamma (x_i \cdot x_j) + r)\)。源于神经网络，其性能通常不如 RBF 核，且对参数选择更敏感。</li>
+                            </ol>
+                            
+                            <ol class="en-content" style="display: none;">
+                                <li><strong>Linear Kernel</strong>: \(K(x_i, x_j) = x_i \cdot x_j\). This is actually equivalent to linear classification in the original space.</li>
+                                <li><strong>Polynomial Kernel</strong>: \(K(x_i, x_j) = (\gamma (x_i \cdot x_j) + r)^d\). Where \(\gamma\) is the kernel coefficient, \(r\) is a constant term, and \(d\) is the degree of the polynomial. It can capture polynomial relationships between features.</li>
+                                <li><strong>Radial Basis Function Kernel (RBF Kernel)</strong>, also known as Gaussian kernel: \(K(x_i, x_j) = \exp(-\gamma \|x_i - x_j\|^2)\). Where \(\gamma > 0\) is the kernel coefficient, controlling the range of influence of a single sample (the larger \(\gamma\) is, the smaller the range of influence). The RBF kernel can map data to an infinite-dimensional space, has strong non-linear fitting ability, and is one of the most commonly used and default kernel functions in SVM.</li>
+                                <li><strong>Sigmoid Kernel</strong>: \(K(x_i, x_j) = \tanh(\gamma (x_i \cdot x_j) + r)\). Derived from neural networks, its performance is usually not as good as the RBF kernel, and it is more sensitive to parameter selection.</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                选择合适的核函数及相应的超参数（如 \(C, \gamma, d\)）对于 SVM 模型的性能至关重要，通常需要通过交叉验证等方法进行选择和优化。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                Choosing the appropriate kernel function and corresponding hyperparameters (such as \(C, \gamma, d\)) is crucial for the performance of the SVM model, and typically needs to be selected and optimized through methods such as cross-validation.
+                            </p>
+                        </div>
+                    </section>
+                    
+                    <!-- 第四部分：特征工程与预处理 -->
+                    <section id="section-4">
+                        <h2 data-en="IV. Feature Engineering" data-zh="四、特征工程与预处理">四、特征工程与预处理</h2>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                本实验中主要的预处理步骤是在模型训练和评估之前对特征数据进行<strong>标准化</strong>：
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                The main preprocessing step in this experiment is to <strong>standardize</strong> the feature data before model training and evaluation:
+                            </p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <ul class="zh-content">
+                                <li>使用 <code>sklearn.preprocessing.StandardScaler</code> 对特征矩阵 <code>X</code> 进行拟合和转换，使其均值为 0，标准差为 1。</li>
+                                <li>这对 SVM 尤其重要，因为 SVM 对特征尺度敏感。</li>
+                                <li>在划分训练集和测试集后，使用在训练集上拟合的 <code>scaler</code> 对测试集进行转换，避免数据泄露。</li>
+                            </ul>
+                            
+                            <ul class="en-content" style="display: none;">
+                                <li>Using <code>sklearn.preprocessing.StandardScaler</code> to fit and transform the feature matrix <code>X</code>, making it have a mean of 0 and a standard deviation of 1.</li>
+                                <li>This is especially important for SVM because SVM is sensitive to feature scales.</li>
+                                <li>After splitting the training and test sets, using the <code>scaler</code> fitted on the training set to transform the test set, avoiding data leakage.</li>
+                            </ul>
+                        </div>
+                    </section>
+                    
+                    <!-- 第五部分：模型训练与评估 -->
+                    <section id="section-5">
+                        <h2 data-en="V. Model Training & Evaluation" data-zh="五、模型训练与评估">五、模型训练与评估</h2>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                实验的核心是训练和评估使用不同核函数的 SVM 分类器。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                The core of the experiment is to train and evaluate SVM classifiers using different kernel functions.
+                            </p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <ul class="zh-content">
+                                <li><strong>数据划分</strong>: 使用 <code>train_test_split</code> (通常 test_size=0.25, random_state=42) 将数据划分为训练集和测试集，用于模型评估和比较。</li>
+                                <li><strong>模型选择 (核函数比较)</strong>: 比较了以下四种 SVM 核函数：
+                                    <ul>
+                                        <li><strong>线性核 (<code>kernel='linear'</code>)</strong>: 在原始特征空间中寻找线性决策边界。适用于线性可分或近似线性可分的数据。</li>
+                                        <li><strong>多项式核 (<code>kernel='poly'</code>)</strong>: 通过多项式映射将数据投影到更高维空间，寻找非线性决策边界。需要调整 <code>degree</code> (阶数) 和 <code>gamma</code> 参数。</li>
+                                        <li><strong>径向基函数 (RBF) 核 (<code>kernel='rbf'</code>)</strong>: 最常用的核函数之一。通过高斯函数将数据映射到无限维空间，可以处理复杂的非线性边界。需要调整 <code>C</code> 和 <code>gamma</code> 参数。</li>
+                                        <li><strong>Sigmoid 核 (<code>kernel='sigmoid'</code>)</strong>: 源于神经网络，将数据映射到 (-1, 1) 之间。性能通常不如 RBF 核。需要调整 <code>gamma</code> 参数。</li>
+                                    </ul>
+                                </li>
+                                <li><strong>评估指标</strong>:
+                                    <ul>
+                                        <li><strong>准确率 (Accuracy)</strong>: <code>accuracy_score</code>，预测正确的样本比例。</li>
+                                        <li><strong>ROC 曲线 (Receiver Operating Characteristic Curve)</strong> 和 <strong>AUC (Area Under the Curve)</strong>: <code>roc_curve</code>, <code>auc</code>，评估模型在不同阈值下的分类能力，AUC 越接近 1 越好。</li>
+                                        <li><strong>混淆矩阵 (Confusion Matrix)</strong>: <code>confusion_matrix</code>，展示 TP, TN, FP, FN 的数量。</li>
+                                        <li><strong>分类报告 (Classification Report)</strong>: <code>classification_report</code>，提供每个类别的精确率 (Precision)、召回率 (Recall) 和 F1 分数 (F1-Score)。</li>
+                                    </ul>
+                                </li>
+                                <li><strong>交叉验证</strong>: 在初步评估 (<code>evaluate_kernel</code>) 和超参数调优 (<code>GridSearchCV</code>) 中使用了 5 折交叉验证 (<code>cv=5</code>)，以获得更稳健的性能估计。</li>
+                            </ul>
+                            
+                            <ul class="en-content" style="display: none;">
+                                <li><strong>Data Splitting</strong>: Using <code>train_test_split</code> (typically test_size=0.25, random_state=42) to divide the data into training and test sets for model evaluation and comparison.</li>
+                                <li><strong>Model Selection (Kernel Function Comparison)</strong>: Compared the following four SVM kernel functions:
+                                    <ul>
+                                        <li><strong>Linear Kernel (<code>kernel='linear'</code>)</strong>: Seeks a linear decision boundary in the original feature space. Suitable for linearly separable or approximately linearly separable data.</li>
+                                        <li><strong>Polynomial Kernel (<code>kernel='poly'</code>)</strong>: Projects data to a higher-dimensional space through polynomial mapping, seeking a non-linear decision boundary. Requires adjustment of <code>degree</code> (order) and <code>gamma</code> parameters.</li>
+                                        <li><strong>Radial Basis Function (RBF) Kernel (<code>kernel='rbf'</code>)</strong>: One of the most commonly used kernel functions. Maps data to an infinite-dimensional space through a Gaussian function, can handle complex non-linear boundaries. Requires adjustment of <code>C</code> and <code>gamma</code> parameters.</li>
+                                        <li><strong>Sigmoid Kernel (<code>kernel='sigmoid'</code>)</strong>: Derived from neural networks, maps data to between (-1, 1). Performance is usually not as good as the RBF kernel. Requires adjustment of the <code>gamma</code> parameter.</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Evaluation Metrics</strong>:
+                                    <ul>
+                                        <li><strong>Accuracy</strong>: <code>accuracy_score</code>, the proportion of correctly predicted samples.</li>
+                                        <li><strong>ROC Curve (Receiver Operating Characteristic Curve)</strong> and <strong>AUC (Area Under the Curve)</strong>: <code>roc_curve</code>, <code>auc</code>, assessing the model's classification ability at different thresholds, the closer AUC is to 1, the better.</li>
+                                        <li><strong>Confusion Matrix</strong>: <code>confusion_matrix</code>, showing the number of TP, TN, FP, FN.</li>
+                                        <li><strong>Classification Report</strong>: <code>classification_report</code>, providing Precision, Recall, and F1-Score for each category.</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Cross-Validation</strong>: Used 5-fold cross-validation (<code>cv=5</code>) in preliminary evaluation (<code>evaluate_kernel</code>) and hyperparameter tuning (<code>GridSearchCV</code>) to obtain more robust performance estimates.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>核函数性能比较</strong>:</p>
+                            <p class="en-content" style="display: none;"><strong>Kernel Function Performance Comparison</strong>:</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                脚本分别训练了使用四种核函数的 SVM 模型，并在测试集上计算了性能指标。绘制了 ROC 曲线图和准确率比较图：
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                The script trained SVM models using four kernel functions separately and calculated performance metrics on the test set. ROC curve and accuracy comparison charts were drawn:
+                            </p>
+                        </div>
+                        
+                        <div class="image-container">
+                            <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/blog/machinelearning/svm/output/roc_curves.png" alt="不同核函数的 ROC 曲线" class="article-image">
+                            <p class="image-caption" data-en="ROC Curves for Different Kernel Functions" data-zh="不同核函数的 ROC 曲线">不同核函数的 ROC 曲线</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                <em>分析</em>: 所有核函数的 AUC 值都远高于 0.5，表明 SVM 的有效性。RBF 和 Linear 核的 AUC 通常最高，曲线最靠近左上角。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                <em>Analysis</em>: The AUC values for all kernel functions are much higher than 0.5, indicating the effectiveness of SVM. The AUC of RBF and Linear kernels is typically the highest, with the curves closest to the top-left corner.
+                            </p>
+                        </div>
+                        
+                        <div class="image-container">
+                            <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/blog/machinelearning/svm/output/accuracy_comparison.png" alt="不同核函数的准确率比较" class="article-image">
+                            <p class="image-caption" data-en="Accuracy Comparison for Different Kernel Functions" data-zh="不同核函数的准确率比较">不同核函数的准确率比较</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                <em>分析</em>: 条形图显示 RBF 和 Linear 核的准确率通常最高，显著优于 Poly 和 Sigmoid 核。脚本根据准确率选择最佳核函数进行后续优化。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                <em>Analysis</em>: The bar chart shows that the accuracy of RBF and Linear kernels is typically the highest, significantly better than Poly and Sigmoid kernels. The script selects the best kernel function based on accuracy for subsequent optimization.
+                            </p>
+                        </div>
+                        
+                        <h3 data-en="5.3 Kernel Function Performance Comparison" data-zh="5.3 核函数性能比较">5.3 核函数性能比较</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                根据 <code>result_summary.md</code> 中记录的典型运行结果，各核函数在测试集上的大致性能如下（注意：具体数值可能因随机划分略有差异）：
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                According to the typical running results recorded in <code>result_summary.md</code>, the approximate performance of each kernel function on the test set is as follows (note: specific values may vary slightly due to random splitting):
+                            </p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <ul class="zh-content">
+                                <li><strong>Linear</strong>: 准确率约 96.5%, AUC 约 0.99</li>
+                                <li><strong>Poly</strong>: 准确率约 95.1%, AUC 约 0.99</li>
+                                <li><strong>RBF</strong>: 准确率约 <strong>97.2%</strong>, AUC 约 0.99</li>
+                                <li><strong>Sigmoid</strong>: 准确率约 92.3%, AUC 约 0.97</li>
+                            </ul>
+                            
+                            <ul class="en-content" style="display: none;">
+                                <li><strong>Linear</strong>: Accuracy about 96.5%, AUC about 0.99</li>
+                                <li><strong>Poly</strong>: Accuracy about 95.1%, AUC about 0.99</li>
+                                <li><strong>RBF</strong>: Accuracy about <strong>97.2%</strong>, AUC about 0.99</li>
+                                <li><strong>Sigmoid</strong>: Accuracy about 92.3%, AUC about 0.97</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                评估结果表明，RBF 核和 Linear 核在此任务上表现最为出色。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                The evaluation results show that the RBF kernel and Linear kernel perform best in this task.
+                            </p>
+                        </div>
+                    </section>
+                    
+                    <!-- 第六部分：超参数调优 -->
+                    <section id="section-6">
+                        <h2 data-en="VI. Hyperparameter Tuning" data-zh="六、超参数调优">六、超参数调优</h2>
+                        
+                        <div class="bilingual-content">
+                            <ul class="zh-content">
+                                <li><strong>方法</strong>: 对上一阶段选出的最佳核函数（通常是 RBF 或 Linear），使用 <code>GridSearchCV</code> 结合 5 折交叉验证，在训练集上搜索最优的超参数组合。</li>
+                                <li><strong>搜索范围</strong>:
+                                    <ul>
+                                        <li><code>C</code> (惩罚参数): 控制对误分类的惩罚程度，搜索范围如 <code>[0.1, 1, 10, 100]</code>。</li>
+                                        <li><code>gamma</code> (核系数，用于 RBF, Poly, Sigmoid): 控制单个训练样本的影响范围，搜索范围如 <code>[0.001, 0.01, 0.1, 1, 'scale', 'auto']</code>。</li>
+                                        <li><code>degree</code> (多项式阶数，用于 Poly): 搜索范围如 <code>[2, 3, 4]</code>。</li>
+                                    </ul>
+                                </li>
+                                <li><strong>目标</strong>: 找到在交叉验证中平均准确率最高的超参数组合。</li>
+                            </ul>
+                            
+                            <ul class="en-content" style="display: none;">
+                                <li><strong>Method</strong>: For the best kernel function selected in the previous stage (usually RBF or Linear), using <code>GridSearchCV</code> combined with 5-fold cross-validation to search for the optimal hyperparameter combination on the training set.</li>
+                                <li><strong>Search Range</strong>:
+                                    <ul>
+                                        <li><code>C</code> (penalty parameter): Controls the degree of penalty for misclassification, search range such as <code>[0.1, 1, 10, 100]</code>.</li>
+                                        <li><code>gamma</code> (kernel coefficient, used for RBF, Poly, Sigmoid): Controls the range of influence of a single training sample, search range such as <code>[0.001, 0.01, 0.1, 1, 'scale', 'auto']</code>.</li>
+                                        <li><code>degree</code> (polynomial degree, used for Poly): Search range such as <code>[2, 3, 4]</code>.</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Objective</strong>: Find the hyperparameter combination with the highest average accuracy in cross-validation.</li>
+                            </ul>
+                        </div>
+                    </section>
+                    
+                    <!-- 第七部分：预测与结果评估 -->
+                    <section id="section-7">
+                        <h2 data-en="VII. Results & Evaluation" data-zh="七、预测与结果评估">七、预测与结果评估</h2>
+                        
+                        <h3 data-en="7.1 Final Model & Evaluation" data-zh="7.1 最终模型与评估">7.1 最终模型与评估</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                根据 <code>result_summary.md</code> 中的典型结果，在使用网格搜索对性能最佳的 <strong>RBF 核</strong> 进行超参数调优后，得到的最优参数组合通常为 <strong><code>C=10</code>, <code>gamma=0.01</code></strong> （具体值可能随运行而变化）。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                According to the typical results in <code>result_summary.md</code>, after using grid search to optimize the hyperparameters for the best-performing <strong>RBF kernel</strong>, the optimal parameter combination is typically <strong><code>C=10</code>, <code>gamma=0.01</code></strong> (specific values may vary with runs).
+                            </p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                使用这些最优参数在完整训练集上重新训练 RBF-SVM 模型，并在测试集上进行评估：
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                Using these optimal parameters to retrain the RBF-SVM model on the complete training set and evaluate it on the test set:
+                            </p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>混淆矩阵</strong>:</p>
+                            <p class="en-content" style="display: none;"><strong>Confusion Matrix</strong>:</p>
+                        </div>
+                        
+                        <div class="image-container">
+                            <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/blog/machinelearning/svm/output/confusion_matrix.png" alt="优化后模型的混淆矩阵" class="article-image">
+                            <p class="image-caption" data-en="Confusion Matrix of the Optimized Model" data-zh="优化后模型的混淆矩阵">优化后模型的混淆矩阵</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                <em>分析</em>: 混淆矩阵清晰地展示了最终模型在测试集上的表现。特别关注左下角的假阴性 (FN) 数量，即恶性被误判为良性。优化后的 SVM 在此数据集上通常能将 FN 控制在很低的水平（例如，<code>result_summary.md</code> 显示的运行中可能只有 1-2 个 FN）。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                <em>Analysis</em>: The confusion matrix clearly shows the performance of the final model on the test set. Pay special attention to the number of false negatives (FN) in the lower left corner, i.e., malignant misdiagnosed as benign. The optimized SVM can typically keep the FN at a very low level on this dataset (for example, there might be only 1-2 FNs in the run shown in <code>result_summary.md</code>).
+                            </p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>分类报告</strong>: 脚本运行时输出到控制台的分类报告提供了详细的性能指标。根据 <code>result_summary.md</code> 记录的一次典型运行结果：</p>
+                            <p class="en-content" style="display: none;"><strong>Classification Report</strong>: The classification report output to the console during script execution provides detailed performance metrics. According to a typical run result recorded in <code>result_summary.md</code>:</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre><code class="language-text">              precision    recall  f1-score   support
+
+    良性(B)       0.99      0.98      0.99        89
+    恶性(M)       0.97      0.98      0.98        54
+
+    accuracy                           0.98       143
+   macro avg       0.98      0.98      0.98       143
+weighted avg       0.98      0.98      0.98       143</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                <em>分析</em>: 最终模型在测试集上达到了约 <strong>98%</strong> 的整体准确率。对于恶性类别 (M)，精确率约为 97%，召回率约为 98%，F1 分数约为 98%。高召回率表明模型能成功识别出绝大多数恶性肿瘤，这在临床应用中非常重要。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                <em>Analysis</em>: The final model achieved an overall accuracy of about <strong>98%</strong> on the test set. For the malignant category (M), the precision is about 97%, recall about 98%, and F1 score about 98%. The high recall indicates that the model can successfully identify the vast majority of malignant tumors, which is very important in clinical applications.
+                            </p>
+                        </div>
+                    </section>
+                    
+                    <!-- 第八部分 -->
+                    <section id="section-8">
+                        <h2 data-en="VIII. Conclusion" data-zh="八、结论">八、结论</h2>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">
+                                本实验成功应用支持向量机 (SVM) 对威斯康星州乳腺癌数据集进行了有效的分类。
+                            </p>
+                            
+                            <p class="en-content" style="display: none;">
+                                This experiment successfully applied Support Vector Machine (SVM) for effective classification on the Wisconsin Breast Cancer dataset.
+                            </p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <ul class="zh-content">
+                                <li>通过 EDA 和可视化分析，确认了数据特征（特别是 Mean 特征组）包含了区分良恶性肿瘤的有效信息，但也存在多重共线性。</li>
+                                <li>比较不同 SVM 核函数发现，RBF 和 Linear 核在此任务上表现最佳。</li>
+                                <li>通过对 RBF 核进行超参数调优 (典型最优参数 C=10, gamma=0.01)，最终模型在测试集上展现出卓越的性能，准确率可达 98% 左右，并且关键的恶性肿瘤召回率很高（约 98%），假阴性样本极少。</li>
+                                <li>改进后的可视化（分组热力图、标准化小提琴图）为数据理解和模型评估提供了更清晰的视角。</li>
+                                <li>结果表明，经过适当选择核函数和优化参数的 SVM 是解决此类医学诊断辅助问题的强大工具。</li>
+                            </ul>
+                            
+                            <ul class="en-content" style="display: none;">
+                                <li>Through EDA and visualization analysis, it was confirmed that the data features (especially the Mean feature group) contain effective information for distinguishing between benign and malignant tumors, but there is also multicollinearity.</li>
+                                <li>Comparing different SVM kernel functions revealed that RBF and Linear kernels perform best on this task.</li>
+                                <li>By optimizing the hyperparameters for the RBF kernel (typical optimal parameters C=10, gamma=0.01), the final model exhibited excellent performance on the test set, with an accuracy of around 98%, and a high recall rate for critical malignant tumors (about 98%), with very few false negative samples.</li>
+                                <li>Improved visualizations (grouped heatmaps, standardized violin plots) provided clearer perspectives for data understanding and model evaluation.</li>
+                                <li>The results indicate that an SVM with appropriately chosen kernel functions and optimized parameters is a powerful tool for solving such medical diagnostic assistance problems.</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- 参考文献 -->
+                        <section>
+                            <h2 data-en="References" data-zh="参考文献">参考文献</h2>
+                            
+                            <div class="bilingual-content">
+                                <ol class="zh-content">
+                                    <li>Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel, O., ... & Duchesnay, E. (2011). Scikit-learn: Machine learning in Python. <em>Journal of Machine Learning Research</em>, 12(Oct), 2825-2830.</li>
+                                    <li>Kourou, K., Exarchos, T. P., Exarchos, K. P., Karamouzis, M. V., & Fotiadis, D. I. (2015). Machine learning applications in cancer prognosis and prediction. <em>Computational and structural biotechnology journal</em>, 13, 8-17.</li>
+                                    <li>Huang, S., Cai, N., Pacheco, P. P., Narrandes, S., Wang, Y., & Xu, W. (2018). Applications of support vector machine (SVM) learning in cancer genomics. <em>Cancer genomics & proteomics</em>, 15(1), 41-51.</li>
+                                    <li>Dua, D. and Graff, C. (2019). UCI Machine Learning Repository [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science. (Dataset: Breast Cancer Wisconsin (Diagnostic))</li>
+                                </ol>
+                                
+                                <ol class="en-content" style="display: none;">
+                                    <li>Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel, O., ... & Duchesnay, E. (2011). Scikit-learn: Machine learning in Python. <em>Journal of Machine Learning Research</em>, 12(Oct), 2825-2830.</li>
+                                    <li>Kourou, K., Exarchos, T. P., Exarchos, K. P., Karamouzis, M. V., & Fotiadis, D. I. (2015). Machine learning applications in cancer prognosis and prediction. <em>Computational and structural biotechnology journal</em>, 13, 8-17.</li>
+                                    <li>Huang, S., Cai, N., Pacheco, P. P., Narrandes, S., Wang, Y., & Xu, W. (2018). Applications of support vector machine (SVM) learning in cancer genomics. <em>Cancer genomics & proteomics</em>, 15(1), 41-51.</li>
+                                    <li>Dua, D. and Graff, C. (2019). UCI Machine Learning Repository [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science. (Dataset: Breast Cancer Wisconsin (Diagnostic))</li>
+                                </ol>
+                            </div>
+                        </section>
+                        
+                        <!-- 结语 -->
+                        <div class="post-conclusion">
+                            <h2 data-en="Epilogue" data-zh="结语">结语</h2>
+                            
+                            <div class="bilingual-content">
+                                <p class="zh-content">通过本次实验，我们不仅构建了一个高性能的乳腺癌分类模型，也深入了解了SVM算法的工作原理和应用方法。特别值得关注的是，通过比较不同核函数的性能，我们发现RBF核和线性核在此数据集上表现最为优异。这种系统性的比较与评估方法对于实际应用中选择合适的模型至关重要。</p>
+                                
+                                <p class="en-content" style="display: none;">Through this experiment, we not only built a high-performance breast cancer classification model but also gained a deep understanding of how the SVM algorithm works and how it can be applied. Particularly noteworthy is that by comparing the performance of different kernel functions, we found that the RBF kernel and the linear kernel performed best on this dataset. This systematic approach to comparison and evaluation is crucial for selecting appropriate models in practical applications.</p>
+                                
+                                <p class="zh-content">在医学诊断领域，机器学习模型（如本实验中的SVM）可以作为强有力的辅助工具，帮助医生更准确地区分良恶性肿瘤，特别是在减少假阴性误诊方面表现出色，这对患者的及时治疗具有重要意义。 <span class="emoji">💻🔬</span></p>
+                                
+                                <p class="en-content" style="display: none;">In the field of medical diagnosis, machine learning models (such as the SVM in this experiment) can serve as powerful auxiliary tools to help doctors more accurately distinguish between benign and malignant tumors, especially in reducing false negative misdiagnoses, which is important for timely treatment of patients. <span class="emoji">💻🔬</span></p>
+                            </div>
+                            
+                            <div class="post-signature">
+                                <p>— HealthJian <span class="emoji">✍️</span></p>
+                            </div>
+                        </div>
+                        
+                        <!-- 资源与代码部分 -->
+                        <section id="section-resources">
+                            <h2 data-en="Resources & Code" data-zh="资源与代码">资源与代码</h2>
+                            
+                            <div class="bilingual-content">
+                                <div class="zh-content">
+                                    <p>为了帮助读者更好地理解和复现本实验，以下提供相关资源链接：</p>
+                                    <ul>
+                                        <li><strong>数据集</strong>: <a href="https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+(Diagnostic)" target="_blank">威斯康星乳腺癌数据集 (UCI Machine Learning Repository)</a></li>
+                                        <li><strong>代码仓库</strong>: <a href="https://github.com/CaiNiaojian/ml-projects/tree/main/svm-breast-cancer" target="_blank">完整实验代码与数据</a> (包含本文中所有实验的脚本和结果)</li>
+                                        <li><strong>相关资源</strong>: <a href="https://scikit-learn.org/stable/modules/svm.html" target="_blank">Scikit-learn SVM 文档</a></li>
+                                    </ul>
+                                    <div class="note-box">
+                                        <p><strong>注意</strong>: 本实验代码仅用于教育目的，不应直接用于实际医疗诊断。医学诊断应由专业医生基于完整临床信息做出。</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="en-content" style="display: none;">
+                                    <p>To help readers better understand and reproduce this experiment, the following resource links are provided:</p>
+                                    <ul>
+                                        <li><strong>Dataset</strong>: <a href="https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+(Diagnostic)" target="_blank">Wisconsin Breast Cancer Dataset (UCI Machine Learning Repository)</a></li>
+                                        <li><strong>Code Repository</strong>: <a href="https://github.com/CaiNiaojian/ml-projects/tree/main/svm-breast-cancer" target="_blank">Complete Experiment Code and Data</a> (includes all scripts and results from this article)</li>
+                                        <li><strong>Related Resources</strong>: <a href="https://scikit-learn.org/stable/modules/svm.html" target="_blank">Scikit-learn SVM Documentation</a></li>
+                                    </ul>
+                                    <div class="note-box">
+                                        <p><strong>Note</strong>: The experiment code is for educational purposes only and should not be used directly for actual medical diagnosis. Medical diagnoses should be made by professional doctors based on complete clinical information.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </section>
+                </div>
+            </article>
+            
+            <!-- 评论区 -->
+            <div class="comments-section">
+                <h3 data-en="Comments" data-zh="评论">评论</h3>
+                <div class="comment-form">
+                    <textarea placeholder="写下你的想法..." data-en-placeholder="Write your thoughts..." data-zh-placeholder="写下你的想法..."></textarea>
+                    <button data-en="Submit" data-zh="提交">提交</button>
+                </div>
+                <div class="comments-container">
+                    <p class="no-comments" data-en="Be the first to comment!" data-zh="成为第一个评论的人！">成为第一个评论的人！ <span class="emoji">🎉</span></p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <p>&copy; 2025 CaiNiaojian&HealthJian all followed.</p>
+                <p data-en="Contact: " data-zh="联系方式：">联系方式：<a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
+                <p data-en="Location: " data-zh="地址：">地址：XX</p>
+            </div>
+            <div class="footer-links">
+                <a href="../../../blog.html" data-en="Blog" data-zh="博客">博客</a>
+                <a href="../../../about.html" data-en="About" data-zh="关于">关于</a>
+                <a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a>
+                <a href="../../../changelog.html" data-en="ChangeLog" data-zh="更新日志">更新日志</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化代码高亮
+            hljs.highlightAll();
+        });
+    </script>
+    <script src="../../../js/main.js"></script>
+    <script src="../../../js/theme.js"></script>
+    <script src="../../../js/language.js"></script>
+    <script src="../../../js/blog-post.js"></script>
+</body>
+</html> 

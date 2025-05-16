@@ -350,6 +350,30 @@ function getBlogPosts() {
     // 文章数据
     return [
         {
+            id: 'svm',
+            title: '支持向量机（SVM）算法详解',
+            title_en: 'Support Vector Machine (SVM) Algorithm',
+            excerpt: '支持向量机（SVM）是一种用于分类和回归分析的机器学习算法。本文将详细介绍SVM的原理、应用场景、算法实现以及优化方法。',
+            excerpt_en: 'Support Vector Machine (SVM) is a machine learning algorithm for classification and regression analysis. This article will detail the principles, applications, algorithm implementation, and optimization methods of SVM.',
+            date: '2025-04-14',
+            url: 'blog/tech/svm.html',
+            category: 'tech',
+            tags: ['支持向量机', '机器学习', '分类', '回归'],
+            tags_en: ['Support Vector Machine', 'Machine Learning', 'Classification', 'Regression']
+        },
+        {
+            id: 'machinelearningBostonshouseprices',
+            title: '实验一：波士顿房价预测报告',
+            title_en: 'Experiment 1: Boston House Price Prediction Report',
+            excerpt: '本文介绍了波士顿房价预测的实验过程，包括数据预处理、特征选择、模型训练和评估等步骤。',
+            excerpt_en: 'This article introduces the experimental process of Boston house price prediction, including data preprocessing, feature selection, model training, and evaluation steps.',
+            date: '2025-04-12',
+            url: 'blog/tech/machinelearningBostonshouseprices.html',
+            category: 'tech',
+            tags: ['机器学习', '房价预测', '数据预处理', '特征选择', '模型训练', '评估'],
+            tags_en: ['Machine Learning', 'House Price Prediction', 'Data Preprocessing', 'Feature Selection', 'Model Training', 'Evaluation']
+        },
+        {
             id:'cannot-rely-on-exam',
             title: '人生无法通过考研上岸',
             title_en: 'Life Cannot Be Saved Through Graduate School Exams',
@@ -598,6 +622,26 @@ function getTagTranslation(tag, targetLang) {
         '资本浪潮': 'Capital Tides',
         '随笔': 'Essay',
         '思考': 'Thought',
+        '机器学习': 'Machine Learning',
+        '房价预测': 'House Price Prediction',
+        '数据预处理': 'Data Preprocessing',
+        '特征选择': 'Feature Selection',
+        '模型训练': 'Model Training',
+        '评估': 'Evaluation',
+        '混淆矩阵': 'Confusion Matrix',
+        '分类报告': 'Classification Report',
+        '结果总结': 'Result Summary',
+        '优化后': 'Optimized',
+        '假阴性': 'False Negative',
+        '假阳性': 'False Positive',
+        '支持向量机': 'Support Vector Machine',
+        '分类': 'Classification',
+        '回归': 'Regression',
+        '机器学习': 'Machine Learning',
+        '房价预测': 'House Price Prediction',
+        '数据预处理': 'Data Preprocessing',
+        
+        
         /* 新增标签翻译结束 */
         
         // 中文到英文的映射
@@ -659,6 +703,32 @@ function getTagTranslation(tag, targetLang) {
         '重新定义成功': 'Redefining Success',
         '随笔': 'Essay',
         '思考': 'Thought',
+        '机器学习': 'Machine Learning',
+        '房价预测': 'House Price Prediction',
+        '数据预处理': 'Data Preprocessing',
+        '特征选择': 'Feature Selection',
+        '模型训练': 'Model Training',
+        '评估': 'Evaluation',
+        '混淆矩阵': 'Confusion Matrix',
+        '分类报告': 'Classification Report',
+        '结果总结': 'Result Summary',
+        '优化后': 'Optimized',
+        '假阴性': 'False Negative',
+        '假阳性': 'False Positive',
+        '房价预测': 'House Price Prediction',
+        '数据预处理': 'Data Preprocessing',
+        '特征选择': 'Feature Selection',
+        '模型训练': 'Model Training',
+        '评估': 'Evaluation',
+        '混淆矩阵': 'Confusion Matrix',
+        '分类报告': 'Classification Report',
+        '支持向量机': 'Support Vector Machine',
+        '分类': 'Classification',
+        '回归': 'Regression',
+        '机器学习': 'Machine Learning',
+        '房价预测': 'House Price Prediction',
+        '数据预处理': 'Data Preprocessing',
+        
         /* 新增标签翻译结束 */
     };
     

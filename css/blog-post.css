@@ -514,4 +514,33 @@ code, pre, .code-block, a {
     word-wrap: break-word !important;
     word-break: break-word !important;
     max-width: 100%;
+}
+
+/* Image Container and Image Styling */
+.image-container {
+    margin: 30px auto; /* Add vertical spacing and center horizontally */
+    max-width: 700px;  /* Limit max width for better readability */
+    text-align: center; /* Center the image if its width is less than max-width */
+}
+
+.article-image {
+    display: block;       /* Ensure it's a block element for centering */
+    max-width: 100%;      /* Make image responsive within the container */
+    height: auto;         /* Maintain aspect ratio */
+    border-radius: var(--border-radius, 8px); /* Use theme variable or default */
+    box-shadow: 0 4px 8px var(--shadow-color, rgba(0, 0, 0, 0.1)); /* Subtle shadow */
+    margin-left: auto;    /* Center image within container */
+    margin-right: auto;   /* Center image within container */
+}
+
+.image-caption {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: var(--text-secondary-color, #666); /* Use theme variable or default gray */
+    text-align: center;
+}
+
+/* Ensure dark mode captions are visible */
+body.dark-mode .image-caption {
+    color: var(--text-secondary-color-dark, #aaa); /* Use theme variable or default light gray */
 } 

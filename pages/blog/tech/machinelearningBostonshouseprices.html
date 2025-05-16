@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>实验一：波士顿房价预测报告 - HealthJian的博客</title>
+    <!-- 根据实际路径调整CSS引用路径 -->
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/dark-mode.css">
+    <link rel="stylesheet" href="../../../css/blog-post.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="light-mode">
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <!-- 根据实际部署的文件夹深度调整路径 -->
+            <a href="../../../index.html" class="logo">
+                <img src="../../../images/githubherofigureimage.png" alt="Logo">
+                <span class="site-name" data-en="HealthJian Blog" data-zh="HealthJian">HealthJian</span>
+            </a>
+        </div>
+        <div class="nav-right">
+            <ul class="menu">
+                <!-- 根据实际部署的文件夹深度调整路径 -->
+                <li><a href="../../../index.html" data-en="Home" data-zh="首页">首页</a></li>
+                <li><a href="../../blog.html" data-en="Blog" data-zh="博客">博客</a></li>
+                <li><a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a></li>
+                <li><a href="../../links.html" data-en="Links" data-zh="链接">链接</a></li>
+                <li><a href="../../about.html" data-en="About" data-zh="关于">关于</a></li>
+            </ul>
+            <div class="social-icons">
+                <a href="https://steamcommunity.com/id/yoursteamid" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
+                <a href="mailto:gaojian1573@foxmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+            <button id="theme-toggle" class="theme-toggle" title="切换主题">
+                <i class="fas fa-moon"></i>
+                <i class="fas fa-sun"></i>
+            </button>
+            <button id="lang-toggle" class="lang-toggle" title="切换语言">
+                <span data-en="EN" data-zh="中">中</span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="blog-post-container">
+        <!-- 侧边栏 -->
+        <aside class="blog-sidebar">
+            <div class="toc-container">
+                <h3 data-en="Table of Contents" data-zh="目录">目录</h3>
+                <ul class="toc-list">
+                    <!-- Updated TOC -->
+                    <li><a href="#abstract" data-en="Abstract" data-zh="摘要">摘要</a></li>
+                    <li><a href="#intro" data-en="1. Introduction" data-zh="1. 引言">1. 引言</a>
+                        <ul>
+                            <li><a href="#intro-background" data-en="1.1 Background & Significance" data-zh="1.1 项目背景与意义">1.1 项目背景与意义</a></li>
+                            <li><a href="#intro-objectives" data-en="1.2 Objectives" data-zh="1.2 实验目标">1.2 实验目标</a></li>
+                            <li><a href="#intro-dataset" data-en="1.3 Dataset Overview" data-zh="1.3 数据集概述">1.3 数据集概述</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#eda" data-en="2. Data Loading & EDA" data-zh="2. 数据加载与探索性数据分析 (EDA)">2. 数据加载与探索性数据分析 (EDA)</a>
+                        <ul>
+                            <li><a href="#eda-loading" data-en="2.1 Data Loading" data-zh="2.1 数据加载">2.1 数据加载</a></li>
+                            <li><a href="#eda-analysis" data-en="2.2 Exploratory Data Analysis" data-zh="2.2 探索性数据分析">2.2 探索性数据分析</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#feature-engineering" data-en="3. Feature Engineering & Preprocessing" data-zh="3. 特征工程与预处理">3. 特征工程与预处理</a></li>
+                    <li><a href="#model-training" data-en="4. Model Training & Evaluation" data-zh="4. 模型训练与评估">4. 模型训练与评估</a></li>
+                    <li><a href="#tuning-importance" data-en="5. Hyperparameter Tuning & Feature Importance" data-zh="5. 超参数调优与特征重要性">5. 超参数调优与特征重要性</a></li>
+                    <li><a href="#prediction" data-en="6. Prediction & Result Generation" data-zh="6. 预测与结果生成">6. 预测与结果生成</a></li>
+                    <li><a href="#conclusion" data-en="7. Conclusion" data-zh="7. 结论">7. 结论</a></li>
+                    <li><a href="#references" data-en="References" data-zh="参考文献">参考文献</a></li>
+                    <li><a href="#appendix" data-en="Appendix" data-zh="附录">附录</a></li>
+                </ul>
+            </div>
+            
+            <div class="post-meta-info">
+                <div class="post-date">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>2025-04-12</span> <!-- Keep date for now -->
+                </div>
+                <div class="post-date">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>2025-04-12</span> <!-- Keep date for now -->
+                </div>
+                <div class="post-tags">
+                    <i class="fas fa-tags"></i>
+                    <!-- Updated Tags -->
+                    <span class="tag" data-en="Machine Learning" data-zh="机器学习">机器学习</span>
+                    <span class="tag" data-en="Regression" data-zh="回归">回归</span>
+                    <span class="tag" data-en="Boston Housing" data-zh="波士顿房价">波士顿房价</span>
+                    <span class="tag" data-en="Python" data-zh="Python">Python</span>
+                    <span class="tag" data-en="Scikit-learn" data-zh="Scikit-learn">Scikit-learn</span>
+                    <span class="tag" data-en="XGBoost" data-zh="XGBoost">XGBoost</span>
+                </div>
+                <div class="post-category">
+                    <i class="fas fa-folder"></i>
+                    <!-- Updated Category -->
+                    <span data-en="Tech/Machine Learning" data-zh="技术/机器学习">技术/机器学习</span>
+                </div>
+            </div>
+            
+            <div class="post-navigation">
+                <h3 data-en="Navigation" data-zh="导航">导航</h3>
+                <div class="nav-buttons">
+                    <a href="../blog.html" class="nav-button" data-en="Back to Blog" data-zh="返回博客列表">
+                        <i class="fas fa-arrow-left"></i>
+                        <span data-en="Back to Blog" data-zh="返回博客列表">返回博客列表</span>
+                    </a>
+                    <a href="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/download/波士顿房价预测.docx" class="nav-button" data-en="Download Original Report" data-zh="下载报告原文" download>
+                        <i class="fas fa-file-download"></i>
+                        <span data-en="Download Original Report" data-zh="下载报告原文">下载报告原文</span>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 文章主体 -->
+        <main class="blog-post-main">
+            <article class="blog-post-content">
+                <header class="post-header">
+                    <h1 class="post-title">
+                        <div class="bilingual-content">
+                            <span class="zh-content">实验一：波士顿房价预测报告</span>
+                            <span class="en-content" style="display: none;">Experiment 1: Boston House Price Prediction Report</span>
+                        </div>
+                    </h1>
+                </header>
+                
+                <div class="post-body">
+                    <!-- Download Link before Abstract -->
+                    <div class="download-link-container" style="text-align: center; margin-bottom: 20px;">
+                         <a href="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/download/波士顿房价预测.docx" class="nav-button" data-en="Download Original Report (.docx)" data-zh="下载报告原文 (.docx)" download>
+                            <i class="fas fa-file-download"></i>
+                            <span data-en="Download Original Report (.docx)" data-zh="下载报告原文 (.docx)">下载报告原文 (.docx)</span>
+                        </a>
+                    </div>
+
+                    <!-- Abstract Section -->
+                    <section id="abstract">
+                        <h2 data-en="Abstract" data-zh="摘要">摘要</h2>
+                        <div class="bilingual-content">
+                            <p class="zh-content">本报告详细记录了使用机器学习技术对经典波士顿房价数据集进行回归预测的实验过程。实验的核心目标是根据 13 个描述房屋及周边环境的特征（如房间数 <code>RM</code>、低收入人群比例 <code>LSTAT</code>、犯罪率 <code>CRIM</code> 等），构建能够准确预测自住房屋房价中位数 (<code>MEDV</code>) 的模型。实验遵循标准的机器学习工作流程，首先对数据进行了加载和全面的探索性数据分析（EDA）。通过可视化手段（如直方图、相关性热力图、散点图）揭示了数据的关键特性，包括部分特征的偏态分布、目标变量在高值处的截断现象、<code>RM</code> 与 <code>LSTAT</code> 对房价的强相关性以及特征间的共线性问题（如 <code>RAD</code> 与 <code>TAX</code>）。</p>
+                            <p class="en-content" style="display: none;">This report details the experimental process of using machine learning techniques for regression prediction on the classic Boston housing dataset. The core objective of the experiment is to build a model capable of accurately predicting the median value of owner-occupied homes (<code>MEDV</code>) based on 13 features describing the house and its surrounding environment (such as number of rooms <code>RM</code>, percentage of lower status population <code>LSTAT</code>, crime rate <code>CRIM</code>, etc.). The experiment follows a standard machine learning workflow, starting with data loading and comprehensive Exploratory Data Analysis (EDA). Visualization methods (like histograms, correlation heatmaps, scatter plots) revealed key data characteristics, including the skewed distribution of some features, truncation of the target variable at high values, the strong correlation of <code>RM</code> and <code>LSTAT</code> with house prices, and collinearity issues between features (e.g., <code>RAD</code> and <code>TAX</code>).</p>
+                        </div>
+                        <div class="bilingual-content">
+                            <p class="zh-content">基于 EDA 的发现，对数据进行了必要的预处理，核心步骤是使用 <code>StandardScaler</code> 对特征进行标准化，以消除量纲差异对模型训练的影响，同时探讨了添加交互特征和多项式特征的可能性。随后，系统性地训练和评估了多种常见的回归模型，涵盖了线性模型（线性回归、岭回归、Lasso 回归）和更复杂的集成模型（随机森林、梯度提升树、XGBoost）。模型性能通过均方根误差（RMSE）和决定系数（R²）进行量化，并利用 5 折交叉验证来评估其泛化能力和稳定性。评估结果（通过终端输出和可视化图表 <code>output/model_comparison.png</code> 展示）普遍表明，集成学习方法（特别是 XGBoost）在此任务上表现优于简单的线性模型。报告还讨论了超参数调优和特征重要性分析（<code>output/feature_importance.png</code>）作为进一步优化和理解模型的潜在步骤。最终，利用选定的最优模型对测试集进行预测，生成了预测结果文件 (<code>output/submission.csv</code>)，并通过预测值与真实值对比图 (<code>output/actualpricevspredictedprice.png</code>) 直观展示了模型效果。整个实验不仅完成了一个具体的预测任务，也完整地实践和展示了机器学习项目从数据理解到模型评估与应用的全过程。</p>
+                            <p class="en-content" style="display: none;">Based on the EDA findings, necessary data preprocessing was performed, with the core step being feature standardization using <code>StandardScaler</code> to eliminate the impact of scale differences on model training, while also exploring the possibility of adding interaction and polynomial features. Subsequently, various common regression models were systematically trained and evaluated, covering linear models (Linear Regression, Ridge Regression, Lasso Regression) and more complex ensemble models (Random Forest, Gradient Boosting Tree, XGBoost). Model performance was quantified using Root Mean Squared Error (RMSE) and Coefficient of Determination (R²), and 5-fold cross-validation was used to assess generalization ability and stability. The evaluation results (presented via terminal output and visualization chart <code>output/model_comparison.png</code>) generally indicated that ensemble learning methods (especially XGBoost) outperformed simple linear models on this task. The report also discussed hyperparameter tuning and feature importance analysis (<code>output/feature_importance.png</code>) as potential steps for further optimization and model understanding. Finally, the selected optimal model was used to make predictions on the test set, generating a prediction file (<code>output/submission.csv</code>), and the model's effectiveness was visualized through a comparison chart of predicted versus actual values (<code>output/actualpricevspredictedprice.png</code>). The entire experiment not only completed a specific prediction task but also fully practiced and demonstrated the complete process of a machine learning project, from data understanding to model evaluation and application.</p>
+                        </div>
+                    </section>
+
+                    <!-- Section 1: Introduction -->
+                    <section id="intro">
+                        <h2 data-en="1. Introduction" data-zh="1. 引言">1. 引言</h2>
+                        
+                        <h3 id="intro-background" data-en="1.1 Background & Significance" data-zh="1.1 项目背景与意义">1.1 项目背景与意义</h3>
+                        <div class="bilingual-content">
+                            <p class="zh-content">在现代社会经济活动中，房地产市场扮演着至关重要的角色。房价不仅是衡量地区经济发展水平、居民生活成本的关键指标，也直接关系到个体家庭的资产配置、投资决策乃至整体金融市场的稳定。因此，对房价进行准确的预测和分析，无论是对于政府制定宏观调控政策、企业进行投资决策，还是个人进行房产买卖，都具有极其重要的现实意义和应用价值。机器学习技术的蓬勃发展 [1, 2]，为我们提供了强大的工具来处理复杂的数据集，挖掘隐藏在数据背后的模式，从而实现对房价等复杂经济现象的有效预测。通过构建精准的房价预测模型，我们可以更好地理解影响房价波动的关键因素，洞察市场趋势，为相关决策提供科学依据，减少信息不对称带来的风险。</p>
+                            <p class="en-content" style="display: none;">In modern socio-economic activities, the real estate market plays a crucial role. Housing prices are not only key indicators for measuring regional economic development levels and residents' living costs but also directly relate to individual household asset allocation, investment decisions, and even the stability of the overall financial market. Therefore, accurately predicting and analyzing housing prices holds extremely important practical significance and application value for government macroeconomic policy formulation, corporate investment decisions, and individual property transactions. The rapid development of machine learning technologies [1, 2] provides us with powerful tools to process complex datasets, uncover hidden patterns within the data, and thus achieve effective prediction of complex economic phenomena like housing prices. By constructing accurate housing price prediction models, we can better understand the key factors affecting price fluctuations, gain insights into market trends, provide a scientific basis for related decisions, and reduce risks associated with information asymmetry.</p>
+                        </div>
+                        <div class="bilingual-content">
+                            <p class="zh-content">本项目选取了经典的"波士顿房价数据集"作为研究对象。该数据集虽然年代较为久远（收集于 20 世纪 70 年代），但因其包含了丰富多样的、与房价相关的真实世界特征，并且数据量适中、易于获取，成为了机器学习领域，特别是回归问题研究中，广泛使用的基准数据集之一。通过对这个数据集进行分析和建模，我们可以系统性地学习和实践机器学习在回归预测任务中的标准流程，包括数据探索、特征工程、模型选择、训练评估以及结果解释等关键环节。这对于初学者掌握机器学习基本原理、熟悉常用算法库（如 Scikit-learn [1]）以及理解模型评价指标具有重要的教学价值。同时，尽管数据集本身存在一定的局限性（如时间滞后性、样本量相对较小等），但其揭示的影响房价的基本因素（如地理位置、房屋属性、社区环境、宏观经济指标等）在今天仍然具有一定的参考意义。通过本次实验，我们旨在深入理解如何运用机器学习方法解决实际的回归预测问题，并为后续更复杂、更现代的房地产市场分析打下坚实的基础。</p>
+                            <p class="en-content" style="display: none;">This project selects the classic "Boston housing dataset" as the research object. Although the dataset is relatively old (collected in the 1970s), it contains a rich variety of real-world features related to housing prices, has a moderate size, and is easily accessible, making it one of the widely used benchmark datasets in the machine learning field, especially for regression problems. By analyzing and modeling this dataset, we can systematically learn and practice the standard workflow of machine learning in regression prediction tasks, including key steps like data exploration, feature engineering, model selection, training evaluation, and result interpretation. This holds significant pedagogical value for beginners to grasp fundamental machine learning principles, familiarize themselves with common algorithm libraries (like Scikit-learn [1]), and understand model evaluation metrics. At the same time, despite the dataset's inherent limitations (such as time lag, relatively small sample size, etc.), the fundamental factors influencing housing prices it reveals (e.g., location, property attributes, community environment, macroeconomic indicators) still hold some reference value today. Through this experiment, we aim to deepen our understanding of how to apply machine learning methods to solve practical regression prediction problems and lay a solid foundation for subsequent, more complex, and modern real estate market analysis.</p>
+                        </div>
+
+                        <h3 id="intro-objectives" data-en="1.2 Objectives" data-zh="1.2 实验目标">1.2 实验目标</h3>
+                        <div class="bilingual-content">
+                            <p class="zh-content">本次实验的核心目标是利用提供的波士顿房价训练数据集 (<code>train.csv</code>)，构建一个能够准确预测房屋价格中位数 (<code>MEDV</code>) 的机器学习回归模型。具体而言，实验包含以下几个子目标：</p>
+                            <p class="en-content" style="display: none;">The core objective of this experiment is to utilize the provided Boston housing training dataset (<code>train.csv</code>) to build a machine learning regression model capable of accurately predicting the median housing value (<code>MEDV</code>). Specifically, the experiment includes the following sub-objectives:</p>
+                        </div>
+                        <div class="bilingual-content">
+                            <ol class="zh-content">
+                                <li><strong>数据理解与探索</strong>: 深入理解数据集的背景、各个特征的含义，利用统计分析和可视化手段（如直方图、散点图、相关性热力图等）探索数据的分布特性、特征之间的关系以及特征与目标变量（房价）的潜在联系，识别异常值或缺失值（尽管本数据集中无缺失值）。</li>
+                                <li><strong>数据预处理与特征工程</strong>: 根据数据探索的发现，对数据进行必要的预处理，例如特征标准化（考虑到不同特征的量纲差异巨大），并可能尝试创建新的、更有预测能力的特征（如交互特征、多项式特征）来提升模型性能。</li>
+                                <li><strong>模型选择与训练</strong>: 选用多种经典的机器学习回归算法，包括线性模型（线性回归、岭回归、Lasso 回归）和集成模型（随机森林 [3]、梯度提升树 [4]、XGBoost [5]），在处理后的训练数据上进行模型训练。</li>
+                                <li><strong>模型评估与比较</strong>: 使用合适的评估指标（如均方根误差 RMSE、决定系数 R²）和交叉验证技术，客观地评估和比较不同模型的性能表现，理解各模型的优缺点和适用场景。</li>
+                                <li><strong>模型优化 (可选)</strong>: 对表现较好的模型（如 XGBoost）进行超参数调优，寻找最佳参数组合以进一步提升预测精度。</li>
+                                <li><strong>特征重要性分析 (可选)</strong>: 分析最终模型给出的特征重要性排序，理解哪些因素对波士顿房价影响最大，为模型提供一定的可解释性。</li>
+                                <li><strong>预测与结果生成</strong>: 利用训练好的最优模型，对测试数据集 (<code>test.csv</code>) 进行房价预测，并将预测结果按照指定格式 (<code>sample.csv</code>) 保存到 <code>output/submission.csv</code> 文件中。</li>
+                            </ol>
+                            <ol class="en-content" style="display: none;">
+                                <li><strong>Data Understanding and Exploration</strong>: Deeply understand the dataset background, the meaning of each feature, use statistical analysis and visualization methods (e.g., histograms, scatter plots, correlation heatmaps) to explore data distribution characteristics, relationships between features, and potential links between features and the target variable (house price), identify outliers or missing values (although there are no missing values in this dataset).</li>
+                                <li><strong>Data Preprocessing and Feature Engineering</strong>: Based on data exploration findings, perform necessary data preprocessing, such as feature standardization (considering the large differences in scale among features), and potentially try creating new, more predictive features (e.g., interaction features, polynomial features) to enhance model performance.</li>
+                                <li><strong>Model Selection and Training</strong>: Select and train various classic machine learning regression algorithms, including linear models (Linear Regression, Ridge Regression, Lasso Regression) and ensemble models (Random Forest [3], Gradient Boosting Tree [4], XGBoost [5]), on the processed training data.</li>
+                                <li><strong>Model Evaluation and Comparison</strong>: Use appropriate evaluation metrics (e.g., Root Mean Squared Error RMSE, Coefficient of Determination R²) and cross-validation techniques to objectively evaluate and compare the performance of different models, understanding their pros, cons, and applicability.</li>
+                                <li><strong>Model Optimization (Optional)</strong>: Perform hyperparameter tuning on well-performing models (e.g., XGBoost) to find the optimal parameter combination for further improving prediction accuracy.</li>
+                                <li><strong>Feature Importance Analysis (Optional)</strong>: Analyze the feature importance ranking provided by the final model to understand which factors have the greatest impact on Boston housing prices, providing some interpretability to the model.</li>
+                                <li><strong>Prediction and Result Generation</strong>: Use the trained optimal model to predict house prices for the test dataset (<code>test.csv</code>) and save the prediction results in the specified format (<code>sample.csv</code>) to the <code>output/submission.csv</code> file.</li>
+                            </ol>
+                        </div>
+                        <div class="bilingual-content">
+                           <p class="zh-content">通过完成以上目标，我们期望不仅能得到一个性能良好的房价预测模型，更能全面掌握机器学习项目从数据到模型、再到结果解释的完整流程。</p>
+                           <p class="en-content" style="display: none;">By accomplishing these objectives, we expect not only to obtain a well-performing house price prediction model but also to comprehensively grasp the complete workflow of a machine learning project from data to model, and then to result interpretation.</p>
+                        </div>
+
+                        <h3 id="intro-dataset" data-en="1.3 Dataset Overview" data-zh="1.3 数据集概述">1.3 数据集概述</h3>
+                        <div class="bilingual-content">
+                            <p class="zh-content">本次实验使用的数据集是波士顿房价数据集 [6]，具体包含以下文件：</p>
+                            <p class="en-content" style="display: none;">The dataset used in this experiment is the Boston housing dataset [6], specifically containing the following files:</p>
+                        </div>
+                        <div class="bilingual-content">
+                            <ul class="zh-content">
+                                <li><code>data/exp1/train.csv</code>: 训练数据，包含 404 个样本，每个样本有 13 个特征和 1 个目标变量 (<code>MEDV</code>)。</li>
+                                <li><code>data/exp1/test.csv</code>: 测试数据，包含 102 个样本，每个样本有 13 个特征，需要预测其对应的 <code>MEDV</code>。</li>
+                                <li><code>data/exp1/sample.csv</code>: 提交结果的示例文件，展示了 <code>submission.csv</code> 应有的格式。</li>
+                                <li><code>data/exp1/README.md</code>: 数据集的描述文件，包含了各特征的详细含义。</li>
+                            </ul>
+                            <ul class="en-content" style="display: none;">
+                                <li><code>data/exp1/train.csv</code>: Training data, containing 404 samples, each with 13 features and 1 target variable (<code>MEDV</code>).</li>
+                                <li><code>data/exp1/test.csv</code>: Test data, containing 102 samples, each with 13 features, for which <code>MEDV</code> needs to be predicted.</li>
+                                <li><code>data/exp1/sample.csv</code>: Example submission file, showing the required format for <code>submission.csv</code>.</li>
+                                <li><code>data/exp1/README.md</code>: Dataset description file, containing detailed meanings of each feature.</li>
+                            </ul>
+                        </div>
+                        <div class="bilingual-content">
+                            <p class="zh-content">数据集包含的 13 个特征如下：</p>
+                            <p class="en-content" style="display: none;">The dataset includes the following 13 features:</p>
+                        </div>
+                        <div class="bilingual-content">
+                            <ul class="zh-content">
+                                <li><code>CRIM</code>: 城镇人均犯罪率</li>
+                                <li><code>ZN</code>: 占地面积超过 25,000 平方英尺的住宅用地比例</li>
+                                <li><code>INDUS</code>: 城镇非零售商业用地所占比例</li>
+                                <li><code>CHAS</code>: 是否邻近查尔斯河（1 表示是，0 表示否）- 分类型特征</li>
+                                <li><code>NOX</code>: 一氧化氮浓度（百万分之一）- 环境指数</li>
+                                <li><code>RM</code>: 每栋住宅的平均房间数</li>
+                                <li><code>AGE</code>: 1940 年以前建成的自住单位比例</li>
+                                <li><code>DIS</code>: 与波士顿五个就业中心的加权距离</li>
+                                <li><code>RAD</code>: 距离高速公路的便利指数</li>
+                                <li><code>TAX</code>: 每万美元的不动产税率</li>
+                                <li><code>PTRATIO</code>: 城镇师生比例</li>
+                                <li><code>B</code>: 计算公式为 1000(Bk - 0.63)^2，其中 Bk 是城镇非裔美国人的比例</li>
+                                <li><code>LSTAT</code>: 房东属于低收入阶层人口的百分比</li>
+                            </ul>
+                            <ul class="en-content" style="display: none;">
+                                <li><code>CRIM</code>: Per capita crime rate by town</li>
+                                <li><code>ZN</code>: Proportion of residential land zoned for lots over 25,000 sq.ft.</li>
+                                <li><code>INDUS</code>: Proportion of non-retail business acres per town</li>
+                                <li><code>CHAS</code>: Charles River dummy variable (1 if tract bounds river; 0 otherwise) - Categorical feature</li>
+                                <li><code>NOX</code>: Nitric oxides concentration (parts per 10 million) - Environmental index</li>
+                                <li><code>RM</code>: Average number of rooms per dwelling</li>
+                                <li><code>AGE</code>: Proportion of owner-occupied units built prior to 1940</li>
+                                <li><code>DIS</code>: Weighted distances to five Boston employment centres</li>
+                                <li><code>RAD</code>: Index of accessibility to radial highways</li>
+                                <li><code>TAX</code>: Full-value property-tax rate per $10,000</li>
+                                <li><code>PTRATIO</code>: Pupil-teacher ratio by town</li>
+                                <li><code>B</code>: 1000(Bk - 0.63)^2 where Bk is the proportion of Black residents by town</li>
+                                <li><code>LSTAT</code>: Percentage of lower status of the population</li>
+                            </ul>
+                        </div>
+                         <div class="bilingual-content">
+                            <p class="zh-content">目标变量：</p>
+                            <p class="en-content" style="display: none;">Target variable:</p>
+                        </div>
+                        <div class="bilingual-content">
+                            <ul class="zh-content">
+                                <li><code>MEDV</code>: 自住房屋房价中位数（单位：千美元）</li>
+                            </ul>
+                            <ul class="en-content" style="display: none;">
+                                <li><code>MEDV</code>: Median value of owner-occupied homes in $1000s</li>
+                            </ul>
+                        </div>
+                         <div class="bilingual-content">
+                            <p class="zh-content">需要注意的是，该数据集的特征类型多样，取值范围差异很大，且部分特征（如 <code>CRIM</code>, <code>ZN</code>, <code>B</code>）呈现明显的偏态分布，这在数据预处理和模型选择时需要特别考虑。同时，特征之间可能存在多重共线性（如 <code>RAD</code> 和 <code>TAX</code> 高度相关），这也可能影响某些模型的性能和解释性。实验代码位于 <code>exp1/exp1.py</code>，它将执行上述所有分析、处理和建模步骤，并依赖 NumPy [7] 和 Pandas [8] 等库进行数据处理，最终将可视化结果和预测文件输出到根目录下的 <code>output</code> 文件夹。</p>
+                            <p class="en-content" style="display: none;">It is important to note that this dataset has diverse feature types, widely varying value ranges, and some features (like <code>CRIM</code>, <code>ZN</code>, <code>B</code>) exhibit significant skewness, which requires special consideration during data preprocessing and model selection. Additionally, multicollinearity might exist among features (e.g., <code>RAD</code> and <code>TAX</code> are highly correlated), potentially affecting the performance and interpretability of certain models. The experimental code is located in <code>exp1/exp1.py</code>, which will execute all the analysis, processing, and modeling steps mentioned above, relying on libraries like NumPy [7] and Pandas [8] for data handling, and finally output visualization results and prediction files to the <code>output</code> folder in the root directory.</p>
+                        </div>
+                    </section>
+                    
+                    <!-- Section 2: Data Loading & EDA -->
+                    <section id="eda">
+                        <h2 data-en="2. Data Loading & EDA" data-zh="2. 数据加载与探索性数据分析 (EDA)">2. 数据加载与探索性数据分析 (EDA)</h2>
+                        
+                        <h3 id="eda-loading" data-en="2.1 Data Loading" data-zh="2.1 数据加载">2.1 数据加载</h3>
+                        <div class="bilingual-content">
+                            <p class="zh-content">脚本首先使用 <code>pandas</code> 库加载训练数据集 (<code>train.csv</code>) 和测试数据集 (<code>test.csv</code>)。根据 <code>exp1.py</code> 中的代码，数据文件是以空格分隔的，并且没有表头，因此在加载时指定了 <code>delim_whitespace=True</code> 和 <code>header=None</code>。加载后，为数据框添加了有意义的列名，如 'CRIM', 'ZN', 'RM', 'LSTAT', 'MEDV' 等。测试集比训练集少 'MEDV' 这一列。</p>
+                            <p class="en-content" style="display: none;">The script first uses the <code>pandas</code> library to load the training dataset (<code>train.csv</code>) and the test dataset (<code>test.csv</code>). According to the code in <code>exp1.py</code>, the data files are space-delimited and have no header, so <code>delim_whitespace=True</code> and <code>header=None</code> were specified during loading. After loading, meaningful column names such as 'CRIM', 'ZN', 'RM', 'LSTAT', 'MEDV', etc., were added to the dataframes. The test set lacks the 'MEDV' column compared to the training set.</p>
+                        </div>
+
+                        <h3 id="eda-analysis" data-en="2.2 Exploratory Data Analysis" data-zh="2.2 探索性数据分析">2.2 探索性数据分析</h3>
+                        <div class="bilingual-content">
+                             <p class="zh-content">脚本执行了详细的 EDA 来理解数据特性：</p>
+                             <p class="en-content" style="display: none;">The script performed detailed EDA to understand data characteristics:</p>
+                        </div>
+                        <div class="bilingual-content">
+                            <ul class="zh-content">
+                                <li><strong>基本信息</strong>: 打印了数据的基本统计描述（如均值、标准差、分位数）和信息（数据类型、非空值数量）。确认了数据没有缺失值。</li>
+                                <li><strong>特征分布</strong>: 使用 <code>seaborn</code> 和 <code>matplotlib</code> 可视化了所有 13 个特征以及目标变量 <code>MEDV</code> 的分布直方图。具体可参见下图：</li>
+                            </ul>
+                            <ul class="en-content" style="display: none;">
+                                <li><strong>Basic Information</strong>: Printed basic statistical descriptions (like mean, standard deviation, quantiles) and information (data types, non-null counts). Confirmed no missing values in the data.</li>
+                                <li><strong>Feature Distribution</strong>: Used <code>seaborn</code> and <code>matplotlib</code> to visualize the distribution histograms of all 13 features and the target variable <code>MEDV</code>. See the figure below:</li>
+                            </ul>
+                        </div>
+                        <div class="image-container">
+                            <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/blog/machinelearning/boston/output/featuresdistribution-imageonline.co-6236077.avif" alt="特征分布" class="article-image">
+                            <p class="image-caption" data-en="Feature Distributions" data-zh="特征分布">特征分布</p>
+                        </div>
+                        <div class="bilingual-content">
+                            <p class="zh-content"><em>分析</em>：从特征分布图中可以看出，许多特征并非理想的正态分布。例如 <code>CRIM</code>（犯罪率）、<code>ZN</code>（大面积住宅比例）、<code>B</code>（非裔美国人比例）呈现明显的右偏（正偏态），意味着大部分城镇这些指标的值较低，少数城镇的值很高。<code>CHAS</code>（是否临河）是一个二元变量。目标变量 <code>MEDV</code>（房价中位数）的分布相对接近正态分布，但尾部可能存在一些高价房产，且在最高值附近（50k美元）有截断现象（意味着部分房价可能超过了记录上限）。了解这些分布有助于选择合适的数据转换方法（如对数变换）或对模型选择提供参考。</p>
+                             <p class="en-content" style="display: none;"><em>Analysis</em>: The feature distribution plots show that many features do not follow an ideal normal distribution. For example, <code>CRIM</code> (crime rate), <code>ZN</code> (proportion of large lots), and <code>B</code> (proportion of Black residents) are significantly right-skewed (positive skewness), meaning most towns have low values for these indicators, while a few towns have very high values. <code>CHAS</code> (bordering the river) is a binary variable. The distribution of the target variable <code>MEDV</code> (median house value) is relatively close to a normal distribution, but there might be some high-priced properties in the tail, and there is a truncation phenomenon near the maximum value (50k USD), implying some house prices might have exceeded the recording limit. Understanding these distributions helps in selecting appropriate data transformation methods (like logarithmic transformation) or provides references for model selection.</p>
+                        </div>
+                        <div class="image-container">
+                            <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/blog/machinelearning/boston/output/targetdistribution-imageonline.co-2982024.avif" alt="目标变量分布" class="article-image">
+                            <p class="image-caption" data-en="Target Variable Distribution" data-zh="目标变量分布">目标变量分布</p>
+                        </div>
+                        <div class="bilingual-content">
+                            <p class="zh-content"><em>分析</em>：目标变量 <code>MEDV</code> 的分布图更清晰地显示了其近似正态的特性，但如上所述，在 50k 美元处有一个明显的峰值，这可能是数据收集时的上限或截断点，处理时需要注意。<br>这有助于了解每个变量的分布形态（如是否偏态）。</p>
+                             <p class="en-content" style="display: none;"><em>Analysis</em>: The distribution plot of the target variable <code>MEDV</code> more clearly shows its approximately normal characteristic, but as mentioned above, there is a distinct peak at 50k USD, which might be a cap or truncation point during data collection, requiring attention during processing.<br>This helps understand the distribution shape of each variable (e.g., whether it is skewed).</p>
+                        </div>
+                        <div class="bilingual-content">
+                            <ul class="zh-content">
+                                <li><strong>相关性分析</strong>:
+                                    <ul>
+                                    <li>计算了所有变量之间的皮尔逊相关系数，并通过热力图进行可视化：</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <ul class="en-content" style="display: none;">
+                                 <li><strong>Correlation Analysis</strong>:
+                                    <ul>
+                                    <li>Calculated the Pearson correlation coefficients between all variables and visualized them using a heatmap:</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="image-container">
+                            <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/blog/machinelearning/boston/output/correlationmatrix-imageonline.co-9198444.avif" alt="相关性矩阵热力图" class="article-image">
+                            <p class="image-caption" data-en="Correlation Matrix Heatmap" data-zh="相关性矩阵热力图">相关性矩阵热力图</p>
+                        </div>
+                         <div class="bilingual-content">
+                            <p class="zh-content"><em>分析</em>：热力图直观展示了变量间的线性相关强度。颜色越红表示正相关越强，越蓝表示负相关越强。可以看到 <code>RAD</code>（高速公路便利指数）和 <code>TAX</code>（税率）之间存在非常强的正相关（接近 0.9），表明存在多重共线性问题，这可能会影响线性模型的系数解释和稳定性。此外，<code>NOX</code>（一氧化氮浓度）与 <code>INDUS</code>（非商业用地比例）、<code>AGE</code>（老房比例）等也呈现较强的正相关。与目标变量 <code>MEDV</code> 相关性方面，<code>RM</code>（房间数）呈现最强的正相关，而 <code>LSTAT</code>（低收入阶层比例）呈现最强的负相关。<br>这有助于识别特征之间的多重共线性以及特征与目标变量的关系。</p>
+                             <p class="en-content" style="display: none;"><em>Analysis</em>: The heatmap visually displays the strength of linear correlations between variables. Redder colors indicate stronger positive correlations, while bluer colors indicate stronger negative correlations. It can be seen that <code>RAD</code> (highway accessibility index) and <code>TAX</code> (tax rate) have a very strong positive correlation (close to 0.9), indicating a multicollinearity issue, which might affect the coefficient interpretation and stability of linear models. Additionally, <code>NOX</code> (nitric oxide concentration) also shows relatively strong positive correlations with <code>INDUS</code> (proportion of non-retail business acres), <code>AGE</code> (proportion of older houses), etc. Regarding correlation with the target variable <code>MEDV</code>, <code>RM</code> (number of rooms) shows the strongest positive correlation, while <code>LSTAT</code> (percentage of lower status population) shows the strongest negative correlation.<br>This helps identify multicollinearity among features and the relationship between features and the target variable.</p>
+                         </div>
+                         <div class="bilingual-content">
+                             <ul class="zh-content">
+                                <li><ul><li>特别绘制了所有特征与目标变量 <code>MEDV</code> 的相关性条形图：</li></ul></li>
+                             </ul>
+                             <ul class="en-content" style="display: none;">
+                                 <li><ul><li>A bar chart specifically showing the correlation of all features with the target variable <code>MEDV</code> was plotted:</li></ul></li>
+                             </ul>
+                         </div>
+                        <div class="image-container">
+                            <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/blog/machinelearning/boston/output/correlationwithtarget-imageonline.co-3068993.avif" alt="特征与目标变量相关性" class="article-image">
+                            <p class="image-caption" data-en="Correlation with Target Variable" data-zh="特征与目标变量相关性">特征与目标变量相关性</p>
+                        </div>
+                        <div class="bilingual-content">
+                            <p class="zh-content"><em>分析</em>：此图更清晰地排序和量化了各个特征与 <code>MEDV</code> 的线性相关性。可以看出，<code>RM</code> 的正相关性最高，其次是 <code>ZN</code>。负相关性最强的是 <code>LSTAT</code>，其次是 <code>PTRATIO</code>（师生比）、<code>INDUS</code>、<code>TAX</code>、<code>NOX</code>、<code>CRIM</code> 和 <code>AGE</code>。这为初步的特征选择提供了依据，<code>RM</code> 和 <code>LSTAT</code> 是预测房价的最重要线性特征。<br>分析显示，<code>RM</code>（每栋住宅的平均房间数）与房价呈正相关，而 <code>LSTAT</code>（低收入人群比例）与房价呈显著负相关，这两个特征对房价的影响最大。</p>
+                            <p class="en-content" style="display: none;"><em>Analysis</em>: This chart more clearly ranks and quantifies the linear correlation of each feature with <code>MEDV</code>. It shows that <code>RM</code> has the highest positive correlation, followed by <code>ZN</code>. The strongest negative correlation is with <code>LSTAT</code>, followed by <code>PTRATIO</code> (pupil-teacher ratio), <code>INDUS</code>, <code>TAX</code>, <code>NOX</code>, <code>CRIM</code>, and <code>AGE</code>. This provides a basis for initial feature selection, indicating that <code>RM</code> and <code>LSTAT</code> are the most important linear features for predicting house prices.<br>Analysis shows that <code>RM</code> (average number of rooms per dwelling) is positively correlated with house price, while <code>LSTAT</code> (percentage of lower status population) is significantly negatively correlated, these two features having the largest impact on house prices.</p>
+                        </div>
+                        <div class="bilingual-content">
+                             <ul class="zh-content">
+                                <li><ul><li>绘制了相关性最高的几个特征（如 <code>RM</code>, <code>LSTAT</code>）与 <code>MEDV</code> 之间的散点图：</li></ul></li>
+                             </ul>
+                             <ul class="en-content" style="display: none;">
+                                <li><ul><li>Scatter plots between the most highly correlated features (e.g., <code>RM</code>, <code>LSTAT</code>) and <code>MEDV</code> were plotted:</li></ul></li>
+                             </ul>
+                         </div>
+                        <div class="image-container">
+                            <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/blog/machinelearning/boston/output/featuresvstarget-imageonline.co-7840470.avif" alt="高相关性特征与目标变量散点图" class="article-image">
+                            <p class="image-caption" data-en="Scatter Plots of High Correlation Features vs Target" data-zh="高相关性特征与目标变量散点图">高相关性特征与目标变量散点图</p>
+                        </div>
+                        <div class="bilingual-content">
+                            <p class="zh-content"><em>分析</em>：散点图进一步揭示了特征与目标变量的关系形态。
+                                <ul>
+                                    <li><code>RM</code> vs <code>MEDV</code> 的散点图大致呈现出清晰的线性正相关趋势：房间数量越多，房价中位数越高。但也存在一些离群点，且在高 <code>RM</code> 值区域，关系似乎不完全是线性的。</li>
+                                    <li><code>LSTAT</code> vs <code>MEDV</code> 的散点图显示了明显的负相关关系，但这种关系可能不是严格线性的，更像是曲线关系：随着低收入人群比例的增加，房价中位数下降，且下降速度在 <code>LSTAT</code> 较低时更快。</li>
+                                </ul>
+                            这些图有助于判断线性模型是否足够，或者是否需要考虑非线性模型或特征转换。同时也帮助识别可能的异常数据点。<br>这有助于更直观地观察它们之间的线性或非线性关系。</p>
+                            <p class="en-content" style="display: none;"><em>Analysis</em>: Scatter plots further reveal the relationship patterns between features and the target variable.
+                                <ul>
+                                    <li>The scatter plot of <code>RM</code> vs <code>MEDV</code> generally shows a clear linear positive correlation trend: the more rooms, the higher the median house price. However, there are some outliers, and in the high <code>RM</code> value region, the relationship might not be perfectly linear.</li>
+                                    <li>The scatter plot of <code>LSTAT</code> vs <code>MEDV</code> shows a clear negative correlation, but this relationship might not be strictly linear, resembling more of a curve: as the percentage of the lower status population increases, the median house price decreases, and the rate of decrease is faster when <code>LSTAT</code> is low.</li>
+                                </ul>
+                            These plots help determine if linear models are sufficient or if non-linear models or feature transformations should be considered. They also aid in identifying potential outliers.<br>This helps to more intuitively observe their linear or non-linear relationships.</p>
+                        </div>
+                         <div class="bilingual-content">
+                            <p class="zh-content">EDA 的结果为后续的特征工程和模型选择提供了重要依据。</p>
+                            <p class="en-content" style="display: none;">The results of the EDA provide an important basis for subsequent feature engineering and model selection.</p>
+                        </div>
+                    </section>
+                    
+                    <!-- Section 3: Feature Engineering & Preprocessing -->
+                    <section id="feature-engineering">
+                        <h2 data-en="3. Feature Engineering & Preprocessing" data-zh="3. 特征工程与预处理">3. 特征工程与预处理</h2>
+                        <div class="bilingual-content">
+                            <p class="zh-content">在模型训练之前，进行了必要的特征工程和预处理：</p>
+                            <p class="en-content" style="display: none;">Before model training, necessary feature engineering and preprocessing were performed:</p>
+                        </div>
+                         <div class="bilingual-content">
+                            <ul class="zh-content">
+                                <li><strong>特征与目标分离</strong>: 将训练数据分为特征矩阵 <code>X</code> 和目标向量 <code>y</code> (<code>MEDV</code>)。</li>
+                                <li><strong>特征缩放</strong>: 由于不同特征的取值范围差异很大（例如，<code>ZN</code> 在 0-100 之间，<code>CHAS</code> 是 0 或 1），脚本使用了 <code>sklearn.preprocessing.StandardScaler</code> 对所有特征进行了标准化（转换为均值为 0，标准差为 1 的分布）。这对许多依赖于距离或梯度的模型（如线性回归、岭回归、Lasso、SVM 等）至关重要，可以防止某些特征因数值范围过大而主导模型训练。测试集的特征也使用在训练集上 <code>fit</code> 过的同一个 <code>scaler</code> 进行 <code>transform</code>，以保证一致性。</li>
+                                <li><strong>特征创建 (可选)</strong>: 脚本中还包含了创建新特征的代码（尽管可能被注释掉或作为可选步骤）：
+                                    <ul>
+                                        <li><strong>交互特征</strong>: 例如，<code>RM</code> 和 <code>LSTAT</code> 的乘积 (<code>RM_LSTAT</code>)，尝试捕捉这些强相关特征之间的交互效应。</li>
+                                        <li><strong>多项式特征</strong>: 例如，<code>RM</code> 和 <code>LSTAT</code> 的平方项 (<code>RM_sq</code>, <code>LSTAT_sq</code>)，尝试捕捉可能的非线性关系。</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                             <ul class="en-content" style="display: none;">
+                                 <li><strong>Feature and Target Separation</strong>: Separated the training data into a feature matrix <code>X</code> and a target vector <code>y</code> (<code>MEDV</code>).</li>
+                                 <li><strong>Feature Scaling</strong>: Due to the large differences in the value ranges of different features (e.g., <code>ZN</code> is between 0-100, while <code>CHAS</code> is 0 or 1), the script used <code>sklearn.preprocessing.StandardScaler</code> to standardize all features (transforming them into a distribution with a mean of 0 and a standard deviation of 1). This is crucial for many models that rely on distance or gradients (like Linear Regression, Ridge, Lasso, SVM, etc.) as it prevents features with larger numerical ranges from dominating the model training. The test set features were also transformed using the same <code>scaler</code> fitted on the training set to ensure consistency.</li>
+                                 <li><strong>Feature Creation (Optional)</strong>: The script also included code for creating new features (though potentially commented out or as an optional step):
+                                     <ul>
+                                         <li><strong>Interaction Features</strong>: For example, the product of <code>RM</code> and <code>LSTAT</code> (<code>RM_LSTAT</code>), attempting to capture the interaction effects between these strongly correlated features.</li>
+                                         <li><strong>Polynomial Features</strong>: For example, the square terms of <code>RM</code> and <code>LSTAT</code> (<code>RM_sq</code>, <code>LSTAT_sq</code>), attempting to capture possible non-linear relationships.</li>
+                                     </ul>
+                                 </li>
+                            </ul>
+                        </div>
+                        <div class="bilingual-content">
+                            <p class="zh-content">这些处理步骤旨在提高模型的性能和稳定性。</p>
+                            <p class="en-content" style="display: none;">These processing steps aim to improve model performance and stability.</p>
+                        </div>
+
+                        <h3 data-en="3.1 Feature Engineering Pseudo-code Explanation" data-zh="3.1 特征工程伪代码解释">3.1 特征工程伪代码解释</h3>
+                        <div class="bilingual-content">
+                            <p class="zh-content">以下是特征工程与预处理部分 (<code>feature_engineering</code> 函数) 的伪代码解释：</p>
+                            <p class="en-content" style="display: none;">Below is the pseudo-code explanation for the feature engineering and preprocessing part (<code>feature_engineering</code> function):</p>
+                        </div>
+                        <div class="code-block">
+                            <pre><code class="language-plaintext">FUNCTION feature_engineering(train_data, test_data):
+    // 打印开始信息
+    PRINT "开始特征工程..."
+
+    // 1. 复制数据框以避免修改原始数据
+    train_processed = COPY(train_data)
+    test_processed = COPY(test_data)
+
+    // 2. 分离特征和目标变量
+    X = train_processed.DROP_COLUMN('MEDV') // 训练集特征
+    y = train_processed.GET_COLUMN('MEDV')  // 训练集目标
+
+    // 3. 特征标准化
+    // 初始化标准化器
+    scaler = INITIALIZE StandardScaler()
+    // 使用训练特征 X 拟合标准化器，并转换 X
+    X_scaled = scaler.FIT_TRANSFORM(X)
+    // 使用 *同一个* 拟合好的标准化器转换测试特征
+    test_scaled = scaler.TRANSFORM(test_processed)
+
+    // 4. 将标准化后的 NumPy 数组转换回 Pandas DataFrame，保留列名
+    X_scaled_df = CREATE_DATAFRAME(X_scaled, columns=X.columns)
+    test_scaled_df = CREATE_DATAFRAME(test_scaled, columns=test_processed.columns)
+
+    // 5. 可选步骤：创建新特征 (示例)
+    // 创建交互特征 RM * LSTAT
+    X_scaled_df['RM_LSTAT'] = X_scaled_df['RM'] * X_scaled_df['LSTAT'] * -1
+    test_scaled_df['RM_LSTAT'] = test_scaled_df['RM'] * test_scaled_df['LSTAT'] * -1
+
+    // 创建多项式特征 RM^2 和 LSTAT^2
+    X_scaled_df['RM_sq'] = X_scaled_df['RM'] ** 2
+    test_scaled_df['RM_sq'] = test_scaled_df['RM'] ** 2
+    X_scaled_df['LSTAT_sq'] = X_scaled_df['LSTAT'] ** 2
+    test_scaled_df['LSTAT_sq'] = test_scaled_df['LSTAT'] ** 2
+
+    // 6. 返回处理后的数据
+    RETURN X_scaled_df, y, test_scaled_df</code></pre>
+                        </div>
+                    </section>
+
+                    <!-- Section 4: Model Training & Evaluation -->
+                    <section id="model-training">
+                         <h2 data-en="4. Model Training & Evaluation" data-zh="4. 模型训练与评估">4. 模型训练与评估</h2>
+                         <div class="bilingual-content">
+                            <p class="zh-content">脚本采用了系统化的方法来训练和评估多个常见的回归模型：</p>
+                            <p class="en-content" style="display: none;">The script adopted a systematic approach to train and evaluate several common regression models:</p>
+                        </div>
+                        <div class="bilingual-content">
+                            <ul class="zh-content">
+                                <li><strong>数据划分</strong>: 使用 <code>sklearn.model_selection.train_test_split</code> 将处理后的训练数据划分为训练集和验证集（例如，80% 训练，20% 验证），用于评估模型在未见过的数据上的泛化能力。</li>
+                                <li><strong>模型选择</strong>: 训练了多种回归模型，涵盖了从基础到先进的算法，以便进行全面的比较：
+                                    <ul>
+                                        <li><strong>线性回归 (<code>LinearRegression</code>)</strong>
+                                            <ul>
+                                                <li><strong>原理</strong>: 最基础的回归算法，旨在找到一条最佳拟合直线（或超平面）来描述特征 \(X\) 与目标变量 \(y\) 之间的线性关系。它假设目标变量是特征的线性组合加上一个误差项。</li>
+                                                <li><strong>公式</strong>: 模型形式为 \( \hat{y} = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + ... + \beta_p x_p \)，其中 \( \hat{y} \) 是预测值，\( x_1, ..., x_p \) 是特征，\( \beta_0 \) 是截距项，\( \beta_1, ..., \beta_p \) 是特征对应的系数。模型通过最小化残差平方和 (Residual Sum of Squares, RSS) 来估计系数 \( \beta \)：
+                                                \[ \text{RSS} = \sum_{i=1}^{n} (y_i - \hat{y}_i)^2 = \sum_{i=1}^{n} (y_i - (\beta_0 + \sum_{j=1}^{p} \beta_j x_{ij}))^2 \]
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><strong>岭回归 (<code>Ridge</code>) - L2 正则化</strong>
+                                             <ul>
+                                                <li><strong>原理</strong>: 线性回归的一种正则化形式，主要用于处理特征间存在多重共线性（高度相关）的情况以及防止模型过拟合。它在线性回归的损失函数（RSS）基础上增加了一个 L2 正则化项（系数的平方和）。</li>
+                                                <li><strong>公式</strong>: 岭回归的优化目标是最小化：
+                                                \[ \sum_{i=1}^{n} (y_i - (\beta_0 + \sum_{j=1}^{p} \beta_j x_{ij}))^2 + \lambda \sum_{j=1}^{p} \beta_j^2 \]
+                                                其中 \( \lambda \ge 0 \) 是调整正则化强度的超参数。\( \lambda \) 越大，系数 \( \beta_j \) 被压缩得越接近于 0，但不会变为严格的 0。这有助于降低模型复杂度，提高模型的泛化能力。
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><strong>Lasso 回归 (<code>Lasso</code>) - L1 正则化</strong>
+                                            <ul>
+                                                <li><strong>原理</strong>: 另一种线性回归的正则化形式，与岭回归类似，但它使用的是 L1 正则化项（系数的绝对值之和）。Lasso 的一个重要特性是它能够将某些特征的系数精确地压缩到 0，从而实现特征选择的效果。</li>
+                                                <li><strong>公式</strong>: Lasso 回归的优化目标是最小化：
+                                                \[ \sum_{i=1}^{n} (y_i - (\beta_0 + \sum_{j=1}^{p} \beta_j x_{ij}))^2 + \lambda \sum_{j=1}^{p} |\beta_j| \]
+                                                同样，\( \lambda \ge 0 \) 是正则化强度的超参数。当 \( \lambda \) 足够大时，一些不重要的特征系数会变成 0，使得模型更稀疏、更易于解释。
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><strong>随机森林 (<code>RandomForestRegressor</code>) - 集成学习（Bagging）</strong>
+                                            <ul>
+                                                <li><strong>原理</strong>: 一种强大的集成学习算法，属于 Bagging（Bootstrap Aggregating）方法的扩展。它构建多个决策树（回归树），并在预测时将所有树的预测结果进行平均。为了增加树之间的差异性（从而降低整体模型的方差），随机森林在两个层面引入了随机性：1. <strong>样本随机</strong>: 对原始训练数据进行有放回的自助采样（Bootstrap Sampling），为每棵树生成不同的训练子集。2. <strong>特征随机</strong>: 在每个决策树节点进行分裂时，不是考虑所有特征，而是随机选择一部分特征进行考察，从中选出最佳分裂特征。</li>
+                                                <li><strong>优点</strong>: 通常具有很高的预测精度，对过拟合不敏感，能够处理高维数据，并且可以评估特征的重要性。</li>
+                                            </ul>
+                                        </li>
+                                         <li><strong>梯度提升树 (<code>GradientBoostingRegressor</code>) - 集成学习（Boosting）</strong>
+                                            <ul>
+                                                <li><strong>原理</strong>: 另一种强大的集成学习算法，属于 Boosting 方法。与随机森林并行构建树不同，梯度提升是串行地、迭代地构建决策树。每一棵新树都是为了拟合前一棵树（或之前所有树组成的模型）的残差（或梯度）。模型通过逐步减小损失函数（如均方误差）来提升性能。它在函数空间中使用梯度下降的思想来优化模型。</li>
+                                                <li><strong>优点</strong>: 预测精度通常非常高，能够处理各种类型的特征。</li>
+                                                <li><strong>缺点</strong>: 对参数设置较为敏感，训练过程相对较慢（因为是串行的）。</li>
+                                            </ul>
+                                        </li>
+                                        <li><strong>XGBoost (<code>xgb.XGBRegressor</code>) - 高效的梯度提升库</strong>
+                                            <ul>
+                                                <li><strong>原理</strong>: 梯度提升算法的高效、可扩展且带正则化的实现。它在标准梯度提升的基础上做了许多优化，包括：1. <strong>正则化</strong>: 在损失函数中加入了 L1 和 L2 正则化项（针对叶子节点的权重），防止过拟合。2. <strong>优化</strong>: 优化了损失函数（使用二阶泰勒展开），并采用了更智能的树分裂策略（如考虑缺失值的处理、近似分位数算法等）。3. <strong>效率</strong>: 支持并行计算（特征级别并行）、缓存优化等，大大提高了训练速度。</li>
+                                                <li><strong>优点</strong>: 性能卓越，速度快，是许多数据科学竞赛中的首选算法之一。</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><strong>评估指标</strong>: 主要使用以下两个指标来评估模型性能：
+                                    <ul>
+                                        <li><strong>均方根误差 (RMSE - Root Mean Squared Error)</strong>: 衡量预测值与真实值之间的平均差异，值越小越好。计算公式为：
+                                         \[ \text{RMSE} = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)^2} \]
+                                         其中 \( n \) 是样本数量，\( y_i \) 是第 \( i \) 个样本的真实值，\( \hat{y}_i \) 是预测值。
+                                        </li>
+                                        <li><strong>决定系数 (R² - Coefficient of Determination)</strong>: 表示模型能够解释的目标变量方差的比例，值越接近 1 越好（在线性回归中通常介于 0 和 1 之间）。计算公式为：
+                                        \[ R^2 = 1 - \frac{\sum_{i=1}^{n}(y_i - \hat{y}_i)^2}{\sum_{i=1}^{n}(y_i - \bar{y})^2} = 1 - \frac{\text{RSS}}{\text{TSS}} \]
+                                        其中 \( \bar{y} \) 是目标变量的平均值，RSS 是残差平方和，TSS (Total Sum of Squares) 是总平方和。
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><strong>交叉验证</strong>: 为了获得对模型泛化能力更可靠的估计，脚本对每个模型在完整的（处理后的）训练数据集上进行了 5 折交叉验证 (<code>cross_val_score</code>)。过程是：将训练数据分成 5 个互斥的子集（折），轮流使用其中 4 折作为训练集，剩下 1 折作为验证集，重复 5 次，最后将 5 次的评估结果（如负均方误差）平均，得到交叉验证得分。这有助于评估模型的稳定性和避免因单次训练/验证集划分带来的偶然性。</li>
+                                <li><strong>模型比较</strong>: 脚本计算了每个模型在验证集上的 RMSE 和 R²，并将这些结果打印到终端输出中。同时，生成了一个条形图用于直观比较各模型在验证集上的 RMSE，便于选出表现最佳的模型：</li>
+                            </ul>
+                            <ul class="en-content" style="display: none;">
+                                <li><strong>Data Splitting</strong>: Used <code>sklearn.model_selection.train_test_split</code> to split the processed training data into training and validation sets (e.g., 80% train, 20% validation) to evaluate the model's generalization ability on unseen data.</li>
+                                <li><strong>Model Selection</strong>: Trained various regression models, covering algorithms from basic to advanced, for comprehensive comparison:
+                                    <ul>
+                                        <li><strong>Linear Regression (<code>LinearRegression</code>)</strong>
+                                            <ul>
+                                                <li><strong>Principle</strong>: The most basic regression algorithm, aiming to find the best-fitting straight line (or hyperplane) to describe the linear relationship between features \(X\) and the target variable \(y\). It assumes the target variable is a linear combination of features plus an error term.</li>
+                                                <li><strong>Formula</strong>: The model form is \( \hat{y} = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + ... + \beta_p x_p \), where \( \hat{y} \) is the predicted value, \( x_1, ..., x_p \) are the features, \( \beta_0 \) is the intercept term, and \( \beta_1, ..., \beta_p \) are the coefficients corresponding to the features. The model estimates the coefficients \( \beta \) by minimizing the Residual Sum of Squares (RSS):
+                                                \[ \text{RSS} = \sum_{i=1}^{n} (y_i - \hat{y}_i)^2 = \sum_{i=1}^{n} (y_i - (\beta_0 + \sum_{j=1}^{p} \beta_j x_{ij}))^2 \]
+                                                </li>
+                                            </ul>
+                                        </li>
+                                         <li><strong>Ridge Regression (<code>Ridge</code>) - L2 Regularization</strong>
+                                             <ul>
+                                                <li><strong>Principle</strong>: A regularized form of linear regression, mainly used to handle multicollinearity (high correlation) among features and prevent overfitting. It adds an L2 regularization term (sum of squared coefficients) to the linear regression loss function (RSS).</li>
+                                                <li><strong>Formula</strong>: The optimization objective of Ridge Regression is to minimize:
+                                                \[ \sum_{i=1}^{n} (y_i - (\beta_0 + \sum_{j=1}^{p} \beta_j x_{ij}))^2 + \lambda \sum_{j=1}^{p} \beta_j^2 \]
+                                                where \( \lambda \ge 0 \) is the hyperparameter adjusting the regularization strength. The larger \( \lambda \), the more the coefficients \( \beta_j \) are shrunk towards 0, but they do not become strictly 0. This helps reduce model complexity and improve generalization.</li>
+                                            </ul>
+                                        </li>
+                                        <li><strong>Lasso Regression (<code>Lasso</code>) - L1 Regularization</strong>
+                                            <ul>
+                                                <li><strong>Principle</strong>: Another regularized form of linear regression, similar to Ridge, but using an L1 regularization term (sum of absolute values of coefficients). An important characteristic of Lasso is its ability to shrink some feature coefficients exactly to 0, thus performing feature selection.</li>
+                                                <li><strong>Formula</strong>: The optimization objective of Lasso Regression is to minimize:
+                                                \[ \sum_{i=1}^{n} (y_i - (\beta_0 + \sum_{j=1}^{p} \beta_j x_{ij}))^2 + \lambda \sum_{j=1}^{p} |\beta_j| \]
+                                                Similarly, \( \lambda \ge 0 \) is the regularization strength hyperparameter. When \( \lambda \) is sufficiently large, some unimportant feature coefficients become 0, making the model sparser and easier to interpret.</li>
+                                            </ul>
+                                        </li>
+                                         <li><strong>Random Forest (<code>RandomForestRegressor</code>) - Ensemble Learning (Bagging)</strong>
+                                            <ul>
+                                                <li><strong>Principle</strong>: A powerful ensemble learning algorithm, an extension of the Bagging (Bootstrap Aggregating) method. It builds multiple decision trees (regression trees) and averages their predictions. To increase diversity among trees (thus reducing the overall model variance), Random Forest introduces randomness at two levels: 1. <strong>Sample Randomness</strong>: Performs bootstrap sampling (sampling with replacement) on the original training data to generate different training subsets for each tree. 2. <strong>Feature Randomness</strong>: When splitting nodes in each decision tree, instead of considering all features, it randomly selects a subset of features to evaluate, choosing the best split feature from this subset.</li>
+                                                <li><strong>Advantages</strong>: Typically achieves high prediction accuracy, is robust to overfitting, can handle high-dimensional data, and can evaluate feature importance.</li>
+                                            </ul>
+                                        </li>
+                                        <li><strong>Gradient Boosting Tree (<code>GradientBoostingRegressor</code>) - Ensemble Learning (Boosting)</strong>
+                                            <ul>
+                                                <li><strong>Principle</strong>: Another powerful ensemble learning algorithm, belonging to the Boosting method. Unlike Random Forest which builds trees in parallel, Gradient Boosting builds decision trees sequentially and iteratively. Each new tree is trained to fit the residuals (or gradients) of the previous tree (or the ensemble of all preceding trees). The model improves performance by gradually reducing the loss function (e.g., mean squared error). It uses gradient descent ideas in the function space to optimize the model.</li>
+                                                <li><strong>Advantages</strong>: Prediction accuracy is usually very high, capable of handling various feature types.</li>
+                                                <li><strong>Disadvantages</strong>: Sensitive to parameter settings, training process is relatively slow (due to its sequential nature).</li>
+                                            </ul>
+                                        </li>
+                                        <li><strong>XGBoost (<code>xgb.XGBRegressor</code>) - Efficient Gradient Boosting Library</strong>
+                                            <ul>
+                                                <li><strong>Principle</strong>: An efficient, scalable, and regularized implementation of the gradient boosting algorithm. It incorporates many optimizations over standard gradient boosting, including: 1. <strong>Regularization</strong>: Adds L1 and L2 regularization terms to the loss function (targeting the weights of leaf nodes) to prevent overfitting. 2. <strong>Optimization</strong>: Optimizes the loss function (using second-order Taylor expansion) and employs smarter tree splitting strategies (e.g., handling missing values, approximate quantile algorithms). 3. <strong>Efficiency</strong>: Supports parallel computation (feature-level parallelism), cache optimization, etc., significantly speeding up training.</li>
+                                                <li><strong>Advantages</strong>: Excellent performance, fast speed, often a preferred algorithm in many data science competitions.</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><strong>Evaluation Metrics</strong>: Primarily used the following two metrics to assess model performance:
+                                    <ul>
+                                        <li><strong>Root Mean Squared Error (RMSE)</strong>: Measures the average difference between predicted and actual values; the smaller the value, the better. Formula:
+                                         \[ \text{RMSE} = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)^2} \]
+                                         where \( n \) is the number of samples, \( y_i \) is the actual value of the \( i \)-th sample, and \( \hat{y}_i \) is the predicted value.
+                                        </li>
+                                        <li><strong>Coefficient of Determination (R²)</strong>: Represents the proportion of the variance in the target variable that the model can explain; the closer to 1, the better (typically between 0 and 1 for linear regression). Formula:
+                                        \[ R^2 = 1 - \frac{\sum_{i=1}^{n}(y_i - \hat{y}_i)^2}{\sum_{i=1}^{n}(y_i - \bar{y})^2} = 1 - \frac{\text{RSS}}{\text{TSS}} \]
+                                        where \( \bar{y} \) is the mean of the target variable, RSS is the Residual Sum of Squares, and TSS (Total Sum of Squares) is the Total Sum of Squares.
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><strong>Cross-Validation</strong>: To obtain a more reliable estimate of the model's generalization ability, the script performed 5-fold cross-validation (<code>cross_val_score</code>) on each model using the complete (processed) training dataset. The process involves: splitting the training data into 5 mutually exclusive subsets (folds), iteratively using 4 folds for training and the remaining 1 fold for validation, repeating 5 times, and finally averaging the 5 evaluation results (e.g., negative mean squared error) to get the cross-validation score. This helps assess model stability and avoids randomness due to a single train/validation split.</li>
+                                <li><strong>Model Comparison</strong>: The script calculated the RMSE and R² for each model on the validation set and printed these results to the terminal output. Additionally, a bar chart was generated to visually compare the RMSE of each model on the validation set, facilitating the selection of the best-performing model:</li>
+                            </ul>
+                        </div>
+                        <div class="image-container">
+                             <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/blog/machinelearning/boston/output/modelcomparison-imageonline.co-4055859.avif" alt="模型性能比较" class="article-image">
+                             <p class="image-caption" data-en="Model Performance Comparison" data-zh="模型性能比较">模型性能比较</p>
+                         </div>
+                    </section>
+
+                    <!-- Section 5: Hyperparameter Tuning & Feature Importance -->
+                    <section id="tuning-importance">
+                        <h2 data-en="5. Hyperparameter Tuning & Feature Importance" data-zh="5. 超参数调优与特征重要性">5. 超参数调优与特征重要性</h2>
+                        <div class="bilingual-content">
+                            <p class="zh-content">根据 <code>exp1.py</code> 的函数定义 (<code>tune_hyperparameters</code>, <code>feature_importance</code>)，脚本很可能包含以下步骤：</p>
+                            <p class="en-content" style="display: none;">Based on the function definitions in <code>exp1.py</code> (<code>tune_hyperparameters</code>, <code>feature_importance</code>), the script likely includes the following steps:</p>
+                        </div>
+                        <div class="bilingual-content">
+                            <ul class="zh-content">
+                                <li><strong>超参数调优</strong>: 对于表现最好的模型（例如 XGBoost 或随机森林），可能会使用 <code>GridSearchCV</code> 或类似方法，结合交叉验证来寻找最优的超参数组合（如树的数量、深度、学习率等），以进一步提升模型性能。</li>
+                                <li><strong>特征重要性分析</strong>: 对于最终选定的模型（特别是树模型如随机森林、梯度提升树、XGBoost），脚本会提取并可视化特征的重要性得分：</li>
+                            </ul>
+                            <ul class="en-content" style="display: none;">
+                                <li><strong>Hyperparameter Tuning</strong>: For the best-performing model (e.g., XGBoost or Random Forest), methods like <code>GridSearchCV</code> might be used in conjunction with cross-validation to find the optimal combination of hyperparameters (such as the number of trees, depth, learning rate, etc.) to further enhance model performance.</li>
+                                <li><strong>Feature Importance Analysis</strong>: For the finally selected model (especially tree-based models like Random Forest, Gradient Boosting Tree, XGBoost), the script would extract and visualize the feature importance scores:</li>
+                             </ul>
+                        </div>
+                        <div class="image-container">
+                             <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/blog/machinelearning/boston/output/featureimportance-imageonline.co-3118613.avif" alt="特征重要性" class="article-image">
+                             <p class="image-caption" data-en="Feature Importance" data-zh="特征重要性">特征重要性</p>
+                         </div>
+                         <div class="bilingual-content">
+                             <p class="zh-content">这有助于理解哪些特征对房价预测贡献最大，为模型解释和未来可能的特征选择提供依据。线性模型的系数也可以用来分析特征影响。</p>
+                             <p class="en-content" style="display: none;">This helps understand which features contribute most to house price prediction, providing a basis for model interpretation and potential future feature selection. The coefficients of linear models can also be used to analyze feature impact.</p>
+                         </div>
+                    </section>
+
+                    <!-- Section 6: Prediction & Result Generation -->
+                    <section id="prediction">
+                        <h2 data-en="6. Prediction & Result Generation" data-zh="6. 预测与结果生成">6. 预测与结果生成</h2>
+                         <div class="bilingual-content">
+                             <ul class="zh-content">
+                                 <li><strong>最终模型训练</strong>: 使用找到的最优超参数（如果进行了调优）在<strong>全部</strong>处理后的训练数据上重新训练选定的最佳模型。</li>
+                                 <li><strong>测试集预测</strong>: 使用训练好的最终模型对处理后的测试数据集 (<code>test_scaled_df</code>) 进行预测，得到测试集样本的预测房价。</li>
+                                 <li><strong>预测效果可视化</strong>: 为了更直观地评估最终模型的预测性能，可以将预测值与真实值（如果在验证集上评估）进行散点图对比：</li>
+                             </ul>
+                             <ul class="en-content" style="display: none;">
+                                 <li><strong>Final Model Training</strong>: Retrain the selected best model on the <strong>entire</strong> processed training data using the optimal hyperparameters found (if tuning was performed).</li>
+                                 <li><strong>Test Set Prediction</strong>: Use the trained final model to make predictions on the processed test dataset (<code>test_scaled_df</code>), obtaining the predicted house prices for the test samples.</li>
+                                 <li><strong>Prediction Performance Visualization</strong>: To more intuitively evaluate the prediction performance of the final model, a scatter plot comparing predicted values against actual values (if evaluated on a validation set) can be used:</li>
+                            </ul>
+                        </div>
+                        <div class="image-container">
+                             <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/blog/machinelearning/boston/output/actualpricevspredictedprice-imageonline.co-2352492.avif" alt="预测值 vs 真实值" class="article-image">
+                             <p class="image-caption" data-en="Predicted vs Actual Values" data-zh="预测值 vs 真实值">预测值 vs 真实值</p>
+                         </div>
+                         <div class="bilingual-content">
+                            <p class="zh-content"><em>分析</em>：理想情况下，散点图中的点应紧密围绕在对角线（y=x）周围，表明预测值与真实值高度一致。如果点偏离对角线较远，则表示预测误差较大。观察此图可以判断模型在不同价格区间的预测表现，是否存在系统性的高估或低估。</p>
+                            <p class="en-content" style="display: none;"><em>Analysis</em>: Ideally, the points in the scatter plot should cluster tightly around the diagonal line (y=x), indicating high agreement between predicted and actual values. Points far from the diagonal represent larger prediction errors. Observing this plot helps assess the model's prediction performance across different price ranges and identify any systematic overestimation or underestimation.</p>
+                        </div>
+                        <div class="bilingual-content">
+                             <ul class="zh-content">
+                                 <li><strong>结果提交</strong>: 将对测试集的预测结果保存为 CSV 文件，路径为 <code>output/submission.csv</code>，其格式遵循 <code>data/exp1/sample.csv</code> 的要求。</li>
+                             </ul>
+                             <ul class="en-content" style="display: none;">
+                                <li><strong>Result Submission</strong>: Save the predictions for the test set into a CSV file located at <code>output/submission.csv</code>, following the format specified by <code>data/exp1/sample.csv</code>.</li>
+                             </ul>
+                         </div>
+                    </section>
+
+                     <!-- Section 7: Conclusion -->
+                     <section id="conclusion">
+                        <h2 data-en="7. Conclusion" data-zh="7. 结论">7. 结论</h2>
+                        <div class="bilingual-content">
+                            <p class="zh-content">本实验通过加载、探索波士顿房价数据，进行特征工程和预处理，训练、评估并比较了多种回归模型（包括线性模型和强大的集成模型如 XGBoost），最终目标是生成对测试集房价的准确预测。</p>
+                            <p class="en-content" style="display: none;">This experiment involved loading and exploring the Boston housing data, performing feature engineering and preprocessing, training, evaluating, and comparing various regression models (including linear models and powerful ensemble models like XGBoost), with the ultimate goal of generating accurate predictions for house prices on the test set.</p>
+                        </div>
+                        <div class="bilingual-content">
+                            <p class="zh-content">通过 EDA 发现了 <code>RM</code> 和 <code>LSTAT</code> 等关键特征。特征标准化是必要的预处理步骤。模型比较显示，集成模型（如 XGBoost、随机森林、梯度提升树）通常在此类表格数据回归任务上表现优于简单的线性模型。脚本还包含了进行超参数调优和特征重要性分析的功能，以进一步优化模型并理解其预测依据。最终的预测结果被格式化并保存，可用于提交或进一步分析。</p>
+                            <p class="en-content" style="display: none;">EDA revealed key features like <code>RM</code> and <code>LSTAT</code>. Feature standardization was a necessary preprocessing step. Model comparison showed that ensemble models (like XGBoost, Random Forest, Gradient Boosting Tree) generally outperformed simple linear models on such tabular data regression tasks. The script also included functionality for hyperparameter tuning and feature importance analysis to further optimize the model and understand its prediction basis. The final prediction results were formatted and saved, ready for submission or further analysis.</p>
+                        </div>
+                        <div class="bilingual-content">
+                            <p class="zh-content">整个流程体现了机器学习项目的一个标准工作流，从数据理解到模型部署（预测）。</p>
+                            <p class="en-content" style="display: none;">The entire process reflects a standard workflow for a machine learning project, from data understanding to model deployment (prediction).</p>
+                        </div>
+                        <div class="post-signature">
+                            <p>— HealthJian <span class="emoji">✍️</span></p>
+                        </div>
+                    </section>
+
+                    <!-- References Section -->
+                    <section id="references">
+                        <h2 data-en="References" data-zh="参考文献">参考文献</h2>
+                        <div class="bilingual-content">
+                            <ol class="zh-content">
+                                <li>Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel, O., ... & Duchesnay, E. (2011). Scikit-learn: Machine learning in Python. <em>Journal of Machine Learning Research</em>, 12(Oct), 2825-2830.</li>
+                                <li>Hastie, T., Tibshirani, R., & Friedman, J. (2009). <em>The Elements of Statistical Learning: Data Mining, Inference, and Prediction</em>. Springer.</li>
+                                <li>Breiman, L. (2001). Random Forests. <em>Machine Learning</em>, 45(1), 5-32.</li>
+                                <li>Friedman, J. H. (2001). Greedy function approximation: A gradient boosting machine. <em>Annals of Statistics</em>, 1189-1232.</li>
+                                <li>Chen, T., & Guestrin, C. (2016). XGBoost: A scalable tree boosting system. In <em>Proceedings of the 22nd acm sigkdd international conference on knowledge discovery and data mining</em> (pp. 785-794).</li>
+                                <li>Harrison, D., & Rubinfeld, D. L. (1978). Hedonic housing prices and the demand for clean air. <em>Journal of Environmental Economics and Management</em>, 5(1), 81-102.</li>
+                                <li>Harris, C. R., Millman, K. J., van der Walt, S. J., Gommers, R., Virtanen, P., Cournapeau, D., ... & Oliphant, T. E. (2020). Array programming with NumPy. <em>Nature</em>, 585(7825), 357-362.</li>
+                                <li>McKinney, W. (2010). Data structures for statistical computing in python. In <em>Proceedings of the 9th Python in Science Conference</em> (Vol. 445, pp. 51-56).</li>
+                            </ol>
+                             <ol class="en-content" style="display: none;">
+                                <li>Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel, O., ... & Duchesnay, E. (2011). Scikit-learn: Machine learning in Python. <em>Journal of Machine Learning Research</em>, 12(Oct), 2825-2830.</li>
+                                <li>Hastie, T., Tibshirani, R., & Friedman, J. (2009). <em>The Elements of Statistical Learning: Data Mining, Inference, and Prediction</em>. Springer.</li>
+                                <li>Breiman, L. (2001). Random Forests. <em>Machine Learning</em>, 45(1), 5-32.</li>
+                                <li>Friedman, J. H. (2001). Greedy function approximation: A gradient boosting machine. <em>Annals of Statistics</em>, 1189-1232.</li>
+                                <li>Chen, T., & Guestrin, C. (2016). XGBoost: A scalable tree boosting system. In <em>Proceedings of the 22nd acm sigkdd international conference on knowledge discovery and data mining</em> (pp. 785-794).</li>
+                                <li>Harrison, D., & Rubinfeld, D. L. (1978). Hedonic housing prices and the demand for clean air. <em>Journal of Environmental Economics and Management</em>, 5(1), 81-102.</li>
+                                <li>Harris, C. R., Millman, K. J., van der Walt, S. J., Gommers, R., Virtanen, P., Cournapeau, D., ... & Oliphant, T. E. (2020). Array programming with NumPy. <em>Nature</em>, 585(7825), 357-362.</li>
+                                <li>McKinney, W. (2010). Data structures for statistical computing in python. In <em>Proceedings of the 9th Python in Science Conference</em> (Vol. 445, pp. 51-56).</li>
+                            </ol>
+                        </div>
+                    </section>
+
+                    <!-- Appendix Section -->
+                    <section id="appendix">
+                        <h2 data-en="Appendix" data-zh="附录">附录</h2>
+                        <h3 data-en="Appendix A: Model Training & Evaluation Flowchart" data-zh="附录 A: 模型训练评估流程图">附录 A: 模型训练评估流程图</h3>
+                        <div class="bilingual-content">
+                             <p class="zh-content">以下流程图展示了本实验中模型训练与评估的主要步骤：</p>
+                            <p class="en-content" style="display: none;">The following flowchart shows the main steps of model training and evaluation in this experiment:</p>
+                        </div>
+                        <div class="image-container">
+                            <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/blog/machinelearning/boston/output/mermaid-diagram-2025-04-12-081839-imageonline.co-7650684.avif" alt="模型训练评估流程图" class="article-image">
+                            <p class="image-caption" data-en="Model Training & Evaluation Flowchart" data-zh="模型训练评估流程图">模型训练评估流程图</p>
+                        </div>
+                    </section>
+                </div>
+            </article>
+            
+            <!-- 评论区 -->
+            <div class="comments-section">
+                <h3 data-en="Comments" data-zh="评论">评论</h3>
+                <div class="comment-form">
+                    <textarea placeholder="写下你的想法..." data-en-placeholder="Write your thoughts..." data-zh-placeholder="写下你的想法..."></textarea>
+                    <button data-en="Submit" data-zh="提交">提交</button>
+                </div>
+                <div class="comments-container">
+                    <p class="no-comments" data-en="Be the first to comment!" data-zh="成为第一个评论的人！">成为第一个评论的人！ <span class="emoji">🎉</span></p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <p>&copy; 2025 CaiNiaojian&HealthJian all followed.</p>
+                <p data-en="Contact: " data-zh="联系方式：">联系方式：<a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
+                <p data-en="Location: " data-zh="地址：">地址：XX</p>
+            </div>
+            <div class="footer-links">
+                <a href="../../../blog.html" data-en="Blog" data-zh="博客">博客</a>
+                <a href="../../../about.html" data-en="About" data-zh="关于">关于</a>
+                <a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a>
+                <a href="../../../changelog.html" data-en="ChangeLog" data-zh="更新日志">更新日志</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化代码高亮
+            hljs.highlightAll();
+        });
+    </script>
+    <script src="../../../js/main.js"></script>
+    <script src="../../../js/theme.js"></script>
+    <script src="../../../js/language.js"></script>
+    <script src="../../../js/blog-post.js"></script>
+
+    <!-- MathJax Configuration -->
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']], // Corrected double backslash
+        displayMath: [['\\[', '\\]']] // Corrected double backslash
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+    </script>
+    <!-- End MathJax Configuration -->
+
+</body>
+</html> 
