@@ -1,0 +1,282 @@
+/* 更新日志页面增强样式
+ * 作者: HealthJian
+ * 日期: 2025-05-19
+ * 描述: 为更新日志页面提供现代化的视觉设计和微交互效果
+ */
+
+/* 页面加载动画 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.changelog-header,
+.github-calendar-container,
+.timeline-item {
+  animation: fadeInUp 0.6s ease forwards;
+  opacity: 0;
+}
+
+.changelog-header {
+  animation-delay: 0.1s;
+}
+
+.github-calendar-container {
+  animation-delay: 0.3s;
+}
+
+.timeline-item:nth-child(1) {
+  animation-delay: 0.4s;
+}
+
+.timeline-item:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.timeline-item:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+.timeline-item:nth-child(n+4) {
+  animation-delay: 0.7s;
+}
+
+/* 标题装饰 */
+.changelog-header h1 {
+  position: relative;
+  overflow: hidden;
+  padding: 0 15px;
+}
+
+.changelog-header h1::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    var(--timeline-accent-color), 
+    var(--timeline-secondary-color), 
+    var(--timeline-accent-color), 
+    transparent);
+}
+
+/* 卡片悬停效果 */
+.timeline-content {
+  position: relative;
+  overflow: hidden;
+}
+
+.timeline-content::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, 
+    rgba(var(--timeline-accent-color-rgb), 0.1) 0%, 
+    rgba(var(--timeline-secondary-color-rgb), 0.1) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.timeline-content:hover::after {
+  opacity: 1;
+}
+
+/* 版本标签 */
+.timeline-content h2 {
+  position: relative;
+  display: inline-block;
+}
+
+.timeline-content h2::before {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    var(--timeline-accent-color), 
+    var(--timeline-secondary-color));
+  transition: width 0.3s ease;
+}
+
+.timeline-content:hover h2::before {
+  width: 100%;
+}
+
+/* 列表项微交互 */
+.timeline-content li {
+  transition: transform 0.2s ease;
+}
+
+.timeline-content li:hover {
+  transform: translateX(5px);
+}
+
+.timeline-content li::before {
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.timeline-content li:hover::before {
+  transform: scale(1.2);
+  color: var(--timeline-accent-color);
+}
+
+/* 日历格子美化 */
+.calendar-grid {
+  transition: all 0.3s ease;
+}
+
+.calendar-grid:hover {
+  transform: scale(1.02);
+}
+
+/* 滚动到顶部按钮 */
+.scroll-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, var(--timeline-accent-color), var(--timeline-secondary-color));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(var(--timeline-accent-color-rgb), 0.3);
+  z-index: 100;
+}
+
+.scroll-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.scroll-top:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(var(--timeline-accent-color-rgb), 0.4);
+}
+
+.scroll-top i {
+  font-size: 1.2rem;
+}
+
+/* 日/夜间模式过渡效果 */
+body {
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+.changelog-timeline::before,
+.timeline-item::before,
+.timeline-content,
+.github-calendar-container {
+  transition: all 0.5s ease;
+}
+
+/* 响应式微调 */
+@media (max-width: 768px) {
+  .timeline-content h2 {
+    font-size: 1.4rem;
+  }
+  
+  .scroll-top {
+    width: 40px;
+    height: 40px;
+    bottom: 20px;
+    right: 20px;
+  }
+}
+
+/* 打印样式优化 */
+@media print {
+  .scroll-top {
+    display: none;
+  }
+  
+  .changelog-timeline::before {
+    background: #666;
+  }
+  
+  .timeline-item::before {
+    background: #666;
+    border: 2px solid #fff;
+  }
+  
+  .timeline-content {
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+}
+
+/* 添加鼠标悬停时间线装饰效果 */
+.timeline-date {
+  position: relative;
+  overflow: hidden;
+}
+
+.timeline-date::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: rgba(var(--timeline-accent-color-rgb), 0.1);
+  transition: width 0.3s ease;
+  z-index: -1;
+  border-radius: 20px;
+}
+
+.timeline-item:hover .timeline-date::before {
+  width: 100%;
+}
+
+/* 链接样式美化 */
+.timeline-content a {
+  color: var(--timeline-accent-color);
+  text-decoration: none;
+  position: relative;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.timeline-content a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--timeline-accent-color);
+  transition: width 0.3s ease;
+}
+
+.timeline-content a:hover {
+  color: var(--timeline-secondary-color);
+}
+
+.timeline-content a:hover::after {
+  width: 100%;
+  background: var(--timeline-secondary-color);
+} 

@@ -1,96 +1,323 @@
 /* 更新日志页面样式 */
+/* 定义变量 */
+:root {
+    --timeline-accent-color: #3498db;
+    --timeline-accent-color-rgb: 52, 152, 219;
+    --timeline-secondary-color: #2ecc71;
+    --timeline-secondary-color-rgb: 46, 204, 113;
+}
+
+.dark-mode {
+    --timeline-accent-color: #64b5f6;
+    --timeline-accent-color-rgb: 100, 181, 246;
+    --timeline-secondary-color: #4ecca3;
+    --timeline-secondary-color-rgb: 78, 204, 163;
+}
+
+/* 页面装饰元素 */
+main {
+    position: relative;
+    overflow: hidden;
+}
+
+main::before,
+main::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    z-index: -1;
+}
+
+main::before {
+    width: 300px;
+    height: 300px;
+    background: rgba(var(--timeline-accent-color-rgb), 0.1);
+    top: -100px;
+    right: -100px;
+}
+
+main::after {
+    width: 250px;
+    height: 250px;
+    background: rgba(var(--timeline-secondary-color-rgb), 0.1);
+    bottom: 10%;
+    left: -100px;
+}
+
 .changelog-header {
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 60px;
+    position: relative;
+    padding: 20px 0 30px;
+}
+
+.changelog-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--timeline-accent-color), transparent);
+    border-radius: 3px;
 }
 
 .changelog-header h1 {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     margin-bottom: 15px;
-    color: var(--primary-color);
+    background: linear-gradient(135deg, var(--timeline-accent-color), var(--timeline-secondary-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+    position: relative;
+    font-weight: 600;
+}
+
+.changelog-header h1::before {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: radial-gradient(circle, rgba(var(--timeline-accent-color-rgb), 0.1), transparent);
+    border-radius: 50%;
+    top: -15px;
+    left: -20px;
+    z-index: -1;
 }
 
 .changelog-header p {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     max-width: 600px;
-    margin: 0 auto;
+    margin: 10px auto 0;
+    color: var(--text-color);
+    opacity: 0.85;
+    font-weight: 300;
 }
 
 .changelog-timeline {
     max-width: 800px;
-    margin: 0 auto;
+    margin: 0 auto 60px;
     position: relative;
-    padding-left: 30px;
+    padding-left: 50px;
 }
 
 .changelog-timeline::before {
     content: '';
     position: absolute;
-    left: 0;
+    left: 10px;
     top: 0;
     bottom: 0;
-    width: 2px;
-    background-color: var(--primary-color);
+    width: 3px;
+    background: linear-gradient(to bottom, 
+        var(--timeline-accent-color),
+        var(--timeline-secondary-color),
+        var(--timeline-accent-color));
+    border-radius: 3px;
 }
 
 .timeline-item {
-    margin-bottom: 50px;
+    margin-bottom: 60px;
     position: relative;
+    transition: transform 0.3s ease;
+}
+
+.timeline-item:hover {
+    transform: translateX(5px);
 }
 
 .timeline-item::before {
     content: '';
     position: absolute;
-    left: -39px;
+    left: -50px;
     top: 0;
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--timeline-accent-color), var(--timeline-secondary-color));
     border: 4px solid var(--background-color);
     z-index: 1;
+    box-shadow: 0 0 0 4px rgba(var(--timeline-accent-color-rgb), 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.timeline-item:hover::before {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 6px rgba(var(--timeline-accent-color-rgb), 0.15);
 }
 
 .timeline-date {
-    font-size: 1rem;
-    font-weight: 500;
-    margin-bottom: 10px;
-    color: var(--primary-color);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--timeline-accent-color);
+    display: inline-block;
+    padding: 5px 15px;
+    background-color: rgba(var(--timeline-accent-color-rgb), 0.1);
+    border-radius: 20px;
+    transform: translateX(-10px);
 }
 
 .timeline-content {
     background-color: var(--card-background);
-    border-radius: var(--border-radius);
-    padding: 25px;
-    box-shadow: 0 5px 15px var(--shadow-color);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(var(--timeline-accent-color-rgb), 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.timeline-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--timeline-accent-color), var(--timeline-secondary-color));
+    border-radius: 4px 0 0 4px;
+}
+
+.timeline-content:hover {
+    box-shadow: 0 10px 30px rgba(var(--timeline-accent-color-rgb), 0.15);
+    transform: translateY(-3px);
 }
 
 .timeline-content h2 {
-    margin-bottom: 15px;
-    font-size: 1.5rem;
-    font-weight: 500;
+    margin-bottom: 20px;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--timeline-accent-color);
+    padding-bottom: 10px;
+    border-bottom: 1px dashed rgba(var(--timeline-accent-color-rgb), 0.2);
 }
 
 .timeline-content ul {
     padding-left: 20px;
+    list-style-type: none;
 }
 
 .timeline-content li {
-    margin-bottom: 10px;
-    line-height: 1.6;
+    margin-bottom: 12px;
+    line-height: 1.7;
+    position: relative;
+    padding-left: 25px;
+}
+
+.timeline-content li::before {
+    content: '\f058';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: absolute;
+    left: 0;
+    color: var(--timeline-secondary-color);
+}
+
+/* GitHub贡献日历美化 */
+.github-calendar-container {
+    background-color: var(--card-background);
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 60px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(var(--timeline-accent-color-rgb), 0.1);
+    transition: all 0.3s ease;
+}
+
+.github-calendar-container:hover {
+    box-shadow: 0 10px 30px rgba(var(--timeline-accent-color-rgb), 0.15);
+}
+
+.github-calendar-header {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(var(--timeline-accent-color-rgb), 0.1);
+    padding-bottom: 15px;
+}
+
+.github-calendar-header h2 {
+    font-size: 1.6rem;
+    color: var(--timeline-accent-color);
+    margin: 0;
+    font-weight: 600;
+}
+
+.github-username {
+    display: flex;
+    align-items: center;
+    color: var(--timeline-secondary-color);
+    font-weight: 500;
+    transition: transform 0.3s ease;
+}
+
+.github-username:hover {
+    transform: translateY(-2px);
+}
+
+.github-username i {
+    margin-right: 8px;
+    font-size: 1.2rem;
+}
+
+.contribution-stats {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.stats-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stats-count {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--timeline-accent-color);
+    margin-bottom: 5px;
+}
+
+.stats-label {
+    font-size: 0.9rem;
+    color: var(--text-color);
+    opacity: 0.8;
 }
 
 /* 响应式设计 */
 @media (max-width: 768px) {
     .changelog-timeline {
-        padding-left: 20px;
+        padding-left: 40px;
     }
     
     .timeline-item::before {
-        left: -29px;
+        left: -40px;
+    }
+    
+    .changelog-header h1 {
+        font-size: 2.2rem;
+    }
+    
+    .changelog-header p {
+        font-size: 1.1rem;
     }
     
     .timeline-content {
+        padding: 25px;
+    }
+    
+    .github-calendar-container {
         padding: 20px;
+    }
+    
+    main::before,
+    main::after {
+        opacity: 0.5;
     }
 } 

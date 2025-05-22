@@ -225,6 +225,18 @@ body.zh .blog-title-styled {
     color: var(--primary-color);
 }
 
+/* 修改tag在浅色模式下的样式 */
+body:not(.dark-mode) .tag {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--text-color);
+}
+
+/* 保持暗色模式下的样式 */
+body.dark-mode .tag {
+    background-color: rgba(0, 122, 255, 0.1);
+    color: var(--primary-color);
+}
+
 /* 分页样式 */
 .pagination {
     display: flex;

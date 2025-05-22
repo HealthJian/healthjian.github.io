@@ -1,0 +1,334 @@
+/* 增强型页脚样式
+ * 作者: HealthJian
+ * 日期: 2025-05-19
+ * 描述: 为网站首页提供现代化的页脚设计
+ */
+
+/* 页脚基础样式 */
+footer {
+  background-color: var(--card-background);
+  border-top: 1px solid rgba(var(--accent-color-rgb), 0.1);
+  padding: 40px 0;
+  margin-top: 60px;
+  position: relative;
+  color: white;
+}
+
+/* 日间模式下的页脚样式 */
+body:not(.dark-mode) footer {
+  background-color: #f5f5f7; /* 浅灰色背景 */
+  color: #333333;
+}
+
+/* 夜间模式下的页脚样式 */
+body.dark-mode footer {
+  background-color: #003366; /* 深蓝色背景 */
+  color: white;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 30px;
+  padding: 0 20px;
+}
+
+/* 响应式布局 */
+@media (max-width: 1024px) {
+  .footer-container {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .footer-logo-section {
+    grid-column: span 2;
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .footer-logo-section,
+  .footer-nav-section,
+  .footer-social-section {
+    grid-column: span 1;
+    text-align: center;
+  }
+  
+  .footer-links-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Logo部分 */
+.footer-logo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.footer-logo img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  transition: transform 0.3s ease;
+}
+
+.footer-logo:hover img {
+  transform: scale(1.05);
+}
+
+.footer-logo-text {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: inherit;
+  letter-spacing: 0.5px;
+}
+
+.footer-copyright {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* 日间模式下的版权信息 */
+body:not(.dark-mode) .footer-copyright {
+  color: rgba(51, 51, 51, 0.8);
+}
+
+/* 导航部分 - 改为网格布局 */
+.footer-nav-section h3,
+.footer-social-section h3 {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: inherit;
+  position: relative;
+  display: inline-block;
+}
+
+.footer-nav-section h3:after,
+.footer-social-section h3:after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 30px;
+  height: 2px;
+  background: #4dc4ff;
+  transition: width 0.3s ease;
+}
+
+/* 日间模式下的标题装饰线 */
+body:not(.dark-mode) .footer-nav-section h3:after,
+body:not(.dark-mode) .footer-social-section h3:after {
+  background: #007AFF;
+}
+
+.footer-nav-section:hover h3:after,
+.footer-social-section:hover h3:after {
+  width: 100%;
+}
+
+/* 快速链接网格 */
+.footer-links-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 15px 20px;
+}
+
+.footer-links-grid a {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  padding-left: 0;
+  display: inline-block;
+}
+
+/* 日间模式下的链接颜色 */
+body:not(.dark-mode) .footer-links-grid a {
+  color: rgba(51, 51, 51, 0.8);
+}
+
+.footer-links-grid a:before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: #4dc4ff;
+  transition: width 0.3s ease;
+}
+
+/* 日间模式下的链接悬停效果 */
+body:not(.dark-mode) .footer-links-grid a:before {
+  background-color: #007AFF;
+}
+
+.footer-links-grid a:hover {
+  color: #4dc4ff;
+  padding-left: 5px;
+}
+
+/* 日间模式下的链接悬停颜色 */
+body:not(.dark-mode) .footer-links-grid a:hover {
+  color: #007AFF;
+}
+
+.footer-links-grid a:hover:before {
+  width: 100%;
+}
+
+/* 社交媒体部分 */
+.footer-social-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-contact-info {
+  margin-bottom: 15px;
+}
+
+.footer-contact-info p {
+  margin: 5px 0;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* 日间模式下的联系信息颜色 */
+body:not(.dark-mode) .footer-contact-info p {
+  color: rgba(51, 51, 51, 0.8);
+}
+
+.footer-contact-info a {
+  color: #4dc4ff;
+  text-decoration: none;
+}
+
+/* 日间模式下的联系信息链接颜色 */
+body:not(.dark-mode) .footer-contact-info a {
+  color: #007AFF;
+}
+
+.footer-social-icons {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.footer-social-icons a {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+/* 日间模式下的社交图标 */
+body:not(.dark-mode) .footer-social-icons a {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #333333;
+}
+
+.footer-social-icons a:hover {
+  background-color: #4dc4ff;
+  color: white;
+  transform: translateY(-3px);
+}
+
+/* 日间模式下的社交图标悬停效果 */
+body:not(.dark-mode) .footer-social-icons a:hover {
+  background-color: #007AFF;
+}
+
+/* 时钟部分 - 移到社交媒体图标下方 */
+.footer-clock-section {
+  margin-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 15px;
+}
+
+/* 日间模式下的时钟分隔线 */
+body:not(.dark-mode) .footer-clock-section {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.footer-clock {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: white;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+  font-family: 'SF Pro Display', sans-serif;
+}
+
+/* 日间模式下的时钟颜色 */
+body:not(.dark-mode) .footer-clock {
+  color: #333333;
+}
+
+.footer-date {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* 日间模式下的日期颜色 */
+body:not(.dark-mode) .footer-date {
+  color: rgba(51, 51, 51, 0.8);
+}
+
+/* 页脚底部信息 */
+.footer-bottom {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* 日间模式下的页脚底部信息 */
+body:not(.dark-mode) .footer-bottom {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgba(51, 51, 51, 0.7);
+}
+
+.footer-bottom a {
+  color: #4dc4ff;
+  text-decoration: none;
+}
+
+/* 日间模式下的页脚底部链接颜色 */
+body:not(.dark-mode) .footer-bottom a {
+  color: #007AFF;
+}
+
+/* 日/夜间模式过渡 */
+footer, 
+.footer-links-grid a, 
+.footer-social-icons a,
+.footer-logo-text,
+.footer-copyright,
+.footer-clock,
+.footer-date {
+  transition: all 0.3s ease;
+} 

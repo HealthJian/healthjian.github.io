@@ -14,6 +14,7 @@
     <!-- 样式表 -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/dark-mode.css">
+    <link rel="stylesheet" href="css/footer-enhanced.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <!-- 苹果风格字体 - 优化加载 -->
@@ -72,7 +73,7 @@
     <main>
         <section class="hero">
             <div class="avatar-container">
-                <img src="images/hero-master.avif" alt="头像" class="avatar" style="width: 187.5px; height: 187.5px;">
+                <img src="images/newhero.avif" alt="头像" class="avatar" style="width: 187.5px; height: 187.5px;">
             </div>
             
             <!-- 添加问候语元素 -->
@@ -293,18 +294,58 @@
 
     <!-- 页脚 -->
     <footer>
-        <div class="footer-content">
-            <div class="footer-info">
-                <p>&copy; 2025 CaiNiaojian&HealthJian all followed.</p>
-                <p data-en="Contact: " data-zh="联系方式：">联系方式：<a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
-                <p data-en="Location: " data-zh="地址：">地址：XX</p>
+        <div class="footer-container">
+            <!-- Logo部分 -->
+            <div class="footer-logo-section">
+                <a href="index.html" class="footer-logo">
+                    <img src="images/githubherofigureimage.png" alt="HealthJian Logo">
+                    <span class="footer-logo-text" data-en="HealthJian Blog" data-zh="HealthJian Blog">HealthJian Blog</span>
+                </a>
+                <div class="footer-copyright">
+                    <p>&copy; 2025 CaiNiaojian & HealthJian</p>
+                    <p data-en="All Rights Reserved" data-zh="保留所有权利">保留所有权利</p>
+                </div>
             </div>
-            <div class="footer-links">
-                <a href="pages/blog.html" data-en="Blog" data-zh="博客">博客</a>
-                <a href="pages/about.html" data-en="About" data-zh="关于">关于</a>
-                <a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a>
-                <a href="pages/changelog.html" data-en="ChangeLog" data-zh="更新日志">更新日志</a>
+            
+            <!-- 导航部分 -->
+            <div class="footer-nav-section">
+                <h3 data-en="Quick Links" data-zh="快速链接">快速链接</h3>
+                <div class="footer-links-grid">
+                    <a href="pages/blog.html" data-en="Blog" data-zh="博客">博客</a>
+                    <a href="pages/about.html" data-en="About" data-zh="关于">关于</a>
+                    <a href="pages/changelog.html" data-en="ChangeLog" data-zh="更新日志">更新日志</a>
+                    <a href="pages/gallery.html" data-en="Gallery" data-zh="图集">图集</a>
+                    <a href="pages/categories.html" data-en="Categories" data-zh="分类">分类</a>
+                    <a href="pages/links.html" data-en="Links" data-zh="网站">网站</a>
+                </div>
             </div>
+            
+            <!-- 社交媒体部分 -->
+            <div class="footer-social-section">
+                <h3 data-en="Connect With Me" data-zh="联系我">联系我</h3>
+                <div class="footer-contact-info">
+                    <p data-en="Email: " data-zh="邮箱：">邮箱：<a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
+                    <p data-en="Location: " data-zh="地址：">地址：XX</p>
+                </div>
+                <div class="footer-social-icons">
+                    <a href="https://github.com/CaiNiaojian" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="#" title="WeChat"><i class="fab fa-weixin"></i></a>
+                    <a href="#" target="_blank" title="Twitter/X"><i class="fab fa-twitter"></i></a>
+                    <a href="mailto:example@gmail.com" title="Gmail"><i class="far fa-envelope"></i></a>
+                    <a href="https://steamcommunity.com/id/yoursteamid" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
+                </div>
+                
+                <!-- 时钟部分移到这里 -->
+                <div class="footer-clock-section">
+                    <div class="footer-clock">00:00:00</div>
+                    <div class="footer-date" data-en="2025-05-19 Week One" data-zh="2025年05月19日 星期一">2025年05月19日 星期一</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 页脚底部信息 -->
+        <div class="footer-bottom">
+            <p data-en="Designed with ❤️ by " data-zh="由 ">由 <a href="pages/about.html">HealthJian</a> <span data-en="with " data-zh="用 ">用 </span>❤️ <span data-en="designed" data-zh="设计">设计</span></p>
         </div>
     </footer>
 
@@ -312,5 +353,6 @@
     <script src="js/theme.js"></script>
     <script src="js/language.js"></script>
     <script src="js/greeting.js"></script>
+    <script src="js/footer.js"></script>
 </body>
 </html> 

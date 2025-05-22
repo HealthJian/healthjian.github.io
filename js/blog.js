@@ -17,9 +17,6 @@ function initBlog() {
     
     // 初始化分页
     initPagination();
-    
-    // 初始化SVG交互效果
-    initSvgInteraction();
 }
 
 function initSearch() {
@@ -356,7 +353,7 @@ function getBlogPosts() {
             excerpt: '支持向量机（SVM）是一种用于分类和回归分析的机器学习算法。本文将详细介绍SVM的原理、应用场景、算法实现以及优化方法。',
             excerpt_en: 'Support Vector Machine (SVM) is a machine learning algorithm for classification and regression analysis. This article will detail the principles, applications, algorithm implementation, and optimization methods of SVM.',
             date: '2025-04-14',
-            url: 'blog/tech/svm.html',
+            url: '/pages/blog/tech/svm.html',
             category: 'tech',
             tags: ['支持向量机', '机器学习', '分类', '回归'],
             tags_en: ['Support Vector Machine', 'Machine Learning', 'Classification', 'Regression']
@@ -368,7 +365,7 @@ function getBlogPosts() {
             excerpt: '本文介绍了波士顿房价预测的实验过程，包括数据预处理、特征选择、模型训练和评估等步骤。',
             excerpt_en: 'This article introduces the experimental process of Boston house price prediction, including data preprocessing, feature selection, model training, and evaluation steps.',
             date: '2025-04-12',
-            url: 'blog/tech/machinelearningBostonshouseprices.html',
+            url: '/pages/blog/tech/machinelearningBostonshouseprices.html',
             category: 'tech',
             tags: ['机器学习', '房价预测', '数据预处理', '特征选择', '模型训练', '评估'],
             tags_en: ['Machine Learning', 'House Price Prediction', 'Data Preprocessing', 'Feature Selection', 'Model Training', 'Evaluation']
@@ -380,7 +377,7 @@ function getBlogPosts() {
             excerpt: '考研辅导机构不会告诉你，人生是片没有彼岸的汪洋。那些被装订成册的成功学案例，不过是资本浪潮暂时托起的浪花。真正的救赎或许始于承认：我们从来都不是溺水者，又何须执着于虚构的"岸"？',
             excerpt_en: 'Graduate exam coaching institutions won\'t tell you that life is an ocean without another shore. Those bound success study cases are merely waves temporarily lifted by capital tides. True redemption perhaps begins with acknowledging: we were never drowning, so why obsess over a fictional "shore"?',
             date: '2025-04-09',
-            url: 'blog/life/cannot-rely-on-exam.html',
+            url: '/pages/blog/life/cannot-rely-on-exam.html',
             category: 'life',
             tags: ['考研', '随笔', '人生', '思考'],
             tags_en: ['Graduate Entrance Examination', 'Essay', 'Life', 'Thought']
@@ -392,7 +389,7 @@ function getBlogPosts() {
             excerpt: 'Mingw是一款常用的Windows下的C/C++编译器，本文将详细介绍Mingw的安装教程。',
             excerpt_en: 'Mingw is a commonly used C/C++ compiler in Windows. This article will detail the installation tutorial of Mingw.',
             date: '2025-04-07',
-            url: 'blog/tech/mingw-installation.html',
+            url: '/pages/blog/tech/mingw-installation.html',
             category: 'tech',
             tags: ['Mingw', 'C/C++', '编译器', 'Windows'],
             tags_en: ['Mingw', 'C/C++', 'Compiler', 'Windows']
@@ -404,7 +401,7 @@ function getBlogPosts() {
             excerpt: '本文将详细介绍这个博客的技术栈、架构设计、核心JavaScript功能实现以及部署方案。',
             excerpt_en: 'This article will detail the technical stack, architectural design, core JavaScript functionality implementation, and deployment solutions of this blog.',
             date: '2025-04-06',
-            url: 'blog/tech/blog-building.html',
+            url: '/pages/blog/tech/blog-building.html',
             category: 'tech',
             tags: ['博客', '技术栈', '架构设计', 'JavaScript'],
             tags_en: ['Blog', 'Technical Stack', 'Architecture Design', 'JavaScript']
@@ -416,7 +413,7 @@ function getBlogPosts() {
             excerpt: '系统梳理2025年考研数学二大纲的重要概念、定理和方法，包括多元微积分、级数理论、微分方程等内容，为深入学习打下基础。',
             excerpt_en: 'A systematic review of important concepts, theorems, and methods in 2025 Graduate Entrance Examination Mathematics II Syllabus, including multivariable calculus, series theory, and differential equations, laying the foundation for in-depth study.',
             date: '2025-04-01',
-            url: 'blog/tech/outline-for-advanced-mathematicsⅡ.html',
+            url: '/pages/blog/tech/outline-for-advanced-mathematicsⅡ.html',
             category: 'tech',
             tags: ['考研', '数学', '大纲'],
             tags_en: ['Graduate Entrance Examination', 'Mathematics', 'Syllabus']
@@ -428,7 +425,7 @@ function getBlogPosts() {
             excerpt: '在刷题过程中总是有思路却写不出代码，即使实现功能也往往非常复杂，但是却可以调用已经封装好的API，事半功倍。',
             excerpt_en: 'While solving algorithm problems, we often have ideas but struggle to implement them efficiently. Using built-in APIs can significantly simplify our solutions.',
             date: '2025-03-18',
-            url: 'blog/tech/c-api-algorithms.html',
+            url: '/pages/blog/tech/c-api-algorithms.html',
             category: 'tech',
             tags: ['C语言', '算法', 'API'],
             tags_en: ['C Language', 'Algorithms', 'API']
@@ -440,7 +437,7 @@ function getBlogPosts() {
             excerpt: '学习数据结构往往离不开链表、栈、队列、串；但是知识总是学了忘，忘了继续学，所以总结一个文章，提供未来的继续学习。',
             excerpt_en: 'Learning data structures inevitably involves lists, stacks, queues, and strings. Knowledge tends to fade with time, so here\'s a comprehensive guide for future reference.',
             date: '2025-03-17',
-            url: 'blog/tech/data-structures.html',
+            url: '/pages/blog/tech/data-structures.html',
             category: 'tech',
             tags: ['数据结构', '链表', '栈', '队列'],
             tags_en: ['Data Structures', 'Linked List', 'Stack', 'Queue']
@@ -452,7 +449,7 @@ function getBlogPosts() {
             excerpt: '作为一名程序员，我一直在寻找代码与人文思考之间的平衡点。这是我的第一篇博客，记录了我对编程与生活的思考。',
             excerpt_en: 'As a programmer, I have always been searching for the balance between code and humanistic thinking. This is my first blog, recording my thoughts on programming and life.',
             date: '2025-03-16',
-            url: 'blog/life/first-blog.html',
+            url: '/pages/blog/life/first-blog.html',
             category: 'life',
             tags: ['博客', '随想', '生活'],
             tags_en: ['Blog', 'Thoughts', 'Life']
@@ -467,7 +464,7 @@ function getBlogPosts() {
             excerpt: '探索并行计算的核心概念和使用CUDA进行GPU编程的基础知识，了解如何利用图形处理器加速计算密集型任务。',
             excerpt_en: 'Explore the core concepts of parallel computing and the fundamentals of GPU programming using CUDA, learning how to leverage graphics processors to accelerate computationally intensive tasks.',
             date: '2025-04-01',
-            url: 'blog/tech/parallel-computing-and-gpu-programming-cud.html',
+            url: '/pages/blog/tech/parallel-computing-and-gpu-programming-cud.html',
             category: 'tech',
             tags: ['CUDA', 'GPU编程', '并行计算', '高性能计算'],
             tags_en: ['CUDA', 'GPU Programming', 'Parallel Computing', 'High-Performance Computing']
@@ -479,7 +476,7 @@ function getBlogPosts() {
             excerpt: '介绍机器学习的核心概念、常用算法以及在实际场景中的应用，帮助初学者建立机器学习的知识体系。',
             excerpt_en: 'Introducing core concepts of machine learning, common algorithms, and their applications in real-world scenarios, helping beginners build a knowledge framework for machine learning.',
             date: '2025-04-02',
-            url: 'blog/tech/machine-learning.html',
+            url: '/pages/blog/tech/machine-learning.html',
             category: 'tech',
             tags: ['机器学习', '人工智能', '数据科学', '算法'],
             tags_en: ['Machine Learning', 'Artificial Intelligence', 'Data Science', 'Algorithms']
@@ -491,7 +488,7 @@ function getBlogPosts() {
             excerpt: '系统梳理高等数学Ⅱ的重要概念、定理和方法，包括多元微积分、级数理论、微分方程等内容，为深入学习打下基础。',
             excerpt_en: 'A systematic review of important concepts, theorems, and methods in Advanced Mathematics Ⅱ, including multivariable calculus, series theory, and differential equations, laying the foundation for in-depth study.',
             date: '2025-04-03',
-            url: 'blog/tech/outline-for-advanced-mathematicsⅡ.html',
+            url: '/pages/blog/tech/outline-for-advanced-mathematicsⅡ.html',
             category: 'tech',
             tags: ['高等数学', '微积分', '级数', '微分方程'],
             tags_en: ['Advanced Mathematics', 'Calculus', 'Series', 'Differential Equations']
@@ -503,7 +500,7 @@ function getBlogPosts() {
             excerpt: '详解推荐系统的基本原理、主流算法和实际应用，从协同过滤到深度学习推荐模型，探讨个性化推荐的技术演进。',
             excerpt_en: 'A detailed explanation of the basic principles, mainstream algorithms, and practical applications of recommendation systems, from collaborative filtering to deep learning recommendation models, discussing the technical evolution of personalized recommendations.',
             date: '2025-04-04',
-            url: 'blog/tech/recommendation-system.html',
+            url: '/pages/blog/tech/recommendation-system.html',
             category: 'tech',
             tags: ['推荐系统', '机器学习', '协同过滤', '深度学习'],
             tags_en: ['Recommendation System', 'Machine Learning', 'Collaborative Filtering', 'Deep Learning']
@@ -515,7 +512,7 @@ function getBlogPosts() {
             excerpt: '探讨成就与优绩主义的本质，分析其在现代社会中的作用和影响。',
             excerpt_en: 'Exploring the essence of accomplishments and meritocracy, analyzing its role and impact in modern society.',
             date: '2025-04-05',
-            url: 'blog/life/talk-about-meritocracy.html',
+            url: '/pages/blog/life/talk-about-meritocracy.html',
             category: 'life',
             tags: ['成就', '优绩主义', '大学生活'],
             tags_en: ['Accomplishments', 'Meritocracy', 'College Life']
@@ -539,26 +536,102 @@ function displayPosts(posts) {
     // 获取当前语言
     const currentLang = document.body.classList.contains('en') ? 'en' : 'zh';
     
-    blogList.innerHTML = posts.map(post => `
-        <article class="blog-post">
-            <header class="blog-post-header">
-                <h2 class="blog-post-title" data-en="${post.title_en}" data-zh="${post.title}">${currentLang === 'en' ? post.title_en : post.title}</h2>
-                <div class="blog-post-meta">${post.date}</div>
-            </header>
-            <p class="blog-post-excerpt" data-en="${post.excerpt_en}" data-zh="${post.excerpt}">${currentLang === 'en' ? post.excerpt_en : post.excerpt}</p>
-            <footer class="blog-post-footer">
-                <div class="blog-post-tags">
-                    ${post.tags ? post.tags.map(tag => {
-                        // 为每个标签添加中英文翻译
-                        const tagEn = getTagTranslation(tag, 'en');
-                        const tagZh = getTagTranslation(tag, 'zh');
-                        return `<span class="tag" data-en="${tagEn}" data-zh="${tagZh}">${currentLang === 'en' ? tagEn : tagZh}</span>`;
-                    }).join('') : ''}
-                </div>
-                <a href="/pages/${post.url}" class="read-more" data-en="Read More" data-zh="阅读更多">${currentLang === 'en' ? 'Read More' : '阅读更多'}</a>
-            </footer>
-        </article>
-    `).join('');
+    // 清除之前所有可能的事件监听器
+    blogList.innerHTML = '';
+    
+    // 为每篇文章创建元素而不是使用innerHTML字符串
+    posts.forEach(post => {
+        // 创建文章容器
+        const article = document.createElement('article');
+        article.className = 'blog-post';
+        
+        // 创建标题部分
+        const header = document.createElement('header');
+        header.className = 'blog-post-header';
+        
+        // 创建标题
+        const title = document.createElement('h2');
+        title.className = 'blog-post-title';
+        
+        // 创建标题链接
+        const titleLink = document.createElement('a');
+        titleLink.href = post.url;
+        titleLink.target = "_blank"; // 在新标签页打开
+        titleLink.style.color = 'inherit';
+        titleLink.style.textDecoration = 'none';
+        titleLink.style.display = 'block';
+        titleLink.style.width = '100%';
+        titleLink.style.height = '100%';
+        titleLink.style.position = 'relative';
+        titleLink.style.zIndex = '50';
+        titleLink.setAttribute('data-en', post.title_en);
+        titleLink.setAttribute('data-zh', post.title);
+        titleLink.textContent = currentLang === 'en' ? post.title_en : post.title;
+        
+        // 添加标题链接到标题
+        title.appendChild(titleLink);
+        
+        // 创建日期元素
+        const meta = document.createElement('div');
+        meta.className = 'blog-post-meta';
+        meta.textContent = post.date;
+        
+        // 添加标题和日期到header
+        header.appendChild(title);
+        header.appendChild(meta);
+        
+        // 创建摘要
+        const excerpt = document.createElement('p');
+        excerpt.className = 'blog-post-excerpt';
+        excerpt.setAttribute('data-en', post.excerpt_en);
+        excerpt.setAttribute('data-zh', post.excerpt);
+        excerpt.textContent = currentLang === 'en' ? post.excerpt_en : post.excerpt;
+        
+        // 创建文章底部
+        const footer = document.createElement('footer');
+        footer.className = 'blog-post-footer';
+        
+        // 创建标签容器
+        const tagsContainer = document.createElement('div');
+        tagsContainer.className = 'blog-post-tags';
+        
+        // 添加标签
+        if (post.tags) {
+            post.tags.forEach(tag => {
+                const tagSpan = document.createElement('span');
+                tagSpan.className = 'tag';
+                const tagEn = getTagTranslation(tag, 'en');
+                const tagZh = getTagTranslation(tag, 'zh');
+                tagSpan.setAttribute('data-en', tagEn);
+                tagSpan.setAttribute('data-zh', tagZh);
+                tagSpan.textContent = currentLang === 'en' ? tagEn : tagZh;
+                tagsContainer.appendChild(tagSpan);
+            });
+        }
+        
+        // 创建阅读更多链接
+        const readMore = document.createElement('a');
+        readMore.className = 'read-more';
+        readMore.href = post.url;
+        readMore.target = "_blank"; // 在新标签页打开
+        readMore.style.position = 'relative';
+        readMore.style.zIndex = '50';
+        readMore.setAttribute('data-en', 'Read More');
+        readMore.setAttribute('data-zh', '阅读更多');
+        readMore.textContent = currentLang === 'en' ? 'Read More' : '阅读更多';
+        
+        // 添加标签和阅读更多到footer
+        footer.appendChild(tagsContainer);
+        footer.appendChild(readMore);
+        
+        // 组装文章
+        article.appendChild(header);
+        article.appendChild(excerpt);
+        article.appendChild(footer);
+        
+        // 添加到博客列表
+        blogList.appendChild(article);
+    });
     
     // 如果语言已经切换，确保新加载的元素也应用正确的语言
     updateAllLanguageElements(currentLang);
@@ -844,139 +917,6 @@ function loadPagePosts(page) {
     
     // 显示当前页的文章
     displayPosts(pageItems);
-}
-
-// 初始化SVG交互效果
-function initSvgInteraction() {
-    // 切换日间/夜间SVG图标显示
-    updateSvgByTime();
-    
-    // 每分钟检查一次时间，更新SVG图标
-    setInterval(updateSvgByTime, 60000);
-    
-    // 获取SVG元素
-    const daySvg = document.querySelector('.blog-svg-container .day-svg');
-    const nightSvg = document.querySelector('.blog-svg-container .night-svg');
-    
-    // 为日间SVG添加交互效果
-    if (daySvg) {
-        // 鼠标悬停效果
-        daySvg.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateX(-50%) scale(1.1)';
-            // 保持在适当的位置，不会与标题重叠
-            this.style.top = '1rem';
-            
-            // 加速旋转动画
-            const animateTransform = this.querySelector('animateTransform');
-            if (animateTransform) {
-                animateTransform.setAttribute('dur', '3s');
-            }
-        });
-        
-        // 鼠标离开效果
-        daySvg.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateX(-50%) scale(1)';
-            this.style.top = '1rem';
-            
-            // 恢复原来的动画速度
-            const animateTransform = this.querySelector('animateTransform');
-            if (animateTransform) {
-                animateTransform.setAttribute('dur', '6s');
-            }
-        });
-        
-        // 点击效果
-        daySvg.addEventListener('click', function() {
-            this.style.transform = 'translateX(-50%) scale(0.9)';
-            setTimeout(() => {
-                this.style.transform = 'translateX(-50%) scale(1)';
-            }, 200);
-        });
-    }
-    
-    // 为夜间SVG添加交互效果
-    if (nightSvg) {
-        // 鼠标悬停效果
-        nightSvg.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateX(-50%) scale(1.1)';
-            // 保持在适当的位置，不会与标题重叠
-            this.style.top = '0.5rem'; // 与CSS中设置的值一致
-            
-            // 加速旋转动画
-            const animateTransforms = this.querySelectorAll('animateTransform');
-            if (animateTransforms.length) {
-                animateTransforms.forEach(animate => {
-                    animate.setAttribute('dur', '3s');
-                });
-            }
-        });
-        
-        // 鼠标离开效果
-        nightSvg.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateX(-50%) scale(1)';
-            this.style.top = '0.5rem'; // 与CSS中设置的值一致
-            
-            // 恢复原来的动画速度
-            const animateTransforms = this.querySelectorAll('animateTransform');
-            if (animateTransforms.length) {
-                animateTransforms.forEach(animate => {
-                    animate.setAttribute('dur', '6s');
-                });
-            }
-        });
-        
-        // 点击效果
-        nightSvg.addEventListener('click', function() {
-            this.style.transform = 'translateX(-50%) scale(0.9)';
-            setTimeout(() => {
-                this.style.transform = 'translateX(-50%) scale(1)';
-            }, 200);
-        });
-    }
-}
-
-/**
- * 根据当前时间更新SVG图标显示
- * 6:00-18:00 显示日间图标
- * 19:00-5:00 显示夜间图标
- */
-function updateSvgByTime() {
-    const currentHour = new Date().getHours();
-    const isDayTime = currentHour >= 6 && currentHour <= 18;
-    const isNightTime = currentHour >= 19 || currentHour <= 5;
-    
-    // 获取SVG元素
-    const daySvg = document.querySelector('.blog-svg-container .day-svg');
-    const nightSvg = document.querySelector('.blog-svg-container .night-svg');
-    
-    if (!daySvg || !nightSvg) return;
-    
-    // 如果使用深色模式，则强制显示夜间图标
-    if (document.body.classList.contains('dark-mode')) {
-        daySvg.style.opacity = '0';
-        daySvg.style.visibility = 'hidden';
-        nightSvg.style.opacity = '1';
-        nightSvg.style.visibility = 'visible';
-        nightSvg.style.top = '0.5rem'; // 与CSS中设置的值一致
-        return;
-    }
-    
-    // 根据时间段显示对应的图标
-    if (isDayTime) {
-        // 白天时间显示日间图标
-        daySvg.style.opacity = '1';
-        daySvg.style.visibility = 'visible';
-        daySvg.style.top = '1rem'; // 确保定位正确
-        nightSvg.style.opacity = '0';
-        nightSvg.style.visibility = 'hidden';
-    } else if (isNightTime) {
-        // 夜晚时间显示夜间图标
-        daySvg.style.opacity = '0';
-        daySvg.style.visibility = 'hidden';
-        nightSvg.style.opacity = '1';
-        nightSvg.style.visibility = 'visible';
-        nightSvg.style.top = '0.5rem'; // 与CSS中设置的值一致
-    }
 }
 
 // 更新分页按钮状态
