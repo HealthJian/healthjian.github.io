@@ -120,6 +120,28 @@
 ## 7.pages\blog\noval\one\chapter33.html是错误的！！
 ## 8.pages\project\project.html里面的夜间模式有bug
 ## 9. 给theme.js加一个时间逻辑
+
+使用径向渐变(`bg-gradient-radial`)创建发光效果
+根据主题动态调整渐变颜色和透明度
+通过`motion.div`和`variants`控制发光动画
+使用CSS 3D变换(`rotateX`)实现菜单项的翻转效果
+通过`transformStyle: "preserve-3d"`和`transformOrigin`控制3D空间中的旋转方式
+使用`perspective`属性增强3D效果的深度感
+每个菜单项有独特的渐变发光效果
+使用`scale`和`opacity`动画创建发光扩散效果
+通过`pointer-events-none`确保发光效果不影响交互
+全局应用平滑过渡效果，特别是主题切换时
+使用贝塞尔曲线(`cubic-bezier`)实现自然的动画缓动
+为多个CSS属性同时应用过渡效果
+根据当前主题动态调整UI元素样式
+在暗色模式下增强发光效果的可见度
+主题切换时应用平滑过渡
+**3D变换技术**：通过CSS 3D变换创建立体感和深度
+**精心设计的渐变**：每个菜单项有独特的颜色和渐变效果
+**动态发光效果**：悬停时的发光效果增强视觉反馈
+**平滑过渡**：所有动画和状态变化都有精心调整的过渡效果
+**响应式设计**：适应不同主题和屏幕尺寸
+
 ---
 <div align="center">
   <p>千里之行，始于足下 👣</p>

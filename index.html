@@ -76,6 +76,81 @@
                 <img src="images/newhero.avif" alt="头像" class="avatar" style="width: 243.75px; height: 243.75px;">
             </div>
             
+            <style>
+                /* 头像光晕效果 */
+                .avatar-container {
+                    position: relative;
+                    display: inline-block;
+                    margin-bottom: 20px;
+                }
+                
+                .avatar {
+                    position: relative;
+                    z-index: 2;
+                    border-radius: 50%;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                }
+                
+                .avatar-container::before {
+                    content: "";
+                    position: absolute;
+                    top: -20px;
+                    left: -20px;
+                    right: -20px;
+                    bottom: -20px;
+                    border-radius: 50%;
+                    background: radial-gradient(
+                        ellipse at center,
+                        rgba(255, 215, 0, 0.6) 0%,
+                        rgba(255, 215, 0, 0.2) 40%,
+                        rgba(255, 215, 0, 0) 70%
+                    );
+                    z-index: 1;
+                    animation: pulse-light 4s infinite alternate ease-in-out;
+                }
+                
+                /* 夜间模式下的紫色光晕 */
+                body.dark-mode .avatar-container::before {
+                    background: radial-gradient(
+                        ellipse at center,
+                        rgba(147, 112, 219, 0.6) 0%,
+                        rgba(147, 112, 219, 0.2) 40%,
+                        rgba(147, 112, 219, 0) 70%
+                    );
+                    animation: pulse-dark 4s infinite alternate ease-in-out;
+                }
+                
+                @keyframes pulse-light {
+                    0% {
+                        transform: scale(1);
+                        opacity: 0.7;
+                    }
+                    50% {
+                        transform: scale(1.05);
+                        opacity: 0.9;
+                    }
+                    100% {
+                        transform: scale(1);
+                        opacity: 0.7;
+                    }
+                }
+                
+                @keyframes pulse-dark {
+                    0% {
+                        transform: scale(1);
+                        opacity: 0.7;
+                    }
+                    50% {
+                        transform: scale(1.05);
+                        opacity: 0.9;
+                    }
+                    100% {
+                        transform: scale(1);
+                        opacity: 0.7;
+                    }
+                }
+            </style>
+            
             <!-- 添加问候语元素 -->
             <div class="greeting-text">
                 <span class="greeting" data-en="" data-zh=""></span>
