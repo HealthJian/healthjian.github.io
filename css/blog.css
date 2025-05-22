@@ -6,13 +6,16 @@
 
 /* SVG动态图容器样式 */
 .blog-svg-container {
+    position: relative;
+    width: 100%;
     display: flex;
     justify-content: center;
-    margin-bottom: 2rem;
-    padding-top: 1rem;
-    position: relative;
-    height: 140px;
+    align-items: center;
+    margin: 0 auto 2.5rem;
+    padding-top: 1.5rem;
+    height: 150px;
     overflow: visible;
+    z-index: 2;
 }
 
 .blog-svg-container svg {
@@ -26,7 +29,7 @@
 .blog-svg-container .day-svg,
 .blog-svg-container .night-svg {
     position: absolute;
-    top: 1rem;
+    top: 1.5rem;
     left: 50%;
     transform: translateX(-50%);
 }
@@ -40,7 +43,7 @@
 .blog-svg-container .night-svg {
     width: 110px;
     height: 110px;
-    top: 0.5rem;
+    top: 1.2rem;
     opacity: 0;
     visibility: hidden;
 }

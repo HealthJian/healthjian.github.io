@@ -4,6 +4,16 @@
  * 描述: 为博客页面提供现代化的视觉设计和交互体验
  */
 
+/* 定义变量 */
+:root {
+  --accent-color-rgb: 52, 152, 219; /* 主色调RGB值，用于透明度设置 */
+  --card-background-rgb: 255, 255, 255; /* 卡片背景色RGB值 */
+}
+
+.dark-mode {
+  --card-background-rgb: 42, 42, 42; /* 暗色模式卡片背景色 */
+}
+
 /* 页面整体增强 */
 main {
   position: relative;
@@ -70,7 +80,7 @@ main {
 .blog-title-styled {
   font-size: 2.5rem;
   text-align: center;
-  margin: 0 0 20px;
+  margin: 1rem 0 20px;
   background: linear-gradient(135deg, var(--accent-color), var(--accent-color-secondary));
   -webkit-background-clip: text;
   background-clip: text;
@@ -109,11 +119,31 @@ main {
   z-index: -1;
 }
 
-/* 注意: 这里不覆盖原始的blog-svg-container样式，因为它在blog.css中已经定义 */
-
 /* 增强版SVG效果 */
+.blog-svg-container {
+  position: relative;
+  isolation: isolate;
+}
+
+.blog-svg-container::before {
+  content: '';
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, rgba(var(--accent-color-rgb), 0.05), transparent 70%);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+
 .blog-svg-container svg {
   filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.1));
+}
+
+.dark-mode .blog-svg-container svg {
+  filter: drop-shadow(0 5px 15px rgba(255, 255, 255, 0.05));
 }
 
 /* 搜索框全新设计 - 现代精致版 */
@@ -178,7 +208,7 @@ main {
 .blog-search input {
   width: 100%;
   height: 100%;
-  padding: 0 50px 0 40px;
+  padding: 0 80px 0 40px;
   border: none;
   background: transparent;
   font-size: 0.95rem;
@@ -211,7 +241,7 @@ main {
 }
 
 /* 搜索按钮 */
-.blog-search button {
+#search-button {
   position: absolute;
   right: 5px;
   top: 50%;
@@ -228,6 +258,219 @@ main {
   cursor: pointer;
   transition: all 0.3s ease;
   padding: 0;
+}
+
+/* 搜索类型切换按钮 */
+#search-type-toggle {
+  position: absolute;
+  right: 45px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  color: #999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+#search-type-toggle:hover {
+  color: var(--accent-color);
+  background: rgba(0, 0, 0, 0.03);
+}
+
+/* 搜索选项下拉菜单 */
+.search-dropdown {
+  position: relative;
+}
+
+.search-options {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  width: 220px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  padding: 10px 0;
+  z-index: 1001; /* 全局顶置 */
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.search-options.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.search-option {
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 5px 0;
+  border-left: 3px solid transparent;
+}
+
+.search-option:hover {
+  background: rgba(0, 0, 0, 0.03);
+  border-left: 3px solid var(--accent-color-light);
+}
+
+.search-option[data-active="true"] {
+  color: var(--accent-color);
+  font-weight: 500;
+  border-left: 3px solid var(--accent-color);
+  background: rgba(var(--accent-color-rgb), 0.05);
+}
+
+.search-option i {
+  margin-right: 10px;
+  width: 16px;
+  text-align: center;
+}
+
+/* 暗色模式适配 */
+.dark-mode .search-options {
+  background: #222;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 搜索结果样式 */
+.search-highlight {
+  animation: search-highlight-pulse 2s infinite;
+  position: relative;
+}
+
+@keyframes search-highlight-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(var(--accent-color-rgb), 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(var(--accent-color-rgb), 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--accent-color-rgb), 0);
+  }
+}
+
+.no-search-results {
+  text-align: center;
+  padding: 30px;
+  background: rgba(var(--accent-color-rgb), 0.05);
+  border-radius: 10px;
+  margin: 20px auto;
+  max-width: 600px;
+  font-size: 1.1rem;
+  color: #666;
+  border: 1px dashed rgba(var(--accent-color-rgb), 0.2);
+  display: none;
+  animation: fadeIn 0.5s ease;
+}
+
+.dark-mode .no-search-results {
+  background: rgba(var(--accent-color-rgb), 0.1);
+  color: #aaa;
+}
+
+/* 搜索动画 */
+.searching-animation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  margin: 20px auto;
+  max-width: 400px;
+  background: rgba(var(--accent-color-rgb), 0.03);
+  border-radius: 10px;
+  animation: fadeIn 0.3s ease;
+}
+
+.searching-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(var(--accent-color-rgb), 0.1);
+  border-top: 3px solid var(--accent-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+.searching-text {
+  font-size: 1.1rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.dark-mode .searching-text {
+  color: #aaa;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 搜索关键词高亮 */
+.search-term-highlight {
+  background: rgba(var(--accent-color-rgb), 0.2);
+  padding: 0 3px;
+  border-radius: 3px;
+  font-weight: bold;
+  color: var(--accent-color-dark);
+  display: inline-block;
+  animation: highlight-pulse 2s infinite;
+}
+
+.dark-mode .search-term-highlight {
+  background: rgba(var(--accent-color-rgb), 0.3);
+  color: #fff;
+}
+
+@keyframes highlight-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* 添加遮罩层 */
+.search-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.search-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.dark-mode .search-option:hover {
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .blog-search button::before {

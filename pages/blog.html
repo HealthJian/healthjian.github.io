@@ -71,8 +71,16 @@
                 <div class="blog-search-container">
                     <div class="blog-search-inner">
                         <i class="fas fa-search blog-search-icon"></i>
-                        <input type="text" placeholder="搜索文章..." data-en-placeholder="Search posts..." data-zh-placeholder="搜索文章...">
-                        <button><i class="fas fa-arrow-right"></i></button>
+                        <input type="text" id="search-input" placeholder="搜索文章..." data-en-placeholder="Search posts..." data-zh-placeholder="搜索文章...">
+                        <div class="search-dropdown">
+                            <button id="search-type-toggle"><i class="fas fa-globe"></i></button>
+                            <div class="search-options">
+                                <div class="search-option" data-type="local" data-active="true"><i class="fas fa-file-alt"></i> <span data-en="Blog Posts" data-zh="博客文章">博客文章</span></div>
+                                <div class="search-option" data-type="bing"><i class="fab fa-microsoft"></i> <span data-en="Bing Search" data-zh="必应搜索">必应搜索</span></div>
+                                <div class="search-option" data-type="google"><i class="fab fa-google"></i> <span data-en="Google Search" data-zh="谷歌搜索">谷歌搜索</span></div>
+                            </div>
+                        </div>
+                        <button id="search-button"><i class="fas fa-arrow-right"></i></button>
                     </div>
                 </div>
             </div>
@@ -130,6 +138,7 @@
     <script src="../js/theme.js"></script>
     <script src="../js/language.js"></script>
     <script src="../js/blog.js"></script>
+    <script src="../js/enhanced-search.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // 初始化博客功能
