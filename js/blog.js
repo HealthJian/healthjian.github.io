@@ -347,6 +347,18 @@ function getBlogPosts() {
     // 文章数据
     return [
         {
+            id: 'studyrethink',
+            title: '学习进度与心态的反思',
+            title_en: 'Reflection on Learning Progress and Mindset',
+            excerpt: '在学习的道路上，我们常常会陷入迷茫和困惑。本文将探讨学习进度与心态之间的关系，以及如何通过调整心态来促进学习效率。',
+            excerpt_en: 'On the path of learning, we often get lost and confused. This article will explore the relationship between learning progress and mindset, and how to adjust mindset to promote learning efficiency.',
+            date: '2025-05-25',
+            url: '/pages/blog/life/studyrethink.html',
+            category: 'life',
+            tags: ['学习', '心态', '反思', '效率'],
+            tags_en: ['Learning', 'Mindset', 'Reflection', 'Efficiency']
+        },
+        {
             id: 'svm',
             title: '支持向量机（SVM）算法详解',
             title_en: 'Support Vector Machine (SVM) Algorithm',
@@ -713,7 +725,11 @@ function getTagTranslation(tag, targetLang) {
         '机器学习': 'Machine Learning',
         '房价预测': 'House Price Prediction',
         '数据预处理': 'Data Preprocessing',
-        
+        '学习进度与心态的反思': 'Reflection on Learning Progress and Mindset',
+        '学习': 'Learning',
+        '心态': 'Mindset',
+        '反思': 'Reflection',
+        '效率': 'Efficiency',
         
         /* 新增标签翻译结束 */
         
@@ -801,6 +817,11 @@ function getTagTranslation(tag, targetLang) {
         '机器学习': 'Machine Learning',
         '房价预测': 'House Price Prediction',
         '数据预处理': 'Data Preprocessing',
+        '学习进度与心态的反思': 'Reflection on Learning Progress and Mindset',
+        '学习': 'Learning',
+        '心态': 'Mindset',
+        '反思': 'Reflection',
+        '效率': 'Efficiency',
         
         /* 新增标签翻译结束 */
     };
