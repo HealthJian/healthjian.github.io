@@ -347,6 +347,18 @@ function getBlogPosts() {
     // 文章数据
     return [
         {
+            id: 'cnn-paddle',
+            title: '基于PaddlePaddle的卷积神经网络实现-十二猫分类',
+            title_en: 'Convolutional Neural Network Implementation Based on PaddlePaddle - Cat Classification',
+            excerpt: '介绍基于PaddlePaddle的卷积神经网络实现-十二猫分类',
+            excerpt_en: 'Introduction to Convolutional Neural Network Implementation Based on PaddlePaddle - Cat Classification',
+            date: '2025-05-30',
+            url: '/pages/blog/tech/CNN-paddle.html',
+            category: 'tech',
+            tags: ['PaddlePaddle', '卷积神经网络', '猫咪分类'],
+            tags_en: ['PaddlePaddle', 'Convolutional Neural Network', 'Cat Classification']
+        },
+        {
             id: 'studyrethink',
             title: '学习进度与心态的反思',
             title_en: 'Reflection on Learning Progress and Mindset',
@@ -730,7 +742,9 @@ function getTagTranslation(tag, targetLang) {
         '心态': 'Mindset',
         '反思': 'Reflection',
         '效率': 'Efficiency',
-        
+        'PaddlePaddle': 'PaddlePaddle',
+        '卷积神经网络': 'Convolutional Neural Network',
+        '猫咪分类': 'Cat Classification',
         /* 新增标签翻译结束 */
         
         // 中文到英文的映射
@@ -822,7 +836,9 @@ function getTagTranslation(tag, targetLang) {
         '心态': 'Mindset',
         '反思': 'Reflection',
         '效率': 'Efficiency',
-        
+        'PaddlePaddle': 'PaddlePaddle',
+        '卷积神经网络': 'Convolutional Neural Network',
+        '猫咪分类': 'Cat Classification',
         /* 新增标签翻译结束 */
     };
     

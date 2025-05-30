@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基于PaddlePaddle的卷积神经网络实现-十二猫分类 - HealthJian的博客</title>
+    <!-- 根据实际路径调整CSS引用路径 -->
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/dark-mode.css">
+    <link rel="stylesheet" href="../../../css/blog-post.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="light-mode">
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <!-- 根据实际部署的文件夹深度调整路径 -->
+            <a href="../../../index.html" class="logo">
+                <img src="../../../images/githubherofigureimage.png" alt="Logo">
+                <span class="site-name" data-en="HealthJian Blog" data-zh="HealthJian">HealthJian</span>
+            </a>
+        </div>
+        <div class="nav-right">
+            <ul class="menu">
+                <!-- 根据实际部署的文件夹深度调整路径 -->
+                <li><a href="../../../index.html" data-en="Home" data-zh="首页">首页</a></li>
+                <li><a href="../../blog.html" data-en="Blog" data-zh="博客">博客</a></li>
+                <li><a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a></li>
+                <li><a href="../../links.html" data-en="Links" data-zh="链接">链接</a></li>
+                <li><a href="../../about.html" data-en="About" data-zh="关于">关于</a></li>
+            </ul>
+            <div class="social-icons">
+                <a href="https://steamcommunity.com/id/yoursteamid" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
+                <a href="mailto:gaojian1573@foxmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+            <button id="theme-toggle" class="theme-toggle" title="切换主题">
+                <i class="fas fa-moon"></i>
+                <i class="fas fa-sun"></i>
+            </button>
+            <button id="lang-toggle" class="lang-toggle" title="切换语言">
+                <span data-en="EN" data-zh="中">中</span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="blog-post-container">
+        <!-- 侧边栏 -->
+        <aside class="blog-sidebar">
+            <div class="toc-container">
+                <h3 data-en="Table of Contents" data-zh="目录">目录</h3>
+                <ul class="toc-list">
+                    <!-- 文章目录，根据实际内容添加或修改 -->
+                    <li><a href="#section-1" data-en="I. First Submission" data-zh="一、第一次提交">一、第一次提交</a></li>
+                    <li><a href="#section-2" data-en="II. Second Submission" data-zh="二、第二次提交">二、第二次提交</a></li>
+                    <li><a href="#section-3" data-en="III. Third Submission" data-zh="三、第三次提交">三、第三次提交</a></li>
+                    <!-- 根据需要添加更多章节 -->
+                </ul>
+            </div>
+            
+            <div class="post-meta-info">
+                <div class="post-date">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>2025-05-30</span> <!-- 更新实际发布日期 -->
+                </div>
+                <div class="post-tags">
+                    <i class="fas fa-tags"></i>
+                    <!-- 根据文章主题修改标签 -->
+                    <span class="tag" data-en="CNN" data-zh="卷积神经网络">卷积神经网络</span>
+                    <span class="tag" data-en="PaddlePaddle" data-zh="PaddlePaddle">PaddlePaddle</span>
+                    <span class="tag" data-en="Image Classification" data-zh="图像分类">图像分类</span>
+                </div>
+                <div class="post-category">
+                    <i class="fas fa-folder"></i>
+                    <!-- 修改为实际分类 -->
+                    <span data-en="Tech/Deep Learning" data-zh="技术/深度学习">技术/深度学习</span>
+                </div>
+            </div>
+            
+            <div class="post-navigation">
+                <h3 data-en="Navigation" data-zh="导航">导航</h3>
+                <div class="nav-buttons">
+                    <a href="../../blog.html" class="nav-button" data-en="Back to Blog" data-zh="返回博客列表">
+                        <i class="fas fa-arrow-left"></i>
+                        <span data-en="Back to Blog" data-zh="返回博客列表">返回博客列表</span>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 文章主体 -->
+        <main class="blog-post-main">
+            <article class="blog-post-content">
+                <header class="post-header">
+                    <h1 class="post-title">
+                        <div class="bilingual-content">
+                            <span class="zh-content">基于PaddlePaddle的卷积神经网络实现-十二猫分类</span>
+                            <span class="en-content" style="display: none;">Convolutional Neural Network Implementation Based on PaddlePaddle - Cat Classification</span>
+                        </div>
+                    </h1>
+                </header>
+                
+                <div class="post-body">
+                    <!-- 第一部分：引言 -->
+                    <section id="section-1">
+                        <h2 data-en="I. First Submission 55 points" data-zh="一、第一次提交55分">一、第一次提交55分</h2>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>第一次提交</strong><br>
+                                利用训练的模型来预测数据所属的类别。包含12种类的猫的图片。目前结果只有55分，后续将进一步优化</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>First Submission</strong><br>
+                            Use the trained model to predict the category of the data. The data contains 12 kinds of cat images. The current result is only 55 points, and further optimization will be made later.</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>项目背景</strong><br>
+                            本项目基于百度飞桨深度学习框架PaddlePaddle，实现一个卷积神经网络(CNN)模型用于十二种猫咪品种的图像分类任务。计算机视觉领域的图像分类是深度学习应用的基础性任务，通过本项目可以掌握CNN模型设计与实现的核心技术，以及深度学习模型训练与优化的完整流程。</p>
+                            
+                            <p class="zh-content">本项目旨在解决多类别图像识别问题，具体针对12种不同猫咪品种的精确分类。通过构建和训练深度学习模型，实现对未知猫咪图像的自动分类，这不仅展示了深度学习在计算机视觉领域的应用能力，也为宠物识别、动物学研究提供了技术支持。</p>
+                            
+                            <p class="zh-content">项目的实际意义在于：</p>
+                            <ol class="zh-content">
+                                <li>为图像分类领域提供一个完整的深度学习应用案例</li>
+                                <li>探索CNN模型在细粒度图像分类中的有效性</li>
+                                <li>展示PaddlePaddle框架在实际项目中的应用方法</li>
+                                <li>通过模型迭代优化过程，展示深度学习模型性能提升的方法论</li>
+                            </ol>
+                            
+                            <p class="zh-content">项目采用经典的卷积神经网络架构，包含4个卷积层，每层后接批归一化和最大池化，最终通过全连接层实现分类。模型训练过程中采用数据增强技术提高泛化能力，并使用Dropout防止过拟合。</p>
+                            
+                            <p class="zh-content">作为一个完整的深度学习应用项目，它涵盖了从数据处理、模型设计、训练优化到最终预测的全流程，为学习深度学习技术提供了实用参考。</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Project Background</strong><br>
+                            This project utilizes Baidu's PaddlePaddle deep learning framework to implement a Convolutional Neural Network (CNN) model for classifying twelve cat breeds. Image classification in computer vision is a fundamental task in deep learning applications. Through this project, one can master the core techniques of CNN model design and implementation, as well as the complete process of deep learning model training and optimization.</p>
+                            
+                            <p class="en-content" style="display: none;">The project aims to solve a multi-class image recognition problem, specifically targeting the accurate classification of 12 different cat breeds. By building and training a deep learning model, we achieve automatic classification of unknown cat images, which not only demonstrates the application capabilities of deep learning in computer vision but also provides technical support for pet recognition and zoological research.</p>
+                            
+                            <p class="en-content" style="display: none;">The practical significance of the project includes:</p>
+                            <ol class="en-content" style="display: none;">
+                                <li>Providing a complete deep learning application case for image classification</li>
+                                <li>Exploring the effectiveness of CNN models in fine-grained image classification</li>
+                                <li>Demonstrating how to apply the PaddlePaddle framework in practical projects</li>
+                                <li>Showcasing methodologies for improving deep learning model performance through iterative optimization</li>
+                            </ol>
+                            
+                            <p class="en-content" style="display: none;">The project employs a classic convolutional neural network architecture with 4 convolutional layers, each followed by batch normalization and max pooling, ultimately achieving classification through fully connected layers. During model training, data augmentation techniques are used to improve generalization ability, and Dropout is employed to prevent overfitting.</p>
+                            
+                            <p class="en-content" style="display: none;">As a complete deep learning application project, it covers the entire process from data processing, model design, and training optimization to final prediction, providing a practical reference for learning deep learning technology.</p>
+                        </div>
+
+                    </section>
+                    
+                    
+                        
+                        <!-- 代码示例(第一次提交的结果，只有55分) -->
+                        <div class="code-block">
+                            <pre><code class="language-python"># 解压数据
+import os
+import zipfile
+import shutil
+import random
+
+def unzip(zip_path, unzip_path):
+    z = zipfile.ZipFile(zip_path, 'r')
+    z.extractall(path=unzip_path)
+    z.close()
+    print('已解压')
+                                
+def randrow(file_path, rnd_path):
+    out = open(rnd_path, 'w')
+    lines=[]
+    with open(file_path, 'r') as infile:
+        for line in infile:
+            lines.append(line)
+    for i in range(6):
+        random.shuffle(lines)
+    for line in lines:
+        out.write(line)
+    print('已打乱数据')
+                                
+unzip('data/data10954/cat_12_test.zip', '')
+unzip('data/data10954/cat_12_train.zip', '')
+shutil.copy('data/data10954/train_list.txt', 'train_list.txt')  # list移动
+rnd_path = 'train_list_rnd.txt'
+randrow('train_list.txt', rnd_path)  # 打乱数据
+                                
+# 按比例随机切割数据集
+train = open('train_split_list.txt','w')
+val = open('val_split_list.txt','w')
+test = open('test_split_list.txt','w')
+with open('train_list_rnd.txt','r') as f:
+    lines = f.readlines()
+for (lid, line) in enumerate(lines, start=1):
+    img, label = line.split('\t')
+    new_data = img + ' ' + label
+    if (lid+1) % 10 == 0:
+        val.write(new_data)
+    elif lid % 10 == 0:
+        test.write(new_data)
+    else: 
+        train.write(new_data)
+train.close()
+val.close()
+test.close()
+os.remove('train_list.txt')
+os.remove('train_list_rnd.txt')
+print('已生成新的数据集合')
+                                
+# 生成标签
+with open('label_list.txt','w') as f:
+    for i in range(12):
+        f.write(str(i) + '\n')
+print('已生成标签')
+                                
+# 预测数据集读取到predict_list
+predict_list = []
+test_path = "cat_12_test"
+predict_txt_path = "predict_list.txt"
+img_paths = os.listdir(test_path)
+for img_path in img_paths:
+    name_path = test_path + '/' + img_path
+    predict_list.append(name_path + '\n')
+with open(predict_txt_path, 'w') as f: 
+    f.seek(0)
+    f.truncate() 
+with open(predict_txt_path, 'a') as f:
+    f.writelines(predict_list)
+print('已生成预测数据')
+                            </code></pre>
+                        </div>
+                        <div class="code-block">
+                            <pre><code class="language-python">
+import os
+import numpy as np
+import paddle.fluid as fluid
+from paddle.fluid.dygraph import Pool2D, Conv2D, Linear, BatchNorm
+from paddle.fluid.dygraph import to_variable
+from PIL import Image
+import random
+import matplotlib.pyplot as plt
+import time
+
+# 设置训练参数
+BATCH_SIZE = 32
+EPOCHS = 50
+IMAGE_SIZE = (224, 224)
+CLASS_NUM = 12
+LEARNING_RATE = 0.0001
+                                
+# 定义改进的CNN模型 - 修复Dropout问题
+class CatClassifier(fluid.dygraph.Layer):
+    def __init__(self):
+        super(CatClassifier, self).__init__()
+        # 卷积层1
+        self.conv1 = Conv2D(num_channels=3, num_filters=64, filter_size=3, stride=1, padding=1, act='relu')
+        self.bn1 = BatchNorm(num_channels=64, act='relu')
+        self.pool1 = Pool2D(pool_size=2, pool_stride=2, pool_type='max')
+        
+        # 卷积层2
+        self.conv2 = Conv2D(num_channels=64, num_filters=128, filter_size=3, stride=1, padding=1, act='relu')
+        self.bn2 = BatchNorm(num_channels=128, act='relu')
+        self.pool2 = Pool2D(pool_size=2, pool_stride=2, pool_type='max')
+        
+        # 卷积层3
+        self.conv3 = Conv2D(num_channels=128, num_filters=256, filter_size=3, stride=1, padding=1, act='relu')
+        self.bn3 = BatchNorm(num_channels=256, act='relu')
+        self.pool3 = Pool2D(pool_size=2, pool_stride=2, pool_type='max')
+        
+        # 卷积层4
+        self.conv4 = Conv2D(num_channels=256, num_filters=512, filter_size=3, stride=1, padding=1, act='relu')
+        self.bn4 = BatchNorm(num_channels=512, act='relu')
+        self.pool4 = Pool2D(pool_size=2, pool_stride=2, pool_type='max')
+        
+        # 全连接层
+        self.fc1 = Linear(input_dim=512 * 14 * 14, output_dim=1024, act='relu')
+        self.fc2 = Linear(input_dim=1024, output_dim=512, act='relu')
+        self.fc3 = Linear(input_dim=512, output_dim=CLASS_NUM)
+        
+        # 使用fluid.layers.dropout替代
+        self.dropout_prob = 0.5
+                                
+    def forward(self, x, is_training=False):
+        x = self.conv1(x)
+        x = self.bn1(x)
+        x = self.pool1(x)
+        
+        x = self.conv2(x)
+        x = self.bn2(x)
+        x = self.pool2(x)
+        
+        x = self.conv3(x)
+        x = self.bn3(x)
+        x = self.pool3(x)
+        
+        x = self.conv4(x)
+        x = self.bn4(x)
+        x = self.pool4(x)
+        
+        x = fluid.layers.reshape(x, [x.shape[0], -1])
+        x = self.fc1(x)
+        x = fluid.layers.dropout(x, dropout_prob=self.dropout_prob, is_test=not is_training)
+        x = self.fc2(x)
+        x = fluid.layers.dropout(x, dropout_prob=self.dropout_prob, is_test=not is_training)
+        x = self.fc3(x)
+        return x
+                                
+# 数据预处理
+def process_image(image_path, mode='train'):
+    img = Image.open(image_path).convert('RGB')
+    
+    if mode == 'train':
+        # 训练时添加随机增强
+        if random.random() > 0.5:
+            img = img.transpose(Image.FLIP_LEFT_RIGHT)
+        if random.random() > 0.7:
+            img = img.rotate(random.randint(-15, 15))
+        
+    img = img.resize(IMAGE_SIZE, Image.BILINEAR)
+    img = np.array(img).astype('float32').transpose((2, 0, 1))
+    
+    # 归一化
+    img = img / 255.0
+    return img
+                                
+# 加载训练数据 - 修复路径问题
+def load_train_data(train_dir, label_path):
+    data_list = []
+    label_map = {}
+    
+    # 读取标签文件 - 处理可能的路径问题
+    try:
+        print(f"尝试读取标签文件: {label_path}")
+        if not os.path.exists(label_path):
+            print(f"标签文件不存在: {label_path}")
+            return []
+                                        
+        with open(label_path, 'r') as f:
+            for line in f:
+                parts = line.strip().split()
+                if len(parts) >= 2:
+                    # 获取纯文件名（不带路径）
+                    img_name = os.path.basename(parts[0])
+                    try:
+                        label = int(parts[1])
+                        label_map[img_name] = label
+                    except ValueError:
+                        print(f"无效标签值: {parts[1]} (图片: {img_name})")
+        except Exception as e:
+            print(f"读取标签文件错误: {e}")
+            return []
+        
+        # 遍历训练目录 - 检查路径是否存在
+        if not os.path.exists(train_dir):
+            print(f"训练目录不存在: {train_dir}")
+            return []
+        
+        # 收集匹配的文件
+        for img_name in os.listdir(train_dir):
+            if img_name in label_map:
+                img_path = os.path.join(train_dir, img_name)
+                data_list.append((img_path, label_map[img_name]))
+        
+        # 打印数据统计信息
+        print(f"成功加载 {len(data_list)} 个训练样本")
+        
+        if len(data_list) == 0:
+            print("警告: 没有加载到任何训练样本!")
+            print("可能原因:")
+            print(f"1. 标签文件路径 '{label_path}' 不正确")
+            print(f"2. 训练目录 '{train_dir}' 不正确")
+            print("3. 标签文件中的图片名与训练目录中的文件名不匹配")
+            print("4. 标签文件格式错误")
+            print("5. 标签文件中的图片路径格式不正确")
+        
+        return data_list
+                                
+# 计算准确率
+def calculate_accuracy(preds, labels, topk=(1, 5)):
+    """计算top-k准确率"""
+    maxk = max(topk)
+    batch_size = labels.shape[0]
+                                    
+    # 获取预测结果中概率最大的k个类别
+    _, pred = fluid.layers.topk(preds, k=maxk)
+    pred = pred.numpy()
+    correct = np.zeros((batch_size, maxk), dtype=bool)
+                                    
+    # 检查真实标签是否在前k个预测中
+    for i in range(batch_size):
+        correct[i] = pred[i] == labels[i]
+                                    
+    accuracies = []
+    for k in topk:
+        correct_k = correct[:, :k].any(axis=1).sum()
+        accuracies.append(correct_k * 100.0 / batch_size)
+                                    
+    return accuracies
+                                
+# 训练模型
+def train_model():
+    # 加载训练数据
+    train_dir = './cat_12_train'
+    label_path = '/home/aistudio/data/data10954/train_list.txt'
+    
+    print(f"训练目录: {os.path.abspath(train_dir)}")
+    print(f"标签路径: {os.path.abspath(label_path)}")
+                                    
+    # 检查目录是否存在
+    if not os.path.exists(train_dir):
+        print(f"训练目录不存在: {train_dir}")
+        # 尝试使用AI Studio的默认路径
+        default_train_dir = '/home/aistudio/data/data10954/cat_12_train'
+        print(f"尝试使用默认训练目录: {default_train_dir}")
+        if os.path.exists(default_train_dir):
+            train_dir = default_train_dir
+            print(f"使用默认训练目录: {train_dir}")
+        else:
+            print("找不到训练目录，无法继续")
+            return
+                                    
+    train_data = load_train_data(train_dir, label_path)
+                                    
+    if len(train_data) == 0:
+        print("错误: 没有训练数据可用，无法训练模型")
+        return
+                                    
+    # 创建模型
+    with fluid.dygraph.guard():
+        model = CatClassifier()
+        model.train()
+                                        
+        # 定义优化器和损失函数
+        optimizer = fluid.optimizer.AdamOptimizer(
+            learning_rate=LEARNING_RATE, 
+            parameter_list=model.parameters()
+        )
+                                        
+        # 训练循环
+        loss_history = []
+        acc_top1_history = []
+        acc_top5_history = []
+        
+        total_steps = (len(train_data) + BATCH_SIZE - 1) // BATCH_SIZE
+                                        
+        for epoch in range(EPOCHS):
+            random.shuffle(train_data)
+            epoch_losses = []
+            epoch_acc_top1 = []
+            epoch_acc_top5 = []
+                                            
+            epoch_start_time = time.time()
+            print(f"\nEpoch {epoch+1}/{EPOCHS}")
+                                            
+            for step in range(0, len(train_data), BATCH_SIZE):
+                batch_start_time = time.time()
+                batch_data = train_data[step:step+BATCH_SIZE]
+                if not batch_data:
+                    continue
+                                                
+                # 准备batch数据
+                images = []
+                labels = []
+                for img_path, label in batch_data:
+                    try:
+                        img = process_image(img_path, mode='train')
+                        images.append(img)
+                        labels.append(label)
+                    except Exception as e:
+                        print(f"处理图片 {img_path} 错误: {e}")
+                        continue
+                                                
+                if not images:
+                    continue
+                                                
+                # 转换为Variable
+                image_data = np.array(images)
+                label_data = np.array(labels).astype('int64').reshape(-1, 1)
+                                                
+                image_var = to_variable(image_data)
+                label_var = to_variable(label_data)
+                                                
+                # 前向传播
+                pred = model(image_var, is_training=True)
+                loss = fluid.layers.softmax_with_cross_entropy(pred, label_var)
+                loss = fluid.layers.mean(loss)
+                                                
+                # 计算准确率
+                acc_top1, acc_top5 = calculate_accuracy(pred, label_data.flatten(), topk=(1, 5))
+                epoch_acc_top1.append(acc_top1)
+                epoch_acc_top5.append(acc_top5)
+                                                
+                # 反向传播
+                loss.backward()
+                optimizer.minimize(loss)
+                model.clear_gradients()
+                                                
+                # 记录损失
+                loss_value = loss.numpy()[0]
+                epoch_losses.append(loss_value)
+                                                
+                # 计算进度
+                current_step = step // BATCH_SIZE + 1
+                progress = current_step / total_steps
+                progress_bar_length = 30
+                filled_length = int(progress_bar_length * progress)
+                progress_bar = '[' + '=' * filled_length + '.' * (progress_bar_length - filled_length) + ']'
+                                                
+                # 计算剩余时间
+                elapsed_time = time.time() - batch_start_time
+                steps_remaining = total_steps - current_step
+                eta_seconds = steps_remaining * elapsed_time
+                eta_minutes = int(eta_seconds // 60)
+                eta_seconds = int(eta_seconds % 60)
+                                                
+                # 打印训练日志
+                print(f"step {current_step:3d}/{total_steps} {progress_bar} - loss: {loss_value:.4f} - acc_top1: {np.mean(epoch_acc_top1):.4f} - acc_top5: {np.mean(epoch_acc_top5):.4f} - ETA: {eta_minutes}m{eta_seconds:02d}s")
+                                            
+                # 计算平均损失和准确率
+                if epoch_losses:
+                    avg_loss = np.mean(epoch_losses)
+                    avg_acc_top1 = np.mean(epoch_acc_top1)
+                    avg_acc_top5 = np.mean(epoch_acc_top5)
+                    loss_history.append(avg_loss)
+                    acc_top1_history.append(avg_acc_top1)
+                    acc_top5_history.append(avg_acc_top5)
+                    epoch_time = time.time() - epoch_start_time
+                    print(f"Epoch {epoch+1}/{EPOCHS} finished. Loss: {avg_loss:.4f}, Top1 Acc: {avg_acc_top1:.2f}%, Top5 Acc: {avg_acc_top5:.2f}%, Time: {epoch_time:.1f}s")
+                                        
+                # 绘制损失和准确率曲线
+                plt.figure(figsize=(15, 5))
+                                        
+                # 损失曲线
+                plt.subplot(1, 2, 1)
+                plt.plot(loss_history, label='Training Loss')
+                plt.xlabel('Epochs')
+                plt.ylabel('Loss')
+                plt.title('Training Loss History')
+                plt.legend()
+                                        
+                # 准确率曲线
+                plt.subplot(1, 2, 2)
+                plt.plot(acc_top1_history, label='Top1 Accuracy')
+                plt.plot(acc_top5_history, label='Top5 Accuracy')
+                plt.xlabel('Epochs')
+                plt.ylabel('Accuracy (%)')
+                plt.title('Training Accuracy History')
+                plt.legend()
+                                        
+                plt.tight_layout()
+                plt.savefig('training_history.png')
+                plt.close()
+                                        
+                # 保存模型
+                fluid.save_dygraph(model.state_dict(), 'cat_classifier_model')
+                print("训练完成，模型已保存")
+                                
+# 预测测试集
+def predict_test_set():
+    test_dir = './cat_12_test'
+                                    
+    if not os.path.exists(test_dir):
+        print(f"测试目录不存在: {test_dir}")
+        # 尝试使用AI Studio的默认路径
+        default_test_dir = '/home/aistudio/data/data10954/cat_12_test'
+        print(f"尝试使用默认测试目录: {default_test_dir}")
+        if os.path.exists(default_test_dir):
+            test_dir = default_test_dir
+            print(f"使用默认测试目录: {test_dir}")
+        else:
+            print("找不到测试目录，无法继续")
+            return
+                                    
+    results = []
+                                    
+    with fluid.dygraph.guard():
+        model = CatClassifier()
+                                        
+        # 检查模型文件是否存在
+        model_path = 'cat_classifier_model.pdparams'
+        if not os.path.exists(model_path):
+            print(f"模型文件不存在: {model_path}")
+            return
+                                        
+        model_state, _ = fluid.load_dygraph('cat_classifier_model')
+        model.load_dict(model_state)
+        model.eval()
+                                        
+        # 遍历测试集
+        test_files = sorted(os.listdir(test_dir))
+        print(f"预测 {len(test_files)} 个测试图片...")
+                                        
+        for i, img_name in enumerate(test_files):
+            img_path = os.path.join(test_dir, img_name)
+                                            
+            try:
+                # 处理图像
+                img = process_image(img_path, mode='test')
+                img = np.expand_dims(img, axis=0)
+                                                
+                # 预测
+                img_var = to_variable(img)
+                pred = model(img_var, is_training=False)
+                pred_label = np.argmax(pred.numpy(), axis=1)[0]
+                                                
+                results.append(f"{img_name},{pred_label}")
+                                                
+                # 打印进度
+                if (i+1) % 100 == 0:
+                    print(f"已处理 {i+1}/{len(test_files)} 张图片")
+            except Exception as e:
+                print(f"处理图片 {img_name} 错误: {e}")
+                results.append(f"{img_name},0")  # 默认类别
+                                    
+        # 保存结果
+        with open('result.csv', 'w') as f:
+            f.write("\n".join(results))
+        print("预测完成，结果已保存到 result.csv")
+                                
+# 执行训练和预测
+if __name__ == '__main__':
+    # 打印当前工作目录
+    print("当前工作目录:", os.getcwd())
+    
+    # 检查重要目录是否存在
+    print(f"训练目录存在?: {os.path.exists('./cat_12_train')}")
+    print(f"测试目录存在?: {os.path.exists('./cat_12_test')}")
+    print(f"标签文件存在?: {os.path.exists('/home/aistudio/data/data10954/train_list.txt')}")
+    
+    # 训练模型
+    train_model()
+    
+    # 预测测试集
+    predict_test_set()
+                            </code></pre>
+                        </div>
+                        
+                        <div class="image-container">
+                            <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/blog/training_history.png" alt="训练历史" class="article-image">
+                            <p class="image-caption" data-en="Training History" data-zh="训练历史">训练历史</p>
+                        </div>
+
+                        <div class="download-link-container" style="text-align: center; margin-bottom: 20px;">
+                            <a href="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/download/result.csv" class="nav-button" data-en="Download Result (result.csv)" data-zh="下载结果 (result.csv)" download>
+                               <i class="fas fa-file-download"></i>
+                               <span data-en="Download Result (result.csv)" data-zh="下载结果 (result.csv)">下载结果 (result.csv)</span>
+                           </a>
+                       </div>
+
+                       <div class="bilingual-content">
+                            <p class="zh-content"><strong>第一轮反思</strong><br>
+                        根据测试集评分55分的情况，我怀疑是过拟合，或者是训练不足，因此模型存在较大的优化空间。以下是完整的升级迭代优化代码，通过以下改进提升模型性能：
+
+使用更深的网络架构（ResNet18）增加数据增强手段
+
+添加学习率调度器
+
+引入更先进的优化器
+
+增加模型正则化
+
+改进训练监控</p>
+                        
+                           <p class="en-content" style="display: none;"><strong>First Round Reflection</strong><br>
+                            Based on the test set's score of 55, I suspect that it is overfitting or under-training, so there is a lot of room for optimization in the model. Here's the complete upgrade iteration optimization code to improve model performance with the following improvements:
+
+                            Add data augmentation with a deeper network architecture (ResNet18).
+                            
+                            Add a learning rate scheduler
+                            
+                            Introducing more advanced optimizers
+                            
+                            Add model regularization
+                            
+                            Improve training monitoring</p>
+                    </div>
+
+                    <!-- 第二部分 -->
+                    <section id="section-2">
+                        <h2 data-en="II. Second Submission" data-zh="二、第二次提交">二、第二次提交</h2>
+                        
+                        <h3 data-en="2.1 Subsection One" data-zh="2.1 小节一">2.1 小节一</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>第二次提交</strong><br>
+                                主要优化内容 (兼容PaddlePaddle 1.7.2)：
+                                
+                                完全自定义ResNet18实现：
+                                
+                                手动实现了BasicBlock和ResNet18结构；
+                                
+                                使用MSRA初始化卷积层权重；
+                                
+                                包含标准的ResNet18结构(conv1, maxpool, 4个stage, avgpool, fc)；
+                                
+                                兼容性调整：
+                                
+                                使用fluid.dygraph.Sequential替代Python内置list；
+                                
+                                使用fluid.layers.flatten替代更高级的flatten方法；
+                                
+                                调整BatchNorm参数设置(兼容1.7.2版本)；
+                                
+                                使用fluid.regularizer.L2Decay实现权重衰减；
+                                
+                                训练优化：
+                                
+                                添加了自定义的余弦退火学习率调度器；
+                                
+                                使用Adam优化器配合L2正则化；
+                                
+                                实现了验证集监控和早停机制；
+                                
+                                添加了详细的训练日志输出；
+                                
+                                数据增强增强：
+                                
+                                随机裁剪(放大后裁剪)；
+                                
+                                随机水平翻转；
+                                
+                                随机旋转(-30°到30°)；
+                                
+                                随机颜色增强(亮度、对比度、饱和度)；
+                                
+                                ImageNet标准化；
+                                
+                                预测增强：
+                                
+                                测试时间增强(TTA)：原始图像+水平翻转图像平均；
+                                
+                                更健壮的错误处理；
+                                
+                                多路径自动检测机制；
+                                
+                                结果文件添加标题行；
+                                
+                                其他改进：
+                                
+                                更详细的日志记录和进度显示；
+                                
+                                训练/验证损失和准确率可视化；
+                                
+                                自动检测AI Studio环境路径；
+                                
+                                兼容性错误修复。</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Concept Explanation</strong><br>
+                                Main optimizations (compatible with PaddlePaddle 1.7.2):
+                                Fully custom ResNet18 implementation:
+                                
+                                The BasicBlock and ResNet18 structures were manually implemented
+                                
+                                Initialize convolutional layer weights using MSRA
+                                
+                                Includes standard ResNet18 structure (conv1, maxpool, 4 stages, avgpool, fc)
+                                
+                                Compatibility Adjustments:
+                                
+                                Use fluid.dygraph.Sequential instead of Python's built-in list
+                                
+                                Use fluid.layers.flatten instead of the more advanced flatten method
+                                
+                                Adjusting the BatchNorm Parameter Settings (Compatible with 1.7.2)
+                                
+                                Use fluid.regularizer.L2Decay to achieve weight decay
+                                
+                                Training Optimization:
+                                
+                                A custom cosine annealing learning rate scheduler has been added
+                                
+                                Use the Adam optimizer with L2 regularization
+                                
+                                Validation set monitoring and early stop mechanism are implemented
+                                
+                                Added verbose training log output
+                                
+                                Data Augmentation Enhancements:
+                                
+                                Random cropping (zooming in and cropping)
+                                
+                                Random horizontal flips
+                                
+                                Random rotation (-30° to 30°)
+                                
+                                Random color enhancement (brightness, contrast, saturation)
+                                
+                                ImageNet standardization
+                                
+                                Prediction Enhancements:
+                                
+                                Test Time Enhancement (TTA): Raw image Horizontally flipped image averaged
+                                
+                                More robust error handling
+                                
+                                Multi-path automatic detection mechanism
+                                
+                                Add a header line to the result file
+                                
+                                Other improvements:
+                                
+                                More detailed logging and progress display
+                                
+                                Training/validation loss and accuracy visualization
+                                
+                                Automatically detects AI Studio environment paths
+                                
+                                Compatibility bug fixes</p>
+                        </div>
+                    <div class="code-block">
+                        <pre><code class="language-python">
+
+                        </code></pre>
+                    </div>
+
+
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>示例分析</strong><br>
+                            分析上述代码或概念的应用示例：</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Example Analysis</strong><br>
+                            Analyze the application examples of the above code or concepts:</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>总结</strong><br>
+                            小节内容总结 <span class="emoji">📝</span></p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Summary</strong><br>
+                            Summary of the subsection content <span class="emoji">📝</span></p>
+                        </div>
+                        
+                        <h3 data-en="2.2 Subsection Two" data-zh="2.2 小节二">2.2 小节二</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>概念解释</strong><br>
+                            在此处解释相关概念</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Concept Explanation</strong><br>
+                            Explain related concepts here</p>
+                        </div>
+                        
+                        
+                        <div class="image-container">
+                            <img src="../../images/example.jpg" alt="示例图片" class="article-image">
+                            <p class="image-caption" data-en="Example Image" data-zh="示例图片">示例图片</p>
+                        </div>
+                    </section>
+                    
+                    <!-- 第三部分 -->
+                    <section id="section-3">
+                        <h2 data-en="III. Section Three" data-zh="三、第三部分">三、第三部分</h2>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">此处添加第三部分的内容。可以包含段落、列表、代码示例等。</p>
+                            
+                            <p class="en-content" style="display: none;">Add content for section three here. Can include paragraphs, lists, code examples, etc.</p>
+                        </div>
+                        
+                        <!-- 列表示例 -->
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>要点列表：</strong></p>
+                            <ul class="zh-content">
+                                <li>第一个要点</li>
+                                <li>第二个要点</li>
+                                <li>第三个要点</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>Key Points:</strong></p>
+                            <ul class="en-content" style="display: none;">
+                                <li>First point</li>
+                                <li>Second point</li>
+                                <li>Third point</li>
+                            </ul>
+                        </div>
+                    </section>
+                    
+                    <!-- 结语 -->
+                    <div class="post-conclusion">
+                        <h2 data-en="Conclusion" data-zh="结语">结语</h2>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">总结文章的主要观点和结论。提供进一步思考或后续学习的建议。</p>
+                            
+                            <p class="en-content" style="display: none;">Summarize the main points and conclusions of the article. Provide suggestions for further thinking or subsequent learning.</p>
+                            
+                            <p class="zh-content">感谢阅读！如有问题或建议，欢迎在评论区留言。 <span class="emoji">💻✨</span></p>
+                            
+                            <p class="en-content" style="display: none;">Thanks for reading! If you have any questions or suggestions, please leave a message in the comments section. <span class="emoji">💻✨</span></p>
+                        </div>
+                        
+                        <div class="post-signature">
+                            <p>— HealthJian <span class="emoji">✍️</span></p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- 评论区 -->
+            <div class="comments-section">
+                <h3 data-en="Comments" data-zh="评论">评论</h3>
+                <div class="comment-form">
+                    <textarea placeholder="写下你的想法..." data-en-placeholder="Write your thoughts..." data-zh-placeholder="写下你的想法..."></textarea>
+                    <button data-en="Submit" data-zh="提交">提交</button>
+                </div>
+                <div class="comments-container">
+                    <p class="no-comments" data-en="Be the first to comment!" data-zh="成为第一个评论的人！">成为第一个评论的人！ <span class="emoji">🎉</span></p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <p>&copy; 2025 CaiNiaojian&HealthJian all followed.</p>
+                <p data-en="Contact: " data-zh="联系方式：">联系方式：<a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
+                <p data-en="Location: " data-zh="地址：">地址：XX</p>
+            </div>
+            <div class="footer-links">
+                <a href="../../../blog.html" data-en="Blog" data-zh="博客">博客</a>
+                <a href="../../../about.html" data-en="About" data-zh="关于">关于</a>
+                <a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a>
+                <a href="../../../changelog.html" data-en="ChangeLog" data-zh="更新日志">更新日志</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化代码高亮
+            hljs.highlightAll();
+        });
+    </script>
+    <script src="../../../js/main.js"></script>
+    <script src="../../../js/theme.js"></script>
+    <script src="../../../js/language.js"></script>
+    <script src="../../../js/blog-post.js"></script>
+</body>
+</html> 
