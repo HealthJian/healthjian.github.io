@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>玩一玩：NBA入门之数据分析 - HealthJian的博客</title>
+    <!-- 根据实际路径调整CSS引用路径 -->
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/dark-mode.css">
+    <link rel="stylesheet" href="../../../css/blog-post.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="light-mode">
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <!-- 根据实际部署的文件夹深度调整路径 -->
+            <a href="../../../index.html" class="logo">
+                <img src="../../../images/githubherofigureimage.png" alt="Logo">
+                <span class="site-name" data-en="HealthJian Blog" data-zh="HealthJian">HealthJian</span>
+            </a>
+        </div>
+        <div class="nav-right">
+            <ul class="menu">
+                <!-- 根据实际部署的文件夹深度调整路径 -->
+                <li><a href="../../../index.html" data-en="Home" data-zh="首页">首页</a></li>
+                <li><a href="../../blog.html" data-en="Blog" data-zh="博客">博客</a></li>
+                <li><a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a></li>
+                <li><a href="../../links.html" data-en="Links" data-zh="链接">链接</a></li>
+                <li><a href="../../about.html" data-en="About" data-zh="关于">关于</a></li>
+            </ul>
+            <div class="social-icons">
+                <a href="https://steamcommunity.com/id/yoursteamid" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
+                <a href="mailto:gaojian1573@foxmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+            <button id="theme-toggle" class="theme-toggle" title="切换主题">
+                <i class="fas fa-moon"></i>
+                <i class="fas fa-sun"></i>
+            </button>
+            <button id="lang-toggle" class="lang-toggle" title="切换语言">
+                <span data-en="EN" data-zh="中">中</span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="blog-post-container">
+        <!-- 侧边栏 -->
+        <aside class="blog-sidebar">
+            <div class="toc-container">
+                <h3 data-en="Table of Contents" data-zh="目录">目录</h3>
+                <ul class="toc-list">
+                    <!-- 文章目录，根据实际内容添加或修改 -->
+                    <li><a href="#section-1" data-en="I. Introduction" data-zh="一、引言">一、引言</a></li>
+                    <li><a href="#section-2" data-en="II. Section Two" data-zh="二、第二部分">二、第二部分</a></li>
+                    <li><a href="#section-3" data-en="III. Section Three" data-zh="三、第三部分">三、第三部分</a></li>
+                    <!-- 根据需要添加更多章节 -->
+                </ul>
+            </div>
+            
+            <div class="post-meta-info">
+                <div class="post-date">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>2025-03-18</span> <!-- 更新实际发布日期 -->
+                </div>
+                <div class="post-tags">
+                    <i class="fas fa-tags"></i>
+                    <!-- 根据文章主题修改标签 -->
+                    <span class="tag" data-en="Tag1" data-zh="标签1">标签1</span>
+                    <span class="tag" data-en="Tag2" data-zh="标签2">标签2</span>
+                    <span class="tag" data-en="Tag3" data-zh="标签3">标签3</span>
+                </div>
+                <div class="post-category">
+                    <i class="fas fa-folder"></i>
+                    <!-- 修改为实际分类 -->
+                    <span data-en="Category" data-zh="分类">分类</span>
+                </div>
+            </div>
+            
+            <div class="post-navigation">
+                <h3 data-en="Navigation" data-zh="导航">导航</h3>
+                <div class="nav-buttons">
+                    <a href="../blog.html" class="nav-button" data-en="Back to Blog" data-zh="返回博客列表">
+                        <i class="fas fa-arrow-left"></i>
+                        <span data-en="Back to Blog" data-zh="返回博客列表">返回博客列表</span>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 文章主体 -->
+        <main class="blog-post-main">
+            <article class="blog-post-content">
+                <header class="post-header">
+                    <h1 class="post-title">
+                        <div class="bilingual-content">
+                            <span class="zh-content">玩一玩：NBA入门之数据分析</span>
+                            <span class="en-content" style="display: none;">Play: NBA Learning by Data Analysis</span>
+                        </div>
+                    </h1>
+                </header>
+                
+                <div class="post-body">
+                    <!-- 第一部分：引言与EDA探索 -->
+                    <section id="section-1">
+                        <h2 data-en="I. Introduction and EDA Exploration" data-zh="引言与EDA探索">引言与EDA探索</h2>
+                        
+                        <h3 data-en="1. Introduction" data-zh="1. 引言">1. 引言</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">本这对NBA的认识，这篇文章决定写点东西来打发时间（并非不忙），对2835名球员，数据覆盖1980-2017赛季进行分析处理。数据分析浪潮席卷全球体育联盟，美国国家篮球协会（NBA）的比赛形态、战术思想与球员评估体系在过去数十年间经历了深刻的变革。以"魔球理论"（Moreyball）和三分球革命为代表的分析驱动策略，极大地模糊了球员在场上的传统角色定位。控球后卫可能成为球队的头号得分手，中锋被要求具备外线投射能力，锋线球员则需要兼具组织、得分与防守的多重职能。"位置模糊化"（Positionless Basketball）已从一个前卫概念，演变为现代篮球的普遍共识。</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">然而，在主流的篮球讨论和数据呈现中，我们仍旧沿用着控球后卫（PG）、得分后卫（SG）、小前锋（SF）、大前锋（PF）和中锋（C）这套诞生于半个多世纪前的五大位置标签。这一传统分类体系与现代篮球实践之间的脱节，为深入的、数据驱动的球员分析带来了挑战与障碍。它不仅无法精确描绘球员的真实场上作用，更有可能在进行战术分析、球员对比和价值评估时产生误导。</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">在此背景下，本项目旨在通过一套系统化、多阶段的机器学习与数据挖掘方法，解决传统球员位置分类体系的局限性问题。实验的核心目标是解构旧的分类范式，并从特定的历史数据中发现、定义、验证并应用一套全新的、更能反映球员真实角色和战术价值的"数据驱动原型"体系。</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">为实现这一目标，本报告将遵循一个从"诊断问题"到"构建方案"再到"深化应用"的完整逻辑链路，分阶段展开论述：</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">第一阶段，首先应用朴素贝叶斯分类器，对传统五大位置进行一次量化诊断，以数据证明其分类能力的局限性。</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">第二阶段，将采用K-Means无监督聚类算法，摒弃所有预设标签，让数据自身说话，从而"发现"隐藏在球员统计数据背后的8个全新角色原型。</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">第三阶段，为赋予这些新原型以清晰的业务含义，将利用ID3和C4.5决策树等"白箱"模型，为每个原型生成一套可读、可直接应用的"如果-那么"规则集，完成从"是什么"到"为什么"的可决策跨越。</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">第四阶段，将应用深度神经网络（DNN）这一强大的"黑箱"模型，在最大化分类精度的同时，反向验证我们所构建原型体系的稳健性与科学性，并探讨其在自动化应用中的巨大潜力。</p>
+                        </div>
+                        
+                        <h3 data-en="2. Experimental Objectives and Environment" data-zh="2. 实验目标和实验环境">2. 实验目标和实验环境</h3>
+                        
+                        <h4 data-en="2.1 Experimental Objectives" data-zh="2.1实验目标">2.1实验目标</h4>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">本次实验的核心目标是对1980年至2017年近四十年的NBA球员历史数据进行一次全面、深入的探索性数据分析（EDA）。旨在通过本次分析达成以下具体目标：</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">宏观层面：理解NBA联盟在比赛节奏、得分效率和核心战术思想上的宏观演变趋势。</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">微观层面：分析球员个体的生涯发展规律，包括定义球员的"黄金年龄"以及量化"精英级别"表现的稀有性。</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">角色层面：探究篮球场上五个传统位置的角色定义与职能的变迁，特别是"位置模糊化"的现象。</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">最终目的：为后续的机器学习建模任务（如球员表现预测、球员价值评估、球员角色分类等）提供坚实的数据洞察、特征工程思路和可行的研究方向。</p>
+                        </div>
+                        
+                        <h4 data-en="2.2 Experimental Environment" data-zh="2.2实验环境">2.2实验环境</h4>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">数据集：包含2835名NBA球员信息的独立CSV文件集合，数据时间跨度为1980-2017赛季。关键字段包括：Year, Player, Pos, Age, Tm, G, MP, FG, FGA, 3P, 3PA, TRB, AST, STL, BLK, PTS 等基础统计。</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">硬件环境：个人计算机</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">软件环境：编程语言：Python 3.11</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">核心库：</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">pandas：用于数据清洗、整合与处理。</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">glob, os：用于批量文件读取。</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">matplotlib, seaborn：用于数据可视化。</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">开发环境：在虚拟环境 (venv) 中运行。</p>
+                        </div>
+                        
+                        <h3 data-en="3. Experimental Content" data-zh="3. 实验内容">3. 实验内容</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">本节的EDA探索主要围绕以下三个核心维度展开：</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">联盟宏观演变分析：聚焦于整个联盟的集体趋势。本节分析了联盟的平均比赛节奏（以FGA为代理）、得分效率（FG% vs TS%）以及三分球这项关键技术在近四十年里的革命性发展。</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">球员个体生涯分析：将视角缩小到球员本身。我们探究了球员各项关键技能（得分、篮板、助攻）随年龄变化的"生命周期"曲线，并对"伟大赛季"的得分表现进行了统计分层，以量化其稀有度。</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">场上角色与位置分析：深入研究五个传统位置（PG, SG, SF, PF, C）的职责演变。本节重点分析了"空间型大个子"的崛起，以及"位置模糊化"趋势如何体现在各项数据上，尤其是得分和投篮选择。</p>
+                        </div>
+                        
+                        <h3 data-en="4. Experimental Steps and Results" data-zh="4. 实验步骤和结果">4. 实验步骤和结果</h3>
+                        
+                        <h4 data-en="4.1. Data Integration and Feature Engineering" data-zh="4.1. 数据整合与特征工程">4.1. 数据整合与特征工程</h4>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">利用基础数据计算了两个至关重要的高阶效率指标：真实命中率(TS%) 和球权使用率(USG%)，以弥补原始数据的不足，为后续的深度分析提供支持。</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">真实命中率 (TS%): 衡量球员得分效率的黄金标准。它衡量的是球员将每一次"投篮占有"（Shooting Possession）转化为得分的效率，综合考虑了两分、三分和罚球。TS%越高，代表球员得分的效率越高，是评估得分手"成色"的黄金标准。</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">PTS: 球员总得分 (Total Points)</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">FGA: 球员总出手次数 (Field Goal Attempts)</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">FTA: 球员总罚球次数 (Free Throw Attempts)</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">0.44: 这是一个经验系数，用于估算由罚球产生的"投篮占有"次数。因为一次造成投篮犯规的罚球（2次或3次）只相当于一次投篮占有，而"and-1"的加罚、技术犯规罚球等情况也需要被考虑在内。这个系数是篮球数据分析中广泛接受的近似值。</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">球权使用率 (USG%): 衡量球员在场时，占据了团队多少进攻资源。它估算的是，当一名球员在场上时，由他终结（即以投篮、走上罚球线或失误的方式结束）的进攻回合，占全队总进攻回合的百分比。它是衡量一名球员在球队进攻体系中战术地位的核心指标。</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">FGA_球员: 球员总出手次数</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">FTA_球员: 球员总罚球次数</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">TOV_球员: 球员总失误次数</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">MP_球员: 球员总上场分钟 (Minutes Played)</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">MP_全队: 该球员所在球队在该赛季的总上场分钟（通常是 240 * 比赛场数）</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">FGA_全队: 球队总出手次数</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">FTA_全队: 球队总罚球次数</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">TOV_全队: 球队总失误次数</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">这个公式的分子部分估算了球员个人终结的回合数，而分母部分则估算了当该球员在场时，球队总共进行的进攻回合数，两者相除便得到了该球员的球权占有率。</p>
+                        </div>
+                    </section>
+                    
+                    <!-- 第二部分 -->
+                    <section id="section-2">
+                        <h2 data-en="II. Section Two" data-zh="二、第二部分">二、第二部分</h2>
+                        
+                        <h3 data-en="2.1 Subsection One" data-zh="2.1 小节一">2.1 小节一</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>概念解释</strong><br>
+                            在此处解释相关概念</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Concept Explanation</strong><br>
+                            Explain related concepts here</p>
+                        </div>
+                        
+                        <!-- 代码示例（如果需要） -->
+                        <div class="code-block">
+                            <pre><code class="language-language_name">// 此处添加代码示例
+function example() {
+    console.log("Hello, World!");
+}</code></pre>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>示例分析</strong><br>
+                            分析上述代码或概念的应用示例：</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Example Analysis</strong><br>
+                            Analyze the application examples of the above code or concepts:</p>
+                        </div>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>总结</strong><br>
+                            小节内容总结 <span class="emoji">📝</span></p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Summary</strong><br>
+                            Summary of the subsection content <span class="emoji">📝</span></p>
+                        </div>
+                        
+                        <h3 data-en="2.2 Subsection Two" data-zh="2.2 小节二">2.2 小节二</h3>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>概念解释</strong><br>
+                            在此处解释相关概念</p>
+                            
+                            <p class="en-content" style="display: none;"><strong>Concept Explanation</strong><br>
+                            Explain related concepts here</p>
+                        </div>
+                        
+                        <!-- 图片示例（如果需要） -->
+                        <div class="image-container">
+                            <img src="../../images/example.jpg" alt="示例图片" class="article-image">
+                            <p class="image-caption" data-en="Example Image" data-zh="示例图片">示例图片</p>
+                        </div>
+                    </section>
+                    
+                    <!-- 第三部分 -->
+                    <section id="section-3">
+                        <h2 data-en="III. Section Three" data-zh="三、第三部分">三、第三部分</h2>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">此处添加第三部分的内容。可以包含段落、列表、代码示例等。</p>
+                            
+                            <p class="en-content" style="display: none;">Add content for section three here. Can include paragraphs, lists, code examples, etc.</p>
+                        </div>
+                        
+                        <!-- 列表示例 -->
+                        <div class="bilingual-content">
+                            <p class="zh-content"><strong>要点列表：</strong></p>
+                            <ul class="zh-content">
+                                <li>第一个要点</li>
+                                <li>第二个要点</li>
+                                <li>第三个要点</li>
+                            </ul>
+                            
+                            <p class="en-content" style="display: none;"><strong>Key Points:</strong></p>
+                            <ul class="en-content" style="display: none;">
+                                <li>First point</li>
+                                <li>Second point</li>
+                                <li>Third point</li>
+                            </ul>
+                        </div>
+                    </section>
+                    
+                    <!-- 结语 -->
+                    <div class="post-conclusion">
+                        <h2 data-en="Conclusion" data-zh="结语">结语</h2>
+                        
+                        <div class="bilingual-content">
+                            <p class="zh-content">总结文章的主要观点和结论。提供进一步思考或后续学习的建议。</p>
+                            
+                            <p class="en-content" style="display: none;">Summarize the main points and conclusions of the article. Provide suggestions for further thinking or subsequent learning.</p>
+                            
+                            <p class="zh-content">感谢阅读！如有问题或建议，欢迎在评论区留言。 <span class="emoji">💻✨</span></p>
+                            
+                            <p class="en-content" style="display: none;">Thanks for reading! If you have any questions or suggestions, please leave a message in the comments section. <span class="emoji">💻✨</span></p>
+                        </div>
+                        
+                        <div class="post-signature">
+                            <p>— HealthJian <span class="emoji">✍️</span></p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- 评论区 -->
+            <div class="comments-section">
+                <h3 data-en="Comments" data-zh="评论">评论</h3>
+                <div class="comment-form">
+                    <textarea placeholder="写下你的想法..." data-en-placeholder="Write your thoughts..." data-zh-placeholder="写下你的想法..."></textarea>
+                    <button data-en="Submit" data-zh="提交">提交</button>
+                </div>
+                <div class="comments-container">
+                    <p class="no-comments" data-en="Be the first to comment!" data-zh="成为第一个评论的人！">成为第一个评论的人！ <span class="emoji">🎉</span></p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <p>&copy; 2025 CaiNiaojian&HealthJian all followed.</p>
+                <p data-en="Contact: " data-zh="联系方式：">联系方式：<a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
+                <p data-en="Location: " data-zh="地址：">地址：XX</p>
+            </div>
+            <div class="footer-links">
+                <a href="../../blog.html" data-en="Blog" data-zh="博客">博客</a>
+                <a href="../../about.html" data-en="About" data-zh="关于">关于</a>
+                <a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a>
+                <a href="../../changelog.html" data-en="ChangeLog" data-zh="更新日志">更新日志</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化代码高亮
+            hljs.highlightAll();
+        });
+    </script>
+    <script src="../../../js/main.js"></script>
+    <script src="../../../js/theme.js"></script>
+    <script src="../../../js/language.js"></script>
+    <script src="../../../js/blog-post.js"></script>
+</body>
+</html> 

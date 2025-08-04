@@ -1,5 +1,8 @@
 // 博客页面功能
 
+// 全局配置：每页显示的文章数量
+const POSTS_PER_PAGE = 8;
+
 document.addEventListener('DOMContentLoaded', function() {
     // 初始化博客功能
     initBlog();
@@ -148,7 +151,7 @@ function displaySearchResults(posts, searchTerm) {
  */
 function displayPaginatedSearchResults(posts) {
     // 每页显示的文章数量
-    const postsPerPage = 4;
+    const postsPerPage = POSTS_PER_PAGE;
     
     // 计算总页数
     const totalPages = Math.ceil(posts.length / postsPerPage);
@@ -166,7 +169,7 @@ function displayPaginatedSearchResults(posts) {
  * @param {Array} posts - 匹配的文章数组
  * @param {number} postsPerPage - 每页显示的文章数
  */
-function updateSearchPagination(totalPages, posts, postsPerPage = 4) {
+function updateSearchPagination(totalPages, posts, postsPerPage = POSTS_PER_PAGE) {
     const pagination = document.querySelector('.pagination');
     if (!pagination) return;
     
@@ -244,7 +247,7 @@ function updateSearchPagination(totalPages, posts, postsPerPage = 4) {
  * @param {Array} posts - 匹配的文章数组
  * @param {number} postsPerPage - 每页显示的文章数量
  */
-function displaySearchPage(page, posts, postsPerPage = 4) {
+function displaySearchPage(page, posts, postsPerPage = POSTS_PER_PAGE) {
     // 计算当前页应该显示的文章范围
     const start = (page - 1) * postsPerPage;
     const end = Math.min(start + postsPerPage, posts.length);
@@ -337,7 +340,7 @@ function filterPosts(category) {
         } else {
             pagination.style.display = 'flex';
             // 更新分页UI
-            updateSearchPagination(Math.ceil(filteredPosts.length / 4), filteredPosts);
+            updateSearchPagination(Math.ceil(filteredPosts.length / POSTS_PER_PAGE), filteredPosts);
         }
     }
 }
@@ -867,25 +870,31 @@ function initPagination() {
     const pagination = document.querySelector('.pagination');
     if (!pagination) return;
     
+    // 获取所有文章数量
+    const allPosts = getAllPosts();
+    const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
+    
+    // 重新生成页码按钮
+    const pageNumbers = pagination.querySelector('.page-numbers');
+    if (pageNumbers) {
+        pageNumbers.innerHTML = ''; // 清空现有按钮
+        
+        // 根据实际页数创建按钮
+        for (let i = 1; i <= totalPages; i++) {
+            const button = document.createElement('button');
+            button.textContent = i;
+            if (i === 1) button.classList.add('active');
+            pageNumbers.appendChild(button);
+        }
+    }
+    
     const pageButtons = pagination.querySelectorAll('.page-numbers button');
     const prevButton = pagination.querySelector('.prev');
     const nextButton = pagination.querySelector('.next');
     
     // 设置初始状态
     prevButton.disabled = true;
-    
-    // 确保有足够的页码按钮
-    if (pageButtons.length < 2) {
-        const pageNumbers = pagination.querySelector('.page-numbers');
-        if (pageNumbers) {
-            // 如果只有一个按钮，添加第二个按钮
-            if (pageButtons.length === 1) {
-                const secondButton = document.createElement('button');
-                secondButton.textContent = '2';
-                pageNumbers.appendChild(secondButton);
-            }
-        }
-    }
+    nextButton.disabled = totalPages <= 1;
     
     // 重新获取所有页码按钮（包括可能新添加的）
     const updatedPageButtons = pagination.querySelectorAll('.page-numbers button');
@@ -945,7 +954,7 @@ function loadPagePosts(page) {
     const allPosts = getAllPosts();
     
     // 每页显示的文章数量
-    const postsPerPage = 4;
+    const postsPerPage = POSTS_PER_PAGE;
     
     // 计算当前页应显示的文章
     const startIndex = (page - 1) * postsPerPage;
