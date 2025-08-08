@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>光影折叠的诗篇 | A Poem of Folded Light and Shadow</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;700&family=Poppins:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../css/personalgallery.css">
+</head>
+<body class="light-mode" data-lang="zh">
+    <!-- Header -->
+    <header class="main-header">
+        <div class="logo">
+            <h1 class="site-title" data-zh="healthjian" data-en="healthjian">healthjian</h1>
+        </div>
+        <div class="controls">
+            <button class="lang-toggle" id="langToggle">
+                <span data-zh="中/英" data-en="EN/中">中/英</span>
+            </button>
+            <button class="theme-toggle" id="themeToggle">
+                <span class="theme-icon sun-icon">☀️</span>
+                <span class="theme-icon moon-icon">🌙</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Portal Overlay (Initial State) -->
+    <div class="portal-overlay" id="portalOverlay">
+        <div class="portal-content">
+            <h1 class="portal-title" data-zh="光影折叠的诗篇" data-en="A Poem of Folded Light and Shadow">光影折叠的诗篇</h1>
+            <p class="portal-subtitle" data-zh="在这里，每一束光都有它的故事，每一片影都藏着诗意" data-en="Here, every beam of light has its story, every shadow hides poetry">在这里，每一束光都有它的故事，每一片影都藏着诗意</p>
+            <button class="portal-button" id="portalButton" data-zh="开启光影之旅" data-en="Begin the Journey">开启光影之旅</button>
+        </div>
+    </div>
+
+    <!-- Main Gallery Container -->
+    <main class="gallery-container" id="galleryContainer">
+        <!-- Panel 1: Urban Nights -->
+        <div class="panel" data-panel="urban" data-bg-portal="1">
+            <div class="panel-overlay"></div>
+            <div class="panel-title vertical-text" data-zh="都市夜景" data-en="Urban Nights">都市夜景</div>
+            <div class="panel-content">
+                <h2 class="content-title" data-zh="都市夜景" data-en="Urban Nights">都市夜景</h2>
+                <p class="content-description" data-zh="霓虹闪烁的都市夜晚，光影交织出现代文明的诗篇" data-en="Neon-lit urban nights where light and shadow weave the poetry of modern civilization">霓虹闪烁的都市夜晚，光影交织出现代文明的诗篇</p>
+                <button class="enter-gallery-btn" data-gallery="urban" data-zh="进入图集" data-en="Enter Gallery">进入图集</button>
+            </div>
+        </div>
+
+        <!-- Panel 2: Mountain's Poem -->
+        <div class="panel" data-panel="mountain" data-bg-portal="2">
+            <div class="panel-overlay"></div>
+            <div class="panel-title vertical-text" data-zh="山川之诗" data-en="Mountain's Poem">山川之诗</div>
+            <div class="panel-content">
+                <h2 class="content-title" data-zh="山川之诗" data-en="Mountain's Poem">山川之诗</h2>
+                <p class="content-description" data-zh="巍峨山川间的光影变幻，自然与时间的永恒对话" data-en="The play of light and shadow among majestic mountains, an eternal dialogue between nature and time">巍峨山川间的光影变幻，自然与时间的永恒对话</p>
+                <button class="enter-gallery-btn" data-gallery="mountain" data-zh="进入图集" data-en="Enter Gallery">进入图集</button>
+            </div>
+        </div>
+
+        <!-- Panel 3: Azure Sky -->
+        <div class="panel" data-panel="azure" data-bg-portal="3">
+            <div class="panel-overlay"></div>
+            <div class="panel-title vertical-text" data-zh="蔚蓝天际" data-en="Azure Sky">蔚蓝天际</div>
+            <div class="panel-content">
+                <h2 class="content-title" data-zh="蔚蓝天际" data-en="Azure Sky">蔚蓝天际</h2>
+                <p class="content-description" data-zh="无垠天空的蔚蓝深邃，云朵与阳光的轻柔舞蹈" data-en="The profound azure of endless skies, a gentle dance of clouds and sunlight">无垠天空的蔚蓝深邃，云朵与阳光的轻柔舞蹈</p>
+                <button class="enter-gallery-btn" data-gallery="azure" data-zh="进入图集" data-en="Enter Gallery">进入图集</button>
+            </div>
+        </div>
+
+        <!-- Panel 4: Street Life -->
+        <div class="panel" data-panel="street" data-bg-portal="4">
+            <div class="panel-overlay"></div>
+            <div class="panel-title vertical-text" data-zh="人间烟火" data-en="Street Life">人间烟火</div>
+            <div class="panel-content">
+                <h2 class="content-title" data-zh="人间烟火" data-en="Street Life">人间烟火</h2>
+                <p class="content-description" data-zh="街头巷尾的生活百态，平凡中蕴含的温暖光芒" data-en="The myriad faces of street life, warm light hidden within the ordinary">街头巷尾的生活百态，平凡中蕴含的温暖光芒</p>
+                <button class="enter-gallery-btn" data-gallery="street" data-zh="进入图集" data-en="Enter Gallery">进入图集</button>
+            </div>
+        </div>
+
+        <!-- Panel 5: Cyber Glow -->
+        <div class="panel" data-panel="cyber" data-bg-portal="5">
+            <div class="panel-overlay"></div>
+            <div class="panel-title vertical-text" data-zh="我的光影" data-en="Cyber Glow">我的光影</div>
+            <div class="panel-content">
+                <h2 class="content-title" data-zh="我的光影" data-en="Cyber Glow">我的光影</h2>
+                <p class="content-description" data-zh="数字时代的光影美学，科技与艺术的完美融合" data-en="The aesthetics of light in the digital age, a perfect fusion of technology and art">数字时代的光影美学，科技与艺术的完美融合</p>
+                <button class="enter-gallery-btn" data-gallery="cyber" data-zh="进入图集" data-en="Enter Gallery">进入图集</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Split-View Gallery Modal -->
+    <div class="split-view-modal" id="splitViewModal">
+        <div class="split-view-overlay"></div>
+        <div class="split-view-container">
+            <button class="split-view-close" id="splitViewClose">&times;</button>
+            
+            <!-- 左栏：图片区域 -->
+            <div class="split-view-left">
+                <div class="image-navigation">
+                    <button class="nav-btn nav-prev" id="splitViewPrev">‹</button>
+                    <button class="nav-btn nav-next" id="splitViewNext">›</button>
+                </div>
+                <div class="main-image-container">
+                    <img class="main-image" id="splitViewMainImage" src="" alt="">
+                </div>
+                <div class="image-counter" id="splitViewCounter">
+                    <span id="currentImageNum">1</span> / <span id="totalImageNum">5</span>
+                </div>
+            </div>
+            
+            <!-- 右栏：随笔区域 -->
+            <div class="split-view-right">
+                <div class="prose-header">
+                    <h1 class="gallery-title" id="splitViewTitle">都市夜景</h1>
+                    <div class="gallery-metadata" id="splitViewMetadata">拍摄日期：2024-12-15 | 分类：城市摄影</div>
+                    <hr class="prose-divider">
+                </div>
+                <div class="prose-content">
+                    <div class="prose-text" id="splitViewProse">
+                        <!-- 随笔内容将通过JavaScript动态填充 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <p data-zh="© 2025 healthjian. 保留所有权利。" data-en="© 2025 healthjian. All Rights Reserved.">© 2025 healthjian. 保留所有权利。</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../../js/personalgallery.js"></script>
+</body>
+</html>
