@@ -51,7 +51,7 @@ class CelebrationBanner {
         this.banner = document.createElement('div');
         this.banner.className = 'celebration-banner';
         this.banner.setAttribute('role', 'banner');
-        this.banner.setAttribute('aria-label', '庆祝中国人民解放军建立98周年');
+        this.banner.setAttribute('aria-label', '庆祝中国人民抗战胜利暨世界反法西斯战争胜利70周年');
         
         // 获取当前语言
         const currentLang = document.body.classList.contains('en') ? 'en' : 'zh';
@@ -74,8 +74,8 @@ class CelebrationBanner {
                     <span class="flag-icon">🇨🇳</span>
                     <span class="star-icon">⭐</span>
                     <span class="celebration-banner-text">Celebrating the</span>
-                    <span class="celebration-banner-year">98th Anniversary</span>
-                    <span class="celebration-banner-text">of the People's Liberation Army</span>
+                    <span class="celebration-banner-year">80th Anniversary</span>
+                    <span class="celebration-banner-text">Commemorate the victory of the Chinese People's War of Resistance Against Japanese Aggression and the World Anti-Fascist War</span>
                     <span class="star-icon">⭐</span>
                 </div>
             `;
@@ -84,8 +84,8 @@ class CelebrationBanner {
                 <div class="celebration-banner-content">
                     <span class="flag-icon">🇨🇳</span>
                     <span class="star-icon">⭐</span>
-                    <span class="celebration-banner-text">庆祝中国人民解放军建立</span>
-                    <span class="celebration-banner-year">98周年</span>
+                    <span class="celebration-banner-text">庆祝中国人民抗战胜利暨世界反法西斯战争胜利</span>
+                    <span class="celebration-banner-year">80周年</span>
                     <span class="star-icon">⭐</span>
                 </div>
             `;
