@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-zh="Demo工作学习空间 - Beta版本" data-en="Demo Work Study Space - Beta Version">Demo工作学习空间 - Beta版本</title>
+    
+    <!-- 基础样式 -->
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/dark-mode.css">
+    <link rel="stylesheet" href="democss/demo.css">
+    
+    <!-- Font Awesome 图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- 预加载图片 -->
+    <link rel="preload" href="../../images/bg/fogforest.jpg" as="image">
+    
+    <meta name="description" content="Demo工作学习空间Beta版本，包含八大排序算法等学习内容">
+    <meta name="keywords" content="demo,学习,算法,排序,工作空间">
+</head>
+<body class="zh">
+    <!-- 优化导航栏 -->
+    <nav class="demo-navbar">
+        <div class="demo-nav-container">
+            <!-- Logo区域 -->
+            <div class="demo-nav-logo">
+                <a href="../../index.html" class="demo-logo-link">
+                    <div class="logo-icon">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <div class="logo-text">
+                        <span class="logo-main" data-zh="Demo空间" data-en="Demo Space">Demo空间</span>
+                        <span class="logo-sub" data-zh="Beta" data-en="Beta">Beta</span>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- 面包屑导航 -->
+            <div class="demo-breadcrumb">
+                <a href="../../index.html" class="breadcrumb-item" data-zh="首页" data-en="Home">
+                    <i class="fas fa-home"></i>
+                    <span data-zh="首页" data-en="Home">首页</span>
+                </a>
+                <i class="fas fa-chevron-right breadcrumb-separator"></i>
+                <span class="breadcrumb-item current" data-zh="Demo空间" data-en="Demo Space">Demo空间</span>
+            </div>
+            
+            <!-- 导航菜单 -->
+            <div class="demo-nav-menu">
+                <a href="../../index.html" class="demo-nav-link" data-zh="首页" data-en="Home">
+                    <i class="fas fa-home"></i>
+                    <span data-zh="首页" data-en="Home">首页</span>
+                </a>
+                <a href="../blog.html" class="demo-nav-link" data-zh="博客" data-en="Blog">
+                    <i class="fas fa-blog"></i>
+                    <span data-zh="博客" data-en="Blog">博客</span>
+                </a>
+                <a href="../project/project.html" class="demo-nav-link" data-zh="项目" data-en="Projects">
+                    <i class="fas fa-folder"></i>
+                    <span data-zh="项目" data-en="Projects">项目</span>
+                </a>
+                <a href="index.html" class="demo-nav-link active" data-zh="Demo" data-en="Demo">
+                    <i class="fas fa-flask"></i>
+                    <span data-zh="Demo" data-en="Demo">Demo</span>
+                </a>
+            </div>
+            
+            <!-- 移动端菜单按钮 -->
+            <button class="demo-mobile-toggle" id="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <!-- 控制按钮 -->
+            <div class="demo-nav-controls">
+                <!-- 语言切换 -->
+                <button id="lang-toggle" class="demo-control-btn" title="切换语言 / Switch Language">
+                    <i class="fas fa-globe"></i>
+                    <span class="control-text" data-zh="EN" data-en="中文">EN</span>
+                </button>
+                
+                <!-- 主题切换 -->
+                <button id="theme-toggle" class="demo-control-btn theme-toggle" title="切换主题 / Switch Theme">
+                    <i class="fas fa-moon"></i>
+                    <i class="fas fa-sun" style="display: none;"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容区域 -->
+    <main class="main-content">
+        <!-- 页面标题区域 -->
+        <section class="page-header">
+            <div class="header-content">
+                <h1 class="page-title">
+                    <i class="fas fa-flask"></i>
+                    <span data-zh="Demo工作学习空间" data-en="Demo Work Study Space">Demo工作学习空间</span>
+                    <span class="beta-tag" data-zh="Beta版本" data-en="Beta Version">Beta版本</span>
+                </h1>
+                <p class="page-subtitle" data-zh="探索学习，实践创新" data-en="Explore Learning, Practice Innovation">探索学习，实践创新</p>
+            </div>
+        </section>
+
+        <!-- 内容分割线 -->
+        <div class="section-divider"></div>
+
+        <!-- Demo菜单区域 -->
+        <section class="demo-menu-section">
+            <div class="demo-container">
+                <h2 class="section-title" data-zh="学习模块" data-en="Learning Modules">学习模块</h2>
+                
+                <!-- Demo卡片网格 -->
+                <div class="demo-grid">
+                    <!-- 八大排序算法卡片 -->
+                    <div class="demo-card sorting-card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-sort"></i>
+                            </div>
+                            <h3 class="card-title" data-zh="八大排序算法" data-en="Eight Sorting Algorithms">八大排序算法</h3>
+                            <span class="beta-badge" data-zh="Beta" data-en="Beta">Beta</span>
+                        </div>
+                        
+                        <div class="card-content">
+                            <p class="card-description" data-zh="经典排序算法的可视化学习和实践" data-en="Visualization learning and practice of classic sorting algorithms">经典排序算法的可视化学习和实践</p>
+                            
+                            <div class="algorithm-list">
+                                <span class="algorithm-tag" data-zh="冒泡排序" data-en="Bubble Sort">冒泡排序</span>
+                                <span class="algorithm-tag" data-zh="选择排序" data-en="Selection Sort">选择排序</span>
+                                <span class="algorithm-tag" data-zh="插入排序" data-en="Insertion Sort">插入排序</span>
+                                <span class="algorithm-tag" data-zh="希尔排序" data-en="Shell Sort">希尔排序</span>
+                                <span class="algorithm-tag" data-zh="归并排序" data-en="Merge Sort">归并排序</span>
+                                <span class="algorithm-tag" data-zh="快速排序" data-en="Quick Sort">快速排序</span>
+                                <span class="algorithm-tag" data-zh="堆排序" data-en="Heap Sort">堆排序</span>
+                                <span class="algorithm-tag" data-zh="基数排序" data-en="Radix Sort">基数排序</span>
+                            </div>
+                        </div>
+                        
+                        <div class="card-footer">
+                            <button class="demo-btn" data-zh="即将推出" data-en="Coming Soon" disabled>
+                                <i class="fas fa-clock"></i>
+                                <span data-zh="即将推出" data-en="Coming Soon">即将推出</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- 占位卡片 - 未来功能 -->
+                    <div class="demo-card placeholder-card">
+                        <div class="card-header">
+                            <div class="card-icon placeholder-icon">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                            <h3 class="card-title" data-zh="更多内容" data-en="More Content">更多内容</h3>
+                        </div>
+                        
+                        <div class="card-content">
+                            <p class="card-description" data-zh="敬请期待更多学习模块..." data-en="Stay tuned for more learning modules...">敬请期待更多学习模块...</p>
+                        </div>
+                        
+                        <div class="card-footer">
+                            <button class="demo-btn placeholder-btn" disabled>
+                                <i class="fas fa-hourglass-half"></i>
+                                <span data-zh="开发中" data-en="In Development">开发中</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3 data-zh="Demo空间" data-en="Demo Space">Demo空间</h3>
+                <p data-zh="学习实践，探索创新" data-en="Learn Practice, Explore Innovation">学习实践，探索创新</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4 data-zh="快速链接" data-en="Quick Links">快速链接</h4>
+                <ul>
+                    <li><a href="../../index.html" data-zh="首页" data-en="Home">首页</a></li>
+                    <li><a href="../blog.html" data-zh="博客" data-en="Blog">博客</a></li>
+                    <li><a href="../project/project.html" data-zh="项目" data-en="Projects">项目</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4 data-zh="联系方式" data-en="Contact">联系方式</h4>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                    <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 <span data-zh="Demo工作学习空间" data-en="Demo Work Study Space">Demo工作学习空间</span>. <span data-zh="保留所有权利" data-en="All rights reserved">保留所有权利</span>.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../../js/theme.js"></script>
+    <script src="../../js/language.js"></script>
+    <script src="demojs/demo.js"></script>
+</body>
+</html>
