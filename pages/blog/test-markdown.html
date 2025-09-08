@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown测试页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .info { background-color: #d1ecf1; color: #0c5460; }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 4px;
+            background: #fafafa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Markdown渲染器测试</h1>
+        
+        <div id="status-container">
+            <div class="status info">正在检查依赖库...</div>
+        </div>
+        
+        <div id="controls" style="display: none;">
+            <h3>测试选项</h3>
+            <button onclick="testBasicMarkdown()">测试基础Markdown</button>
+            <button onclick="testCodeHighlight()">测试代码高亮</button>
+            <button onclick="testFullMarkdown()">测试完整功能</button>
+            <button onclick="loadTestFile()">加载测试文件</button>
+        </div>
+        
+        <div id="result"></div>
+    </div>
+
+    <!-- 依赖库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/2.1.3/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="blogjs_markdown/markdown-renderer.js"></script>
+
+    <script>
+        let renderer;
+        
+        // 检查依赖
+        function checkDependencies() {
+            const statusContainer = document.getElementById('status-container');
+            const controls = document.getElementById('controls');
+            let allGood = true;
+            
+            statusContainer.innerHTML = '';
+            
+            // 检查marked
+            if (typeof marked !== 'undefined') {
+                statusContainer.innerHTML += '<div class="status success">✓ marked.js 加载成功</div>';
+            } else {
+                statusContainer.innerHTML += '<div class="status error">✗ marked.js 加载失败</div>';
+                allGood = false;
+            }
+            
+            // 检查hljs
+            if (typeof hljs !== 'undefined') {
+                statusContainer.innerHTML += '<div class="status success">✓ highlight.js 加载成功</div>';
+            } else {
+                statusContainer.innerHTML += '<div class="status error">✗ highlight.js 加载失败</div>';
+                allGood = false;
+            }
+            
+            // 检查MarkdownRenderer
+            if (typeof MarkdownRenderer !== 'undefined') {
+                statusContainer.innerHTML += '<div class="status success">✓ MarkdownRenderer 加载成功</div>';
+                try {
+                    renderer = new MarkdownRenderer();
+                    statusContainer.innerHTML += '<div class="status success">✓ MarkdownRenderer 初始化成功</div>';
+                } catch (error) {
+                    statusContainer.innerHTML += '<div class="status error">✗ MarkdownRenderer 初始化失败: ' + error.message + '</div>';
+                    allGood = false;
+                }
+            } else {
+                statusContainer.innerHTML += '<div class="status error">✗ MarkdownRenderer 加载失败</div>';
+                allGood = false;
+            }
+            
+            if (allGood) {
+                statusContainer.innerHTML += '<div class="status success">🎉 所有依赖加载成功！可以开始测试。</div>';
+                controls.style.display = 'block';
+            } else {
+                statusContainer.innerHTML += '<div class="status error">❌ 部分依赖加载失败，请检查网络连接或CDN链接。</div>';
+            }
+        }
+        
+        // 测试基础Markdown
+        function testBasicMarkdown() {
+            const markdown = `# 测试标题
+            
+这是一个**粗体**文本和*斜体*文本的测试。
+
+- 列表项1
+- 列表项2
+- 列表项3
+
+> 这是一个引用块
+
+\`行内代码\` 测试`;
+            
+            renderTest(markdown, '基础Markdown测试');
+        }
+        
+        // 测试代码高亮
+        function testCodeHighlight() {
+            const markdown = `# 代码高亮测试
+
+\`\`\`javascript
+function hello() {
+    console.log('Hello, World!');
+    return 'success';
+}
+\`\`\`
+
+\`\`\`python
+def hello():
+    print("Hello, World!")
+    return "success"
+\`\`\``;
+            
+            renderTest(markdown, '代码高亮测试');
+        }
+        
+        // 测试完整功能
+        function testFullMarkdown() {
+            const markdown = `# 完整功能测试
+
+## 二级标题
+
+### 三级标题
+
+**粗体** 和 *斜体* 文本测试。
+
+| 表格 | 测试 |
+|------|------|
+| 单元格1 | 单元格2 |
+| 数据1 | 数据2 |
+
+> 这是一个引用块
+> 
+> 可以有多行内容
+
+\`\`\`javascript
+// 代码块测试
+const test = () => {
+    console.log('测试成功！');
+};
+\`\`\`
+
+- 无序列表1
+- 无序列表2
+  - 嵌套列表1
+  - 嵌套列表2
+
+1. 有序列表1
+2. 有序列表2
+
+---
+
+分隔线测试`;
+            
+            renderTest(markdown, '完整功能测试');
+        }
+        
+        // 加载测试文件
+        async function loadTestFile() {
+            try {
+                const result = document.getElementById('result');
+                result.innerHTML = '<div class="status info">正在加载测试文件...</div>';
+                
+                const response = await fetch('../../context/test.md');
+                if (!response.ok) {
+                    throw new Error('HTTP ' + response.status);
+                }
+                
+                const markdown = await response.text();
+                renderTest(markdown, '测试文件加载');
+                
+            } catch (error) {
+                const result = document.getElementById('result');
+                result.innerHTML = '<div class="status error">加载测试文件失败: ' + error.message + '</div>';
+            }
+        }
+        
+        // 渲染测试
+        async function renderTest(markdown, testName) {
+            const result = document.getElementById('result');
+            
+            try {
+                result.innerHTML = '<div class="status info">正在渲染 ' + testName + '...</div>';
+                
+                const renderResult = await renderer.renderMarkdown(markdown, null);
+                
+                result.innerHTML = `
+                    <div class="status success">✓ ${testName} 渲染成功</div>
+                    <h3>渲染结果:</h3>
+                    <div style="border: 1px solid #ccc; padding: 15px; background: white; border-radius: 4px;">
+                        ${renderResult.html}
+                    </div>
+                    <h3>目录信息:</h3>
+                    <div style="background: #f8f9fa; padding: 10px; border-radius: 4px;">
+                        <pre>${JSON.stringify(renderResult.toc, null, 2)}</pre>
+                    </div>
+                `;
+                
+            } catch (error) {
+                result.innerHTML = '<div class="status error">✗ ' + testName + ' 渲染失败: ' + error.message + '</div>';
+                console.error('渲染错误:', error);
+            }
+        }
+        
+        // 页面加载完成后检查依赖
+        window.addEventListener('load', function() {
+            setTimeout(checkDependencies, 100);
+        });
+    </script>
+</body>
+</html>

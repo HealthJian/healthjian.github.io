@@ -350,6 +350,18 @@ function getBlogPosts() {
     // 文章数据
     return [
         {
+            id: 'markdown-blog-template',
+            title: 'Markdown博客模板系统',
+            title_en: 'Markdown Blog Template System',
+            excerpt: '全新的Markdown博客模板系统，支持完整的Markdown语法渲染、代码高亮、自动目录生成、响应式设计和主题切换。提供了强大的文章编写和展示功能，让博客创作更加便捷高效。',
+            excerpt_en: 'A brand new Markdown blog template system that supports complete Markdown syntax rendering, code highlighting, automatic table of contents generation, responsive design, and theme switching. Provides powerful article writing and display features for more convenient and efficient blog creation.',
+            date: '2025-09-08',
+            url: '/pages/blog/moban_new_md.html?md=../../context/test.md',
+            category: 'tech',
+            tags: ['Markdown', '博客模板', '代码高亮', '响应式设计', '主题切换'],
+            tags_en: ['Markdown', 'Blog Template', 'Code Highlighting', 'Responsive Design', 'Theme Switching']
+        },
+        {
             id: 'cnn-paddle',
             title: '基于PaddlePaddle的卷积神经网络实现-十二猫分类',
             title_en: 'Convolutional Neural Network Implementation Based on PaddlePaddle - Cat Classification',
@@ -684,6 +696,10 @@ function getTagTranslation(tag, targetLang) {
         'Blog': '博客',
         'Thoughts': '随想',
         'Life': '生活',
+        'Blog Template': '博客模板',
+        'Code Highlighting': '代码高亮',
+        'Responsive Design': '响应式设计',
+        'Theme Switching': '主题切换',
         /* 新增标签翻译 */
         'CUDA': 'CUDA',
         'GPU Programming': 'GPU编程', 
@@ -766,6 +782,10 @@ function getTagTranslation(tag, targetLang) {
         '博客': 'Blog',
         '随想': 'Thoughts',
         '生活': 'Life',
+        '博客模板': 'Blog Template',
+        '代码高亮': 'Code Highlighting',
+        '响应式设计': 'Responsive Design',
+        '主题切换': 'Theme Switching',
         /* 新增标签翻译 */
         'CUDA': 'CUDA',
         'GPU编程': 'GPU Programming',

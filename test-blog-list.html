@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>博客列表测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .post-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            background: #fafafa;
+        }
+        .post-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .post-meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        .post-excerpt {
+            color: #555;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+        .post-tags {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        .tag {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+        .tech { border-left: 4px solid #4caf50; }
+        .life { border-left: 4px solid #ff9800; }
+        .work { border-left: 4px solid #9c27b0; }
+        .highlight {
+            background-color: #fff3cd !important;
+            border-color: #ffc107 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>博客文章列表测试</h1>
+        <p>验证新添加的Markdown模板文章是否正确显示在列表中</p>
+        
+        <div id="post-list">
+            <p>正在加载文章列表...</p>
+        </div>
+    </div>
+
+    <script src="js/blog.js"></script>
+    <script>
+        // 测试博客文章列表
+        function testBlogList() {
+            const posts = getBlogPosts();
+            const postListContainer = document.getElementById('post-list');
+            
+            if (!posts || posts.length === 0) {
+                postListContainer.innerHTML = '<p style="color: red;">无法加载文章数据</p>';
+                return;
+            }
+            
+            let html = `<h2>共找到 ${posts.length} 篇文章</h2>`;
+            
+            // 查找新添加的Markdown模板文章
+            const markdownPost = posts.find(post => post.id === 'markdown-blog-template');
+            if (markdownPost) {
+                html += '<div style="background: #d4edda; padding: 10px; border-radius: 4px; margin: 10px 0; color: #155724;"><strong>✓ 找到新添加的Markdown模板文章！</strong></div>';
+            } else {
+                html += '<div style="background: #f8d7da; padding: 10px; border-radius: 4px; margin: 10px 0; color: #721c24;"><strong>✗ 未找到Markdown模板文章</strong></div>';
+            }
+            
+            // 按分类统计
+            const categories = {};
+            posts.forEach(post => {
+                if (!categories[post.category]) {
+                    categories[post.category] = 0;
+                }
+                categories[post.category]++;
+            });
+            
+            html += '<h3>分类统计:</h3><ul>';
+            Object.entries(categories).forEach(([category, count]) => {
+                const categoryName = category === 'tech' ? '技术' : category === 'life' ? '生活' : category === 'work' ? '工作' : category;
+                html += `<li>${categoryName}: ${count} 篇</li>`;
+            });
+            html += '</ul>';
+            
+            // 显示所有文章
+            html += '<h3>文章列表:</h3>';
+            posts.forEach(post => {
+                const isNewPost = post.id === 'markdown-blog-template';
+                html += `
+                    <div class="post-item ${post.category} ${isNewPost ? 'highlight' : ''}">
+                        <div class="post-title">${post.title}</div>
+                        <div class="post-meta">
+                            日期: ${post.date} | 分类: ${post.category === 'tech' ? '技术' : post.category === 'life' ? '生活' : post.category === 'work' ? '工作' : post.category}
+                            ${isNewPost ? ' | <strong style="color: #28a745;">新添加</strong>' : ''}
+                        </div>
+                        <div class="post-excerpt">${post.excerpt}</div>
+                        <div class="post-tags">
+                            ${post.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                        <div style="margin-top: 8px; font-size: 0.9rem; color: #666;">
+                            URL: <a href="${post.url}" target="_blank">${post.url}</a>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            postListContainer.innerHTML = html;
+        }
+        
+        // 页面加载完成后执行测试
+        window.addEventListener('load', function() {
+            setTimeout(testBlogList, 100);
+        });
+    </script>
+</body>
+</html>
