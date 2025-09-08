@@ -350,6 +350,18 @@ function getBlogPosts() {
     // 文章数据
     return [
         {
+            id: 'persistencisvictory',
+            title: '坚持就是胜利',
+            title_en: 'Persistence is Victory',
+            excerpt: '坚持就是胜利',
+            excerpt_en: 'Persistence is Victory',
+            date: '2025-09-08',
+            url: '/pages/blog/life/Persistencisvictory.html',
+            category: 'life',
+            tags: ['考研', '坚持', '励志', '生活'],
+            tags_en: ['Graduate Exam', 'Persistence', 'Motivation', 'Life']
+        },
+        {
             id: 'markdown-blog-template',
             title: 'Markdown博客模板系统',
             title_en: 'Markdown Blog Template System',

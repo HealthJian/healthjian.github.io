@@ -196,7 +196,7 @@ body.dark-mode .markdown-content code {
 
 ### 图片展示
 
-![示例图片](../images/hero-master.avif)
+![示例图片](../images/countryside.avif)
 
 *图片说明：这是一张示例图片，展示了图片在Markdown中的渲染效果。*
 
