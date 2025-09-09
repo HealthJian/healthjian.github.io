@@ -350,6 +350,18 @@ function getBlogPosts() {
     // 文章数据
     return [
         {
+            id: 'sharpcommentary',
+            title: '一种令人担忧的现象：大学校园正在成为烟民的温床',
+            title_en: 'A worrying phenomenon: university campuses are becoming hotbeds for smokers',
+            excerpt: '一种令人担忧的现象：大学校园正在成为烟民的温床',
+            excerpt_en: 'A worrying phenomenon: university campuses are becoming hotbeds for smokers',
+            date: '2025-09-09',
+            url: '/pages/blog/life/sharpcommentary.html',
+            category: 'life',
+            tags: ['大学', '烟民', '温床', '生活'],
+            tags_en: ['University', 'Smoker', 'Hotbed', 'Life']
+        },
+        {
             id: 'persistencisvictory',
             title: '坚持就是胜利',
             title_en: 'Persistence is Victory',

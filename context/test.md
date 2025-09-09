@@ -14,6 +14,7 @@
 - ✅ **多语言支持**
 - ✅ **图片懒加载**
 - ✅ **代码一键复制**
+- ✅ **LaTeX数学公式支持**
 
 ## 文本样式展示
 
@@ -180,11 +181,102 @@ body.dark-mode .markdown-content code {
 | 响应式设计 | ✅ 已完成 | 高 | 支持移动端 |
 | 暗色主题 | ✅ 已完成 | 中 | 自动切换 |
 | 目录生成 | ✅ 已完成 | 中 | 自动滚动定位 |
-| 图片优化 | 🔄 进行中 | 低 | 懒加载实现 |
+| 图片优化 | ✅ 已完成 | 低 | 懒加载实现 |
+| 数学公式 | ✅ 已完成 | 中 | KaTeX渲染 |
 
 ## 数学公式
 
-虽然当前版本还不支持LaTeX数学公式，但我们计划在未来版本中添加这个功能。
+现在我们支持完整的LaTeX数学公式渲染！使用KaTeX引擎，提供快速、准确的数学公式显示。
+
+### 行内数学公式
+
+在文本中可以使用行内数学公式，比如 $E = mc^2$ 是爱因斯坦的质能方程，或者 $\pi \approx 3.14159$ 是圆周率的近似值。
+
+你也可以写更复杂的行内公式，如 $\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}$ 或者 $\sum_{n=1}^{\infty} \frac{1}{n^2} = \frac{\pi^2}{6}$。
+
+### 块级数学公式
+
+#### 基础公式
+
+二次方程的解：
+
+$$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$
+
+欧拉公式：
+
+$$e^{i\pi} + 1 = 0$$
+
+#### 微积分
+
+导数的定义：
+
+$$f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}$$
+
+定积分：
+
+$$\int_a^b f(x) dx = \lim_{n \to \infty} \sum_{i=1}^n f(x_i) \Delta x$$
+
+#### 线性代数
+
+矩阵乘法：
+
+$$\begin{pmatrix}
+a & b \\
+c & d
+\end{pmatrix}
+\begin{pmatrix}
+x \\
+y
+\end{pmatrix}
+=
+\begin{pmatrix}
+ax + by \\
+cx + dy
+\end{pmatrix}$$
+
+特征值方程：
+
+$$A\mathbf{v} = \lambda\mathbf{v}$$
+
+#### 统计学
+
+正态分布概率密度函数：
+
+$$f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}$$
+
+贝叶斯定理：
+
+$$P(A|B) = \frac{P(B|A) \cdot P(A)}{P(B)}$$
+
+#### 复杂公式示例
+
+傅里叶变换：
+
+$$\hat{f}(\xi) = \int_{-\infty}^{\infty} f(x) e^{-2\pi i x \xi} dx$$
+
+薛定谔方程：
+
+$$i\hbar \frac{\partial}{\partial t} \Psi(\mathbf{r}, t) = \hat{H} \Psi(\mathbf{r}, t)$$
+
+麦克斯韦方程组：
+
+$$\begin{align}
+\nabla \cdot \mathbf{E} &= \frac{\rho}{\epsilon_0} \\
+\nabla \cdot \mathbf{B} &= 0 \\
+\nabla \times \mathbf{E} &= -\frac{\partial \mathbf{B}}{\partial t} \\
+\nabla \times \mathbf{B} &= \mu_0 \mathbf{J} + \mu_0 \epsilon_0 \frac{\partial \mathbf{E}}{\partial t}
+\end{align}$$
+
+### 数学公式功能特性
+
+- ✅ **完整LaTeX语法支持**：支持绝大多数LaTeX数学命令
+- ✅ **行内和块级公式**：支持 `$...$` 和 `$$...$$` 语法
+- ✅ **快速渲染**：基于KaTeX，渲染速度比MathJax更快
+- ✅ **响应式设计**：公式在不同设备上都能完美显示
+- ✅ **暗色模式适配**：公式样式自动适应主题
+- ✅ **复制功能**：点击公式即可复制LaTeX源码
+- ✅ **错误处理**：语法错误时显示友好提示
+- ✅ **常用宏定义**：内置常用数学符号宏（如 $\RR$、$\NN$、$\ZZ$、$\QQ$、$\CC$）
 
 ## 链接和图片
 
@@ -266,12 +358,14 @@ const PAGE_CONFIG = {
 
 ## 后续计划
 
-- [ ] 添加LaTeX数学公式支持
+- [x] ~~添加LaTeX数学公式支持~~ ✅ 已完成
 - [ ] 实现文章搜索功能
 - [ ] 添加评论系统
 - [ ] 支持文章标签分类
 - [ ] 优化SEO元数据
 - [ ] 添加社交分享功能
+- [ ] 添加数学公式编辑器
+- [ ] 支持更多LaTeX包和宏
 
 ## 结语
 

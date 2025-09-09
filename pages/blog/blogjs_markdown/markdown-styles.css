@@ -322,6 +322,38 @@ body.dark-mode .markdown-blockquote {
     opacity: 1;
 }
 
+/* 图片加载错误样式 */
+.markdown-content img.image-error {
+    border: 2px dashed #ccc;
+    background-color: #f8f9fa;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.markdown-content img.image-error::before {
+    content: "🖼️ 图片加载失败";
+    color: #666;
+    font-size: 1rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+body.dark-mode .markdown-content img.image-error {
+    background-color: #2d3748;
+    border-color: #4a5568;
+}
+
+body.dark-mode .markdown-content img.image-error::before {
+    color: #a0aec0;
+}
+
 /* ==================== 强调文本样式 ==================== */
 
 .markdown-content strong {
@@ -480,6 +512,161 @@ body.dark-mode .markdown-blockquote {
     .toc-container {
         box-shadow: none;
         border: 1px solid #ddd;
+    }
+}
+
+/* ==================== 数学公式样式 ==================== */
+
+/* 块级数学公式 */
+.markdown-content .math-block {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background-color: var(--card-background, #ffffff);
+    border: 1px solid var(--border-color, #e1e5e9);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px var(--shadow-color, rgba(0, 0, 0, 0.1));
+    overflow-x: auto;
+    text-align: center;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.markdown-content .math-block:hover {
+    box-shadow: 0 4px 12px var(--shadow-color, rgba(0, 0, 0, 0.15));
+    border-color: var(--primary-color, #007aff);
+}
+
+/* 行内数学公式 */
+.markdown-content .math-inline {
+    padding: 2px 4px;
+    margin: 0 2px;
+    background-color: rgba(0, 122, 255, 0.05);
+    border-radius: 3px;
+    border: 1px solid rgba(0, 122, 255, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.markdown-content .math-inline:hover {
+    background-color: rgba(0, 122, 255, 0.1);
+    border-color: rgba(0, 122, 255, 0.3);
+}
+
+/* 数学公式加载状态 */
+.math-block.loading,
+.math-inline.loading {
+    background-image: linear-gradient(90deg, transparent, rgba(0, 122, 255, 0.1), transparent);
+    background-size: 200% 100%;
+    animation: mathLoading 1.5s infinite;
+}
+
+@keyframes mathLoading {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+/* 数学公式错误状态 */
+.math-block .katex-error,
+.math-inline .katex-error {
+    color: #cc0000 !important;
+    background-color: #ffe6e6;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 0.9em;
+}
+
+/* 暗色模式适配 */
+body.dark-mode .markdown-content .math-block {
+    background-color: var(--card-background, #2d3748);
+    border-color: var(--border-color, #4a5568);
+}
+
+body.dark-mode .markdown-content .math-inline {
+    background-color: rgba(0, 122, 255, 0.1);
+    border-color: rgba(0, 122, 255, 0.2);
+}
+
+body.dark-mode .markdown-content .math-inline:hover {
+    background-color: rgba(0, 122, 255, 0.15);
+    border-color: rgba(0, 122, 255, 0.4);
+}
+
+body.dark-mode .math-block .katex-error,
+body.dark-mode .math-inline .katex-error {
+    background-color: #4a1a1a;
+    color: #ff6b6b;
+}
+
+/* 数学公式复制提示 */
+.math-copy-tooltip {
+    animation: fadeInTooltip 0.3s ease-out;
+}
+
+@keyframes fadeInTooltip {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* KaTeX样式覆盖和增强 */
+.markdown-content .katex-display {
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.markdown-content .katex {
+    font-size: 1.1em;
+}
+
+/* 大型公式的滚动条样式 */
+.math-block::-webkit-scrollbar {
+    height: 6px;
+}
+
+.math-block::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 3px;
+}
+
+.math-block::-webkit-scrollbar-thumb {
+    background: var(--primary-color, #007aff);
+    border-radius: 3px;
+}
+
+.math-block::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-color, #0056b3);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .markdown-content .math-block {
+        padding: 0.8rem;
+        margin: 1rem 0;
+        font-size: 0.9rem;
+    }
+    
+    .markdown-content .katex {
+        font-size: 1em;
+    }
+}
+
+/* 打印样式 */
+@media print {
+    .markdown-content .math-block,
+    .markdown-content .math-inline {
+        background: none !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+    
+    .math-copy-tooltip {
+        display: none !important;
     }
 }
 

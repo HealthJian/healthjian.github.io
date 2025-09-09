@@ -92,7 +92,20 @@ class MarkdownRenderer {
             </blockquote>`;
         };
 
+        // 自定义图片渲染，修正路径问题
+        renderer.image = (href, title, text) => {
+            // 修正相对路径
+            const correctedHref = this.correctImagePath(href);
+            const titleAttr = title ? ` title="${title}"` : '';
+            const altAttr = text ? ` alt="${text}"` : '';
+            
+            return `<img src="${correctedHref}"${altAttr}${titleAttr} loading="lazy" onerror="this.onerror=null; this.classList.add('image-error'); this.style.display='block';">`;
+        };
+
         marked.use({ renderer });
+        
+        // 配置数学公式支持
+        this.setupMathSupport();
     }
 
     // 生成标题的slug
@@ -104,6 +117,107 @@ class MarkdownRenderer {
             .replace(/^-+|-+$/g, '');
     }
 
+    // 修正图片路径
+    correctImagePath(originalPath) {
+        // 如果是绝对路径或完整URL，直接返回
+        if (originalPath.startsWith('http://') || originalPath.startsWith('https://') || originalPath.startsWith('/')) {
+            return originalPath;
+        }
+
+        // 处理相对路径
+        // 当前页面路径：pages/blog/moban_new_md.html
+        // Markdown文件路径：context/test.md
+        // 需要将相对于Markdown文件的路径转换为相对于当前页面的路径
+        
+        // 如果路径以 ../ 开头，说明是从Markdown文件位置开始的相对路径
+        if (originalPath.startsWith('../')) {
+            // 从 context/ 目录开始，../images/ 应该变成 ../../images/
+            // 因为当前页面在 pages/blog/ 目录下
+            return '../../' + originalPath.substring(3);
+        } else if (originalPath.startsWith('./')) {
+            // 如果是 ./images/，转换为相对于当前页面的路径
+            return '../../context/' + originalPath.substring(2);
+        } else {
+            // 相对路径，假设是相对于项目根目录
+            return '../../' + originalPath;
+        }
+    }
+
+    // 配置数学公式支持
+    setupMathSupport() {
+        // 数学公式的正则表达式
+        this.mathPatterns = {
+            // 块级公式：$$...$$
+            blockMath: /\$\$([^$]+?)\$\$/g,
+            // 行内公式：$...$（但不匹配$$...$$）
+            inlineMath: /(?<!\$)\$([^$\n]+?)\$(?!\$)/g
+        };
+    }
+
+    // 预处理数学公式
+    preprocessMath(text) {
+        let processedText = text;
+        const mathBlocks = [];
+        let blockIndex = 0;
+
+        // 先处理块级公式
+        processedText = processedText.replace(this.mathPatterns.blockMath, (match, formula) => {
+            const placeholder = `__MATH_BLOCK_${blockIndex}__`;
+            mathBlocks.push({
+                type: 'block',
+                formula: formula.trim(),
+                placeholder: placeholder
+            });
+            blockIndex++;
+            return placeholder;
+        });
+
+        // 再处理行内公式
+        processedText = processedText.replace(this.mathPatterns.inlineMath, (match, formula) => {
+            const placeholder = `__MATH_INLINE_${blockIndex}__`;
+            mathBlocks.push({
+                type: 'inline',
+                formula: formula.trim(),
+                placeholder: placeholder
+            });
+            blockIndex++;
+            return placeholder;
+        });
+
+        return {
+            text: processedText,
+            mathBlocks: mathBlocks
+        };
+    }
+
+    // 后处理数学公式
+    postprocessMath(html, mathBlocks) {
+        let processedHtml = html;
+
+        mathBlocks.forEach(mathBlock => {
+            const { type, formula, placeholder } = mathBlock;
+            
+            if (type === 'block') {
+                // 块级公式
+                const mathHtml = `<div class="math-block" data-formula="${this.escapeHtml(formula)}">$$${formula}$$</div>`;
+                processedHtml = processedHtml.replace(placeholder, mathHtml);
+            } else if (type === 'inline') {
+                // 行内公式
+                const mathHtml = `<span class="math-inline" data-formula="${this.escapeHtml(formula)}">$${formula}$</span>`;
+                processedHtml = processedHtml.replace(placeholder, mathHtml);
+            }
+        });
+
+        return processedHtml;
+    }
+
+    // HTML转义
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
     // 渲染Markdown内容
     async renderMarkdown(markdownText, targetElement) {
         try {
@@ -111,11 +225,20 @@ class MarkdownRenderer {
             this.tocItems = [];
 
             let htmlContent;
+            let mathBlocks = [];
             
             if (this.useBasicRenderer) {
-                htmlContent = this.basicMarkdownRender(markdownText);
+                // 基础渲染器也支持数学公式
+                const mathResult = this.preprocessMath(markdownText);
+                const basicHtml = this.basicMarkdownRender(mathResult.text);
+                htmlContent = this.postprocessMath(basicHtml, mathResult.mathBlocks);
+                mathBlocks = mathResult.mathBlocks;
             } else {
-                htmlContent = marked(markdownText);
+                // 使用marked.js渲染
+                const mathResult = this.preprocessMath(markdownText);
+                const markedHtml = marked(mathResult.text);
+                htmlContent = this.postprocessMath(markedHtml, mathResult.mathBlocks);
+                mathBlocks = mathResult.mathBlocks;
             }
 
             // 将渲染后的HTML插入到目标元素
@@ -129,6 +252,9 @@ class MarkdownRenderer {
                     });
                 }
 
+                // 渲染数学公式
+                await this.renderMathFormulas(targetElement);
+
                 // 添加图片懒加载
                 this.setupImageLazyLoading(targetElement);
                 
@@ -138,7 +264,8 @@ class MarkdownRenderer {
 
             return {
                 html: htmlContent,
-                toc: this.tocItems
+                toc: this.tocItems,
+                mathBlocks: mathBlocks
             };
         } catch (error) {
             console.error('Markdown渲染失败:', error);
@@ -206,7 +333,7 @@ class MarkdownRenderer {
         return tocHTML;
     }
 
-    // 设置图片懒加载
+    // 设置图片懒加载和错误处理
     setupImageLazyLoading(container) {
         const images = container.querySelectorAll('img');
         
@@ -215,20 +342,32 @@ class MarkdownRenderer {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         const img = entry.target;
-                        if (img.dataset.src) {
-                            img.src = img.dataset.src;
-                            img.classList.remove('lazy');
-                            observer.unobserve(img);
-                        }
+                        // 图片进入视口时，添加loaded类用于动画效果
+                        img.classList.add('loaded');
+                        img.classList.remove('lazy');
+                        observer.unobserve(img);
                     }
                 });
             });
 
             images.forEach(img => {
-                if (img.dataset.src) {
-                    img.classList.add('lazy');
-                    imageObserver.observe(img);
-                }
+                // 为所有图片添加懒加载类
+                img.classList.add('lazy');
+                imageObserver.observe(img);
+                
+                // 添加加载成功事件
+                img.addEventListener('load', () => {
+                    img.classList.add('loaded');
+                    img.classList.remove('lazy');
+                });
+                
+                // 图片加载错误处理已在renderer中通过onerror属性处理
+            });
+        } else {
+            // 不支持IntersectionObserver时，直接显示所有图片
+            images.forEach(img => {
+                img.classList.add('loaded');
+                img.classList.remove('lazy');
             });
         }
     }
@@ -278,6 +417,110 @@ class MarkdownRenderer {
             console.error('加载Markdown文件失败:', error);
             throw error;
         }
+    }
+
+    // 渲染数学公式
+    async renderMathFormulas(container) {
+        // 等待KaTeX加载完成
+        if (typeof katex === 'undefined' || typeof renderMathInElement === 'undefined') {
+            console.warn('KaTeX未加载，跳过数学公式渲染');
+            return;
+        }
+
+        try {
+            // 使用KaTeX的auto-render扩展
+            renderMathInElement(container, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ],
+                throwOnError: false,
+                errorColor: '#cc0000',
+                strict: 'warn',
+                trust: false,
+                macros: {
+                    "\\RR": "\\mathbb{R}",
+                    "\\NN": "\\mathbb{N}",
+                    "\\ZZ": "\\mathbb{Z}",
+                    "\\QQ": "\\mathbb{Q}",
+                    "\\CC": "\\mathbb{C}"
+                }
+            });
+
+            // 为数学公式添加复制功能
+            this.addMathCopyFeature(container);
+            
+            console.log('数学公式渲染完成');
+        } catch (error) {
+            console.error('数学公式渲染失败:', error);
+        }
+    }
+
+    // 为数学公式添加复制功能
+    addMathCopyFeature(container) {
+        const mathElements = container.querySelectorAll('.math-block, .math-inline');
+        
+        mathElements.forEach(mathEl => {
+            mathEl.style.position = 'relative';
+            mathEl.style.cursor = 'pointer';
+            mathEl.title = '点击复制LaTeX代码';
+            
+            mathEl.addEventListener('click', () => {
+                const formula = mathEl.dataset.formula || mathEl.textContent;
+                
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(formula).then(() => {
+                        this.showMathCopySuccess(mathEl);
+                    }).catch(err => {
+                        console.error('复制失败:', err);
+                        this.fallbackCopyText(formula);
+                        this.showMathCopySuccess(mathEl);
+                    });
+                } else {
+                    this.fallbackCopyText(formula);
+                    this.showMathCopySuccess(mathEl);
+                }
+            });
+        });
+    }
+
+    // 显示复制成功提示
+    showMathCopySuccess(element) {
+        const tooltip = document.createElement('div');
+        tooltip.textContent = '已复制！';
+        tooltip.className = 'math-copy-tooltip';
+        tooltip.style.cssText = `
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 1000;
+            pointer-events: none;
+        `;
+        
+        element.appendChild(tooltip);
+        
+        setTimeout(() => {
+            if (tooltip.parentNode) {
+                tooltip.parentNode.removeChild(tooltip);
+            }
+        }, 2000);
+    }
+
+    // 降级复制文本方法
+    fallbackCopyText(text) {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
     }
 
     // 更新语言
