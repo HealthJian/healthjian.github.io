@@ -350,6 +350,18 @@ function getBlogPosts() {
     // 文章数据
     return [
         {
+            id: 'smarteducation',
+            title: '大数据作为智慧教育的催化剂：数据驱动方法、应用与挑战的综合述评',
+            title_en: 'Big data as a catalyst for smart education: A comprehensive review of data-driven approaches, applications, and challenges',
+            excerpt: '大数据作为智慧教育的催化剂：数据驱动方法、应用与挑战的综合述评',
+            excerpt_en: 'Big data as a catalyst for smart education: A comprehensive review of data-driven approaches, applications, and challenges',
+            date: '2025-09-11',
+            url: '/pages/blog/tech/smarteducation.html',
+            category: 'tech',
+            tags: ['智慧教育', '大数据', '数据挖掘', '数据分析'],
+            tags_en: ['Smart Education', 'Big Data', 'Data Mining', 'Data Analysis']
+        },
+        {
             id: 'sharpcommentary',
             title: '一种令人担忧的现象：大学校园正在成为烟民的温床',
             title_en: 'A worrying phenomenon: university campuses are becoming hotbeds for smokers',
@@ -724,6 +736,19 @@ function getTagTranslation(tag, targetLang) {
         'Code Highlighting': '代码高亮',
         'Responsive Design': '响应式设计',
         'Theme Switching': '主题切换',
+        'Smart Education': '智慧教育',
+        'Big Data': '大数据',
+        'Data Mining': '数据挖掘',
+        'Data Analysis': '数据分析',
+        'Smoker': '烟民',
+        'Hotbed': '温床',
+        'Persistence': '坚持',
+        'Motivation': '励志',
+        'Academic Reality': '学术现实',
+        'Digital Performance': '数字表演',
+        'Alternative Success Stories': '另类成功故事',
+        'Redefining Success': '重新定义成功',
+        'University': '大学',
         /* 新增标签翻译 */
         'CUDA': 'CUDA',
         'GPU Programming': 'GPU编程', 
@@ -788,6 +813,16 @@ function getTagTranslation(tag, targetLang) {
         'PaddlePaddle': 'PaddlePaddle',
         '卷积神经网络': 'Convolutional Neural Network',
         '猫咪分类': 'Cat Classification',
+        '智慧教育': 'Smart Education',
+        '大数据': 'Big Data',
+        '数据挖掘': 'Data Mining',
+        '数据分析': 'Data Analysis',
+        '坚持': 'Persistence',
+        '励志': 'Motivation',
+        '学术现实': 'Academic Reality',
+        '数字表演': 'Digital Performance',
+        '另类成功故事': 'Alternative Success Stories',
+        '重新定义成功': 'Redefining Success',
         /* 新增标签翻译结束 */
         
         // 中文到英文的映射
@@ -810,6 +845,12 @@ function getTagTranslation(tag, targetLang) {
         '代码高亮': 'Code Highlighting',
         '响应式设计': 'Responsive Design',
         '主题切换': 'Theme Switching',
+        '智慧教育': 'Smart Education',
+        '大数据': 'Big Data',
+        '数据挖掘': 'Data Mining',
+        '数据分析': 'Data Analysis',
+        '烟民': 'Smoker',
+        '温床': 'Hotbed',
         /* 新增标签翻译 */
         'CUDA': 'CUDA',
         'GPU编程': 'GPU Programming',
@@ -886,6 +927,17 @@ function getTagTranslation(tag, targetLang) {
         'PaddlePaddle': 'PaddlePaddle',
         '卷积神经网络': 'Convolutional Neural Network',
         '猫咪分类': 'Cat Classification',
+        '智慧教育': 'Smart Education',
+        '大数据': 'Big Data',
+        '数据挖掘': 'Data Mining',
+        '数据分析': 'Data Analysis',
+        '坚持': 'Persistence',
+        '励志': 'Motivation',
+        '学术现实': 'Academic Reality',
+        '数字表演': 'Digital Performance',
+        '另类成功故事': 'Alternative Success Stories',
+        '重新定义成功': 'Redefining Success',
+        '大学': 'University',
         /* 新增标签翻译结束 */
     };
     

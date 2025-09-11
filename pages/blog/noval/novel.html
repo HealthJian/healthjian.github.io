@@ -10,9 +10,660 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <meta name="description" content="HealthJian的小说作品集，收录原创小说及连载作品。">
+    <style>
+        /* 背景图片设置 - 与about页面完全一致 */
+        .novel-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/colorfulcountryside.avif');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: blur(2px); /* 与about页面一致的模糊效果 */
+            opacity: 0.6; /* 与about页面一致的透明度 */
+            z-index: -1;
+        }
+
+        /* 日间模式背景叠加层 - 与about页面一致 */
+        body.light-mode .novel-background::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(250, 235, 215, 0.5); /* 日间模式叠加古董白色 */
+            z-index: -1;
+        }
+
+        /* 夜间模式背景叠加层 - 与about页面一致 */
+        body.dark-mode .novel-background::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 51, 102, 0.7); /* 夜间模式叠加深蓝色 */
+            z-index: -1;
+        }
+
+        /* 现代化动态背景 */
+        .novel-page-enhanced {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .novel-page-enhanced::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 200, 255, 0.2) 0%, transparent 50%);
+            animation: gradientShift 20s ease-in-out infinite;
+            z-index: -1;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+            50% { transform: translate(-50%, -50%) rotate(180deg); }
+        }
+        
+        /* 增强的容器样式 */
+        .bookshelf-container-enhanced {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* 现代化介绍部分 */
+        .shelf-intro-enhanced {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 3rem 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .shelf-intro-enhanced h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 25%, #45b7d1 50%, #f9ca24 75%, #ff6b6b 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: gradientText 4s ease-in-out infinite;
+        }
+        
+        @keyframes gradientText {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .shelf-intro-enhanced p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 800px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+        
+        /* 增强的分类标题 */
+        .category-header-enhanced {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 3rem;
+            padding: 1.5rem 2rem;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        
+        .category-header-enhanced h2 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: white;
+            margin: 0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .category-count-enhanced {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            border-radius: 50%;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-left: 1rem;
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+        }
+        
+        /* 书籍网格布局 */
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 5rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* 现代化书本卡片 */
+        .book-card-enhanced {
+            display: flex !important;
+            flex-direction: column;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            position: relative;
+            height: 100%;
+            z-index: 3;
+            opacity: 1 !important;
+            visibility: visible !important;
+            min-height: 400px;
+        }
+        
+        /* 白天模式下的卡片样式 */
+        body.light-mode .book-card-enhanced {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        }
+        
+        body.light-mode .book-card-enhanced:hover {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+        
+        /* 调试样式 - 确保书籍卡片可见 */
+        .book-card-enhanced * {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        
+        .book-card-enhanced::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24);
+            background-size: 300% 100%;
+            animation: gradientMove 3s ease-in-out infinite;
+        }
+        
+        @keyframes gradientMove {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        /* 页面加载动画 */
+        .novel-page-enhanced .shelf-intro-enhanced,
+        .novel-page-enhanced .category-header-enhanced,
+        .novel-page-enhanced .book-card-enhanced,
+        .novel-page-enhanced .bookshelf-actions-enhanced {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .shelf-intro-enhanced {
+            animation-delay: 0.2s;
+        }
+        
+        .book-card-enhanced {
+            animation-delay: 0.4s;
+        }
+        
+        .bookshelf-actions-enhanced {
+            animation-delay: 0.6s;
+        }
+        
+        /* 悬浮粒子效果 */
+        .novel-page-enhanced::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, rgba(255, 255, 255, 0.3), transparent),
+                radial-gradient(2px 2px at 40px 70px, rgba(255, 255, 255, 0.2), transparent),
+                radial-gradient(1px 1px at 90px 40px, rgba(255, 255, 255, 0.3), transparent),
+                radial-gradient(1px 1px at 130px 80px, rgba(255, 255, 255, 0.2), transparent),
+                radial-gradient(2px 2px at 160px 30px, rgba(255, 255, 255, 0.3), transparent);
+            background-repeat: repeat;
+            background-size: 200px 100px;
+            animation: sparkle 20s linear infinite;
+            pointer-events: none;
+            z-index: -2;
+        }
+        
+        @keyframes sparkle {
+            from { transform: translateY(0px); }
+            to { transform: translateY(-200px); }
+        }
+        
+        .book-card-enhanced:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .book-info-enhanced {
+            padding: 2rem;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        
+        .book-title-enhanced {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 白天模式下的标题颜色 */
+        body.light-mode .book-title-enhanced {
+            color: rgba(0, 0, 0, 0.9);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .book-author-enhanced {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        /* 白天模式下的作者颜色 */
+        body.light-mode .book-author-enhanced {
+            color: rgba(0, 0, 0, 0.7);
+        }
+        
+        .book-author-enhanced i {
+            margin-right: 0.5rem;
+            color: #4ecdc4;
+        }
+        
+        .book-tags-enhanced {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+            gap: 0.8rem;
+        }
+        
+        .book-tag-enhanced {
+            padding: 0.5rem 1.2rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        /* 白天模式下的标签样式 */
+        body.light-mode .book-tag-enhanced {
+            background: rgba(0, 0, 0, 0.08);
+            color: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.15);
+        }
+        
+        .book-tag-enhanced:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-1px);
+        }
+        
+        body.light-mode .book-tag-enhanced:hover {
+            background: rgba(0, 0, 0, 0.12);
+            color: rgba(0, 0, 0, 0.9);
+        }
+        
+        .book-description-enhanced {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            flex-grow: 1;
+        }
+        
+        /* 白天模式下的描述颜色 */
+        body.light-mode .book-description-enhanced {
+            color: rgba(0, 0, 0, 0.7);
+        }
+        
+        .book-meta-enhanced {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1.5rem;
+        }
+        
+        /* 白天模式下的元信息边框 */
+        body.light-mode .book-meta-enhanced {
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .book-status-enhanced {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        /* 白天模式下的状态颜色 */
+        body.light-mode .book-status-enhanced {
+            color: rgba(0, 0, 0, 0.7);
+        }
+        
+        .status-icon-enhanced {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.6rem;
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+        }
+        
+        .status-completed-enhanced .status-icon-enhanced {
+            background-color: #4CAF50;
+        }
+        
+        .book-stats-enhanced {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        /* 白天模式下的统计信息颜色 */
+        body.light-mode .book-stats-enhanced {
+            color: rgba(0, 0, 0, 0.6);
+        }
+        
+        .book-stats-enhanced i {
+            margin-right: 0.5rem;
+            color: #4ecdc4;
+        }
+        
+        .book-action-enhanced {
+            display: block;
+            text-align: center;
+            padding: 1.5rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .book-action-enhanced::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .book-action-enhanced:hover::before {
+            left: 100%;
+        }
+        
+        .book-action-enhanced:hover {
+            background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+            transform: translateY(-2px);
+        }
+        
+        /* 空书架样式增强 */
+        .empty-shelf-enhanced {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            margin-bottom: 4rem;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        
+        .empty-shelf-enhanced i {
+            font-size: 4rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+        
+        .empty-shelf-enhanced p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        /* 底部按钮增强 */
+        .bookshelf-actions-enhanced {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4rem;
+            margin-bottom: 4rem;
+            gap: 1rem;
+        }
+        
+        .shelf-button-enhanced {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .shelf-button-enhanced:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .shelf-button-enhanced i {
+            margin-right: 0.7rem;
+        }
+        
+        .shelf-button-enhanced.primary {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            border: none;
+        }
+        
+        .shelf-button-enhanced.primary:hover {
+            background: linear-gradient(135deg, #ff5252 0%, #d63031 100%);
+        }
+        
+        .shelf-button-enhanced.primary i {
+            margin-left: 0.7rem;
+            margin-right: 0;
+        }
+        
+        /* 导航栏和页脚增强 */
+        .novel-page-enhanced .navbar {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .novel-page-enhanced .navbar .menu a,
+        .novel-page-enhanced .navbar .logo .site-name {
+            color: white;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .novel-page-enhanced .navbar .menu a:hover {
+            color: #4ecdc4;
+        }
+        
+        .novel-page-enhanced .social-icons a {
+            color: white;
+        }
+        
+        .novel-page-enhanced .social-icons a:hover {
+            color: #4ecdc4;
+        }
+        
+        .novel-page-enhanced #theme-toggle,
+        .novel-page-enhanced #lang-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .novel-page-enhanced #theme-toggle:hover,
+        .novel-page-enhanced #lang-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .novel-page-enhanced footer {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .novel-page-enhanced footer a {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .novel-page-enhanced footer a:hover {
+            color: #4ecdc4;
+        }
+        
+        /* 分隔线增强 */
+        .novel-page-enhanced .section-divider {
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+            margin: 5rem 0;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1200px) {
+            .books-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .shelf-intro-enhanced h1 {
+                font-size: 2.5rem;
+            }
+            
+            .shelf-intro-enhanced p {
+                font-size: 1rem;
+            }
+            
+            .bookshelf-actions-enhanced {
+                flex-direction: column;
+            }
+            
+            .shelf-button-enhanced {
+                width: 100%;
+            }
+            
+            .bookshelf-container-enhanced {
+                padding: 1rem;
+            }
+            
+            .shelf-intro-enhanced,
+            .category-header-enhanced {
+                padding: 2rem 1rem;
+            }
+            
+            .book-info-enhanced {
+                padding: 1.5rem;
+            }
+            
+            .books-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .shelf-intro-enhanced h1 {
+                font-size: 2rem;
+            }
+            
+            .category-header-enhanced h2 {
+                font-size: 1.8rem;
+            }
+            
+            .book-title-enhanced {
+                font-size: 1.5rem;
+            }
+            
+            .books-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
-<body class="light-mode bookshelf-page">
+<body class="light-mode bookshelf-page novel-page-enhanced">
     <!-- 导航栏 -->
     <nav class="navbar">
         <div class="nav-left">
@@ -43,10 +694,13 @@
         </div>
     </nav>
 
+    <!-- 背景图片 - 与about页面一致的背景壁纸 -->
+    <div class="novel-background"></div>
+
     <!-- 主内容区 -->
-    <div class="bookshelf-container">
+    <div class="bookshelf-container-enhanced">
         <!-- 介绍部分 -->
-        <section class="shelf-intro">
+        <section class="shelf-intro-enhanced">
             <h1 class="bilingual-content">
                 <span class="zh-content">我的小说书架</span>
                 <span class="en-content" style="display: none;">My Novel Collection</span>
@@ -59,48 +713,48 @@
 
         <!-- 已完成作品 -->
         <section class="book-category" id="completed-works">
-            <div class="category-header">
+            <div class="category-header-enhanced">
                 <h2 class="bilingual-content">
                     <span class="zh-content">已完成作品</span>
                     <span class="en-content" style="display: none;">Completed Works</span>
                 </h2>
-                <span class="category-count">1</span>
+                <span class="category-count-enhanced">1</span>
             </div>
             
             <div class="books-grid">
                 <!-- 梅尔罗德 -->
-                <article class="book-card">
-                    <div class="book-info">
-                        <h3 class="book-title bilingual-content">
+                <article class="book-card-enhanced">
+                    <div class="book-info-enhanced">
+                        <h3 class="book-title-enhanced bilingual-content">
                             <span class="zh-content">梅尔罗德</span>
                             <span class="en-content" style="display: none;">Melrod</span>
                         </h3>
-                        <div class="book-author">
+                        <div class="book-author-enhanced">
                             <i class="fas fa-user"></i> HealthJian
                         </div>
-                        <div class="book-tags">
-                            <span class="book-tag" data-en="Crime" data-zh="犯罪">犯罪</span>
-                            <span class="book-tag" data-en="Thriller" data-zh="悬疑">悬疑</span>
-                            <span class="book-tag" data-en="Drama" data-zh="剧情">剧情</span>
+                        <div class="book-tags-enhanced">
+                            <span class="book-tag-enhanced" data-en="Crime" data-zh="犯罪">犯罪</span>
+                            <span class="book-tag-enhanced" data-en="Thriller" data-zh="悬疑">悬疑</span>
+                            <span class="book-tag-enhanced" data-en="Drama" data-zh="剧情">剧情</span>
                         </div>
-                        <div class="book-description bilingual-content">
+                        <div class="book-description-enhanced bilingual-content">
                             <span class="zh-content">在梅罗德这座看似繁华的城市背后，实则暗流涌动，危机四伏。平静被一声巨响打破，梅罗德港口突发爆炸，卢卡斯被卷入更大的漩涡，陷入权力、欲望与正义的交锋中...</span>
                             <span class="en-content" style="display: none;">Behind the seemingly prosperous city of Melrod, there are undercurrents and dangers. The calm was broken by a loud explosion at Melrod port, and Lucas was dragged into a larger whirlpool, caught in the clash of power, desire, and justice...</span>
                         </div>
-                        <div class="book-meta">
-                            <div class="book-status status-completed">
-                                <span class="status-icon"></span>
+                        <div class="book-meta-enhanced">
+                            <div class="book-status-enhanced status-completed-enhanced">
+                                <span class="status-icon-enhanced"></span>
                                 <span class="bilingual-content">
                                     <span class="zh-content">已完成</span>
                                     <span class="en-content" style="display: none;">Completed</span>
                                 </span>
                             </div>
-                            <div class="book-stats">
+                            <div class="book-stats-enhanced">
                                 <i class="fas fa-bookmark"></i> 34章
                             </div>
                         </div>
                     </div>
-                    <a href="one/index.html" class="book-action bilingual-content">
+                    <a href="one/index.html" class="book-action-enhanced bilingual-content">
                         <span class="zh-content">立即阅读</span>
                         <span class="en-content" style="display: none;">Read Now</span>
                     </a>
@@ -112,15 +766,15 @@
 
         <!-- 连载中作品 -->
         <section class="book-category" id="ongoing-works">
-            <div class="category-header">
+            <div class="category-header-enhanced">
                 <h2 class="bilingual-content">
                     <span class="zh-content">连载中作品</span>
                     <span class="en-content" style="display: none;">Ongoing Works</span>
                 </h2>
-                <span class="category-count">0</span>
+                <span class="category-count-enhanced">0</span>
             </div>
             
-            <div class="empty-shelf">
+            <div class="empty-shelf-enhanced">
                 <i class="fas fa-pen-fancy"></i>
                 <p class="bilingual-content">
                     <span class="zh-content">正在创作中，敬请期待...</span>
@@ -130,15 +784,15 @@
         </section>
 
         <!-- 页脚导航 -->
-        <div class="bookshelf-actions">
-            <a href="../../blog.html" class="shelf-button">
+        <div class="bookshelf-actions-enhanced">
+            <a href="../../blog.html" class="shelf-button-enhanced">
                 <i class="fas fa-arrow-left"></i>
                 <span class="bilingual-content">
                     <span class="zh-content">返回博客列表</span>
                     <span class="en-content" style="display: none;">Back to Blog</span>
                 </span>
             </a>
-            <a href="license.html" class="shelf-button primary">
+            <a href="license.html" class="shelf-button-enhanced primary">
                 <span class="bilingual-content">
                     <span class="zh-content">查看许可与条款</span>
                     <span class="en-content" style="display: none;">License & Terms</span>

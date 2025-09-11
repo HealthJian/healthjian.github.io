@@ -53,12 +53,80 @@ body.dark-mode .about-background::after {
 /* 内容布局 */
 .about-content {
     display: flex;
-    flex-wrap: wrap;
-    gap: 40px;
+    flex-direction: column;
+    gap: 0;
     background-color: var(--card-background);
     border-radius: var(--border-radius);
-    padding: 40px;
     box-shadow: 0 10px 30px var(--shadow-color);
+    overflow: hidden;
+}
+
+/* Banner图片样式 */
+.author-banner {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    background: linear-gradient(135deg, rgba(0,0,0,0.1), rgba(0,0,0,0.3));
+}
+
+.banner-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    filter: brightness(0.95) contrast(1.1);
+}
+
+.author-banner:hover .banner-image {
+    transform: scale(1.05);
+    filter: brightness(1) contrast(1.15);
+}
+
+/* Banner图片遮罩效果 */
+.author-banner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, 
+        rgba(0,0,0,0) 0%, 
+        rgba(0,0,0,0.1) 70%, 
+        rgba(0,0,0,0.3) 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* 深色模式下的Banner样式调整 */
+body.dark-mode .author-banner {
+    background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.1));
+}
+
+body.dark-mode .author-banner::after {
+    background: linear-gradient(to bottom, 
+        rgba(0,0,0,0) 0%, 
+        rgba(0,0,0,0.2) 70%, 
+        rgba(0,0,0,0.5) 100%);
+}
+
+body.dark-mode .banner-image {
+    filter: brightness(0.9) contrast(1.05);
+}
+
+body.dark-mode .author-banner:hover .banner-image {
+    filter: brightness(0.95) contrast(1.1);
+}
+
+/* 调整主要内容区域 */
+.about-content-main {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    padding: 40px;
 }
 
 /* 作者部分布局 */
@@ -127,6 +195,62 @@ body.dark-mode .about-background::after {
     font-size: 1rem;
     color: var(--text-color);
     opacity: 0.8;
+}
+
+/* 个人深度反思语录样式 */
+.personal-reflection {
+    margin: 50px 0;
+    padding: 30px;
+    background: linear-gradient(135deg, 
+        rgba(var(--primary-color-rgb), 0.05), 
+        rgba(var(--accent-color-rgb, 255, 107, 107), 0.05));
+    border-radius: var(--border-radius);
+    border-left: 5px solid var(--accent-color);
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.personal-reflection::before {
+    content: '💭';
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    font-size: 1.5rem;
+    background-color: var(--card-background);
+    padding: 5px 10px;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.personal-reflection p {
+    margin-bottom: 25px;
+    line-height: 1.9;
+    font-size: 1.05rem;
+    color: var(--text-color);
+    text-indent: 2em; /* 中文段落首行缩进 */
+    position: relative;
+}
+
+.personal-reflection p:last-child {
+    margin-bottom: 0;
+    font-weight: 500;
+    color: var(--primary-color);
+}
+
+/* 深色模式下的个人反思样式 */
+body.dark-mode .personal-reflection {
+    background: linear-gradient(135deg, 
+        rgba(var(--primary-color-rgb), 0.1), 
+        rgba(var(--accent-color-rgb, 255, 107, 107), 0.08));
+    border-left-color: var(--accent-color);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .personal-reflection::before {
+    background-color: var(--card-background);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* 社交媒体图标网格 - 调整为两行三列的特定顺序 */
@@ -264,9 +388,13 @@ body.dark-mode .social-item.github {
 
 /* 响应式设计 */
 @media (max-width: 768px) {
-    .about-content {
+    .about-content-main {
         flex-direction: column;
         padding: 30px;
+    }
+    
+    .author-banner {
+        height: 150px; /* 移动端减小banner高度 */
     }
     
     .author-section {
@@ -310,6 +438,25 @@ body.dark-mode .social-item.github {
     .social-item span i {
         font-size: 1.5rem;
         margin-bottom: 2px;
+    }
+    
+    /* 移动端个人反思样式调整 */
+    .personal-reflection {
+        margin: 30px 0;
+        padding: 20px;
+    }
+    
+    .personal-reflection p {
+        font-size: 1rem;
+        line-height: 1.7;
+        text-indent: 1.5em;
+    }
+    
+    .personal-reflection::before {
+        font-size: 1.2rem;
+        top: -8px;
+        left: 15px;
+        padding: 3px 8px;
     }
 } 
 

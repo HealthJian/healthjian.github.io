@@ -11,7 +11,7 @@ function initBookshelf() {
     updateCategoryCount();
     
     // 为所有书籍卡片添加悬停效果
-    const bookCards = document.querySelectorAll('.book-card');
+    const bookCards = document.querySelectorAll('.book-card, .book-card-enhanced');
     bookCards.forEach(card => {
         card.addEventListener('mouseenter', function() {
             this.setAttribute('data-hovered', 'true');
@@ -30,19 +30,19 @@ function updateCategoryCount() {
     categories.forEach(category => {
         const categoryId = category.id;
         const booksGrid = category.querySelector('.books-grid');
-        const bookCount = booksGrid ? booksGrid.querySelectorAll('.book-card').length : 0;
+        const bookCount = booksGrid ? booksGrid.querySelectorAll('.book-card, .book-card-enhanced').length : 0;
         
         // 查找并更新计数标签
-        const countEl = category.querySelector('.category-count');
+        const countEl = category.querySelector('.category-count, .category-count-enhanced');
         if (countEl) {
             countEl.textContent = bookCount;
         }
         
         // 如果这个分类没有书籍，可以隐藏或显示"暂无书籍"提示
         if (bookCount === 0) {
-            if (!category.querySelector('.empty-shelf')) {
+            if (!category.querySelector('.empty-shelf, .empty-shelf-enhanced')) {
                 const emptyShelf = document.createElement('div');
-                emptyShelf.className = 'empty-shelf';
+                emptyShelf.className = 'empty-shelf-enhanced';
                 emptyShelf.innerHTML = `
                     <i class="fas fa-book-open"></i>
                     <p class="bilingual-content">
@@ -52,9 +52,9 @@ function updateCategoryCount() {
                 `;
                 
                 // 如果有网格但为空，替换它
-                if (booksGrid) {
+                if (booksGrid && booksGrid.children.length === 0) {
                     booksGrid.replaceWith(emptyShelf);
-                } else {
+                } else if (!booksGrid) {
                     // 否则直接添加到分类中
                     category.appendChild(emptyShelf);
                 }
