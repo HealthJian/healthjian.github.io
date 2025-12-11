@@ -3,10 +3,13 @@
 // 全局配置：每页显示的文章数量
 const POSTS_PER_PAGE = 8;
 
-document.addEventListener('DOMContentLoaded', function() {
-    // 初始化博客功能
-    initBlog();
-});
+// 允许某些页面仅复用数据而不初始化旧版UI
+if (!window.SKIP_BLOG_INIT) {
+    document.addEventListener('DOMContentLoaded', function() {
+        // 初始化博客功能
+        initBlog();
+    });
+}
 
 function initBlog() {
     // 初始化搜索功能

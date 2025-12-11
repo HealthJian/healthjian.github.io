@@ -54,7 +54,7 @@
                 <!--<li><a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a></li>-->
                 <li><a href="pages/links.html" data-en="Links" data-zh="链接">链接</a></li>
                 <li><a href="pages/about.html" data-en="About" data-zh="关于">关于</a></li>
-                <!-- <li><a href="resume/resume.pdf" download data-en="Resume" data-zh="简历">简历</a></li> -->
+                <li><a href="new.html" data-en="Resume" data-zh="简历">简历</a></li>
             </ul>
             <div class="social-icons">
                 <a href="https://steamcommunity.com/profiles/76561199031176587/" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
@@ -87,11 +87,12 @@
                 
                 .avatar {
                     position: relative;
-                    z-index: 2;
+                    z-index: 3;
                     border-radius: 50%;
                     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
                 }
                 
+                /* 内层柔光 */
                 .avatar-container::before {
                     content: "";
                     position: absolute;
@@ -110,7 +111,45 @@
                     animation: pulse-light 4s infinite alternate ease-in-out;
                 }
                 
-                /* 夜间模式下的紫色光晕 */
+                /* 正余弦感的金色波形光环 */
+                .avatar-container::after {
+                    content: "";
+                    position: absolute;
+                    inset: -28px;
+                    border-radius: 50%;
+                    z-index: 2;
+                    pointer-events: none;
+                    background: conic-gradient(
+                        from 0deg,
+                        rgba(255, 215, 64, 0.62) 0deg 18deg,
+                        rgba(255, 215, 64, 0.12) 18deg 36deg,
+                        rgba(255, 215, 64, 0.56) 36deg 54deg,
+                        rgba(255, 215, 64, 0.12) 54deg 72deg,
+                        rgba(255, 215, 64, 0.62) 72deg 90deg,
+                        rgba(255, 215, 64, 0.12) 90deg 108deg,
+                        rgba(255, 215, 64, 0.56) 108deg 126deg,
+                        rgba(255, 215, 64, 0.12) 126deg 144deg,
+                        rgba(255, 215, 64, 0.62) 144deg 162deg,
+                        rgba(255, 215, 64, 0.12) 162deg 180deg,
+                        rgba(255, 215, 64, 0.56) 180deg 198deg,
+                        rgba(255, 215, 64, 0.12) 198deg 216deg,
+                        rgba(255, 215, 64, 0.62) 216deg 234deg,
+                        rgba(255, 215, 64, 0.12) 234deg 252deg,
+                        rgba(255, 215, 64, 0.56) 252deg 270deg,
+                        rgba(255, 215, 64, 0.12) 270deg 288deg,
+                        rgba(255, 215, 64, 0.62) 288deg 306deg,
+                        rgba(255, 215, 64, 0.12) 306deg 324deg,
+                        rgba(255, 215, 64, 0.56) 324deg 342deg,
+                        rgba(255, 215, 64, 0.12) 342deg 360deg
+                    );
+                    mask: radial-gradient(circle at center, transparent 56%, rgba(0,0,0,0.8) 65%, transparent 72%);
+                    animation: wave-ring 8s linear infinite;
+                    mix-blend-mode: screen;
+                    filter: blur(0.4px);
+                    opacity: 0.88;
+                }
+                
+                /* 夜间模式下的紫金波形 */
                 body.dark-mode .avatar-container::before {
                     background: radial-gradient(
                         ellipse at center,
@@ -119,6 +158,32 @@
                         rgba(147, 112, 219, 0) 70%
                     );
                     animation: pulse-dark 4s infinite alternate ease-in-out;
+                }
+                
+                body.dark-mode .avatar-container::after {
+                    background: conic-gradient(
+                        from 0deg,
+                        rgba(147, 112, 219, 0.38) 0deg 20deg,
+                        rgba(147, 112, 219, 0.06) 20deg 40deg,
+                        rgba(147, 112, 219, 0.32) 40deg 60deg,
+                        rgba(147, 112, 219, 0.06) 60deg 80deg,
+                        rgba(147, 112, 219, 0.38) 80deg 100deg,
+                        rgba(147, 112, 219, 0.06) 100deg 120deg,
+                        rgba(147, 112, 219, 0.32) 120deg 140deg,
+                        rgba(147, 112, 219, 0.06) 140deg 160deg,
+                        rgba(147, 112, 219, 0.38) 160deg 180deg,
+                        rgba(147, 112, 219, 0.06) 180deg 200deg,
+                        rgba(147, 112, 219, 0.32) 200deg 220deg,
+                        rgba(147, 112, 219, 0.06) 220deg 240deg,
+                        rgba(147, 112, 219, 0.38) 240deg 260deg,
+                        rgba(147, 112, 219, 0.06) 260deg 280deg,
+                        rgba(147, 112, 219, 0.32) 280deg 300deg,
+                        rgba(147, 112, 219, 0.06) 300deg 320deg,
+                        rgba(147, 112, 219, 0.38) 320deg 340deg,
+                        rgba(147, 112, 219, 0.06) 340deg 360deg
+                    );
+                    animation: wave-ring-dark 10s linear infinite;
+                    opacity: 0.78;
                 }
                 
                 @keyframes pulse-light {
@@ -134,6 +199,18 @@
                         transform: scale(1);
                         opacity: 0.7;
                     }
+                }
+                
+                @keyframes wave-ring {
+                    0% { transform: rotate(0deg) scale(0.98); opacity: 0.7; }
+                    50% { transform: rotate(180deg) scale(1.02); opacity: 0.9; }
+                    100% { transform: rotate(360deg) scale(0.98); opacity: 0.7; }
+                }
+                
+                @keyframes wave-ring-dark {
+                    0% { transform: rotate(0deg) scale(0.99); opacity: 0.72; }
+                    50% { transform: rotate(-180deg) scale(1.03); opacity: 0.92; }
+                    100% { transform: rotate(-360deg) scale(0.99); opacity: 0.72; }
                 }
                 
                 @keyframes pulse-dark {
@@ -321,79 +398,118 @@
             </div>
         </section>
 
-        <!-- 在博客动态部分之后添加 -->
-        <section class="qia-section">
-            <h2 data-en="Q_I&A (Questions, Issues, Ideas & Answers)" data-zh="问答与想法">问答与想法</h2>
-            <div class="qia-container">
-                <div class="qia-item idea">
-                    <div class="qia-badge" data-en="Idea" data-zh="想法">想法</div>
-                    <div class="qia-content">
-                        <h3 data-en="2025 National Computer Design Competition" data-zh="2025届全国计算机设计大赛落幕">2025届全国计算机设计大赛落幕</h3>
-                        <p data-en="The 2025 National Computer Design Competition has come to an end, and I have won the national third prize." data-zh="2025年全国大学生计算机设计大赛落下帷幕，我获得了国家级三等奖。">2025年全国大学生计算机设计大赛落下帷幕，我获得了国家级三等奖。</p>
-                    </div>
-                </div>
-                
-                <div class="qia-item idea">
-                    <div class="qia-badge" data-en="Idea" data-zh="想法">想法</div>
-                    <div class="qia-content">
-                        <h3 data-en="Idea🙃: New blog novel coming soon" data-zh="想法🙃：即将推出小说">想法🙃：即将推出小说</h3>
-                        <p data-en="Although I've been busy lately, I still find time to slack off. When I feel emotionally confused or anxious, I spend an hour each day writing something - blog posts, journals, or even novels. My writing isn't great, but it helps shift my focus." data-zh="最近虽然忙，但是还是有空摆烂。情绪混乱或者焦虑的时候，我就每天花1个小时去写点东西，博客、日志甚至是小说。写的很烂，但是这能转移我的注意力。">最近虽然忙，但是还是有空摆烂。情绪混乱或者焦虑的时候，我就每天花1个小时去写点东西，博客、日志甚至是小说。写的很烂，但是这能转移我的注意力。</p>
-                    </div>
-                </div>
+        <!-- 问答与想法 | 新版卡片样式（参考 textindex） -->
+        <section class="qia-immersive" id="qia">
+            <div class="qia-header">
+                <h2 data-en="Q_I&A (Questions, Issues, Ideas & Answers)" data-zh="问答与想法">问答与想法</h2>
+                <p class="qia-hint" data-en="Scroll to see ideas, issues and answers" data-zh="下滑查看想法、问题与解答">下滑查看想法、问题与解答</p>
+            </div>
 
-                <div class="qia-item issue">
-                    <div class="qia-badge" data-en="Issue" data-zh="问题">问题</div>
-                    <div class="qia-content">
-                        <h3 data-en="Issues1🔥: Website image loading is slow🤡" data-zh="问题1🔥：网站图片加载缓慢🤡">问题1🔥：网站图片加载缓慢🤡</h3>
-                        <p data-en="The images in the blog posts and background images still load slowly, resulting in poor reading experience.🥵" data-zh="不论博客文章中的插图还是背景图片，改用avif图片后依然加载缓慢，阅读体验效果不理想。🥵">不论博客文章中的插图还是背景图片，改用avif图片后依然加载缓慢，阅读体验效果不理想。🥵</p>
-                        <div class="qia-answer">
-                            <span class="answer-label" data-en="Answer:" data-zh="解答：">解答：</span>
-                            <p data-en="The blog is deployed on Github Pages, and the image loading speed is limited by Github servers. Currently, it is not possible to solve this issue. The domestic DNS acceleration requires a significant amount of money, so it is not considered for now.🥵" data-zh="本博客部署在Github Pages上，图片加载速度受限于Github服务器，目前无法解决。国内DNS加速需要一笔不小的费用，暂时不考虑。🥵">本博客部署在Github Pages上，图片加载速度受限于Github服务器，目前无法解决。国内DNS加速需要一笔不小的费用，暂时不考虑。🥵</p>
+            <div class="qia-stack">
+                <article class="qia-card">
+                    <div class="qia-card-bar idea">
+                        <div class="qia-card-title">
+                            <i class="fas fa-lightbulb"></i>
+                            <span data-en="Ideas" data-zh="想法">想法</span>
+                        </div>
+                        <span class="qia-part">Part 1/3</span>
+                    </div>
+                    <div class="qia-card-body">
+                        <div class="qia-entry">
+                            <h3 data-en="2025 National Computer Design Competition" data-zh="2025届全国计算机设计大赛落幕">2025届全国计算机设计大赛落幕</h3>
+                            <div class="qia-meta">
+                                <span class="qia-status success" data-en="Awarded 🎉" data-zh="获奖 🎉">获奖 🎉</span>
+                                <span class="qia-tag" data-en="2025" data-zh="2025">2025</span>
+                            </div>
+                            <p data-en="The 2025 National Computer Design Competition has come to an end, and I have won the national third prize." data-zh="2025年全国大学生计算机设计大赛落下帷幕，我获得了国家级三等奖。">2025年全国大学生计算机设计大赛落下帷幕，我获得了国家级三等奖。</p>
+                        </div>
+                        <div class="qia-entry">
+                            <h3 data-en="Idea🙃: New blog novel coming soon" data-zh="想法🙃：即将推出小说">想法🙃：即将推出小说</h3>
+                            <div class="qia-meta">
+                                <span class="qia-tag" data-en="Writing" data-zh="写作">写作</span>
+                                <span class="qia-tag" data-en="Healing" data-zh="治愈">治愈</span>
+                            </div>
+                            <p data-en="Although I've been busy lately, I still find time to slack off. When I feel emotionally confused or anxious, I spend an hour each day writing something - blog posts, journals, or even novels. My writing isn't great, but it helps shift my focus." data-zh="最近虽然忙，但是还是有空摆烂。情绪混乱或者焦虑的时候，我就每天花1个小时去写点东西，博客、日志甚至是小说。写的很烂，但是这能转移我的注意力。">最近虽然忙，但是还是有空摆烂。情绪混乱或者焦虑的时候，我就每天花1个小时去写点东西，博客、日志甚至是小说。写的很烂，但是这能转移我的注意力。</p>
                         </div>
                     </div>
-                </div>
+                </article>
 
-                <div class="qia-item issue">
-                    <div class="qia-badge" data-en="Issue" data-zh="问题">问题</div>
-                    <div class="qia-content">
-                        <h3 data-en="Issues2🔥: Blog post links show 404 error (Resolved✅)" data-zh="问题2🔥：博客文章链接显示404错误(已解决✅)">问题2🔥：博客文章链接显示404错误(已解决✅)</h3>
-                        <p data-en="Why do blog post links on the homepage show 404 errors when clicked?🥵New Error: Blog page article links also show 404 errors.❌" data-zh="首页博客文章点击无法跳转显示404，为什么？🥵新增错误：截至2025-03-22博客页面文章也无法跳转！❌">首页博客文章点击无法跳转显示404，为什么？🥵新增错误：截至2025-03-22博客页面文章也无法跳转！❌</p>
-                        <div class="qia-answer">
-                            <span class="answer-label" data-en="Answer:" data-zh="解答：">解答：</span>
-                            <p data-en="Good news! This issue has been completely resolved in version 1.1.1 (March 23, 2025). The problem was caused by inconsistent URL paths for blog articles and a missing JavaScript reference. All links now work correctly from both the homepage and blog page. If you're still experiencing any issues, please clear your browser cache. Thank you for your patience! 😊" data-zh="好消息！此问题已在1.1.1版本（2025年3月23日）中完全解决。问题是由博客文章URL路径不一致和缺少JavaScript引用导致的。现在，所有链接都可以从主页和博客页面正确工作。如果您仍然遇到任何问题，请清除浏览器缓存。感谢您的耐心等待！😊">好消息！此问题已在1.1.1版本（2025年3月23日）中完全解决。问题是由博客文章URL路径不一致和缺少JavaScript引用导致的。现在，所有链接都可以从主页和博客页面正确工作。如果您仍然遇到任何问题，请清除浏览器缓存。感谢您的耐心等待！😊</p>
+                <article class="qia-card">
+                    <div class="qia-card-bar issue">
+                        <div class="qia-card-title">
+                            <i class="fas fa-fire"></i>
+                            <span data-en="Issues & Fixes" data-zh="问题与修复">问题与修复</span>
+                        </div>
+                        <span class="qia-part">Part 2/3</span>
+                    </div>
+                    <div class="qia-card-body">
+                        <div class="qia-entry">
+                            <h3 data-en="Website image loading is slow🤡" data-zh="网站图片加载缓慢🤡">网站图片加载缓慢🤡</h3>
+                            <div class="qia-meta">
+                                <span class="qia-status warn" data-en="Pending" data-zh="待优化">待优化</span>
+                                <span class="qia-tag warn" data-en="CDN" data-zh="加速">加速</span>
+                            </div>
+                            <p data-en="The images in the blog posts and background images still load slowly, resulting in poor reading experience.🥵" data-zh="不论博客文章中的插图还是背景图片，改用avif图片后依然加载缓慢，阅读体验效果不理想。🥵">不论博客文章中的插图还是背景图片，改用avif图片后依然加载缓慢，阅读体验效果不理想。🥵</p>
+                            <div class="qia-answer-box">
+                                <strong data-en="Answer:" data-zh="解答：">解答：</strong>
+                                <span data-en="Limited by Github Pages bandwidth; domestic DNS/CDN not planned for now." data-zh="受限于Github Pages带宽，暂不考虑国内DNS/CDN加速。">受限于Github Pages带宽，暂不考虑国内DNS/CDN加速。</span>
+                            </div>
+                        </div>
+                        <div class="qia-entry">
+                            <h3 data-en="Blog post links 404 (Resolved✅)" data-zh="博客文章链接404（已解决✅）">博客文章链接404（已解决✅）</h3>
+                            <div class="qia-meta">
+                                <span class="qia-status" data-en="Fixed" data-zh="已修复">已修复</span>
+                                <span class="qia-tag success" data-en="v1.1.1" data-zh="v1.1.1">v1.1.1</span>
+                            </div>
+                            <p data-en="Homepage and blog page article links returned 404 due to inconsistent paths." data-zh="主页与博客页文章链接因路径不一致导致404。">主页与博客页文章链接因路径不一致导致404。</p>
+                            <div class="qia-answer-box">
+                                <strong data-en="Answer:" data-zh="解答：">解答：</strong>
+                                <span data-en="Unified paths and JS references; if still failing, clear cache." data-zh="已统一路径与JS引用，如仍异常请清缓存。">已统一路径与JS引用，如仍异常请清缓存。</span>
+                            </div>
+                        </div>
+                        <div class="qia-entry">
+                            <h3 data-en="Font loading issue on first visit (Resolved✅)" data-zh="首次访问字体加载异常（已解决✅）">首次访问字体加载异常（已解决✅）</h3>
+                            <div class="qia-meta">
+                                <span class="qia-status" data-en="Fixed" data-zh="已修复">已修复</span>
+                                <span class="qia-tag success" data-en="v1.1.0" data-zh="v1.1.0">v1.1.0</span>
+                            </div>
+                            <p data-en="Text fonts occasionally failed to render on first load." data-zh="首次加载时正文字体偶发渲染失败。">首次加载时正文字体偶发渲染失败。</p>
+                            <div class="qia-answer-box">
+                                <strong data-en="Answer:" data-zh="解答：">解答：</strong>
+                                <span data-en="Added default language + font fallback logic; content now shows on first visit." data-zh="已增加默认语言与字体兜底逻辑，首次访问即可显示内容。">已增加默认语言与字体兜底逻辑，首次访问即可显示内容。</span>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </article>
 
-                <div class="qia-item issue">
-                    <div class="qia-badge" data-en="Issue" data-zh="问题">问题</div>
-                    <div class="qia-content">
-                        <h3 data-en="Issues3: Font loading bug on first visit (Resolved✅)" data-zh="问题3：首次访问时字体加载错误(已解决✅)">问题3：首次访问时字体加载错误(已解决✅)</h3>
-                        <p data-en="When loading the site for the first time, there might be issues with text font rendering." data-zh="首次加载时会出现正文字体加载不出来的bug。">首次加载时会出现正文字体加载不出来的bug。</p>
-                        <div class="qia-answer">
-                            <span class="answer-label" data-en="Answer:" data-zh="解答：">解答：</span>
-                            <p data-en="Good news! This issue has been fixed in version 1.1.0. The website now properly displays all content on first visit without requiring any user interaction. If you're still experiencing any issues, please refresh your browser cache.😊" data-zh="好消息！此问题已在1.1.0版本中修复。网站现在可以在首次访问时正确显示所有内容，无需任何用户交互。如果您仍然遇到问题，请刷新浏览器缓存。😊">好消息！此问题已在1.1.0版本中修复。网站现在可以在首次访问时正确显示所有内容，无需任何用户交互。如果您仍然遇到问题，请刷新浏览器缓存。😊</p>
+                <article class="qia-card">
+                    <div class="qia-card-bar question">
+                        <div class="qia-card-title">
+                            <i class="fas fa-comment-dots"></i>
+                            <span data-en="Questions & Plans" data-zh="疑问与计划">疑问与计划</span>
+                        </div>
+                        <span class="qia-part">Part 3/3</span>
+                    </div>
+                    <div class="qia-card-body">
+                        <div class="qia-entry">
+                            <h3 data-en="New blog series coming soon" data-zh="即将推出新专栏">即将推出新专栏</h3>
+                            <div class="qia-tags">
+                                <span class="qia-tag" data-en="Writing" data-zh="写作">写作</span>
+                                <span class="qia-tag" data-en="Data Mining" data-zh="数据挖掘">数据挖掘</span>
+                                <span class="qia-tag" data-en="C Language" data-zh="C语言">C语言</span>
+                            </div>
+                            <p data-en="Planned series: 'My First Twenty Years', '26-Year Essays', 'Data Mining', 'C Language for Beginners', 'Coding Practice Notes'." data-zh="计划专栏：《我的人生前二十》《26年随笔》《数据挖掘》《C语言入门》《刷题笔记》等。">计划专栏：《我的人生前二十》《26年随笔》《数据挖掘》《C语言入门》《刷题笔记》等。</p>
+                        </div>
+                        <div class="qia-entry">
+                            <h3 data-en="Update schedule" data-zh="更新计划">更新计划</h3>
+                            <div class="qia-meta">
+                                <span class="qia-status warn" data-en="Pending" data-zh="待更新">待更新</span>
+                                <span class="qia-tag" data-en="2026-06+" data-zh="2026年6月后">2026年6月后</span>
+                            </div>
+                            <p data-en="Time is tight now; regular updates will resume after June 2026." data-zh="现在时间紧张，预计26年6月后恢复常规更新。">现在时间紧张，预计26年6月后恢复常规更新。</p>
                         </div>
                     </div>
-                </div>
-                
-                
-                
-                <div class="qia-item idea">
-                    <div class="qia-badge" data-en="Idea" data-zh="想法">想法</div>
-                    <div class="qia-content">
-                        <h3 data-en="Idea1: New blog series coming soon" data-zh="想法1：即将推出新专栏">想法1：即将推出新专栏</h3>
-                        <p data-en="The blog will launch new series including: 'My First Twenty Years', '26-Year Essays', 'Data Mining', 'C Language for Beginners', 'Coding Practice Notes', and more." data-zh="日会会开辟新的专栏：《我的人生前二十》、《26年随笔》、《数据挖掘》、《C语言入门》、《刷题笔记》等专栏。">日会会开辟新的专栏：《我的人生前二十》、《26年随笔》、《数据挖掘》、《C语言入门》、《刷题笔记》等专栏。</p>
-                    </div>
-                </div>
-                
-                <div class="qia-item question">
-                    <div class="qia-badge" data-en="Question" data-zh="疑问">疑问</div>
-                    <div class="qia-content">
-                        <h3 data-en="Question1: Update schedule" data-zh="疑问1：更新计划">疑问1：更新计划</h3>
-                        <p data-en="Time is currently tight, but regular updates will resume after June 2026! 😀" data-zh="现在时间很紧张，未来大概在26年6月以后会持续更新！😀">现在时间很紧张，未来大概在26年6月以后会持续更新！😀</p>
-                    </div>
-                </div>
+                </article>
             </div>
         </section>
     </main>

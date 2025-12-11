@@ -7,11 +7,6 @@
     <title>博客 - HealthJian的博客</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/dark-mode.css">
-    <link rel="stylesheet" href="../css/blog.css">
-    <link rel="stylesheet" href="../css/blog-enhanced.css">
-    <link rel="stylesheet" href="../css/blog-enhanced-animations.css">
-    <link rel="stylesheet" href="../css/blog-enhanced-interactions.css">
-    <link rel="stylesheet" href="../css/blog-enhanced-final.css">
     <link rel="stylesheet" href="../css/footer-enhanced.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -21,8 +16,26 @@
     
     <!-- 添加ZCOOL KuaiLe中文字体用于中文标题 -->
     <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+
+    <!-- Tailwind & lucide（用于 textblog 风格 UI） -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0d3b66',   /* 与导航深蓝接近 */
+                        darkCard: '#114a80', /* 略亮的卡片底色 */
+                        darkBorder: '#1f5f9c',
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="light-mode">
+<body class="light-mode" data-blog-ui="textblog">
     <!-- 导航栏 -->
     <nav class="navbar">
         <div class="nav-left">
@@ -54,62 +67,52 @@
         </div>
     </nav>
 
-    <main>
-        <!-- 装饰元素 -->
-        <div class="decoration-dot decoration-dot-1"></div>
-        <div class="decoration-dot decoration-dot-2"></div>
-        <div class="decoration-dot decoration-dot-3"></div>
-        <section class="blog-header">
-            <h1 class="blog-title-styled" data-en="Blog Posts" data-zh="博客文章">博客文章</h1>
-            <div class="blog-search">
-                <div class="blog-search-container">
-                    <div class="blog-search-inner">
-                        <i class="fas fa-search blog-search-icon"></i>
-                        <input type="text" id="search-input" placeholder="搜索文章..." data-en-placeholder="Search posts..." data-zh-placeholder="搜索文章...">
-                        <div class="search-dropdown">
-                            <button id="search-type-toggle"><i class="fas fa-globe"></i></button>
-                            <div class="search-options">
-                                <div class="search-option" data-type="local" data-active="true"><i class="fas fa-file-alt"></i> <span data-en="Blog Posts" data-zh="博客文章">博客文章</span></div>
-                                <div class="search-option" data-type="bing"><i class="fab fa-microsoft"></i> <span data-en="Bing Search" data-zh="必应搜索">必应搜索</span></div>
-                                <div class="search-option" data-type="google"><i class="fab fa-google"></i> <span data-en="Google Search" data-zh="谷歌搜索">谷歌搜索</span></div>
+    <main class="bg-[#f9f7f2] dark:bg-darkBg text-[#1a1a1a] dark:text-gray-200">
+        <!-- Hero & 控件 -->
+        <section class="pt-16 pb-10 px-6 md:px-12 lg:px-24">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b-4 border-black dark:border-white pb-6">
+                    <div>
+                        <div class="inline-block px-3 py-1 border border-black dark:border-white bg-yellow-400 text-black text-xs font-mono font-bold mb-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.25)]" data-en="Blog Archive" data-zh="文章总览">
+                            文章总览
+                        </div>
+                        <h1 class="font-mono text-5xl md:text-6xl font-bold tracking-tighter dark:text-white" data-en="Articles Overview" data-zh="文章总览">文章总览</h1>
+                        <p class="mt-2 text-gray-600 dark:text-gray-400 max-w-lg" data-en="Code, life, and those fleeting sparks of ideas." data-zh="代码、生活与那些转瞬即逝的灵感。">代码、生活与那些转瞬即逝的灵感。</p>
+                    </div>
+                    
+                    <div class="flex flex-col items-end gap-4 w-full md:w-auto">
+                        <!-- Search -->
+                        <div class="relative w-full md:w-64 blog-search">
+                            <input type="text" id="search-input" placeholder="搜索文章..." data-en-placeholder="Search articles..." data-zh-placeholder="搜索文章..." class="w-full px-4 py-2 pl-10 border border-black dark:border-white bg-white dark:bg-darkCard text-black dark:text-white font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,0.25)]">
+                            <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400"></i>
+                            <button class="hidden"></button>
+                        </div>
+
+                        <div class="flex items-center justify-between w-full md:w-auto gap-4">
+                            <!-- Filters -->
+                            <div class="flex flex-wrap gap-2 filter-tags">
+                                <button class="filter-btn active px-4 py-2 font-mono font-bold text-xs border border-black dark:border-white bg-black text-white dark:bg-white dark:text-black transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,0.25)]" data-category="all" data-en="All" data-zh="全部">全部</button>
+                                <button class="filter-btn px-4 py-2 font-mono font-bold text-xs border border-black dark:border-white bg-white dark:bg-darkCard text-gray-700 dark:text-gray-200 transition-all hover:bg-blue-100 dark:hover:bg-blue-900/30" data-category="tech" data-en="Technology" data-zh="技术">技术</button>
+                                <button class="filter-btn px-4 py-2 font-mono font-bold text-xs border border-black dark:border-white bg-white dark:bg-darkCard text-gray-700 dark:text-gray-200 transition-all hover:bg-yellow-100 dark:hover:bg-yellow-900/30" data-category="life" data-en="Life" data-zh="生活">生活</button>
+                                <button class="filter-btn px-4 py-2 font-mono font-bold text-xs border border-black dark:border-white bg-white dark:bg-darkCard text-gray-700 dark:text-gray-200 transition-all hover:bg-purple-100 dark:hover:bg-purple-900/30" data-category="thoughts" data-en="Thoughts" data-zh="随想">随想</button>
+                                <button class="filter-btn px-4 py-2 font-mono font-bold text-xs border border-black dark:border-white bg-white dark:bg-darkCard text-gray-700 dark:text-gray-200 transition-all hover:bg-pink-100 dark:hover:bg-pink-900/30" data-category="idea" data-en="Ideas" data-zh="思想">思想</button>
+                                <button class="filter-btn px-4 py-2 font-mono font-bold text-xs border border-black dark:border-white bg-white dark:bg-darkCard text-gray-700 dark:text-gray-200 transition-all hover:bg-green-100 dark:hover:bg-green-900/30" data-category="excerpt" data-en="Excerpt" data-zh="摘抄">摘抄</button>
+                                <button class="filter-btn px-4 py-2 font-mono font-bold text-xs border border-black dark:border-white bg-white dark:bg-darkCard text-gray-700 dark:text-gray-200 transition-all hover:bg-red-100 dark:hover:bg-red-900/30" data-category="paper" data-en="Paper" data-zh="论文">论文</button>
                             </div>
                         </div>
-                        <button id="search-button"><i class="fas fa-arrow-right"></i></button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="blog-filters">
-            <div class="filter-group">
-                <h3 data-en="Categories" data-zh="分类">分类</h3>
-                <div class="filter-tags">
-                    <button class="active" data-category="all" data-en="All" data-zh="全部">全部</button>
-                    <button data-category="tech" data-en="Technology" data-zh="技术">技术</button>
-                    <button data-category="life" data-en="Life" data-zh="生活">生活</button>
-                    <button data-category="thoughts" data-en="Thoughts" data-zh="随想">随想</button>
+        <!-- 文章卡片区 -->
+        <section class="px-6 md:px-12 lg:px-24 pb-20">
+            <div class="max-w-7xl mx-auto">
+                <div id="blog-grid" class="blog-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 transition-all duration-300">
+                    <!-- JS 渲染文章 -->
                 </div>
             </div>
         </section>
-
-        <section class="blog-list">
-            <!-- 博客文章列表将通过JavaScript动态加载 -->
-        </section>
-
-        <div class="pagination">
-            <button class="prev" disabled><i class="fas fa-chevron-left"></i></button>
-            <span class="page-numbers">
-                <button class="active">1</button>
-                <button>2</button>
-                <button>3</button>
-            </span>
-            <button class="next"><i class="fas fa-chevron-right"></i></button>
-        </div>
-        
-        <!-- 滚动到顶部按钮 -->
-        <div class="scroll-top" id="scrollTop">
-            <i class="fas fa-arrow-up"></i>
-        </div>
     </main>
 
     <!-- 页脚 -->
@@ -169,96 +172,178 @@
         </div>
     </footer>
 
+    <script>
+        window.SKIP_BLOG_INIT = true; // 仅复用数据，跳过旧UI初始化
+    </script>
+    <script src="../js/blog.js"></script>
     <script src="../js/theme.js"></script>
     <script src="../js/language.js"></script>
-    <script src="../js/blog.js"></script>
-    <script src="../js/enhanced-search.js"></script>
     <script src="../js/footer.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // 初始化博客功能
-            initBlog();
-            
-            // 滚动到顶部按钮
-            const scrollTopBtn = document.getElementById('scrollTop');
-            window.addEventListener('scroll', function() {
-                if (window.pageYOffset > 300) {
-                    scrollTopBtn.classList.add('visible');
-                } else {
-                    scrollTopBtn.classList.remove('visible');
+        // 渲染 textblog 风格的文章卡片
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+
+            // 数据源：优先使用 getBlogPosts（来自 js/blog.js），否则使用本地备份
+            const fallbackArticles = [
+                { title: '橡胶制品增塑剂迁移导致出油现象', title_en: 'Oil spillage from rubber product additive migration', date: '2025-10-06', category: 'tech', desc: '深入探讨橡胶制品中增塑剂迁移的机理及其导致的表面出油问题，并提出相应的解决方案。', desc_en: 'Additive migration in rubber products and mitigation ideas.', tags: ['橡胶制品','增塑剂','迁移','出油'], tags_en: ['Rubber product','Plasticizer','Migration','Oil spill'], url: '/pages/blog/tech/oil.html' },
+                { title: '大数据作为智慧教育的催化剂：数据驱动方法、应用与挑战的综合述评', title_en: 'Big data as a catalyst for smart education', date: '2025-09-11', category: 'tech', desc: '综述大数据在智慧教育的应用现状与挑战。', desc_en: 'Review of big data in smart education.', tags: ['智慧教育','大数据','数据挖掘','数据分析'], tags_en: ['Smart education','Big data','Data mining','Analytics'], url: '/pages/blog/tech/smarteducation.html' },
+                { title: '一种令人担忧的现象：大学校园正在成为烟民的温床', title_en: 'Campus is becoming a hotbed for smokers', date: '2025-09-09', category: 'life', desc: '观察并反思校园吸烟现象的蔓延与对策。', desc_en: 'Observation on smoking spread on campus.', tags: ['大学','烟民','温床','生活'], tags_en: ['University','Smoker','Hotbed','Life'], url: '/pages/blog/life/sharpcommentary.html' },
+                { title: '坚持就是胜利', title_en: 'Persistence is Victory', date: '2025-09-08', category: 'life', desc: '结合考研经历，分享关于坚持与长期主义的感悟。', desc_en: 'Reflections on persistence and long-termism.', tags: ['考研','坚持','励志','生活'], tags_en: ['Grad exam','Persistence','Inspiration','Life'], url: '/pages/blog/life/Persistencisvictory.html' },
+                { title: 'Markdown博客模板系统', title_en: 'Markdown blog template system', date: '2025-09-08', category: 'tech', desc: '全新的Markdown博客模板系统，支持完整渲染与高亮。', desc_en: 'A markdown blog template with full rendering.', tags: ['Markdown','博客模板','代码高亮'], tags_en: ['Markdown','Blog template','Code highlight'], url: '/pages/blog/tech/markdownblogs.html' },
+                { title: '基于PaddlePaddle的卷积神经网络实现-十二猫分类', title_en: 'CNN with PaddlePaddle - 12 cats', date: '2025-05-30', category: 'tech', desc: '使用飞桨构建CNN，完成十二种猫咪的图像分类。', desc_en: 'Build CNN with PaddlePaddle for cat classification.', tags: ['PaddlePaddle','CNN','猫咪分类'], tags_en: ['PaddlePaddle','CNN','Cat classification'], url: '/pages/blog/tech/CNN-paddle.html' },
+                { title: '学习进度与心态的反思', title_en: 'Study progress and mindset reflection', date: '2025-05-25', category: 'life', desc: '探讨学习进度与心态的关系。', desc_en: 'Reflections on study pace and mindset.', tags: ['学习','心态','反思','效率'], tags_en: ['Study','Mindset','Reflection','Efficiency'], url: '/pages/blog/life/studyrethink.html' },
+                { title: '支持向量机（SVM）算法详解', title_en: 'Support Vector Machine explained', date: '2025-04-14', category: 'tech', desc: 'SVM 原理、应用与优化方法详解。', desc_en: 'SVM principles, use cases and optimizations.', tags: ['SVM','机器学习','分类','回归'], tags_en: ['SVM','Machine Learning','Classification','Regression'], url: '/pages/blog/tech/svm.html' },
+                { title: '实验一：波士顿房价预测报告', title_en: 'Boston housing price prediction', date: '2025-04-12', category: 'tech', desc: '波士顿房价预测的完整实验记录。', desc_en: 'End-to-end Boston housing prediction experiment.', tags: ['机器学习','房价预测','特征选择'], tags_en: ['Machine Learning','Housing price','Feature selection'], url: '/pages/blog/tech/machinelearningBostonshouseprices.html' },
+                { title: '人生无法通过考研上岸', title_en: 'Life cannot be landed by exams alone', date: '2025-04-09', category: 'life', desc: '关于考研与人生选择的随笔。', desc_en: 'An essay on grad exams and life choices.', tags: ['考研','随笔','人生','思考'], tags_en: ['Grad exam','Essay','Life','Thinking'], url: '/pages/blog/life/cannot-rely-on-exam.html' },
+                { title: 'Mingw安装教程', title_en: 'Mingw installation tutorial', date: '2025-04-07', category: 'tech', desc: 'Windows 环境下 Mingw 的安装与配置。', desc_en: 'How to install and set up Mingw on Windows.', tags: ['Mingw','C/C++','编译器','Windows'], tags_en: ['Mingw','C/C++','Compiler','Windows'], url: '/pages/blog/tech/mingw-installation.html' },
+                { title: '从零开始构建博客：技术栈、架构设计与实现', title_en: 'Build a blog from scratch', date: '2025-04-06', category: 'tech', desc: '博客的技术栈选型、架构设计与核心实现。', desc_en: 'Stack, architecture and implementation of this blog.', tags: ['博客','技术栈','架构设计','JavaScript'], tags_en: ['Blog','Tech stack','Architecture','JavaScript'], url: '/pages/blog/tech/blog-building.html' },
+                { title: '2025年考研数学二大纲详解', title_en: 'Math II syllabus 2025', date: '2025-04-01', category: 'tech', desc: '系统梳理考研数学二大纲要点。', desc_en: 'Key points of the Math II syllabus.', tags: ['考研','数学','大纲'], tags_en: ['Grad exam','Math','Outline'], url: '/pages/blog/tech/outline-for-advanced-mathematicsⅡ.html' },
+                { title: 'C语言入门：常用调用API在算法题中的应用', title_en: 'C API usage in algorithm problems', date: '2025-03-18', category: 'tech', desc: '巧用 C 标准库 API 化繁为简。', desc_en: 'Using C stdlib API to simplify algorithm coding.', tags: ['C语言','算法','API'], tags_en: ['C','Algorithm','API'], url: '/pages/blog/tech/c-api-algorithms.html' },
+                { title: '数据结构：链表、栈、队列、串', title_en: 'Data structures recap', date: '2025-03-17', category: 'tech', desc: '基础数据结构的系统性总结与回顾。', desc_en: 'Systematic recap of core data structures.', tags: ['数据结构','链表','栈','队列'], tags_en: ['Data structures','List','Stack','Queue'], url: '/pages/blog/tech/data-structures.html' },
+                { title: '我的第一篇博客：代码与心灵的共振', title_en: 'My first blog: resonance of code and soul', date: '2025-03-16', category: 'life', desc: '关于编程与生活平衡的第一篇记录。', desc_en: 'First note on balancing coding and life.', tags: ['博客','随想','生活'], tags_en: ['Blog','Thoughts','Life'], url: '/pages/blog/life/first-blog.html' }
+            ];
+
+            const articles = (typeof getBlogPosts === 'function')
+                ? getBlogPosts().map(post => ({
+                    title: post.title,
+                    title_en: post.title_en || post.title,
+                    date: post.date,
+                    category: post.category || 'tech',
+                    desc: post.excerpt || '',
+                    desc_en: post.excerpt_en || post.excerpt || '',
+                    tags: post.tags || [],
+                    tags_en: post.tags_en || post.tags || [],
+                    url: post.url || '#',
+                }))
+                : fallbackArticles;
+
+            // 分类标签映射（含新增分类）
+            const categoryLabel = {
+                zh: { all: '全部', tech: '技术', life: '生活', thoughts: '随想', idea: '思想', excerpt: '摘抄', paper: '论文' },
+                en: { all: 'All', tech: 'Technology', life: 'Life', thoughts: 'Thoughts', idea: 'Ideas', excerpt: 'Excerpt', paper: 'Paper' },
+            };
+
+            const grid = document.getElementById('blog-grid');
+            const filterBtns = document.querySelectorAll('.filter-tags .filter-btn');
+            const searchInput = document.getElementById('search-input');
+
+            const getLang = () => document.body.classList.contains('en') ? 'en' : 'zh';
+
+            const syncUIByLang = () => {
+                const lang = getLang();
+                // 搜索占位
+                if (searchInput) {
+                    const enPh = searchInput.dataset.enPlaceholder || 'Search articles...';
+                    const zhPh = searchInput.dataset.zhPlaceholder || '搜索文章...';
+                    searchInput.placeholder = lang === 'en' ? enPh : zhPh;
                 }
-            });
-            
-            scrollTopBtn.addEventListener('click', function() {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
+                // 过滤按钮文字
+                filterBtns.forEach(btn => {
+                    const en = btn.dataset.en;
+                    const zh = btn.dataset.zh;
+                    if (en && zh) btn.textContent = lang === 'en' ? en : zh;
                 });
-            });
-            
-            // 完全禁用卡片鼠标跟踪效果，防止干扰链接点击
-            document.querySelectorAll('.blog-post').forEach(card => {
-                card.addEventListener('mouseleave', function() {
-                    this.classList.remove('tilt-effect');
-                    this.style.transform = '';
-                });
-            });
-            
-            // 添加必要的样式确保链接可点击
-            const style = document.createElement('style');
-            style.textContent = `
-                .blog-post-title a, .read-more {
-                    position: relative !important;
-                    z-index: 100 !important;
-                    cursor: pointer !important;
-                    pointer-events: auto !important;
-                }
-                .blog-post {
-                    pointer-events: auto !important;
-                }
-            `;
-            document.head.appendChild(style);
-            
-            // 按钮波纹效果
-            const buttons = document.querySelectorAll('.filter-tags button, .pagination button, .blog-search button');
-            buttons.forEach(button => {
-                button.addEventListener('click', function(e) {
-                    const ripple = document.createElement('span');
-                    ripple.classList.add('ripple');
-                    this.appendChild(ripple);
-                    
-                    const rect = this.getBoundingClientRect();
-                    const size = Math.max(rect.width, rect.height);
-                    
-                    ripple.style.width = ripple.style.height = size + 'px';
-                    ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
-                    ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
-                    
-                    setTimeout(() => {
-                        ripple.remove();
-                    }, 600);
-                });
-            });
-            
-            // 滚动显示动画
-            const scrollElements = document.querySelectorAll('.blog-post, .blog-filters, .pagination');
-            
-            function checkScroll() {
-                scrollElements.forEach(element => {
-                    const elementTop = element.getBoundingClientRect().top;
-                    const elementVisible = 150;
-                    
-                    if (elementTop < window.innerHeight - elementVisible) {
-                        element.classList.add('scroll-reveal');
-                        element.classList.add('revealed');
+                // 头部文案
+                document.querySelectorAll('[data-en][data-zh]').forEach(el => {
+                    if (el.dataset.en && el.dataset.zh) {
+                        el.textContent = lang === 'en' ? el.dataset.en : el.dataset.zh;
                     }
                 });
+            };
+
+            const render = (list) => {
+                if (!grid) return;
+                grid.innerHTML = '';
+                const lang = getLang();
+                list.forEach(item => {
+                    const catText = categoryLabel[lang]?.[item.category] || item.category;
+                    const card = document.createElement('article');
+                    card.className = 'group relative overflow-hidden border border-black dark:border-white bg-white dark:bg-darkCard p-6 flex flex-col gap-4 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.12)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.08)] transition-transform duration-300 hover:-translate-y-1';
+
+                    card.innerHTML = `
+                        <div class="flex items-start justify-between gap-3">
+                            <div class="text-xs font-mono font-bold text-gray-600 dark:text-gray-400 border border-gray-300 dark:border-gray-600 px-2 py-1">${item.date}</div>
+                            <div class="flex gap-2 items-center">
+                                <span class="text-xs font-mono px-2 py-1 border border-black dark:border-white bg-yellow-200 dark:bg-yellow-800 dark:text-white">${catText}</span>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold leading-tight dark:text-white">
+                            <a href="${item.url}" target="_blank" class="hover:underline">${lang === 'en' ? item.title_en : item.title}</a>
+                        </h3>
+                        <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">${lang === 'en' ? item.desc_en : item.desc}</p>
+                        <div class="flex flex-wrap gap-2">
+                            ${(lang === 'en' ? (item.tags_en || item.tags) : item.tags).map(t => `<span class="text-xs px-3 py-1 rounded-full border border-black/30 dark:border-white/40 bg-blue-50 dark:bg-blue-900/30 text-blue-900 dark:text-blue-200">${t}</span>`).join('')}
+                        </div>
+                        <div class="flex items-center gap-2 text-sm font-semibold text-blue-600 dark:text-blue-300">
+                            <span>${lang === 'en' ? 'Read More' : '阅读更多'}</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+                lucide.createIcons();
+            };
+
+            const syncTailwindTheme = () => {
+                const isDark = document.body.classList.contains('dark-mode');
+                document.documentElement.classList.toggle('dark', isDark);
+            };
+
+            const applyFilter = () => {
+                syncUIByLang();
+                syncTailwindTheme();
+                const activeBtn = document.querySelector('.filter-tags .filter-btn.active');
+                const cat = activeBtn ? activeBtn.dataset.category : 'all';
+                const term = (searchInput?.value || '').trim().toLowerCase();
+                let list = articles;
+                if (cat && cat !== 'all') list = list.filter(a => a.category === cat);
+                if (term) {
+                    list = list.filter(a =>
+                        a.title.toLowerCase().includes(term) ||
+                        a.title_en.toLowerCase().includes(term) ||
+                        a.desc.toLowerCase().includes(term) ||
+                        a.desc_en.toLowerCase().includes(term)
+                    );
+                }
+                render(list);
+            };
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    applyFilter();
+                });
+            });
+
+            if (searchInput) {
+                searchInput.addEventListener('input', applyFilter);
             }
-            
-            // 初始检查
-            window.addEventListener('load', checkScroll);
-            // 滚动时检查
-            window.addEventListener('scroll', checkScroll);
+
+            // 语言切换时重新渲染
+            const langToggle = document.getElementById('lang-toggle');
+            if (langToggle) {
+                langToggle.addEventListener('click', () => {
+                    setTimeout(applyFilter, 50);
+                });
+            }
+
+            // 主题切换时同步 Tailwind dark 类
+            const themeToggle = document.getElementById('theme-toggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    setTimeout(() => {
+                        syncTailwindTheme();
+                        applyFilter();
+                    }, 30);
+                });
+            }
+
+            // 初始同步一次
+            syncTailwindTheme();
+
+            render(articles);
         });
     </script>
 </body>

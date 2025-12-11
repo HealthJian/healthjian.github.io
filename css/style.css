@@ -650,118 +650,201 @@ body.dark-mode .update-date {
     transform: none;
 }
 
-/* Q_I&A 样式 */
-.qia-section {
-    margin-top: 60px;
-}
-
-.qia-section h2 {
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 1.8rem;
-    font-weight: 500;
-}
-
-.qia-container {
-    max-width: 800px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-}
-
-.qia-item {
-    background-color: var(--card-background);
-    border-radius: var(--border-radius);
-    padding: 25px;
-    box-shadow: 0 5px 15px var(--shadow-color);
-    display: flex;
-    gap: 20px;
+/* Q_I&A 样式（参考 textindex 风格，保留原主题配色） */
+.qia-immersive {
     position: relative;
+    margin: 80px 0;
+    padding: 40px 0 10px;
+    background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(0,0,0,0.02) 100%);
+}
+
+.qia-immersive .qia-header {
+    text-align: center;
+    margin-bottom: 36px;
+}
+
+.qia-immersive h2 {
+    display: inline-block;
+    font-size: 2rem;
+    font-weight: 600;
+    padding: 8px 18px;
+    border-bottom: 2px solid var(--primary-color);
+    background: var(--card-background, #fff);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.qia-hint {
+    margin-top: 12px;
+    color: var(--text-muted, #666);
+    font-size: 0.95rem;
+}
+
+.qia-stack {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    gap: 28px;
+    padding: 0 20px;
+}
+
+.qia-card {
+    position: relative;
+    background: var(--card-background, #fff);
+    border-radius: 18px;
+    padding: 26px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.05);
     overflow: hidden;
-    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.qia-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px var(--shadow-color);
+.qia-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 22px 50px rgba(0, 0, 0, 0.12);
 }
 
-.qia-item::before {
+.qia-card::after {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 5px;
-    height: 100%;
+    inset: 0;
+    pointer-events: none;
+    border-radius: 18px;
+    background: radial-gradient(circle at 20% 20%, rgba(101,203,249,0.08), transparent 35%),
+                radial-gradient(circle at 80% 10%, rgba(255,237,0,0.08), transparent 32%),
+                radial-gradient(circle at 50% 90%, rgba(88,86,214,0.08), transparent 38%);
 }
 
-.qia-item.issue::before {
-    background-color: #FF3B30; /* 红色 */
-}
-
-.qia-item.idea::before {
-    background-color: #34C759; /* 绿色 */
-}
-
-.qia-item.question::before {
-    background-color: #5856D6; /* 紫色 */
-}
-
-.qia-badge {
-    min-width: 60px;
-    height: 28px;
+.qia-card-bar {
     display: flex;
     align-items: center;
-    justify-content: center;
-    background-color: #f0f0f0;
+    justify-content: space-between;
+    margin: -26px -26px 20px;
+    padding: 16px 22px;
+    color: #1a1a1a;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+.qia-card-bar.idea {
+    background: linear-gradient(90deg, #65cbf9, #b5e6ff);
+}
+
+.qia-card-bar.issue {
+    background: linear-gradient(90deg, #ffed00, #ffe680);
+}
+
+.qia-card-bar.question {
+    background: linear-gradient(90deg, #9c8cff, #d6d0ff);
+}
+
+.qia-card-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.05rem;
+}
+
+.qia-part {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    padding: 6px 10px;
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 10px;
+    background: rgba(255,255,255,0.85);
+}
+
+.qia-card-body {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 16px;
+}
+
+.qia-entry {
+    background: rgba(255,255,255,0.8);
+    border: 1px solid rgba(0,0,0,0.05);
     border-radius: 14px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: #333;
+    padding: 16px 18px;
+    backdrop-filter: blur(2px);
 }
 
-.qia-item.issue .qia-badge {
-    background-color: rgba(255, 59, 48, 0.1);
-    color: #FF3B30;
+.qia-entry h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 6px;
 }
 
-.qia-item.idea .qia-badge {
-    background-color: rgba(52, 199, 89, 0.1);
-    color: #34C759;
+.qia-meta {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 0.85rem;
+    color: var(--text-muted, #666);
+    margin-bottom: 8px;
 }
 
-.qia-item.question .qia-badge {
-    background-color: rgba(88, 86, 214, 0.1);
-    color: #5856D6;
-}
-
-.qia-content {
-    flex: 1;
-}
-
-.qia-content h3 {
-    margin-bottom: 10px;
-    font-size: 1.2rem;
-    font-weight: 500;
-}
-
-.qia-content p {
-    line-height: 1.6;
-    margin-bottom: 15px;
-}
-
-.qia-answer {
-    background-color: rgba(0, 122, 255, 0.05);
-    border-radius: 8px;
-    padding: 15px;
+.qia-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
     margin-top: 10px;
 }
 
-.answer-label {
-    font-weight: 600;
+.qia-tag {
+    font-size: 0.8rem;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(0,0,0,0.06);
+    background: rgba(101,203,249,0.12);
+    color: #0b6da1;
+}
+
+.qia-tag.warn {
+    background: rgba(255, 237, 0, 0.2);
+    color: #8a7000;
+}
+
+.qia-tag.success {
+    background: rgba(52, 199, 89, 0.15);
+    color: #1d7a40;
+}
+
+.qia-answer-box {
+    margin-top: 10px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: linear-gradient(90deg, rgba(101,203,249,0.12), rgba(101,203,249,0.06));
+    border: 1px solid rgba(101,203,249,0.25);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.qia-answer-box strong {
     color: var(--primary-color);
-    margin-right: 5px;
+    margin-right: 6px;
+}
+
+.qia-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    padding: 6px 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.08);
+    background: rgba(52,199,89,0.12);
+    color: #1d7a40;
+}
+
+.qia-status.warn {
+    background: rgba(255, 237, 0, 0.25);
+    color: #8a7000;
+}
+
+.qia-status.error {
+    background: rgba(255, 59, 48, 0.12);
+    color: #b31212;
 }
 
 /* 查看全部文章链接 */
