@@ -18,6 +18,9 @@ class MarkdownRenderer {
             this.useBasicRenderer = false;
             this.configureMarked();
         }
+
+        // 当前渲染的Markdown文件路径（用于图片相对路径修正）
+        this.currentMarkdownFile = null;
     }
 
     // 配置marked.js
@@ -124,22 +127,24 @@ class MarkdownRenderer {
             return originalPath;
         }
 
-        // 处理相对路径
-        // 当前页面路径：pages/blog/moban_new_md.html
-        // Markdown文件路径：context/test.md
-        // 需要将相对于Markdown文件的路径转换为相对于当前页面的路径
-        
-        // 如果路径以 ../ 开头，说明是从Markdown文件位置开始的相对路径
-        if (originalPath.startsWith('../')) {
-            // 从 context/ 目录开始，../images/ 应该变成 ../../images/
-            // 因为当前页面在 pages/blog/ 目录下
-            return '../../' + originalPath.substring(3);
-        } else if (originalPath.startsWith('./')) {
-            // 如果是 ./images/，转换为相对于当前页面的路径
-            return '../../context/' + originalPath.substring(2);
-        } else {
-            // 相对路径，假设是相对于项目根目录
-            return '../../' + originalPath;
+        // 将基于Markdown文件的相对路径解析为当前页面可用的路径
+        try {
+            // markdown 文件的完整 URL（相对于当前页面）
+            const markdownFileUrl = this.currentMarkdownFile
+                ? new URL(this.currentMarkdownFile, window.location.href)
+                : new URL(window.location.href);
+
+            // 取到 markdown 文件所在的目录
+            const markdownDirUrl = new URL('./', markdownFileUrl);
+
+            // 解析图片相对路径
+            const resolvedUrl = new URL(originalPath, markdownDirUrl);
+
+            // 返回相对于站点根的路径，避免包含协议/域名
+            return resolvedUrl.pathname + resolvedUrl.search + resolvedUrl.hash;
+        } catch (e) {
+            console.warn('图片路径解析失败，使用原始路径', originalPath, e);
+            return originalPath;
         }
     }
 
@@ -407,6 +412,9 @@ class MarkdownRenderer {
     // 从文件加载Markdown内容
     async loadMarkdownFile(filePath) {
         try {
+            // 保存当前Markdown文件路径，供图片路径修正使用
+            this.currentMarkdownFile = filePath;
+
             const response = await fetch(filePath);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
