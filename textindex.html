@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthJian Blog</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind Config for Dark Mode -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#181001', /* Updated per user request */
+                        darkCard: '#241b0b', /* Slightly lighter for contrast against #181001 */
+                        darkBorder: '#4a3b22',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        /* Custom Fonts & Utilities */
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        ::selection {
+            background-color: #fef08a; /* yellow-200 */
+            color: black;
+        }
+
+        /* Hard Shadow Utilities - Adaptive for Dark Mode */
+        .shadow-hard {
+            box-shadow: 4px 4px 0px 0px #1a1a1a;
+        }
+        .dark .shadow-hard {
+            box-shadow: 4px 4px 0px 0px #ffffff; /* White shadow in dark mode */
+        }
+
+        .shadow-hard-sm {
+            box-shadow: 2px 2px 0px 0px #1a1a1a;
+        }
+        .dark .shadow-hard-sm {
+            box-shadow: 2px 2px 0px 0px #ffffff;
+        }
+
+        .shadow-hard-blue {
+            box-shadow: 6px 6px 0px 0px #65cbf9;
+        }
+        .shadow-hard-white {
+            box-shadow: 4px 4px 0px 0px #ffffff;
+        }
+        .dark .shadow-hard-white {
+            box-shadow: 4px 4px 0px 0px #1a1a1a;
+        }
+
+        .hover-lift:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px 0px #1a1a1a;
+        }
+        .dark .hover-lift:hover {
+            box-shadow: 6px 6px 0px 0px #ffffff;
+        }
+        
+        /* Animation for terminal cursor */
+        .cursor-blink {
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* Hide scrollbar for clean sticky section if needed */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[#f9f7f2] text-[#1a1a1a] dark:bg-darkBg dark:text-gray-200">
+
+    <!-- 1. Top Warning/Promo Bar -->
+    <div class="w-full py-2 px-4 flex justify-center items-center text-xs md:text-sm font-bold border-b border-black dark:border-white uppercase tracking-wide bg-[#ffed00] text-black z-50 relative">
+        <span data-i18n="slogan">只要想的少 快乐追着跑！</span>
+        <span class="mx-2 hidden md:inline">|</span>
+        <a href="#" class="underline decoration-1 underline-offset-2 flex items-center gap-1 hover:opacity-70">
+            <span data-i18n="playground">我的数字乐园</span> <i data-lucide="arrow-right" class="w-3 h-3"></i>
+        </a>
+    </div>
+
+    <!-- 2. Navigation -->
+    <nav class="sticky top-0 z-50 border-b border-black/10 dark:border-white/20 backdrop-blur-sm bg-[#f9f7f2]/95 dark:bg-darkBg/95 transition-all duration-300" id="navbar">
+        <div class="px-6 md:px-12 py-4 flex justify-between items-center max-w-7xl mx-auto">
+            <!-- Logo -->
+            <div class="flex items-center gap-2 cursor-pointer group">
+                <div class="w-8 h-8 bg-orange-500 rounded-sm rotate-12 border border-black dark:border-white flex items-center justify-center shadow-hard-sm group-hover:rotate-0 transition-transform">
+                   <div class="text-white font-mono font-bold">H</div>
+                </div>
+                <span class="text-xl font-bold tracking-tight font-mono group-hover:text-orange-500 transition-colors">HealthJian Blog</span>
+            </div>
+
+            <!-- Desktop Links -->
+            <div class="hidden lg:flex items-center gap-8 text-sm font-medium text-gray-700 dark:text-gray-300">
+                <a href="#" class="flex items-center gap-1 hover:text-black dark:hover:text-white hover:underline decoration-2 underline-offset-4" data-i18n="nav_home">首页</a>
+                <a href="#" class="flex items-center gap-1 hover:text-black dark:hover:text-white hover:underline decoration-2 underline-offset-4" data-i18n="nav_blog">博客</a>
+                <a href="#" class="flex items-center gap-1 hover:text-black dark:hover:text-white hover:underline decoration-2 underline-offset-4" data-i18n="nav_demo">Demo</a>
+                <a href="#" class="flex items-center gap-1 hover:text-black dark:hover:text-white hover:underline decoration-2 underline-offset-4" data-i18n="nav_links">链接</a>
+                <a href="#" class="hover:text-black dark:hover:text-white font-bold" data-i18n="nav_about">关于</a>
+            </div>
+
+            <!-- Desktop Actions & Settings -->
+            <div class="hidden lg:flex items-center gap-4 text-sm font-medium">
+                 <!-- Theme Toggle -->
+                 <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-white/10 transition-colors" title="Switch Theme">
+                    <i data-lucide="moon" class="w-5 h-5 hidden dark:block"></i>
+                    <i data-lucide="sun" class="w-5 h-5 block dark:hidden"></i>
+                 </button>
+
+                 <!-- Language Toggle -->
+                 <button id="lang-toggle" class="p-2 w-10 h-10 rounded-full hover:bg-gray-200 dark:hover:bg-white/10 font-mono font-bold border border-transparent hover:border-black dark:hover:border-white transition-all">
+                    EN
+                 </button>
+
+                 <div class="h-6 w-px bg-gray-300 dark:bg-gray-600 mx-2"></div>
+
+                 <div class="w-8 h-8 border border-black dark:border-white rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200 dark:hover:bg-white/10 transition-colors dark:text-white">GJ</div>
+                 <button class="border border-black dark:border-white px-6 py-2 font-sans font-bold text-sm uppercase tracking-wide transition-transform active:translate-y-0.5 shadow-hard hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white dark:bg-darkCard text-black dark:text-white" data-i18n="contact_me">
+                    联系我
+                 </button>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="menu-toggle" class="lg:hidden text-black dark:text-white">
+                <i data-lucide="menu"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden lg:hidden absolute top-full left-0 w-full bg-[#f9f7f2] dark:bg-darkBg border-b border-black dark:border-white py-6 px-6 flex flex-col gap-4 shadow-xl">
+            <a href="#" class="text-lg font-medium border-b border-gray-200 dark:border-gray-700 pb-2" data-i18n="nav_home">首页</a>
+            <a href="#" class="text-lg font-medium border-b border-gray-200 dark:border-gray-700 pb-2" data-i18n="nav_blog">博客</a>
+            <a href="#" class="text-lg font-medium border-b border-gray-200 dark:border-gray-700 pb-2" data-i18n="nav_demo">Demo</a>
+            <a href="#" class="text-lg font-medium border-b border-gray-200 dark:border-gray-700 pb-2" data-i18n="nav_links">链接</a>
+            <a href="#" class="text-lg font-medium border-b border-gray-200 dark:border-gray-700 pb-2" data-i18n="nav_about">关于</a>
+            
+            <div class="flex gap-4 py-2">
+                <button id="mobile-theme-toggle" class="flex items-center gap-2 px-4 py-2 border border-black dark:border-white bg-white dark:bg-darkCard">
+                    <i data-lucide="sun" class="w-4 h-4"></i> Theme
+                </button>
+                <button id="mobile-lang-toggle" class="flex items-center gap-2 px-4 py-2 border border-black dark:border-white bg-white dark:bg-darkCard">
+                    <span class="font-mono font-bold">EN/中</span>
+                </button>
+            </div>
+            
+            <button class="w-full py-3 border border-black dark:border-white bg-[#65cbf9] dark:bg-blue-800 dark:text-white font-bold shadow-hard-sm" data-i18n="contact_me">联系我</button>
+        </div>
+    </nav>
+
+    <!-- 3. Hero Section -->
+    <section class="px-6 md:px-12 lg:px-24 py-16 pt-16 pb-20 relative z-10 bg-[#f9f7f2] dark:bg-darkBg transition-colors">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+            <div class="space-y-8">
+                <!-- Tag -->
+                <div class="inline-block px-3 py-1 border border-black dark:border-white bg-white dark:bg-darkCard text-xs font-mono font-bold mb-2 shadow-hard-sm dark:text-white">
+                    <span data-i18n="hero_tag"> 我的数字乐园🌏 </span>
+                </div>
+
+                <!-- Heading -->
+                <h2 class="font-mono font-medium tracking-tight text-6xl md:text-8xl leading-[0.9] dark:text-white" data-i18n="greeting">
+                    中午好！😎
+                </h2>
+                
+                <!-- Intro Text -->
+                <div class="text-lg text-gray-800 dark:text-gray-300 leading-relaxed space-y-4 border-l-4 border-yellow-400 pl-6">
+                    <p data-i18n="intro_1">
+                        你好，我是<span class="font-bold border-b-2 border-blue-300">健😀</span>，一名在现实与理想间不断探索的菜鸟。
+                    </p>
+                    <p class="text-base text-gray-600 dark:text-gray-400" data-i18n="intro_2">
+                        Web开发之旅始于偶然，但当第一个DEMO成功运行的那一刻，我知道自己找到了值得坚持的方向。即便在时间碎成沙漏的繁忙日常里，代码与文字始终是我对抗焦虑与不确定性的忠实盾牌。
+                    </p>
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex flex-wrap gap-4 pt-4">
+                    <button class="border border-black dark:border-white px-6 py-3 font-sans font-bold text-sm uppercase tracking-wide transition-transform active:translate-y-0.5 shadow-hard hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-[#65cbf9] dark:bg-blue-700 dark:text-white" data-i18n="btn_resume">
+                        【这是我的简历】
+                    </button>
+                    <button class="border border-black dark:border-white bg-white dark:bg-darkCard dark:text-white px-6 py-3 font-sans font-medium text-sm uppercase tracking-wide hover:bg-gray-100 dark:hover:bg-white/5 transition-colors" data-i18n="btn_more">
+                        阅读关于我的更多信息
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Side: Code Block -->
+            <div class="relative z-20 mt-8 lg:mt-0 lg:translate-y-1/2 transition-transform duration-500">
+                 <!-- Decorative Circle -->
+                 <div class="absolute -top-6 -right-6 w-24 h-24 bg-[#ffed00] border border-black dark:border-white rounded-full z-0"></div>
+                 
+                 <!-- Terminal Window -->
+                 <div class="relative z-10 bg-[#282828] text-gray-300 border border-black dark:border-white shadow-[12px_12px_0px_0px_rgba(0,0,0,0.2)] dark:shadow-[12px_12px_0px_0px_rgba(255,255,255,0.1)] rounded-sm overflow-hidden">
+                    <div class="border-b border-gray-600 p-3 flex items-center justify-between bg-[#1f1f1f]">
+                        <div class="flex gap-1.5">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                        </div>
+                        <div class="text-xs text-gray-500 font-mono">concept.js</div>
+                    </div>
+                    
+                    <div class="p-6 font-mono text-sm space-y-6">
+                       <div>
+                          <span class="text-[#ff79c6]" data-i18n="code_concept">// 理念</span><br/>
+                          <span class="text-[#8be9fd]">const</span> <span class="text-[#50fa7b]">quote</span> = <span class="text-[#f1fa8c]" data-i18n="code_quote">"一个人能走多远不在于他在顺境中能走得多快，而在于他在逆境中多久能找到曾经的自己。"</span>;
+                       </div>
+                       
+                       <div>
+                          <span class="text-[#ff79c6]" data-i18n="code_status">// 状态</span><br/>
+                          <span class="text-[#8be9fd]">let</span> <span class="text-[#50fa7b]">mood</span> = <span class="text-[#bd93f9]">getMood</span>();<br/>
+                          <span class="text-[#ffb86c]">if</span> (thinking < normal) {<br/>
+                          &nbsp;&nbsp;<span class="text-[#50fa7b]">happiness</span>.chase(); <span class="text-[#6272a4]" data-i18n="code_comment">// 只要想的少 快乐追着跑！</span><br/>
+                          }
+                       </div>
+
+                       <div class="pt-4 border-t border-gray-700">
+                          <div class="flex items-center gap-2">
+                             <span class="text-blue-400">➜</span>
+                             <span data-i18n="code_footer">正在用最优雅的方式与这个世界和解...</span>
+                             <span class="cursor-blink inline-block w-2 h-4 bg-blue-400 ml-1"></span>
+                          </div>
+                       </div>
+                    </div>
+                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Latest Articles -->
+    <section class="px-6 md:px-12 lg:px-24 py-10 relative z-10 bg-[#f9f7f2] dark:bg-darkBg transition-colors">
+         <div class="max-w-7xl mx-auto">
+             <div class="flex justify-between items-end mb-10 border-b-2 border-black dark:border-white pb-4">
+                <h2 class="font-mono font-medium tracking-tight text-4xl uppercase dark:text-white" data-i18n="latest_articles">最新文章</h2>
+                <a href="#" class="text-sm font-bold underline decoration-2 hover:text-blue-600 dark:hover:text-blue-400 mb-1 dark:text-gray-300" data-i18n="view_all">查看全部文章 →</a>
+             </div>
+             
+             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="border border-black dark:border-white bg-white dark:bg-darkCard p-8 flex flex-col h-full hover:-translate-y-1 hover:shadow-hard-blue transition-all duration-300 cursor-pointer group">
+                     <div class="mb-6 flex justify-between items-start">
+                        <div class="text-xs font-mono font-bold text-gray-500 dark:text-gray-400 border border-gray-300 dark:border-gray-600 px-2 py-1">2025-05-25</div>
+                        <div class="text-gray-800 dark:text-gray-200 group-hover:text-blue-500 transition-colors"><i data-lucide="coffee" class="w-8 h-8"></i></div>
+                     </div>
+                     <h3 class="text-xl font-bold mb-4 leading-tight dark:text-white" data-i18n="article_1_title">学习进度与心态的反思</h3>
+                     <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mt-auto mb-6 line-clamp-3" data-i18n="article_1_desc">本文记录了我的学习进度与心态的反思。</p>
+                     <div class="mt-auto border-t border-gray-100 dark:border-gray-700 pt-4">
+                        <span class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400" data-i18n="read_more">阅读更多</span>
+                     </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="border border-black dark:border-white bg-white dark:bg-darkCard p-8 flex flex-col h-full hover:-translate-y-1 hover:shadow-hard-blue transition-all duration-300 cursor-pointer group">
+                    <div class="mb-6 flex justify-between items-start">
+                       <div class="text-xs font-mono font-bold text-gray-500 dark:text-gray-400 border border-gray-300 dark:border-gray-600 px-2 py-1">2025-04-07</div>
+                       <div class="text-gray-800 dark:text-gray-200 group-hover:text-blue-500 transition-colors"><i data-lucide="terminal" class="w-8 h-8"></i></div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 leading-tight dark:text-white" data-i18n="article_2_title">Mingw安装教程</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mt-auto mb-6 line-clamp-3" data-i18n="article_2_desc">本文将详细介绍Mingw的安装教程。</p>
+                    <div class="mt-auto border-t border-gray-100 dark:border-gray-700 pt-4">
+                       <span class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400" data-i18n="read_more">阅读更多</span>
+                    </div>
+               </div>
+               <!-- Card 3 -->
+               <div class="border border-black dark:border-white bg-white dark:bg-darkCard p-8 flex flex-col h-full hover:-translate-y-1 hover:shadow-hard-blue transition-all duration-300 cursor-pointer group">
+                <div class="mb-6 flex justify-between items-start">
+                   <div class="text-xs font-mono font-bold text-gray-500 dark:text-gray-400 border border-gray-300 dark:border-gray-600 px-2 py-1">2025-04-06</div>
+                   <div class="text-gray-800 dark:text-gray-200 group-hover:text-blue-500 transition-colors"><i data-lucide="cpu" class="w-8 h-8"></i></div>
+                </div>
+                <h3 class="text-xl font-bold mb-4 leading-tight dark:text-white" data-i18n="article_3_title">从零开始构建博客：技术栈、架构设计与实现</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mt-auto mb-6 line-clamp-3" data-i18n="article_3_desc">本文将详细介绍这个博客的技术栈、架构设计、核心JavaScript功能实现以及部署方案。</p>
+                <div class="mt-auto border-t border-gray-100 dark:border-gray-700 pt-4">
+                   <span class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400" data-i18n="read_more">阅读更多</span>
+                </div>
+                </div>
+             </div>
+         </div>
+    </section>
+
+    <!-- 5. Purpose Split Banner -->
+    <div class="w-full border-y border-black dark:border-white bg-white dark:bg-darkCard relative z-10 transition-colors">
+         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-[250px_1fr]">
+            <div class="bg-[#ffed00] text-black p-8 flex items-center justify-center md:justify-start border-b md:border-b-0 md:border-r border-black dark:border-black">
+               <span class="font-mono text-3xl tracking-widest font-bold" data-i18n="purpose_title">博客目的:</span>
+            </div>
+            <div class="bg-[#f9f7f2] dark:bg-darkBg p-8 flex flex-wrap items-center gap-6">
+               <div class="flex items-center gap-2">
+                  <div class="w-3 h-3 bg-blue-400 border border-black dark:border-white"></div>
+                  <span class="font-medium dark:text-gray-200" data-i18n="purpose_1">技术札记</span>
+               </div>
+               <div class="flex items-center gap-2">
+                  <div class="w-3 h-3 bg-red-400 border border-black dark:border-white"></div>
+                  <span class="font-medium dark:text-gray-200" data-i18n="purpose_2">人文随笔</span>
+               </div>
+               <div class="flex items-center gap-2">
+                  <div class="w-3 h-3 bg-green-400 border border-black dark:border-white"></div>
+                  <span class="font-medium dark:text-gray-200" data-i18n="purpose_3">知识管理</span>
+               </div>
+               <div class="flex items-center gap-2">
+                  <div class="w-3 h-3 bg-purple-400 border border-black dark:border-white"></div>
+                  <span class="font-medium dark:text-gray-200" data-i18n="purpose_4">心灵疗愈</span>
+               </div>
+            </div>
+         </div>
+    </div>
+
+    <!-- 6. IMMERSIVE Q&A SCROLL SECTION -->
+    <section id="immersive-scroll-trigger" class="relative h-[350vh] bg-[#f9f7f2] dark:bg-darkBg z-10 transition-colors">
+        
+        <div class="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden">
+            
+            <div id="scroll-title" class="mb-8 text-center z-20 transition-transform duration-300">
+                <h2 class="font-mono font-medium tracking-tight text-4xl md:text-5xl border-b-2 border-black dark:border-white pb-2 inline-block bg-[#f9f7f2] dark:bg-darkBg dark:text-white px-4" data-i18n="qa_title">
+                    问答与想法
+                </h2>
+                <p class="mt-4 text-gray-500 text-sm animate-bounce" data-i18n="scroll_hint">向下滚动查看更多 ↓</p>
+            </div>
+
+            <div class="relative w-full max-w-4xl h-[50vh] md:h-[60vh] flex items-center justify-center px-6">
+                
+                <!-- 1. IDEAS CARD -->
+                <div id="card-ideas" class="absolute w-full md:w-[80%] h-full bg-white dark:bg-darkCard border border-black dark:border-white shadow-hard p-8 flex flex-col transition-all duration-500 ease-out origin-center" style="opacity: 0; transform: translateY(50px);">
+                    <div class="flex justify-between items-center mb-6 border-b border-black dark:border-white pb-4 bg-[#65cbf9] dark:bg-blue-900 dark:text-white -m-8 mb-6 p-8">
+                        <div class="font-mono font-bold text-xl flex items-center gap-2">
+                            <i data-lucide="lightbulb" class="w-6 h-6"></i> <span data-i18n="idea_title">想法 💡</span>
+                        </div>
+                        <div class="text-xs font-mono border border-black dark:border-white bg-white dark:bg-darkBg dark:text-white px-2 py-1">Part 1/3</div>
+                    </div>
+                    
+                    <div class="space-y-6 overflow-y-auto flex-1 pr-2">
+                        <div class="border-b border-gray-100 dark:border-gray-700 pb-4">
+                             <div class="flex justify-between items-start">
+                                <h4 class="font-bold text-lg dark:text-white" data-i18n="idea_1_title">2025届计算机设计大赛落幕</h4>
+                                <span class="text-xs text-gray-400">2025</span>
+                             </div>
+                             <p class="text-sm text-gray-600 dark:text-gray-400 mt-2" data-i18n="idea_1_desc">2025年全国大学生计算机设计大赛落下帷幕，我获得了国家级三等奖。</p>
+                             <span class="inline-block mt-2 text-xs border border-black dark:border-white px-2 bg-yellow-200 dark:bg-yellow-700 dark:text-white" data-i18n="tag_award">奖项</span>
+                        </div>
+                        <div class="border-b border-gray-100 dark:border-gray-700 pb-4">
+                             <h4 class="font-bold text-lg dark:text-white" data-i18n="idea_2_title">即将推出小说</h4>
+                             <p class="text-sm text-gray-600 dark:text-gray-400 mt-2" data-i18n="idea_2_desc">情绪混乱或者焦虑的时候，我就每天花1个小时去写点东西... 写的很烂，但是这能转移我的注意力。</p>
+                             <div class="mt-2 flex gap-2">
+                                <span class="text-xs border border-black dark:border-white px-2 bg-green-200 dark:bg-green-800 dark:text-white" data-i18n="tag_writing">写作</span>
+                                <span class="text-xs border border-black dark:border-white px-2 bg-blue-200 dark:bg-blue-800 dark:text-white" data-i18n="tag_healing">治愈</span>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. QUESTIONS CARD -->
+                <div id="card-questions" class="absolute w-full md:w-[80%] h-full bg-white dark:bg-darkCard border border-black dark:border-white shadow-hard p-8 flex flex-col transition-all duration-500 ease-out origin-center" style="opacity: 0; transform: translateY(100px);">
+                    <div class="flex justify-between items-center mb-6 border-b border-black dark:border-white pb-4 bg-[#ffed00] dark:bg-yellow-600 dark:text-white -m-8 mb-6 p-8">
+                        <div class="font-mono font-bold text-xl flex items-center gap-2">
+                            <i data-lucide="flame" class="w-6 h-6 text-red-600 dark:text-red-200"></i> <span data-i18n="question_title">问题 🔥</span>
+                        </div>
+                        <div class="text-xs font-mono border border-black dark:border-white bg-white dark:bg-darkBg dark:text-white px-2 py-1">Part 2/3</div>
+                    </div>
+
+                    <div class="space-y-6 overflow-y-auto flex-1 pr-2">
+                        <div class="bg-gray-50 dark:bg-gray-800 border border-black dark:border-gray-600 p-4">
+                             <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-bold text-red-600 dark:text-red-400" data-i18n="q1_title">网站图片加载缓慢</h4>
+                                <i data-lucide="alert-circle" class="text-red-500 w-4 h-4"></i>
+                             </div>
+                             <div class="text-xs bg-white dark:bg-darkBg border border-gray-200 dark:border-gray-600 p-2 mt-2 dark:text-gray-300" data-i18n="q1_ans">
+                                <span class="font-bold">解答：</span> 受限于Github Pages服务器，国内DNS加速成本高，暂不考虑。🥵
+                             </div>
+                        </div>
+                        <div class="bg-gray-50 dark:bg-gray-800 border border-black dark:border-gray-600 p-4">
+                             <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-bold text-green-700 dark:text-green-400" data-i18n="q2_title">博客文章链接404</h4>
+                                <i data-lucide="check-circle-2" class="text-green-600 w-4 h-4"></i>
+                             </div>
+                             <div class="text-xs bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 p-2 mt-2 text-green-900 dark:text-green-300" data-i18n="q2_ans">
+                                <span class="font-bold">已解决✅：</span> 1.1.1版本已修复。由路径不一致导致。请清除缓存！😊
+                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. UPDATES CARD -->
+                <div id="card-updates" class="absolute w-full md:w-[80%] h-full bg-white dark:bg-darkCard border border-black dark:border-white shadow-hard p-8 flex flex-col transition-all duration-500 ease-out origin-center" style="opacity: 0; transform: translateY(100px);">
+                     <div class="flex justify-between items-center mb-6 border-b border-black dark:border-white pb-4 bg-gray-300 dark:bg-gray-600 dark:text-white -m-8 mb-6 p-8">
+                        <div class="font-mono font-bold text-xl flex items-center gap-2">
+                            <i data-lucide="help-circle" class="w-6 h-6 text-gray-700 dark:text-gray-200"></i> <span data-i18n="update_title">疑问与计划 🤔</span>
+                        </div>
+                        <div class="text-xs font-mono border border-black dark:border-white bg-white dark:bg-darkBg dark:text-white px-2 py-1">Part 3/3</div>
+                    </div>
+
+                    <div class="space-y-6 overflow-y-auto flex-1 pr-2">
+                        <div class="text-center py-8">
+                            <h4 class="font-bold mb-2 text-xl dark:text-white" data-i18n="u1_title">更新计划？</h4>
+                            <div class="flex justify-center items-center gap-2 mb-4">
+                                <i data-lucide="clock" class="w-5 h-5 dark:text-gray-300"></i>
+                                <span class="text-base font-mono bg-black text-white dark:bg-white dark:text-black px-2" data-i18n="u1_time">2026年6月以后</span>
+                            </div>
+                            <p class="text-gray-600 dark:text-gray-400 max-w-sm mx-auto" data-i18n="u1_desc">
+                                现在时间很紧张，未来大概在26年6月以后会持续更新！😀
+                            </p>
+                        </div>
+                        <div class="border-t border-gray-300 dark:border-gray-600 pt-4">
+                             <h5 class="font-bold text-sm mb-2 dark:text-white" data-i18n="u_fix_title">其他修复:</h5>
+                             <ul class="text-xs space-y-2 dark:text-gray-400">
+                                <li class="flex gap-2 items-center"><i data-lucide="check" class="w-3 h-3"></i> <span data-i18n="u_fix_1">首次访问字体加载错误 (已修复)</span></li>
+                                <li class="flex gap-2 items-center"><i data-lucide="check" class="w-3 h-3"></i> <span data-i18n="u_fix_2">移动端导航栏适配 (已优化)</span></li>
+                             </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Progress Indicators -->
+            <div class="flex gap-3 mt-8 z-20">
+                <div id="indicator-1" class="w-3 h-3 rounded-full border border-black dark:border-white bg-transparent transition-colors duration-300"></div>
+                <div id="indicator-2" class="w-3 h-3 rounded-full border border-black dark:border-white bg-transparent transition-colors duration-300"></div>
+                <div id="indicator-3" class="w-3 h-3 rounded-full border border-black dark:border-white bg-transparent transition-colors duration-300"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 7. Changelog Section -->
+    <div class="w-full py-20 border-t border-black dark:border-white bg-[#65cbf9] dark:bg-blue-900 relative z-20 transition-colors">
+         <div class="max-w-5xl mx-auto px-6 md:px-12">
+            <div class="inline-block bg-[#282828] text-white px-6 py-3 border border-black dark:border-white mb-12 shadow-hard-white">
+               <h2 class="font-mono text-2xl tracking-widest uppercase" data-i18n="changelog_title">博客动态 (Changelog)</h2>
+            </div>
+
+            <div class="relative border-l-2 border-black dark:border-white pl-8 ml-4 space-y-12">
+               <!-- Version 2.0.0 -->
+               <div class="relative">
+                  <div class="absolute -left-[41px] top-0 w-6 h-6 bg-yellow-400 border border-black dark:border-white rounded-full"></div>
+                  <div class="text-xs font-mono font-bold mb-1 opacity-70 dark:text-gray-300">2025-08-04</div>
+                  <h3 class="text-xl font-bold dark:text-white" data-i18n="cl_1_title">2.0.0版本发布：博客功能增强！🎨</h3>
+                  <p class="mt-2 text-gray-800 dark:text-gray-300 max-w-xl" data-i18n="cl_1_desc">内容和排版进行了升级和修复，增加了数据中心，修正了文字和内容。😀</p>
+               </div>
+               <!-- Version 1.3.0 -->
+               <div class="relative">
+                  <div class="absolute -left-[41px] top-0 w-6 h-6 bg-white border border-black dark:border-white rounded-full"></div>
+                  <div class="text-xs font-mono font-bold mb-1 opacity-70 dark:text-gray-300">2025-05-22</div>
+                  <h3 class="text-lg font-bold dark:text-white" data-i18n="cl_2_title">1.3.0版本发布：UI升级</h3>
+                  <p class="mt-2 text-gray-800 dark:text-gray-300 max-w-xl" data-i18n="cl_2_desc">UI进行了升级和修复，bug进行了重大优化😀</p>
+               </div>
+            </div>
+         </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-[#f9f7f2] dark:bg-darkBg border-t border-black dark:border-white pt-16 pb-12 px-6 relative z-20 transition-colors">
+        <div class="max-w-7xl mx-auto">
+           <div class="grid grid-cols-1 lg:grid-cols-4 gap-12 mb-8">
+              
+              <!-- Brand & Copyright -->
+              <div class="col-span-1">
+                 <div class="font-bold text-xl flex items-center gap-2 mb-4 dark:text-white">
+                    <div class="w-6 h-6 bg-orange-500 rotate-12 border border-black dark:border-white"></div>
+                    HealthJian
+                 </div>
+                 <div class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                    <p>© 2025 CaiNiaojian & HealthJian</p>
+                    <p data-i18n="rights">保留所有权利</p>
+                    <p class="mt-4 text-xs opacity-60" data-i18n="designed_by">Designed with ❤️ by Front-end technology</p>
+                 </div>
+              </div>
+
+              <!-- Quick Links (Image Style) -->
+              <div class="col-span-1 lg:col-span-1">
+                 <h5 class="font-bold text-lg mb-6 relative inline-block dark:text-white">
+                    <span data-i18n="quick_links">快速链接</span>
+                    <span class="absolute left-0 -bottom-2 w-8 h-1 bg-[#65cbf9]"></span>
+                 </h5>
+                 <!-- 3-Column Grid Layout -->
+                 <div class="grid grid-cols-3 gap-y-4 gap-x-2 text-sm text-gray-600 dark:text-gray-400">
+                    <a href="#" class="hover:text-black dark:hover:text-white hover:underline" data-i18n="footer_blog">博客</a>
+                    <a href="#" class="hover:text-black dark:hover:text-white hover:underline" data-i18n="footer_about">关于</a>
+                    <a href="#" class="hover:text-black dark:hover:text-white hover:underline" data-i18n="footer_log">更新日志</a>
+                    <a href="#" class="hover:text-black dark:hover:text-white hover:underline" data-i18n="footer_gallery">图集</a>
+                    <a href="#" class="hover:text-black dark:hover:text-white hover:underline" data-i18n="footer_category">分类</a>
+                    <a href="#" class="hover:text-black dark:hover:text-white hover:underline" data-i18n="footer_website">网站</a>
+                 </div>
+              </div>
+
+              <!-- Contact Me (Image Style) -->
+              <div class="col-span-1 lg:col-span-1">
+                 <h5 class="font-bold text-lg mb-6 relative inline-block dark:text-white">
+                    <span data-i18n="contact_title">联系我</span>
+                    <span class="absolute left-0 -bottom-2 w-8 h-1 bg-[#65cbf9]"></span>
+                 </h5>
+                 
+                 <!-- Info -->
+                 <div class="text-sm text-gray-600 dark:text-gray-400 space-y-3 mb-6">
+                    <p class="flex flex-wrap gap-1">
+                        <span data-i18n="email_label">邮箱：</span> 
+                        <span class="text-gray-800 dark:text-gray-200">gaojian1573@foxmail.com</span>
+                    </p>
+                    <p class="flex items-center gap-1">
+                        <span data-i18n="address_label">地址：</span> 
+                        <span class="text-gray-800 dark:text-gray-200" data-i18n="address_val">中国，江苏</span>
+                    </p>
+                 </div>
+
+                 <!-- Social Icons Row -->
+                 <div class="flex gap-3">
+                     <a href="#" class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-700 dark:text-white hover:bg-[#65cbf9] dark:hover:bg-blue-600 hover:text-white transition-all duration-200 hover:-translate-y-1">
+                        <i data-lucide="github" class="w-5 h-5"></i>
+                     </a>
+                     <a href="#" class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-700 dark:text-white hover:bg-[#65cbf9] dark:hover:bg-blue-600 hover:text-white transition-all duration-200 hover:-translate-y-1">
+                        <i data-lucide="message-circle" class="w-5 h-5"></i>
+                     </a>
+                     <a href="#" class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-700 dark:text-white hover:bg-[#65cbf9] dark:hover:bg-blue-600 hover:text-white transition-all duration-200 hover:-translate-y-1">
+                        <i data-lucide="twitter" class="w-5 h-5"></i>
+                     </a>
+                     <a href="#" class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-700 dark:text-white hover:bg-[#65cbf9] dark:hover:bg-blue-600 hover:text-white transition-all duration-200 hover:-translate-y-1">
+                        <i data-lucide="mail" class="w-5 h-5"></i>
+                     </a>
+                     <a href="#" class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-700 dark:text-white hover:bg-[#65cbf9] dark:hover:bg-blue-600 hover:text-white transition-all duration-200 hover:-translate-y-1">
+                        <i data-lucide="gamepad-2" class="w-5 h-5"></i>
+                     </a>
+                 </div>
+              </div>
+
+              <!-- Time Display -->
+              <div class="col-span-1 flex justify-start lg:justify-end">
+                  <div class="bg-white dark:bg-darkCard border border-black dark:border-white p-4 flex flex-col justify-center items-center shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.1)] h-fit w-full lg:w-auto">
+                     <div id="clock-time" class="text-3xl font-mono font-bold tracking-widest dark:text-white">00:00:00</div>
+                     <div id="clock-date" class="text-xs font-bold text-gray-500 dark:text-gray-400 mt-1 border-t border-gray-200 dark:border-gray-600 pt-1 w-full text-center uppercase">2025年1月1日</div>
+                     <div class="text-[10px] text-gray-400 mt-2" data-i18n="record_at">
+                        记录于 HealthJian Blog
+                     </div>
+                  </div>
+              </div>
+
+           </div>
+        </div>
+    </footer>
+
+    <!-- Logic Script -->
+    <script>
+        // 1. Initialize Icons
+        lucide.createIcons();
+
+        // 2. Translations Config
+        const i18n = {
+          zh: {
+            slogan: "只要想的少 快乐追着跑！",
+            playground: "我的数字乐园",
+            nav_home: "首页",
+            nav_blog: "博客",
+            nav_demo: "Demo",
+            nav_links: "链接",
+            nav_about: "关于",
+            contact_me: "联系我",
+            hero_tag: " 我的数字乐园🌏 ",
+            greeting: "中午好！😎",
+            intro_1: "你好，我是<span class='font-bold border-b-2 border-blue-300'>健😀</span>，一名在现实与理想间不断探索的菜鸟。",
+            intro_2: "Web开发之旅始于偶然，但当第一个DEMO成功运行的那一刻，我知道自己找到了值得坚持的方向。即便在时间碎成沙漏的繁忙日常里，代码与文字始终是我对抗焦虑与不确定性的忠实盾牌。",
+            btn_resume: "【这是我的简历】",
+            btn_more: "阅读关于我的更多信息",
+            latest_articles: "最新文章",
+            view_all: "查看全部文章 →",
+            article_1_title: "学习进度与心态的反思",
+            article_1_desc: "本文记录了我的学习进度与心态的反思。",
+            article_2_title: "Mingw安装教程",
+            article_2_desc: "本文将详细介绍Mingw的安装教程。",
+            article_3_title: "从零开始构建博客：技术栈、架构设计与实现",
+            article_3_desc: "本文将详细介绍这个博客的技术栈、架构设计、核心JavaScript功能实现以及部署方案。",
+            read_more: "阅读更多",
+            purpose_title: "博客目的:",
+            purpose_1: "技术札记",
+            purpose_2: "人文随笔",
+            purpose_3: "知识管理",
+            purpose_4: "心灵疗愈",
+            qa_title: "问答与想法",
+            scroll_hint: "向下滚动查看更多 ↓",
+            idea_title: "想法 💡",
+            idea_1_title: "2025届计算机设计大赛落幕",
+            idea_1_desc: "2025年全国大学生计算机设计大赛落下帷幕，我获得了国家级三等奖。",
+            tag_award: "奖项",
+            idea_2_title: "即将推出小说",
+            idea_2_desc: "情绪混乱或者焦虑的时候，我就每天花1个小时去写点东西... 写的很烂，但是这能转移我的注意力。",
+            tag_writing: "写作",
+            tag_healing: "治愈",
+            question_title: "问题 🔥",
+            q1_title: "网站图片加载缓慢",
+            q1_desc: "不论插图还是背景，改用avif后依然慢。",
+            q1_ans: "<span class='font-bold'>解答：</span> 受限于Github Pages服务器，国内DNS加速成本高，暂不考虑。🥵",
+            q2_title: "博客文章链接404",
+            q2_ans: "<span class='font-bold'>已解决✅：</span> 1.1.1版本已修复。由路径不一致导致。请清除缓存！😊",
+            update_title: "疑问与计划 🤔",
+            u1_title: "更新计划？",
+            u1_time: "2026年6月以后",
+            u1_desc: "现在时间很紧张，未来大概在26年6月以后会持续更新！😀",
+            u_fix_title: "其他修复:",
+            u_fix_1: "首次访问字体加载错误 (已修复)",
+            u_fix_2: "移动端导航栏适配 (已优化)",
+            changelog_title: "博客动态 (Changelog)",
+            cl_1_title: "2.0.0版本发布：博客功能增强！🎨",
+            cl_1_desc: "内容和排版进行了升级和修复，增加了数据中心，修正了文字和内容。😀",
+            cl_2_title: "1.3.0版本发布：UI升级",
+            cl_2_desc: "UI进行了升级和修复，bug进行了重大优化😀",
+            quick_links: "快速链接",
+            footer_blog: "博客",
+            footer_about: "关于",
+            footer_log: "更新日志",
+            footer_gallery: "图集",
+            footer_category: "分类",
+            footer_website: "网站",
+            contact_title: "联系我",
+            email_label: "邮箱：",
+            address_label: "地址：",
+            address_val: "中国，江苏",
+            rights: "保留所有权利",
+            designed_by: "Designed with ❤️ by Front-end technology",
+            record_at: "记录于 HealthJian Blog",
+            code_concept: "// 理念",
+            code_quote: "\"一个人能走多远不在于他在顺境中能走得多快，而在于他在逆境中多久能找到曾经的自己。\"",
+            code_status: "// 状态",
+            code_comment: "// 只要想的少 快乐追着跑！",
+            code_footer: "正在用最优雅的方式与这个世界和解..."
+          },
+          en: {
+            slogan: "Think Less, Happiness Follows!",
+            playground: "My Digital Playground",
+            nav_home: "Home",
+            nav_blog: "Blog",
+            nav_demo: "Demo",
+            nav_links: "Links",
+            nav_about: "About",
+            contact_me: "Contact Me",
+            hero_tag: " My Digital Playground 🌏 ",
+            greeting: "Good Afternoon! 😎",
+            intro_1: "Hi, I'm <span class='font-bold border-b-2 border-blue-300'>Jian😀</span>, a rookie exploring between reality and ideals.",
+            intro_2: "My web dev journey started by chance, but when the first DEMO ran successfully, I knew I found a direction worth persisting in. Even in busy days, code and words are my shields against anxiety.",
+            btn_resume: "【My Resume】",
+            btn_more: "Read More About Me",
+            latest_articles: "Latest Articles",
+            view_all: "View All ->",
+            article_1_title: "Reflection on Learning Progress",
+            article_1_desc: "Documenting my reflections on learning progress and mindset.",
+            article_2_title: "Mingw Installation Guide",
+            article_2_desc: "Detailed tutorial on installing Mingw.",
+            article_3_title: "Building a Blog from Scratch",
+            article_3_desc: "Details on tech stack, architecture, core JS implementation, and deployment.",
+            read_more: "READ MORE",
+            purpose_title: "Blog Purpose:",
+            purpose_1: "Tech Notes",
+            purpose_2: "Essays",
+            purpose_3: "Knowledge Mgmt",
+            purpose_4: "Healing",
+            qa_title: "Q&A and Ideas",
+            scroll_hint: "Scroll down for more ↓",
+            idea_title: "Ideas 💡",
+            idea_1_title: "2025 Computer Design Contest",
+            idea_1_desc: "The 2025 National College Student Computer Design Competition concluded, I won the National 3rd Prize.",
+            tag_award: "Award",
+            idea_2_title: "Upcoming Novel",
+            idea_2_desc: "When anxious, I spend 1 hour writing... It's messy, but it distracts me.",
+            tag_writing: "Writing",
+            tag_healing: "Healing",
+            question_title: "Problems 🔥",
+            q1_title: "Slow Image Loading",
+            q1_desc: "Even with AVIF, images and backgrounds load slowly.",
+            q1_ans: "<span class='font-bold'>Answer:</span> Limited by Github Pages servers. CDN is too expensive for now. 🥵",
+            q2_title: "Blog Link 404",
+            q2_ans: "<span class='font-bold'>Fixed✅:</span> Fixed in v1.1.1. Caused by path inconsistency. Clear cache! 😊",
+            update_title: "Doubts & Plans 🤔",
+            u1_title: "Update Plan?",
+            u1_time: "After June 2026",
+            u1_desc: "Time is tight, updates will resume after June 2026! 😀",
+            u_fix_title: "Other Fixes:",
+            u_fix_1: "Font loading error (Fixed)",
+            u_fix_2: "Mobile nav adaptation (Optimized)",
+            changelog_title: "Changelog",
+            cl_1_title: "v2.0.0 Released: Features Enhanced! 🎨",
+            cl_1_desc: "Content and layout upgraded, data center added, text fixes. 😀",
+            cl_2_title: "v1.3.0 Released: UI Upgrade",
+            cl_2_desc: "Major UI upgrades and bug fixes. 😀",
+            quick_links: "Quick Links",
+            footer_blog: "Blog",
+            footer_about: "About",
+            footer_log: "Changelog",
+            footer_gallery: "Gallery",
+            footer_category: "Category",
+            footer_website: "Website",
+            contact_title: "Contact Me",
+            email_label: "Email:",
+            address_label: "Address:",
+            address_val: "Jiangsu, China",
+            rights: "All Rights Reserved",
+            designed_by: "Designed with ❤️ by Front-end technology",
+            record_at: "Recorded at HealthJian Blog",
+            code_concept: "// Philosophy",
+            code_quote: "\"How far one can go depends not on speed in good times, but on resilience in adversity.\"",
+            code_status: "// Status",
+            code_comment: "// Think less, happiness follows!",
+            code_footer: "Reconciling with the world in the most elegant way..."
+          }
+        };
+
+        // State
+        let currentLang = localStorage.getItem('blog-lang') || 'zh';
+        
+        // Functions
+        function updateLanguage() {
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[currentLang][key]) {
+                    // If element has child elements (like icons), be careful, but here we assume text-only or span replacements
+                    // For Intro 1/2 which contain HTML, we use innerHTML
+                    if (key.includes('intro_') || key.includes('q1_ans') || key.includes('q2_ans')) {
+                        el.innerHTML = i18n[currentLang][key];
+                    } else {
+                        el.innerText = i18n[currentLang][key];
+                    }
+                }
+            });
+            
+            // Update button text
+            const langBtn = document.getElementById('lang-toggle');
+            langBtn.innerText = currentLang === 'zh' ? 'EN' : '中';
+            
+            // Save pref
+            localStorage.setItem('blog-lang', currentLang);
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'zh' ? 'en' : 'zh';
+            updateLanguage();
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // 3. Event Listeners
+        document.getElementById('lang-toggle').addEventListener('click', toggleLanguage);
+        document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+        
+        // Mobile Listeners
+        document.getElementById('mobile-theme-toggle').addEventListener('click', toggleTheme);
+        document.getElementById('mobile-lang-toggle').addEventListener('click', toggleLanguage);
+
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Init
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+        updateLanguage();
+
+        // 4. Clock Logic
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('clock-time').textContent = now.toLocaleTimeString(currentLang === 'zh' ? 'zh-CN' : 'en-US', { hour12: false });
+            const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+            document.getElementById('clock-date').textContent = now.toLocaleDateString(currentLang === 'zh' ? 'zh-CN' : 'en-US', options);
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // 5. IMMERSIVE SCROLL LOGIC
+        const scrollContainer = document.getElementById('immersive-scroll-trigger');
+        const cardIdeas = document.getElementById('card-ideas');
+        const cardQuestions = document.getElementById('card-questions');
+        const cardUpdates = document.getElementById('card-updates');
+        
+        const ind1 = document.getElementById('indicator-1');
+        const ind2 = document.getElementById('indicator-2');
+        const ind3 = document.getElementById('indicator-3');
+
+        function handleScroll() {
+            const rect = scrollContainer.getBoundingClientRect();
+            const viewHeight = window.innerHeight;
+            let progress = (viewHeight - rect.top) / (rect.height - viewHeight);
+            progress = Math.max(0, Math.min(1, progress));
+
+            ind1.classList.remove('bg-black', 'dark:bg-white');
+            ind2.classList.remove('bg-black', 'dark:bg-white');
+            ind3.classList.remove('bg-black', 'dark:bg-white');
+
+            const setCardStyle = (card, active, incoming, outgoing) => {
+                if (active) {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0) scale(1)';
+                    card.style.zIndex = '10';
+                } else if (incoming) {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(100px) scale(0.9)';
+                    card.style.zIndex = '5';
+                } else if (outgoing) {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(-50px) scale(0.9)';
+                    card.style.zIndex = '1';
+                }
+            };
+
+            if (progress < 0.1) {
+                setCardStyle(cardIdeas, false, true, false);
+                setCardStyle(cardQuestions, false, true, false);
+                setCardStyle(cardUpdates, false, true, false);
+            } else if (progress >= 0.1 && progress < 0.4) {
+                setCardStyle(cardIdeas, true, false, false);
+                setCardStyle(cardQuestions, false, true, false);
+                setCardStyle(cardUpdates, false, true, false);
+                ind1.classList.add('bg-black', 'dark:bg-white');
+            } else if (progress >= 0.4 && progress < 0.7) {
+                setCardStyle(cardIdeas, false, false, true);
+                setCardStyle(cardQuestions, true, false, false);
+                setCardStyle(cardUpdates, false, true, false);
+                ind2.classList.add('bg-black', 'dark:bg-white');
+            } else {
+                setCardStyle(cardIdeas, false, false, true);
+                setCardStyle(cardQuestions, false, false, true);
+                setCardStyle(cardUpdates, true, false, false);
+                ind3.classList.add('bg-black', 'dark:bg-white');
+            }
+        }
+
+        window.addEventListener('scroll', handleScroll);
+        handleScroll();
+    </script>
+</body>
+</html>

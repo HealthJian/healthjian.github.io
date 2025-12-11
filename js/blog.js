@@ -350,6 +350,18 @@ function getBlogPosts() {
     // 文章数据
     return [
         {
+            id: 'oil',
+            title: '橡胶制品增塑剂迁移导致出油现象',
+            title_en: 'Oil spillage from rubber product additive migration',
+            excerpt: '橡胶制品增塑剂迁移导致出油现象',
+            excerpt_en: 'Oil spillage from rubber product additive migration',
+            date: '2025-10-06',
+            url: '/pages/blog/tech/oil.html',
+            category: 'tech',
+            tags: ['橡胶制品', '增塑剂', '迁移', '出油'],
+            tags_en: ['Rubber Product', 'Additive', 'Migration', 'Oil Spillage']
+        },
+        {
             id: 'smarteducation',
             title: '大数据作为智慧教育的催化剂：数据驱动方法、应用与挑战的综合述评',
             title_en: 'Big data as a catalyst for smart education: A comprehensive review of data-driven approaches, applications, and challenges',

@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Archive - HealthJian</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind Config for Dark Mode -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#181001',
+                        darkCard: '#241b0b',
+                        darkBorder: '#4a3b22',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        /* Custom Fonts & Utilities */
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        ::selection {
+            background-color: #fef08a;
+            color: black;
+        }
+
+        /* Hard Shadow Utilities */
+        .shadow-hard {
+            box-shadow: 4px 4px 0px 0px #1a1a1a;
+        }
+        .dark .shadow-hard {
+            box-shadow: 4px 4px 0px 0px #ffffff;
+        }
+        
+        .shadow-hard-hover:hover {
+             box-shadow: 6px 6px 0px 0px #65cbf9;
+             transform: translate(-2px, -2px);
+        }
+        .dark .shadow-hard-hover:hover {
+             box-shadow: 6px 6px 0px 0px #3b82f6;
+        }
+        
+        .shadow-hard-sm {
+            box-shadow: 2px 2px 0px 0px #1a1a1a;
+        }
+        .dark .shadow-hard-sm {
+            box-shadow: 2px 2px 0px 0px #ffffff;
+        }
+
+        /* Scrollbar hiding */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[#f9f7f2] text-[#1a1a1a] dark:bg-darkBg dark:text-gray-200">
+
+    <!-- 1. Navigation (Same as Index) -->
+    <nav class="sticky top-0 z-50 border-b border-black/10 dark:border-white/20 backdrop-blur-sm bg-[#f9f7f2]/95 dark:bg-darkBg/95 transition-all duration-300">
+        <div class="px-6 md:px-12 py-4 flex justify-between items-center max-w-7xl mx-auto">
+            <!-- Logo -->
+            <a href="index.html" class="flex items-center gap-2 cursor-pointer group">
+                <div class="w-8 h-8 bg-orange-500 rounded-sm rotate-12 border border-black dark:border-white flex items-center justify-center shadow-hard-sm group-hover:rotate-0 transition-transform">
+                   <div class="text-white font-mono font-bold">H</div>
+                </div>
+                <span class="text-xl font-bold tracking-tight font-mono group-hover:text-orange-500 transition-colors">HealthJian Blog</span>
+            </a>
+
+            <!-- Desktop Links -->
+            <div class="hidden lg:flex items-center gap-8 text-sm font-medium text-gray-700 dark:text-gray-300">
+                <a href="index.html" class="hover:text-black dark:hover:text-white hover:underline decoration-2 underline-offset-4" data-i18n="nav_home">首页</a>
+                <a href="blog.html" class="font-bold text-black dark:text-white underline decoration-2 underline-offset-4" data-i18n="nav_blog">博客</a>
+                <a href="#" class="hover:text-black dark:hover:text-white hover:underline decoration-2 underline-offset-4" data-i18n="nav_demo">Demo</a>
+                <a href="#" class="hover:text-black dark:hover:text-white hover:underline decoration-2 underline-offset-4" data-i18n="nav_links">链接</a>
+            </div>
+
+            <!-- Desktop Actions -->
+            <div class="hidden lg:flex items-center gap-4 text-sm font-medium">
+                 <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-white/10 transition-colors">
+                    <i data-lucide="moon" class="w-5 h-5 hidden dark:block"></i>
+                    <i data-lucide="sun" class="w-5 h-5 block dark:hidden"></i>
+                 </button>
+                 <button id="lang-toggle" class="p-2 w-10 h-10 rounded-full hover:bg-gray-200 dark:hover:bg-white/10 font-mono font-bold border border-transparent hover:border-black dark:hover:border-white transition-all">EN</button>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <button id="menu-toggle" class="lg:hidden text-black dark:text-white"><i data-lucide="menu"></i></button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden absolute top-full left-0 w-full bg-[#f9f7f2] dark:bg-darkBg border-b border-black dark:border-white py-6 px-6 flex flex-col gap-4 shadow-xl">
+            <a href="index.html" class="text-lg font-medium border-b border-gray-200 dark:border-gray-700 pb-2" data-i18n="nav_home">首页</a>
+            <a href="blog.html" class="text-lg font-medium border-b border-gray-200 dark:border-gray-700 pb-2" data-i18n="nav_blog">博客</a>
+            <div class="flex gap-4 py-2">
+                <button id="mobile-theme-toggle" class="flex items-center gap-2 px-4 py-2 border border-black dark:border-white bg-white dark:bg-darkCard"><i data-lucide="sun" class="w-4 h-4"></i> Theme</button>
+                <button id="mobile-lang-toggle" class="flex items-center gap-2 px-4 py-2 border border-black dark:border-white bg-white dark:bg-darkCard"><span class="font-mono font-bold">EN/中</span></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. Page Hero & Controls -->
+    <section class="pt-16 pb-8 px-6 md:px-12 lg:px-24">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b-4 border-black dark:border-white pb-6">
+                <div>
+                    <div class="inline-block px-3 py-1 border border-black dark:border-white bg-yellow-400 text-black text-xs font-mono font-bold mb-2 shadow-hard-sm">
+                        Blog Archive
+                    </div>
+                    <h1 class="font-mono text-5xl md:text-6xl font-bold tracking-tighter dark:text-white" data-i18n="blog_title">文章总览</h1>
+                    <p class="mt-2 text-gray-600 dark:text-gray-400 max-w-lg" data-i18n="blog_subtitle">
+                        代码、生活与那些转瞬即逝的灵感。
+                    </p>
+                </div>
+                
+                <div class="flex flex-col items-end gap-4 w-full md:w-auto">
+                    <!-- Search Bar -->
+                    <div class="relative w-full md:w-64">
+                        <input type="text" id="search-input" placeholder="Search articles..." class="w-full px-4 py-2 pl-10 border border-black dark:border-white bg-white dark:bg-darkCard text-black dark:text-white font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all shadow-hard-sm">
+                        <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400"></i>
+                    </div>
+
+                    <div class="flex items-center justify-between w-full md:w-auto gap-4">
+                         <!-- Filters -->
+                        <div class="flex flex-wrap gap-2" id="filter-container">
+                            <button class="filter-btn active px-4 py-2 font-mono font-bold text-xs border border-black dark:border-white bg-black text-white dark:bg-white dark:text-black transition-all shadow-hard-sm hover:translate-y-[-1px]" data-filter="all" data-i18n="filter_all">全部</button>
+                            <button class="filter-btn px-4 py-2 font-mono font-bold text-xs border border-black dark:border-white bg-white dark:bg-darkCard text-gray-600 dark:text-gray-300 transition-all hover:bg-blue-100 dark:hover:bg-blue-900/30" data-filter="技术" data-i18n="filter_tech">技术</button>
+                            <button class="filter-btn px-4 py-2 font-mono font-bold text-xs border border-black dark:border-white bg-white dark:bg-darkCard text-gray-600 dark:text-gray-300 transition-all hover:bg-yellow-100 dark:hover:bg-yellow-900/30" data-filter="生活" data-i18n="filter_life">生活</button>
+                        </div>
+
+                        <!-- Layout Toggle -->
+                        <div class="flex border border-black dark:border-white bg-white dark:bg-darkCard shadow-hard-sm">
+                            <button id="layout-grid" class="p-2 hover:bg-gray-100 dark:hover:bg-white/10 bg-gray-200 dark:bg-white/20 text-black dark:text-white transition-colors" title="Grid View">
+                                <i data-lucide="layout-grid" class="w-4 h-4"></i>
+                            </button>
+                            <div class="w-px bg-black dark:bg-white"></div>
+                            <button id="layout-list" class="p-2 hover:bg-gray-100 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400 transition-colors" title="List View">
+                                <i data-lucide="layout-list" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Blog Grid -->
+    <section class="px-6 md:px-12 lg:px-24 pb-24">
+        <div class="max-w-7xl mx-auto">
+            <!-- Dynamic Grid Container -->
+            <div id="blog-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 transition-all duration-300">
+                <!-- JS will render articles here -->
+            </div>
+            
+            <!-- Pagination Placeholder -->
+            <div class="mt-16 flex justify-center">
+                <button class="border border-black dark:border-white px-8 py-3 bg-white dark:bg-darkCard hover:bg-gray-100 dark:hover:bg-gray-800 font-mono font-bold text-sm uppercase shadow-hard transition-transform active:translate-y-1" data-i18n="load_more">
+                    加载更多 (Load More)
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Footer (Full Version) -->
+    <footer class="bg-[#f9f7f2] dark:bg-darkBg border-t border-black dark:border-white pt-16 pb-12 px-6 mt-auto relative z-20 transition-colors">
+        <div class="max-w-7xl mx-auto">
+           <div class="grid grid-cols-1 lg:grid-cols-4 gap-12 mb-8">
+              
+              <!-- Brand & Copyright -->
+              <div class="col-span-1">
+                 <div class="font-bold text-xl flex items-center gap-2 mb-4 dark:text-white">
+                    <div class="w-6 h-6 bg-orange-500 rotate-12 border border-black dark:border-white"></div>
+                    HealthJian
+                 </div>
+                 <div class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                    <p>© 2025 CaiNiaojian & HealthJian</p>
+                    <p data-i18n="rights">保留所有权利</p>
+                    <p class="mt-4 text-xs opacity-60" data-i18n="designed_by">Designed with ❤️ by Front-end technology</p>
+                 </div>
+              </div>
+
+              <!-- Quick Links -->
+              <div class="col-span-1 lg:col-span-1">
+                 <h5 class="font-bold text-lg mb-6 relative inline-block dark:text-white">
+                    <span data-i18n="quick_links">快速链接</span>
+                    <span class="absolute left-0 -bottom-2 w-8 h-1 bg-[#65cbf9]"></span>
+                 </h5>
+                 <div class="grid grid-cols-3 gap-y-4 gap-x-2 text-sm text-gray-600 dark:text-gray-400">
+                    <a href="blog.html" class="hover:text-black dark:hover:text-white hover:underline" data-i18n="footer_blog">博客</a>
+                    <a href="#" class="hover:text-black dark:hover:text-white hover:underline" data-i18n="footer_about">关于</a>
+                    <a href="#" class="hover:text-black dark:hover:text-white hover:underline" data-i18n="footer_log">更新日志</a>
+                    <a href="#" class="hover:text-black dark:hover:text-white hover:underline" data-i18n="footer_gallery">图集</a>
+                    <a href="#" class="hover:text-black dark:hover:text-white hover:underline" data-i18n="footer_category">分类</a>
+                    <a href="#" class="hover:text-black dark:hover:text-white hover:underline" data-i18n="footer_website">网站</a>
+                 </div>
+              </div>
+
+              <!-- Contact Me -->
+              <div class="col-span-1 lg:col-span-1">
+                 <h5 class="font-bold text-lg mb-6 relative inline-block dark:text-white">
+                    <span data-i18n="contact_title">联系我</span>
+                    <span class="absolute left-0 -bottom-2 w-8 h-1 bg-[#65cbf9]"></span>
+                 </h5>
+                 
+                 <div class="text-sm text-gray-600 dark:text-gray-400 space-y-3 mb-6">
+                    <p class="flex flex-wrap gap-1">
+                        <span data-i18n="email_label">邮箱：</span> 
+                        <span class="text-gray-800 dark:text-gray-200">gaojian1573@foxmail.com</span>
+                    </p>
+                    <p class="flex items-center gap-1">
+                        <span data-i18n="address_label">地址：</span> 
+                        <span class="text-gray-800 dark:text-gray-200" data-i18n="address_val">中国，江苏</span>
+                    </p>
+                 </div>
+
+                 <!-- Social Icons -->
+                 <div class="flex gap-3">
+                     <a href="#" class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-700 dark:text-white hover:bg-[#65cbf9] dark:hover:bg-blue-600 hover:text-white transition-all duration-200 hover:-translate-y-1"><i data-lucide="github" class="w-5 h-5"></i></a>
+                     <a href="#" class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-700 dark:text-white hover:bg-[#65cbf9] dark:hover:bg-blue-600 hover:text-white transition-all duration-200 hover:-translate-y-1"><i data-lucide="message-circle" class="w-5 h-5"></i></a>
+                     <a href="#" class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-700 dark:text-white hover:bg-[#65cbf9] dark:hover:bg-blue-600 hover:text-white transition-all duration-200 hover:-translate-y-1"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                     <a href="#" class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-700 dark:text-white hover:bg-[#65cbf9] dark:hover:bg-blue-600 hover:text-white transition-all duration-200 hover:-translate-y-1"><i data-lucide="mail" class="w-5 h-5"></i></a>
+                     <a href="#" class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-700 dark:text-white hover:bg-[#65cbf9] dark:hover:bg-blue-600 hover:text-white transition-all duration-200 hover:-translate-y-1"><i data-lucide="gamepad-2" class="w-5 h-5"></i></a>
+                 </div>
+              </div>
+
+              <!-- Time Display -->
+              <div class="col-span-1 flex justify-start lg:justify-end">
+                  <div class="bg-white dark:bg-darkCard border border-black dark:border-white p-4 flex flex-col justify-center items-center shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.1)] h-fit w-full lg:w-auto">
+                     <div id="clock-time" class="text-3xl font-mono font-bold tracking-widest dark:text-white">00:00:00</div>
+                     <div id="clock-date" class="text-xs font-bold text-gray-500 dark:text-gray-400 mt-1 border-t border-gray-200 dark:border-gray-600 pt-1 w-full text-center uppercase">2025年1月1日</div>
+                     <div class="text-[10px] text-gray-400 mt-2" data-i18n="record_at">记录于 HealthJian Blog</div>
+                  </div>
+              </div>
+           </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        lucide.createIcons();
+
+        // --- Data: Articles Array ---
+        const articles = [
+            {
+                title: "橡胶制品增塑剂迁移导致出油现象",
+                date: "2025-10-06",
+                category: "技术",
+                desc: "深入探讨橡胶制品中增塑剂迁移的机理及其导致的表面出油问题，并提出相应的解决方案。",
+                tags: ["橡胶制品", "增塑剂", "迁移", "出油"],
+                url: "#"
+            },
+            {
+                title: "大数据作为智慧教育的催化剂：数据驱动方法、应用与挑战的综合述评",
+                date: "2025-09-11",
+                category: "技术",
+                desc: "综述大数据技术在智慧教育领域的应用现状，分析数据驱动方法的优势与面临的隐私、技术挑战。",
+                tags: ["智慧教育", "大数据", "数据挖掘", "数据分析"],
+                url: "#"
+            },
+            {
+                title: "一种令人担忧的现象：大学校园正在成为烟民的温床",
+                date: "2025-09-09",
+                category: "生活",
+                desc: "观察并反思当下大学校园内吸烟现象的蔓延，探讨背后的社会心理因素及对策。",
+                tags: ["大学", "烟民", "温床", "生活"],
+                url: "#"
+            },
+            {
+                title: "坚持就是胜利",
+                date: "2025-09-08",
+                category: "生活",
+                desc: "结合考研经历，分享关于坚持、毅力与长期主义的人生感悟。",
+                tags: ["考研", "坚持", "励志", "生活"],
+                url: "#"
+            },
+            {
+                title: "Markdown博客模板系统",
+                date: "2025-09-08",
+                category: "技术",
+                desc: "全新的Markdown博客模板系统，支持完整的Markdown语法渲染、代码高亮、自动目录生成。",
+                tags: ["Markdown", "博客模板", "代码高亮"],
+                url: "#",
+                isNew: true
+            },
+            {
+                title: "基于PaddlePaddle的卷积神经网络实现-十二猫分类",
+                date: "2025-05-30",
+                category: "技术",
+                desc: "详细介绍如何使用百度飞桨框架构建CNN模型，实现对十二种猫咪品种的图像分类。",
+                tags: ["PaddlePaddle", "CNN", "猫咪分类"],
+                url: "#"
+            },
+            {
+                title: "学习进度与心态的反思",
+                date: "2025-05-25",
+                category: "生活",
+                desc: "在学习的道路上，我们常常会陷入迷茫和困惑。本文将探讨学习进度与心态之间的关系。",
+                tags: ["学习", "心态", "反思", "效率"],
+                url: "#"
+            },
+            {
+                title: "支持向量机（SVM）算法详解",
+                date: "2025-04-14",
+                category: "技术",
+                desc: "详细介绍SVM的原理、应用场景、算法实现以及优化方法，机器学习入门必读。",
+                tags: ["SVM", "机器学习", "分类", "回归"],
+                url: "#"
+            },
+            {
+                title: "实验一：波士顿房价预测报告",
+                date: "2025-04-12",
+                category: "技术",
+                desc: "记录波士顿房价预测的完整实验过程：数据预处理、特征工程、模型训练与评估。",
+                tags: ["机器学习", "房价预测", "特征选择"],
+                url: "#"
+            },
+            {
+                title: "人生无法通过考研上岸",
+                date: "2025-04-09",
+                category: "生活",
+                desc: "考研辅导机构不会告诉你，人生是片没有彼岸的汪洋。真正的救赎或许始于承认我们从来都不是溺水者。",
+                tags: ["考研", "随笔", "人生", "思考"],
+                url: "#"
+            },
+            {
+                title: "Mingw安装教程",
+                date: "2025-04-07",
+                category: "技术",
+                desc: "Windows环境下C/C++编译器Mingw的保姆级安装与配置教程。",
+                tags: ["Mingw", "C/C++", "编译器", "Windows"],
+                url: "#"
+            },
+            {
+                title: "从零开始构建博客：技术栈、架构设计与实现",
+                date: "2025-04-06",
+                category: "技术",
+                desc: "复盘本博客的开发历程，涵盖技术栈选型、架构设计、核心JS功能及部署方案。",
+                tags: ["博客", "技术栈", "架构设计", "JavaScript"],
+                url: "#"
+            },
+            {
+                title: "2025年考研数学二大纲详解",
+                date: "2025-04-01",
+                category: "技术",
+                desc: "系统梳理考研数学二大纲的重要概念、定理和方法，为深入学习打下基础。",
+                tags: ["考研", "数学", "大纲"],
+                url: "#"
+            },
+            {
+                title: "C语言入门：常用调用API在算法题中的应用",
+                date: "2025-03-18",
+                category: "技术",
+                desc: "刷题时如何巧妙利用C语言标准库API，化繁为简，事半功倍。",
+                tags: ["C语言", "算法", "API"],
+                url: "#"
+            },
+            {
+                title: "数据结构：链表、栈、队列、串",
+                date: "2025-03-17",
+                category: "技术",
+                desc: "基础数据结构的系统性总结与回顾，防止知识遗忘。",
+                tags: ["数据结构", "链表", "栈", "队列"],
+                url: "#"
+            },
+            {
+                title: "我的第一篇博客：代码与心灵的共振",
+                date: "2025-03-16",
+                category: "生活",
+                desc: "作为一名程序员，我一直在寻找代码与人文思考之间的平衡点。这是我的第一篇博客。",
+                tags: ["博客", "随想", "生活"],
+                url: "#"
+            }
+        ];
+
+        // --- State ---
+        let currentLayout = 'grid'; // 'grid' or 'list'
+        let currentFilter = 'all';
+        let currentSearch = '';
+        let currentLang = localStorage.getItem('blog-lang') || 'zh';
+
+        // --- Render Logic ---
+        const grid = document.getElementById('blog-grid');
+        
+        function renderArticles() {
+            grid.innerHTML = '';
+            
+            // 1. Filter by Category
+            let filtered = currentFilter === 'all' 
+                ? articles 
+                : articles.filter(a => a.category === currentFilter);
+            
+            // 2. Filter by Search
+            if (currentSearch) {
+                const term = currentSearch.toLowerCase();
+                filtered = filtered.filter(a => 
+                    a.title.toLowerCase().includes(term) || 
+                    a.desc.toLowerCase().includes(term) || 
+                    a.tags.some(t => t.toLowerCase().includes(term))
+                );
+            }
+
+            // 3. Update Grid Classes based on Layout
+            if (currentLayout === 'list') {
+                grid.className = 'flex flex-col gap-6 transition-all duration-300';
+            } else {
+                grid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 transition-all duration-300';
+            }
+
+            filtered.forEach(article => {
+                const badgeColor = article.category === '技术' 
+                    ? 'bg-[#65cbf9] dark:bg-blue-700' 
+                    : 'bg-yellow-400 dark:bg-yellow-700';
+
+                const card = document.createElement('div');
+                
+                // Card Styling based on Layout
+                if (currentLayout === 'list') {
+                    // List View: Horizontal Card
+                    card.className = 'flex flex-col md:flex-row bg-white dark:bg-darkCard border border-black dark:border-white p-0 shadow-hard-hover transition-all duration-300 group relative';
+                    
+                    let newBadge = '';
+                    if(article.isNew) {
+                         newBadge = `<span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 border border-black dark:border-white animate-bounce shadow-sm z-10">NEW</span>`;
+                    }
+
+                    card.innerHTML = `
+                        ${newBadge}
+                        <div class="w-full md:w-48 h-32 md:h-auto bg-gray-100 dark:bg-white/5 flex-shrink-0 border-b md:border-b-0 md:border-r border-black dark:border-white flex items-center justify-center text-4xl">
+                             ${article.category === '技术' ? '💻' : '☕'}
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs font-mono font-bold border border-black dark:border-white px-2 py-1 ${badgeColor} text-black dark:text-white">${article.category}</span>
+                                <span class="text-xs font-mono text-gray-500 dark:text-gray-400">${article.date}</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 leading-tight dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                                <a href="${article.url}">${article.title}</a>
+                            </h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
+                                ${article.desc}
+                            </p>
+                            <div class="flex flex-wrap gap-2 mt-auto">
+                                ${article.tags.map(tag => `<span class="text-[10px] font-mono border border-gray-300 dark:border-gray-600 px-1 text-gray-500 dark:text-gray-400">#${tag}</span>`).join('')}
+                            </div>
+                        </div>
+                    `;
+
+                } else {
+                    // Grid View: Vertical Card (Original)
+                    card.className = 'flex flex-col h-full bg-white dark:bg-darkCard border border-black dark:border-white p-6 shadow-hard-hover transition-all duration-300 group relative';
+                    
+                    let newBadge = '';
+                    if(article.isNew) {
+                        newBadge = `<span class="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-500 text-white text-xs font-bold px-2 py-1 border border-black dark:border-white animate-bounce shadow-sm">NEW</span>`;
+                    }
+
+                    card.innerHTML = `
+                        ${newBadge}
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-xs font-mono font-bold border border-black dark:border-white px-2 py-1 ${badgeColor} text-black dark:text-white">${article.category}</span>
+                            <span class="text-xs font-mono text-gray-500 dark:text-gray-400">${article.date}</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 leading-tight dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                            <a href="${article.url}">${article.title}</a>
+                        </h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-6 line-clamp-3 flex-grow">
+                            ${article.desc}
+                        </p>
+                        <div class="flex flex-wrap gap-2 mt-auto pt-4 border-t border-gray-100 dark:border-gray-700">
+                            ${article.tags.map(tag => `<span class="text-[10px] font-mono border border-gray-300 dark:border-gray-600 px-1 text-gray-500 dark:text-gray-400">#${tag}</span>`).join('')}
+                        </div>
+                    `;
+                }
+
+                grid.appendChild(card);
+            });
+        }
+
+        // --- Controls Logic ---
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const searchInput = document.getElementById('search-input');
+        const layoutGridBtn = document.getElementById('layout-grid');
+        const layoutListBtn = document.getElementById('layout-list');
+
+        // Filter Click
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update UI
+                filterBtns.forEach(b => {
+                    b.classList.remove('bg-black', 'text-white', 'dark:bg-white', 'dark:text-black');
+                    b.classList.add('bg-white', 'text-gray-600', 'dark:bg-darkCard', 'dark:text-gray-300');
+                });
+                btn.classList.remove('bg-white', 'text-gray-600', 'dark:bg-darkCard', 'dark:text-gray-300');
+                btn.classList.add('bg-black', 'text-white', 'dark:bg-white', 'dark:text-black');
+
+                // Update State
+                const filter = btn.getAttribute('data-filter');
+                currentFilter = filter === '技术' ? '技术' : (filter === '生活' ? '生活' : 'all');
+                renderArticles();
+            });
+        });
+
+        // Search Input
+        searchInput.addEventListener('input', (e) => {
+            currentSearch = e.target.value;
+            renderArticles();
+        });
+
+        // Layout Toggles
+        function updateLayoutUI() {
+            if (currentLayout === 'grid') {
+                layoutGridBtn.classList.add('bg-gray-200', 'dark:bg-white/20', 'text-black', 'dark:text-white');
+                layoutGridBtn.classList.remove('text-gray-500', 'dark:text-gray-400');
+                
+                layoutListBtn.classList.remove('bg-gray-200', 'dark:bg-white/20', 'text-black', 'dark:text-white');
+                layoutListBtn.classList.add('text-gray-500', 'dark:text-gray-400');
+            } else {
+                layoutListBtn.classList.add('bg-gray-200', 'dark:bg-white/20', 'text-black', 'dark:text-white');
+                layoutListBtn.classList.remove('text-gray-500', 'dark:text-gray-400');
+                
+                layoutGridBtn.classList.remove('bg-gray-200', 'dark:bg-white/20', 'text-black', 'dark:text-white');
+                layoutGridBtn.classList.add('text-gray-500', 'dark:text-gray-400');
+            }
+        }
+
+        layoutGridBtn.addEventListener('click', () => {
+            currentLayout = 'grid';
+            updateLayoutUI();
+            renderArticles();
+        });
+
+        layoutListBtn.addEventListener('click', () => {
+            currentLayout = 'list';
+            updateLayoutUI();
+            renderArticles();
+        });
+
+
+        // --- Translations & Theme (Same as Index) ---
+        const i18n = {
+            zh: {
+                nav_home: "首页", nav_blog: "博客", nav_demo: "Demo", nav_links: "链接",
+                blog_title: "文章总览", blog_subtitle: "代码、生活与那些转瞬即逝的灵感。",
+                filter_all: "全部", filter_tech: "技术", filter_life: "生活",
+                load_more: "加载更多",
+                quick_links: "快速链接", footer_blog: "博客", footer_about: "关于",
+                footer_log: "更新日志", footer_gallery: "图集", footer_category: "分类", footer_website: "网站",
+                contact_title: "联系我", email_label: "邮箱：", address_label: "地址：", address_val: "中国，江苏",
+                rights: "保留所有权利", designed_by: "Designed with ❤️ by Front-end technology", record_at: "记录于 HealthJian Blog"
+            },
+            en: {
+                nav_home: "Home", nav_blog: "Blog", nav_demo: "Demo", nav_links: "Links",
+                blog_title: "Archive", blog_subtitle: "Code, life, and fleeting inspirations.",
+                filter_all: "All", filter_tech: "Tech", filter_life: "Life",
+                load_more: "Load More",
+                quick_links: "Quick Links", footer_blog: "Blog", footer_about: "About",
+                footer_log: "Changelog", footer_gallery: "Gallery", footer_category: "Category", footer_website: "Website",
+                contact_title: "Contact Me", email_label: "Email:", address_label: "Address:", address_val: "Jiangsu, China",
+                rights: "All Rights Reserved", designed_by: "Designed with ❤️ by Front-end technology", record_at: "Recorded at HealthJian Blog"
+            }
+        };
+        
+        function updateLanguage() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[currentLang][key]) el.innerText = i18n[currentLang][key];
+            });
+            document.getElementById('lang-toggle').innerText = currentLang === 'zh' ? 'EN' : '中';
+            localStorage.setItem('blog-lang', currentLang);
+        }
+        document.getElementById('lang-toggle').addEventListener('click', () => {
+            currentLang = currentLang === 'zh' ? 'en' : 'zh';
+            updateLanguage();
+        });
+        updateLanguage();
+
+        // Theme Logic
+        function toggleTheme() {
+            const html = document.documentElement;
+            html.classList.toggle('dark');
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+        }
+        document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+        document.getElementById('mobile-theme-toggle').addEventListener('click', toggleTheme);
+        if (localStorage.getItem('theme') === 'dark') document.documentElement.classList.add('dark');
+
+        // Mobile Menu
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuToggle.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        
+        // Clock
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('clock-time').textContent = now.toLocaleTimeString(currentLang === 'zh' ? 'zh-CN' : 'en-US', { hour12: false });
+            const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+            document.getElementById('clock-date').textContent = now.toLocaleDateString(currentLang === 'zh' ? 'zh-CN' : 'en-US', options);
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+        
+        // Initial Render
+        renderArticles();
+
+    </script>
+</body>
+</html>
