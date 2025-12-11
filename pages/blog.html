@@ -187,6 +187,7 @@
             // 数据源：优先使用 getBlogPosts（来自 js/blog.js），否则使用本地备份
             const fallbackArticles = [
                 { title: '橡胶制品增塑剂迁移导致出油现象', title_en: 'Oil spillage from rubber product additive migration', date: '2025-10-06', category: 'tech', desc: '深入探讨橡胶制品中增塑剂迁移的机理及其导致的表面出油问题，并提出相应的解决方案。', desc_en: 'Additive migration in rubber products and mitigation ideas.', tags: ['橡胶制品','增塑剂','迁移','出油'], tags_en: ['Rubber product','Plasticizer','Migration','Oil spill'], url: '/pages/blog/tech/oil.html' },
+                { title: '转折关头，你需要这些线索了解中国的未来五年', title_en: "At the turning point: signals for China's next five years", date: '2025-10-24', category: 'idea', desc: '围绕四中全会公报梳理未来五年的关键线索与思路。', desc_en: 'Key signals from the plenum for China’s next five years.', tags: ['思想','时政','趋势','中国'], tags_en: ['Ideas','Policy','Trends','China'], url: '/pages/blog/life/new-turning-point.html' },
                 { title: '大数据作为智慧教育的催化剂：数据驱动方法、应用与挑战的综合述评', title_en: 'Big data as a catalyst for smart education', date: '2025-09-11', category: 'tech', desc: '综述大数据在智慧教育的应用现状与挑战。', desc_en: 'Review of big data in smart education.', tags: ['智慧教育','大数据','数据挖掘','数据分析'], tags_en: ['Smart education','Big data','Data mining','Analytics'], url: '/pages/blog/tech/smarteducation.html' },
                 { title: '一种令人担忧的现象：大学校园正在成为烟民的温床', title_en: 'Campus is becoming a hotbed for smokers', date: '2025-09-09', category: 'life', desc: '观察并反思校园吸烟现象的蔓延与对策。', desc_en: 'Observation on smoking spread on campus.', tags: ['大学','烟民','温床','生活'], tags_en: ['University','Smoker','Hotbed','Life'], url: '/pages/blog/life/sharpcommentary.html' },
                 { title: '坚持就是胜利', title_en: 'Persistence is Victory', date: '2025-09-08', category: 'life', desc: '结合考研经历，分享关于坚持与长期主义的感悟。', desc_en: 'Reflections on persistence and long-termism.', tags: ['考研','坚持','励志','生活'], tags_en: ['Grad exam','Persistence','Inspiration','Life'], url: '/pages/blog/life/Persistencisvictory.html' },
@@ -204,7 +205,9 @@
                 { title: '我的第一篇博客：代码与心灵的共振', title_en: 'My first blog: resonance of code and soul', date: '2025-03-16', category: 'life', desc: '关于编程与生活平衡的第一篇记录。', desc_en: 'First note on balancing coding and life.', tags: ['博客','随想','生活'], tags_en: ['Blog','Thoughts','Life'], url: '/pages/blog/life/first-blog.html' }
             ];
 
-            const articles = (typeof getBlogPosts === 'function')
+            // 统一处理日期排序（倒序，最新在前）
+            const parseDate = (d) => Date.parse(d) || 0;
+            const articles = ((typeof getBlogPosts === 'function')
                 ? getBlogPosts().map(post => ({
                     title: post.title,
                     title_en: post.title_en || post.title,
@@ -216,7 +219,8 @@
                     tags_en: post.tags_en || post.tags || [],
                     url: post.url || '#',
                 }))
-                : fallbackArticles;
+                : fallbackArticles
+            ).sort((a, b) => parseDate(b.date) - parseDate(a.date));
 
             // 分类标签映射（含新增分类）
             const categoryLabel = {

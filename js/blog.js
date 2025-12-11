@@ -365,6 +365,18 @@ function getBlogPosts() {
             tags_en: ['Rubber Product', 'Additive', 'Migration', 'Oil Spillage']
         },
         {
+            id: 'turning-point',
+            title: '转折关头，你需要这些线索了解中国的未来五年',
+            title_en: "At the turning point: signals for China's next five years",
+            excerpt: '围绕四中全会公报梳理未来五年的关键线索与思路。',
+            excerpt_en: 'Key signals from the plenum for China’s next five years.',
+            date: '2025-12-11',
+            url: '/pages/blog/life/new-turning-point.html',
+            category: 'idea',
+            tags: ['思想', '时政', '趋势', '中国'],
+            tags_en: ['Ideas', 'Policy', 'Trends', 'China']
+        },
+        {
             id: 'smarteducation',
             title: '大数据作为智慧教育的催化剂：数据驱动方法、应用与挑战的综合述评',
             title_en: 'Big data as a catalyst for smart education: A comprehensive review of data-driven approaches, applications, and challenges',

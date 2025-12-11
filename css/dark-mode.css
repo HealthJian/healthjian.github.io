@@ -7,6 +7,92 @@ body.dark-mode {
     --shadow-color: rgba(0, 0, 0, 0.3);
 }
 
+/* 问答与想法模块暗色适配 */
+.dark-mode .qia-immersive {
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.25) 100%);
+}
+
+.dark-mode .qia-card {
+    background: rgba(4, 38, 78, 0.92);
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.35);
+}
+
+.dark-mode .qia-card::after {
+    background: radial-gradient(circle at 20% 20%, rgba(101,203,249,0.12), transparent 35%),
+                radial-gradient(circle at 80% 10%, rgba(255,237,0,0.12), transparent 32%),
+                radial-gradient(circle at 50% 90%, rgba(156,140,255,0.12), transparent 38%);
+}
+
+.dark-mode .qia-card-bar {
+    color: #f4f6fb;
+}
+
+.dark-mode .qia-card-bar.idea {
+    background: linear-gradient(90deg, #1f8bd8, #3db9ff);
+}
+
+.dark-mode .qia-card-bar.issue {
+    background: linear-gradient(90deg, #c9a600, #f5d547);
+}
+
+.dark-mode .qia-card-bar.question {
+    background: linear-gradient(90deg, #6f5de0, #a99cff);
+}
+
+.dark-mode .qia-part {
+    border: 1px solid rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.08);
+    color: #f4f6fb;
+}
+
+.dark-mode .qia-entry {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--text-color);
+}
+
+.dark-mode .qia-meta {
+    color: rgba(255,255,255,0.7);
+}
+
+.dark-mode .qia-tag {
+    background: rgba(101,203,249,0.15);
+    color: #bfe6ff;
+    border-color: rgba(191,230,255,0.3);
+}
+
+.dark-mode .qia-tag.warn {
+    background: rgba(255, 237, 0, 0.2);
+    color: #f8e58f;
+}
+
+.dark-mode .qia-tag.success {
+    background: rgba(52, 199, 89, 0.18);
+    color: #a7f3c1;
+}
+
+.dark-mode .qia-status {
+    background: rgba(52,199,89,0.18);
+    color: #a7f3c1;
+    border-color: rgba(167,243,193,0.35);
+}
+
+.dark-mode .qia-status.warn {
+    background: rgba(255, 237, 0, 0.25);
+    color: #f8e58f;
+}
+
+.dark-mode .qia-status.error {
+    background: rgba(255, 59, 48, 0.18);
+    color: #ffb4ad;
+}
+
+.dark-mode .qia-answer-box {
+    background: linear-gradient(90deg, rgba(101,203,249,0.14), rgba(101,203,249,0.08));
+    border-color: rgba(101,203,249,0.25);
+}
+
 body.dark-mode .theme-toggle .fa-sun {
     display: inline-block;
 }

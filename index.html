@@ -14,7 +14,7 @@
     <!-- 样式表 -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/dark-mode.css">
-    <link rel="stylesheet" href="css/celebration-banner.css">
+    <!-- <link rel="stylesheet" href="css/celebration-banner.css"> -->
     <link rel="stylesheet" href="css/footer-enhanced.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
@@ -75,6 +75,14 @@
         <section class="hero">
             <div class="avatar-container">
                 <img src="images/newhero.avif" alt="头像" class="avatar" style="width: 243.75px; height: 243.75px;">
+            </div>
+            <div class="hero-greeting" style="margin-top: 16px; text-align: center;">
+                <div class="greeting-text">
+                    <span class="greeting" data-en="" data-zh=""></span>
+                </div>
+                <h1 class="quote" style="margin-top: 8px;">
+                    <span class="quote-text">只要想的少 快乐追着跑！</span>
+                </h1>
             </div>
             
             <style>
@@ -227,17 +235,23 @@
                         opacity: 0.7;
                     }
                 }
+
+                /* 进入首页时仅显示头像+问候 */
+                .hero {
+                    min-height: calc(100vh - 80px);
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: flex-start;
+                    text-align: center;
+                    padding-top: clamp(80px, 12vh, 160px);
+                    padding-bottom: 30px;
+                }
             </style>
-            
-            <!-- 添加问候语元素 -->
-            <div class="greeting-text">
-                <span class="greeting" data-en="" data-zh=""></span>
-            </div>
-            
-            <h1 class="quote">
-                <span class="quote-text">只要想的少 快乐追着跑！</span>
-            </h1>
-            <div class="bio" style="font-size: 150%; line-height: 2.0; padding: 20px; border-radius: 15px; background-color: rgba(255,255,255,0.1);">
+        </section>
+
+        <section class="hero-bio-section" style="padding: 40px 20px 40px; margin-top: -30px;">
+            <div class="bio" style="font-size: 150%; line-height: 2.0; padding: 20px; border-radius: 15px; background-color: rgba(255,255,255,0.1); max-width: 900px; margin: 0 auto;">
                 <div class="digital-garden" data-en="# Jian's Digital Garden🌍 # 🌱 Hi, I'm Jian😀, a fresh explorer navigating between reality and idealism. My web development journey began serendipitously, but the moment my first demo came to life, I knew I'd found my calling. Even in those time-starved days when hours fragment like falling leaves, code and writing remain my faithful shield against anxiety and uncertainty. ✍️ Blog Purpose: Tech Notes🤔 to document my learning process, Humanistic Essays💡 to capture fleeting moments of insight, Knowledge Curation📚 for systematic learning frameworks, and Mental Sanctuary🧘‍♂️ to find inner peace through words. 🧠 Philosophy: &quot;How far one can go is determined not by speed in prosperity, but by the duration it takes to rediscover one's true self through adversity.&quot;——The KMP Algorithm. As I like to say: &quot;Think less, and happiness will chase after you!&quot; This positive outlook fuels my continuous creation journey. When screen glow illuminates my face in the quiet hours, I know I'm making peace with the world in the most elegant way possible. Thank you for visiting my little corner of the internet. [To be continued...]" data-zh="# 我的数字乐园🌏 # 🌱 你好，我是健😀，一名在现实与理想间不断探索的菜鸟。Web开发之旅始于偶然，但当第一个DEMO成功运行的那一刻，我知道自己找到了值得坚持的方向。即便在时间碎成沙漏的繁忙日常里，代码与文字始终是我对抗焦虑与不确定性的忠实盾牌。✍️ 博客目的：技术札记🤔记录我的学习过程、人文随笔💡收藏生活中转瞬即逝的灵感、知识管理📚构建系统化的学习框架和心灵疗愈🧘‍♂️在文字间寻找内心的平静。🧠 理念：&quot;一个人能走多远不在于他在顺境中能走得多快，而在于他在逆境中多久能找到曾经的自己。&quot;——KMP算法。正如我常说的：&quot;只要想的少 快乐追着跑！&quot; 这种积极的心态，恰是我保持创作的永恒燃料。当屏幕蓝光在静谧时光映亮脸庞时，我知道自己正在用最优雅的方式与这个世界和解。感谢你访问我的小小角落。[未完待续...]" style="font-family: 'Chewy', cursive; text-indent: 2em; letter-spacing: 0.5px;">
             </div>
             <style>
@@ -252,8 +266,12 @@
                     padding: 10px;
                 }
             </style>
-        </div>
-        <a href="resume.pdf" class="resume-link" download><span data-en="【This is my resume】" data-zh="【这是我的简历】">【这是我的简历】</span></a>
+            </div>
+            <div style="text-align: center; margin-top: 12px;">
+                <a href="resume.pdf" class="resume-link" download><span data-en="【This is my resume】" data-zh="【这是我的简历】">【这是我的简历】</span></a>
+            </div>
+        </section>
+
         <section class="blog-section">
             <h2 data-en="Latest Articles" data-zh="最新文章">最新文章</h2>
             <div class="view-all">
@@ -576,7 +594,7 @@
     <script src="js/theme.js"></script>
     <script src="js/language.js"></script>
     <script src="js/greeting.js"></script>
-    <script src="js/celebration-banner.js"></script>
+    <!-- <script src="js/celebration-banner.js"></script> -->
     <script src="js/footer.js"></script>
 </body>
 </html> 
