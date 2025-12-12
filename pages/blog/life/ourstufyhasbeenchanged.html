@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">学习真的改造了吗？ - HealthJian的博客</title>
+    
+    <!-- 基础样式 -->
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/dark-mode.css">
+    <link rel="stylesheet" href="../../../css/blog-post.css">
+    <link rel="stylesheet" href="../../../css/footer-enhanced.css">
+    
+    <!-- Markdown专用样式 -->
+    <link rel="stylesheet" href="../blogjs_markdown/markdown-styles.css">
+    
+    <!-- 外部依赖 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css" id="hljs-light">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css" id="hljs-dark" disabled>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Markdown解析库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/2.1.3/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    
+    <!-- 备用CDN -->
+    <script>
+        if (typeof marked === 'undefined') {
+            console.warn('主CDN加载失败，尝试备用CDN');
+            document.write('<script src="https://unpkg.com/marked@2.1.3/marked.min.js"><\/script>');
+        }
+        if (typeof hljs === 'undefined') {
+            console.warn('highlight.js主CDN加载失败，尝试备用CDN');
+            document.write('<script src="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/highlight.min.js"><\/script>');
+        }
+    </script>
+</head>
+<body class="light-mode">
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="../../../index.html" class="logo">
+                <img src="../../../images/githubherofigureimage.png" alt="Logo">
+                <span class="site-name" data-en="HealthJian Blog" data-zh="HealthJian">HealthJian</span>
+            </a>
+        </div>
+        <div class="nav-right">
+            <ul class="menu">
+                <li><a href="../../../index.html" data-en="Home" data-zh="首页">首页</a></li>
+                <li><a href="../../blog.html" data-en="Blog" data-zh="博客">博客</a></li>
+                <li><a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a></li>
+                <li><a href="../../links.html" data-en="Links" data-zh="链接">链接</a></li>
+                <li><a href="../../about.html" data-en="About" data-zh="关于">关于</a></li>
+            </ul>
+            <div class="social-icons">
+                <a href="https://steamcommunity.com/id/yoursteamid" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
+                <a href="mailto:gaojian1573@foxmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+            <button id="theme-toggle" class="theme-toggle" title="切换主题">
+                <i class="fas fa-moon"></i>
+                <i class="fas fa-sun"></i>
+            </button>
+            <button id="lang-toggle" class="lang-toggle" title="切换语言">
+                <span data-en="EN" data-zh="中">中</span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="blog-post-container">
+        <!-- 侧边栏 -->
+        <aside class="blog-sidebar">
+            <div class="toc-container">
+                <h3 data-en="Table of Contents" data-zh="目录">目录</h3>
+                <div id="toc-content">
+                    <div class="loading-container">
+                        <div class="loading-spinner"></div>
+                        <div class="loading-text" data-en="Loading..." data-zh="加载中...">加载中...</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="post-meta-info">
+                <div class="post-date">
+                    <i class="far fa-calendar-alt"></i>
+                    <span id="post-date">加载中...</span>
+                </div>
+                <div class="post-tags">
+                    <i class="fas fa-tags"></i>
+                    <div id="post-tags">
+                        <span class="tag" data-en="Idea" data-zh="想法">想法</span>
+                        <span class="tag" data-en="Education" data-zh="教育">教育</span>
+                        <span class="tag" data-en="Reflection" data-zh="反思">反思</span>
+                    </div>
+                </div>
+                <div class="post-category">
+                    <i class="fas fa-folder"></i>
+                    <span id="post-category" data-en="Idea" data-zh="想法">想法</span>
+                </div>
+            </div>
+            
+            <div class="post-navigation">
+                <h3 data-en="Navigation" data-zh="导航">导航</h3>
+                <div class="nav-buttons">
+                    <a href="../../blog.html" class="nav-button" data-en="Back to Blog" data-zh="返回博客列表">
+                        <i class="fas fa-arrow-left"></i>
+                        <span data-en="Back to Blog" data-zh="返回博客列表">返回博客列表</span>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="post-actions">
+                <h3 data-en="Actions" data-zh="操作">操作</h3>
+                <div class="action-buttons">
+                    <button id="print-btn" class="action-btn" title="打印文章">
+                        <i class="fas fa-print"></i>
+                        <span data-en="Print" data-zh="打印">打印</span>
+                    </button>
+                    <button id="share-btn" class="action-btn" title="分享文章">
+                        <i class="fas fa-share-alt"></i>
+                        <span data-en="Share" data-zh="分享">分享</span>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 主体内容 -->
+        <main class="blog-main">
+            <article class="blog-post">
+                <header class="post-header">
+                    <p class="post-category-label" data-en="Idea" data-zh="想法">想法</p>
+                    <h1 class="post-title" data-en="Has study really changed us?" data-zh="学习真的改造了吗？">学习真的改造了吗？</h1>
+                    <div class="post-meta">
+                        <span class="post-date" data-en="Date: 2025-12-10" data-zh="日期：2025-12-10">日期：2025-12-10</span>
+                        <span class="post-tags" data-en="Tags: Idea, Education, Reflection" data-zh="标签：想法、教育、反思">标签：想法、教育、反思</span>
+                    </div>
+                </header>
+
+                <div class="post-content markdown-container" id="markdown-content">
+                    <div class="loading-container">
+                        <div class="loading-spinner"></div>
+                        <div class="loading-text" data-en="Loading article content..." data-zh="正在加载文章内容...">正在加载文章内容...</div>
+                    </div>
+                </div>
+            </article>
+        </main>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-info">
+                <div class="footer-logo">
+                    <img src="../../../images/githubherofigureimage.png" alt="Logo">
+                    <span>HealthJian Blog</span>
+                </div>
+                <p>&copy; 2025 CaiNiaojian&HealthJian all followed.</p>
+                <p data-en="Contact: gaojian1573@foxmail.com" data-zh="联系方式：gaojian1573@foxmail.com">联系方式：<a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
+                <p data-en="Location: JiangSu, China" data-zh="地址：中国，江苏">地址：中国，江苏</p>
+            </div>
+            <div class="footer-links">
+                <a href="../../blog.html" data-en="Blog" data-zh="博客">博客</a>
+                <a href="../../about.html" data-en="About" data-zh="关于">关于</a>
+                <a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a>
+                <a href="../../changelog.html" data-en="ChangeLog" data-zh="更新日志">更新日志</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../../js/main.js"></script>
+    <script src="../../../js/theme.js"></script>
+    <script src="../../../js/language.js"></script>
+    <script src="../../../js/blog-post.js"></script>
+    <script src="../blogjs_markdown/markdown-renderer.js"></script>
+    
+    <script>
+        const PAGE_CONFIG = {
+            defaultMarkdownFile: '../../../context/ourstufyhasbeenchanged.md',
+            articleMeta: {
+                title: '学习真的改造了吗？',
+                title_en: 'Has study really changed us?',
+                date: '2025-12-10',
+                category: '想法',
+                category_en: 'Idea',
+                tags: ['想法', '教育', '反思'],
+                tags_en: ['Idea', 'Education', 'Reflection']
+            }
+        };
+
+        let markdownRenderer;
+        let currentMarkdownFile;
+        let isFullscreen = false;
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            markdownRenderer = new MarkdownRenderer();
+            currentMarkdownFile = getMarkdownFileFromURL() || PAGE_CONFIG.defaultMarkdownFile;
+            await loadAndRenderMarkdown();
+            initPageFeatures();
+            initThemeToggle();
+        });
+
+        function getMarkdownFileFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('md') || urlParams.get('file');
+        }
+
+        async function loadAndRenderMarkdown() {
+            try {
+                showLoadingState();
+                const markdownText = await markdownRenderer.loadMarkdownFile(currentMarkdownFile);
+                const result = await markdownRenderer.renderMarkdown(
+                    markdownText, 
+                    document.getElementById('markdown-content')
+                );
+                updateTableOfContents(result.toc);
+                updatePageMetadata(markdownText);
+                hideLoadingState();
+            } catch (error) {
+                console.error('加载Markdown文件失败:', error);
+                showErrorState(error.message);
+            }
+        }
+
+        function showLoadingState() {
+            const content = document.getElementById('markdown-content');
+            const toc = document.getElementById('toc-content');
+            content.innerHTML = `
+                <div class="loading-container">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-text" data-en="Loading article content..." data-zh="正在加载文章内容...">正在加载文章内容...</div>
+                </div>
+            `;
+            toc.innerHTML = `
+                <div class="loading-container">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-text" data-en="Loading..." data-zh="加载中...">加载中...</div>
+                </div>
+            `;
+        }
+
+        function hideLoadingState() {}
+
+        function showErrorState(errorMessage) {
+            const content = document.getElementById('markdown-content');
+            const currentLang = document.body.classList.contains('en') ? 'en' : 'zh';
+            const errorText = currentLang === 'en' 
+                ? `Failed to load article: ${errorMessage}` 
+                : `加载文章失败：${errorMessage}`;
+            content.innerHTML = `
+                <div class="error-container">
+                    <h3><i class="fas fa-exclamation-triangle"></i> ${currentLang === 'en' ? 'Error' : '错误'}</h3>
+                    <p>${errorText}</p>
+                    <p>${currentLang === 'en' ? 'Please check the file path or try again later.' : '请检查文件路径或稍后重试。'}</p>
+                </div>
+            `;
+            const toc = document.getElementById('toc-content');
+            toc.innerHTML = `<p class="no-toc">${currentLang === 'en' ? 'Unable to load table of contents' : '无法加载目录'}</p>`;
+        }
+
+        function updateTableOfContents(tocItems) {
+            const tocContent = document.getElementById('toc-content');
+            if (!tocItems || tocItems.length === 0) {
+                const currentLang = document.body.classList.contains('en') ? 'en' : 'zh';
+                tocContent.innerHTML = `<p class="no-toc">${currentLang === 'en' ? 'No table of contents available' : '本文暂无目录'}</p>`;
+                return;
+            }
+            tocContent.innerHTML = markdownRenderer.generateTOCHTML();
+            const tocLinks = tocContent.querySelectorAll('.toc-link');
+            tocLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        tocLinks.forEach(l => l.classList.remove('active'));
+                        this.classList.add('active');
+                        history.pushState(null, null, this.getAttribute('href'));
+                    }
+                });
+            });
+        }
+
+        function updatePageMetadata(markdownText) {
+            const titleMatch = markdownText.match(/^#\s+(.+)$/m);
+            const extractedTitle = titleMatch ? titleMatch[1] : null;
+            const titleElement = document.querySelector('.post-title');
+            if (extractedTitle && titleElement) {
+                titleElement.textContent = extractedTitle;
+            }
+            const dateElement = document.getElementById('post-date');
+            if (dateElement) dateElement.textContent = PAGE_CONFIG.articleMeta.date;
+            document.title = `${PAGE_CONFIG.articleMeta.title} - HealthJian的博客`;
+            const metaTitle = document.getElementById('page-title');
+            if (metaTitle) metaTitle.textContent = `${PAGE_CONFIG.articleMeta.title} - HealthJian的博客`;
+        }
+
+        function initPageFeatures() {
+            const printBtn = document.getElementById('print-btn');
+            const shareBtn = document.getElementById('share-btn');
+            if (printBtn) {
+                printBtn.addEventListener('click', () => window.print());
+            }
+            if (shareBtn && navigator.share) {
+                shareBtn.addEventListener('click', async () => {
+                    try {
+                        await navigator.share({
+                            title: PAGE_CONFIG.articleMeta.title,
+                            text: PAGE_CONFIG.articleMeta.title,
+                            url: window.location.href
+                        });
+                    } catch (err) {
+                        console.error('分享失败:', err);
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>
+

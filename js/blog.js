@@ -365,11 +365,23 @@ function getBlogPosts() {
             tags_en: ['Rubber Product', 'Additive', 'Migration', 'Oil Spillage']
         },
         {
+            id: 'our-study-has-been-changed',
+            title: '学习真的改造了吗？',
+            title_en: 'Has learning really been transformed?',
+            excerpt: '探讨学习改造的本质，从历史演变到现代教育，提出人格健全、身体健康、家庭温馨、学习主动四个核心建议。',
+            excerpt_en: 'Exploring the essence of learning transformation, from historical evolution to modern education, proposing four core suggestions: sound personality, physical health, warm family, and active learning.',
+            date: '2025-12-10',
+            url: '/pages/blog/life/ourstufyhasbeenchanged.html',
+            category: 'idea',
+            tags: ['想法', '教育', '学习', '反思'],
+            tags_en: ['Ideas', 'Education', 'Learning', 'Reflection']
+        },
+        {
             id: 'turning-point',
             title: '转折关头，你需要这些线索了解中国的未来五年',
             title_en: "At the turning point: signals for China's next five years",
             excerpt: '围绕四中全会公报梳理未来五年的关键线索与思路。',
-            excerpt_en: 'Key signals from the plenum for China’s next five years.',
+            excerpt_en: 'Key signals from the plenum for China's next five years.',
             date: '2025-12-11',
             url: '/pages/blog/life/new-turning-point.html',
             category: 'idea',
