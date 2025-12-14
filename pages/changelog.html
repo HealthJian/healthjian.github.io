@@ -438,6 +438,33 @@
                 </div>
             </div>
         </section>
+
+        <!-- 时间大事轴 -->
+        <section class="milestone-timeline-section">
+            <div class="milestone-header">
+                <h2 data-en="Journey Through Time" data-zh="时光之旅">时光之旅</h2>
+                <p data-en="A nostalgic journey through our milestones" data-zh="一段怀旧的里程碑之旅">一段怀旧的里程碑之旅</p>
+            </div>
+            <div class="milestone-timeline-container">
+                <div class="milestone-timeline-wrapper">
+                    <div class="milestone-timeline" id="milestoneTimeline">
+                        <!-- 时间轴节点将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+                <div class="milestone-navigation">
+                    <button class="milestone-nav-btn milestone-prev" id="milestonePrev" aria-label="Previous">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="milestone-nav-btn milestone-next" id="milestoneNext" aria-label="Next">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="milestone-scroll-indicator">
+                    <span data-en="Swipe to explore" data-zh="左右滑动探索">左右滑动探索</span>
+                    <i class="fas fa-arrows-alt-h"></i>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- 页脚 -->
@@ -501,6 +528,7 @@
     <script src="../js/theme.js"></script>
     <script src="../js/language.js"></script>
     <script src="../js/github-calendar.js"></script>
+    <script src="../js/changelog.js"></script>
     <script src="../js/footer.js"></script>
 </body>
 </html> 
