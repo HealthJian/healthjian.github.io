@@ -72,73 +72,118 @@
         </div>
     </div>
 
+    <script>
+        // 阻止blog.js自动初始化
+        window.SKIP_BLOG_INIT = true;
+    </script>
     <script src="js/blog.js"></script>
     <script>
         // 测试博客文章列表
         function testBlogList() {
-            const posts = getBlogPosts();
             const postListContainer = document.getElementById('post-list');
             
-            if (!posts || posts.length === 0) {
-                postListContainer.innerHTML = '<p style="color: red;">无法加载文章数据</p>';
+            // 检查函数是否存在
+            if (typeof getBlogPosts !== 'function') {
+                postListContainer.innerHTML = '<p style="color: red;">错误：无法找到 getBlogPosts 函数。请检查 js/blog.js 是否正确加载。</p>';
+                console.error('getBlogPosts 函数未定义');
                 return;
             }
             
-            let html = `<h2>共找到 ${posts.length} 篇文章</h2>`;
-            
-            // 查找新添加的Markdown模板文章
-            const markdownPost = posts.find(post => post.id === 'markdown-blog-template');
-            if (markdownPost) {
-                html += '<div style="background: #d4edda; padding: 10px; border-radius: 4px; margin: 10px 0; color: #155724;"><strong>✓ 找到新添加的Markdown模板文章！</strong></div>';
-            } else {
-                html += '<div style="background: #f8d7da; padding: 10px; border-radius: 4px; margin: 10px 0; color: #721c24;"><strong>✗ 未找到Markdown模板文章</strong></div>';
-            }
-            
-            // 按分类统计
-            const categories = {};
-            posts.forEach(post => {
-                if (!categories[post.category]) {
-                    categories[post.category] = 0;
+            try {
+                const posts = getBlogPosts();
+                
+                if (!posts || posts.length === 0) {
+                    postListContainer.innerHTML = '<p style="color: red;">无法加载文章数据：文章列表为空</p>';
+                    return;
                 }
-                categories[post.category]++;
-            });
-            
-            html += '<h3>分类统计:</h3><ul>';
-            Object.entries(categories).forEach(([category, count]) => {
-                const categoryName = category === 'tech' ? '技术' : category === 'life' ? '生活' : category === 'work' ? '工作' : category;
-                html += `<li>${categoryName}: ${count} 篇</li>`;
-            });
-            html += '</ul>';
-            
-            // 显示所有文章
-            html += '<h3>文章列表:</h3>';
-            posts.forEach(post => {
-                const isNewPost = post.id === 'markdown-blog-template';
-                html += `
-                    <div class="post-item ${post.category} ${isNewPost ? 'highlight' : ''}">
-                        <div class="post-title">${post.title}</div>
-                        <div class="post-meta">
-                            日期: ${post.date} | 分类: ${post.category === 'tech' ? '技术' : post.category === 'life' ? '生活' : post.category === 'work' ? '工作' : post.category}
-                            ${isNewPost ? ' | <strong style="color: #28a745;">新添加</strong>' : ''}
+                
+                let html = `<h2>共找到 ${posts.length} 篇文章</h2>`;
+                
+                // 查找新添加的Markdown模板文章
+                const markdownPost = posts.find(post => post.id === 'markdown-blog-template');
+                if (markdownPost) {
+                    html += '<div style="background: #d4edda; padding: 10px; border-radius: 4px; margin: 10px 0; color: #155724;"><strong>✓ 找到新添加的Markdown模板文章！</strong></div>';
+                } else {
+                    html += '<div style="background: #f8d7da; padding: 10px; border-radius: 4px; margin: 10px 0; color: #721c24;"><strong>✗ 未找到Markdown模板文章</strong></div>';
+                }
+                
+                // 按分类统计
+                const categories = {};
+                posts.forEach(post => {
+                    const category = post.category || 'unknown';
+                    if (!categories[category]) {
+                        categories[category] = 0;
+                    }
+                    categories[category]++;
+                });
+                
+                html += '<h3>分类统计:</h3><ul>';
+                Object.entries(categories).forEach(([category, count]) => {
+                    const categoryName = category === 'tech' ? '技术' : 
+                                       category === 'life' ? '生活' : 
+                                       category === 'work' ? '工作' : 
+                                       category === 'idea' ? '想法' : 
+                                       category;
+                    html += `<li>${categoryName}: ${count} 篇</li>`;
+                });
+                html += '</ul>';
+                
+                // 显示所有文章
+                html += '<h3>文章列表:</h3>';
+                posts.forEach(post => {
+                    const isNewPost = post.id === 'markdown-blog-template';
+                    const category = post.category || 'unknown';
+                    const categoryName = category === 'tech' ? '技术' : 
+                                       category === 'life' ? '生活' : 
+                                       category === 'work' ? '工作' : 
+                                       category === 'idea' ? '想法' : 
+                                       category;
+                    const tags = post.tags || [];
+                    
+                    html += `
+                        <div class="post-item ${category} ${isNewPost ? 'highlight' : ''}">
+                            <div class="post-title">${post.title || '无标题'}</div>
+                            <div class="post-meta">
+                                日期: ${post.date || '未知'} | 分类: ${categoryName}
+                                ${isNewPost ? ' | <strong style="color: #28a745;">新添加</strong>' : ''}
+                            </div>
+                            <div class="post-excerpt">${post.excerpt || '无摘要'}</div>
+                            <div class="post-tags">
+                                ${tags.length > 0 ? tags.map(tag => `<span class="tag">${tag}</span>`).join('') : '<span class="tag">无标签</span>'}
+                            </div>
+                            <div style="margin-top: 8px; font-size: 0.9rem; color: #666;">
+                                URL: <a href="${post.url || '#'}" target="_blank">${post.url || '无链接'}</a>
+                            </div>
                         </div>
-                        <div class="post-excerpt">${post.excerpt}</div>
-                        <div class="post-tags">
-                            ${post.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-                        </div>
-                        <div style="margin-top: 8px; font-size: 0.9rem; color: #666;">
-                            URL: <a href="${post.url}" target="_blank">${post.url}</a>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            postListContainer.innerHTML = html;
+                    `;
+                });
+                
+                postListContainer.innerHTML = html;
+            } catch (error) {
+                postListContainer.innerHTML = `<p style="color: red;">发生错误：${error.message}</p>`;
+                console.error('测试博客列表时发生错误:', error);
+            }
+        }
+        
+        // 等待脚本加载完成后再执行测试
+        function waitForScript() {
+            if (typeof getBlogPosts === 'function') {
+                testBlogList();
+            } else {
+                // 如果函数还没加载，等待一段时间后重试
+                setTimeout(waitForScript, 50);
+            }
         }
         
         // 页面加载完成后执行测试
-        window.addEventListener('load', function() {
-            setTimeout(testBlogList, 100);
-        });
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                setTimeout(waitForScript, 100);
+            });
+        } else {
+            // DOM已经加载完成
+            setTimeout(waitForScript, 100);
+        }
     </script>
 </body>
 </html>

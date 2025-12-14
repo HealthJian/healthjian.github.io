@@ -493,9 +493,11 @@
     justify-content: center;
     gap: 10px;
     text-decoration: none;
+    box-sizing: border-box;
 }
 
-.demo-btn:hover:not(:disabled) {
+.demo-btn:hover:not(:disabled),
+.demo-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(0, 122, 255, 0.3);
 }

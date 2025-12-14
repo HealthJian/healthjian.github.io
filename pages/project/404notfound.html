@@ -7,108 +7,216 @@
     <link rel="stylesheet" href="../../css/style.css">
     <link rel="stylesheet" href="../../css/dark-mode.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        .error-container {
-            max-width: 800px;
-            margin: 100px auto;
-            text-align: center;
-            padding: 40px 20px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ffe5d9 0%, #ffd7ba 25%, #ffe5d9 50%, #ffd7ba 75%, #ffe5d9 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            transition: background 0.5s ease;
+        }
+
+        /* 夜间模式背景 */
+        body.dark-mode {
+            background: linear-gradient(135deg, #2d1b3d 0%, #3d2b4d 25%, #2d1b3d 50%, #3d2b4d 75%, #2d1b3d 100%);
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* 表情包容器 */
+        .emoji-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .emoji {
+            position: absolute;
+            font-size: 48px;
+            user-select: none;
+            pointer-events: none;
+            transition: transform 0.1s ease-out, filter 0.5s ease;
+            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
+        }
+
+        /* 夜间模式下的表情包 */
+        body.dark-mode .emoji {
+            filter: drop-shadow(0 2px 12px rgba(139, 92, 246, 0.3));
+        }
+
+        /* 主内容区域 */
+        main {
+            position: relative;
+            z-index: 10;
+            min-height: calc(100vh - 200px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 20px 80px;
+        }
+
+        .error-container {
+            max-width: 600px;
+            text-align: center;
+            padding: 60px 40px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(255, 182, 193, 0.2),
+                        0 0 0 1px rgba(255, 255, 255, 0.5);
+            animation: fadeInUp 0.8s ease-out;
+            transition: all 0.5s ease;
+        }
+
+        /* 夜间模式下的容器样式 */
+        body.dark-mode .error-container {
+            background: rgba(30, 30, 40, 0.8);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3),
+                        0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .error-code {
-            font-size: 120px;
+            font-size: 140px;
             font-weight: 700;
             margin: 0;
-            color: var(--primary-color);
-            opacity: 0.8;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             line-height: 1;
+            letter-spacing: -4px;
+            margin-bottom: 20px;
+            transition: all 0.5s ease;
         }
-        
+
+        /* 夜间模式下的404代码 */
+        body.dark-mode .error-code {
+            background: linear-gradient(135deg, #a78bfa 0%, #c4b5fd 50%, #ddd6fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
         .error-title {
-            font-size: 32px;
+            font-size: 36px;
+            font-weight: 600;
             margin: 20px 0;
-            color: var(--text-color);
+            color: #8b4a6b;
+            letter-spacing: -0.5px;
+            transition: color 0.5s ease;
         }
-        
+
+        /* 夜间模式下的标题 */
+        body.dark-mode .error-title {
+            color: #c4b5fd;
+        }
+
         .error-message {
             font-size: 18px;
-            margin-bottom: 40px;
-            color: var(--text-color);
-            line-height: 1.6;
+            margin-bottom: 50px;
+            color: #9d6b7f;
+            line-height: 1.8;
+            font-weight: 400;
+            transition: color 0.5s ease;
         }
-        
-        .error-image {
-            max-width: 300px;
-            margin: 20px auto;
-            opacity: 0.8;
+
+        /* 夜间模式下的消息 */
+        body.dark-mode .error-message {
+            color: #a78bfa;
         }
-        
+
+        .button-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
         .back-button {
-            display: inline-block;
-            background-color: var(--primary-color);
-            color: white;
-            padding: 12px 25px;
-            border-radius: var(--border-radius);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            color: #fff;
+            padding: 14px 32px;
+            border-radius: 25px;
             text-decoration: none;
             font-weight: 500;
-            transition: all var(--transition-speed);
-            margin: 10px;
+            font-size: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(255, 154, 158, 0.3);
+            border: none;
+            cursor: pointer;
         }
-        
+
+        /* 夜间模式下的按钮 */
+        body.dark-mode .back-button {
+            background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
         .back-button:hover {
-            background-color: var(--secondary-color);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 154, 158, 0.4);
         }
-        
-        .suggestions {
-            margin-top: 50px;
-            background-color: var(--card-background);
-            padding: 25px;
-            border-radius: var(--border-radius);
-            box-shadow: 0 5px 15px var(--shadow-color);
+
+        body.dark-mode .back-button:hover {
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
         }
-        
-        .suggestions h3 {
-            margin-top: 0;
-            color: var(--primary-color);
+
+        .back-button:active {
+            transform: translateY(0);
         }
-        
-        .suggestions-list {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-        }
-        
-        .suggestions-list a {
-            background-color: rgba(0, 122, 255, 0.1);
-            color: var(--primary-color);
-            padding: 8px 15px;
-            border-radius: 20px;
-            text-decoration: none;
-            transition: all var(--transition-speed);
-        }
-        
-        .suggestions-list a:hover {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
+
         @media (max-width: 768px) {
             .error-code {
-                font-size: 80px;
+                font-size: 100px;
             }
             
             .error-title {
-                font-size: 24px;
+                font-size: 28px;
             }
-            
-            .error-image {
-                max-width: 200px;
+
+            .error-message {
+                font-size: 16px;
+            }
+
+            .error-container {
+                padding: 40px 30px;
+                border-radius: 25px;
+            }
+
+            .back-button {
+                padding: 12px 24px;
+                font-size: 15px;
             }
         }
     </style>
@@ -145,6 +253,9 @@
         </div>
     </nav>
 
+    <!-- 表情包动画容器 -->
+    <div class="emoji-container" id="emojiContainer"></div>
+
     <main>
         <div class="error-container">
             <h1 class="error-code">404</h1>
@@ -161,42 +272,527 @@
                 </div>
             </p>
             
-            <div>
+            <div class="button-group">
                 <a href="../../index.html" class="back-button" data-en="Back to Home" data-zh="返回首页">返回首页</a>
                 <a href="../blog.html" class="back-button" data-en="Browse Blog" data-zh="浏览博客">浏览博客</a>
-            </div>
-            
-            <div class="suggestions">
-                <h3 data-en="You might be interested in:" data-zh="您可能对以下内容感兴趣：">您可能对以下内容感兴趣：</h3>
-                <div class="suggestions-list">
-                    <a href="../blog/tech/blog-building.html" data-en="Blog Building" data-zh="博客搭建">博客搭建</a>
-                    <a href="../blog/tech/c-api-algorithms.html" data-en="C API Algorithms" data-zh="C语言API算法">C语言API算法</a>
-                    <a href="../blog/noval/one/index.html" data-en="Novel: Melrod" data-zh="小说：梅尔罗德">小说：梅尔罗德</a>
-                    <a href="project.html" data-en="Projects" data-zh="项目展示">项目展示</a>
-                </div>
             </div>
         </div>
     </main>
 
     <!-- 页脚 -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-info">
-                <p>&copy; 2025 CaiNiaojian&HealthJian all followed.</p>
-                <p data-en="Contact: " data-zh="联系方式：">联系方式：<a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
-                <p data-en="Location: " data-zh="地址：">地址：中国，江苏</p>
+    <footer class="enhanced-footer">
+        <div class="footer-container">
+            <div class="footer-logo-section">
+                <div class="footer-logo">
+                    <img src="../../images/githubherofigureimage.png" alt="Logo">
+                    <span class="footer-logo-text" data-en="HealthJian Blog" data-zh="HealthJian博客">HealthJian博客</span>
+                </div>
+                <p class="footer-copyright" data-en="Sharing knowledge, exploring the world" data-zh="分享知识，探索世界">分享知识，探索世界</p>
             </div>
-            <div class="footer-links">
-                <a href="../../index.html" data-en="Home" data-zh="首页">首页</a>
-                <a href="../blog.html" data-en="Blog" data-zh="博客">博客</a>
-                <a href="../blog/noval/one/index.html" data-en="Novel" data-zh="小说">小说</a>
-                <a href="../about.html" data-en="About" data-zh="关于">关于</a>
+            
+            <div class="footer-nav-section">
+                <h3 data-en="Quick Links" data-zh="快速链接">快速链接</h3>
+                <div class="footer-links-grid">
+                    <a href="../../index.html" data-en="Home" data-zh="首页">首页</a>
+                    <a href="../blog.html" data-en="Blog" data-zh="博客">博客</a>
+                    <a href="project.html" data-en="Projects" data-zh="项目">项目</a>
+                    <a href="../blog/noval/one/index.html" data-en="Novel" data-zh="小说">小说</a>
+                    <a href="../links.html" data-en="Links" data-zh="链接">链接</a>
+                    <a href="../about.html" data-en="About" data-zh="关于">关于</a>
+                </div>
+            </div>
+            
+            <div class="footer-social-section">
+                <h3 data-en="Contact & Social" data-zh="联系方式">联系方式</h3>
+                <div class="footer-contact-info">
+                    <p><i class="fas fa-envelope"></i> <a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
+                    <p><i class="fas fa-map-marker-alt"></i> <span data-en="Jiangsu, China" data-zh="中国，江苏">中国，江苏</span></p>
+                </div>
+                <div class="footer-social-icons">
+                    <a href="https://github.com/CaiNiaojian" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://steamcommunity.com/profiles/76561199031176587/" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
+                    <a href="mailto:gaojian1573@foxmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+                </div>
+                <div class="footer-clock-section">
+                    <div class="footer-clock" id="footerClock">00:00:00</div>
+                    <div class="footer-date" id="footerDate"></div>
+                </div>
             </div>
         </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 <span data-en="CaiNiaojian & HealthJian" data-zh="CaiNiaojian & HealthJian">CaiNiaojian & HealthJian</span>. <span data-en="All rights reserved" data-zh="保留所有权利">保留所有权利</span>.</p>
+        </div>
     </footer>
+
+    <style>
+        /* 增强页脚样式 */
+        .enhanced-footer {
+            position: relative;
+            z-index: 10;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 182, 193, 0.2);
+            padding: 50px 0 20px;
+            margin-top: 60px;
+            transition: all 0.5s ease;
+        }
+
+        body.dark-mode .enhanced-footer {
+            background-color: rgba(30, 30, 40, 0.9);
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 40px;
+            padding: 0 20px;
+        }
+
+        .footer-logo-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .footer-logo img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .footer-logo:hover img {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .footer-logo-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #8b4a6b;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            transition: color 0.5s ease;
+        }
+
+        body.dark-mode .footer-logo-text {
+            color: #c4b5fd;
+        }
+
+        .footer-copyright {
+            font-size: 0.95rem;
+            color: #9d6b7f;
+            transition: color 0.5s ease;
+        }
+
+        body.dark-mode .footer-copyright {
+            color: #a78bfa;
+        }
+
+        .footer-nav-section h3,
+        .footer-social-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #8b4a6b;
+            position: relative;
+            display: inline-block;
+            transition: color 0.5s ease;
+        }
+
+        body.dark-mode .footer-nav-section h3,
+        body.dark-mode .footer-social-section h3 {
+            color: #c4b5fd;
+        }
+
+        .footer-nav-section h3:after,
+        .footer-social-section h3:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            transition: width 0.3s ease;
+        }
+
+        body.dark-mode .footer-nav-section h3:after,
+        body.dark-mode .footer-social-section h3:after {
+            background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+        }
+
+        .footer-nav-section:hover h3:after,
+        .footer-social-section:hover h3:after {
+            width: 100%;
+        }
+
+        .footer-links-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .footer-links-grid a {
+            color: #9d6b7f;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 8px 0;
+            display: inline-block;
+        }
+
+        body.dark-mode .footer-links-grid a {
+            color: #a78bfa;
+        }
+
+        .footer-links-grid a:before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            transition: width 0.3s ease;
+        }
+
+        body.dark-mode .footer-links-grid a:before {
+            background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+        }
+
+        .footer-links-grid a:hover {
+            color: #ff9a9e;
+            padding-left: 8px;
+        }
+
+        body.dark-mode .footer-links-grid a:hover {
+            color: #c4b5fd;
+        }
+
+        .footer-links-grid a:hover:before {
+            width: 100%;
+        }
+
+        .footer-contact-info {
+            margin-bottom: 20px;
+        }
+
+        .footer-contact-info p {
+            margin: 10px 0;
+            color: #9d6b7f;
+            transition: color 0.5s ease;
+        }
+
+        body.dark-mode .footer-contact-info p {
+            color: #a78bfa;
+        }
+
+        .footer-contact-info i {
+            margin-right: 8px;
+            width: 18px;
+        }
+
+        .footer-contact-info a {
+            color: #ff9a9e;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode .footer-contact-info a {
+            color: #c4b5fd;
+        }
+
+        .footer-contact-info a:hover {
+            color: #fecfef;
+            text-decoration: underline;
+        }
+
+        body.dark-mode .footer-contact-info a:hover {
+            color: #ddd6fe;
+        }
+
+        .footer-social-icons {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .footer-social-icons a {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: rgba(255, 154, 158, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ff9a9e;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .footer-social-icons a {
+            background: rgba(139, 92, 246, 0.2);
+            color: #a78bfa;
+        }
+
+        .footer-social-icons a:hover {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            color: white;
+            transform: translateY(-3px) scale(1.1);
+        }
+
+        body.dark-mode .footer-social-icons a:hover {
+            background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+        }
+
+        .footer-clock-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 182, 193, 0.2);
+        }
+
+        body.dark-mode .footer-clock-section {
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .footer-clock {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #8b4a6b;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            font-family: 'SF Pro Display', monospace;
+            transition: color 0.5s ease;
+        }
+
+        body.dark-mode .footer-clock {
+            color: #c4b5fd;
+        }
+
+        .footer-date {
+            font-size: 0.9rem;
+            color: #9d6b7f;
+            transition: color 0.5s ease;
+        }
+
+        body.dark-mode .footer-date {
+            color: #a78bfa;
+        }
+
+        .footer-bottom {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 182, 193, 0.2);
+            text-align: center;
+            font-size: 0.9rem;
+            color: #9d6b7f;
+            transition: all 0.5s ease;
+        }
+
+        body.dark-mode .footer-bottom {
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+            color: #a78bfa;
+        }
+
+        @media (max-width: 1024px) {
+            .footer-container {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .footer-logo-section {
+                grid-column: span 2;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-logo-section,
+            .footer-nav-section,
+            .footer-social-section {
+                grid-column: span 1;
+                text-align: center;
+            }
+
+            .footer-links-grid {
+                grid-template-columns: 1fr 1fr;
+                justify-items: center;
+            }
+        }
+    </style>
 
     <script src="../../js/main.js"></script>
     <script src="../../js/theme.js"></script>
     <script src="../../js/language.js"></script>
+    <script>
+        // 可爱的表情包列表
+        const emojis = ['😊', '😄', '😃', '😁', '😆', '😅', '🤣', '😂', '🙂', '🙃', '😉', '😋', '😎', '🥳', '😍', '🥰', '😘', '🤗', '🤩', '😇', '😊', '😌', '😋', '😛', '😜', '🤪', '😝', '🤑', '🤗', '🤭', '🤫', '🤔', '🤐', '🤨', '😐', '😑', '😶', '😏', '😒', '🙄', '😬', '🤥', '😌', '😔', '😪', '🤤', '😴', '😷', '🤒', '🤕', '🤢', '🤮', '🤧', '🥵', '🥶', '😶‍🌫️', '😵', '😵‍💫', '🤯', '🤠', '🥳', '🥸', '😎', '🤓', '🧐', '😕', '😟', '🙁', '☹️', '😮', '😯', '😲', '😳', '🥺', '😦', '😧', '😨', '😰', '😥', '😢', '😭', '😱', '😖', '😣', '😞', '😓', '😩', '😫', '🥱', '😤', '😡', '😠', '🤬', '😈', '👿', '💀', '☠️', '💩', '🤡', '👹', '👺', '👻', '👽', '👾', '🤖', '😺', '😸', '😹', '😻', '😼', '😽', '🙀', '😿', '😾'];
+
+        class EmojiParticle {
+            constructor() {
+                this.x = Math.random() * window.innerWidth;
+                this.y = Math.random() * window.innerHeight;
+                this.vx = (Math.random() - 0.5) * 5;
+                this.vy = (Math.random() - 0.5) * 5;
+                this.size = 40 + Math.random() * 20;
+                this.emoji = emojis[Math.floor(Math.random() * emojis.length)];
+                this.element = document.createElement('div');
+                this.element.className = 'emoji';
+                this.element.textContent = this.emoji;
+                this.element.style.fontSize = this.size + 'px';
+                this.element.style.left = this.x + 'px';
+                this.element.style.top = this.y + 'px';
+                document.getElementById('emojiContainer').appendChild(this.element);
+            }
+
+            update() {
+                // 更新位置
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // 边界反弹
+                if (this.x < 0 || this.x > window.innerWidth - this.size) {
+                    this.vx = -this.vx;
+                    this.x = Math.max(0, Math.min(window.innerWidth - this.size, this.x));
+                }
+                if (this.y < 0 || this.y > window.innerHeight - this.size) {
+                    this.vy = -this.vy;
+                    this.y = Math.max(0, Math.min(window.innerHeight - this.size, this.y));
+                }
+
+                // 更新DOM位置
+                this.element.style.left = this.x + 'px';
+                this.element.style.top = this.y + 'px';
+            }
+
+            checkCollision(other) {
+                const dx = this.x - other.x;
+                const dy = this.y - other.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                const minDistance = (this.size + other.size) / 2;
+
+                if (distance < minDistance && distance > 0) {
+                    // 碰撞发生
+                    const angle = Math.atan2(dy, dx);
+                    const sin = Math.sin(angle);
+                    const cos = Math.cos(angle);
+
+                    // 旋转速度
+                    const vx1 = this.vx * cos + this.vy * sin;
+                    const vy1 = this.vy * cos - this.vx * sin;
+                    const vx2 = other.vx * cos + other.vy * sin;
+                    const vy2 = other.vy * cos - other.vx * sin;
+
+                    // 交换速度（弹性碰撞）
+                    const finalVx1 = vx2;
+                    const finalVx2 = vx1;
+
+                    // 旋转回原坐标系
+                    this.vx = finalVx1 * cos - vy1 * sin;
+                    this.vy = vy1 * cos + finalVx1 * sin;
+                    other.vx = finalVx2 * cos - vy2 * sin;
+                    other.vy = vy2 * cos + finalVx2 * sin;
+
+                    // 分离粒子，避免重叠
+                    const overlap = minDistance - distance;
+                    const separationX = (dx / distance) * overlap * 0.5;
+                    const separationY = (dy / distance) * overlap * 0.5;
+                    this.x += separationX;
+                    this.y += separationY;
+                    other.x -= separationX;
+                    other.y -= separationY;
+
+                    // 添加碰撞动画效果
+                    this.element.style.transform = 'scale(1.2) rotate(10deg)';
+                    other.element.style.transform = 'scale(1.2) rotate(-10deg)';
+                    setTimeout(() => {
+                        this.element.style.transform = 'scale(1) rotate(0deg)';
+                        other.element.style.transform = 'scale(1) rotate(0deg)';
+                    }, 200);
+                }
+            }
+
+            remove() {
+                this.element.remove();
+            }
+        }
+
+        // 初始化粒子系统
+        let particles = [];
+        const particleCount = 15;
+
+        function initParticles() {
+            const container = document.getElementById('emojiContainer');
+            container.innerHTML = '';
+            particles = [];
+
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new EmojiParticle());
+            }
+        }
+
+        // 动画循环
+        function animate() {
+            // 更新所有粒子
+            particles.forEach(particle => {
+                particle.update();
+            });
+
+            // 检测碰撞
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    particles[i].checkCollision(particles[j]);
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        // 窗口大小改变时重新初始化
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                initParticles();
+            }, 250);
+        });
+
+        // 启动动画
+        window.addEventListener('load', () => {
+            initParticles();
+            animate();
+        });
+
+        // 页脚时钟功能
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            const clockElement = document.getElementById('footerClock');
+            if (clockElement) {
+                clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+            }
+
+            const dateElement = document.getElementById('footerDate');
+            if (dateElement) {
+                const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+                const dateStr = now.toLocaleDateString('zh-CN', options);
+                dateElement.textContent = dateStr;
+            }
+        }
+
+        // 初始化时钟并每秒更新
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
 </body>
 </html> 
