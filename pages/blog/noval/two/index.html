@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>剑侠 - HealthJian的博客</title>
+    <!-- 根据实际路径调整CSS引用路径 -->
+    <link rel="stylesheet" href="../../../../css/style.css">
+    <link rel="stylesheet" href="../../../../css/dark-mode.css">
+    <link rel="stylesheet" href="../../../../css/blog-post.css">
+    <link rel="stylesheet" href="../../../../css/noval.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* 页面特定样式 */
+        .novel-contents {
+            background-color: rgba(var(--bg-color-rgb), 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(var(--border-color-rgb), 0.2);
+        }
+        
+        .toc-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: var(--heading-color);
+            border-bottom: 1px solid rgba(var(--border-color-rgb), 0.5);
+            padding-bottom: 0.8rem;
+        }
+        
+        .toc-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .toc-item {
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            padding: 0.8rem 1rem;
+            background-color: rgba(var(--bg-color-secondary-rgb), 0.5);
+        }
+        
+        .toc-item:hover {
+            transform: translateX(5px);
+            background-color: rgba(var(--accent-color-rgb), 0.1);
+        }
+        
+        .toc-item a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-color);
+        }
+        
+        .toc-item-title {
+            font-weight: 500;
+        }
+        
+        .toc-item-date {
+            font-size: 0.85rem;
+            color: var(--text-color-light);
+        }
+        
+        .toc-item-status {
+            font-size: 0.8rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            margin-left: 0.5rem;
+        }
+        
+        .status-completed {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+        }
+        
+        .status-ongoing {
+            background-color: rgba(33, 150, 243, 0.2);
+            color: #2196F3;
+        }
+        
+        .status-planned {
+            background-color: rgba(156, 39, 176, 0.2);
+            color: #9C27B0;
+        }
+        
+        .novel-introduction {
+            margin-bottom: 3rem;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+        
+        .copyright-notice {
+            background-color: rgba(var(--bg-color-rgb), 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 3rem;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .copyright-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--heading-color);
+        }
+        
+        .quote-box {
+            font-family: 'Noto Serif SC', serif;
+            font-style: italic;
+            padding: 1.5rem;
+            background-color: rgba(var(--bg-color-secondary-rgb), 0.5);
+            border-radius: 8px;
+            margin: 2rem 0;
+            position: relative;
+        }
+        
+        .quote-box::before {
+            content: '"';
+            font-size: 4rem;
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            color: rgba(var(--text-color-rgb), 0.1);
+            font-family: serif;
+        }
+        
+        .author-note {
+            margin-top: 2rem;
+            font-style: italic;
+            text-align: right;
+            color: var(--text-color-light);
+        }
+        
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(var(--text-color-rgb), 0.2), transparent);
+            margin: 3rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .novel-contents, .copyright-notice {
+                padding: 1.5rem;
+            }
+            
+            .toc-item {
+                padding: 0.6rem;
+            }
+            
+            .toc-item a {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            .toc-item-date {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body class="light-mode novel-page">
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <!-- 根据实际部署的文件夹深度调整路径 -->
+            <a href="../../../../index.html" class="logo">
+                <img src="../../../../images/githubherofigureimage.png" alt="Logo">
+                <span class="site-name" data-en="HealthJian Blog" data-zh="HealthJian">HealthJian</span>
+            </a>
+        </div>
+        <div class="nav-right">
+            <ul class="menu">
+                <!-- 根据实际部署的文件夹深度调整路径 -->
+                <li><a href="../../../../index.html" data-en="Home" data-zh="首页">首页</a></li>
+                <li><a href="../../../blog.html" data-en="Blog" data-zh="博客">博客</a></li>
+                <li><a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a></li>
+                <li><a href="../../../links.html" data-en="Links" data-zh="链接">链接</a></li>
+                <li><a href="../../../about.html" data-en="About" data-zh="关于">关于</a></li>
+            </ul>
+            <div class="social-icons">
+                <a href="https://steamcommunity.com/id/yoursteamid" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
+                <a href="mailto:gaojian1573@foxmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+            <button id="theme-toggle" class="theme-toggle" title="切换主题">
+                <i class="fas fa-moon"></i>
+                <i class="fas fa-sun"></i>
+            </button>
+            <button id="lang-toggle" class="lang-toggle" title="切换语言">
+                <span data-en="EN" data-zh="中">中</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- 小说内容容器 -->
+    <div class="novel-container">
+        <!-- 小说标题和元信息 -->
+        <header class="novel-header">
+            <h1 class="novel-title">
+                <div class="bilingual-content">
+                    <span class="zh-content">剑侠</span>
+                    <span class="en-content" style="display: none;">Sword Master</span>
+                </div>
+            </h1>
+            <div class="novel-subtitle">
+                <div class="bilingual-content">
+                    <span class="zh-content">——侠客江湖的正义与真相</span>
+                    <span class="en-content" style="display: none;">— Justice and Truth in the侠客江湖</span>
+                </div>
+            </div>
+            <div class="novel-meta">
+                <div class="novel-meta-item">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>2025-12-24</span>
+                </div>
+                <div class="novel-meta-item">
+                    <i class="fas fa-book"></i>
+                    <span data-en="Short Novel" data-zh="短篇小说">短篇小说</span>
+                </div>
+                <div class="novel-meta-item">
+                    <i class="fas fa-tags"></i>
+                    <span class="tag" data-en="Knight-errant" data-zh="侠客">侠客</span>
+                    <span class="tag" data-en="Mystery" data-zh="江湖">江湖</span>
+                </div>
+                <div class="novel-meta-item">
+                    <i class="fas fa-user"></i>
+                    <span>HealthJian</span>
+                </div>
+            </div>
+        </header>
+        
+        <!-- 小说简介 -->
+        <article class="novel-content">
+            <div class="novel-introduction">
+                
+            <div class="section-divider"></div>
+            
+            <!-- 目录 -->
+            <div class="novel-contents">
+                <h2 class="toc-title" data-en="Table of Contents" data-zh="目录">目录</h2>
+                
+                <ul class="toc-list">
+                    <li class="toc-item">
+                        <a href="chapter-intro.html">
+                            <div>
+                                <span class="toc-item-title" data-en="Main text" data-zh="正文">正文</span>
+                                <span class="toc-item-status status-completed" data-en="Completed" data-zh="已完成">已完成</span>
+                            </div>
+                            <span class="toc-item-date">2025-12-24</span>
+                        </a>
+                    </li>
+                </ul>
+                
+            </div>
+            
+            <!-- 版权声明 -->
+            <div class="copyright-notice">
+                <h3 class="copyright-title" data-en="Copyright Notice" data-zh="版权声明">版权声明</h3>
+                
+                <div class="bilingual-content">
+                    <p class="zh-content">《剑侠》是一部原创作品，版权归作者 HealthJian 所有。本作品受中国版权法和国际版权条约保护。</p>
+                    
+                    <p class="en-content" style="display: none;">《Sword Master》 is an original work, copyright belongs to the author HealthJian. This work is protected by Chinese copyright law and international copyright treaties.</p>
+                </div>
+                
+                <div class="bilingual-content">
+                    <p class="zh-content"><strong>使用条款：</strong></p>
+                    <ul class="zh-content">
+                        <li>本作品仅供个人阅读和学习使用，未经授权不得用于商业用途。</li>
+                        <li>读者可以分享本作品的链接，但不得以任何形式复制、修改或重新发布本作品的全部或部分内容。</li>
+                        <li>引用本作品内容时，请注明出处并提供原文链接。</li>
+                        <li>本作品中的任何角色、情节和对话纯属虚构，如有雷同，纯属巧合。</li>
+                    </ul>
+                    
+                    <p class="en-content" style="display: none;"><strong>Terms of Use:</strong></p>
+                    <ul class="en-content" style="display: none;">
+                        <li>This work is for personal reading and learning purposes only and may not be used for commercial purposes without authorization.</li>
+                        <li>Readers may share the link to this work but may not copy, modify, or republish all or part of this work in any form.</li>
+                        <li>When quoting content from this work, please indicate the source and provide a link to the original.</li>
+                        <li>Any characters, plots, and dialogues in this work are purely fictional; any resemblance is purely coincidental.</li>
+                    </ul>
+                </div>
+                
+                <div class="bilingual-content">
+                    <p class="zh-content">感谢您尊重创作者的劳动成果。如有任何问题或合作意向，请通过以下方式联系我：<a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
+                    
+                    <p class="en-content" style="display: none;">Thank you for respecting the creator's work. If you have any questions or cooperation intentions, please contact me at: <a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
+                </div>
+                
+                <div class="author-note">
+                    <div class="bilingual-content">
+                        <p class="zh-content">"写作是一次精神旅行，我希望这段旅程能与你产生共鸣。"</p>
+                        
+                        <p class="en-content" style="display: none;">"Writing is a spiritual journey, and I hope this journey resonates with you."</p>
+                    </div>
+                    <div class="bilingual-content">
+                        <p class="zh-content">— HealthJian，2025年春</p>
+                        
+                        <p class="en-content" style="display: none;">— HealthJian, Spring 2025</p>
+                    </div>
+                </div>
+            </div>
+        </article>
+        
+        <!-- 导航按钮 -->
+        <div class="novel-navigation">
+            <a href="../../../blog.html" class="nav-button" data-en="Back to Blog" data-zh="返回博客列表">
+                <i class="fas fa-arrow-left"></i>
+                <span data-en="Back to Blog" data-zh="返回博客列表">返回博客列表</span>
+            </a>
+            <a href="chapter1.html" class="nav-button" data-en="Start Reading" data-zh="开始阅读">
+                <span data-en="Start Reading" data-zh="开始阅读">开始阅读</span>
+                <i class="fas fa-book-open"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <p>&copy; 2025 CaiNiaojian&HealthJian all followed.</p>
+                <p data-en="Contact: " data-zh="联系方式：">联系方式：<a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
+                <p data-en="Location: " data-zh="地址：">地址：中国，江苏</p>
+            </div>
+            <div class="footer-links">
+                <a href="../license.html" data-en="License" data-zh="许可证">许可证</a>
+                <a href="../../../blog.html" data-en="Blog" data-zh="博客">博客</a>
+                <a href="../../../changelog.html" data-en="ChangeLog" data-zh="更新日志">更新日志</a>
+                <a href="../../../about.html" data-en="About" data-zh="关于">关于</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../../../js/main.js"></script>
+    <script src="../../../../js/theme.js"></script>
+    <script src="../../../../js/language.js"></script>
+</body>
+</html> 
