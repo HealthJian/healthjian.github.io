@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>剑侠传奇</title>
+    <link rel="stylesheet" href="../../../css/blog-post.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <style>
+        /* 全局样式重置 */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        /* 标题区域 */
+        .novel-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 30px 0;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .novel-header .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .novel-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin: 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            letter-spacing: 2px;
+        }
+
+        .novel-subtitle {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            margin: 10px 0 0 0;
+            font-style: italic;
+        }
+
+        .novel-meta {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #34495e;
+            font-size: 0.95rem;
+        }
+
+        .meta-item i {
+            color: #3498db;
+            font-size: 1.1em;
+        }
+
+        /* 主要内容区域 */
+        .novel-content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        /* 小说文本区域 */
+        .novel-text {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            line-height: 2;
+            font-size: 18px;
+            color: #2c3e50;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .novel-text::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .novel-text p {
+            margin-bottom: 1.8em;
+            text-indent: 2em;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+
+
+        /* 阅读进度条 */
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.8);
+            z-index: 1001;
+            transform-origin: left;
+        }
+
+        .reading-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: transform 0.1s ease;
+        }
+
+        /* 控制面板 */
+        .reading-controls {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            z-index: 1000;
+            min-width: 280px;
+            border: 1px solid rgba(255,255,255,0.2);
+            animation: slideInRight 0.3s ease;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .controls-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .controls-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .close-controls {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #7f8c8d;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .close-controls:hover {
+            background: rgba(127, 140, 141, 0.1);
+            color: #34495e;
+        }
+
+        /* 控制按钮组 */
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-group-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .control-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            margin: 6px 0;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .control-btn:active {
+            transform: translateY(0);
+        }
+
+        .control-btn.secondary {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+        }
+
+        .control-btn.success {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+        }
+
+        .control-btn.warning {
+            background: linear-gradient(135deg, #fa709a, #fee140);
+        }
+
+        /* 字体大小控制 */
+        .font-size-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            background: rgba(0,0,0,0.05);
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        .font-size-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .font-size-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .font-size-display {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        /* 主题选择器 */
+        .theme-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .theme-option {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            animation: breathe 2s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 10px rgba(255,255,255,0.2);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 20px rgba(255,255,255,0.4);
+            }
+        }
+
+        .theme-option:hover {
+            animation-play-state: paused;
+            transform: scale(1.15);
+            box-shadow: 0 0 25px rgba(255,255,255,0.6);
+        }
+
+        .theme-option.active {
+            border-color: #fff;
+            box-shadow: 0 0 20px rgba(255,255,255,0.7);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(255,255,255,0.7);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(255,255,255,0.9);
+            }
+        }
+
+        .theme-option.default { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .theme-option.dark { background: linear-gradient(135deg, #2c3e50, #34495e); }
+        .theme-option.sepia { background: linear-gradient(135deg, #f4e4bc, #d4b08a); }
+        .theme-option.green { background: linear-gradient(135deg, #11998e, #38ef7d); }
+        .theme-option.blue { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .theme-option.purple { background: linear-gradient(135deg, #a8edea, #fed6e3); }
+
+        /* 导航区域 */
+        .novel-navigation {
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 25px;
+            color: #2c3e50;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            background: rgba(255,255,255,1);
+        }
+
+        .nav-btn i {
+            font-size: 1.1em;
+        }
+
+        /* 书签功能 */
+        .bookmark-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .bookmark-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .bookmark-btn.active {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+        }
+
+        /* 暗色模式 */
+        body.dark-mode {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: #ecf0f1;
+        }
+
+        body.dark-mode .novel-header {
+            background: rgba(44, 62, 80, 0.95);
+            color: #ecf0f1;
+        }
+
+        body.dark-mode .novel-title {
+            color: #ecf0f1;
+        }
+
+        body.dark-mode .novel-text {
+            background: rgba(44, 62, 80, 0.98);
+            color: #ecf0f1;
+        }
+
+        body.dark-mode .reading-controls {
+            background: rgba(44, 62, 80, 0.95);
+            color: #ecf0f1;
+        }
+
+        body.dark-mode .nav-btn {
+            background: rgba(44, 62, 80, 0.9);
+            color: #ecf0f1;
+            border-color: rgba(255,255,255,0.1);
+        }
+
+        /* 加载动画 */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+        }
+
+        .loading-content {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .novel-title {
+                font-size: 2rem;
+            }
+
+            .novel-text {
+                padding: 20px;
+                font-size: 16px;
+            }
+
+            .reading-controls {
+                position: static;
+                margin: 20px auto;
+                max-width: 320px;
+                top: auto;
+                right: auto;
+            }
+
+            .novel-meta {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .novel-navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .theme-selector {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* 滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(102, 126, 234, 0.5);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(102, 126, 234, 0.7);
+        }
+
+        /* 动画效果 */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .novel-text p {
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .novel-text p:nth-child(1) { animation-delay: 0.1s; }
+        .novel-text p:nth-child(2) { animation-delay: 0.2s; }
+        .novel-text p:nth-child(3) { animation-delay: 0.3s; }
+        .novel-text p:nth-child(4) { animation-delay: 0.4s; }
+        .novel-text p:nth-child(5) { animation-delay: 0.5s; }
+
+        /* 更多段落延迟 */
+        .novel-text p:nth-child(n+6) { animation-delay: 0.6s; }
+    </style>
+</head>
+<body>
+    <!-- 头部区域 -->
+    <header class="novel-header">
+        <div class="container">
+            <h1 class="novel-title">剑侠传奇</h1>
+            <p class="novel-subtitle">一部关于侠义与权谋的故事</p>
+            <div class="novel-meta">
+                <div class="meta-item">
+                    <i>👤</i>
+                    <span>作者：匿名</span>
+                </div>
+                <div class="meta-item">
+                    <i>📅</i>
+                    <span>发布日期：~</span>
+                </div>
+                <div class="meta-item">
+                    <i>📖</i>
+                    <span>字数：约15,000字</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="novel-content-wrapper">
+        <article class="novel-content">
+            <div class="novel-text">
+                <p>剑侠，义者，有德志士，能舞剑搏击者，称之为剑侠。民间传，东山乡九林山有洞三，一老者，名采阳，收徒二，曰赤子，曰奉一。久光五年，江湖现奉一，是为东阳都守推举朝廷为参谋于行伍，后拔擢兵部左中郎将，飞书赤子出山不应。久光十三年，奉一任京畿司隶校尉，嫉赤子专学于采阳，密遣刺客至九林山。既战，采阳斩敌数人亦老迈不能敌，言于赤子，汝已学得老夫毕生所学，且自能融汇而贯通，往日自学成才，此刻下山，避难去也。言毕，将宝剑掷于赤子，剑曰赤红，赤子之心，日月可鉴。赤子伤心泪下，然刺客众多久战不敌，怅然走出。</p>
+
+                <p>赤子流落江湖，躲避刺客，更名云牙子，流浪四方，不知始终缘由，未来如何难以论说。久光十四年，夏帝崩，诸皇子争位，奉一掌京畿兵，时太后又授禁军督指挥使，诸皇子争恐笼络，原奉一属五皇子军营旧部，故助五子平叛，大胜，拜为兵部侍郎，左武威将军，禁军督指挥使总督，太子少傅。时范厉王，梁阳王出逃关中，起兵叛乱。奉一令京畿司隶兵马出关作战，大胜而归。时局动荡，民不聊生，赤子游荡江湖，行善除恶，来去匆匆。新帝知晓云牙子行侠仗义，响誉江湖却行迹神秘，闻云牙子行迹各州，专行善事，教授书籍智慧，广开民智，解百姓之忧，破匪患之危，新帝大喜，欲招为侍郎，着遣吏部侍郎石文寻找。奉一不知其人底细，恐惧，暗中与刑部尚书蔡程决议，调遣检校府寻找侦查。检校府，刑部爪牙也，诸州，府，司隶，郡，县之御史卫，捕手云集响应。</p>
+
+                <p>是时皇帝新立，年号永乾。永乾元年，东部各地饥荒，地方不敢上报，派州兵设岗哨，置路障，外人不得入，难民不得出。赤子陷地主屯粮驱民的事变之中，有司，御史卫闻白牙子至而恐之。是夜，县衙巡捕欲杀白牙子。遇老人，问，白牙子先生饮酒于此？老人见众人武装，骗之。后老人急告赤子局势，赤子答谢夜逃城外。时，百姓困苦，积贫积弱。赤子热忱，既代表难民谈判地主，地主据守堡垒不出，赤子怒，着聚集勇士三百攻陷粮库，杀地主豪绅十二，暂解时局。时任郡守漳普是被杀地主之女婿，上书东部民变请军平叛，又上书白牙子助纣为虐，聚积贼兵，行土匪强盗之事。奉一着遣禁军督指挥使姚安令骑士八百出关拿人，帝不能言。后赤子为百姓相助，逃离围堵。</p>
+
+                <p>是非之地，既出狼窝，又入虎穴。时灵州郡守潘荣昌私设商会，牟利其间，压榨百姓买卖，专营百业，百姓入不敷出。云牙子嫉恶如仇，收集证据，状告郡守等人，未料臬台衙门主官为潘荣昌子弟，且奉一欲捕云牙子，故令骑士激战。既战，数骑士不能敌，云牙子赤红舞得了的，骑士死伤数人，云牙子亦力竭逃出。逃至麻山，古书有云，麻山有庙，庙有玄红甲一幅。云牙子历时三月，有一砍柴父女相助，寻得宝物。时姚安抵达灵州，着禁军搜索麻山，又领灵州府兵围山设卡。柴夫叹曰："云牙子，赤子之心，天地日月可鉴，然官府腐败，竟不能容，可惜哉！"云牙子欲死战，将所有家当身家托付柴夫父女，村中闻者具泪声下。</p>
+
+                <p>云牙子携赤红，披玄红铠，内穿师传白银琐甲，左持弩，右握槊，枣红烈马，整个红色骑士。村民勇敢者纷纷出门助战，猎手助其箭雨，柴夫助其陷阵，挑夫助其长矛，马夫助其侍骑，耕夫助其镰刀，铁匠助其锤头，云集响应起来的百姓没有不义愤填膺，斗志昂扬的。既战，云牙子穿梭混战之间，无人能敌，姚安恐惧，全军出击。时村民死伤惨重，都不能战胜具甲武士，云牙子不忍，令众人逃回山间，并遣散众人。姚安封山烧林，欲逼出云牙子。古有地理全书，云牙子通晓之，故逃之。</p>
+
+                <p>宛州者，中部之繁华都市也。云牙子伪装西域商人游荡城间并暂居于此。永乾三年，新帝大赦天下，既往不咎，街上通缉不在。云牙子休养生息，终日读书练武，又开垦良田三亩，悠然自得。宛州富豪苏业之子苏桓喜交友，听闻城西有隐士，终日习武读书，专教平民百姓识字阅读，又授地理农业，大喜。既见，交谈甚喜，知音难觅。苏桓曰，先生大才，为何退隐山林，不入庙堂施展才华。答曰，高处不胜寒。苏欢曰，既见民生苦难，寒心如此，有违赤红之意。赤子一时怅然若失。</p>
+
+                <p>永乾四年，北匈，狄人，鲜人部落南下劫掠，一时战乱频频。苏业捐款三十亿钱，朝廷授宛州中都称号，拔擢苏桓为中都行台尚书。奉一令禁军北出雁关，右谷，上梁，云中，怀朔驻地，反击草原十八部，大胜。永乾六年，赤子隐姓埋名，并于宛州苏氏任幕府郎官，教苏氏子弟习武学文，又娶苏业之女苏颖，据言往事并告妻以真名为赤子。苏业幼子苏裴，尤敬赤子，终日伴随左右，深得真传。永乾八年，奉一北御游牧大功，升兵书尚书，安北司隶总督，京畿行军总督，安西检察使，加授东宫总管，又奉旨迎娶皇帝之妹，平安公主。</p>
+
+                <p>赤子终日追忆师父，叹曰，奉一如今当世之功，师父如在，必定欣慰，然赤子游历天下，所目之及，民生困顿，无可奈何。苏桓曰，大丈夫能屈能伸，身居天地，既良心未泯，何不有所作为？赤子遂安顿家室，独自出走。开州泷郡郡守边禾是奉一在御史督指挥使的旧部，广布眼线。遂知一人骑枣红入境，如临大敌。飞书洛都禁军总督姚安明察秋毫。姚安恐惧，上报奉一，奉一大惊，决议刺杀云牙子。时任开州行政使石文因寻白牙子未果连降两级离京贬至开州，终年寻找白牙子，传闻白牙子骑枣红烈马，威风凛凛，如今流言再起，大喜，遂上书皇帝见闻，帝秘密着令吏部尚书高猷星夜公函开州以迎云牙子，又召石文款待侠士，勿失时机。</p>
+
+                <p>吏部侍郎郭统之为奉一党羽，密告变故。奉一带着蔡程、郭统之、御史大夫苗立文、户部侍郎淮继诸臣子面圣。时户部尚书杨子珍忿曰，为一江湖游侠而庙堂聚党争斗，实难理解，今群臣面圣，实难不以为逼宫矣。京州司隶校尉盛惠曰，御史督指挥使司兵马具已为党争之物，天苍苍，国家不幸，是权臣乱政之兆。奉一知朝堂反对，未能复言，然杀心已有，不可中止，急令姚安令骑士一千星夜斩云牙子。姚安副将余喜，暗报内侍，帝闻大怒，又恐奉一羽翼，需从长计议。</p>
+
+                <p>赤子渡河，至开州辗县，此地有人歌云，永乾年，闹饥荒，孩子苦，没爹娘，今大水，淹河谷，庄稼无，瘟疫起，官不问，衙不在，皇帝老儿每天捂着女人的屁股蛋儿。赤子闻声不禁流泪。开州有游侠名闿，专营惩戒，监督地主之事，凡拖欠粮米，放贷巨利者，夜入其户，说法教导，震慑非凡。永乾七年时，死于边禾之手，暴尸荒野，百姓捐钱葬于河畔。赤子入城，四武士围之，皆江湖游侠，揭榜云牙子性命，曰眉一，曰张虎，曰匡寻，曰汤溪。赤子亦善战，拔剑相交，如若无人，渐入佳境，忽如秋叶飘飘落，刹那红光向面来。四人不敌皆死，御史闻风赶来，具甲武士四五十人，骑士十一，郎官一。既战，赤子挑槊猛刺，如若箭雨，跳至一高处，右手击弩，射杀三四人，皆不能近。郎官恐惧，回马欲走，赤子投槊刺死。既拔剑，赤红出鞘，短兵相交，铁甲不能护。战至午时，赤子疲惫不能战，御史卫亦损失惨重，不敢妄攻。时石文至，宣旨，众人且散。</p>
+
+                <p>石文私曰，公既匡扶济世，奉尚书何欲害你？其中缘由，无以言证。赤子大惊，原刺杀故事皆奉一所为，一时难以接受。石文曰，时朝局震荡，奉尚书一手以遮天，党羽各地，陛下夙夜忧叹，揪心难眠，扶枕落泪，日久憔悴，然今欲变法强国，富足百姓，故广招英豪，入朝辅佐。赤子曰，官府不治，司法不理，行伍不整，改革艰难，皇帝如愿治世，请许百姓自治。石文不敢言。赤子又曰，今知深仇大恨，欲寻奉一，一问究竟，如何？石文曰善。夜，石文书奏皇帝，据言今日见闻，皇帝又惊恐赤子之言，不敢用。高猷曰，此灭奉一良机，不可失也，循循善诱，自可匡正云牙子之心。金吾卫督指挥使武薄曰，宛州苏氏有女颖为云牙子妻，以为便利，必能招抚云牙子。帝喜，拔擢苏业宛州总督，苏桓中都巡抚，兼洛都尚书，许京畿阅兵礼，赐女苏颖一等夫人。</p>
+
+                <p>既望，赤子得苏桓信，其言犀利，赤子心力绞痛。奉一知云牙子，大惊，疑为赤子，疾驰开州，调遣府兵游侠骑士御史卫队两千。是夜，云牙子，石文，武薄，开州都守韩国安聚餐园中，数具甲武士冲门而入，游侠死侍翻墙缒入，众人大惊，赤红出鞘，流血五步，伏尸二人。武薄不能敌，缴械降之。石文惶恐出走，不幸中箭身亡。韩国安躲立于门后以中立其间不敢言。奉一见云牙子大惊，曰，赤子，真汝乎!赤子曰，为何杀我？答曰，有人离间你我同门，既知云牙子是赤子，孰敢杀汝!又问，师父之死，何人所为？奉一不语，曰，师父之死，并无查清。赤子曰，汝因何结党？忘宗门教育乎？奉一思索，曰，天下攘攘皆为利往，世宇尘埃，游离不定。你以为吾心无理想乎？然和光同尘。凡事而已，不上称，几两而已，上称，千钧重担。赤子不能言。奉一令众人散去，曰，赤子之心，日月可鉴，师父未传业于吾，年月已久，放下矣。</p>
+
+                <p>永乾九年，赤子悄离开州，皇帝因石文死而撤职奉一兵部尚书之职。秋，草原十八部袭扰边地，奉一称病，军中无能战者，连连败绩。帝恐变故请奉一出征，大胜。回师于右云堡，刺客刺奉一，奉一以一当十，左右皆不能敌，力竭战死。弥留之际，赤子现，击杀数人，奉一惨死。永乾十年开春，帝抄奉一家，简房陋室，不曾奢华，人言可畏，众人大惊，唯恐圣意不敢言。史官曰，权倾朝野却不以敛财为乐，收统兵马却不以枭雄为据，结党营私却不骄淫为人，私设检校却不敢广加酷刑，虽大才却贪图名誉，虽清廉却好大喜功，如此矛盾，是奉一矣。皇帝闻史官评而怒，令金吾卫至右云堡焚尸灭迹，且谥炀以称奉一，又毁右云堡以示决心于天下。蔡程之类，皆抄家罢免，入内库，得资千万，高猷曰，奉一一党，经营数载，今灰飞烟灭，何哉，是为不畏上亦纵下矣。</p>
+
+                <p>赤子伤心，拒官出走，曰，天下以此难有改善，师父，奉一，人之将死其言也善，入仕乎，为官乎，处江湖之远，亦可解民生困顿。至宛州，苏桓等不能见，市井一老者曰，桓尚书高升为相，举家搬于洛都新城矣，唯独有一女子和苏氏男丁未走，听闻只等郎君和师父归来。赤子大喜，家人团聚。永乾十年，赤子营商隐居，又广设民学，后为躲帝检校，举家六口及徒弟三口回东山乡。</p>
+            </div>
+        </article>
+
+        <!-- 章节导航 -->
+        <nav class="novel-navigation">
+            <a href="index.html" class="nav-btn">
+                <i>📚</i>
+                <span>返回目录</span>
+            </a>
+        </nav>
+    </main>
+
+    <script src="../../../js/blog-post.js"></script>
+
+    <!-- 阅读进度条 -->
+    <div class="reading-progress">
+        <div class="reading-progress-bar" id="readingProgressBar"></div>
+    </div>
+
+    <!-- 书签按钮 -->
+    <button class="bookmark-btn" id="bookmarkBtn" title="添加书签">
+        <i>🔖</i>
+    </button>
+
+    <!-- 阅读控制面板 -->
+    <div class="reading-controls" id="readingControls">
+        <div class="controls-header">
+            <h3 class="controls-title">阅读设置</h3>
+            <button class="close-controls" id="closeControls">×</button>
+        </div>
+
+        <!-- 主题选择 -->
+        <div class="control-group">
+            <div class="control-group-title">主题选择</div>
+            <div class="theme-selector">
+                <div class="theme-option default active" data-theme="default" title="默认主题"></div>
+                <div class="theme-option dark" data-theme="dark" title="暗色主题"></div>
+                <div class="theme-option sepia" data-theme="sepia" title="复古主题"></div>
+                <div class="theme-option green" data-theme="green" title="护眼主题"></div>
+                <div class="theme-option blue" data-theme="blue" title="蓝色主题"></div>
+                <div class="theme-option purple" data-theme="purple" title="紫色主题"></div>
+            </div>
+        </div>
+
+        <!-- 字体控制 -->
+        <div class="control-group">
+            <div class="control-group-title">字体大小</div>
+            <div class="font-size-control">
+                <button class="font-size-btn" id="decreaseFont">-</button>
+                <span class="font-size-display" id="fontSizeDisplay">18px</span>
+                <button class="font-size-btn" id="increaseFont">+</button>
+            </div>
+        </div>
+
+        <!-- 功能按钮 -->
+        <div class="control-group">
+            <div class="control-group-title">功能</div>
+            <button class="control-btn secondary" id="toggleDarkMode">
+                <i>🌙</i> 夜间模式
+            </button>
+            <button class="control-btn success" id="saveProgress">
+                <i>💾</i> 保存进度
+            </button>
+            <button class="control-btn warning" id="loadProgress">
+                <i>📖</i> 恢复进度
+            </button>
+            <button class="control-btn" id="toggleFullscreen">
+                <i>⛶</i> 全屏阅读
+            </button>
+        </div>
+
+        <!-- 阅读统计 -->
+        <div class="control-group">
+            <div class="control-group-title">阅读统计</div>
+            <div style="font-size: 14px; color: #666;">
+                <div>阅读时间: <span id="readingTime">0分钟</span></div>
+                <div>已读段落: <span id="readParagraphs">0</span></div>
+                <div>阅读进度: <span id="readingPercent">0%</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 加载动画 -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h3>正在加载小说...</h3>
+            <p>请稍候</p>
+        </div>
+    </div>
+
+    <script>
+        // 阅读控制功能
+        class NovelReader {
+            constructor() {
+                this.fontSize = 18;
+                this.isDarkMode = false;
+                this.currentTheme = 'default';
+                this.scrollPosition = 0;
+                this.readingStartTime = Date.now();
+                this.readParagraphs = 0;
+                this.bookmarks = [];
+                this.isFullscreen = false;
+                this.init();
+            }
+
+            init() {
+                this.bindEvents();
+                this.loadSettings();
+                this.updateReadingProgress();
+                this.updateReadingStats();
+                this.createShowControlsButton();
+                this.hideLoading();
+            }
+
+            bindEvents() {
+                // 夜间模式切换
+                document.getElementById('toggleDarkMode').addEventListener('click', () => {
+                    this.toggleDarkMode();
+                });
+
+                // 字体大小控制
+                document.getElementById('increaseFont').addEventListener('click', () => {
+                    this.changeFontSize(2);
+                });
+
+                document.getElementById('decreaseFont').addEventListener('click', () => {
+                    this.changeFontSize(-2);
+                });
+
+                // 进度保存和恢复
+                document.getElementById('saveProgress').addEventListener('click', () => {
+                    this.saveProgress();
+                });
+
+                document.getElementById('loadProgress').addEventListener('click', () => {
+                    this.loadProgress();
+                });
+
+                // 全屏模式
+                document.getElementById('toggleFullscreen').addEventListener('click', () => {
+                    this.toggleFullscreen();
+                });
+
+                // 关闭控制面板
+                document.getElementById('closeControls').addEventListener('click', () => {
+                    this.toggleControls();
+                });
+
+                // 主题选择
+                document.querySelectorAll('.theme-option').forEach(option => {
+                    option.addEventListener('click', () => {
+                        this.changeTheme(option.dataset.theme);
+                    });
+                });
+
+                // 书签功能
+                document.getElementById('bookmarkBtn').addEventListener('click', () => {
+                    this.toggleBookmark();
+                });
+
+                // 键盘快捷键
+                document.addEventListener('keydown', (e) => {
+                    this.handleKeyPress(e);
+                });
+
+                // 滚动事件
+                window.addEventListener('scroll', () => {
+                    this.updateReadingProgress();
+                    this.saveScrollPosition();
+                });
+
+                // 页面加载时恢复位置
+                window.addEventListener('load', () => {
+                    this.restoreScrollPosition();
+                });
+
+                // 段落阅读统计
+                this.observeParagraphs();
+            }
+
+            toggleDarkMode() {
+                this.isDarkMode = !this.isDarkMode;
+                document.body.classList.toggle('dark-mode', this.isDarkMode);
+                this.saveSettings();
+                this.showNotification(this.isDarkMode ? '🌙 已切换到夜间模式' : '☀️ 已切换到日间模式');
+            }
+
+            changeFontSize(delta) {
+                this.fontSize = Math.max(12, Math.min(32, this.fontSize + delta));
+                document.querySelector('.novel-text').style.fontSize = this.fontSize + 'px';
+                document.getElementById('fontSizeDisplay').textContent = this.fontSize + 'px';
+                this.saveSettings();
+                this.showNotification(`🔤 字体大小: ${this.fontSize}px`);
+            }
+
+            changeTheme(theme) {
+                // 移除所有主题类
+                document.body.className = document.body.className.replace(/theme-\w+/g, '').trim();
+
+                // 设置新主题
+                this.currentTheme = theme;
+                if (theme !== 'default') {
+                    document.body.classList.add(`theme-${theme}`);
+                }
+
+                // 更新主题选择器
+                document.querySelectorAll('.theme-option').forEach(option => {
+                    option.classList.toggle('active', option.dataset.theme === theme);
+                });
+
+                this.saveSettings();
+                this.showNotification(`🎨 已切换到${this.getThemeName(theme)}主题`);
+            }
+
+            getThemeName(theme) {
+                const themeNames = {
+                    default: '默认',
+                    dark: '暗色',
+                    sepia: '复古',
+                    green: '护眼',
+                    blue: '蓝色',
+                    purple: '紫色'
+                };
+                return themeNames[theme] || theme;
+            }
+
+            toggleFullscreen() {
+                if (!this.isFullscreen) {
+                    if (document.documentElement.requestFullscreen) {
+                        document.documentElement.requestFullscreen();
+                    }
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
+                this.isFullscreen = !this.isFullscreen;
+                this.showNotification(this.isFullscreen ? '⛶ 已进入全屏模式' : '🗗 已退出全屏模式');
+            }
+
+            toggleBookmark() {
+                const btn = document.getElementById('bookmarkBtn');
+                const currentScroll = window.pageYOffset;
+                const existingIndex = this.bookmarks.findIndex(b => Math.abs(b.position - currentScroll) < 100);
+
+                if (existingIndex >= 0) {
+                    // 移除书签
+                    this.bookmarks.splice(existingIndex, 1);
+                    btn.classList.remove('active');
+                    this.showNotification('🔖 已移除书签');
+                } else {
+                    // 添加书签
+                    this.bookmarks.push({
+                        position: currentScroll,
+                        timestamp: new Date().toISOString(),
+                        paragraph: this.getCurrentParagraph()
+                    });
+                    btn.classList.add('active');
+                    this.showNotification('🔖 已添加书签');
+                }
+
+                this.saveBookmarks();
+            }
+
+            getCurrentParagraph() {
+                const paragraphs = document.querySelectorAll('.novel-text p');
+                const scrollTop = window.pageYOffset + window.innerHeight / 2;
+
+                for (let i = 0; i < paragraphs.length; i++) {
+                    const rect = paragraphs[i].getBoundingClientRect();
+                    const elementTop = rect.top + window.pageYOffset;
+
+                    if (elementTop > scrollTop) {
+                        return Math.max(1, i);
+                    }
+                }
+                return paragraphs.length;
+            }
+
+            saveProgress() {
+                const progress = {
+                    scrollTop: window.pageYOffset,
+                    fontSize: this.fontSize,
+                    isDarkMode: this.isDarkMode,
+                    currentTheme: this.currentTheme,
+                    readingTime: Math.floor((Date.now() - this.readingStartTime) / 60000),
+                    readParagraphs: this.readParagraphs,
+                    timestamp: new Date().toISOString()
+                };
+                localStorage.setItem('novelProgress', JSON.stringify(progress));
+                this.showNotification('💾 阅读进度已保存');
+            }
+
+            loadProgress() {
+                const progress = localStorage.getItem('novelProgress');
+                if (progress) {
+                    const data = JSON.parse(progress);
+                    this.fontSize = data.fontSize || 18;
+                    this.isDarkMode = data.isDarkMode || false;
+                    this.currentTheme = data.currentTheme || 'default';
+                    this.readingStartTime = Date.now() - (data.readingTime || 0) * 60000;
+                    this.readParagraphs = data.readParagraphs || 0;
+
+                    document.querySelector('.novel-text').style.fontSize = this.fontSize + 'px';
+                    document.getElementById('fontSizeDisplay').textContent = this.fontSize + 'px';
+                    document.body.classList.toggle('dark-mode', this.isDarkMode);
+                    this.changeTheme(this.currentTheme);
+
+                    window.scrollTo(0, data.scrollTop || 0);
+                    this.updateReadingStats();
+                    this.showNotification('📖 阅读进度已恢复');
+                } else {
+                    this.showNotification('❌ 未找到保存的进度');
+                }
+            }
+
+            saveBookmarks() {
+                localStorage.setItem('novelBookmarks', JSON.stringify(this.bookmarks));
+            }
+
+            loadBookmarks() {
+                const bookmarks = localStorage.getItem('novelBookmarks');
+                if (bookmarks) {
+                    this.bookmarks = JSON.parse(bookmarks);
+                    this.updateBookmarkButton();
+                }
+            }
+
+            updateBookmarkButton() {
+                const btn = document.getElementById('bookmarkBtn');
+                const currentScroll = window.pageYOffset;
+                const hasBookmark = this.bookmarks.some(b => Math.abs(b.position - currentScroll) < 100);
+                btn.classList.toggle('active', hasBookmark);
+            }
+
+            saveScrollPosition() {
+                this.scrollPosition = window.pageYOffset;
+                sessionStorage.setItem('scrollPosition', this.scrollPosition);
+            }
+
+            restoreScrollPosition() {
+                const savedPosition = sessionStorage.getItem('scrollPosition');
+                if (savedPosition) {
+                    window.scrollTo(0, parseInt(savedPosition));
+                }
+            }
+
+            saveSettings() {
+                const settings = {
+                    fontSize: this.fontSize,
+                    isDarkMode: this.isDarkMode,
+                    currentTheme: this.currentTheme
+                };
+                localStorage.setItem('novelSettings', JSON.stringify(settings));
+            }
+
+            loadSettings() {
+                const settings = localStorage.getItem('novelSettings');
+                if (settings) {
+                    const data = JSON.parse(settings);
+                    this.fontSize = data.fontSize || 18;
+                    this.isDarkMode = data.isDarkMode || false;
+                    this.currentTheme = data.currentTheme || 'default';
+
+                    document.querySelector('.novel-text').style.fontSize = this.fontSize + 'px';
+                    document.getElementById('fontSizeDisplay').textContent = this.fontSize + 'px';
+                    document.body.classList.toggle('dark-mode', this.isDarkMode);
+                    this.changeTheme(this.currentTheme);
+                }
+                this.loadBookmarks();
+            }
+
+            updateReadingProgress() {
+                const scrollTop = window.pageYOffset;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('readingProgressBar').style.transform = `scaleX(${scrollPercent / 100})`;
+                document.getElementById('readingPercent').textContent = Math.round(scrollPercent) + '%';
+                this.updateBookmarkButton();
+            }
+
+            updateReadingStats() {
+                const readingTime = Math.floor((Date.now() - this.readingStartTime) / 60000);
+                document.getElementById('readingTime').textContent = readingTime + '分钟';
+                document.getElementById('readParagraphs').textContent = this.readParagraphs;
+            }
+
+            observeParagraphs() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting && !entry.target.dataset.read) {
+                            entry.target.dataset.read = 'true';
+                            this.readParagraphs++;
+                            this.updateReadingStats();
+                        }
+                    });
+                }, { threshold: 0.5 });
+
+                document.querySelectorAll('.novel-text p').forEach(p => {
+                    observer.observe(p);
+                });
+            }
+
+            toggleControls() {
+                const controls = document.getElementById('readingControls');
+                const showBtn = document.getElementById('showControlsBtn');
+
+                controls.style.display = 'none';
+                showBtn.style.display = 'block';
+            }
+
+            createShowControlsButton() {
+                const showBtn = document.createElement('button');
+                showBtn.id = 'showControlsBtn';
+                showBtn.innerHTML = '⚙️';
+                showBtn.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    border: none;
+                    background: linear-gradient(135deg, #667eea, #764ba2);
+                    color: white;
+                    cursor: pointer;
+                    font-size: 20px;
+                    z-index: 1001;
+                    display: none;
+                    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+                    transition: all 0.3s ease;
+                `;
+
+                showBtn.addEventListener('click', () => {
+                    document.getElementById('readingControls').style.display = 'block';
+                    showBtn.style.display = 'none';
+                });
+
+                showBtn.addEventListener('mouseover', () => {
+                    showBtn.style.transform = 'scale(1.1)';
+                });
+
+                showBtn.addEventListener('mouseout', () => {
+                    showBtn.style.transform = 'scale(1)';
+                });
+
+                document.body.appendChild(showBtn);
+            }
+
+            hideLoading() {
+                setTimeout(() => {
+                    const overlay = document.getElementById('loadingOverlay');
+                    overlay.style.opacity = '0';
+                    setTimeout(() => {
+                        overlay.style.display = 'none';
+                    }, 300);
+                }, 1000);
+            }
+
+            handleKeyPress(e) {
+                // 快捷键支持
+                switch(e.key.toLowerCase()) {
+                    case 'd':
+                        e.preventDefault();
+                        this.toggleDarkMode();
+                        break;
+                    case '=':
+                    case '+':
+                        e.preventDefault();
+                        this.changeFontSize(2);
+                        break;
+                    case '-':
+                        e.preventDefault();
+                        this.changeFontSize(-2);
+                        break;
+                    case 's':
+                        if (e.ctrlKey) {
+                            e.preventDefault();
+                            this.saveProgress();
+                        }
+                        break;
+                    case 'f':
+                        e.preventDefault();
+                        this.toggleFullscreen();
+                        break;
+                    case 'b':
+                        e.preventDefault();
+                        this.toggleBookmark();
+                        break;
+                    case 'escape':
+                        if (this.isFullscreen) {
+                            this.toggleFullscreen();
+                        }
+                        break;
+                }
+            }
+
+            showNotification(message) {
+                // 创建通知元素
+                const notification = document.createElement('div');
+                notification.innerHTML = message;
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: rgba(0,123,255,0.95);
+                    backdrop-filter: blur(10px);
+                    color: white;
+                    padding: 12px 24px;
+                    border-radius: 25px;
+                    z-index: 1003;
+                    font-size: 14px;
+                    font-weight: 500;
+                    animation: slideDown 0.3s ease-out;
+                    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+                    border: 1px solid rgba(255,255,255,0.1);
+                `;
+
+                document.body.appendChild(notification);
+
+                // 3秒后自动移除
+                setTimeout(() => {
+                    notification.style.animation = 'slideUp 0.3s ease-out';
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 300);
+                }, 3000);
+            }
+        }
+
+        // 添加通知动画样式
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideDown {
+                from { transform: translateX(-50%) translateY(-100%); opacity: 0; }
+                to { transform: translateX(-50%) translateY(0); opacity: 1; }
+            }
+            @keyframes slideUp {
+                from { transform: translateX(-50%) translateY(0); opacity: 1; }
+                to { transform: translateX(-50%) translateY(-100%); opacity: 0; }
+            }
+
+            /* 主题样式 */
+            body.theme-dark {
+                background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+                color: #e0e0e0;
+            }
+
+            body.theme-dark .novel-header,
+            body.theme-dark .novel-text,
+            body.theme-dark .reading-controls,
+            body.theme-dark .nav-btn {
+                background: rgba(45, 45, 45, 0.95);
+                color: #e0e0e0;
+            }
+
+            body.theme-sepia {
+                background: linear-gradient(135deg, #f4e4bc, #d4b08a);
+                color: #5c4b37;
+            }
+
+            body.theme-sepia .novel-text {
+                background: rgba(244, 228, 188, 0.9);
+                color: #5c4b37;
+            }
+
+            body.theme-green {
+                background: linear-gradient(135deg, #11998e, #38ef7d);
+            }
+
+            body.theme-blue {
+                background: linear-gradient(135deg, #667eea, #764ba2);
+            }
+
+            body.theme-purple {
+                background: linear-gradient(135deg, #a8edea, #fed6e3);
+                color: #4a5568;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // 初始化小说阅读器
+        document.addEventListener('DOMContentLoaded', () => {
+            new NovelReader();
+        });
+
+        // 页面可见性 API - 自动保存进度
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                // 页面不可见时保存进度
+                const progress = {
+                    scrollTop: window.pageYOffset,
+                    timestamp: new Date().toISOString()
+                };
+                sessionStorage.setItem('autoSaveProgress', JSON.stringify(progress));
+            }
+        });
+    </script>
+</body>
+</html>
