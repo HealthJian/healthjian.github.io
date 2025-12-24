@@ -353,6 +353,30 @@ function getBlogPosts() {
     // 文章数据
     return [
         {
+            id: 'criticism-of-network-leftists',
+            title: '关于网络左翼的批判',
+            title_en: 'Criticism of Network Leftists',
+            excerpt: '批判网络左翼的兴起与基本特征。',
+            excerpt_en: 'Criticism of the rise and basic characteristics of network leftists.',
+            date: '2025-12-24',
+            url: '/pages/blog/life/20251224.html',
+            category: 'idea',
+            tags: ['网络左翼', '批判', '网络左翼'],
+            tags_en: ['Network leftists', 'Criticism', 'Network leftists']
+        },
+        {
+            id: 'our-past-and-future',
+            title: '我们的来时路与未来',
+            title_en: 'Our Past and Future',
+            excerpt: '从历史、社会与家庭视角反思学习的目的与改造意义。',
+            excerpt_en: 'Reflection on study and its meaning across education, society, and family.',
+            date: '2025-12-22',
+            url: '/pages/blog/life/20251222.html',
+            category: 'idea',
+            tags: ['思想', '历史', '未来之路'],
+            tags_en: ['Idea', 'History', 'Future Path']
+        },
+        {
             id: 'oil',
             title: '橡胶制品增塑剂迁移导致出油现象',
             title_en: 'Oil spillage from rubber product additive migration',
@@ -381,7 +405,7 @@ function getBlogPosts() {
             title: '转折关头，你需要这些线索了解中国的未来五年',
             title_en: "At the turning point: signals for China's next five years",
             excerpt: '围绕四中全会公报梳理未来五年的关键线索与思路。',
-            excerpt_en: 'Key signals from the plenum for China's next five years.',
+            excerpt_en: 'Key signals from the plenum for China s next five years.',
             date: '2025-12-11',
             url: '/pages/blog/life/new-turning-point.html',
             category: 'idea',
@@ -788,6 +812,10 @@ function getTagTranslation(tag, targetLang) {
         'Alternative Success Stories': '另类成功故事',
         'Redefining Success': '重新定义成功',
         'University': '大学',
+        'History': '历史',
+        'Future Path': '未来之路',
+        'Network Leftists': '网络左翼',
+        'Criticism': '批判',
         /* 新增标签翻译 */
         'CUDA': 'CUDA',
         'GPU Programming': 'GPU编程', 
@@ -862,6 +890,8 @@ function getTagTranslation(tag, targetLang) {
         '数字表演': 'Digital Performance',
         '另类成功故事': 'Alternative Success Stories',
         '重新定义成功': 'Redefining Success',
+        '历史': 'History',
+        '未来之路': 'Future Path',
         /* 新增标签翻译结束 */
         
         // 中文到英文的映射
@@ -890,6 +920,10 @@ function getTagTranslation(tag, targetLang) {
         '数据分析': 'Data Analysis',
         '烟民': 'Smoker',
         '温床': 'Hotbed',
+        '历史': 'History',
+        '未来之路': 'Future Path',
+        '网络左翼': 'Network Leftists',
+        '批判': 'Criticism',
         /* 新增标签翻译 */
         'CUDA': 'CUDA',
         'GPU编程': 'GPU Programming',
