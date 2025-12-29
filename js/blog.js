@@ -353,6 +353,66 @@ function getBlogPosts() {
     // 文章数据
     return [
         {
+            id: 'machine-learning-review-5',
+            title: '机器学习复习5',
+            title_en: 'Machine Learning Review 5',
+            excerpt: '机器学习复习笔记5。',
+            excerpt_en: 'Machine learning review notes5.',
+            date: '2025-12-29',
+            url: '/pages/blog/tech/20251229ML05.html',
+            category: 'tech',
+            tags: ['机器学习', '复习', '笔记'],
+            tags_en: ['Machine Learning', 'Review', 'Notes']
+        },
+        {
+            id: 'machine-learning-review-4',
+            title: '机器学习复习4',
+            title_en: 'Machine Learning Review 4',
+            excerpt: '机器学习复习笔记4。',
+            excerpt_en: 'Machine learning review notes4.',
+            date: '2025-12-29',
+            url: '/pages/blog/tech/20251229ML04.html',
+            category: 'tech',
+            tags: ['机器学习', '复习', '笔记'],
+            tags_en: ['Machine Learning', 'Review', 'Notes']
+        },
+        {
+            id: 'machine-learning-review-3',
+            title: '机器学习复习3',
+            title_en: 'Machine Learning Review 3',
+            excerpt: '机器学习复习笔记3。',
+            excerpt_en: 'Machine learning review notes3.',
+            date: '2025-12-29',
+            url: '/pages/blog/tech/20251229ML03.html',
+            category: 'tech',
+            tags: ['机器学习', '复习', '笔记'],
+            tags_en: ['Machine Learning', 'Review', 'Notes']
+        },
+        {
+            id: 'machine-learning-review-2',
+            title: '机器学习复习2',
+            title_en: 'Machine Learning Review 2',
+            excerpt: '机器学习复习笔记2。',
+            excerpt_en: 'Machine learning review notes2.',
+            date: '2025-12-29',
+            url: '/pages/blog/tech/20251229ML02.html',
+            category: 'tech',
+            tags: ['机器学习', '复习', '笔记'],
+            tags_en: ['Machine Learning', 'Review', 'Notes']
+        },
+        {
+            id: 'machine-learning-review-1',
+            title: '机器学习复习1',
+            title_en: 'Machine Learning Review 1',
+            excerpt: '机器学习复习笔记1。',
+            excerpt_en: 'Machine learning review notes1.',
+            date: '2025-12-29',
+            url: '/pages/blog/tech/20251229ML01.html',
+            category: 'tech',
+            tags: ['机器学习', '复习', '笔记'],
+            tags_en: ['Machine Learning', 'Review', 'Notes']
+        },
+        {
             id: 'criticism-of-network-leftists',
             title: '关于网络左翼的批判',
             title_en: 'Criticism of Network Leftists',
