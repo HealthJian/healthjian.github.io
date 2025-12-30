@@ -430,34 +430,73 @@ class MarkdownRenderer {
     // 渲染数学公式
     async renderMathFormulas(container) {
         // 等待KaTeX加载完成
-        if (typeof katex === 'undefined' || typeof renderMathInElement === 'undefined') {
+        if (typeof katex === 'undefined') {
             console.warn('KaTeX未加载，跳过数学公式渲染');
             return;
         }
 
         try {
-            // 使用KaTeX的auto-render扩展
-            renderMathInElement(container, {
-                delimiters: [
-                    {left: '$$', right: '$$', display: true},
-                    {left: '$', right: '$', display: false}
-                ],
-                throwOnError: false,
-                errorColor: '#cc0000',
-                strict: 'warn',
-                trust: false,
-                macros: {
-                    "\\RR": "\\mathbb{R}",
-                    "\\NN": "\\mathbb{N}",
-                    "\\ZZ": "\\mathbb{Z}",
-                    "\\QQ": "\\mathbb{Q}",
-                    "\\CC": "\\mathbb{C}"
+            // 渲染块级数学公式
+            const blockMathElements = container.querySelectorAll('.math-block');
+            blockMathElements.forEach(element => {
+                const formula = element.dataset.formula;
+                if (formula) {
+                    try {
+                        // 使用 renderToString 返回 HTML 字符串并插入到元素中
+                        const html = katex.renderToString(formula, {
+                            displayMode: true,
+                            throwOnError: false,
+                            errorColor: '#cc0000',
+                            strict: 'warn',
+                            trust: false,
+                            macros: {
+                                "\\RR": "\\mathbb{R}",
+                                "\\NN": "\\mathbb{N}",
+                                "\\ZZ": "\\mathbb{Z}",
+                                "\\QQ": "\\mathbb{Q}",
+                                "\\CC": "\\mathbb{C}"
+                            }
+                        });
+                        element.innerHTML = html;
+                    } catch (error) {
+                        console.error('块级数学公式渲染失败:', formula, error);
+                        element.innerHTML = `<span style="color: #cc0000;">渲染错误: ${formula}</span>`;
+                    }
+                }
+            });
+
+            // 渲染行内数学公式
+            const inlineMathElements = container.querySelectorAll('.math-inline');
+            inlineMathElements.forEach(element => {
+                const formula = element.dataset.formula;
+                if (formula) {
+                    try {
+                        // 行内公式使用 renderToString 并保留为内联
+                        const html = katex.renderToString(formula, {
+                            displayMode: false,
+                            throwOnError: false,
+                            errorColor: '#cc0000',
+                            strict: 'warn',
+                            trust: false,
+                            macros: {
+                                "\\RR": "\\mathbb{R}",
+                                "\\NN": "\\mathbb{N}",
+                                "\\ZZ": "\\mathbb{Z}",
+                                "\\QQ": "\\mathbb{Q}",
+                                "\\CC": "\\mathbb{C}"
+                            }
+                        });
+                        element.innerHTML = html;
+                    } catch (error) {
+                        console.error('行内数学公式渲染失败:', formula, error);
+                        element.innerHTML = `<span style="color: #cc0000;">渲染错误: ${formula}</span>`;
+                    }
                 }
             });
 
             // 为数学公式添加复制功能
             this.addMathCopyFeature(container);
-            
+
             console.log('数学公式渲染完成');
         } catch (error) {
             console.error('数学公式渲染失败:', error);

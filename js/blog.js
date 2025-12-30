@@ -353,6 +353,18 @@ function getBlogPosts() {
     // 文章数据
     return [
         {
+            id: 'birthday-of-mao-zedong-christmas-of-chinese-people',
+            title: '毛泽东的诞辰，中国人的圣诞',
+            title_en: 'Birthday of Mao Zedong, Christmas of Chinese people',
+            excerpt: '毛泽东的诞辰，中国人的圣诞',
+            excerpt_en: 'Birthday of Mao Zedong, Christmas of Chinese people',
+            date: '2025-12-30',
+            url: '/pages/blog/life/20251230.html',
+            category: 'idea',
+            tags: ['领袖', '纪念', '转载'],
+            tags_en: ['Leader', 'Memorial', 'Reprint']
+        },
+        {
             id: 'machine-learning-review-5',
             title: '机器学习复习5',
             title_en: 'Machine Learning Review 5',
