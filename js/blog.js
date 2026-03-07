@@ -353,6 +353,42 @@ function getBlogPosts() {
     // 文章数据
     return [
         {
+            id: 'llms0003-training-check-prompt-engineering-deployment',
+            title: '如何查看或确认模型训练完成，提示词工程与模型部署教程',
+            title_en: 'How to Verify Training Completion, Prompt Engineering and Model Deployment',
+            excerpt: '介绍如何确认模型训练完成，并结合提示词工程与部署流程提升落地效率。',
+            excerpt_en: 'A practical guide to verifying model training completion, improving prompts, and deploying models.',
+            date: '2026-03-07',
+            url: '/pages/blog/moban_new_md.html?md=../../context/LLMs0003.md',
+            category: 'tech',
+            tags: ['大模型', '提示词工程', '模型部署'],
+            tags_en: ['LLM', 'Prompt Engineering', 'Deployment']
+        },
+        {
+            id: 'llms0002-qwen-pdf-csv-jd-deployment',
+            title: '使用PDF、CSV简历和JD数据集投喂给Qwen模型的部署教程',
+            title_en: 'Deploying Qwen with PDF/CSV Resume and JD Datasets',
+            excerpt: '从环境准备到数据处理与AutoDL训练，完整说明Qwen模型的部署流程。',
+            excerpt_en: 'From environment setup to data processing and AutoDL training, this covers a full Qwen deployment workflow.',
+            date: '2026-03-07',
+            url: '/pages/blog/moban_new_md.html?md=../../context/LLMs0002.md',
+            category: 'tech',
+            tags: ['Qwen', 'AutoDL', '数据处理'],
+            tags_en: ['Qwen', 'AutoDL', 'Data Processing']
+        },
+        {
+            id: 'llms0001-qwen-lora-autodl-finetuning',
+            title: 'Qwen+LoRA在AutoDL部署教程，模型训练与微调',
+            title_en: 'Qwen + LoRA on AutoDL: Training and Fine-tuning Guide',
+            excerpt: '围绕Qwen与LoRA的训练和微调实践，给出可复现的部署步骤。',
+            excerpt_en: 'A reproducible walkthrough for deploying, training, and fine-tuning Qwen with LoRA.',
+            date: '2026-03-07',
+            url: '/pages/blog/moban_new_md.html?md=../../context/LLMs0001.md',
+            category: 'tech',
+            tags: ['Qwen', 'LoRA', '微调'],
+            tags_en: ['Qwen', 'LoRA', 'Fine-tuning']
+        },
+        {
             id: 'birthday-of-mao-zedong-christmas-of-chinese-people',
             title: '毛泽东的诞辰，中国人的圣诞',
             title_en: 'Birthday of Mao Zedong, Christmas of Chinese people',
