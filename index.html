@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="css/dark-mode.css">
     <!-- <link rel="stylesheet" href="css/celebration-banner.css"> -->
     <link rel="stylesheet" href="css/footer-enhanced.css">
+    <link rel="stylesheet" href="css/latest-articles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <!-- 苹果风格字体 - 优化加载 -->
@@ -273,65 +274,14 @@
         </section>
 
         <section class="blog-section">
-            <h2 data-en="Latest Articles" data-zh="最新文章" style="text-align: center;">最新文章</h2>
-            <div class="view-all">
+            <div class="latest-articles-shell">
+                <h2 class="latest-articles-title" data-en="Latest Articles" data-zh="最新文章">最新文章</h2>
+                <div class="latest-articles-grid" id="latest-articles-grid">
+                    <!-- 由 js/latest-articles.js 动态渲染 -->
+                </div>
+            </div>
+            <div class="view-all latest-view-all">
                 <a href="/pages/blog.html" data-en="View All Articles" data-zh="查看全部文章">查看全部文章 <i class="fas fa-arrow-right"></i></a>
-            </div>
-            <div class="posts-container">
-                <article class="post-card">
-                    <div class="post-date">2025-05-25</div>
-                    <h3 data-en="Study Progress and Mindset Reflection" data-zh="学习进度与心态的反思">学习进度与心态的反思</h3>
-                    <p data-en="This article records my study progress and mindset reflection." data-zh="本文记录了我的学习进度与心态的反思。">本文记录了我的学习进度与心态的反思。</p>
-                    <a href="/pages/blog/life/studyrethink.html" data-en="Read More" data-zh="阅读更多">阅读更多</a>
-                </article>
-                <article class="post-card">
-                    <div class="post-date">2025-04-07</div>
-                    <h3 data-en="Mingw Installation Tutorial" data-zh="Mingw安装教程">Mingw安装教程</h3>
-                    <p data-en="This article will detail the installation tutorial of Mingw." data-zh="本文将详细介绍Mingw的安装教程。">本文将详细介绍Mingw的安装教程。</p>
-                    <a href="/pages/blog/tech/mingw-installation.html" data-en="Read More" data-zh="阅读更多">阅读更多</a>
-                </article>
-                <article class="post-card">
-                    <div class="post-date">2025-04-06</div>
-                    <h3 data-en="Building a Blog from Scratch: Technical Stack, Architecture Design, and Implementation" data-zh="从零开始构建博客：技术栈、架构设计与实现">从零开始构建博客：技术栈、架构设计与实现</h3>
-                    <p data-en="This article will detail the technical stack, architectural design, core JavaScript functionality implementation, and deployment solutions of this blog." data-zh="本文将详细介绍这个博客的技术栈、架构设计、核心JavaScript功能实现以及部署方案。">本文将详细介绍这个博客的技术栈、架构设计、核心JavaScript功能实现以及部署方案。</p>
-                    <a href="/pages/blog/tech/blog-building.html" data-en="Read More" data-zh="阅读更多">阅读更多</a>
-                </article>
-                <!--
-                <article class="post-card">
-                    <div class="post-date">2025-04-01</div>
-                    <h3 data-en="Detailed Analysis of 2025 Graduate Entrance Examination Mathematics II Syllabus" data-zh="2025年考研数学二大纲详解">2025年考研数学二大纲详解</h3>
-                    <p data-en="Detailed Analysis of 2025 Graduate Entrance Examination Mathematics II Syllabus" data-zh="系统梳理2025年考研数学二大纲的重要概念、定理和方法，包括多元微积分、级数理论、微分方程等内容，为深入学习打下基础。">系统梳理2025年考研数学二大纲的重要概念、定理和方法，包括多元微积分、级数理论、微分方程等内容，为深入学习打下基础。</p>
-                    <a href="/pages/blog/tech/outline-for-advanced-mathematicsⅡ.html" data-en="Read More" data-zh="阅读更多">阅读更多</a>
-                </article>
-                
-                <article class="post-card">
-                    <div class="post-date">2025-03-18</div>
-                    <h3 data-en="C Language Basics: Using APIs in Algorithm Problems" data-zh="C语言入门：常用调用API在算法题中的应用">C语言入门：常用调用API在算法题中的应用</h3>
-                    <p data-en="While solving algorithm problems, we often have ideas but struggle to implement them efficiently. Using built-in APIs can significantly simplify our solutions." data-zh="在刷题过程中总是有思路却写不出代码，即使实现功能也往往非常复杂，但是却可以调用已经封装好的API，事半功倍。">在刷题过程中总是有思路却写不出代码，即使实现功能也往往非常复杂，但是却可以调用已经封装好的API，事半功倍。</p>
-                    <a href="/pages/blog/tech/c-api-algorithms.html" data-en="Read More" data-zh="阅读更多">阅读更多</a>
-                </article>
-                <article class="post-card">
-                    <div class="post-date">2025-03-17</div>
-                    <h3 data-en="Data Structures: Lists, Stacks, Queues, and Strings" data-zh="数据结构：链表、栈、队列、串">数据结构：链表、栈、队列、串</h3>
-                    <p data-en="Learning data structures inevitably involves lists, stacks, queues, and strings. Knowledge tends to fade with time, so here's a comprehensive guide for future reference." data-zh="学习数据结构往往离不开链表、栈、队列、串；但是知识总是学了忘，忘了继续学，所以总结一个文章，提供未来的继续学习。">学习数据结构往往离不开链表、栈、队列、串；但是知识总是学了忘，忘了继续学，所以总结一个文章，提供未来的继续学习。</p>
-                    <a href="/pages/blog/tech/data-structures.html" data-en="Read More" data-zh="阅读更多">阅读更多</a>
-                </article>
-                <article class="post-card">
-                    <div class="post-date">2025-03-16</div>
-                    <h3 data-en="My First Blog: The Resonance Between Code and Soul" data-zh="我的第一篇博客：代码与心灵的共振">我的第一篇博客：代码与心灵的共振</h3>
-                    <p data-en="As a programmer, I have always been searching for the balance between code and humanistic thinking. This is my first blog, recording my thoughts on programming and life." data-zh="作为一名程序员，我一直在寻找代码与人文思考之间的平衡点。这是我的第一篇博客，记录了我对编程与生活的思考。">作为一名程序员，我一直在寻找代码与人文思考之间的平衡点。这是我的第一篇博客，记录了我对编程与生活的思考。</p>
-                    <a href="/pages/blog/life/first-blog.html" data-en="Read More" data-zh="阅读更多">阅读更多</a>
-                </article>
-                -->
-            </div>
-            
-            <!-- 添加分页功能 -->
-            <div class="blog-pagination">
-                <button class="prev" disabled title="上一页"><i class="fas fa-chevron-left"></i></button>
-                <button class="active">1</button>
-                <button >2</button>
-                <button >3</button>
-                <button class="next" title="下一页"><i class="fas fa-chevron-right"></i></button>
             </div>
         </section>
 
@@ -593,6 +543,11 @@
     <script src="js/main.js"></script>
     <script src="js/theme.js"></script>
     <script src="js/language.js"></script>
+    <script>
+        window.SKIP_BLOG_INIT = true;
+    </script>
+    <script src="js/blog.js"></script>
+    <script src="js/latest-articles.js"></script>
     <script src="js/greeting.js"></script>
     <!-- <script src="js/celebration-banner.js"></script> -->
     <script src="js/footer.js"></script>
