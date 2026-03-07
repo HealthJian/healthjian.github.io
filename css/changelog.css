@@ -199,6 +199,7 @@ main::after {
 .timeline-content ul {
     padding-left: 20px;
     list-style-type: none;
+    margin-bottom: 0;
 }
 
 .timeline-content li {
@@ -215,6 +216,66 @@ main::after {
     position: absolute;
     left: 0;
     color: var(--timeline-secondary-color);
+}
+
+/* 日志详情收起/展开 */
+.timeline-details {
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+    position: relative;
+}
+
+.timeline-details.is-collapsed {
+    max-height: 170px;
+}
+
+.timeline-details.is-expanded {
+    max-height: 2400px;
+}
+
+.timeline-details.is-collapsed::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 54px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), var(--card-background));
+    pointer-events: none;
+}
+
+.timeline-toggle-btn {
+    margin-top: 14px;
+    border: 1px solid rgba(var(--timeline-accent-color-rgb), 0.25);
+    background: rgba(var(--timeline-accent-color-rgb), 0.08);
+    color: var(--timeline-accent-color);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+
+.timeline-toggle-btn:hover {
+    background: rgba(var(--timeline-accent-color-rgb), 0.14);
+    border-color: rgba(var(--timeline-accent-color-rgb), 0.35);
+}
+
+.timeline-toggle-btn:focus-visible {
+    outline: 2px solid rgba(var(--timeline-accent-color-rgb), 0.35);
+    outline-offset: 2px;
+}
+
+.timeline-toggle-btn i {
+    font-size: 0.8rem;
+}
+
+.dark-mode .timeline-details.is-collapsed::after {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), var(--card-background));
 }
 
 /* GitHub贡献日历美化 */

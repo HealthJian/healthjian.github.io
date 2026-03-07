@@ -44,6 +44,9 @@ document.addEventListener('DOMContentLoaded', function() {
       this.style.transform = 'translateX(0)';
     });
   });
+
+  // 为每条日志添加“阅览详情/收回内容”开关
+  initTimelineDetailsToggle();
   
   // 为标题添加打字机效果
   const title = document.querySelector('.changelog-header h1');
@@ -64,6 +67,86 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(typeWriter, 500);
   }
 });
+
+function getCurrentLangForTimeline() {
+  return document.body.classList.contains('en') ? 'en' : 'zh';
+}
+
+function getTimelineToggleLabel(isExpanded, lang) {
+  if (lang === 'en') {
+    return isExpanded ? 'Collapse' : 'View Details';
+  }
+  return isExpanded ? '收回内容' : '阅览详情';
+}
+
+function initTimelineDetailsToggle() {
+  const timelineItems = document.querySelectorAll('.timeline-item');
+  if (!timelineItems.length) return;
+
+  timelineItems.forEach((item, index) => {
+    const content = item.querySelector('.timeline-content');
+    const list = content ? content.querySelector('ul') : null;
+    if (!content || !list) return;
+
+    // 避免重复初始化
+    if (content.querySelector('.timeline-toggle-btn')) return;
+
+    const details = document.createElement('div');
+    details.className = 'timeline-details is-collapsed';
+    details.id = `timeline-details-${index}`;
+    details.appendChild(list);
+    content.appendChild(details);
+
+    const toggleBtn = document.createElement('button');
+    toggleBtn.type = 'button';
+    toggleBtn.className = 'timeline-toggle-btn';
+    toggleBtn.setAttribute('aria-expanded', 'false');
+    toggleBtn.setAttribute('aria-controls', details.id);
+
+    const textSpan = document.createElement('span');
+    textSpan.className = 'timeline-toggle-text';
+    const icon = document.createElement('i');
+    icon.className = 'fas fa-chevron-down';
+
+    toggleBtn.appendChild(textSpan);
+    toggleBtn.appendChild(icon);
+    content.appendChild(toggleBtn);
+
+    function syncToggleLabel() {
+      const isExpanded = details.classList.contains('is-expanded');
+      const lang = getCurrentLangForTimeline();
+      textSpan.textContent = getTimelineToggleLabel(isExpanded, lang);
+      icon.className = isExpanded ? 'fas fa-chevron-up' : 'fas fa-chevron-down';
+      toggleBtn.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+    }
+
+    toggleBtn.addEventListener('click', function() {
+      const isExpanded = details.classList.contains('is-expanded');
+      details.classList.toggle('is-expanded', !isExpanded);
+      details.classList.toggle('is-collapsed', isExpanded);
+      syncToggleLabel();
+    });
+
+    // 默认收起（显示摘要）
+    details.classList.add('is-collapsed');
+    syncToggleLabel();
+    item._syncTimelineToggleLabel = syncToggleLabel;
+  });
+
+  // 监听语言切换（body class 变化）后刷新按钮文案
+  const langObserver = new MutationObserver(() => {
+    timelineItems.forEach(item => {
+      if (typeof item._syncTimelineToggleLabel === 'function') {
+        item._syncTimelineToggleLabel();
+      }
+    });
+  });
+
+  langObserver.observe(document.body, {
+    attributes: true,
+    attributeFilter: ['class']
+  });
+}
 
 // 根据页面滚动位置添加淡入效果
 window.addEventListener('scroll', function() {
