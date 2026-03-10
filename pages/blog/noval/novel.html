@@ -92,9 +92,10 @@
         
         /* 现代化介绍部分 */
         .shelf-intro-enhanced {
-            text-align: center;
-            margin-bottom: 4rem;
-            padding: 3rem 2rem;
+            text-align: left;
+            margin-bottom: 3rem;
+            padding: 2rem 1.5rem;
+            max-width: 760px;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
             border-radius: 24px;
@@ -103,7 +104,7 @@
         }
         
         .shelf-intro-enhanced h1 {
-            font-size: 3.5rem;
+            font-size: 2.6rem;
             font-weight: 700;
             background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 25%, #45b7d1 50%, #f9ca24 75%, #ff6b6b 100%);
             background-size: 200% 200%;
@@ -121,11 +122,11 @@
         }
         
         .shelf-intro-enhanced p {
-            font-size: 1.2rem;
-            line-height: 1.8;
+            font-size: 1rem;
+            line-height: 1.65;
             color: rgba(255, 255, 255, 0.9);
-            max-width: 800px;
-            margin: 0 auto;
+            max-width: 100%;
+            margin: 0;
             font-weight: 300;
         }
         
@@ -143,7 +144,7 @@
         }
         
         .category-header-enhanced h2 {
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             font-weight: 600;
             color: white;
             margin: 0;
@@ -159,7 +160,7 @@
             background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
             color: white;
             border-radius: 50%;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 600;
             margin-left: 1rem;
             box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
@@ -168,7 +169,7 @@
         /* 书籍网格布局 */
         .books-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(375px, 1fr));
             gap: 2.5rem;
             margin-bottom: 5rem;
             position: relative;
@@ -177,8 +178,11 @@
         
         /* 现代化书本卡片 */
         .book-card-enhanced {
-            display: flex !important;
-            flex-direction: column;
+            display: grid !important;
+            grid-template-columns: 180px 1fr;
+            grid-template-areas:
+                "cover info"
+                "action action";
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
             border-radius: 20px;
@@ -191,7 +195,30 @@
             z-index: 3;
             opacity: 1 !important;
             visibility: visible !important;
-            min-height: 400px;
+            min-height: 320px;
+        }
+        
+        .book-cover-enhanced {
+            grid-area: cover;
+            width: 180px;
+            height: 100%;
+            min-height: 260px;
+            overflow: hidden;
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem;
+            box-sizing: border-box;
+        }
+        
+        .book-cover-enhanced img {
+            width: 100%;
+            height: auto;
+            max-height: 100%;
+            object-fit: contain;
+            aspect-ratio: 2 / 3;
+            display: block;
         }
         
         /* 白天模式下的卡片样式 */
@@ -291,6 +318,7 @@
         }
         
         .book-info-enhanced {
+            grid-area: info;
             padding: 2rem;
             color: white;
             display: flex;
@@ -371,6 +399,12 @@
             color: rgba(255, 255, 255, 0.9);
             margin-bottom: 2rem;
             flex-grow: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 6;
+            line-clamp: 6;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: calc(1.7em * 6);
         }
         
         /* 白天模式下的描述颜色 */
@@ -435,9 +469,15 @@
         }
         
         .book-action-enhanced {
-            display: block;
+            grid-area: action;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            padding: 1.5rem;
+            height: 64px;
+            min-height: 64px;
+            max-height: 64px;
+            padding: 0 1.5rem;
             font-weight: 600;
             font-size: 1.1rem;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -604,13 +644,13 @@
         /* 响应式设计 */
         @media (max-width: 1200px) {
             .books-grid {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
             }
         }
         
         @media (max-width: 768px) {
             .shelf-intro-enhanced h1 {
-                font-size: 2.5rem;
+                font-size: 2.2rem;
             }
             
             .shelf-intro-enhanced p {
@@ -638,19 +678,41 @@
                 padding: 1.5rem;
             }
             
+            .book-card-enhanced {
+                grid-template-columns: 1fr;
+                grid-template-areas:
+                    "cover"
+                    "info"
+                    "action";
+            }
+            
+            .book-cover-enhanced {
+                width: 100%;
+                min-height: 0;
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+                padding: 1rem;
+            }
+            
+            .book-cover-enhanced img {
+                width: 100%;
+                max-width: 280px;
+                margin: 0 auto;
+            }
+            
             .books-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
                 gap: 1.5rem;
             }
         }
         
         @media (max-width: 480px) {
             .shelf-intro-enhanced h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             
             .category-header-enhanced h2 {
-                font-size: 1.8rem;
+                font-size: 1.5rem;
             }
             
             .book-title-enhanced {
@@ -718,12 +780,15 @@
                     <span class="zh-content">已完成作品</span>
                     <span class="en-content" style="display: none;">Completed Works</span>
                 </h2>
-                <span class="category-count-enhanced">1</span>
+                <span class="category-count-enhanced">2</span>
             </div>
             
             <div class="books-grid">
                 <!-- 梅尔罗德 -->
                 <article class="book-card-enhanced">
+                    <div class="book-cover-enhanced">
+                        <img src="../../../images/meierluoide.avif" alt="梅尔罗德封面">
+                    </div>
                     <div class="book-info-enhanced">
                         <h3 class="book-title-enhanced bilingual-content">
                             <span class="zh-content">梅尔罗德</span>
@@ -760,6 +825,9 @@
                     </a>
                 </article>
                 <article class="book-card-enhanced">
+                    <div class="book-cover-enhanced">
+                        <img src="../../../images/chizi.avif" alt="剑侠封面">
+                    </div>
                     <div class="book-info-enhanced">
                         <h3 class="book-title-enhanced bilingual-content">
                             <span class="zh-content">剑侠</span>
