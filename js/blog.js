@@ -353,6 +353,18 @@ function getBlogPosts() {
     // 文章数据
     return [
         {
+            id: 'ai-llm-knowledge-product-tools-260308',
+            title: '人工智能与大模型相关知识：一篇面向AI产品与工具应用的详解',
+            title_en: 'AI and LLM Knowledge: A Practical Guide for AI Product and Tool Applications',
+            excerpt: '围绕大模型基础、Prompt Engineering、RAG 与 EDA方法，梳理面向AI产品实践的核心知识。',
+            excerpt_en: 'A practical overview of LLM basics, Prompt Engineering, RAG, and EDA for AI product workflows.',
+            date: '2026-03-08',
+            url: '/pages/blog/moban_new_md.html?md=../../context/A-Btext2o260308.md',
+            category: 'tech',
+            tags: ['人工智能', '大模型', 'Prompt', 'RAG', 'EDA'],
+            tags_en: ['AI', 'LLM', 'Prompt', 'RAG', 'EDA']
+        },
+        {
             id: 'llms0003-training-check-prompt-engineering-deployment',
             title: '如何查看或确认模型训练完成，提示词工程与模型部署教程',
             title_en: 'How to Verify Training Completion, Prompt Engineering and Model Deployment',

@@ -10,6 +10,7 @@
     <link rel="preload" href="css/style.css" as="style">
     <link rel="preload" href="css/dark-mode.css" as="style">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500&display=swap" as="style">
+    <link rel="preload" href="images/crycat_night.avif" as="image" type="image/avif">
     
     <!-- 样式表 -->
     <link rel="stylesheet" href="css/style.css">
@@ -36,6 +37,27 @@
                          Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 
                          'Segoe UI Emoji', 'Segoe UI Symbol';
         }
+
+        /* 导航头像按主题切换（复用现有主题类，不改动原逻辑） */
+        .logo .nav-logo-night {
+            display: none;
+        }
+        body.dark-mode .logo .nav-logo-day {
+            display: none;
+        }
+        body.dark-mode .logo .nav-logo-night {
+            display: inline-block;
+        }
+
+        .avatar-container .avatar-night {
+            display: none;
+        }
+        body.dark-mode .avatar-container .avatar-day {
+            display: none;
+        }
+        body.dark-mode .avatar-container .avatar-night {
+            display: inline-block;
+        }
     </style>
 </head>
 <body class="light-mode">
@@ -43,7 +65,8 @@
     <nav class="navbar">
         <div class="nav-left">
             <a href="index.html" class="logo">
-                <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/githubherofigureimage.png" alt="Logo">
+                <img class="nav-logo-day" src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/githubherofigureimage.png" alt="Logo">
+                <img class="nav-logo-night" src="images/crycat_night.avif" alt="Logo">
                 <span class="site-name" data-en="HealthJian Blog" data-zh="HealthJian Blog">HealthJian</span>
             </a>
         </div>
@@ -75,7 +98,8 @@
     <main>
         <section class="hero">
             <div class="avatar-container">
-                <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/newhero.avif" alt="头像" class="avatar" style="width: 243.75px; height: 243.75px;">
+                <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/crycat.avif" alt="头像" class="avatar avatar-day" style="width: 243.75px; height: 243.75px;">
+                <img src="images/crycat_night.avif" alt="头像" class="avatar avatar-night" style="width: 243.75px; height: 243.75px;">
             </div>
             <div class="hero-greeting" style="margin-top: 16px; text-align: center;">
                 <div class="greeting-text">
