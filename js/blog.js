@@ -353,6 +353,18 @@ function getBlogPosts() {
     // 文章数据
     return [
         {
+            id: 'dataset-description-20260314',
+            title: '毕业设计原始数据 datasets 数据集统计与内容总结',
+            title_en: 'Thesis Raw Datasets: Statistics and Content Summary',
+            excerpt: '对原始数据目录进行了全量与抽样分析，给出规模、质量风险与清洗建模建议。',
+            excerpt_en: 'A full-plus-sampled analysis of raw datasets, including scale, quality risks, and cleaning/modeling recommendations.',
+            date: '2026-03-14',
+            url: '/pages/blog/moban_new_md.html?md=../../context/datasetdescription.md',
+            category: 'tech',
+            tags: ['数据集', '数据分析', '数据清洗', '招聘数据'],
+            tags_en: ['Dataset', 'Data Analysis', 'Data Cleaning', 'Recruitment Data']
+        },
+        {
             id: 'ai-llm-knowledge-product-tools-260308',
             title: '人工智能与大模型相关知识：一篇面向AI产品与工具应用的详解',
             title_en: 'AI and LLM Knowledge: A Practical Guide for AI Product and Tool Applications',
