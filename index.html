@@ -360,13 +360,6 @@
                         <p data-en="We've added time-based greetings with cool typewriter effect, stylish new fonts, and more engaging visuals! Check changelog for details. 😊" data-zh="我们添加了基于时间的问候语（带打字机效果）、精美字体和更多视觉元素！查看更新日志了解详情。😊">我们添加了基于时间的问候语（带打字机效果）、精美字体和更多视觉元素！查看更新日志了解详情。😊</p>
                     </div>
                 </div>
-                <div class="update-item">
-                    <div class="update-date">2025-03-23</div>
-                    <div class="update-content">
-                        <h3 data-en="Version 1.1.1 Released: Blog Navigation Fixed! ✅" data-zh="1.1.1版本发布：博客导航已修复! ✅">1.1.1版本发布：博客导航已修复! ✅</h3>
-                        <p data-en="Great news! We've fixed the critical 404 errors when clicking 'Read More' links. All blog articles are now accessible, and JavaScript errors have been resolved. Enjoy smooth browsing! 🚀" data-zh="好消息！我们已修复点击"阅读更多"链接时出现的404错误。所有博客文章现在都可以访问，JavaScript错误也已解决。享受流畅的浏览体验吧！🚀">好消息！我们已修复点击"阅读更多"链接时出现的404错误。所有博客文章现在都可以访问，JavaScript错误也已解决。享受流畅的浏览体验吧！🚀</p>
-                    </div>
-                </div>
                 <!--
                 <div class="update-item">
                     <div class="update-date">2025-03-22</div>
@@ -595,5 +588,99 @@
     <script src="js/greeting.js"></script>
     <!-- <script src="js/celebration-banner.js"></script> -->
     <script src="js/footer.js"></script>
+    <script>
+        // 首页“博客动态”内容与 pages/changelog.html 同步（取最新 5 条）
+        document.addEventListener('DOMContentLoaded', async function () {
+            const container = document.querySelector('.blog-updates .updates-container');
+            if (!container) return;
+
+            const currentLang = document.body.classList.contains('en') ? 'en' : 'zh';
+            const sourceUrl = 'pages/changelog.html';
+
+            try {
+                const res = await fetch(sourceUrl, { credentials: 'same-origin' });
+                if (!res.ok) throw new Error('fetch failed: ' + res.status);
+
+                const html = await res.text();
+                const doc = new DOMParser().parseFromString(html, 'text/html');
+
+                const timelineItems = Array.from(
+                    doc.querySelectorAll('.changelog-timeline .timeline-item')
+                );
+
+                const parsed = timelineItems.map(item => {
+                    const date = (item.querySelector('.timeline-date')?.textContent || '').trim();
+                    const titleEl = item.querySelector('.timeline-content h2');
+                    const ul = item.querySelector('.timeline-content ul');
+
+                    const titleZh = titleEl?.getAttribute('data-zh') || titleEl?.textContent || '';
+                    const titleEn = titleEl?.getAttribute('data-en') || titleEl?.textContent || '';
+
+                    const liNodes = ul ? Array.from(ul.querySelectorAll('li')) : [];
+                    // 取前 2 条作为“动态摘要”，避免过长
+                    const liNodesShort = liNodes.slice(0, 2);
+
+                    const excerptZh = liNodesShort
+                        .map(li => li.getAttribute('data-zh') || li.textContent || '')
+                        .map(s => String(s).trim())
+                        .filter(Boolean)
+                        .join('；');
+                    const excerptEn = liNodesShort
+                        .map(li => li.getAttribute('data-en') || li.textContent || '')
+                        .map(s => String(s).trim())
+                        .filter(Boolean)
+                        .join('；');
+
+                    return { date, titleZh, titleEn, excerptZh, excerptEn };
+                }).filter(x => /^\d{4}-\d{2}-\d{2}$/.test(x.date));
+
+                // changelog 页面通常是时间倒序，这里仍显式排序保证稳定
+                parsed.sort((a, b) => b.date.localeCompare(a.date));
+                const latest = parsed.slice(0, 5);
+                if (latest.length < 1) return;
+
+                // 覆盖渲染：只动 updates-container 内部
+                container.innerHTML = '';
+
+                latest.forEach(item => {
+                    const updateItemEl = document.createElement('div');
+                    updateItemEl.className = 'update-item';
+
+                    const updateDateEl = document.createElement('div');
+                    updateDateEl.className = 'update-date';
+                    updateDateEl.textContent = item.date;
+
+                    const updateContentEl = document.createElement('div');
+                    updateContentEl.className = 'update-content';
+
+                    const h3 = document.createElement('h3');
+                    h3.setAttribute('data-en', item.titleEn);
+                    h3.setAttribute('data-zh', item.titleZh);
+                    h3.textContent = currentLang === 'en' ? item.titleEn : item.titleZh;
+
+                    const p = document.createElement('p');
+                    p.setAttribute('data-en', item.excerptEn);
+                    p.setAttribute('data-zh', item.excerptZh);
+                    p.textContent = currentLang === 'en' ? item.excerptEn : item.excerptZh;
+
+                    updateContentEl.appendChild(h3);
+                    updateContentEl.appendChild(p);
+
+                    updateItemEl.appendChild(updateDateEl);
+                    updateItemEl.appendChild(updateContentEl);
+
+                    container.appendChild(updateItemEl);
+                });
+
+                // 如果 language.js 暴露了统一更新函数，则再同步一次，确保切换状态一致
+                if (typeof updateAllLanguageElements === 'function') {
+                    updateAllLanguageElements(currentLang);
+                }
+            } catch (e) {
+                // 抓取失败时保持静态内容不动，避免首页出错
+                console.warn('[sync blog-updates] fallback to static content:', e);
+            }
+        });
+    </script>
 </body>
 </html> 
