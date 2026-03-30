@@ -59,8 +59,366 @@
             display: inline-block;
         }
     </style>
+
+    <!-- UI 升级：弥散渐变/玻璃拟态/便当盒网格/流光与交互（全部内联，避免新增文件） -->
+    <style id="ui-upgrade-inline-style">
+        :root{
+            --ui-radius-lg: 22px;
+            --ui-radius-md: 16px;
+            --ui-gap: 18px;
+            --ui-border: rgba(255,255,255,0.14);
+            --ui-glass: rgba(255,255,255,0.06);
+            --ui-glass-strong: rgba(255,255,255,0.10);
+            --ui-shadow: 0 24px 70px rgba(0,0,0,0.18);
+        }
+
+        body{
+            color: rgba(18,18,20,0.92);
+            background: transparent;
+        }
+
+        body.dark-mode{
+            --ui-border: rgba(255,255,255,0.10);
+            --ui-glass: rgba(20,22,35,0.56);
+            --ui-glass-strong: rgba(28,30,50,0.66);
+            color: rgba(245,247,255,0.92);
+        }
+
+        nav, main, footer{
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 页脚：取消本页内联 Reveal 带来的浮现/虚化（只影响 indexcopy.html） */
+        footer{
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+        }
+        footer, footer *{
+            animation: none !important;
+            filter: none !important;
+            opacity: 1 !important;
+            transform: none !important;
+        }
+
+        /* 导航栏：更现代、更自适应（只覆盖本页） */
+        .navbar{
+            padding: 14px clamp(16px, 3vw, 30px) !important;
+            border-top: 1px solid rgba(255,255,255,0.25);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            border-left: 1px solid rgba(255,255,255,0.15);
+            border-right: 1px solid rgba(255,255,255,0.15);
+            background: linear-gradient(180deg, rgba(250,235,215,0.78), rgba(250,235,215,0.55)) !important;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: transform 220ms ease, background-color 220ms ease, border-color 220ms ease;
+        }
+        .navbar:hover{
+            transform: translateY(-1px);
+        }
+        body.dark-mode .navbar{
+            background: linear-gradient(180deg, rgba(0,51,102,0.74), rgba(0,51,102,0.52)) !important;
+            border-color: rgba(255,255,255,0.10) !important;
+        }
+
+        .navbar .theme-toggle,
+        .navbar .lang-toggle{
+            background: rgba(255,255,255,0.08) !important;
+            border: 1px solid var(--ui-border);
+            box-shadow: 0 10px 22px rgba(0,0,0,0.08);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        .navbar .menu a{
+            padding: 9px 12px;
+            border-radius: 999px;
+            transition: background-color 220ms ease, transform 220ms ease;
+        }
+        .navbar .menu a:hover{
+            background: rgba(255,255,255,0.10);
+            transform: translateY(-1px);
+        }
+        body.dark-mode .navbar .menu a:hover{
+            background: rgba(255,255,255,0.08);
+        }
+        body.dark-mode .navbar .theme-toggle,
+        body.dark-mode .navbar .lang-toggle{
+            background: rgba(255,255,255,0.06) !important;
+            box-shadow: 0 12px 26px rgba(0,0,0,0.35);
+        }
+
+        /* Mesh Gradient：柔和且动态的色彩流动 */
+        #mesh-bg{
+            position: fixed;
+            inset: -25vh -12vw;
+            z-index: -2;
+            pointer-events: none;
+            filter: blur(44px) saturate(115%);
+            opacity: 0.95;
+            transform: translate3d(0,0,0);
+            background:
+                radial-gradient(900px circle at 15% 20%, rgba(147,112,219,0.38), transparent 60%),
+                radial-gradient(850px circle at 70% 10%, rgba(64,196,255,0.34), transparent 60%),
+                radial-gradient(900px circle at 80% 75%, rgba(255,120,220,0.22), transparent 62%),
+                radial-gradient(760px circle at 20% 80%, rgba(120,255,214,0.18), transparent 62%);
+            animation: mesh-drift 16s ease-in-out infinite;
+        }
+        body.dark-mode #mesh-bg{
+            opacity: 0.85;
+            background:
+                radial-gradient(900px circle at 15% 20%, rgba(147,112,219,0.30), transparent 62%),
+                radial-gradient(850px circle at 70% 10%, rgba(64,196,255,0.26), transparent 60%),
+                radial-gradient(900px circle at 80% 75%, rgba(255,120,220,0.17), transparent 62%),
+                radial-gradient(760px circle at 20% 80%, rgba(120,255,214,0.13), transparent 64%);
+        }
+        @keyframes mesh-drift{
+            0%{ transform: translate(-2%, -1%) scale(1.02); }
+            50%{ transform: translate(2%, 1%) scale(1.06); }
+            100%{ transform: translate(-2%, -1%) scale(1.02); }
+        }
+
+        /* Mouse Follower：沉浸式柔光 */
+        #mouse-follower{
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0;
+            transform: translate(-50%, -50%);
+            background:
+                radial-gradient(circle at center, rgba(255,255,255,0.22), rgba(255,255,255,0.00) 60%);
+            filter: blur(14px);
+            mix-blend-mode: screen;
+            transition: opacity 0.25s ease;
+            will-change: transform;
+        }
+
+        /* Glassmorphism：统一玻璃层 */
+        .ui-glass-card{
+            background: var(--ui-glass) !important;
+            border: 1px solid var(--ui-border) !important;
+            box-shadow: var(--ui-shadow) !important;
+            border-radius: var(--ui-radius-lg) !important;
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            overflow: hidden;
+        }
+
+        .ui-glass-soft{
+            background: var(--ui-glass-strong) !important;
+            border: 1px solid var(--ui-border) !important;
+            border-radius: var(--ui-radius-md) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        /* Spotlight（聚光灯）高光层 */
+        [data-ui-spotlight="true"]{
+            --mx: 50%;
+            --my: 50%;
+            --spotlight-opacity: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        [data-ui-spotlight="true"]::before{
+            content: "";
+            position: absolute;
+            inset: -40px;
+            background: radial-gradient(420px circle at var(--mx) var(--my),
+                rgba(255,255,255,0.36) 0%,
+                rgba(255,255,255,0.15) 22%,
+                rgba(255,255,255,0.00) 60%);
+            opacity: var(--spotlight-opacity);
+            transform: translateZ(0);
+            filter: blur(10px);
+            pointer-events: none;
+            transition: opacity 180ms ease;
+        }
+        body.dark-mode [data-ui-spotlight="true"]::before{
+            background: radial-gradient(420px circle at var(--mx) var(--my),
+                rgba(255,255,255,0.26) 0%,
+                rgba(147,112,219,0.16) 22%,
+                rgba(255,255,255,0.00) 60%);
+        }
+        [data-ui-spotlight="true"] > *{
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 便当盒 Bento Grid（在不改动业务 DOM 的前提下，重排现有模块） */
+        @media (min-width: 980px){
+            .blog-section{
+                display: grid;
+                grid-template-columns: 1.35fr 0.65fr;
+                gap: var(--ui-gap);
+                align-items: start;
+                margin-top: 26px;
+            }
+
+            /* 修复：最新文章区域的右侧“查看全部文章”对齐 */
+            .blog-section .view-all{
+                position: static !important;
+                top: auto !important;
+                right: auto !important;
+            }
+            .blog-section .latest-articles-shell{
+                grid-column: 1;
+                margin: 0;
+                padding: 28px 22px !important; /* 对齐 latest-articles.css 的视觉比例 */
+            }
+            .blog-section .latest-view-all{
+                grid-column: 2;
+                margin-top: 0 !important;
+                padding-right: 0 !important;
+                align-self: start;
+                align-items: flex-start !important;
+                justify-content: flex-end !important;
+            }
+            .blog-section .latest-view-all a{
+                margin-top: 6px;
+            }
+
+            .blog-updates .updates-container{
+                display: grid;
+                grid-template-columns: repeat(12, 1fr);
+                gap: 16px;
+            }
+
+            .blog-updates .update-item:nth-child(1){ grid-column: span 7; }
+            .blog-updates .update-item:nth-child(2){ grid-column: span 5; }
+            .blog-updates .update-item:nth-child(3){ grid-column: span 4; }
+            .blog-updates .update-item:nth-child(4){ grid-column: span 8; }
+            .blog-updates .update-item:nth-child(5){ grid-column: span 12; }
+
+            .qia-immersive .qia-stack{
+                display: grid;
+                grid-template-columns: repeat(12, 1fr);
+                gap: var(--ui-gap);
+            }
+            .qia-immersive .qia-card:nth-child(1){ grid-column: span 7; }
+            .qia-immersive .qia-card:nth-child(2){ grid-column: span 5; }
+            .qia-immersive .qia-card:nth-child(3){ grid-column: span 12; }
+        }
+
+        @media (max-width: 979px){
+            .blog-section{ margin-top: 18px; }
+            .blog-updates .updates-container{ display: grid; gap: 14px; }
+        }
+
+        /* Bento 内部卡片玻璃化 */
+        .bio,
+        .latest-articles-shell,
+        .update-item,
+        .qia-card,
+        .qia-header{
+            padding: 18px;
+        }
+        .bio{ padding: 20px !important; }
+
+        .latest-articles-shell,
+        .update-item,
+        .qia-card,
+        .qia-header{
+            background: var(--ui-glass) !important;
+            border: 1px solid var(--ui-border) !important;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12) !important;
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            overflow: hidden;
+        }
+
+        /* Resume/CTA 磁吸按钮基底 */
+        .resume-link,
+        .latest-view-all a,
+        .start-explore-btn{
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            border-radius: 999px;
+            padding: 12px 18px;
+            border: 1px solid var(--ui-border);
+            background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.06));
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            box-shadow: 0 18px 50px rgba(0,0,0,0.12);
+            transform: translateZ(0);
+            will-change: transform;
+        }
+
+        /* 细节：仅让“查看全部文章”更紧凑，避免右侧列被撑开 */
+        .latest-view-all a{
+            padding: 8px 12px;
+            font-weight: 600;
+        }
+        body.dark-mode .resume-link,
+        body.dark-mode .latest-view-all a,
+        body.dark-mode .start-explore-btn{
+            background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+        }
+
+        /* Marquee 滚动长廊 */
+        .ui-marquee-wrap{
+            max-width: 1180px;
+            margin: 26px auto 18px;
+            padding: 0 16px;
+        }
+        .ui-marquee{
+            border-radius: 999px;
+            border: 1px solid var(--ui-border);
+            background: var(--ui-glass) !important;
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            overflow: hidden;
+        }
+        .ui-marquee-track{
+            display: flex;
+            width: max-content;
+            gap: 28px;
+            padding: 10px 22px;
+            animation: ui-marquee 26s linear infinite;
+            will-change: transform;
+        }
+        .ui-marquee:hover .ui-marquee-track{ animation-play-state: paused; }
+        .ui-marquee-item{
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: inherit;
+            white-space: nowrap;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+            opacity: 0.88;
+        }
+        .ui-marquee-dot{
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(147,112,219,0.9);
+            box-shadow: 0 0 0 6px rgba(147,112,219,0.14);
+        }
+        body.dark-mode .ui-marquee-dot{
+            background: rgba(147,112,219,0.95);
+            box-shadow: 0 0 0 6px rgba(147,112,219,0.18);
+        }
+        @keyframes ui-marquee{
+            from{ transform: translateX(0); }
+            to{ transform: translateX(-50%); }
+        }
+
+        @media (prefers-reduced-motion: reduce){
+            #mesh-bg{ animation: none !important; }
+            .ui-marquee-track{ animation: none !important; }
+            #mouse-follower{ display:none; }
+        }
+    </style>
 </head>
 <body class="light-mode">
+    <div id="mesh-bg" aria-hidden="true"></div>
     <!-- 导航栏 -->
     <nav class="navbar">
         <div class="nav-left">
@@ -295,24 +653,29 @@
             <div style="text-align: center; margin-top: 12px;">
                 <a href="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/resume.pdf" class="resume-link" download><span data-en="【This is my resume】" data-zh="【这是我的简历】">【这是我的简历】</span></a>
             </div>
+            <div style="text-align: center; margin-top: 12px;">
+                <a href="#qia" class="start-explore-btn" data-ui-start-explore>开始探索 <i class="fas fa-arrow-right"></i></a>
+            </div>
         </section>
 
-        <!-- Marquee 滚动长廊：视觉分割与动感（正式版仅保留这一项 UI） -->
+        <!-- Marquee 滚动长廊：视觉分割与动感 -->
         <div class="ui-marquee-wrap" aria-hidden="true">
             <div class="ui-marquee">
                 <div class="ui-marquee-track">
-                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Marquee</span>
-                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>HealthJian</span>
-                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Modern Bento</span>
-                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Mesh Feeling</span>
-                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Glass Vibes</span>
+                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Glassmorphism</span>
+                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Bento Grid</span>
+                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Mesh Gradient</span>
                     <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Spotlight</span>
-                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Marquee</span>
+                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Magnetic CTA</span>
+                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>GSAP Reveal</span>
                     <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>HealthJian</span>
-                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Modern Bento</span>
-                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Mesh Feeling</span>
-                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Glass Vibes</span>
+                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Glassmorphism</span>
+                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Bento Grid</span>
+                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Mesh Gradient</span>
                     <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Spotlight</span>
+                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Magnetic CTA</span>
+                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>GSAP Reveal</span>
+                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>HealthJian</span>
                 </div>
             </div>
         </div>
@@ -595,5 +958,180 @@
     <script src="js/greeting.js"></script>
     <!-- <script src="js/celebration-banner.js"></script> -->
     <script src="js/footer.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script>
+        (function () {
+            const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            document.addEventListener('DOMContentLoaded', function () {
+                // 1) Mouse Follower
+                const follower = document.getElementById('mouse-follower') || null;
+                const setFollowerVisible = (visible) => {
+                    if (!follower) return;
+                    follower.style.opacity = visible ? '1' : '0';
+                };
+
+                if (!prefersReduced) {
+                    let rafId = 0;
+                    let lastX = window.innerWidth / 2;
+                    let lastY = window.innerHeight / 2;
+
+                    window.addEventListener('pointermove', function (e) {
+                        lastX = e.clientX;
+                        lastY = e.clientY;
+                        if (rafId) return;
+                        rafId = window.requestAnimationFrame(function () {
+                            rafId = 0;
+                            if (!follower) return;
+                            follower.style.left = lastX + 'px';
+                            follower.style.top = lastY + 'px';
+                            setFollowerVisible(true);
+                        });
+                    }, { passive: true });
+
+                    window.addEventListener('pointerleave', function () {
+                        setFollowerVisible(false);
+                    });
+                }
+
+                // 2) Spotlight（聚光灯高光跟随）
+                const spotlightTargets = Array.from(document.querySelectorAll(
+                    '.bio, .latest-articles-shell, .update-item, .qia-card, .qia-header'
+                ));
+
+                spotlightTargets.forEach(function (el) {
+                    el.dataset.uiSpotlight = 'true';
+                });
+
+                let activeEl = null;
+                let spotRaf = 0;
+                let spotX = 0;
+                let spotY = 0;
+
+                function updateSpotlight() {
+                    if (!activeEl) return;
+                    activeEl.style.setProperty('--mx', spotX + 'px');
+                    activeEl.style.setProperty('--my', spotY + 'px');
+                }
+
+                spotlightTargets.forEach(function (el) {
+                    el.addEventListener('pointerenter', function () {
+                        activeEl = el;
+                        el.style.setProperty('--spotlight-opacity', '1');
+                    }, { passive: true });
+                    el.addEventListener('pointerleave', function () {
+                        if (activeEl === el) activeEl = null;
+                        el.style.setProperty('--spotlight-opacity', '0');
+                    }, { passive: true });
+                    el.addEventListener('pointermove', function (e) {
+                        if (prefersReduced) return;
+                        const rect = el.getBoundingClientRect();
+                        spotX = Math.max(0, Math.min(rect.width, e.clientX - rect.left));
+                        spotY = Math.max(0, Math.min(rect.height, e.clientY - rect.top));
+                        if (spotRaf) return;
+                        spotRaf = window.requestAnimationFrame(function () {
+                            spotRaf = 0;
+                            updateSpotlight();
+                        });
+                    }, { passive: true });
+                });
+
+                // 3) Magnetic Effect（磁吸按钮）
+                const magneticTargets = Array.from(document.querySelectorAll(
+                    '.resume-link, .latest-view-all a, .start-explore-btn'
+                ));
+
+                magneticTargets.forEach(function (btn) {
+                    if (prefersReduced) return;
+                    let raf = 0;
+                    let tx = 0, ty = 0, rot = 0;
+
+                    btn.addEventListener('pointerenter', function () {
+                        btn.style.transition = 'transform 180ms ease';
+                    }, { passive: true });
+
+                    btn.addEventListener('pointermove', function (e) {
+                        const rect = btn.getBoundingClientRect();
+                        const cx = rect.left + rect.width / 2;
+                        const cy = rect.top + rect.height / 2;
+                        const dx = (e.clientX - cx) / (rect.width / 2);
+                        const dy = (e.clientY - cy) / (rect.height / 2);
+
+                        tx = dx * 8;
+                        ty = dy * 8;
+                        rot = dx * 2;
+
+                        if (raf) return;
+                        raf = window.requestAnimationFrame(function () {
+                            raf = 0;
+                            btn.style.transform = 'translate(' + tx + 'px,' + ty + 'px) rotate(' + rot + 'deg)';
+                        });
+                    }, { passive: true });
+
+                    btn.addEventListener('pointerleave', function () {
+                        btn.style.transform = 'translate(0,0) rotate(0deg)';
+                    }, { passive: true });
+                });
+
+                // 4) GSAP Reveal Animations（极简高级入场动态）
+                const revealSelectors = [
+                    '.hero .avatar-container',
+                    '.hero-greeting',
+                    '.hero-bio-section',
+                    '.blog-section',
+                    '.blog-updates',
+                    '.qia-immersive',
+                    // 页脚在本页已禁用浮现/虚化（避免“取消虚化”需求冲突）
+                ];
+
+                const revealEls = [];
+                revealSelectors.forEach(function (sel) {
+                    revealEls.push.apply(revealEls, Array.from(document.querySelectorAll(sel)));
+                });
+
+                if (!prefersReduced && window.gsap) {
+                    revealEls.forEach(function (el, idx) {
+                        el.style.opacity = '0';
+                        el.style.transform = 'translateY(18px)';
+                        el.style.filter = 'blur(4px)';
+                        el.style.willChange = 'transform, opacity, filter';
+                        el.dataset.uiRevealIndex = String(idx);
+                    });
+
+                    const io = new IntersectionObserver(function (entries) {
+                        entries.forEach(function (entry) {
+                            if (!entry.isIntersecting) return;
+                            const el = entry.target;
+                            const idx = Number(el.dataset.uiRevealIndex || 0);
+                            io.unobserve(el);
+
+                            window.gsap.to(el, {
+                                duration: 1.05,
+                                ease: 'power4.out',
+                                opacity: 1,
+                                y: 0,
+                                filter: 'blur(0px)',
+                                delay: Math.min(0.25, idx * 0.03)
+                            });
+                        });
+                    }, { threshold: 0.12 });
+
+                    revealEls.forEach(function (el) {
+                        io.observe(el);
+                    });
+                } else {
+                    // 没有 gsap 或 reduced-motion：直接正常显示
+                    revealEls.forEach(function (el) {
+                        el.style.opacity = '';
+                        el.style.transform = '';
+                        el.style.filter = '';
+                    });
+                }
+            });
+        })();
+    </script>
+
+    <div id="mouse-follower" aria-hidden="true"></div>
 </body>
 </html> 

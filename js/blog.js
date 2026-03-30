@@ -353,6 +353,18 @@ function getBlogPosts() {
     // 文章数据
     return [
         {
+            id: 'engineering-blog-post-20260314',
+            title: '从原始招聘数据到可训练大模型语料：一次完整数据工程实战总结',
+            title_en: 'From Raw Recruitment Data to Trainable LLM Corpus: An End-to-End Data Engineering Recap',
+            excerpt: '复盘一次完整的数据工程流水线，覆盖统一 Schema、清洗去重、脱敏、切分与可审计交付。',
+            excerpt_en: 'An end-to-end recap of a practical data engineering pipeline: schema unification, cleaning, deduplication, desensitization, splitting, and auditable delivery.',
+            date: '2026-03-14',
+            url: '/pages/blog/moban_new_md.html?md=../../context/engineering_blog_post.md',
+            category: 'tech',
+            tags: ['数据工程', '大模型', '训练语料', 'JSONL'],
+            tags_en: ['Data Engineering', 'LLM', 'Training Corpus', 'JSONL']
+        },
+        {
             id: 'dataset-description-20260314',
             title: '毕业设计原始数据 datasets 数据集统计与内容总结',
             title_en: 'Thesis Raw Datasets: Statistics and Content Summary',

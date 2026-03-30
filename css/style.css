@@ -556,6 +556,85 @@ body.dark-mode .update-date {
     text-align: center;
 }
 
+/* Bento Grid：仅桌面端优化“博客动态”视觉节奏（正式版取舍项） */
+@media (min-width: 980px) {
+    .blog-updates .updates-container {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 16px;
+        max-width: 1100px; /* Bento 更舒展 */
+        margin: 0 auto;
+    }
+
+    /* 非对称权重：参考 Apple/Linear/Vercel 常用比例 */
+    .blog-updates .update-item:nth-child(1) { grid-column: span 7; }
+    .blog-updates .update-item:nth-child(2) { grid-column: span 5; }
+    .blog-updates .update-item:nth-child(3) { grid-column: span 4; }
+    .blog-updates .update-item:nth-child(4) { grid-column: span 8; }
+    .blog-updates .update-item:nth-child(5) { grid-column: span 12; }
+}
+
+/* Marquee 滚动长廊：纯 CSS 无限滚动（正式版取舍项） */
+.ui-marquee-wrap{
+    max-width: 1180px;
+    margin: 26px auto 18px;
+    padding: 0 16px;
+}
+.ui-marquee{
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.14);
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    overflow: hidden;
+}
+.ui-marquee-track{
+    display: flex;
+    width: max-content;
+    gap: 28px;
+    padding: 10px 22px;
+    animation: ui-marquee 26s linear infinite;
+    will-change: transform;
+}
+.ui-marquee:hover .ui-marquee-track{
+    animation-play-state: paused;
+}
+.ui-marquee-item{
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: inherit;
+    white-space: nowrap;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    opacity: 0.88;
+}
+.ui-marquee-dot{
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(147,112,219,0.9);
+    box-shadow: 0 0 0 6px rgba(147,112,219,0.14);
+}
+
+body.dark-mode .ui-marquee{
+    border-color: rgba(255,255,255,0.12);
+    background: rgba(10, 20, 50, 0.35);
+}
+body.dark-mode .ui-marquee-dot{
+    background: rgba(147,112,219,0.95);
+    box-shadow: 0 0 0 6px rgba(147,112,219,0.18);
+}
+
+@keyframes ui-marquee{
+    from{ transform: translateX(0); }
+    to{ transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce){
+    .ui-marquee-track{ animation: none !important; }
+}
+
 /* 数字花园样式 */
 .digital-garden {
     max-width: 800px;
