@@ -107,7 +107,30 @@ document.addEventListener('DOMContentLoaded', function() {
 function updateAllLanguageElements(lang) {
     const elements = document.querySelectorAll('[data-en][data-zh]');
     elements.forEach(element => {
-        element.textContent = element.getAttribute(`data-${lang}`);
+        const value = element.getAttribute(`data-${lang}`) || '';
+
+        // 首页自我介绍需要按段落渲染，以便分别控制段距和行距
+        if (element.classList.contains('digital-garden')) {
+            const paragraphs = value
+                .split(/\n{2,}/)
+                .map(text => text.trim())
+                .filter(Boolean);
+
+            element.innerHTML = '';
+            if (paragraphs.length === 0) {
+                element.textContent = value;
+                return;
+            }
+
+            paragraphs.forEach(text => {
+                const p = document.createElement('p');
+                p.textContent = text.replace(/\n+/g, ' ').trim();
+                element.appendChild(p);
+            });
+            return;
+        }
+
+        element.textContent = value;
     });
     
     // 更新搜索框占位符
