@@ -20,6 +20,77 @@
     <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body class="light-mode">
+<!-- ===================== MAINTENANCE_START =====================
+         维护中遮罩功能：仅用于临时展示。
+         你只需要删除本块（从 MAINTENANCE_START 到 MAINTENANCE_END）即可恢复原始页面。
+    -->
+    <style id="maintenance-style">
+        #maintenance-overlay{
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: rgba(10, 12, 18, 0.55);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        #maintenance-card{
+            width: min(680px, 92vw);
+            border-radius: 22px;
+            padding: 28px 22px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.14);
+            background: rgba(255,255,255,0.08);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+            color: #ffffff;
+        }
+
+        #maintenance-card h2{
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+        #maintenance-card p{
+            opacity: 0.92;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        body.dark-mode #maintenance-overlay{
+            background: rgba(0, 0, 0, 0.62);
+        }
+    </style>
+
+    <div id="maintenance-overlay" role="dialog" aria-modal="true" aria-label="Maintenance">
+        <div id="maintenance-card">
+            <h2 data-en="Maintenance" data-zh="页面维护中">页面维护中</h2>
+            <p data-en="This page is currently under maintenance. We'll be back soon." data-zh="该页面正在维护中，稍后恢复访问。">该页面正在维护中，稍后恢复访问。</p>
+        </div>
+    </div>
+
+    <script id="maintenance-script">
+        (function () {
+            // 改这里即可开启/关闭；你也可以直接删除整块代码恢复原样。
+            var MAINTENANCE_MODE = true;
+
+            function applyMaintenance() {
+                var overlay = document.getElementById('maintenance-overlay');
+                if (!overlay) return;
+                overlay.style.display = MAINTENANCE_MODE ? 'flex' : 'none';
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', applyMaintenance);
+            } else {
+                applyMaintenance();
+            }
+        })();
+    </script>
+    <!-- ====================== MAINTENANCE_END ====================== -->
     <!-- 导航栏 -->
     <nav class="navbar">
         <div class="nav-left">

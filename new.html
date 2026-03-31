@@ -3,53 +3,60 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>个人简历</title>
+  <title>高健 - 个人简历</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
       --bg-color: #ffffff;
       --text-color: #333333;
-      --border-color: #cccccc;
-      --accent-color: #555555;
-      --hover-bg: #f8f8f8;
-      --shadow: rgba(0, 0, 0, 0.08);
+      --border-color: #eeeeee;
+      --accent-color: #2563eb; 
+      --hover-bg: #f3f4f6;
+      --shadow: rgba(0, 0, 0, 0.05);
+      --bento-shadow: rgba(0, 0, 0, 0.08);
     }
 
     [data-theme="dark"] {
-      --bg-color: #121212;
-      --text-color: #e0e0e0;
-      --border-color: #444444;
-      --accent-color: #bbbbbb;
-      --hover-bg: #1e1e1e;
+      --bg-color: #0f172a;
+      --text-color: #f1f5f9;
+      --border-color: #1e293b;
+      --accent-color: #60a5fa;
+      --hover-bg: #1e293b;
       --shadow: rgba(0, 0, 0, 0.3);
+      --bento-shadow: rgba(0, 0, 0, 0.4);
     }
 
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-family: "Inter", -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
     }
 
     body {
       background-color: var(--bg-color);
       color: var(--text-color);
       transition: background-color 0.3s, color 0.3s;
-      line-height: 1.6;
+      line-height: 1.7;
     }
 
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1.5rem 2rem;
+      padding: 1.2rem 2rem;
       border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      background: var(--bg-color);
+      z-index: 100;
+      backdrop-filter: blur(10px);
     }
 
     .logo-container {
       position: relative;
-      width: 50px;
-      height: 50px;
+      width: 45px;
+      height: 45px;
     }
 
     .logo {
@@ -58,607 +65,474 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      font-weight: bold;
-      font-size: 1.3rem;
+      font-weight: 800;
+      font-size: 1.2rem;
       color: var(--accent-color);
-      border: 2px solid var(--accent-color);
-      border-radius: 50%;
+      border: 2.5px solid var(--accent-color);
+      border-radius: 12px;
       transition: transform 0.3s ease;
     }
 
-    .lang-toggle, .theme-toggle, .contact-btn {
-      background: none;
-      border: none;
-      font-size: 1rem;
-      color: var(--accent-color);
-      cursor: pointer;
-      padding: 0.5rem 0.8rem;
-      border-radius: 4px;
-      transition: background 0.2s;
+    .nav-btns {
+      display: flex;
+      gap: 0.8rem;
     }
 
-    .lang-toggle:hover, .theme-toggle:hover, .contact-btn:hover {
+    .lang-toggle, .theme-toggle, .contact-btn {
       background: var(--hover-bg);
+      border: 1px solid var(--border-color);
+      font-size: 0.85rem;
+      color: var(--text-color);
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .contact-btn {
+      background: var(--accent-color);
+      color: white;
+      border: none;
+    }
+
+    .lang-toggle:hover, .theme-toggle:hover {
+      border-color: var(--accent-color);
     }
 
     main {
-      max-width: 960px;
+      max-width: 850px;
       margin: 2rem auto;
       padding: 0 1.5rem;
     }
 
     section {
-      margin-bottom: 2.5rem;
-      padding-bottom: 1.5rem;
-      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 3.5rem;
+      animation: fadeIn 0.8s ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .section-header {
       display: flex;
       align-items: center;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
+      gap: 1.2rem;
+      margin-bottom: 1.8rem;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 0.5rem;
     }
 
     .section-header h2 {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       margin: 0;
       color: var(--accent-color);
-      font-weight: 600;
+      letter-spacing: 1px;
     }
 
     .avatar-small {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      border-radius: 15px;
       object-fit: cover;
       border: 2px solid var(--accent-color);
       cursor: pointer;
-      transition: transform 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     .avatar-small:hover {
-      transform: scale(1.1) rotate(5deg);
+      transform: scale(1.1) rotate(3deg);
     }
 
-    .avatar-small:active {
-      animation: photoWiggle 0.6s ease-in-out;
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      margin-bottom: 0.3rem;
     }
 
-    @keyframes photoWiggle {
-      0%, 100% { transform: scale(1) rotate(0deg); }
-      25% { transform: scale(1.15) rotate(-8deg); }
-      50% { transform: scale(1.2) rotate(8deg); }
-      75% { transform: scale(1.15) rotate(-4deg); }
-    }
-
-    h3 {
-      font-size: 1.3rem;
-      margin: 1.2rem 0 0.8rem;
-      font-weight: 600;
-    }
-
-    p, li {
-      margin-bottom: 0.6rem;
-    }
-
-    ul {
-      padding-left: 1.2rem;
-    }
-
-    .experience-item, .project-item, .award-item {
-      margin-bottom: 1.2rem;
+    .item-title {
+      font-weight: 700;
+      font-size: 1.1rem;
     }
 
     .time {
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       color: var(--accent-color);
-      margin-bottom: 0.4rem;
+      font-weight: 500;
+      background: var(--hover-bg);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .sub-info {
+      color: var(--accent-color);
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .sub-info-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .school-badge {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 1px solid var(--border-color);
-      margin-right: 0.5rem;
-      vertical-align: middle;
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
     }
 
-    .skills-list, .courses-list, .interests-list {
+    .score-tag {
+      font-size: 0.75rem;
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--accent-color);
+      border: 1px solid var(--accent-color);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    [data-theme="dark"] .score-tag {
+      background: rgba(96, 165, 250, 0.15);
+    }
+
+    .content-list {
+      list-style: none;
+      font-size: 0.95rem;
+      color: var(--text-color);
+      opacity: 0.9;
+    }
+
+    .content-list li {
+      position: relative;
+      padding-left: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .content-list li::before {
+      content: "▹";
+      position: absolute;
+      left: 0;
+      color: var(--accent-color);
+    }
+
+    /* 便当盒样式 (Bento Box) */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.2rem;
+    }
+
+    .bento-card {
+      background: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.4rem;
+      box-shadow: 0 4px 12px var(--shadow);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .bento-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px var(--bento-shadow);
+      border-color: var(--accent-color);
+    }
+
+    .bento-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent-color);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .bento-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 0.6rem;
-      margin-top: 0.8rem;
     }
 
-    .skill-item, .course-item, .interest-item {
+    .bento-tag {
       background: var(--hover-bg);
+      border: 1px solid var(--border-color);
       padding: 0.4rem 0.8rem;
-      border-radius: 4px;
+      border-radius: 8px;
       font-size: 0.85rem;
-      white-space: nowrap;
-      box-shadow: 0 2px 4px var(--shadow);
-      transition: transform 0.2s ease;
+      color: var(--text-color);
+      font-weight: 500;
+      transition: background-color 0.2s;
     }
 
-    .skill-item:hover, .course-item:hover, .interest-item:hover {
-      transform: translateY(-1px);
+    .bento-tag:hover {
+      background: var(--border-color);
     }
 
     footer {
+      background: var(--hover-bg);
+      padding: 3rem 1rem;
       text-align: center;
-      padding: 2rem 1rem;
-      color: var(--accent-color);
-      font-size: 1rem;
       border-top: 1px solid var(--border-color);
-      margin-top: 2rem;
     }
 
-    .footer-content {
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .contact-info {
-      margin-bottom: 1.5rem;
-      line-height: 1.8;
-    }
-
-    .contact-info p {
-      font-weight: bold;
+    .footer-bold {
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text-color);
     }
 
     .motto {
       font-style: italic;
       font-size: 0.95rem;
-      margin-top: 0.5rem;
+      margin: 1.5rem 0;
       color: var(--accent-color);
+      font-weight: 700;
     }
 
     .social-links {
       display: flex;
       justify-content: center;
-      gap: 1.2rem;
-      margin-top: 1rem;
-      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
     }
 
     .social-link {
-      color: var(--accent-color);
-      text-decoration: none;
-      font-size: 0.95rem;
-      transition: all 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.3rem;
+      color: var(--text-color);
+      font-size: 1.4rem;
+      transition: color 0.2s;
     }
 
     .social-link:hover {
-      transform: translateY(-2px);
-      color: var(--text-color);
-    }
-
-    .social-icon {
-      font-size: 1.4rem;
-      transition: transform 0.3s ease;
-    }
-
-    .social-link:hover .social-icon {
-      transform: scale(1.2);
-    }
-
-    a {
       color: var(--accent-color);
-      text-decoration: none;
     }
 
-    a:hover {
-      text-decoration: underline;
+    @media (max-width: 650px) {
+      .item-header { flex-direction: column; }
+      .time { margin-top: 0.3rem; }
+      .bento-grid { grid-template-columns: 1fr; }
     }
-
-    .highlight {
-      font-weight: bold;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      header {
-        padding: 1rem;
-      }
-
-      .logo-container {
-        width: 40px;
-        height: 40px;
-      }
-
-      .logo {
-        font-size: 1.1rem;
-      }
-
-      main {
-        padding: 0 1rem;
-      }
-
-      .section-header h2 {
-        font-size: 1.5rem;
-      }
-
-      .avatar-small {
-        width: 40px;
-        height: 40px;
-      }
-
-      .school-badge {
-        width: 20px;
-        height: 20px;
-      }
-
-      h3 {
-        font-size: 1.15rem;
-        margin: 1rem 0 0.6rem;
-      }
-
-      .skill-item, .course-item, .interest-item {
-        padding: 0.3rem 0.6rem;
-        font-size: 0.8rem;
-      }
-    }
-
-    @media (max-width: 480px) {
-      header {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        gap: 0.5rem;
-      }
-
-      .logo-container {
-        width: 36px;
-        height: 36px;
-      }
-
-      .logo {
-        font-size: 1rem;
-      }
-
-      .lang-toggle, .theme-toggle, .contact-btn {
-        padding: 0.4rem 0.6rem;
-        font-size: 0.85rem;
-      }
-
-      .section-header {
-        flex-direction: row;
-        gap: 0.8rem;
-      }
-
-      .section-header h2 {
-        font-size: 1.4rem;
-      }
-
-      .avatar-small {
-        width: 36px;
-        height: 36px;
-      }
-
-      .school-badge {
-        width: 18px;
-        height: 18px;
-      }
-
-      .skills-list, .courses-list, .interests-list {
-        gap: 0.4rem;
-      }
-
-      .skill-item, .course-item, .interest-item {
-        padding: 0.25rem 0.5rem;
-        font-size: 0.75rem;
-      }
-
-      .social-links {
-        gap: 0.8rem;
-      }
-
-      .social-icon {
-        font-size: 1.2rem;
-      }
+    
+    @keyframes photoWiggle {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-10deg) scale(1.1); }
+      75% { transform: rotate(10deg) scale(1.1); }
     }
   </style>
 </head>
 <body>
   <header>
     <div class="logo-container">
-      <div class="logo" id="logo">M</div>
+      <div class="logo" id="logo">G</div>
     </div>
-    <div style="display: flex; gap: 0.5rem;">
-      <button class="lang-toggle" id="langToggle">中文 / English</button>
-      <button class="contact-btn" id="contactBtn" data-en="Contact" data-zh="联系">联系</button>
+    <div class="nav-btns">
+      <button class="lang-toggle" id="langToggle">EN / 中</button>
       <button class="theme-toggle" id="themeToggle">🌓</button>
+      <button class="contact-btn" id="contactBtn" data-en="Contact" data-zh="联系我">联系我</button>
     </div>
   </header>
 
   <main>
     <section id="intro">
       <div class="section-header">
-        <img src="images\5679705c1eb83ed4787a82ddaa142099.png" alt="头像" class="avatar-small" id="avatar" />
-        <h2 data-en="About Me" data-zh="个人简介">个人简介</h2>
+        <img src="images/5679705c1eb83ed4787a82ddaa142099.png" alt="头像" class="avatar-small" id="avatar" />
+        <h2 data-en="Profile" data-zh="个人简介">个人简介</h2>
       </div>
-      <p data-en="I am a passionate and dedicated undergraduate senior majoring in <strong>Computer Science</strong>, <strong>Big Data</strong>, and <strong>Artificial Intelligence</strong>. Currently preparing for graduate school admission, I aim to make modest contributions in the fields of AI, data science, and front-end web development." data-zh="我是一名充满热情且专注的 <strong>计算机科学</strong>、<strong>大数据</strong> 与 <strong>人工智能AI</strong> 专业的本科生四年级，目前正在备考硕士学位~，致力于在人工智能、数据科学与前端网页开发等领域做出微薄贡献。">
-        我是一名充满热情且专注的 <strong>计算机科学</strong>、<strong>大数据</strong> 与 <strong>人工智能AI</strong> 专业的本科生四年级，目前正在备考硕士学位~，致力于在人工智能、数据科学与前端网页开发等领域做出微薄贡献。
+      <p data-en="I am a Junior at <strong>China University of Mining and Technology</strong>, majoring in Data Science and Big Data Technology. I focus on the intersection of <strong>AIGC, Product Design, and Data Analysis</strong>. With a strong foundation in computer science and a 'Product Owner' mindset, I aim to bridge the gap between cutting-edge AI technology and practical business value." 
+         data-zh="我是来自 <strong>中国矿业大学</strong> 数据科学与大数据技术专业的准毕业生。我专注于 <strong>AIGC、产品设计与数据分析</strong> 的交叉领域。拥有扎实的计算机底层背景与极强的“产品负责人”意识，致力于将前沿 AI 技术转化为实际的业务价值。">
+        我是来自 <strong>中国矿业大学</strong> 数据科学与大数据技术专业的准毕业生。我专注于 <strong>AIGC、产品设计与数据分析</strong> 的交叉领域。拥有扎实的计算机底层背景与极强的“产品负责人”意识，致力于将前沿 AI 技术转化为实际的业务价值。
       </p>
-      
-      <h3 data-en="Core Competencies" data-zh="工作能力">工作能力</h3>
-      <div class="skills-list">
-        <div class="skill-item" data-en="Machine Learning & Deep Learning" data-zh="机器学习与深度学习">机器学习与深度学习</div>
-        <div class="skill-item" data-en="Frontend Development (React, Vue)" data-zh="前端开发（React, Vue）">前端开发（React, Vue）</div>
-        <div class="skill-item" data-en="Natural Language Processing" data-zh="自然语言处理">自然语言处理</div>
-        <div class="skill-item" data-en="Data Analysis & Visualization" data-zh="数据分析与可视化">数据分析与可视化</div>
-        <div class="skill-item" data-en="Algorithm Design & Optimization" data-zh="算法设计与优化">算法设计与优化</div>
-        <div class="skill-item" data-en="Full-stack Development" data-zh="全栈开发">全栈开发</div>
-        <div class="skill-item" data-en="Git & Version Control" data-zh="Git版本控制">Git版本控制</div>
-        <div class="skill-item" data-en="Mathematical Modeling" data-zh="数学建模">数学建模</div>
-        <div class="skill-item" data-en="SQL & Database" data-zh="SQL数据库">SQL数据库</div>
-        <div class="skill-item" data-en="C/C++ Programming" data-zh="C/C++编程">C/C++编程</div>
-        <div class="skill-item" data-en="Python Development" data-zh="Python开发">Python开发</div>
-      </div>
-
-      <h3 data-en="Key Courses" data-zh="主要课程">主要课程</h3>
-      <div class="courses-list">
-        <div class="course-item" data-en="Machine Learning" data-zh="机器学习">机器学习</div>
-        <div class="course-item" data-en="Web Development" data-zh="Web开发">Web开发</div>
-        <div class="course-item" data-en="Data Structures & Algorithms" data-zh="数据结构与算法">数据结构与算法</div>
-        <div class="course-item" data-en="Database Systems" data-zh="数据库系统">数据库系统</div>
-        <div class="course-item" data-en="Big Data Architecture" data-zh="大数据架构">大数据架构</div>
-        <div class="course-item" data-en="Big Data Visualization" data-zh="大数据可视化">大数据可视化</div>
-        <div class="course-item" data-en="Recommendation Systems" data-zh="推荐系统">推荐系统</div>
-      </div>
-
-      <h3 data-en="Interests" data-zh="个人兴趣">个人兴趣</h3>
-      <div class="interests-list">
-        <div class="interest-item" data-en="Open Source Contribution" data-zh="开源贡献">开源贡献</div>
-        <div class="interest-item" data-en="Technical Writing" data-zh="技术写作">技术写作</div>
-        <div class="interest-item" data-en="Photography" data-zh="摄影">摄影</div>
-        <div class="interest-item" data-en="Hiking & Outdoor Activities" data-zh="徒步与户外活动">徒步与户外活动</div>
-        <div class="interest-item" data-en="Literary Writing" data-zh="文艺写作">文艺写作</div>
-      </div>
     </section>
 
     <section id="education">
-      <h2 data-en="Education" data-zh="教育经历">教育经历</h2>
-      <div class="experience-item">
-        <div class="time" data-en="2023 – Present" data-zh="2023 – 至今">2023 – 至今</div>
-        <h3 data-en="Master of Science in Artificial Intelligence" data-zh="人工智能 硕士">人工智能 硕士</h3>
-        <p data-en="<img src='https://placehold.co/48x48/4a90e2/ffffff?text=TU' class='school-badge' alt='校徽'>XX University, XX" data-zh="<img src='https://placehold.co/48x48/4a90e2/ffffff?text=TU' class='school-badge' alt='校徽'>XX大学，XX">
-          <img src="https://placehold.co/48x48/4a90e2/ffffff?text=TU" class="school-badge" alt="校徽">XX大学，XX
-        </p>
-        <p data-en="GPA: XX" data-zh="GPA：XX">GPA：XX</p>
+      <div class="section-header">
+        <h2 data-en="Education" data-zh="教育背景">教育背景</h2>
       </div>
       <div class="experience-item">
-        <div class="time" data-en="2019 – 2023" data-zh="2019 – 2023">2019 – 2023</div>
-        <h3 data-en="Bachelor of Engineering in Computer Science" data-zh="计算机科学与技术 学士">计算机科学与技术 学士</h3>
-        <p data-en="<img src='https://placehold.co/48x48/e74c3c/ffffff?text=RU' class='school-badge' alt='校徽'>XX University, XX" data-zh="<img src='https://placehold.co/48x48/e74c3c/ffffff?text=RU' class='school-badge' alt='校徽'>XX大学，XX">
-          <img src="https://placehold.co/48x48/e74c3c/ffffff?text=RU" class="school-badge" alt="校徽">XX大学，XX
-        </p>
-        <p data-en="GPA: XX" data-zh="GPA：XX">GPA：XX</p>
+        <div class="item-header">
+          <span class="item-title" data-en="China University of Mining and Technology" data-zh="中国矿业大学">中国矿业大学</span>
+          <span class="time">2022.09 – 2026.07</span>
+        </div>
+        
+        <div class="sub-info">
+          <div class="sub-info-group">
+            <img src="https://upload.wikimedia.org/wikipedia/zh/thumb/9/9a/China_University_of_Mining_and_Technology_logo.svg/1200px-China_University_of_Mining_and_Technology_logo.svg.png" class="school-badge" alt="logo">
+            <span data-en="B.Eng in Data Science & Big Data (GPA: 3.41/4.0)" data-zh="数据科学与大数据技术 · 本科 (GPA: 3.41/4.0)">数据科学与大数据技术 · 本科 (GPA: 3.41/4.0)</span>
+          </div>
+          <div class="sub-info-group">
+            <span class="score-tag" data-en="CET-4: 500" data-zh="英语四级：500分">英语四级：500分</span>
+            <span class="score-tag" data-en="CET-6: 471" data-zh="英语六级：471分">英语六级：471分</span>
+          </div>
+        </div>
+
+        <p style="font-size: 0.85rem; opacity: 0.8; margin-top: 0.5rem;" data-en="Core: Data Structures, OS, Data Mining, Machine Learning, Deep Learning, Database Principles" data-zh="核心课程：数据结构、操作系统、数据挖掘、机器学习、深度学习、数据库原理">核心课程：数据结构、操作系统、数据挖掘、机器学习、深度学习、数据库原理</p>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="section-header">
+        <h2 data-en="Skills" data-zh="技能特长">技能特长</h2>
+      </div>
+      <div class="bento-grid">
+        
+        <div class="bento-card">
+          <div class="bento-title">
+            <i class="fas fa-robot"></i>
+            <span data-en="AI & AIGC" data-zh="AI 与大模型">AI 与大模型</span>
+          </div>
+          <div class="bento-tags">
+            <div class="bento-tag">Vibe Coding</div>
+            <div class="bento-tag">AI Tools (Cursor/Codex)</div>
+            <div class="bento-tag">Prompt Engineering</div>
+            <div class="bento-tag">RAG / Agent Design</div>
+          </div>
+        </div>
+
+        <div class="bento-card">
+          <div class="bento-title">
+            <i class="fas fa-chart-pie"></i>
+            <span data-en="Data & Algorithms" data-zh="数据与算法">数据与算法</span>
+          </div>
+          <div class="bento-tags">
+            <div class="bento-tag" data-en="Deep Learning" data-zh="深度学习">深度学习</div>
+            <div class="bento-tag" data-en="Data Analysis (EDA)" data-zh="数据分析与可视化">数据分析与可视化</div>
+            <div class="bento-tag">Matlab / GWO</div>
+          </div>
+        </div>
+
+        <div class="bento-card">
+          <div class="bento-title">
+            <i class="fas fa-code"></i>
+            <span data-en="Programming & Tech" data-zh="编程与开发">编程与开发</span>
+          </div>
+          <div class="bento-tags">
+            <div class="bento-tag">Python</div>
+            <div class="bento-tag">SQL</div>
+            <div class="bento-tag">C++</div>
+            <div class="bento-tag">openclow</div>
+          </div>
+        </div>
+
+        <div class="bento-card">
+          <div class="bento-title">
+            <i class="fas fa-lightbulb"></i>
+            <span data-en="Product & Design" data-zh="产品与设计">产品与设计</span>
+          </div>
+          <div class="bento-tags">
+            <div class="bento-tag" data-en="Product Lifecycle (PRD)" data-zh="产品全生命周期管理">产品全生命周期管理</div>
+            <div class="bento-tag" data-en="UX/UI Design" data-zh="交互与原型设计">交互与原型设计</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="internship">
+      <div class="section-header">
+        <h2 data-en="Internships" data-zh="实习经历">实习经历</h2>
+      </div>
+      <div class="experience-item">
+        <div class="item-header">
+          <span class="item-title" data-en="ByteDance (Douyin)" data-zh="字节跳动（抖音）">字节跳动（抖音）</span>
+          <span class="time">2023.09 – 2023.11</span>
+        </div>
+        <div class="sub-info" data-en="AI Data Labeling Intern (University-Enterprise Collaboration)" data-zh="AI 数据标注实习生（校企合作）">AI 数据标注实习生（校企合作）</div>
+        <ul class="content-list">
+          <li data-en="Participated in LLM training data construction, performing semantic correction and quality audit for CS-related texts." data-zh="参与大模型训练数据构建，针对计算机领域文本数据进行语义纠错与质量审核。">参与大模型训练数据构建，针对计算机领域文本数据进行语义纠错与质量审核。</li>
+          <li data-en="Executed content labeling for multimodal tasks, including image classification and ASR accuracy validation for audio." data-zh="负责多模态业务场景实践，进行图像内容分类及音频 ASR 识别准确性校验。">负责多模态业务场景实践，进行图像内容分类及音频 ASR 识别准确性校验。</li>
+        </ul>
       </div>
     </section>
 
     <section id="projects">
-      <h2 data-en="Projects" data-zh="项目经历">项目经历</h2>
-      <div class="project-item">
-        <h3 data-en="Explainable Image Classification Method for Industrial Bearings Based on GWO-AlexNet" data-zh="基于GWO-AlexNet的工业轴承可解释图像分类方法">基于GWO-AlexNet的工业轴承可解释图像分类方法</h3>
-        <div class="time" data-en="2024" data-zh="2024年">2024年</div>
-        <p data-en="· Addressed bearing fault diagnosis by proposing a deep learning model that integrates Grey Wolf Optimizer (GWO) with AlexNet convolutional neural network, and introduced Grad-CAM for decision visualization to enhance model interpretability. Responsible for converting original 1D vibration signals into time-frequency images through 2D wavelet transform, building a high-quality dataset that solved the complex feature extraction problem of traditional methods. Utilized GWO algorithm to automatically optimize network hyperparameters (batch size, learning rate), achieving 99.17% classification accuracy on the test set, significantly outperforming comparative algorithms (CS, BOA, WOA). Applied t-SNE for dimensionality reduction visualization of high-dimensional features to validate the model's feature learning effectiveness under different learning rates. Finally, generated heatmaps through Grad-CAM to intuitively demonstrate the model's decision basis, confirming its focus on abnormal vibration frequency regions caused by faults." data-zh="· 针对轴承故障诊断问题，提出了一种融合灰狼优化算法(GWO)与AlexNet卷积神经网络的深度学习模型，并引入Grad-CAM实现决策可视化，提升模型的可解释性。负责将原始一维振动信号通过二维小波变换转换为时频图像，构建了高质量的数据集，解决了传统方法特征提取复杂的问题。利用GWO算法自动化优化网络超参数(批量大小、学习率)，将模型在测试集上的分类准确率提升至99.17%，显著优于对比算法(CS, BOA, WOA)。应用t-SNE对高维特征进行降维可视化，验证了模型在不同学习率下的特征学习效果；最终通过Grad-CAM生成热力图，直观展示了模型决策依据，证实了其关注于故障引发的异常振动频率区域">
-          · 针对轴承故障诊断问题，提出了一种融合灰狼优化算法(GWO)与AlexNet卷积神经网络的深度学习模型，并引入Grad-CAM实现决策可视化，提升模型的可解释性。负责将原始一维振动信号通过二维小波变换转换为时频图像，构建了高质量的数据集，解决了传统方法特征提取复杂的问题。利用GWO算法自动化优化网络超参数(批量大小、学习率)，将模型在测试集上的分类准确率提升至99.17%，显著优于对比算法(CS, BOA, WOA)。应用t-SNE对高维特征进行降维可视化，验证了模型在不同学习率下的特征学习效果；最终通过Grad-CAM生成热力图，直观展示了模型决策依据，证实了其关注于故障引发的异常振动频率区域
-        </p>
+      <div class="section-header">
+        <h2 data-en="Projects" data-zh="项目经历">项目经历</h2>
       </div>
-      <div class="project-item">
-        <h3 data-en="Web-based MCU Learning and Teaching Platform" data-zh="Web端单片机学习教学平台">Web端单片机学习教学平台</h3>
-        <div class="time" data-en="2024" data-zh="2024年">2024年</div>
-        <p data-en="· Developed a comprehensive web platform for microcontroller unit (MCU) education, featuring interactive tutorials, code simulation, and real-time debugging capabilities. Implemented using Vue.js frontend and Node.js backend with MongoDB database." data-zh="· 开发了面向单片机教育的综合性Web平台，包含交互式教程、代码仿真和实时调试功能。采用Vue.js前端和Node.js后端配合MongoDB数据库实现。">
-          · 开发了面向单片机教育的综合性Web平台，包含交互式教程、代码仿真和实时调试功能。采用Vue.js前端和Node.js后端配合MongoDB数据库实现。
-        </p>
+      
+      <div class="experience-item" style="margin-bottom: 2rem;">
+        <div class="item-header">
+          <span class="item-title" data-en="LLM-based Intelligent Resume Assistant" data-zh="基于大模型的智能简历生成助手">基于大模型的智能简历生成助手</span>
+          <span class="time">2025.12 – Present</span>
+        </div>
+        <div class="sub-info" data-en="Project Leader / Product Designer" data-zh="项目负责人 / 产品设计">项目负责人 / 产品设计</div>
+        <ul class="content-list">
+          <li data-en="Designed a 'Cloud-Edge Hybrid' architecture utilizing Qwen3.5-9B and RAG technology for professional content generation." data-zh="设计“端云混合”调用架构，基于 Qwen3.5-9B 模型结合 RAG 技术保障生成内容的专业性。">设计“端云混合”调用架构，基于 Qwen3.5-9B 模型结合 RAG 技术保障生成内容的专业性。</li>
+          <li data-en="Implemented semantic matching using BERT-Whitening, achieving a Top-5 job matching rate ≥ 82%." data-zh="采用 BERT-Whitening 算法计算 JD 语义相似度，实现 Top-5 岗位匹配率 ≥ 82%。">采用 BERT-Whitening 算法计算 JD 语义相似度，实现 Top-5 岗位匹配率 ≥ 82%。</li>
+        </ul>
       </div>
-      <div class="project-item">
-        <h3 data-en="ETC Big Data Visualization Monitoring Platform" data-zh="ETC大数据可视化监控平台">ETC大数据可视化监控平台</h3>
-        <div class="time" data-en="2023" data-zh="2023年">2023年</div>
-        <p data-en="· Built a real-time monitoring dashboard for ETC (Electronic Toll Collection) system data using D3.js and ECharts, enabling traffic flow analysis and anomaly detection across highway networks." data-zh="· 基于D3.js和ECharts构建ETC（电子不停车收费）系统数据的实时监控看板，实现高速公路网络的车流量分析和异常检测。">
-          · 基于D3.js和ECharts构建ETC（电子不停车收费）系统数据的实时监控看板，实现高速公路网络的车流量分析和异常检测。
-        </p>
+
+      <div class="experience-item" style="margin-bottom: 2rem;">
+        <div class="item-header">
+          <span class="item-title" data-en="Bearing Fault Diagnosis using GWO-AlexNet" data-zh="基于GWO-AlexNet的工业轴承故障诊断系统">基于GWO-AlexNet的工业轴承故障诊断系统</span>
+          <span class="time">2023.11 – 2024.01</span>
+        </div>
+        <ul class="content-list">
+          <li data-en="Optimized AlexNet hyperparameters using Grey Wolf Optimizer (GWO), reaching 99.17% accuracy on test sets." data-zh="利用灰狼优化算法 (GWO) 自动化优化网络超参数，将模型测试集准确率提升至 99.17%。">利用灰狼优化算法 (GWO) 自动化优化网络超参数，将模型测试集准确率提升至 99.17%。</li>
+          <li data-en="Introduced Grad-CAM for decision visualization, providing interpretable heatmaps for fault localization." data-zh="引入 Grad-CAM 实现决策可视化，通过生成热力图直观展示模型关注的故障振动区域。">引入 Grad-CAM 实现决策可视化，通过生成热力图直观展示模型关注的故障振动区域。</li>
+        </ul>
+      </div>
+
+      <div class="experience-item">
+        <div class="item-header">
+          <span class="item-title" data-en="NBA Player Data Analysis & Smart Classification" data-zh="NBA 球员数据分析与智能分类系统">NBA 球员数据分析与智能分类系统</span>
+          <span class="time">2025.04 – 2025.06</span>
+        </div>
+        <ul class="content-list">
+          <li data-en="Analyzed 2,835 historical NBA player records (1980-2017) to explore evolving tactical roles." data-zh="基于 1980-2017 赛季 2835 名球员数据，通过 EDA 挖掘三分球比例提升等战术趋势。">基于 1980-2017 赛季 2835 名球员数据，通过 EDA 挖掘三分球比例提升等战术趋势。</li>
+          <li data-en="Built a DNN model for role prediction with 90.83% accuracy and used K-Means for new role clustering." data-zh="构建 DNN 模型进行位置预测，准确率达 90.83%；利用 K-Means 聚类探索现代篮球新角色。">构建 DNN 模型进行位置预测，准确率达 90.83%；利用 K-Means 聚类探索现代篮球新角色。</li>
+        </ul>
       </div>
     </section>
 
     <section id="awards">
-      <h2 data-en="Awards & Honors" data-zh="获奖经历">获奖经历</h2>
-      <div class="award-item">
-        <div class="time" data-en="2022, 2023, 2024" data-zh="2022、2023、2024年">2022、2023、2024年</div>
-        <p data-en="University-level Scholarships and Corporate Scholarships" data-zh="校级奖学金和企业奖学金">校级奖学金和企业奖学金</p>
+      <div class="section-header">
+        <h2 data-en="Awards" data-zh="荣誉证书">荣誉证书</h2>
       </div>
-      <div class="award-item">
-        <div class="time" data-en="2025" data-zh="2025年">2025年</div>
-        <p data-en="National Third Prize in National College Computer Design Competition" data-zh="全国大学生计算机设计大赛全国三等奖">全国大学生计算机设计大赛全国三等奖</p>
-      </div>
-      <div class="award-item">
-        <div class="time" data-en="2025" data-zh="2025年">2025年</div>
-        <p data-en="National Third Prize in National Simulation Innovation Application Competition" data-zh="全国仿真创新应用大赛全国三等奖">全国仿真创新应用大赛全国三等奖</p>
-      </div>
+      <ul class="content-list">
+        <li><strong data-en="National Third Prize" data-zh="全国三等奖">全国三等奖</strong> | <span data-en="China College Computer Design Competition" data-zh="全国大学生计算机设计大赛">全国大学生计算机设计大赛</span> (2025.08)</li>
+        <li><strong data-en="National Third Prize" data-zh="全国三等奖">全国三等奖</strong> | <span data-en="National Simulation Innovation Application Competition" data-zh="全国仿真创新应用大赛">全国仿真创新应用大赛</span> (2024.12)</li>
+        <li><strong data-en="University Scholarship" data-zh="校级奖学金">校级奖学金</strong> | <span data-en="CUMT Academic Excellence Award" data-zh="中国矿业大学优秀奖学金">中国矿业大学优秀奖学金</span> (2023, 2024, 2025)</li>
+      </ul>
     </section>
 
-    <section id="future">
-      <h2 data-en="Future Plans" data-zh="未来计划">未来计划</h2>
-      <p data-en="Join a forward-thinking team in <strong>AI</strong> R&D, <strong>quantitative trading</strong>, or <strong>front-end</strong> engineering, contributing to projects that leverage technology for social good. Long-term, I aspire to lead interdisciplinary projects that bridge AI innovation with practical user-centered design." data-zh="加入具有前瞻视野的 <strong>AI</strong> 研发、<strong>量化交易</strong>、或<strong>前端</strong>工程团队，参与技术驱动社会价值的项目。长期目标是主导跨学科项目，融合 AI 创新与以用户为中心的设计理念。">
-        加入具有前瞻视野的 <strong>AI</strong> 研发、<strong>量化交易</strong>、或<strong>前端</strong>工程团队，参与技术驱动社会价值的项目。长期目标是主导跨学科项目，融合 AI 创新与以用户为中心的设计理念。
+    <section id="evaluation">
+      <div class="section-header">
+        <h2 data-en="Self-Evaluation" data-zh="自我评价">自我评价</h2>
+      </div>
+      <p style="font-style: italic; font-size: 0.95rem;" data-en="A cross-disciplinary talent with a solid CS background and strong 'Product Owner' consciousness. Passionate about B-side digital transformation and leading-edge AI (AIGC/RAG) integration." 
+         data-zh="拥有扎实的计算机与数据科学背景，具备极强的“产品负责人”意识。对企业级 AI 技术（AIGC、RAG）及 B 端数字化转型充满热情，具备优秀的逻辑拆解与跨部门协作能力。">
+        拥有扎实的计算机与数据科学背景，具备极强的“产品负责人”意识。对企业级 AI 技术（AIGC、RAG）及 B 端数字化转型充满热情，具备优秀的逻辑拆解与跨部门协作能力。
       </p>
     </section>
   </main>
 
   <footer>
-    <div class="footer-content">
-      <div class="contact-info">
-        <p data-en="Email: gaojian1573@faxmail.com" data-zh="邮箱：gaojian1573@faxmail.com">邮箱：gaojian1573@faxmail.com</p>
-        <p data-en="SteamID: Patience" data-zh="SteamID: Patience">SteamID: Patience</p>
-        <p class="motto" data-en="“Workers of the world, unite!”" data-zh="“全世界无产者联合起来”">“全世界无产者联合起来”</p>
-      </div>
-      <div class="social-links">
-        <a href="https://github.com/yourusername" target="_blank" class="social-link">
-          <i class="fab fa-github social-icon"></i>
-          <span data-en="GitHub" data-zh="GitHub">GitHub</span>
-        </a>
-        <a href="https://linkedin.com/in/yourprofile" target="_blank" class="social-link">
-          <i class="fab fa-linkedin social-icon"></i>
-          <span data-en="LinkedIn" data-zh="领英">领英</span>
-        </a>
-        <a href="https://yourblog.com" target="_blank" class="social-link">
-          <i class="fas fa-blog social-icon"></i>
-          <span data-en="Personal Blog" data-zh="个人博客">个人博客</span>
-        </a>
-        <a href="https://reddit.com/user/yourusername" target="_blank" class="social-link">
-          <i class="fab fa-reddit social-icon"></i>
-          <span data-en="Reddit" data-zh="Reddit">Reddit</span>
-        </a>
-        <a href="https://stackoverflow.com/users/yourid" target="_blank" class="social-link">
-          <i class="fab fa-stack-overflow social-icon"></i>
-          <span data-en="Stack Overflow" data-zh="Stack Overflow">Stack Overflow</span>
-        </a>
-      </div>
+    <div class="footer-bold" data-en="Email: gaojian1573@foxmail.com" data-zh="电子邮箱：gaojian1573@foxmail.com">电子邮箱：gaojian1573@foxmail.com</div>
+    
+    <p class="motto" id="motto" 
+       data-zh="“我本将心向明月，奈何明月照沟渠”" 
+       data-en="“I offered my heart to the bright moon, but the moon shines upon the ditch.”">
+      “我本将心向明月，奈何明月照沟渠”
+    </p>
+
+    <div class="social-links">
+      <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+      <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+      <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
     </div>
   </footer>
 
   <script>
-    // Language data
-    const translations = {
-      en: {
-        "个人简介": "About Me",
-        "教育经历": "Education",
-        "项目经历": "Projects",
-        "获奖经历": "Awards & Honors",
-        "未来计划": "Future Plans",
-        "我是一名充满热情且专注的 <strong>计算机科学</strong>、<strong>大数据</strong> 与 <strong>人工智能AI</strong> 专业的本科生四年级，目前正在备考硕士学位~，致力于在人工智能、数据科学与前端网页开发等领域做出微薄贡献。": "I am a passionate and dedicated undergraduate senior majoring in <strong>Computer Science</strong>, <strong>Big Data</strong>, and <strong>Artificial Intelligence</strong>. Currently preparing for graduate school admission, I aim to make modest contributions in the fields of AI, data science, and front-end web development.",
-        "人工智能 硕士": "Master of Science in Artificial Intelligence",
-        "某顶尖大学，某市": "<img src='https://placehold.co/48x48/4a90e2/ffffff?text=TU' class='school-badge' alt='校徽'>Top University, City",
-        "GPA：3.8/4.0": "GPA: 3.8/4.0",
-        "计算机科学与技术 学士": "Bachelor of Engineering in Computer Science",
-        "某知名大学，某市": "<img src='https://placehold.co/48x48/e74c3c/ffffff?text=RU' class='school-badge' alt='校徽'>Renowned University, City",
-        "GPA：3.7/4.0": "GPA: 3.7/4.0",
-        "基于GWO-AlexNet的工业轴承可解释图像分类方法": "Explainable Image Classification Method for Industrial Bearings Based on GWO-AlexNet",
-        "2024年": "2024",
-        "· 针对轴承故障诊断问题，提出了一种融合灰狼优化算法(GWO)与AlexNet卷积神经网络的深度学习模型，并引入Grad-CAM实现决策可视化，提升模型的可解释性。负责将原始一维振动信号通过二维小波变换转换为时频图像，构建了高质量的数据集，解决了传统方法特征提取复杂的问题。利用GWO算法自动化优化网络超参数(批量大小、学习率)，将模型在测试集上的分类准确率提升至99.17%，显著优于对比算法(CS, BOA, WOA)。应用t-SNE对高维特征进行降维可视化，验证了模型在不同学习率下的特征学习效果；最终通过Grad-CAM生成热力图，直观展示了模型决策依据，证实了其关注于故障引发的异常振动频率区域": "· Addressed bearing fault diagnosis by proposing a deep learning model that integrates Grey Wolf Optimizer (GWO) with AlexNet convolutional neural network, and introduced Grad-CAM for decision visualization to enhance model interpretability. Responsible for converting original 1D vibration signals into time-frequency images through 2D wavelet transform, building a high-quality dataset that solved the complex feature extraction problem of traditional methods. Utilized GWO algorithm to automatically optimize network hyperparameters (batch size, learning rate), achieving 99.17% classification accuracy on the test set, significantly outperforming comparative algorithms (CS, BOA, WOA). Applied t-SNE for dimensionality reduction visualization of high-dimensional features to validate the model's feature learning effectiveness under different learning rates. Finally, generated heatmaps through Grad-CAM to intuitively demonstrate the model's decision basis, confirming its focus on abnormal vibration frequency regions caused by faults.",
-        "Web端单片机学习教学平台": "Web-based MCU Learning and Teaching Platform",
-        "· 开发了面向单片机教育的综合性Web平台，包含交互式教程、代码仿真和实时调试功能。采用Vue.js前端和Node.js后端配合MongoDB数据库实现。": "· Developed a comprehensive web platform for microcontroller unit (MCU) education, featuring interactive tutorials, code simulation, and real-time debugging capabilities. Implemented using Vue.js frontend and Node.js backend with MongoDB database.",
-        "ETC大数据可视化监控平台": "ETC Big Data Visualization Monitoring Platform",
-        "· 基于D3.js和ECharts构建ETC（电子不停车收费）系统数据的实时监控看板，实现高速公路网络的车流量分析和异常检测。": "· Built a real-time monitoring dashboard for ETC (Electronic Toll Collection) system data using D3.js and ECharts, enabling traffic flow analysis and anomaly detection across highway networks.",
-        "2023年": "2023",
-        "校级奖学金和企业奖学金": "University-level Scholarships and Corporate Scholarships",
-        "全国大学生计算机设计大赛全国三等奖": "National Third Prize in National College Computer Design Competition",
-        "全国仿真创新应用大赛全国三等奖": "National Third Prize in National Simulation Innovation Application Competition",
-        "加入具有前瞻视野的 <strong>AI</strong> 研发、<strong>量化交易</strong>、或<strong>前端</strong>工程团队，参与技术驱动社会价值的项目。长期目标是主导跨学科项目，融合 AI 创新与以用户为中心的设计理念。": "Join a forward-thinking team in <strong>AI</strong> R&D, <strong>quantitative trading</strong>, or <strong>front-end</strong> engineering, contributing to projects that leverage technology for social good. Long-term, I aspire to lead interdisciplinary projects that bridge AI innovation with practical user-centered design.",
-        "邮箱：gaojian1573@faxmail.com": "Email: gaojian1573@faxmail.com",
-        "SteamID: Patience": "SteamID: Patience",
-        "“全世界无产者联合起来”": "“Workers of the world, unite!”",
-        "2023 – 至今": "2023 – Present",
-        "2019 – 2023": "2019 – 2023",
-        "中文 / English": "English / 中文",
-        "联系": "Contact",
-        "工作能力": "Core Competencies",
-        "机器学习与深度学习": "Machine Learning & Deep Learning",
-        "前端开发（React, Vue）": "Frontend Development (React, Vue)",
-        "自然语言处理": "Natural Language Processing",
-        "数据分析与可视化": "Data Analysis & Visualization",
-        "算法设计与优化": "Algorithm Design & Optimization",
-        "全栈开发": "Full-stack Development",
-        "Git版本控制": "Git & Version Control",
-        "数学建模": "Mathematical Modeling",
-        "SQL数据库": "SQL & Database",
-        "C/C++编程": "C/C++ Programming",
-        "Python开发": "Python Development",
-        "主要课程": "Key Courses",
-        "机器学习": "Machine Learning",
-        "Web开发": "Web Development",
-        "数据结构与算法": "Data Structures & Algorithms",
-        "数据库系统": "Database Systems",
-        "大数据架构": "Big Data Architecture",
-        "大数据可视化": "Big Data Visualization",
-        "推荐系统": "Recommendation Systems",
-        "个人兴趣": "Interests",
-        "开源贡献": "Open Source Contribution",
-        "技术写作": "Technical Writing",
-        "摄影": "Photography",
-        "徒步与户外活动": "Hiking & Outdoor Activities",
-        "文艺写作": "Literary Writing",
-        "GitHub": "GitHub",
-        "领英": "LinkedIn",
-        "个人博客": "Personal Blog",
-        "Reddit": "Reddit",
-        "Stack Overflow": "Stack Overflow"
-      },
-      zh: {
-        "About Me": "个人简介",
-        "Education": "教育经历",
-        "Projects": "项目经历",
-        "Awards & Honors": "获奖经历",
-        "Future Plans": "未来计划",
-        "I am a passionate and dedicated undergraduate senior majoring in <strong>Computer Science</strong>, <strong>Big Data</strong>, and <strong>Artificial Intelligence</strong>. Currently preparing for graduate school admission, I aim to make modest contributions in the fields of AI, data science, and front-end web development.": "我是一名充满热情且专注的 <strong>计算机科学</strong>、<strong>大数据</strong> 与 <strong>人工智能AI</strong> 专业的本科生四年级，目前正在备考硕士学位~，致力于在人工智能、数据科学与前端网页开发等领域做出微薄贡献。",
-        "Master of Science in Artificial Intelligence": "人工智能 硕士",
-        "Top University, City": "<img src='https://placehold.co/48x48/4a90e2/ffffff?text=TU' class='school-badge' alt='校徽'>Top University, City",
-        "GPA: 3.8/4.0": "GPA：3.8/4.0",
-        "Bachelor of Engineering in Computer Science": "计算机科学与技术 学士",
-        "Renowned University, City": "<img src='https://placehold.co/48x48/e74c3c/ffffff?text=RU' class='school-badge' alt='校徽'>Renowned University, City",
-        "GPA: 3.7/4.0": "GPA：3.7/4.0",
-        "Explainable Image Classification Method for Industrial Bearings Based on GWO-AlexNet": "基于GWO-AlexNet的工业轴承可解释图像分类方法",
-        "2024": "2024年",
-        "· Addressed bearing fault diagnosis by proposing a deep learning model that integrates Grey Wolf Optimizer (GWO) with AlexNet convolutional neural network, and introduced Grad-CAM for decision visualization to enhance model interpretability. Responsible for converting original 1D vibration signals into time-frequency images through 2D wavelet transform, building a high-quality dataset that solved the complex feature extraction problem of traditional methods. Utilized GWO algorithm to automatically optimize network hyperparameters (batch size, learning rate), achieving 99.17% classification accuracy on the test set, significantly outperforming comparative algorithms (CS, BOA, WOA). Applied t-SNE for dimensionality reduction visualization of high-dimensional features to validate the model's feature learning effectiveness under different learning rates. Finally, generated heatmaps through Grad-CAM to intuitively demonstrate the model's decision basis, confirming its focus on abnormal vibration frequency regions caused by faults.": "· 针对轴承故障诊断问题，提出了一种融合灰狼优化算法(GWO)与AlexNet卷积神经网络的深度学习模型，并引入Grad-CAM实现决策可视化，提升模型的可解释性。负责将原始一维振动信号通过二维小波变换转换为时频图像，构建了高质量的数据集，解决了传统方法特征提取复杂的问题。利用GWO算法自动化优化网络超参数(批量大小、学习率)，将模型在测试集上的分类准确率提升至99.17%，显著优于对比算法(CS, BOA, WOA)。应用t-SNE对高维特征进行降维可视化，验证了模型在不同学习率下的特征学习效果；最终通过Grad-CAM生成热力图，直观展示了模型决策依据，证实了其关注于故障引发的异常振动频率区域",
-        "Web-based MCU Learning and Teaching Platform": "Web端单片机学习教学平台",
-        "· Developed a comprehensive web platform for microcontroller unit (MCU) education, featuring interactive tutorials, code simulation, and real-time debugging capabilities. Implemented using Vue.js frontend and Node.js backend with MongoDB database.": "· 开发了面向单片机教育的综合性Web平台，包含交互式教程、代码仿真和实时调试功能。采用Vue.js前端和Node.js后端配合MongoDB数据库实现。",
-        "ETC Big Data Visualization Monitoring Platform": "ETC大数据可视化监控平台",
-        "· Built a real-time monitoring dashboard for ETC (Electronic Toll Collection) system data using D3.js and ECharts, enabling traffic flow analysis and anomaly detection across highway networks.": "· 基于D3.js和ECharts构建ETC（电子不停车收费）系统数据的实时监控看板，实现高速公路网络的车流量分析和异常检测。",
-        "2023": "2023年",
-        "University-level Scholarships and Corporate Scholarships": "校级奖学金和企业奖学金",
-        "National Third Prize in National College Computer Design Competition": "全国大学生计算机设计大赛全国三等奖",
-        "National Third Prize in National Simulation Innovation Application Competition": "全国仿真创新应用大赛全国三等奖",
-        "Join a forward-thinking team in <strong>AI</strong> R&D, <strong>quantitative trading</strong>, or <strong>front-end</strong> engineering, contributing to projects that leverage technology for social good. Long-term, I aspire to lead interdisciplinary projects that bridge AI innovation with practical user-centered design.": "加入具有前瞻视野的 <strong>AI</strong> 研发、<strong>量化交易</strong>、或<strong>前端</strong>工程团队，参与技术驱动社会价值的项目。长期目标是主导跨学科项目，融合 AI 创新与以用户为中心的设计理念。",
-        "Email: gaojian1573@faxmail.com": "邮箱：gaojian1573@faxmail.com",
-        "SteamID: Patience": "SteamID: Patience",
-        "“Workers of the world, unite!”": "“全世界无产者联合起来”",
-        "2023 – Present": "2023 – 至今",
-        "2019 – 2023": "2019 – 2023",
-        "English / 中文": "中文 / English",
-        "Contact": "联系",
-        "Core Competencies": "工作能力",
-        "Machine Learning & Deep Learning": "机器学习与深度学习",
-        "Frontend Development (React, Vue)": "前端开发（React, Vue）",
-        "Natural Language Processing": "自然语言处理",
-        "Data Analysis & Visualization": "数据分析与可视化",
-        "Algorithm Design & Optimization": "算法设计与优化",
-        "Full-stack Development": "全栈开发",
-        "Git & Version Control": "Git版本控制",
-        "Mathematical Modeling": "数学建模",
-        "SQL & Database": "SQL数据库",
-        "C/C++ Programming": "C/C++编程",
-        "Python Development": "Python开发",
-        "Key Courses": "主要课程",
-        "Machine Learning": "机器学习",
-        "Web Development": "Web开发",
-        "Data Structures & Algorithms": "数据结构与算法",
-        "Database Systems": "数据库系统",
-        "Big Data Architecture": "大数据架构",
-        "Big Data Visualization": "大数据可视化",
-        "Recommendation Systems": "推荐系统",
-        "Interests": "个人兴趣",
-        "Open Source Contribution": "开源贡献",
-        "Technical Writing": "技术写作",
-        "Photography": "摄影",
-        "Hiking & Outdoor Activities": "徒步与户外活动",
-        "Literary Writing": "文艺写作",
-        "GitHub": "GitHub",
-        "LinkedIn": "领英",
-        "Personal Blog": "个人博客",
-        "Reddit": "Reddit",
-        "Stack Overflow": "Stack Overflow"
-      }
-    };
-
     let currentLang = 'zh';
     const langToggle = document.getElementById('langToggle');
     const themeToggle = document.getElementById('themeToggle');
@@ -666,64 +540,40 @@
     const logo = document.getElementById('logo');
     const avatar = document.getElementById('avatar');
 
-    // Language toggle
+    // Language switch
     langToggle.addEventListener('click', () => {
       currentLang = currentLang === 'zh' ? 'en' : 'zh';
-      updateLanguage();
-      langToggle.textContent = currentLang === 'zh' ? '中文 / English' : 'English / 中文';
+      const elements = document.querySelectorAll('[data-en], [data-zh]');
+      elements.forEach(el => {
+        el.innerHTML = currentLang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-zh');
+      });
+      langToggle.textContent = currentLang === 'zh' ? 'EN / 中' : '中 / EN';
     });
 
-    // Contact button - scroll to footer
+    // Dark mode
+    themeToggle.addEventListener('click', () => {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      document.documentElement.setAttribute('data-theme', isDark ? '' : 'dark');
+    });
+
+    // Logo Animation
+    const nameLetters = "GAOJIAN".split("");
+    let lIdx = 0;
+    setInterval(() => {
+      logo.textContent = nameLetters[lIdx % nameLetters.length];
+      lIdx++;
+    }, 2000);
+
+    // Scroll to footer
     contactBtn.addEventListener('click', () => {
       document.querySelector('footer').scrollIntoView({ behavior: 'smooth' });
     });
 
-    function updateLanguage() {
-      const elements = document.querySelectorAll('[data-en], [data-zh]');
-      elements.forEach(el => {
-        const enText = el.getAttribute('data-en');
-        const zhText = el.getAttribute('data-zh');
-        if (currentLang === 'en' && enText) {
-          el.innerHTML = enText;
-        } else if (currentLang === 'zh' && zhText) {
-          el.innerHTML = zhText;
-        }
-      });
-      
-      // Update contact button text specifically
-      contactBtn.textContent = currentLang === 'zh' ? '联系' : 'Contact';
-    }
-
-    // Theme toggle
-    themeToggle.addEventListener('click', () => {
-      const currentTheme = document.documentElement.getAttribute('data-theme');
-      if (currentTheme === 'dark') {
-        document.documentElement.removeAttribute('data-theme');
-      } else {
-        document.documentElement.setAttribute('data-theme', 'dark');
-      }
-    });
-
-    // Dynamic logo animation with new sequence
-    function animateLogo() {
-      const letters = ['M','Y','N','A','M','A','I','S','G','J','W','E','L','L','C','O','M','E'];
-      let index = 0;
-      setInterval(() => {
-        logo.textContent = letters[index % letters.length];
-        index++;
-      }, 1000);
-    }
-
-    // Photo interaction
+    // Avatar Wiggle
     avatar.addEventListener('click', () => {
-      avatar.style.animation = 'none';
-      setTimeout(() => {
-        avatar.style.animation = 'photoWiggle 0.6s ease-in-out';
-      }, 10);
+      avatar.style.animation = 'photoWiggle 0.6s ease-in-out';
+      setTimeout(() => avatar.style.animation = '', 600);
     });
-
-    animateLogo();
   </script>
 </body>
 </html>
-
