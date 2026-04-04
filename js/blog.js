@@ -353,6 +353,18 @@ function getBlogPosts() {
     // 文章数据
     return [
         {
+            id: 'readme-devdoc-sync-20260404',
+            title: '仓库 README 与开发文档（博客同步版）',
+            title_en: 'Repository README & Developer Guide (Blog Sync)',
+            excerpt: '与根目录 README.md 对齐：项目结构、Markdown 子系统、博客注册流程、中英 md 约定、本地预览与 GitHub Pages 部署说明。',
+            excerpt_en: 'Aligned with root README.md: repo layout, Markdown subsystem, blog registration flow, zh/en md pairing, local preview, and GitHub Pages deployment.',
+            date: '2026-04-04',
+            url: '/pages/blog/moban_new_md.html?md=../../context/20260404_readme_zh.md',
+            category: 'tech',
+            tags: ['README', '开发文档', 'GitHub Pages', 'Markdown'],
+            tags_en: ['README', 'Developer Docs', 'GitHub Pages', 'Markdown']
+        },
+        {
             id: 'crmicro-interview-prep-20260404',
             title: '华润微电子技术面试准备笔记',
             title_en: 'CR Microelectronics Technical Interview Prep Notes',
