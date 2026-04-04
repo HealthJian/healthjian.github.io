@@ -47,13 +47,19 @@ class MarkdownRenderer {
         // 自定义渲染器
         const renderer = new marked.Renderer();
         
-        // 自定义标题渲染，生成目录
+        // 自定义标题渲染，生成目录（纯文本用于 slug / 目录，保留 HTML 用于正文标题）
         renderer.heading = (text, level) => {
-            const slug = this.generateSlug(text);
-            
-            // 添加到目录
+            const plainText = String(text)
+                .replace(/<[^>]+>/g, '')
+                .replace(/&nbsp;/g, ' ')
+                .replace(/&amp;/g, '&')
+                .replace(/&lt;/g, '<')
+                .replace(/&gt;/g, '>')
+                .trim();
+            const slug = this.generateSlug(plainText);
+
             this.tocItems.push({
-                text: text,
+                text: plainText,
                 level: level,
                 slug: slug
             });
@@ -299,43 +305,57 @@ class MarkdownRenderer {
             .replace(/\n/gim, '<br>');
     }
 
-    // 生成目录HTML
+    // 生成目录 HTML：h2 下挂 h3 时可折叠；h1 / h4+ 扁平展示
     generateTOCHTML() {
         if (this.tocItems.length === 0) {
             return '<p class="no-toc">本文暂无目录</p>';
         }
 
-        let tocHTML = '<ul class="toc-list">';
-        let currentLevel = 0;
+        const esc = (s) => this.escapeHtml(String(s));
+        let html = '<div class="toc-tree">';
+        const items = this.tocItems;
+        let i = 0;
 
-        this.tocItems.forEach((item, index) => {
-            const levelDiff = item.level - currentLevel;
-            
-            if (levelDiff > 0) {
-                // 需要增加嵌套层级
-                for (let i = 0; i < levelDiff; i++) {
-                    if (currentLevel > 0 || i > 0) {
-                        tocHTML += '<ul>';
-                    }
+        while (i < items.length) {
+            const item = items[i];
+
+            if (item.level === 1) {
+                html += `<div class="toc-row toc-level-1"><a href="#${item.slug}" class="toc-link" data-level="1">${esc(item.text)}</a></div>`;
+                i++;
+            } else if (item.level === 2) {
+                const h2 = item;
+                const children = [];
+                let j = i + 1;
+                while (j < items.length && items[j].level === 3) {
+                    children.push(items[j]);
+                    j++;
                 }
-            } else if (levelDiff < 0) {
-                // 需要减少嵌套层级
-                for (let i = 0; i < Math.abs(levelDiff); i++) {
-                    tocHTML += '</ul>';
+
+                if (children.length > 0) {
+                    html += `<div class="toc-branch" data-open="true">`;
+                    html += `<div class="toc-h2-head">`;
+                    html += `<button type="button" class="toc-branch-toggle" aria-expanded="true" aria-label="折叠或展开小节"></button>`;
+                    html += `<a href="#${h2.slug}" class="toc-link toc-h2" data-level="2">${esc(h2.text)}</a>`;
+                    html += `</div><ul class="toc-h3-list">`;
+                    children.forEach((ch) => {
+                        html += `<li><a href="#${ch.slug}" class="toc-link toc-h3" data-level="3">${esc(ch.text)}</a></li>`;
+                    });
+                    html += `</ul></div>`;
+                } else {
+                    html += `<div class="toc-row toc-level-2 toc-leaf"><a href="#${h2.slug}" class="toc-link toc-h2" data-level="2">${esc(h2.text)}</a></div>`;
                 }
+                i = j;
+            } else if (item.level === 3) {
+                html += `<div class="toc-row toc-level-3 toc-orphan"><a href="#${item.slug}" class="toc-link toc-h3" data-level="3">${esc(item.text)}</a></div>`;
+                i++;
+            } else {
+                html += `<div class="toc-row toc-level-low"><a href="#${item.slug}" class="toc-link" data-level="${item.level}">${esc(item.text)}</a></div>`;
+                i++;
             }
-
-            tocHTML += `<li><a href="#${item.slug}" class="toc-link" data-level="${item.level}">${item.text}</a></li>`;
-            currentLevel = item.level;
-        });
-
-        // 关闭所有未关闭的ul标签
-        for (let i = currentLevel; i > 1; i--) {
-            tocHTML += '</ul>';
         }
-        tocHTML += '</ul>';
 
-        return tocHTML;
+        html += '</div>';
+        return html;
     }
 
     // 设置图片懒加载和错误处理

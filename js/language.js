@@ -44,6 +44,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // 保存语言偏好
             localStorage.setItem('language', newLang);
             
+            window.dispatchEvent(new CustomEvent('sitewide-language-change', { detail: { lang: newLang } }));
+            
             // 如果在博客页面，重新加载当前页的文章以更新语言
             if (window.location.href.includes('/blog.html')) {
                 const activePage = document.querySelector('.pagination .active');
@@ -66,6 +68,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // 更新所有文本
         updateAllLanguageElements(savedLang);
+        
+        window.dispatchEvent(new CustomEvent('sitewide-language-change', { detail: { lang: savedLang } }));
         
         // 更新引言文本和提示
         const quoteEl = document.querySelector('.quote-text');

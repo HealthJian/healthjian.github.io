@@ -132,6 +132,18 @@
         .markdown-container {
             min-height: 400px;
         }
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
     </style>
 </head>
 <body class="light-mode">
@@ -166,16 +178,21 @@
         </div>
     </nav>
 
-    <div class="blog-post-container">
+    <div class="blog-post-container md-article-layout" id="md-article-layout">
+        <button type="button" id="md-sidebar-drawer-btn" class="md-sidebar-drawer-btn" aria-expanded="true" aria-controls="md-sidebar" data-en-title="Hide sidebar" data-zh-title="隐藏侧栏" title="隐藏侧栏">
+            <span class="md-sidebar-drawer-btn__grip" aria-hidden="true"></span>
+        </button>
         <!-- 侧边栏 -->
-        <aside class="blog-sidebar">
+        <aside class="blog-sidebar" id="md-sidebar">
             <!-- 目录容器 -->
             <div class="toc-container">
                 <h3 data-en="Table of Contents" data-zh="目录">目录</h3>
-                <div id="toc-content">
-                    <div class="loading-container">
-                        <div class="loading-spinner"></div>
-                        <div class="loading-text" data-en="Loading..." data-zh="加载中...">加载中...</div>
+                <div class="toc-scroll-area">
+                    <div id="toc-content">
+                        <div class="loading-container">
+                            <div class="loading-spinner"></div>
+                            <div class="loading-text" data-en="Loading..." data-zh="加载中...">加载中...</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -213,32 +230,29 @@
             <!-- 文章操作 -->
             <div class="post-actions">
                 <h3 data-en="Actions" data-zh="操作">操作</h3>
-                <div class="action-buttons">
-                    <button id="print-btn" class="action-btn" title="打印文章">
-                        <i class="fas fa-print"></i>
-                        <span data-en="Print" data-zh="打印">打印</span>
+                <div class="md-action-bar" role="toolbar" aria-label="Article tools">
+                    <button type="button" id="print-btn" class="md-icon-action" data-en-tooltip="Print" data-zh-tooltip="打印" title="打印">
+                        <i class="fas fa-print" aria-hidden="true"></i>
+                        <span class="visually-hidden" data-en="Print" data-zh="打印">打印</span>
                     </button>
-                    <button id="share-btn" class="action-btn" title="分享文章">
-                        <i class="fas fa-share-alt"></i>
-                        <span data-en="Share" data-zh="分享">分享</span>
+                    <button type="button" id="share-btn" class="md-icon-action" data-en-tooltip="Share" data-zh-tooltip="分享" title="分享">
+                        <i class="fas fa-share-alt" aria-hidden="true"></i>
+                        <span class="visually-hidden" data-en="Share" data-zh="分享">分享</span>
                     </button>
-                    <button id="fullscreen-btn" class="action-btn" title="全屏阅读">
-                        <i class="fas fa-expand"></i>
-                        <span data-en="Fullscreen" data-zh="全屏">全屏</span>
+                    <button type="button" id="fullscreen-btn" class="md-icon-action" data-en-tooltip="Fullscreen" data-zh-tooltip="全屏" title="全屏">
+                        <i class="fas fa-expand" aria-hidden="true"></i>
+                        <span class="visually-hidden" data-en="Fullscreen" data-zh="全屏">全屏</span>
                     </button>
                 </div>
             </div>
         </aside>
 
         <!-- 文章主体 -->
-        <main class="blog-post-main">
+        <main class="blog-post-main" id="md-main-column">
             <article class="blog-post-content">
                 <header class="post-header">
                     <h1 class="post-title" id="article-title">
-                        <div class="bilingual-content">
-                            <span class="zh-content">加载中...</span>
-                            <span class="en-content" style="display: none;">Loading...</span>
-                        </div>
+                        <span id="article-title-text">加载中...</span>
                     </h1>
                 </header>
                 
@@ -271,9 +285,9 @@
     <footer>
         <div class="footer-content">
             <div class="footer-info">
-                <p>&copy; 2025 CaiNiaojian&HealthJian all followed.</p>
-                <p data-en="Contact: " data-zh="联系方式：">联系方式：<a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
-                <p data-en="Location: " data-zh="地址：">地址：XX</p>
+                <p>&copy; 2025-2026 CaiNiaojian&HealthJian all followed.</p>
+                <p data-en="Contact: gaojian1573@foxmail.com" data-zh="联系方式：gaojian1573@foxmail.com">联系方式：<a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
+                <p data-en="Location: CHINA" data-zh="地址：中国">地址：XX</p>
             </div>
             <div class="footer-links">
                 <a href="../blog.html" data-en="Blog" data-zh="博客">博客</a>
@@ -297,9 +311,7 @@
     <script>
         // 页面配置
         const PAGE_CONFIG = {
-            // 默认Markdown文件路径（可以通过URL参数覆盖）
-            defaultMarkdownFile: '../../context/test.md',
-            // 文章元数据
+            defaultMarkdownFile: '../../context/test_zh.md',
             articleMeta: {
                 title: 'Markdown测试文章',
                 title_en: 'Markdown Test Article',
@@ -311,27 +323,57 @@
             }
         };
 
-        // 全局变量
         let markdownRenderer;
         let currentMarkdownFile;
+        /** URL 或默认中的「逻辑路径」，用于 _zh/_en 配对；不随语言改写查询串 */
+        let mdBaseFromUrl = '';
         let isFullscreen = false;
+        let mdTocScrollTick = false;
 
-        // 页面初始化
-        document.addEventListener('DOMContentLoaded', async function() {
-            // 初始化Markdown渲染器
-            markdownRenderer = new MarkdownRenderer();
-            
-            // 获取Markdown文件路径
-            currentMarkdownFile = getMarkdownFileFromURL() || PAGE_CONFIG.defaultMarkdownFile;
-            
-            // 加载并渲染Markdown文件
+        function getCurrentLang() {
+            return document.body.classList.contains('en') ? 'en' : 'zh';
+        }
+
+        async function mdFileExists(url) {
+            try {
+                let r = await fetch(url, { method: 'HEAD', cache: 'no-cache' });
+                if (r.ok) return true;
+                r = await fetch(url, { cache: 'no-cache' });
+                return r.ok;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        /**
+         * 根据语言解析要加载的 md 路径：
+         * - xxx_zh.md <-> xxx_en.md
+         * - 无后缀对时：英文优先 xxx_en.md；中文优先 xxx_zh.md（存在才用），否则原文件
+         */
+        async function resolveMarkdownPathForLanguage(basePath, lang) {
+            if (!basePath) return basePath;
+            const zhPair = basePath.match(/^(.+)_zh\.md$/i);
+            if (zhPair) {
+                return lang === 'zh' ? basePath : zhPair[1] + '_en.md';
+            }
+            const enPair = basePath.match(/^(.+)_en\.md$/i);
+            if (enPair) {
+                return lang === 'en' ? basePath : enPair[1] + '_zh.md';
+            }
+            if (lang === 'en') {
+                const enTry = basePath.replace(/\.md$/i, '_en.md');
+                if (enTry !== basePath && await mdFileExists(enTry)) return enTry;
+                return basePath;
+            }
+            const zhTry = basePath.replace(/\.md$/i, '_zh.md');
+            if (zhTry !== basePath && await mdFileExists(zhTry)) return zhTry;
+            return basePath;
+        }
+
+        window.addEventListener('sitewide-language-change', async function() {
+            if (!markdownRenderer || !mdBaseFromUrl) return;
             await loadAndRenderMarkdown();
-            
-            // 初始化页面功能
-            initPageFeatures();
-            
-            // 初始化主题切换监听
-            initThemeToggle();
+            syncMdChromeI18n();
         });
 
         // 从URL参数获取Markdown文件路径
@@ -340,32 +382,102 @@
             return urlParams.get('md') || urlParams.get('file');
         }
 
-        // 加载并渲染Markdown文件
+        function syncMdChromeI18n() {
+            const lang = getCurrentLang();
+            document.querySelectorAll('.md-icon-action[data-zh-tooltip]').forEach(function (btn) {
+                const t = btn.getAttribute(lang === 'en' ? 'data-en-tooltip' : 'data-zh-tooltip');
+                if (t) btn.setAttribute('title', t);
+            });
+            const drawerBtn = document.getElementById('md-sidebar-drawer-btn');
+            if (drawerBtn) {
+                const collapsed = document.getElementById('md-article-layout').classList.contains('md-layout--sidebar-collapsed');
+                const showZh = lang === 'zh';
+                if (collapsed) {
+                    drawerBtn.setAttribute('title', showZh ? '展开侧栏' : 'Show sidebar');
+                } else {
+                    const dt = drawerBtn.getAttribute(showZh ? 'data-zh-title' : 'data-en-title');
+                    if (dt) drawerBtn.setAttribute('title', dt);
+                }
+            }
+        }
+
+        function initSidebarDrawer() {
+            const layout = document.getElementById('md-article-layout');
+            const btn = document.getElementById('md-sidebar-drawer-btn');
+            if (!layout || !btn) return;
+            btn.addEventListener('click', function () {
+                const collapsed = layout.classList.toggle('md-layout--sidebar-collapsed');
+                btn.classList.toggle('md-sidebar-drawer-btn--collapsed', collapsed);
+                btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+                const lang = getCurrentLang();
+                if (collapsed) {
+                    btn.setAttribute('title', lang === 'zh' ? '展开侧栏' : 'Show sidebar');
+                } else {
+                    syncMdChromeI18n();
+                }
+            });
+        }
+
+        function initTocBranchToggles(root) {
+            if (!root) return;
+            root.querySelectorAll('.toc-branch-toggle').forEach(function (toggleBtn) {
+                toggleBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const branch = toggleBtn.closest('.toc-branch');
+                    if (!branch) return;
+                    const open = branch.getAttribute('data-open') === 'true';
+                    const next = !open;
+                    branch.setAttribute('data-open', next ? 'true' : 'false');
+                    toggleBtn.setAttribute('aria-expanded', next ? 'true' : 'false');
+                    toggleBtn.classList.toggle('toc-branch-toggle--collapsed', !next);
+                });
+            });
+        }
+
+        // 页面初始化
+        document.addEventListener('DOMContentLoaded', async function() {
+            markdownRenderer = new MarkdownRenderer();
+            mdBaseFromUrl = getMarkdownFileFromURL() || PAGE_CONFIG.defaultMarkdownFile;
+
+            await loadAndRenderMarkdown();
+
+            initPageFeatures();
+            initSidebarDrawer();
+            initThemeToggle();
+            syncMdChromeI18n();
+        });
+
         async function loadAndRenderMarkdown() {
             try {
-                // 显示加载状态
                 showLoadingState();
-                
-                // 加载Markdown文件
-                const markdownText = await markdownRenderer.loadMarkdownFile(currentMarkdownFile);
-                
-                // 渲染Markdown内容
+
+                const lang = getCurrentLang();
+                let path = await resolveMarkdownPathForLanguage(mdBaseFromUrl, lang);
+                let markdownText;
+
+                try {
+                    markdownText = await markdownRenderer.loadMarkdownFile(path);
+                    currentMarkdownFile = path;
+                } catch (primaryErr) {
+                    if (path !== mdBaseFromUrl) {
+                        markdownText = await markdownRenderer.loadMarkdownFile(mdBaseFromUrl);
+                        currentMarkdownFile = mdBaseFromUrl;
+                    } else {
+                        throw primaryErr;
+                    }
+                }
+
                 const result = await markdownRenderer.renderMarkdown(
-                    markdownText, 
+                    markdownText,
                     document.getElementById('markdown-content')
                 );
-                
-                // 更新目录
+
                 updateTableOfContents(result.toc);
-                
-                // 更新页面标题和元数据
                 updatePageMetadata(markdownText);
-                
-                // 隐藏加载状态
                 hideLoadingState();
-                
-                console.log('Markdown文章加载完成');
-                
+                syncMdChromeI18n();
+
             } catch (error) {
                 console.error('加载Markdown文件失败:', error);
                 showErrorState(error.message);
@@ -430,50 +542,43 @@
             }
             
             tocContent.innerHTML = markdownRenderer.generateTOCHTML();
-            
-            // 添加目录链接点击事件
+
+            initTocBranchToggles(tocContent);
+
             const tocLinks = tocContent.querySelectorAll('.toc-link');
             tocLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     const targetId = this.getAttribute('href').substring(1);
                     const targetElement = document.getElementById(targetId);
-                    
+
                     if (targetElement) {
                         targetElement.scrollIntoView({
                             behavior: 'smooth',
                             block: 'start'
                         });
-                        
-                        // 更新活动状态
+
                         tocLinks.forEach(l => l.classList.remove('active'));
                         this.classList.add('active');
-                        
-                        // 更新URL
+
                         history.pushState(null, null, this.getAttribute('href'));
                     }
                 });
             });
         }
 
-        // 更新页面元数据
+        // 更新页面元数据（正文语言由当前加载的 md 决定，标题取该文件首行 #）
         function updatePageMetadata(markdownText) {
-            // 尝试从Markdown内容中提取标题
             const titleMatch = markdownText.match(/^#\s+(.+)$/m);
-            const extractedTitle = titleMatch ? titleMatch[1] : null;
-            
-            // 更新页面标题
-            const pageTitle = extractedTitle || PAGE_CONFIG.articleMeta.title;
-            const pageTitleEn = extractedTitle || PAGE_CONFIG.articleMeta.title_en;
-            
+            const extractedTitle = titleMatch ? titleMatch[1].trim() : null;
+            const lang = getCurrentLang();
+            const fallback = lang === 'en' ? PAGE_CONFIG.articleMeta.title_en : PAGE_CONFIG.articleMeta.title;
+            const pageTitle = extractedTitle || fallback;
+
             document.getElementById('page-title').textContent = `${pageTitle} - HealthJian的博客`;
-            
-            const articleTitle = document.getElementById('article-title');
-            const zhContent = articleTitle.querySelector('.zh-content');
-            const enContent = articleTitle.querySelector('.en-content');
-            
-            if (zhContent) zhContent.textContent = pageTitle;
-            if (enContent) enContent.textContent = pageTitleEn;
+
+            const titleEl = document.getElementById('article-title-text');
+            if (titleEl) titleEl.textContent = pageTitle;
             
             // 更新日期
             document.getElementById('post-date').textContent = PAGE_CONFIG.articleMeta.date;
@@ -527,12 +632,10 @@
                 toggleFullscreen();
             });
             
-            // 滚动监听，更新活动目录项
-            let ticking = false;
             window.addEventListener('scroll', function() {
-                if (!ticking) {
+                if (!mdTocScrollTick) {
                     requestAnimationFrame(updateActiveTocItem);
-                    ticking = true;
+                    mdTocScrollTick = true;
                 }
             });
         }
@@ -579,7 +682,7 @@
                 }
             });
             
-            ticking = false;
+            mdTocScrollTick = false;
         }
 
         // 初始化主题切换监听

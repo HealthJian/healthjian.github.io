@@ -353,6 +353,18 @@ function getBlogPosts() {
     // 文章数据
     return [
         {
+            id: 'crmicro-interview-prep-20260404',
+            title: '华润微电子技术面试准备笔记',
+            title_en: 'CR Microelectronics Technical Interview Prep Notes',
+            excerpt: '技术/就业向：半导体智能制造缺陷检测场景下的项目问答整理，涵盖 CWT、AlexNet、GWO、Grad-CAM 与产线落地，供面试复盘使用。',
+            excerpt_en: 'Tech & career notes: Q&A on semiconductor smart manufacturing defect detection, covering CWT, AlexNet, GWO, Grad-CAM, and line deployment for interview review.',
+            date: '2026-04-04',
+            url: '/pages/blog/moban_new_md.html?md=../../context/20260404.md',
+            category: 'interview',
+            tags: ['面试', '半导体', '缺陷检测', '深度学习'],
+            tags_en: ['Interview', 'Semiconductor', 'Defect Detection', 'Deep Learning']
+        },
+        {
             id: 'engineering-blog-post-20260314',
             title: '从原始招聘数据到可训练大模型语料：一次完整数据工程实战总结',
             title_en: 'From Raw Recruitment Data to Trainable LLM Corpus: An End-to-End Data Engineering Recap',
@@ -599,7 +611,7 @@ function getBlogPosts() {
             excerpt: '全新的Markdown博客模板系统，支持完整的Markdown语法渲染、代码高亮、自动目录生成、响应式设计和主题切换。提供了强大的文章编写和展示功能，让博客创作更加便捷高效。',
             excerpt_en: 'A brand new Markdown blog template system that supports complete Markdown syntax rendering, code highlighting, automatic table of contents generation, responsive design, and theme switching. Provides powerful article writing and display features for more convenient and efficient blog creation.',
             date: '2025-09-08',
-            url: '/pages/blog/moban_new_md.html?md=../../context/test.md',
+            url: '/pages/blog/moban_new_md.html?md=../../context/test_zh.md',
             category: 'tech',
             tags: ['Markdown', '博客模板', '代码高亮', '响应式设计', '主题切换'],
             tags_en: ['Markdown', 'Blog Template', 'Code Highlighting', 'Responsive Design', 'Theme Switching']
