@@ -353,6 +353,18 @@ function getBlogPosts() {
     // 文章数据
     return [
         {
+            id: 'hr-interview-prep-and-popular-science-20260408',
+            title: '与HR面试准备笔记及科普',
+            title_en: 'HR Interview Preparation Notes and Practical Guide',
+            excerpt: '围绕薪资结构、合同编制、试用期、作息加班、晋升路径等核心问题，提供清单化提问框架与委婉沟通话术模板。',
+            excerpt_en: 'A practical checklist and tactful communication scripts covering compensation, contract terms, probation, work schedule, overtime, and career growth.',
+            date: '2026-04-08',
+            url: '/pages/blog/moban_new_md.html?md=../../context/20260408_zh.md',
+            category: 'interview',
+            tags: ['面试', 'HR', '求职沟通', '职业发展'],
+            tags_en: ['Interview', 'HR', 'Job Communication', 'Career Growth']
+        },
+        {
             id: 'readme-devdoc-sync-20260404',
             title: '仓库 README 与开发文档（博客同步版）',
             title_en: 'Repository README & Developer Guide (Blog Sync)',
