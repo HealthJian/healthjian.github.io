@@ -353,6 +353,30 @@ function getBlogPosts() {
     // 文章数据
     return [
         {
+            id: 'react-paper-review-20260419',
+            title: 'ReAct: 当大语言模型学会"边想边做" -- 一篇改变LLM Agent范式的论文精读',
+            title_en: 'ReAct: When LLMs Learn to "Think While Doing" -- A Deep Dive into the Paper That Shaped the Agent Paradigm',
+            excerpt: '对ICLR 2023论文ReAct的详细评鉴与深度解析，从推理与行动的协同机制、四大基准实验、错误模式分析到对现代LLM Agent框架的深远影响，面向正在学习大语言模型的学生。',
+            excerpt_en: 'A comprehensive review of the ICLR 2023 paper ReAct, covering reasoning-acting synergy, four benchmark experiments, error mode analysis, and its lasting impact on modern LLM Agent frameworks, aimed at students learning about LLMs.',
+            date: '2026-04-19',
+            url: '/pages/blog/moban_new_md.html?md=../../context/20260419_zh.md',
+            category: 'tech',
+            tags: ['论文精读', 'LLM Agent', 'ReAct', '推理与行动', '提示词工程'],
+            tags_en: ['Paper Review', 'LLM Agent', 'ReAct', 'Reasoning & Acting', 'Prompt Engineering']
+        },
+        {
+            id: 'mindset-reflection-20260410',
+            title: '一件事情，暴露出了我的无知、急迫和焦虑',
+            title_en: 'One Incident Exposed My Ignorance, Impatience, and Anxiety',
+            excerpt: '从考研失利到春招受挫的剧烈起伏中，复盘无知、急迫与焦虑如何放大情绪，并尝试重建更稳健的求职心态。',
+            excerpt_en: 'A reflection on how ignorance, urgency, and anxiety amplified emotional swings from exam setback to spring recruiting, and how to rebuild a steadier mindset.',
+            date: '2026-04-10',
+            url: '/pages/blog/moban_new_md.html?md=../../context/20260410_zh.md',
+            category: 'idea',
+            tags: ['思想', '求职', '反思', '心态'],
+            tags_en: ['Thoughts', 'Job Search', 'Reflection', 'Mindset']
+        },
+        {
             id: 'hr-interview-prep-and-popular-science-20260408',
             title: '与HR面试准备笔记及科普',
             title_en: 'HR Interview Preparation Notes and Practical Guide',
@@ -996,6 +1020,11 @@ function getTagTranslation(tag, targetLang) {
         'Future Path': '未来之路',
         'Network Leftists': '网络左翼',
         'Criticism': '批判',
+        'Paper Review': '论文精读',
+        'LLM Agent': 'LLM Agent',
+        'ReAct': 'ReAct',
+        'Reasoning & Acting': '推理与行动',
+        'Prompt Engineering': '提示词工程',
         /* 新增标签翻译 */
         'CUDA': 'CUDA',
         'GPU Programming': 'GPU编程', 
@@ -1104,6 +1133,11 @@ function getTagTranslation(tag, targetLang) {
         '未来之路': 'Future Path',
         '网络左翼': 'Network Leftists',
         '批判': 'Criticism',
+        '论文精读': 'Paper Review',
+        'LLM Agent': 'LLM Agent',
+        'ReAct': 'ReAct',
+        '推理与行动': 'Reasoning & Acting',
+        '提示词工程': 'Prompt Engineering',
         /* 新增标签翻译 */
         'CUDA': 'CUDA',
         'GPU编程': 'GPU Programming',

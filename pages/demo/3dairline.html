@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, viewport-fit=cover">
+    <title>3D 航班可视化 | 地球航线</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background-color: black;
+        }
+        #info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(8px);
+            padding: 12px 24px;
+            border-radius: 40px;
+            border-left: 3px solid #00a8ff;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            pointer-events: none;
+            z-index: 100;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+        #instruction {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            background: rgba(10, 20, 40, 0.5);
+            backdrop-filter: blur(5px);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            border: 1px solid rgba(255,255,255,0.15);
+            pointer-events: none;
+            z-index: 100;
+            white-space: nowrap;
+        }
+        #stats {
+            position: absolute;
+            bottom: 24px;
+            right: 24px;
+            color: #8ab4f8;
+            background: rgba(0,0,0,0.3);
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            backdrop-filter: blur(4px);
+            pointer-events: none;
+            z-index: 100;
+            border: 1px solid rgba(100,180,255,0.3);
+        }
+        @media (max-width: 600px) {
+            #info { font-size: 14px; padding: 8px 16px; top: 12px; left: 12px; }
+            #instruction { font-size: 12px; padding: 6px 16px; bottom: 16px; }
+            #stats { font-size: 11px; bottom: 16px; right: 16px; }
+        }
+        /* 加载完成后淡入效果 */
+        body { opacity: 0; transition: opacity 0.8s; }
+    </style>
+</head>
+<body>
+    <div id="info">✈️ 全球航班可视化 | 3D Earth</div>
+    <div id="instruction">🖱️ 拖动旋转 / 滚轮缩放 | 📱 手势支持</div>
+    <div id="stats">🌍 实时航线 · 精致光影 · 星空背景</div>
+
+    <!-- 引入 Three.js 核心库与轨道控制器 -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        
+        // --- 初始化场景、相机、渲染器 (适配移动端与PC) ---
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x050510); // 深空底色
+        
+        // 相机: 适合查看地球的视角
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 2, 16);
+        
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // 限制最高2倍，兼顾性能与画质
+        renderer.shadowMap.enabled = true;        // 开启阴影，增加精致感
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        renderer.outputEncoding = THREE.sRGBEncoding; // 色彩空间 (r128使用outputEncoding)
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.2;
+        document.body.appendChild(renderer.domElement);
+        
+        // 页面淡入
+        document.body.style.opacity = '1';
+        
+        // --- 轨道控制器 (支持触摸拖动) ---
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.autoRotate = false;
+        controls.enableZoom = true;
+        controls.enablePan = false;
+        controls.minDistance = 8;
+        controls.maxDistance = 24;
+        controls.rotateSpeed = 0.8;
+        controls.enableRotate = true;
+        
+        // --- 精致光影: 多光源系统 ---
+        // 1. 环境光提供基础照明
+        scene.add(new THREE.AmbientLight(0x404060, 0.45));
+        
+        // 2. 主光源 - 模拟太阳，产生清晰阴影与高光
+        const sunLight = new THREE.DirectionalLight(0xfff5e6, 1.5);
+        sunLight.position.set(10, 15, 8);
+        sunLight.castShadow = true;
+        sunLight.receiveShadow = true;
+        sunLight.shadow.mapSize.width = 1024;
+        sunLight.shadow.mapSize.height = 1024;
+        const d = 15;
+        sunLight.shadow.camera.left = -d;
+        sunLight.shadow.camera.right = d;
+        sunLight.shadow.camera.top = d;
+        sunLight.shadow.camera.bottom = -d;
+        sunLight.shadow.camera.near = 1;
+        sunLight.shadow.camera.far = 30;
+        sunLight.shadow.bias = -0.0005;
+        scene.add(sunLight);
+        
+        // 补光源 - 从背面和侧面补充，让地球暗部不至於太黑
+        const backLight = new THREE.PointLight(0x4466cc, 0.8);
+        backLight.position.set(-8, 4, -6);
+        scene.add(backLight);
+        
+        const fillLight = new THREE.PointLight(0xccaa88, 0.5);
+        fillLight.position.set(-5, 3, 10);
+        scene.add(fillLight);
+        
+        // 添加一些闪烁的星星点光源效果 (氛围)
+        const ambianceLight1 = new THREE.PointLight(0x5577aa, 0.3);
+        ambianceLight1.position.set(5, 2, -10);
+        scene.add(ambianceLight1);
+        
+        // --- 星空背景: 程序化生成内壁球体，保证在任何角度都有深邃星空 ---
+        function createStarfieldBackground() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 2048;
+            canvas.height = 1024;
+            const ctx = canvas.getContext('2d');
+            
+            // 黑色基底
+            ctx.fillStyle = '#030311';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // 绘制大量星星 (大小、亮度随机)
+            for (let i = 0; i < 12000; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const radius = Math.random() * 2.5 + 0.5;
+                const alpha = Math.random() * 0.7 + 0.3;
+                
+                // 颜色微变: 大部分白/淡蓝，少数淡黄/淡红
+                const colorRand = Math.random();
+                let fillColor;
+                if (colorRand < 0.7) fillColor = `rgba(255, 255, 255, ${alpha})`;
+                else if (colorRand < 0.85) fillColor = `rgba(180, 210, 255, ${alpha})`;
+                else if (colorRand < 0.95) fillColor = `rgba(255, 240, 200, ${alpha})`;
+                else fillColor = `rgba(255, 180, 180, ${alpha})`;
+                
+                ctx.beginPath();
+                ctx.arc(x, y, radius, 0, Math.PI * 2);
+                ctx.fillStyle = fillColor;
+                ctx.fill();
+                
+                // 部分星星加光晕
+                if (radius > 1.8) {
+                    ctx.shadowColor = 'rgba(180, 220, 255, 0.8)';
+                    ctx.shadowBlur = 8;
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                }
+            }
+            
+            // 添加一些星系效果 (淡淡的雾状)
+            ctx.fillStyle = 'rgba(40, 50, 80, 0.08)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.ClampToEdgeWrapping;
+            texture.repeat.set(2, 1); // 让星空更丰富
+            
+            const material = new THREE.MeshStandardMaterial({
+                map: texture,
+                side: THREE.BackSide,
+                emissive: new THREE.Color(0x111122),
+                emissiveIntensity: 0.5,
+                roughness: 0.9
+            });
+            const sphere = new THREE.Mesh(new THREE.SphereGeometry(400, 64, 40), material);
+            return sphere;
+        }
+        
+        const starfield = createStarfieldBackground();
+        scene.add(starfield);
+        
+        // --- 地球主体 (带高质量纹理与光影) ---
+        const earthGroup = new THREE.Group();
+        
+        // 加载地球纹理 (使用高质量的Three.js示例纹理，带大气层光晕效果)
+        const textureLoader = new THREE.TextureLoader();
+        const earthMap = textureLoader.load('https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg');
+        const earthNormalMap = textureLoader.load('https://threejs.org/examples/textures/planets/earth_normal_2048.jpg');
+        const earthSpecularMap = textureLoader.load('https://threejs.org/examples/textures/planets/earth_specular_2048.jpg');
+        const cloudMap = textureLoader.load('https://threejs.org/examples/textures/planets/earth_clouds_1024.png');
+        
+        // 地球网格
+        const earthMaterial = new THREE.MeshPhongMaterial({
+            map: earthMap,
+            specularMap: earthSpecularMap,
+            specular: new THREE.Color('grey'),
+            shininess: 10,
+            normalMap: earthNormalMap,
+            normalScale: new THREE.Vector2(1.2, 1.2),
+        });
+        const earthMesh = new THREE.Mesh(new THREE.SphereGeometry(5, 64, 64), earthMaterial);
+        earthMesh.castShadow = true;
+        earthMesh.receiveShadow = true;
+        earthGroup.add(earthMesh);
+        
+        // 云层 (半透明，缓慢自转增加生动感)
+        const cloudMaterial = new THREE.MeshPhongMaterial({
+            map: cloudMap,
+            transparent: true,
+            opacity: 0.45,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false,
+            side: THREE.DoubleSide
+        });
+        const cloudMesh = new THREE.Mesh(new THREE.SphereGeometry(5.02, 64, 64), cloudMaterial);
+        cloudMesh.castShadow = false;
+        cloudMesh.receiveShadow = false;
+        earthGroup.add(cloudMesh);
+        
+        // 添加淡淡的大气层辉光 (边缘光效果)
+        const atmosMaterial = new THREE.MeshPhongMaterial({
+            color: 0x3377ff,
+            transparent: true,
+            opacity: 0.12,
+            side: THREE.BackSide
+        });
+        const atmosMesh = new THREE.Mesh(new THREE.SphereGeometry(5.18, 64, 64), atmosMaterial);
+        earthGroup.add(atmosMesh);
+        
+        scene.add(earthGroup);
+        
+        // 存储云层以便动画
+        const cloudRef = cloudMesh;
+        
+        // --- 辅助: 经纬度转三维坐标 (半径可调) ---
+        function latLonToPosition(lat, lon, radius) {
+            const phi = (90 - lat) * Math.PI / 180;
+            const theta = lon * Math.PI / 180;
+            return new THREE.Vector3(
+                radius * Math.sin(phi) * Math.cos(theta),
+                radius * Math.cos(phi),
+                radius * Math.sin(phi) * Math.sin(theta)
+            );
+        }
+        
+        // --- 定义城市 (起点/终点) 与 航班数据 ---
+        const cities = {
+            'NYC': { lat: 40.71, lon: -74.01, name: '纽约' },
+            'LHR': { lat: 51.51, lon: -0.13, name: '伦敦' },
+            'PEK': { lat: 39.90, lon: 116.40, name: '北京' },
+            'SFO': { lat: 37.77, lon: -122.41, name: '旧金山' },
+            'SYD': { lat: -33.87, lon: 151.21, name: '悉尼' },
+            'LAX': { lat: 34.05, lon: -118.24, name: '洛杉矶' },
+            'DXB': { lat: 25.20, lon: 55.27, name: '迪拜' },
+            'FRA': { lat: 50.11, lon: 8.68, name: '法兰克福' },
+            'NRT': { lat: 35.68, lon: 139.76, name: '东京' },
+            'GRU': { lat: -23.55, lon: -46.63, name: '圣保罗' }
+        };
+        
+        // 航班列表: [起点代码, 终点代码]
+        const flightRoutes = [
+            ['NYC', 'LHR'],
+            ['PEK', 'SFO'],
+            ['SYD', 'LAX'],
+            ['DXB', 'FRA'],
+            ['NRT', 'SFO'],
+            ['LHR', 'DXB'],
+            ['GRU', 'LHR'],
+            ['PEK', 'SYD']
+        ];
+        
+        const earthRadius = 5;
+        const flightAltitude = 5.15; // 稍高于地表
+        
+        // --- 创建大圆航线 (曲线) 并生成可视化线条 ---
+        function createGreatCircleLine(startLatLon, endLatLon, color = 0x88ccff, opacity = 0.55) {
+            const start = latLonToPosition(startLatLon.lat, startLatLon.lon, earthRadius);
+            const end = latLonToPosition(endLatLon.lat, endLatLon.lon, earthRadius);
+            
+            // 使用球面插值生成多个点
+            const points = [];
+            const steps = 50;
+            const startVec = start.clone().normalize();
+            const endVec = end.clone().normalize();
+            const angle = startVec.angleTo(endVec);
+            
+            // 如果两点太近，直接连线
+            if (angle < 0.001) {
+                points.push(start.clone().multiplyScalar(flightAltitude / earthRadius));
+                points.push(end.clone().multiplyScalar(flightAltitude / earthRadius));
+            } else {
+                for (let i = 0; i <= steps; i++) {
+                    const t = i / steps;
+                    // 四元数球面插值
+                    const q = new THREE.Quaternion().setFromUnitVectors(startVec, endVec);
+                    const interpolated = startVec.clone().applyQuaternion(q.clone().slerp(new THREE.Quaternion().setFromUnitVectors(startVec, startVec), t));
+                    points.push(interpolated.multiplyScalar(flightAltitude));
+                }
+            }
+            
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+            const material = new THREE.LineBasicMaterial({ color: color });
+            const line = new THREE.Line(geometry, material);
+            return { line, points };
+        }
+        
+        // 存储航线对象及点集供飞机使用
+        const flightLines = [];
+        const flightCurves = [];
+        
+        flightRoutes.forEach(route => {
+            const startCity = cities[route[0]];
+            const endCity = cities[route[1]];
+            if (!startCity || !endCity) return;
+            
+            const { line, points } = createGreatCircleLine(startCity, endCity, 0x7ec8ff, 0.6);
+            scene.add(line);
+            
+            // 创建曲线对象 (用于飞机沿路径移动)
+            const curve = new THREE.CatmullRomCurve3(points);
+            flightCurves.push({
+                curve,
+                startCode: route[0],
+                endCode: route[1],
+                length: curve.getLength()
+            });
+        });
+        
+        // --- 在城市位置添加发光标记点 (精致光点) ---
+        function createCityMarker(lat, lon, color = 0xffaa66) {
+            const pos = latLonToPosition(lat, lon, earthRadius * 1.01);
+            
+            // 光晕 Sprite
+            const canvas = document.createElement('canvas');
+            canvas.width = 64;
+            canvas.height = 64;
+            const ctx = canvas.getContext('2d');
+            const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+            gradient.addColorStop(0, `rgba(255, 240, 180, 1)`);
+            gradient.addColorStop(0.5, `rgba(100, 180, 255, 0.8)`);
+            gradient.addColorStop(1, `rgba(40, 80, 160, 0)`);
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 64, 64);
+            
+            const texture = new THREE.CanvasTexture(canvas);
+            const material = new THREE.SpriteMaterial({ 
+                map: texture, 
+                blending: THREE.AdditiveBlending,
+                depthTest: true,
+                depthWrite: false
+            });
+            const sprite = new THREE.Sprite(material);
+            sprite.scale.set(0.45, 0.45, 1);
+            sprite.position.copy(pos);
+            
+            // 小核心球体
+            const coreMat = new THREE.MeshStandardMaterial({
+                color: 0xffdd99,
+                emissive: new THREE.Color(0x4488ff),
+                emissiveIntensity: 1.2
+            });
+            const core = new THREE.Mesh(new THREE.SphereGeometry(0.06, 8, 8), coreMat);
+            core.position.copy(pos);
+            
+            const group = new THREE.Group();
+            group.add(sprite);
+            group.add(core);
+            return group;
+        }
+        
+        // 添加所有城市标记
+        Object.values(cities).forEach(city => {
+            const marker = createCityMarker(city.lat, city.lon);
+            scene.add(marker);
+        });
+        
+        // --- 创建飞机模型 (简单但精致的组合) ---
+        function createAirplaneModel() {
+            const group = new THREE.Group();
+            
+            // 机身 (流线型)
+            const bodyGeo = new THREE.CylinderGeometry(0.12, 0.12, 0.9, 8);
+            const bodyMat = new THREE.MeshStandardMaterial({ 
+                color: 0xe0e5ff, 
+                roughness: 0.3, 
+                metalness: 0.4,
+                emissive: new THREE.Color(0x224466),
+                emissiveIntensity: 0.3
+            });
+            const body = new THREE.Mesh(bodyGeo, bodyMat);
+            body.rotation.x = Math.PI / 2;
+            body.rotation.z = Math.PI / 2;
+            body.position.y = 0;
+            body.castShadow = true;
+            body.receiveShadow = true;
+            group.add(body);
+            
+            // 机头
+            const noseGeo = new THREE.ConeGeometry(0.16, 0.3, 8);
+            const noseMat = new THREE.MeshStandardMaterial({ color: 0xccd6ff, roughness: 0.2, metalness: 0.1 });
+            const nose = new THREE.Mesh(noseGeo, noseMat);
+            nose.rotation.x = Math.PI / 2;
+            nose.rotation.z = Math.PI / 2;
+            nose.position.x = 0.55;
+            nose.position.y = 0;
+            nose.castShadow = true;
+            group.add(nose);
+            
+            // 主翼
+            const wingGeo = new THREE.BoxGeometry(0.9, 0.03, 0.3);
+            const wingMat = new THREE.MeshStandardMaterial({ color: 0xbbc8ff, roughness: 0.4, metalness: 0.2 });
+            const wings = new THREE.Mesh(wingGeo, wingMat);
+            wings.position.set(0, 0.02, 0);
+            wings.castShadow = true;
+            wings.receiveShadow = true;
+            group.add(wings);
+            
+            // 尾翼垂直
+            const tailVGeo = new THREE.BoxGeometry(0.18, 0.2, 0.04);
+            const tailV = new THREE.Mesh(tailVGeo, wingMat);
+            tailV.position.set(-0.35, 0.15, 0);
+            tailV.castShadow = true;
+            group.add(tailV);
+            
+            // 尾翼水平
+            const tailHGeo = new THREE.BoxGeometry(0.25, 0.03, 0.16);
+            const tailH = new THREE.Mesh(tailHGeo, wingMat);
+            tailH.position.set(-0.4, 0.05, 0);
+            tailH.castShadow = true;
+            group.add(tailH);
+            
+            // 引擎 (两个)
+            const engineGeo = new THREE.CylinderGeometry(0.08, 0.08, 0.25, 6);
+            const engineMat = new THREE.MeshStandardMaterial({ color: 0xaaaaaa, roughness: 0.5, metalness: 0.7 });
+            const engine1 = new THREE.Mesh(engineGeo, engineMat);
+            engine1.rotation.z = Math.PI / 2;
+            engine1.position.set(0.1, -0.08, 0.2);
+            engine1.castShadow = true;
+            group.add(engine1);
+            
+            const engine2 = engine1.clone();
+            engine2.position.set(0.1, -0.08, -0.2);
+            group.add(engine2);
+            
+            // 驾驶舱窗户 (发光)
+            const windowMat = new THREE.MeshStandardMaterial({ color: 0x88aaff, emissive: new THREE.Color(0x4488ff), emissiveIntensity: 0.8 });
+            const windowGeo = new THREE.SphereGeometry(0.06, 6);
+            const windowMesh = new THREE.Mesh(windowGeo, windowMat);
+            windowMesh.position.set(0.42, 0.05, 0.08);
+            windowMesh.scale.set(0.5, 0.3, 0.3);
+            group.add(windowMesh);
+            
+            const windowMesh2 = windowMesh.clone();
+            windowMesh2.position.set(0.42, 0.05, -0.08);
+            group.add(windowMesh2);
+            
+            return group;
+        }
+        
+        // --- 初始化飞机实例 (每个航班一条曲线对应一架飞机) ---
+        const airplanes = [];
+        flightCurves.forEach((item, index) => {
+            const model = createAirplaneModel();
+            model.scale.set(0.9, 0.9, 0.9);
+            
+            // 随机初始进度
+            const progress = Math.random();
+            const pos = item.curve.getPoint(progress);
+            model.position.copy(pos);
+            
+            // 计算初始朝向
+            const tangent = item.curve.getTangent(progress);
+            model.quaternion.setFromUnitVectors(new THREE.Vector3(1, 0, 0), tangent);
+            
+            scene.add(model);
+            
+            airplanes.push({
+                model,
+                curve: item.curve,
+                speed: 0.0008 + Math.random() * 0.0006, // 不同速度
+                progress: progress,
+                direction: 1
+            });
+        });
+        
+        // 额外增加一些随机小星星粒子 (增加景深感)
+        function addStarParticles() {
+            const vertices = [];
+            for (let i = 0; i < 2000; i++) {
+                const r = 50 + Math.random() * 200;
+                const theta = Math.random() * Math.PI * 2;
+                const phi = Math.acos(2 * Math.random() - 1);
+                const x = r * Math.sin(phi) * Math.cos(theta);
+                const y = r * Math.sin(phi) * Math.sin(theta);
+                const z = r * Math.cos(phi);
+                vertices.push(x, y, z);
+            }
+            const geometry = new THREE.BufferGeometry();
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+            const material = new THREE.PointsMaterial({ color: 0xffffff, size: 0.15, transparent: true });
+            const points = new THREE.Points(geometry, material);
+            scene.add(points);
+        }
+        addStarParticles();
+        
+        // --- 添加一些淡淡的雾效，增加层次 ---
+        scene.fog = new THREE.FogExp2(0x050510, 0.0015);
+        
+        // --- 动画循环 ---
+        let clock = new THREE.Clock();
+        
+        function animate() {
+            const delta = clock.getDelta();
+            const elapsedTime = performance.now() * 0.001; // seconds
+            
+            // 云层缓慢旋转
+            if (cloudRef) {
+                cloudRef.rotation.y += 0.0003;
+            }
+            
+            // 更新飞机位置 (平滑移动)
+            airplanes.forEach(ac => {
+                // 更新进度
+                ac.progress += ac.speed * delta * 30; // 基于delta调整，保持速度一致
+                if (ac.progress > 1.0) {
+                    ac.progress = 0.0;
+                }
+                
+                const pos = ac.curve.getPoint(ac.progress);
+                ac.model.position.copy(pos);
+                
+                // 获取切线并设置朝向
+                const tangent = ac.curve.getTangent(ac.progress);
+                ac.model.quaternion.setFromUnitVectors(new THREE.Vector3(1, 0, 0), tangent);
+                
+                // 微调使飞机稍微倾斜 (根据切线在y轴分量，简单模拟)
+                // 不额外处理，保持自然
+            });
+            
+            // 星星背景缓慢旋转 (营造宇宙感)
+            starfield.rotation.y += 0.0001;
+            
+            controls.update();
+            
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+        
+        // --- 响应窗口大小变化 (适配手机/电脑) ---
+        window.addEventListener('resize', onWindowResize, false);
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        }
+        
+        // 处理移动端手势误触页面滚动
+        window.addEventListener('touchmove', e => {
+            if (e.target.tagName !== 'CANVAS') return;
+            e.preventDefault();
+        }, { passive: false });
+        
+        console.log('✨ 3D航班可视化已启动 — 设计：精致光影 + 可旋转地球 + 实时航线');
+    </script>
+</body>
+</html>
