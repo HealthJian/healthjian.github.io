@@ -28,6 +28,9 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
     
+    <!-- Mermaid 图表渲染 -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js"></script>
+
     <!-- 备用CDN -->
     <script>
         // 检查marked是否加载成功，如果失败则加载备用CDN
@@ -42,6 +45,12 @@
             document.write('<script src="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/highlight.min.js"><\/script>');
         }
         
+        // 检查Mermaid是否加载成功
+        if (typeof mermaid === 'undefined') {
+            console.warn('Mermaid主CDN加载失败，尝试备用CDN');
+            document.write('<script src="https://unpkg.com/mermaid@10.9.0/dist/mermaid.min.js"><\/script>');
+        }
+
         // 检查KaTeX是否加载成功
         window.addEventListener('DOMContentLoaded', function() {
             if (typeof katex === 'undefined') {
@@ -128,6 +137,40 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
         
+        /* Mermaid 图表容器 */
+        .mermaid-container {
+            display: flex;
+            justify-content: center;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: var(--bg-color, #fff);
+            border: 1px solid var(--border-color, #e0e0e0);
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        body.dark-mode .mermaid-container {
+            background: #1e1e2e;
+            border-color: #3a3a4a;
+        }
+
+        .mermaid-container svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .mermaid-error {
+            color: #cc0000;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* 内联 SVG 响应式适配 */
+        .markdown-content svg {
+            max-width: 100%;
+            height: auto;
+        }
+
         /* 内容区域样式 */
         .markdown-container {
             min-height: 400px;

@@ -4,8 +4,10 @@
 class MarkdownRenderer {
     constructor() {
         this.tocItems = [];
+        this._mermaidCounter = 0;
         this.currentLang = document.body.classList.contains('en') ? 'en' : 'zh';
         this.initializeRenderer();
+        this.initializeMermaid();
     }
 
     // 初始化渲染器
@@ -21,6 +23,42 @@ class MarkdownRenderer {
 
         // 当前渲染的Markdown文件路径（用于图片相对路径修正）
         this.currentMarkdownFile = null;
+    }
+
+    // 初始化 Mermaid（仅配置，不触发渲染）
+    initializeMermaid() {
+        if (typeof mermaid !== 'undefined') {
+            mermaid.initialize({
+                startOnLoad: false,
+                theme: document.body.classList.contains('dark-mode') ? 'dark' : 'default',
+                securityLevel: 'loose',
+                fontFamily: 'inherit'
+            });
+        }
+    }
+
+    // 渲染页面中所有 Mermaid 图表
+    async renderMermaidDiagrams(container) {
+        if (typeof mermaid === 'undefined') {
+            console.warn('Mermaid 未加载，跳过图表渲染');
+            return;
+        }
+        const nodes = container.querySelectorAll('pre.mermaid');
+        if (nodes.length === 0) return;
+
+        const isDark = document.body.classList.contains('dark-mode');
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: isDark ? 'dark' : 'default',
+            securityLevel: 'loose',
+            fontFamily: 'inherit'
+        });
+
+        try {
+            await mermaid.run({ nodes: nodes });
+        } catch (err) {
+            console.error('Mermaid 渲染失败:', err);
+        }
     }
 
     // 配置marked.js
@@ -69,6 +107,12 @@ class MarkdownRenderer {
 
         // 自定义代码块渲染
         renderer.code = (code, language) => {
+            // Mermaid 图表：输出占位容器，后续由 mermaid.run() 渲染
+            if (language && language.toLowerCase() === 'mermaid') {
+                const id = 'mermaid-' + (++this._mermaidCounter);
+                return `<div class="mermaid-container"><pre class="mermaid" id="${id}">${this.escapeHtml(code)}</pre></div>`;
+            }
+
             const validLang = language && hljs && hljs.getLanguage(language) ? language : 'plaintext';
             const highlightedCode = hljs ? hljs.highlight(code, { language: validLang }).value : code;
             
@@ -232,8 +276,9 @@ class MarkdownRenderer {
     // 渲染Markdown内容
     async renderMarkdown(markdownText, targetElement) {
         try {
-            // 重置目录项
+            // 重置目录项和 Mermaid 计数器
             this.tocItems = [];
+            this._mermaidCounter = 0;
 
             let htmlContent;
             let mathBlocks = [];
@@ -265,6 +310,9 @@ class MarkdownRenderer {
 
                 // 渲染数学公式
                 await this.renderMathFormulas(targetElement);
+
+                // 渲染 Mermaid 图表
+                await this.renderMermaidDiagrams(targetElement);
 
                 // 添加图片懒加载
                 this.setupImageLazyLoading(targetElement);
