@@ -139,6 +139,7 @@
         
         /* Mermaid 图表容器 */
         .mermaid-container {
+            position: relative;
             display: flex;
             justify-content: center;
             margin: 1.5rem 0;
@@ -163,6 +164,133 @@
             color: #cc0000;
             padding: 0.5rem;
             font-size: 0.9rem;
+        }
+
+        /* Mermaid 全屏放大按钮 */
+        .mermaid-fullscreen-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 6px;
+            background: rgba(0, 0, 0, 0.45);
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.25s, background-color 0.2s;
+            z-index: 2;
+        }
+
+        .mermaid-container:hover .mermaid-fullscreen-btn {
+            opacity: 1;
+        }
+
+        .mermaid-fullscreen-btn:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        body.dark-mode .mermaid-fullscreen-btn {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        body.dark-mode .mermaid-fullscreen-btn:hover {
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        /* Mermaid 全屏遮罩层 */
+        .mermaid-fullscreen-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .mermaid-fullscreen-overlay.active {
+            opacity: 1;
+        }
+
+        .mermaid-fullscreen-toolbar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 12px 16px;
+            background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, transparent 100%);
+            z-index: 10001;
+            gap: 6px;
+        }
+
+        .mermaid-fullscreen-toolbar button {
+            width: 34px;
+            height: 34px;
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.08);
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            transition: background 0.2s;
+            backdrop-filter: blur(4px);
+        }
+
+        .mermaid-fullscreen-toolbar button:hover {
+            background: rgba(255,255,255,0.22);
+        }
+
+        .mermaid-fullscreen-toolbar .mermaid-zoom-info {
+            color: rgba(255,255,255,0.65);
+            font-size: 13px;
+            min-width: 48px;
+            text-align: center;
+            user-select: none;
+        }
+
+        .mermaid-fullscreen-viewport {
+            flex: 1;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: grab;
+        }
+
+        .mermaid-fullscreen-viewport:active {
+            cursor: grabbing;
+        }
+
+        .mermaid-fullscreen-viewport svg {
+            max-width: none !important;
+            max-height: none !important;
+            transform-origin: center center;
+        }
+
+        .mermaid-fullscreen-hint {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.45);
+            font-size: 12px;
+            user-select: none;
+            pointer-events: none;
+            transition: opacity 0.6s;
         }
 
         /* 内联 SVG 响应式适配 */
@@ -395,6 +523,14 @@
          */
         async function resolveMarkdownPathForLanguage(basePath, lang) {
             if (!basePath) return basePath;
+            const zhNumPair = basePath.match(/^(.+)_zh(_\d+)\.md$/i);
+            if (zhNumPair) {
+                return lang === 'zh' ? basePath : zhNumPair[1] + '_en' + zhNumPair[2] + '.md';
+            }
+            const enNumPair = basePath.match(/^(.+)_en(_\d+)\.md$/i);
+            if (enNumPair) {
+                return lang === 'en' ? basePath : enNumPair[1] + '_zh' + enNumPair[2] + '.md';
+            }
             const zhPair = basePath.match(/^(.+)_zh\.md$/i);
             if (zhPair) {
                 return lang === 'zh' ? basePath : zhPair[1] + '_en.md';

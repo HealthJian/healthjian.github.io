@@ -85,6 +85,37 @@
 
         <section class="changelog-timeline">
             <div class="timeline-item">
+                <div class="timeline-date">2026-04-21</div>
+                <div class="timeline-content">
+                    <h2 data-en="[T0 Bugfix] Multi-Article Per Day Loading Failure (404)" data-zh="[T0 Bug修复] 同一天多篇文章加载失败（404）">[T0 Bug修复] 同一天多篇文章加载失败（404）</h2>
+                    <ul>
+                        <li data-en="Bug Description: When multiple articles are written on the same day, files are named with numeric suffixes (e.g. 20260421_zh_1.md, 20260421_zh_2.md), but the blog system only resolved to 20260421_zh.md (without suffix), causing HTTP 404 errors and article loading failure." data-zh="Bug 描述：同一天撰写多篇文章时，文件按编号命名（如 20260421_zh_1.md、20260421_zh_2.md），但博客系统仅解析到 20260421_zh.md（不带编号），导致 HTTP 404 错误，文章无法加载。"><strong>Bug 描述</strong>：同一天撰写多篇文章时，文件按编号命名（如 20260421_zh_1.md、20260421_zh_2.md），但博客系统仅解析到 20260421_zh.md（不带编号），导致 HTTP 404 错误，文章无法加载。</li>
+                        <li data-en="Root Cause 1 - blog.js: Article URLs in getBlogPosts() pointed to non-existent 20260421_zh.md instead of the correct numbered files (_zh_1.md, _zh_2.md, etc.)." data-zh="根因 1 - blog.js：getBlogPosts() 中的文章 URL 指向不存在的 20260421_zh.md，而非正确的带编号文件（_zh_1.md、_zh_2.md 等）。"><strong>根因 1 - blog.js</strong>：getBlogPosts() 中的文章 URL 指向不存在的 20260421_zh.md，而非正确的带编号文件（_zh_1.md、_zh_2.md 等）。</li>
+                        <li data-en="Root Cause 2 - moban_new_md.html: The language switching regex in resolveMarkdownPathForLanguage() only matched _zh.md/_en.md pattern, could not handle _zh_1.md/_en_1.md numbered format, causing language switching to also fail." data-zh="根因 2 - moban_new_md.html：resolveMarkdownPathForLanguage() 中的语言切换正则仅匹配 _zh.md/_en.md 格式，无法处理 _zh_1.md/_en_1.md 编号格式，导致中英文切换同样失效。"><strong>根因 2 - moban_new_md.html</strong>：resolveMarkdownPathForLanguage() 中的语言切换正则仅匹配 _zh.md/_en.md 格式，无法处理 _zh_1.md/_en_1.md 编号格式，导致中英文切换同样失效。</li>
+                        <li data-en="Fix 1: Added numbered variant regex matching (_zh_N/_en_N) in resolveMarkdownPathForLanguage(), placed before the original non-numbered regex to ensure priority matching." data-zh="修复 1：在 resolveMarkdownPathForLanguage() 中新增带编号格式的正则匹配（_zh_N/_en_N），置于原无编号正则之前优先匹配。"><strong>修复 1</strong>：在 resolveMarkdownPathForLanguage() 中新增带编号格式的正则匹配（_zh_N/_en_N），置于原无编号正则之前优先匹配。</li>
+                        <li data-en="Fix 2: Corrected URLs for existing entries in getBlogPosts() - AI Agent article now points to _zh_1.md, CoT/PaS/Reflexion article now points to _zh_2.md." data-zh="修复 2：修正 getBlogPosts() 中已有条目的 URL —— AI Agent 文章指向 _zh_1.md，CoT/PaS/Reflexion 文章指向 _zh_2.md。"><strong>修复 2</strong>：修正 getBlogPosts() 中已有条目的 URL —— AI Agent 文章指向 _zh_1.md，CoT/PaS/Reflexion 文章指向 _zh_2.md。</li>
+                        <li data-en="Fix 3: Registered 3 missing articles - Tool Use (zh_3), Memory Module (zh_4), Multi-Agent Collaboration (zh_5), with complete metadata and tag translations." data-zh="修复 3：补充注册 3 篇缺失文章 —— 工具调用（zh_3）、记忆模块（zh_4）、多智能体协作（zh_5），包含完整元数据与标签翻译。"><strong>修复 3</strong>：补充注册 3 篇缺失文章 —— 工具调用（zh_3）、记忆模块（zh_4）、多智能体协作（zh_5），包含完整元数据与标签翻译。</li>
+                        <li data-en="Compatibility: Original _zh.md/_en.md format (e.g. 20260420_zh.md) remains unaffected; numbered regex takes priority without breaking existing articles." data-zh="兼容性：原有 _zh.md/_en.md 格式（如 20260420_zh.md）不受影响；编号正则优先匹配，不破坏已有文章。"><strong>兼容性</strong>：原有 _zh.md/_en.md 格式（如 20260420_zh.md）不受影响；编号正则优先匹配，不破坏已有文章。</li>
+                        <li data-en="Changed Files: js/blog.js (URL fixes + 3 new entries + tag translations); pages/blog/moban_new_md.html (language switching regex enhancement)." data-zh="改动文件：js/blog.js（URL 修正 + 3 条新文章注册 + 标签翻译）；pages/blog/moban_new_md.html（语言切换正则增强）。"><strong>改动文件</strong>：js/blog.js（URL 修正 + 3 条新文章注册 + 标签翻译）；pages/blog/moban_new_md.html（语言切换正则增强）。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-date">2026-04-21</div>
+                <div class="timeline-content">
+                    <h2 data-en="Mermaid Diagram Fullscreen Zoom Feature" data-zh="Mermaid 图表全屏放大功能">Mermaid 图表全屏放大功能</h2>
+                    <ul>
+                        <li data-en="Changed Files: moban_new_md.html (added position:relative, fullscreen button & overlay CSS); markdown-renderer.js (added setupMermaidFullscreen/openMermaidFullscreen methods, integrated into render pipeline)" data-zh="改动文件：moban_new_md.html（增加 relative 定位、全屏按钮与遮罩层 CSS）；markdown-renderer.js（新增 setupMermaidFullscreen/openMermaidFullscreen 方法，接入渲染流水线）"><strong>改动文件</strong>：moban_new_md.html（增加 relative 定位、全屏按钮与遮罩层 CSS）；markdown-renderer.js（新增 setupMermaidFullscreen/openMermaidFullscreen 方法，接入渲染流水线）</li>
+                        <li data-en="Fullscreen Entry: Each rendered Mermaid diagram automatically gets a fullscreen button in the top-right corner (fades in on hover)" data-zh="放大入口：每个 Mermaid 图表右上角自动出现放大按钮（hover 淡入）"><strong>放大入口</strong>：每个 Mermaid 图表右上角自动出现放大按钮（hover 淡入）</li>
+                        <li data-en="Fullscreen Viewer: Dark semi-transparent overlay + SVG auto-scales to fit viewport; top toolbar provides zoom percentage display, zoom out/zoom in/fit to screen/close buttons" data-zh="全屏查看器：深色半透明遮罩层 + SVG 自动缩放适配屏幕；顶部工具栏提供缩放百分比显示、缩小/放大/适应屏幕/关闭四个按钮"><strong>全屏查看器</strong>：深色半透明遮罩层 + SVG 自动缩放适配屏幕；顶部工具栏提供缩放百分比显示、缩小/放大/适应屏幕/关闭四个按钮</li>
+                        <li data-en="Interaction: Desktop supports mouse wheel zoom & drag pan; Mobile supports pinch zoom & single-finger drag; Close via ESC key, close button, or clicking blank area" data-zh="交互能力：桌面端支持鼠标滚轮缩放/拖拽平移、移动端支持双指捏合/单指拖拽；关闭方式包括 ESC 键、关闭按钮或点击空白区域"><strong>交互能力</strong>：桌面端支持鼠标滚轮缩放/拖拽平移、移动端支持双指捏合/单指拖拽；关闭方式包括 ESC 键、关闭按钮或点击空白区域</li>
+                        <li data-en="No Impact on Existing Content: No existing HTML/CSS/JS logic removed or modified, only added position:relative; fullscreen button dynamically injected, dark mode fully compatible" data-zh="不影响现有内容：未删除或修改已有逻辑，仅追加 relative 定位；全屏按钮动态注入，深色模式完整适配"><strong>不影响现有内容</strong>：未删除或修改已有逻辑，仅追加 relative 定位；全屏按钮动态注入，深色模式完整适配</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
                 <div class="timeline-date">2026-04-19</div>
                 <div class="timeline-content">
                     <h2 data-en="Mermaid & SVG Rendering Support for Markdown" data-zh="Markdown 渲染新增 Mermaid 图表与 SVG 支持">Markdown 渲染新增 Mermaid 图表与 SVG 支持</h2>

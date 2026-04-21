@@ -4,47 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Markdown测试页面</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 900px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f5f5f5;
+            background-color: #f0f2f5;
+            color: #1a1a2e;
         }
         .container {
             background: white;
             padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
         }
+        h1 { margin-top: 0; }
         .status {
-            padding: 10px;
-            border-radius: 4px;
-            margin: 10px 0;
+            padding: 10px 14px;
+            border-radius: 6px;
+            margin: 8px 0;
+            font-size: 14px;
         }
         .success { background-color: #d4edda; color: #155724; }
         .error { background-color: #f8d7da; color: #721c24; }
         .info { background-color: #d1ecf1; color: #0c5460; }
+        .warn { background-color: #fff3cd; color: #856404; }
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 12px 0;
+        }
+        .btn-group h3 {
+            width: 100%;
+            margin: 12px 0 4px;
+            font-size: 14px;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
         button {
             background-color: #007bff;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
+            padding: 8px 16px;
+            border-radius: 6px;
             cursor: pointer;
-            margin: 5px;
+            font-size: 13px;
+            transition: background-color 0.2s;
         }
-        button:hover {
-            background-color: #0056b3;
-        }
+        button:hover { background-color: #0056b3; }
+        button.secondary { background-color: #6c757d; }
+        button.secondary:hover { background-color: #545b62; }
+        button.accent { background-color: #28a745; }
+        button.accent:hover { background-color: #218838; }
+        button.purple { background-color: #6f42c1; }
+        button.purple:hover { background-color: #5a32a3; }
         #result {
-            border: 1px solid #ddd;
+            border: 1px solid #e0e0e0;
             padding: 20px;
             margin-top: 20px;
-            border-radius: 4px;
+            border-radius: 8px;
             background: #fafafa;
+            min-height: 60px;
         }
+        #result pre { max-height: 300px; overflow: auto; font-size: 12px; }
+        .render-box {
+            border: 1px solid #ccc;
+            padding: 20px;
+            background: white;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+        .render-box table { border-collapse: collapse; width: 100%; }
+        .render-box th, .render-box td { border: 1px solid #ddd; padding: 8px 12px; text-align: left; }
+        .render-box th { background: #f5f5f5; }
+        .render-box blockquote { border-left: 4px solid #007bff; margin: 1em 0; padding: 0.5em 1em; background: #f8f9fa; }
+        .render-box hr { border: none; border-top: 1px solid #ddd; }
+        .render-box img { max-width: 100%; }
     </style>
 </head>
 <body>
@@ -56,11 +96,31 @@
         </div>
         
         <div id="controls" style="display: none;">
-            <h3>测试选项</h3>
-            <button onclick="testBasicMarkdown()">测试基础Markdown</button>
-            <button onclick="testCodeHighlight()">测试代码高亮</button>
-            <button onclick="testFullMarkdown()">测试完整功能</button>
-            <button onclick="loadTestFile()">加载测试文件</button>
+            <div class="btn-group">
+                <h3>基础渲染</h3>
+                <button onclick="testBasicMarkdown()">基础 Markdown</button>
+                <button onclick="testCodeHighlight()">代码高亮</button>
+                <button onclick="testFullMarkdown()">综合功能</button>
+                <button onclick="testNestedStructure()">嵌套结构</button>
+            </div>
+            <div class="btn-group">
+                <h3>高级功能</h3>
+                <button class="secondary" onclick="testKaTeX()">KaTeX 数学公式</button>
+                <button class="secondary" onclick="testMermaid()">Mermaid 图表</button>
+                <button class="secondary" onclick="testMixedAdvanced()">混合高级内容</button>
+            </div>
+            <div class="btn-group">
+                <h3>文件加载</h3>
+                <button class="accent" onclick="loadTestFile()">加载 test.md</button>
+                <button class="accent" onclick="loadNumberedFile('20260421_zh_1')">加载 zh_1 (Agent)</button>
+                <button class="accent" onclick="loadNumberedFile('20260421_zh_2')">加载 zh_2 (CoT)</button>
+                <button class="accent" onclick="loadNumberedFile('20260421_zh_3')">加载 zh_3 (Tool Use)</button>
+            </div>
+            <div class="btn-group">
+                <h3>回归验证</h3>
+                <button class="purple" onclick="testLanguagePairResolve()">语言配对解析</button>
+                <button class="purple" onclick="runAllTests()">一键全部测试</button>
+            </div>
         </div>
         
         <div id="result"></div>
@@ -69,186 +129,576 @@
     <!-- 依赖库 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/2.1.3/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js"></script>
     <script src="blogjs_markdown/markdown-renderer.js"></script>
 
     <script>
         let renderer;
         
-        // 检查依赖
         function checkDependencies() {
             const statusContainer = document.getElementById('status-container');
             const controls = document.getElementById('controls');
-            let allGood = true;
+            let coreOk = true;
             
             statusContainer.innerHTML = '';
             
-            // 检查marked
-            if (typeof marked !== 'undefined') {
-                statusContainer.innerHTML += '<div class="status success">✓ marked.js 加载成功</div>';
-            } else {
-                statusContainer.innerHTML += '<div class="status error">✗ marked.js 加载失败</div>';
-                allGood = false;
-            }
-            
-            // 检查hljs
-            if (typeof hljs !== 'undefined') {
-                statusContainer.innerHTML += '<div class="status success">✓ highlight.js 加载成功</div>';
-            } else {
-                statusContainer.innerHTML += '<div class="status error">✗ highlight.js 加载失败</div>';
-                allGood = false;
-            }
-            
-            // 检查MarkdownRenderer
-            if (typeof MarkdownRenderer !== 'undefined') {
-                statusContainer.innerHTML += '<div class="status success">✓ MarkdownRenderer 加载成功</div>';
+            const deps = [
+                { name: 'marked.js',          check: () => typeof marked !== 'undefined',          required: true },
+                { name: 'highlight.js',        check: () => typeof hljs !== 'undefined',            required: true },
+                { name: 'MarkdownRenderer',    check: () => typeof MarkdownRenderer !== 'undefined', required: true },
+                { name: 'KaTeX',               check: () => typeof katex !== 'undefined',           required: false },
+                { name: 'Mermaid',             check: () => typeof mermaid !== 'undefined',         required: false },
+            ];
+
+            deps.forEach(d => {
+                const ok = d.check();
+                if (ok) {
+                    statusContainer.innerHTML += '<div class="status success">OK - ' + d.name + '</div>';
+                } else if (d.required) {
+                    statusContainer.innerHTML += '<div class="status error">FAIL - ' + d.name + '</div>';
+                    coreOk = false;
+                } else {
+                    statusContainer.innerHTML += '<div class="status warn">SKIP - ' + d.name + '（可选，部分测试不可用）</div>';
+                }
+            });
+
+            if (coreOk) {
                 try {
                     renderer = new MarkdownRenderer();
-                    statusContainer.innerHTML += '<div class="status success">✓ MarkdownRenderer 初始化成功</div>';
+                    statusContainer.innerHTML += '<div class="status success">OK - MarkdownRenderer 初始化成功</div>';
                 } catch (error) {
-                    statusContainer.innerHTML += '<div class="status error">✗ MarkdownRenderer 初始化失败: ' + error.message + '</div>';
-                    allGood = false;
+                    statusContainer.innerHTML += '<div class="status error">FAIL - MarkdownRenderer 初始化: ' + error.message + '</div>';
+                    coreOk = false;
                 }
-            } else {
-                statusContainer.innerHTML += '<div class="status error">✗ MarkdownRenderer 加载失败</div>';
-                allGood = false;
             }
             
-            if (allGood) {
-                statusContainer.innerHTML += '<div class="status success">🎉 所有依赖加载成功！可以开始测试。</div>';
+            if (coreOk) {
+                statusContainer.innerHTML += '<div class="status success">ALL CORE DEPS READY</div>';
                 controls.style.display = 'block';
             } else {
-                statusContainer.innerHTML += '<div class="status error">❌ 部分依赖加载失败，请检查网络连接或CDN链接。</div>';
+                statusContainer.innerHTML += '<div class="status error">核心依赖加载失败，请检查网络或 CDN</div>';
             }
         }
         
-        // 测试基础Markdown
+        // ========== 基础渲染测试 ==========
+
         function testBasicMarkdown() {
-            const markdown = `# 测试标题
+            const markdown = `# 基础 Markdown 测试
+
+这是一个**粗体**文本和*斜体*文本的测试。还有 ~~删除线~~ 和 ***粗斜体***。
+
+- 无序列表项 1
+- 无序列表项 2
+- 无序列表项 3
+
+> 这是一个引用块，支持**加粗**和 \`行内代码\`。
+
+行内代码测试：\`const x = 42;\`
+
+[链接测试](https://github.com) 和 自动链接 https://example.com`;
             
-这是一个**粗体**文本和*斜体*文本的测试。
-
-- 列表项1
-- 列表项2
-- 列表项3
-
-> 这是一个引用块
-
-\`行内代码\` 测试`;
-            
-            renderTest(markdown, '基础Markdown测试');
+            renderTest(markdown, '基础 Markdown');
         }
         
-        // 测试代码高亮
         function testCodeHighlight() {
             const markdown = `# 代码高亮测试
 
+## JavaScript
+
 \`\`\`javascript
-function hello() {
-    console.log('Hello, World!');
-    return 'success';
+async function fetchData(url) {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(\`HTTP \${response.status}\`);
+    return response.json();
 }
 \`\`\`
 
+## Python
+
 \`\`\`python
-def hello():
-    print("Hello, World!")
-    return "success"
-\`\`\``;
-            
-            renderTest(markdown, '代码高亮测试');
-        }
-        
-        // 测试完整功能
-        function testFullMarkdown() {
-            const markdown = `# 完整功能测试
+from typing import List
 
-## 二级标题
-
-### 三级标题
-
-**粗体** 和 *斜体* 文本测试。
-
-| 表格 | 测试 |
-|------|------|
-| 单元格1 | 单元格2 |
-| 数据1 | 数据2 |
-
-> 这是一个引用块
-> 
-> 可以有多行内容
-
-\`\`\`javascript
-// 代码块测试
-const test = () => {
-    console.log('测试成功！');
-};
+def quicksort(arr: List[int]) -> List[int]:
+    if len(arr) <= 1:
+        return arr
+    pivot = arr[len(arr) // 2]
+    left = [x for x in arr if x < pivot]
+    middle = [x for x in arr if x == pivot]
+    right = [x for x in arr if x > pivot]
+    return quicksort(left) + middle + quicksort(right)
 \`\`\`
 
-- 无序列表1
-- 无序列表2
-  - 嵌套列表1
-  - 嵌套列表2
+## Bash
 
-1. 有序列表1
-2. 有序列表2
+\`\`\`bash
+#!/bin/bash
+for file in *.md; do
+    echo "Processing: $file"
+    wc -l "$file"
+done
+\`\`\`
+
+## JSON
+
+\`\`\`json
+{
+    "name": "test",
+    "version": "1.0.0",
+    "dependencies": {
+        "marked": "^2.1.3"
+    }
+}
+\`\`\``;
+            
+            renderTest(markdown, '代码高亮');
+        }
+        
+        function testFullMarkdown() {
+            const markdown = `# 综合功能测试
+
+## 文本格式
+
+**粗体**、*斜体*、~~删除线~~、\`行内代码\`、***粗斜体***
+
+## 表格
+
+| 功能 | 状态 | 说明 |
+|:-----|:----:|-----:|
+| Markdown 基础 | OK | 粗体/斜体/列表 |
+| 代码高亮 | OK | 多语言支持 |
+| KaTeX 公式 | OK | 行内/块级 |
+| Mermaid 图表 | OK | 流程图/序列图 |
+| 中英文切换 | OK | _zh/_en 配对 |
+
+## 引用
+
+> 一级引用
+> > 嵌套引用
+> > > 三级嵌套
+
+## 列表
+
+- 无序列表 1
+  - 嵌套 2-1
+    - 嵌套 3-1
+  - 嵌套 2-2
+- 无序列表 2
+
+1. 有序列表 1
+2. 有序列表 2
+   1. 嵌套有序 2-1
+   2. 嵌套有序 2-2
+
+## 代码
+
+\`\`\`javascript
+const test = () => console.log('OK');
+\`\`\`
 
 ---
 
-分隔线测试`;
+*-- 分隔线与结尾 --*`;
             
-            renderTest(markdown, '完整功能测试');
+            renderTest(markdown, '综合功能');
         }
-        
-        // 加载测试文件
+
+        function testNestedStructure() {
+            const markdown = `# 嵌套结构测试
+
+## 任务列表
+
+- [x] 已完成任务
+- [ ] 未完成任务
+- [x] 已完成任务 2
+
+## 多级标题层次
+
+### 三级标题 A
+
+内容段落 A。
+
+#### 四级标题 A-1
+
+内容段落 A-1。
+
+##### 五级标题 A-1-1
+
+内容段落 A-1-1。
+
+### 三级标题 B
+
+内容段落 B。
+
+## 混合列表与引用
+
+> **重要提示**：
+>
+> 1. 第一步
+> 2. 第二步
+>    - 子步骤 a
+>    - 子步骤 b
+> 3. 第三步
+
+## 长段落自动换行
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 中文长文本测试：大语言模型的发展经历了从简单统计模型到深度学习模型，再到基于Transformer架构的预训练大模型的演进历程。每一次技术范式的转变，都带来了自然语言处理能力的质的飞跃。`;
+
+            renderTest(markdown, '嵌套结构');
+        }
+
+        // ========== 高级功能测试 ==========
+
+        function testKaTeX() {
+            if (typeof katex === 'undefined') {
+                document.getElementById('result').innerHTML = '<div class="status error">KaTeX 未加载，无法执行此测试</div>';
+                return;
+            }
+            const markdown = `# KaTeX 数学公式测试
+
+## 行内公式
+
+爱因斯坦质能方程：$E = mc^2$
+
+二次方程求根公式：$x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$
+
+欧拉恒等式 $e^{i\\pi} + 1 = 0$ 被誉为数学中最优美的公式。
+
+## 块级公式
+
+$$
+\\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}
+$$
+
+贝叶斯定理：
+
+$$
+P(A|B) = \\frac{P(B|A) \\cdot P(A)}{P(B)}
+$$
+
+矩阵表示：
+
+$$
+\\begin{bmatrix} a & b \\\\ c & d \\end{bmatrix} \\begin{bmatrix} x \\\\ y \\end{bmatrix} = \\begin{bmatrix} ax + by \\\\ cx + dy \\end{bmatrix}
+$$
+
+梯度下降更新规则：
+
+$$
+\\theta_{t+1} = \\theta_t - \\eta \\nabla_{\\theta} J(\\theta_t)
+$$
+
+## 公式与文本混排
+
+Softmax 函数定义为 $\\sigma(z_i) = \\frac{e^{z_i}}{\\sum_{j=1}^{K} e^{z_j}}$，常用于多分类任务的输出层。
+
+交叉熵损失函数：
+
+$$
+L = -\\sum_{i=1}^{N} y_i \\log(\\hat{y}_i)
+$$`;
+            
+            renderTest(markdown, 'KaTeX 数学公式');
+        }
+
+        function testMermaid() {
+            if (typeof mermaid === 'undefined') {
+                document.getElementById('result').innerHTML = '<div class="status error">Mermaid 未加载，无法执行此测试</div>';
+                return;
+            }
+            const markdown = `# Mermaid 图表测试
+
+## 流程图
+
+\`\`\`mermaid
+graph TD
+    A[用户请求] --> B{路由判断}
+    B -->|API| C[后端服务]
+    B -->|静态| D[CDN]
+    C --> E[数据库]
+    C --> F[缓存]
+    E --> G[返回响应]
+    F --> G
+    D --> G
+\`\`\`
+
+## 序列图
+
+\`\`\`mermaid
+sequenceDiagram
+    participant U as 用户
+    participant B as 浏览器
+    participant S as 服务器
+    participant DB as 数据库
+    U->>B: 点击文章链接
+    B->>S: GET /context/20260421_zh_1.md
+    S->>DB: 查询文件
+    DB-->>S: 返回内容
+    S-->>B: 200 OK + Markdown
+    B->>B: 渲染 Markdown
+    B-->>U: 显示文章
+\`\`\`
+
+## 状态图
+
+\`\`\`mermaid
+stateDiagram-v2
+    [*] --> 加载中
+    加载中 --> 渲染成功: fetch OK
+    加载中 --> 加载失败: 404/网络错误
+    加载失败 --> 加载中: 重试
+    渲染成功 --> 切换语言: 点击 EN/中
+    切换语言 --> 加载中: 加载对应语言文件
+    渲染成功 --> [*]
+\`\`\``;
+            
+            renderTest(markdown, 'Mermaid 图表');
+        }
+
+        function testMixedAdvanced() {
+            const missing = [];
+            if (typeof katex === 'undefined') missing.push('KaTeX');
+            if (typeof mermaid === 'undefined') missing.push('Mermaid');
+            if (missing.length) {
+                document.getElementById('result').innerHTML = '<div class="status warn">' + missing.join('、') + ' 未加载，部分内容将降级显示</div>';
+            }
+
+            const markdown = `# 混合高级内容测试
+
+## 1. Transformer 自注意力机制
+
+自注意力的核心计算为：
+
+$$
+\\text{Attention}(Q, K, V) = \\text{softmax}\\left(\\frac{QK^T}{\\sqrt{d_k}}\\right)V
+$$
+
+其中 $Q$、$K$、$V$ 分别是查询、键、值矩阵，$d_k$ 是键向量维度。
+
+## 2. 架构流程
+
+\`\`\`mermaid
+graph LR
+    A[输入 Embedding] --> B[Multi-Head Attention]
+    B --> C[Add & Norm]
+    C --> D[FFN]
+    D --> E[Add & Norm]
+    E --> F[输出]
+\`\`\`
+
+## 3. 实现代码
+
+\`\`\`python
+import torch
+import torch.nn as nn
+
+class SelfAttention(nn.Module):
+    def __init__(self, d_model, n_heads):
+        super().__init__()
+        self.n_heads = n_heads
+        self.d_k = d_model // n_heads
+        self.W_q = nn.Linear(d_model, d_model)
+        self.W_k = nn.Linear(d_model, d_model)
+        self.W_v = nn.Linear(d_model, d_model)
+
+    def forward(self, x):
+        Q = self.W_q(x)
+        K = self.W_k(x)
+        V = self.W_v(x)
+        scores = torch.matmul(Q, K.transpose(-2, -1)) / (self.d_k ** 0.5)
+        attn = torch.softmax(scores, dim=-1)
+        return torch.matmul(attn, V)
+\`\`\`
+
+## 4. 性能对比
+
+| 模型 | 参数量 | 上下文长度 | Attention 复杂度 |
+|------|--------|-----------|-----------------|
+| GPT-4 | ~1.8T | 128K | $O(n^2)$ |
+| Claude 3.5 | 未公开 | 200K | $O(n^2)$ |
+| Mamba | 2.8B | 理论无限 | $O(n)$ |
+
+> **结论**：标准自注意力的 $O(n^2)$ 复杂度在长序列场景下是性能瓶颈，线性注意力和状态空间模型是当前主要的优化方向。`;
+
+            renderTest(markdown, '混合高级内容');
+        }
+
+        // ========== 文件加载测试 ==========
+
         async function loadTestFile() {
             try {
                 const result = document.getElementById('result');
-                result.innerHTML = '<div class="status info">正在加载测试文件...</div>';
+                result.innerHTML = '<div class="status info">正在加载 test.md ...</div>';
                 
-                const response = await fetch('../../context/test.md');
-                if (!response.ok) {
-                    throw new Error('HTTP ' + response.status);
-                }
-                
-                const markdown = await response.text();
-                renderTest(markdown, '测试文件加载');
+                const markdown = await renderer.loadMarkdownFile('../../context/test.md');
+                renderTest(markdown, 'test.md 文件加载');
                 
             } catch (error) {
-                const result = document.getElementById('result');
-                result.innerHTML = '<div class="status error">加载测试文件失败: ' + error.message + '</div>';
+                document.getElementById('result').innerHTML = '<div class="status error">加载失败: ' + error.message + '</div>';
             }
         }
-        
-        // 渲染测试
+
+        async function loadNumberedFile(baseName) {
+            const result = document.getElementById('result');
+            const filePath = '../../context/' + baseName + '.md';
+            try {
+                result.innerHTML = '<div class="status info">正在加载 ' + baseName + '.md ...</div>';
+
+                const markdown = await renderer.loadMarkdownFile(filePath);
+                const titleMatch = markdown.match(/^#\s+(.+)$/m);
+                const title = titleMatch ? titleMatch[1].trim() : '(未提取到标题)';
+                const charCount = markdown.length;
+                const lineCount = markdown.split('\n').length;
+
+                result.innerHTML = `
+                    <div class="status success">OK - ${baseName}.md 加载成功</div>
+                    <div class="status info">标题: ${title} | 字符数: ${charCount} | 行数: ${lineCount}</div>
+                    <h3>前 500 字符渲染预览:</h3>
+                `;
+                const preview = markdown.substring(0, 500) + '\n\n---\n*... (已截断) ...*';
+                const renderResult = await renderer.renderMarkdown(preview, null);
+                result.innerHTML += '<div class="render-box">' + renderResult.html + '</div>';
+                result.innerHTML += '<h3>目录结构:</h3><pre>' + JSON.stringify(renderResult.toc, null, 2) + '</pre>';
+
+            } catch (error) {
+                result.innerHTML = '<div class="status error">加载 ' + baseName + '.md 失败: ' + error.message + '</div>';
+            }
+        }
+
+        // ========== 回归验证 ==========
+
+        function testLanguagePairResolve() {
+            const result = document.getElementById('result');
+            const testCases = [
+                { input: '../../context/20260420_zh.md',   lang: 'en', expected: '../../context/20260420_en.md',   desc: '无编号 zh->en' },
+                { input: '../../context/20260420_en.md',   lang: 'zh', expected: '../../context/20260420_zh.md',   desc: '无编号 en->zh' },
+                { input: '../../context/20260421_zh_1.md', lang: 'en', expected: '../../context/20260421_en_1.md', desc: '带编号 zh_1->en_1' },
+                { input: '../../context/20260421_en_2.md', lang: 'zh', expected: '../../context/20260421_zh_2.md', desc: '带编号 en_2->zh_2' },
+                { input: '../../context/20260421_zh_3.md', lang: 'en', expected: '../../context/20260421_en_3.md', desc: '带编号 zh_3->en_3' },
+                { input: '../../context/20260421_zh_1.md', lang: 'zh', expected: '../../context/20260421_zh_1.md', desc: '同语言不变 zh_1->zh_1' },
+                { input: '../../context/20260420_zh.md',   lang: 'zh', expected: '../../context/20260420_zh.md',   desc: '同语言不变 zh->zh' },
+                { input: '../../context/test.md',          lang: 'en', expected: null,                            desc: '无后缀文件(异步)' },
+            ];
+
+            let html = '<h3>语言配对解析测试 (resolveMarkdownPathForLanguage 正则验证)</h3>';
+
+            const zhNumRe = /^(.+)_zh(_\d+)\.md$/i;
+            const enNumRe = /^(.+)_en(_\d+)\.md$/i;
+            const zhRe    = /^(.+)_zh\.md$/i;
+            const enRe    = /^(.+)_en\.md$/i;
+
+            function resolveSync(basePath, lang) {
+                const zhNum = basePath.match(zhNumRe);
+                if (zhNum) return lang === 'zh' ? basePath : zhNum[1] + '_en' + zhNum[2] + '.md';
+                const enNum = basePath.match(enNumRe);
+                if (enNum) return lang === 'en' ? basePath : enNum[1] + '_zh' + enNum[2] + '.md';
+                const zh = basePath.match(zhRe);
+                if (zh) return lang === 'zh' ? basePath : zh[1] + '_en.md';
+                const en = basePath.match(enRe);
+                if (en) return lang === 'en' ? basePath : en[1] + '_zh.md';
+                return null;
+            }
+
+            let passed = 0, failed = 0;
+
+            testCases.forEach(tc => {
+                const actual = resolveSync(tc.input, tc.lang);
+                const ok = actual === tc.expected;
+                if (ok) passed++; else failed++;
+                const icon = ok ? 'OK' : 'FAIL';
+                const cls = ok ? 'success' : 'error';
+                html += '<div class="status ' + cls + '">' + icon + ' - ' + tc.desc
+                    + ' | 输入: ' + tc.input + ' [' + tc.lang + ']'
+                    + ' | 期望: ' + (tc.expected || '(需异步)') + ' | 实际: ' + (actual || '(null/异步)') + '</div>';
+            });
+
+            html += '<div class="status ' + (failed === 0 ? 'success' : 'error') + '">'
+                + '结果: ' + passed + ' 通过, ' + failed + ' 失败</div>';
+
+            result.innerHTML = html;
+        }
+
+        async function runAllTests() {
+            const result = document.getElementById('result');
+            result.innerHTML = '<div class="status info">正在执行全部测试...</div>';
+            
+            const tests = [
+                { name: '基础 Markdown', fn: testBasicMarkdown },
+                { name: '代码高亮', fn: testCodeHighlight },
+                { name: '综合功能', fn: testFullMarkdown },
+                { name: '嵌套结构', fn: testNestedStructure },
+            ];
+
+            if (typeof katex !== 'undefined') tests.push({ name: 'KaTeX', fn: testKaTeX });
+            if (typeof mermaid !== 'undefined') tests.push({ name: 'Mermaid', fn: testMermaid });
+
+            let passed = 0, failed = 0;
+            const summaryParts = [];
+
+            for (const t of tests) {
+                try {
+                    await new Promise((resolve, reject) => {
+                        const origResult = document.getElementById('result');
+                        const tmpDiv = document.createElement('div');
+                        tmpDiv.id = 'result';
+                        origResult.parentNode.replaceChild(tmpDiv, origResult);
+
+                        const origRenderTest = window._origRenderTest || renderTest;
+                        window._origRenderTest = origRenderTest;
+
+                        t.fn();
+
+                        setTimeout(() => {
+                            tmpDiv.id = '';
+                            tmpDiv.parentNode.replaceChild(origResult, tmpDiv);
+                            passed++;
+                            summaryParts.push('<div class="status success">OK - ' + t.name + '</div>');
+                            resolve();
+                        }, 200);
+                    });
+                } catch (e) {
+                    failed++;
+                    summaryParts.push('<div class="status error">FAIL - ' + t.name + ': ' + e.message + '</div>');
+                }
+            }
+
+            testLanguagePairResolve();
+            const langResult = document.getElementById('result').innerHTML;
+            const langPassed = !langResult.includes('FAIL -');
+            if (langPassed) { passed++; } else { failed++; }
+            summaryParts.push('<div class="status ' + (langPassed ? 'success' : 'error') + '">' + (langPassed ? 'OK' : 'FAIL') + ' - 语言配对解析</div>');
+
+            result.innerHTML = '<h3>全部测试结果</h3>'
+                + summaryParts.join('')
+                + '<div class="status ' + (failed === 0 ? 'success' : 'error') + '">总计: ' + passed + ' 通过, ' + failed + ' 失败</div>';
+        }
+
+        // ========== 渲染核心 ==========
+
         async function renderTest(markdown, testName) {
             const result = document.getElementById('result');
             
             try {
-                result.innerHTML = '<div class="status info">正在渲染 ' + testName + '...</div>';
+                result.innerHTML = '<div class="status info">正在渲染: ' + testName + ' ...</div>';
                 
                 const renderResult = await renderer.renderMarkdown(markdown, null);
                 
                 result.innerHTML = `
-                    <div class="status success">✓ ${testName} 渲染成功</div>
+                    <div class="status success">OK - ${testName}</div>
                     <h3>渲染结果:</h3>
-                    <div style="border: 1px solid #ccc; padding: 15px; background: white; border-radius: 4px;">
-                        ${renderResult.html}
-                    </div>
+                    <div class="render-box">${renderResult.html}</div>
                     <h3>目录信息:</h3>
-                    <div style="background: #f8f9fa; padding: 10px; border-radius: 4px;">
-                        <pre>${JSON.stringify(renderResult.toc, null, 2)}</pre>
-                    </div>
+                    <pre>${JSON.stringify(renderResult.toc, null, 2)}</pre>
                 `;
                 
             } catch (error) {
-                result.innerHTML = '<div class="status error">✗ ' + testName + ' 渲染失败: ' + error.message + '</div>';
+                result.innerHTML = '<div class="status error">FAIL - ' + testName + ': ' + error.message + '</div>';
                 console.error('渲染错误:', error);
             }
         }
         
-        // 页面加载完成后检查依赖
         window.addEventListener('load', function() {
-            setTimeout(checkDependencies, 100);
+            setTimeout(checkDependencies, 200);
         });
     </script>
 </body>

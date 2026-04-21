@@ -314,6 +314,9 @@ class MarkdownRenderer {
                 // 渲染 Mermaid 图表
                 await this.renderMermaidDiagrams(targetElement);
 
+                // 为 Mermaid 图表添加全屏放大按钮
+                this.setupMermaidFullscreen(targetElement);
+
                 // 添加图片懒加载
                 this.setupImageLazyLoading(targetElement);
                 
@@ -636,6 +639,233 @@ class MarkdownRenderer {
         textArea.select();
         document.execCommand('copy');
         document.body.removeChild(textArea);
+    }
+
+    // 渲染完成后为每个 Mermaid 图表注入全屏放大按钮
+    setupMermaidFullscreen(container) {
+        const mermaidContainers = container.querySelectorAll('.mermaid-container');
+        if (mermaidContainers.length === 0) return;
+
+        mermaidContainers.forEach(mc => {
+            const svg = mc.querySelector('svg');
+            if (!svg) return;
+
+            const btn = document.createElement('button');
+            btn.className = 'mermaid-fullscreen-btn';
+            btn.type = 'button';
+            const lang = document.body.classList.contains('en') ? 'en' : 'zh';
+            btn.title = lang === 'en' ? 'View fullscreen' : '全屏查看';
+            btn.innerHTML = '<i class="fas fa-expand" aria-hidden="true"></i>';
+            mc.appendChild(btn);
+
+            btn.addEventListener('click', () => this.openMermaidFullscreen(svg));
+        });
+    }
+
+    // 打开 Mermaid 图表全屏查看器
+    openMermaidFullscreen(svgElement) {
+        const lang = document.body.classList.contains('en') ? 'en' : 'zh';
+
+        const overlay = document.createElement('div');
+        overlay.className = 'mermaid-fullscreen-overlay';
+
+        // --- 顶部工具栏 ---
+        const toolbar = document.createElement('div');
+        toolbar.className = 'mermaid-fullscreen-toolbar';
+
+        const zoomInfo = document.createElement('span');
+        zoomInfo.className = 'mermaid-zoom-info';
+        zoomInfo.textContent = '100%';
+
+        const makeBtn = (icon, title) => {
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.title = title;
+            b.innerHTML = '<i class="fas fa-' + icon + '" aria-hidden="true"></i>';
+            return b;
+        };
+
+        const zoomOutBtn = makeBtn('search-minus', lang === 'en' ? 'Zoom out' : '缩小');
+        const zoomInBtn  = makeBtn('search-plus',  lang === 'en' ? 'Zoom in'  : '放大');
+        const resetBtn   = makeBtn('compress-arrows-alt', lang === 'en' ? 'Fit to screen' : '适应屏幕');
+        const closeBtn   = makeBtn('times', lang === 'en' ? 'Close' : '关闭');
+
+        toolbar.append(zoomInfo, zoomOutBtn, zoomInBtn, resetBtn, closeBtn);
+
+        // --- SVG 视窗 ---
+        const viewport = document.createElement('div');
+        viewport.className = 'mermaid-fullscreen-viewport';
+
+        const svgClone = svgElement.cloneNode(true);
+        svgClone.style.cssText = 'max-width:none;max-height:none;';
+        viewport.appendChild(svgClone);
+
+        // --- 底部操作提示 ---
+        const hint = document.createElement('div');
+        hint.className = 'mermaid-fullscreen-hint';
+        hint.textContent = lang === 'en'
+            ? 'Scroll to zoom | Drag to pan | ESC to close'
+            : '滚轮缩放 | 拖拽平移 | ESC 关闭';
+
+        overlay.append(toolbar, viewport, hint);
+        document.body.appendChild(overlay);
+        document.body.style.overflow = 'hidden';
+
+        requestAnimationFrame(() => overlay.classList.add('active'));
+
+        // --- 缩放 / 平移状态 ---
+        let scale = 1, translateX = 0, translateY = 0;
+        let isDragging = false, hasDragged = false;
+        let dragStartX, dragStartY, dragStartTX, dragStartTY;
+
+        const updateTransform = () => {
+            svgClone.style.transform =
+                'translate(' + translateX + 'px,' + translateY + 'px) scale(' + scale + ')';
+            zoomInfo.textContent = Math.round(scale * 100) + '%';
+        };
+
+        const getIntrinsicSize = () => {
+            const vb = svgClone.getAttribute('viewBox');
+            if (vb) {
+                const p = vb.split(/[\s,]+/).map(Number);
+                if (p.length >= 4 && p[2] > 0 && p[3] > 0) return { w: p[2], h: p[3] };
+            }
+            const wa = svgClone.getAttribute('width');
+            const ha = svgClone.getAttribute('height');
+            if (wa && ha && !String(wa).includes('%')) {
+                const w = parseFloat(wa), h = parseFloat(ha);
+                if (w > 0 && h > 0) return { w, h };
+            }
+            const rect = svgClone.getBoundingClientRect();
+            return { w: rect.width || 800, h: rect.height || 600 };
+        };
+
+        const fitToViewport = () => {
+            const vw = viewport.clientWidth * 0.92;
+            const vh = viewport.clientHeight * 0.88;
+            const s = getIntrinsicSize();
+            scale = Math.min(vw / s.w, vh / s.h, 3);
+            if (scale < 0.05) scale = 0.05;
+            translateX = 0;
+            translateY = 0;
+            updateTransform();
+        };
+
+        requestAnimationFrame(fitToViewport);
+
+        // 缩放操作
+        const clampScale = (s) => Math.min(Math.max(s, 0.1), 5);
+
+        zoomInBtn.addEventListener('click', () => {
+            scale = clampScale(scale * 1.25);
+            updateTransform();
+        });
+        zoomOutBtn.addEventListener('click', () => {
+            scale = clampScale(scale / 1.25);
+            updateTransform();
+        });
+        resetBtn.addEventListener('click', fitToViewport);
+
+        viewport.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            const factor = e.deltaY < 0 ? 1.1 : 1 / 1.1;
+            scale = clampScale(scale * factor);
+            updateTransform();
+        }, { passive: false });
+
+        // 鼠标拖拽平移
+        viewport.addEventListener('mousedown', (e) => {
+            if (e.button !== 0) return;
+            isDragging = true;
+            hasDragged = false;
+            dragStartX = e.clientX;
+            dragStartY = e.clientY;
+            dragStartTX = translateX;
+            dragStartTY = translateY;
+            e.preventDefault();
+        });
+
+        const onMouseMove = (e) => {
+            if (!isDragging) return;
+            const dx = e.clientX - dragStartX;
+            const dy = e.clientY - dragStartY;
+            if (Math.abs(dx) > 3 || Math.abs(dy) > 3) hasDragged = true;
+            translateX = dragStartTX + dx;
+            translateY = dragStartTY + dy;
+            updateTransform();
+        };
+
+        const onMouseUp = () => { isDragging = false; };
+
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+
+        // 触屏手势：单指拖拽 + 双指缩放
+        let lastTouchDist = 0;
+
+        viewport.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 1) {
+                isDragging = true;
+                hasDragged = false;
+                dragStartX = e.touches[0].clientX;
+                dragStartY = e.touches[0].clientY;
+                dragStartTX = translateX;
+                dragStartTY = translateY;
+            } else if (e.touches.length === 2) {
+                isDragging = false;
+                lastTouchDist = Math.hypot(
+                    e.touches[1].clientX - e.touches[0].clientX,
+                    e.touches[1].clientY - e.touches[0].clientY
+                );
+            }
+        }, { passive: true });
+
+        viewport.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (e.touches.length === 1 && isDragging) {
+                const dx = e.touches[0].clientX - dragStartX;
+                const dy = e.touches[0].clientY - dragStartY;
+                if (Math.abs(dx) > 3 || Math.abs(dy) > 3) hasDragged = true;
+                translateX = dragStartTX + dx;
+                translateY = dragStartTY + dy;
+                updateTransform();
+            } else if (e.touches.length === 2 && lastTouchDist > 0) {
+                const dist = Math.hypot(
+                    e.touches[1].clientX - e.touches[0].clientX,
+                    e.touches[1].clientY - e.touches[0].clientY
+                );
+                scale = clampScale(scale * (dist / lastTouchDist));
+                lastTouchDist = dist;
+                updateTransform();
+            }
+        }, { passive: false });
+
+        viewport.addEventListener('touchend', () => {
+            isDragging = false;
+            lastTouchDist = 0;
+        });
+
+        // 自动隐藏操作提示
+        setTimeout(() => { hint.style.opacity = '0'; }, 4000);
+
+        // --- 关闭逻辑 ---
+        const closeOverlay = () => {
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseup', onMouseUp);
+            document.removeEventListener('keydown', onKeyDown);
+            setTimeout(() => overlay.remove(), 300);
+        };
+
+        closeBtn.addEventListener('click', closeOverlay);
+
+        viewport.addEventListener('click', (e) => {
+            if (e.target === viewport && !hasDragged) closeOverlay();
+        });
+
+        const onKeyDown = (e) => { if (e.key === 'Escape') closeOverlay(); };
+        document.addEventListener('keydown', onKeyDown);
     }
 
     // 更新语言
