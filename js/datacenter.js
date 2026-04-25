@@ -1,575 +1,628 @@
-// Datacenter JavaScript
-(function() {
+/**
+ * datacenter.js - Enhanced Data Center Dashboard
+ */
+(function () {
     'use strict';
 
-    // Language Translations
-    const translations = {
-        'zh': {
+    /* ===== i18n ===== */
+    const T = {
+        zh: {
             'title': '数据中心 - Data Center',
             'site-name': '数据中心',
             'theme-slogan': '"数据之美，光影之诗"',
             'lang-toggle': '中 / EN',
             'global-status': '全局状态',
             'system-online': '系统在线',
-            'uptime': '100% 运行时间 (近24小时)',
-            'live-visitors': '实时访客 (近60分钟)',
+            'uptime': '运行时间 99.97%',
+            'uptime-24h': '近 30 天',
+            'live-visitors': '实时访客趋势',
             'today-visitors': '今日访客',
             'vs-yesterday': '较昨日 +12%',
             'visitor-sources': '访客来源',
+            'mi-browser': 'MI浏览器',
             'top-regions': '主要访问地区',
             'united-states': '美国',
             'jiangsu': '中国江苏',
             'singapore': '新加坡',
             'shandong': '中国山东',
             'shanxi': '中国山西',
+            'browser-analytics': '浏览器 & 设备',
             'server-status': '核心服务状态',
+            'all-operational': '全部正常',
             'api-service': 'API 服务',
             'database': '数据库',
             'cdn-network': 'CDN 网络',
-            'operational': '运行正常',
+            'email-service': '邮件服务',
+            'operational': '正常',
             'page-load': '页面加载性能',
+            'contribution-map': '内容贡献热力图',
+            'contributions': '次贡献',
+            'heatmap-less': '少',
+            'heatmap-more': '多',
+            'activity-feed': '实时活动流',
+            'tech-stack': '技术栈',
+            'stat-pages': '总页面数',
+            'stat-posts': '博客文章',
+            'stat-visitors': '累计访客',
+            'stat-speed': '平均加载',
             'your-name': '健健',
-            'powered-by': 'Powered by Passion'
+            'powered-by': 'Powered by Passion & Data'
         },
-        'en': {
-            'title': 'Data Center - 数据中心',
+        en: {
+            'title': 'Data Center',
             'site-name': 'Data Center',
             'theme-slogan': '"The Beauty of Data, a Poem of Light and Shadow"',
             'lang-toggle': 'EN / 中',
             'global-status': 'Global Status',
             'system-online': 'SYSTEM ONLINE',
-            'uptime': '100% Uptime (Last 24h)',
-            'live-visitors': 'Live Visitors (Last 60 Mins)',
-            'today-visitors': 'Today\'s Visitors',
+            'uptime': 'Uptime 99.97%',
+            'uptime-24h': 'Last 30 days',
+            'live-visitors': 'Live Visitor Trend',
+            'today-visitors': "Today's Visitors",
             'vs-yesterday': 'vs Yesterday +12%',
             'visitor-sources': 'Visitor Sources',
+            'mi-browser': 'MI Browser',
             'top-regions': 'Top Regions',
             'united-states': 'United States',
-            'jiangsu': 'Jiangsu, China',
+            'jiangsu': 'Jiangsu, CN',
             'singapore': 'Singapore',
-            'shandong': 'Shandong, China',
-            'shanxi': 'Shanxi, China',
-            'server-status': 'Core Services Status',
+            'shandong': 'Shandong, CN',
+            'shanxi': 'Shanxi, CN',
+            'browser-analytics': 'Browser & Device',
+            'server-status': 'Core Services',
+            'all-operational': 'All OK',
             'api-service': 'API Service',
             'database': 'Database',
             'cdn-network': 'CDN Network',
-            'operational': 'OPERATIONAL',
+            'email-service': 'Email Service',
+            'operational': 'OK',
             'page-load': 'Page Load Performance',
+            'contribution-map': 'Contribution Heatmap',
+            'contributions': 'contributions',
+            'heatmap-less': 'Less',
+            'heatmap-more': 'More',
+            'activity-feed': 'Live Activity Feed',
+            'tech-stack': 'Tech Stack',
+            'stat-pages': 'Total Pages',
+            'stat-posts': 'Blog Posts',
+            'stat-visitors': 'Total Visitors',
+            'stat-speed': 'Avg Load',
             'your-name': 'Jianjian',
-            'powered-by': 'Powered by Passion'
+            'powered-by': 'Powered by Passion & Data'
         }
     };
 
-    // Application State
-    let currentLang = 'zh';
-    let currentTheme = localStorage.getItem('theme') || 'light';
+    /* ===== State ===== */
+    let lang = 'zh';
+    let theme = localStorage.getItem('dc-theme') || 'light';
     let visitorChart = null;
     let performanceChart = null;
+    let browserChart = null;
 
-    // Data Update Configuration
-    const UPDATE_INTERVALS = {
-        VISITOR_CHART: 43200000,    // 12 hours = 12 * 60 * 60 * 1000 ms
-        VISITOR_COUNT: 86400000,    // 24 hours = 24 * 60 * 60 * 1000 ms
-        MAX_VISITORS: 50,           // 最大访客数限制
-        MIN_VISITORS: 1             // 最小访客数限制
-    };
+    /* ===== Helpers ===== */
+    const $ = (s) => document.querySelector(s);
+    const $$ = (s) => document.querySelectorAll(s);
+    const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+    const css = (prop) => getComputedStyle(document.documentElement).getPropertyValue(prop).trim();
 
-    // Initialize Application
+    /* ===== Init ===== */
     function init() {
-        initTheme();
-        initLanguage();
+        applyTheme();
+        applyLang();
+        initClock();
         initEventListeners();
+        initQuickStats();
         initCharts();
-        initAnimations();
-        startDataUpdates();
+        initHeatmap();
+        initUptimeBars();
+        initActivityFeed();
+        startLiveUpdates();
+        initEasterEggs();
     }
 
-    // Theme Management
-    function initTheme() {
-        document.documentElement.setAttribute('data-theme', currentTheme);
-        updateThemeIcon();
+    /* ===== Theme ===== */
+    function applyTheme() {
+        document.documentElement.setAttribute('data-theme', theme);
+        const icon = $('#themeToggle .theme-icon');
+        if (icon) icon.style.transform = theme === 'dark' ? 'rotate(180deg)' : 'rotate(0deg)';
     }
 
     function toggleTheme() {
-        currentTheme = currentTheme === 'light' ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', currentTheme);
-        localStorage.setItem('theme', currentTheme);
-        updateThemeIcon();
-        updateChartColors();
+        theme = theme === 'light' ? 'dark' : 'light';
+        localStorage.setItem('dc-theme', theme);
+        applyTheme();
+        refreshChartColors();
     }
 
-    function updateThemeIcon() {
-        const themeToggle = document.getElementById('themeToggle');
-        const icon = themeToggle.querySelector('.theme-icon');
-        if (currentTheme === 'dark') {
-            icon.style.transform = 'rotate(180deg)';
-        } else {
-            icon.style.transform = 'rotate(0deg)';
+    /* ===== Language ===== */
+    function applyLang() {
+        $$('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (T[lang]?.[key]) el.textContent = T[lang][key];
+        });
+        document.title = T[lang]['title'];
+    }
+
+    function toggleLang() {
+        lang = lang === 'zh' ? 'en' : 'zh';
+        applyLang();
+    }
+
+    /* ===== Clock ===== */
+    function initClock() {
+        function tick() {
+            const now = new Date();
+            const el = $('#liveClock');
+            if (el) el.textContent = now.toLocaleTimeString('en-GB');
         }
+        tick();
+        setInterval(tick, 1000);
     }
 
-    // Language Management
-    function initLanguage() {
-        updateLanguage();
-    }
-
-    function toggleLanguage() {
-        currentLang = currentLang === 'zh' ? 'en' : 'zh';
-        updateLanguage();
-    }
-
-    function updateLanguage() {
-        const elements = document.querySelectorAll('[data-i18n]');
-        elements.forEach(element => {
-            const key = element.getAttribute('data-i18n');
-            if (translations[currentLang] && translations[currentLang][key]) {
-                element.textContent = translations[currentLang][key];
-            }
-        });
-        
-        // Update document title
-        document.title = translations[currentLang]['title'];
-    }
-
-    // Event Listeners
+    /* ===== Event Listeners ===== */
     function initEventListeners() {
-        const themeToggle = document.getElementById('themeToggle');
-        const langToggle = document.getElementById('langToggle');
-
-        themeToggle.addEventListener('click', toggleTheme);
-        langToggle.addEventListener('click', toggleLanguage);
-
-        // World map visitor dots
-        const visitorDots = document.querySelectorAll('.visitor-dot');
-        visitorDots.forEach(dot => {
-            dot.addEventListener('click', function() {
-                const region = this.getAttribute('data-region');
-                showRegionTooltip(region, this);
-            });
-        });
-
-        // Card hover effects
-        const cards = document.querySelectorAll('.card');
-        cards.forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-8px)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(-5px)';
-            });
-        });
+        $('#themeToggle')?.addEventListener('click', toggleTheme);
+        $('#langToggle')?.addEventListener('click', toggleLang);
     }
 
-    // Animations
-    function initAnimations() {
-        // Animate big number
-        animateNumber('todayCount', 42, 2000);
-        
-        // Animate progress bars
-        setTimeout(() => {
-            const bars = document.querySelectorAll('.bar-fill');
-            bars.forEach(bar => {
-                const width = bar.style.width;
-                bar.style.width = '0%';
-                setTimeout(() => {
-                    bar.style.width = width;
-                }, 100);
-            });
-        }, 500);
+    /* ===== Quick Stats ===== */
+    function initQuickStats() {
+        animateNum('statPages', 101, 1800);
+        animateNum('statPosts', 47, 1800);
+        animateNum('statVisitors', 2847, 2200);
+        animateSpeed('statSpeed', 128, 1600);
+
+        drawMiniSparkline('sparkPages', generateSparkData(12, 80, 105));
+        drawMiniSparkline('sparkPosts', generateSparkData(12, 30, 50));
+        drawMiniSparkline('sparkVisitors', generateSparkData(12, 150, 320));
+        drawMiniSparkline('sparkSpeed', generateSparkData(12, 90, 160), true);
     }
 
-    function animateNumber(elementId, target, duration) {
-        const element = document.getElementById(elementId);
-        const start = 0;
-        const increment = target / (duration / 16);
-        let current = start;
-
+    function animateNum(id, target, duration) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        let cur = 0;
+        const step = target / (duration / 16);
         const timer = setInterval(() => {
-            current += increment;
-            if (current >= target) {
-                current = target;
-                clearInterval(timer);
-            }
-            element.textContent = Math.floor(current).toLocaleString();
+            cur += step;
+            if (cur >= target) { cur = target; clearInterval(timer); }
+            el.textContent = Math.floor(cur).toLocaleString();
         }, 16);
     }
 
-    // Charts
+    function animateSpeed(id, target, duration) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        let cur = 0;
+        const step = target / (duration / 16);
+        const timer = setInterval(() => {
+            cur += step;
+            if (cur >= target) { cur = target; clearInterval(timer); }
+            el.innerHTML = Math.floor(cur) + '<small>ms</small>';
+        }, 16);
+    }
+
+    function generateSparkData(count, min, max) {
+        return Array.from({ length: count }, () => rand(min, max));
+    }
+
+    function drawMiniSparkline(containerId, data, invert) {
+        const wrap = document.getElementById(containerId);
+        if (!wrap) return;
+        const w = 60, h = 28;
+        const canvas = document.createElement('canvas');
+        canvas.width = w * 2; canvas.height = h * 2;
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+        wrap.appendChild(canvas);
+
+        const ctx = canvas.getContext('2d');
+        ctx.scale(2, 2);
+
+        const max = Math.max(...data);
+        const min2 = Math.min(...data);
+        const range = max - min2 || 1;
+        const points = data.map((v, i) => ({
+            x: (i / (data.length - 1)) * w,
+            y: h - ((v - min2) / range) * (h - 4) - 2
+        }));
+
+        ctx.beginPath();
+        ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++) {
+            const cx = (points[i - 1].x + points[i].x) / 2;
+            ctx.quadraticCurveTo(points[i - 1].x, points[i - 1].y, cx, (points[i - 1].y + points[i].y) / 2);
+        }
+        ctx.quadraticCurveTo(
+            points[points.length - 2].x, points[points.length - 2].y,
+            points[points.length - 1].x, points[points.length - 1].y
+        );
+        ctx.strokeStyle = invert ? '#ff9500' : css('--accent-blue') || '#007BFF';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        ctx.lineTo(w, h);
+        ctx.lineTo(0, h);
+        ctx.closePath();
+        const grad = ctx.createLinearGradient(0, 0, 0, h);
+        const color = invert ? '255,149,0' : '0,123,255';
+        grad.addColorStop(0, `rgba(${color},0.25)`);
+        grad.addColorStop(1, `rgba(${color},0.02)`);
+        ctx.fillStyle = grad;
+        ctx.fill();
+    }
+
+    /* ===== Charts ===== */
     function initCharts() {
         initVisitorChart();
         initPerformanceChart();
+        initBrowserChart();
     }
 
     function initVisitorChart() {
-        const ctx = document.getElementById('visitorChart').getContext('2d');
-        const data = generateVisitorData();
-        
+        const ctx = document.getElementById('visitorChart')?.getContext('2d');
+        if (!ctx) return;
+        const data = genVisitorData();
+
         visitorChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: data.labels,
                 datasets: [{
-                    label: currentLang === 'zh' ? '访客数' : 'Visitors',
+                    label: lang === 'zh' ? '访客数' : 'Visitors',
                     data: data.values,
-                    borderColor: getComputedStyle(document.documentElement).getPropertyValue('--accent-blue').trim(),
-                    backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--accent-blue').trim() + '20',
+                    borderColor: css('--accent-blue'),
+                    backgroundColor: css('--accent-blue') + '18',
                     fill: true,
                     tension: 0.4,
-                    borderWidth: 3,
+                    borderWidth: 2.5,
                     pointRadius: 0,
-                    pointHoverRadius: 6
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: css('--accent-blue')
+                }]
+            },
+            options: chartOpts({ yBeginZero: true })
+        });
+    }
+
+    function initPerformanceChart() {
+        const ctx = document.getElementById('performanceChart')?.getContext('2d');
+        if (!ctx) return;
+        const labels = ['index.html', 'blog.html', 'about.html', 'project.html', 'gallery.html', 'resume.html'];
+        const values = [118, 174, 92, 146, 108, 135];
+
+        const avg = Math.round(values.reduce((a, b) => a + b, 0) / values.length);
+        const avgEl = document.getElementById('perfAvg');
+        if (avgEl) avgEl.textContent = avg + ' ms';
+
+        performanceChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels,
+                datasets: [{
+                    label: lang === 'zh' ? '加载时间 (ms)' : 'Load Time (ms)',
+                    data: values,
+                    backgroundColor: values.map((v, i) =>
+                        i % 2 === 0 ? css('--accent-blue') + '70' : css('--accent-green') + '70'
+                    ),
+                    borderColor: values.map((v, i) =>
+                        i % 2 === 0 ? css('--accent-blue') : css('--accent-green')
+                    ),
+                    borderWidth: 1.5,
+                    borderRadius: 6,
+                    maxBarThickness: 40
+                }]
+            },
+            options: chartOpts({ showXAxis: true })
+        });
+    }
+
+    function initBrowserChart() {
+        const ctx = document.getElementById('browserChart')?.getContext('2d');
+        if (!ctx) return;
+
+        const data = {
+            labels: ['Chrome', 'Safari', 'Edge', 'Firefox', 'Other'],
+            values: [48, 22, 15, 8, 7],
+            colors: ['#4285F4', '#FF9500', '#0078D7', '#FF6611', '#888888']
+        };
+
+        browserChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: data.labels,
+                datasets: [{
+                    data: data.values,
+                    backgroundColor: data.colors,
+                    borderWidth: 2,
+                    borderColor: theme === 'dark' ? '#172533' : '#ffffff',
+                    hoverOffset: 6
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                cutout: '62%',
                 plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    x: {
-                        display: false
-                    },
-                    y: {
-                        display: false,
-                        beginAtZero: true
-                    }
-                },
-                elements: {
-                    point: {
-                        radius: 0
-                    }
-                },
-                interaction: {
-                    intersect: false,
-                    mode: 'index'
-                }
-            }
-        });
-    }
-
-    function initPerformanceChart() {
-        const ctx = document.getElementById('performanceChart').getContext('2d');
-        
-        const data = {
-            labels: ['Homepage', 'Blog Post', 'About', 'Projects', 'Gallery'],
-            datasets: [{
-                label: currentLang === 'zh' ? '加载时间 (ms)' : 'Load Time (ms)',
-                data: [120, 180, 95, 150, 110],
-                backgroundColor: [
-                    getComputedStyle(document.documentElement).getPropertyValue('--accent-blue').trim() + '80',
-                    getComputedStyle(document.documentElement).getPropertyValue('--accent-green').trim() + '80',
-                    getComputedStyle(document.documentElement).getPropertyValue('--accent-blue').trim() + '60',
-                    getComputedStyle(document.documentElement).getPropertyValue('--accent-green').trim() + '60',
-                    getComputedStyle(document.documentElement).getPropertyValue('--accent-blue').trim() + '40'
-                ],
-                borderColor: [
-                    getComputedStyle(document.documentElement).getPropertyValue('--accent-blue').trim(),
-                    getComputedStyle(document.documentElement).getPropertyValue('--accent-green').trim(),
-                    getComputedStyle(document.documentElement).getPropertyValue('--accent-blue').trim(),
-                    getComputedStyle(document.documentElement).getPropertyValue('--accent-green').trim(),
-                    getComputedStyle(document.documentElement).getPropertyValue('--accent-blue').trim()
-                ],
-                borderWidth: 2,
-                borderRadius: 8
-            }]
-        };
-
-        performanceChart = new Chart(ctx, {
-            type: 'bar',
-            data: data,
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    x: {
-                        grid: {
-                            display: false
-                        },
-                        ticks: {
-                            color: getComputedStyle(document.documentElement).getPropertyValue('--text-secondary').trim()
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (item) => `${item.label}: ${item.parsed}%`
                         }
-                    },
-                    y: {
-                        grid: {
-                            color: getComputedStyle(document.documentElement).getPropertyValue('--border-color').trim()
-                        },
-                        ticks: {
-                            color: getComputedStyle(document.documentElement).getPropertyValue('--text-secondary').trim()
-                        },
-                        beginAtZero: true
                     }
                 }
             }
         });
-    }
 
-    function updateChartColors() {
-        if (visitorChart) {
-            const accentBlue = getComputedStyle(document.documentElement).getPropertyValue('--accent-blue').trim();
-            visitorChart.data.datasets[0].borderColor = accentBlue;
-            visitorChart.data.datasets[0].backgroundColor = accentBlue + '20';
-            visitorChart.update();
-        }
-
-        if (performanceChart) {
-            const accentBlue = getComputedStyle(document.documentElement).getPropertyValue('--accent-blue').trim();
-            const accentGreen = getComputedStyle(document.documentElement).getPropertyValue('--accent-green').trim();
-            const textSecondary = getComputedStyle(document.documentElement).getPropertyValue('--text-secondary').trim();
-            const borderColor = getComputedStyle(document.documentElement).getPropertyValue('--border-color').trim();
-            
-            performanceChart.data.datasets[0].backgroundColor = [
-                accentBlue + '80',
-                accentGreen + '80',
-                accentBlue + '60',
-                accentGreen + '60',
-                accentBlue + '40'
-            ];
-            performanceChart.data.datasets[0].borderColor = [
-                accentBlue,
-                accentGreen,
-                accentBlue,
-                accentGreen,
-                accentBlue
-            ];
-            
-            performanceChart.options.scales.x.ticks.color = textSecondary;
-            performanceChart.options.scales.y.ticks.color = textSecondary;
-            performanceChart.options.scales.y.grid.color = borderColor;
-            
-            performanceChart.update();
+        const legendEl = document.getElementById('browserLegend');
+        if (legendEl) {
+            legendEl.innerHTML = data.labels.map((name, i) =>
+                `<div class="legend-row">
+                    <span class="legend-dot" style="background:${data.colors[i]}"></span>
+                    <span class="legend-name">${name}</span>
+                    <span class="legend-pct">${data.values[i]}%</span>
+                </div>`
+            ).join('');
         }
     }
 
-    function generateVisitorData() {
-        const labels = [];
-        const values = [];
-        const now = new Date();
-        
+    function chartOpts({ yBeginZero, showXAxis } = {}) {
+        return {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: {
+                    display: !!showXAxis,
+                    grid: { display: false },
+                    ticks: { color: css('--text-secondary'), font: { size: 10 } }
+                },
+                y: {
+                    display: false,
+                    beginAtZero: !!yBeginZero
+                }
+            },
+            interaction: { intersect: false, mode: 'index' }
+        };
+    }
+
+    function genVisitorData() {
+        const labels = [], values = [];
+        const now = Date.now();
         for (let i = 59; i >= 0; i--) {
-            const time = new Date(now.getTime() - i * 60000);
-            labels.push(time.toLocaleTimeString('en-US', { 
-                hour12: false, 
-                hour: '2-digit', 
-                minute: '2-digit' 
-            }));
-            values.push(Math.floor(Math.random() * 8) + 1); // 1-8 范围更符合小访问量
+            const t = new Date(now - i * 60000);
+            labels.push(t.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }));
+            values.push(rand(1, 9));
         }
-        
         return { labels, values };
     }
 
-    // Data Updates
-    function startDataUpdates() {
-        // Update visitor chart every 12 hours
-        setInterval(() => {
+    function refreshChartColors() {
+        setTimeout(() => {
+            const ab = css('--accent-blue');
+            const ag = css('--accent-green');
+            const ts = css('--text-secondary');
+            const bgBorder = theme === 'dark' ? '#172533' : '#ffffff';
+
             if (visitorChart) {
-                const newData = generateVisitorData();
-                visitorChart.data.labels = newData.labels;
-                visitorChart.data.datasets[0].data = newData.values;
+                visitorChart.data.datasets[0].borderColor = ab;
+                visitorChart.data.datasets[0].backgroundColor = ab + '18';
+                visitorChart.data.datasets[0].pointHoverBackgroundColor = ab;
                 visitorChart.update('none');
             }
-        }, UPDATE_INTERVALS.VISITOR_CHART);
-
-        // Update visitor count every 24 hours
-        setInterval(() => {
-            const currentCount = parseInt(document.getElementById('todayCount').textContent.replace(/,/g, ''));
-            // 随机增减1-3，但保持在配置的范围内
-            const change = Math.floor(Math.random() * 7) - 3; // -3到+3的变化
-            const newCount = Math.max(UPDATE_INTERVALS.MIN_VISITORS, 
-                                    Math.min(UPDATE_INTERVALS.MAX_VISITORS, currentCount + change));
-            animateNumber('todayCount', newCount, 1000);
-        }, UPDATE_INTERVALS.VISITOR_COUNT);
+            if (performanceChart) {
+                const ds = performanceChart.data.datasets[0];
+                ds.backgroundColor = ds.data.map((_, i) => i % 2 === 0 ? ab + '70' : ag + '70');
+                ds.borderColor = ds.data.map((_, i) => i % 2 === 0 ? ab : ag);
+                if (performanceChart.options.scales.x.ticks) {
+                    performanceChart.options.scales.x.ticks.color = ts;
+                }
+                performanceChart.update('none');
+            }
+            if (browserChart) {
+                browserChart.data.datasets[0].borderColor = bgBorder;
+                browserChart.update('none');
+            }
+        }, 60);
     }
 
-    // Region Tooltip
-    function showRegionTooltip(region, element) {
-        // Create tooltip
-        const tooltip = document.createElement('div');
-        tooltip.className = 'region-tooltip';
-        tooltip.textContent = `Active visitors from ${region}`;
-        tooltip.style.cssText = `
-            position: absolute;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 8px 12px;
-            font-size: 0.8rem;
-            color: var(--text-primary);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            pointer-events: none;
-            transform: translate(-50%, -100%);
-            margin-top: -10px;
+    /* ===== Contribution Heatmap ===== */
+    function initHeatmap() {
+        const wrap = document.getElementById('heatmapWrap');
+        if (!wrap) return;
+
+        const weeks = 26;
+        let totalContrib = 0;
+        const today = new Date();
+        const dayOfWeek = today.getDay();
+        const startDate = new Date(today);
+        startDate.setDate(startDate.getDate() - (weeks * 7 + dayOfWeek));
+
+        for (let w = 0; w < weeks; w++) {
+            const col = document.createElement('div');
+            col.className = 'hm-col';
+            for (let d = 0; d < 7; d++) {
+                const cellDate = new Date(startDate);
+                cellDate.setDate(startDate.getDate() + w * 7 + d);
+
+                const cell = document.createElement('span');
+                cell.className = 'hm-cell';
+
+                if (cellDate > today) {
+                    cell.setAttribute('data-level', '0');
+                } else {
+                    const r = Math.random();
+                    let level;
+                    if (r < 0.35) level = 0;
+                    else if (r < 0.6) level = 1;
+                    else if (r < 0.8) level = 2;
+                    else if (r < 0.93) level = 3;
+                    else level = 4;
+                    cell.setAttribute('data-level', String(level));
+                    totalContrib += level;
+                }
+
+                const dateStr = cellDate.toISOString().slice(0, 10);
+                cell.title = dateStr;
+                col.appendChild(cell);
+            }
+            wrap.appendChild(col);
+        }
+
+        const totalEl = document.getElementById('heatmapTotal');
+        if (totalEl) {
+            const labelKey = lang === 'en' ? 'contributions' : '次贡献';
+            totalEl.innerHTML = `${totalContrib} <span data-i18n="contributions">${T[lang]['contributions']}</span>`;
+        }
+    }
+
+    /* ===== Uptime Bars ===== */
+    function initUptimeBars() {
+        ['uptimeApi', 'uptimeDb', 'uptimeCdn', 'uptimeEmail'].forEach(id => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            const days = 30;
+            let html = '';
+            for (let i = 0; i < days; i++) {
+                const r = Math.random();
+                let cls = '';
+                if (r > 0.97) cls = 'down';
+                else if (r > 0.92) cls = 'warn';
+                html += `<span class="ub ${cls}" title="Day -${days - i}"></span>`;
+            }
+            el.innerHTML = html;
+        });
+    }
+
+    /* ===== Activity Feed ===== */
+    const FEED_TEMPLATES = {
+        zh: [
+            { type: 'page-view', text: '访客浏览了 {page}' },
+            { type: 'deploy', text: '站点已部署更新 #{ver}' },
+            { type: 'commit', text: '新提交: {msg}' },
+            { type: 'page-view', text: '来自 {loc} 的新访客' }
+        ],
+        en: [
+            { type: 'page-view', text: 'Visitor viewed {page}' },
+            { type: 'deploy', text: 'Site deployed #{ver}' },
+            { type: 'commit', text: 'New commit: {msg}' },
+            { type: 'page-view', text: 'New visitor from {loc}' }
+        ]
+    };
+
+    const PAGES = ['index.html', 'blog.html', 'about.html', 'gallery.html', 'resume.html', 'project.html'];
+    const LOCATIONS_ZH = ['江苏徐州', '新加坡', '山东济南', '上海', '广东深圳', '北京', '美国加州'];
+    const LOCATIONS_EN = ['Xuzhou, CN', 'Singapore', 'Jinan, CN', 'Shanghai', 'Shenzhen, CN', 'Beijing', 'California, US'];
+    const COMMIT_MSGS = ['fix: typo', 'feat: dark mode', 'style: card layout', 'docs: update README', 'refactor: blog.js'];
+
+    function genFeedItem() {
+        const templates = FEED_TEMPLATES[lang];
+        const tpl = templates[rand(0, templates.length - 1)];
+        let text = tpl.text;
+
+        text = text.replace('{page}', PAGES[rand(0, PAGES.length - 1)]);
+        text = text.replace('{ver}', 'v1.' + rand(2, 9) + '.' + rand(0, 99));
+        text = text.replace('{msg}', COMMIT_MSGS[rand(0, COMMIT_MSGS.length - 1)]);
+        const locs = lang === 'zh' ? LOCATIONS_ZH : LOCATIONS_EN;
+        text = text.replace('{loc}', locs[rand(0, locs.length - 1)]);
+
+        const now = new Date();
+        const time = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+        return { type: tpl.type, text, time };
+    }
+
+    function initActivityFeed() {
+        const list = document.getElementById('feedList');
+        if (!list) return;
+        for (let i = 0; i < 8; i++) {
+            appendFeedItem(list, genFeedItem(), false);
+        }
+    }
+
+    function appendFeedItem(list, item, animate) {
+        const div = document.createElement('div');
+        div.className = 'feed-item';
+        if (animate) div.style.animation = 'feedIn .4s ease';
+        div.innerHTML = `
+            <span class="feed-dot ${item.type}"></span>
+            <span class="feed-text">${item.text}</span>
+            <span class="feed-time">${item.time}</span>
         `;
+        list.insertBefore(div, list.firstChild);
 
-        // Position tooltip
-        const rect = element.getBoundingClientRect();
-        const container = element.closest('.world-map');
-        const containerRect = container.getBoundingClientRect();
-        
-        tooltip.style.left = (rect.left - containerRect.left + rect.width / 2) + 'px';
-        tooltip.style.top = (rect.top - containerRect.top) + 'px';
-
-        container.style.position = 'relative';
-        container.appendChild(tooltip);
-
-        // Remove tooltip after 3 seconds
-        setTimeout(() => {
-            if (tooltip.parentNode) {
-                tooltip.parentNode.removeChild(tooltip);
-            }
-        }, 3000);
-
-        // Add pulse effect to dot
-        element.style.animation = 'none';
-        setTimeout(() => {
-            element.style.animation = 'blink 3s infinite';
-        }, 100);
+        if (list.children.length > 20) {
+            list.removeChild(list.lastChild);
+        }
     }
 
-    // Utility Functions
-    function formatNumber(num) {
-        return num.toLocaleString();
+    /* ===== Live Updates ===== */
+    function startLiveUpdates() {
+        setInterval(() => {
+            const list = document.getElementById('feedList');
+            if (list) appendFeedItem(list, genFeedItem(), true);
+        }, rand(4000, 8000));
+
+        setInterval(() => {
+            if (!visitorChart) return;
+            const ds = visitorChart.data;
+            ds.labels.shift();
+            ds.datasets[0].data.shift();
+            const now = new Date();
+            ds.labels.push(now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }));
+            ds.datasets[0].data.push(rand(1, 9));
+            visitorChart.update('none');
+        }, 60000);
     }
 
-    function getRandomInt(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    // Performance Monitoring (Simulated)
-    function simulatePerformanceData() {
-        const pages = ['Homepage', 'Blog Post', 'About', 'Projects', 'Gallery'];
-        return pages.map(page => ({
-            name: page,
-            loadTime: getRandomInt(80, 200)
-        }));
-    }
-
-    // Easter Eggs
+    /* ===== Easter Eggs ===== */
     function initEasterEggs() {
-        // Konami Code
-        let konamiCode = [];
-        const konamiSequence = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
-        
-        document.addEventListener('keydown', function(e) {
-            konamiCode.push(e.keyCode);
-            if (konamiCode.length > konamiSequence.length) {
-                konamiCode.shift();
-            }
-            
-            if (konamiCode.join(',') === konamiSequence.join(',')) {
-                activateEasterEgg();
-                konamiCode = [];
+        let code = [];
+        const seq = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+
+        document.addEventListener('keydown', (e) => {
+            code.push(e.keyCode);
+            if (code.length > seq.length) code.shift();
+            if (code.join(',') === seq.join(',')) {
+                matrixRain();
+                code = [];
             }
         });
     }
 
-    function activateEasterEgg() {
-        // Add matrix rain effect
+    function matrixRain() {
         const canvas = document.createElement('canvas');
-        canvas.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0.1;
-        `;
+        canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;opacity:.12';
         document.body.appendChild(canvas);
-        
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        
-        const chars = "0123456789ABCDEF数据中心";
-        const matrix = chars.split("");
-        const font_size = 14;
-        const columns = canvas.width / font_size;
-        const drops = [];
-        
-        for (let x = 0; x < columns; x++) {
-            drops[x] = 1;
-        }
-        
+
+        const chars = '01数据中心ABCDEF'.split('');
+        const sz = 14;
+        const cols = Math.floor(canvas.width / sz);
+        const drops = Array(cols).fill(1);
+
         function draw() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
+            ctx.fillStyle = 'rgba(0,0,0,.04)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            ctx.fillStyle = getComputedStyle(document.documentElement)
-                .getPropertyValue('--accent-green').trim();
-            ctx.font = font_size + 'px monospace';
-            
-            for (let i = 0; i < drops.length; i++) {
-                const text = matrix[Math.floor(Math.random() * matrix.length)];
-                ctx.fillText(text, i * font_size, drops[i] * font_size);
-                
-                if (drops[i] * font_size > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
+            ctx.fillStyle = css('--accent-green');
+            ctx.font = sz + 'px monospace';
+            drops.forEach((y, i) => {
+                ctx.fillText(chars[rand(0, chars.length - 1)], i * sz, y * sz);
+                if (y * sz > canvas.height && Math.random() > 0.975) drops[i] = 0;
                 drops[i]++;
-            }
+            });
         }
-        
-        const matrixInterval = setInterval(draw, 35);
-        
-        // Remove matrix effect after 10 seconds
-        setTimeout(() => {
-            clearInterval(matrixInterval);
-            document.body.removeChild(canvas);
-        }, 10000);
-        
-        // Show achievement message
-        const achievement = document.createElement('div');
-        achievement.textContent = '🎉 Easter Egg Activated! Matrix Mode Enabled!';
-        achievement.style.cssText = `
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--card-bg);
-            border: 1px solid var(--accent-green);
-            border-radius: 12px;
-            padding: 20px 30px;
-            color: var(--accent-green);
-            font-weight: bold;
-            z-index: 10000;
-            backdrop-filter: blur(10px);
-            animation: fadeInUp 0.5s ease;
-        `;
-        document.body.appendChild(achievement);
-        
-        setTimeout(() => {
-            document.body.removeChild(achievement);
-        }, 3000);
+
+        const interval = setInterval(draw, 35);
+        setTimeout(() => { clearInterval(interval); canvas.remove(); }, 8000);
     }
 
-    // Initialize when DOM is ready
+    /* ===== Bootstrap ===== */
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {
         init();
     }
-
-    // Initialize easter eggs
-    initEasterEggs();
-
-    // Export for debugging
-    window.DataCenter = {
-        toggleTheme,
-        toggleLanguage,
-        updateChartColors,
-        activateEasterEgg
-    };
-
 })();

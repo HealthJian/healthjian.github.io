@@ -822,4 +822,523 @@ main::after {
         flex: 0 0 260px;
         min-width: 260px;
     }
+}
+
+/* ========== 搜索框 ========== */
+.changelog-search-section {
+    max-width: 800px;
+    margin: 0 auto 30px;
+    padding: 0 10px;
+}
+
+.changelog-search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.changelog-search-icon {
+    position: absolute;
+    left: 18px;
+    color: var(--timeline-accent-color);
+    font-size: 1rem;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.changelog-search-input {
+    width: 100%;
+    padding: 14px 44px 14px 48px;
+    border: 2px solid rgba(var(--timeline-accent-color-rgb), 0.15);
+    border-radius: 14px;
+    background: var(--card-background);
+    color: var(--text-color);
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.changelog-search-input::placeholder {
+    color: var(--text-color);
+    opacity: 0.4;
+}
+
+.changelog-search-input:focus {
+    border-color: var(--timeline-accent-color);
+    box-shadow: 0 0 0 4px rgba(var(--timeline-accent-color-rgb), 0.1);
+}
+
+.changelog-search-clear {
+    position: absolute;
+    right: 14px;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    opacity: 0.5;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px 8px;
+    border-radius: 50%;
+    transition: opacity 0.2s, background 0.2s;
+}
+
+.changelog-search-clear:hover {
+    opacity: 1;
+    background: rgba(var(--timeline-accent-color-rgb), 0.1);
+}
+
+.changelog-search-stats {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 0.88rem;
+    color: var(--timeline-accent-color);
+    font-weight: 500;
+}
+
+/* 搜索高亮 */
+.changelog-highlight {
+    background: rgba(var(--timeline-accent-color-rgb), 0.2);
+    border-radius: 3px;
+    padding: 0 2px;
+    color: inherit;
+}
+
+/* ========== 月度归档分组 ========== */
+.archive-group {
+    margin-bottom: 10px;
+}
+
+.archive-group-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 12px 16px;
+    margin-bottom: 14px;
+    margin-left: -10px;
+    border-radius: 12px;
+    background: rgba(var(--timeline-accent-color-rgb), 0.06);
+    border: 1px solid rgba(var(--timeline-accent-color-rgb), 0.1);
+    transition: background 0.25s, border-color 0.25s;
+    user-select: none;
+}
+
+.archive-group-header:hover {
+    background: rgba(var(--timeline-accent-color-rgb), 0.12);
+    border-color: rgba(var(--timeline-accent-color-rgb), 0.2);
+}
+
+.archive-group-toggle {
+    font-size: 0.8rem;
+    color: var(--timeline-accent-color);
+    transition: transform 0.3s;
+    flex-shrink: 0;
+    width: 20px;
+    text-align: center;
+}
+
+.archive-group-header.collapsed .archive-group-toggle {
+    transform: rotate(-90deg);
+}
+
+.archive-group-label {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--timeline-accent-color);
+}
+
+.archive-group-count {
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 2px 10px;
+    background: rgba(var(--timeline-accent-color-rgb), 0.12);
+    color: var(--timeline-accent-color);
+    border-radius: 20px;
+    margin-left: auto;
+}
+
+.archive-group-items {
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+}
+
+.archive-group-items.collapsed {
+    max-height: 0 !important;
+}
+
+/* 搜索时隐藏不匹配的条目 */
+.timeline-item.search-hidden {
+    display: none;
+}
+
+.archive-group.search-hidden {
+    display: none;
+}
+
+/* ========== 评论/问答区 ========== */
+.changelog-comments-section {
+    max-width: 900px;
+    margin: 60px auto 40px;
+    padding: 0 20px;
+}
+
+.comments-header {
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+    padding-bottom: 25px;
+}
+
+.comments-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--timeline-accent-color), transparent);
+    border-radius: 3px;
+}
+
+.comments-header h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, var(--timeline-accent-color), var(--timeline-secondary-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 600;
+}
+
+.comments-header p {
+    font-size: 1.05rem;
+    color: var(--text-color);
+    opacity: 0.7;
+    font-weight: 300;
+}
+
+.comments-body {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+/* 表单卡片 */
+.comment-form-card {
+    background: var(--card-background);
+    border-radius: 16px;
+    padding: 28px;
+    border: 1px solid rgba(var(--timeline-accent-color-rgb), 0.1);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+}
+
+.comment-form-card h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--timeline-accent-color);
+    margin-bottom: 20px;
+}
+
+.comment-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.comment-form-group {
+    margin-bottom: 16px;
+}
+
+.comment-form-group label {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: var(--text-color);
+    opacity: 0.8;
+}
+
+.comment-form-group input,
+.comment-form-group textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid rgba(var(--timeline-accent-color-rgb), 0.15);
+    border-radius: 10px;
+    background: var(--card-background);
+    color: var(--text-color);
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.25s, box-shadow 0.25s;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.comment-form-group input:focus,
+.comment-form-group textarea:focus {
+    border-color: var(--timeline-accent-color);
+    box-shadow: 0 0 0 3px rgba(var(--timeline-accent-color-rgb), 0.08);
+}
+
+.comment-form-group textarea {
+    resize: vertical;
+    min-height: 90px;
+}
+
+.comment-form-group {
+    position: relative;
+}
+
+.comment-char-count {
+    position: absolute;
+    bottom: 10px;
+    right: 12px;
+    font-size: 0.75rem;
+    color: var(--text-color);
+    opacity: 0.4;
+}
+
+.comment-submit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 26px;
+    background: linear-gradient(135deg, var(--timeline-accent-color), var(--timeline-secondary-color));
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.25s;
+}
+
+.comment-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(var(--timeline-accent-color-rgb), 0.3);
+}
+
+.comment-submit-btn:active {
+    transform: scale(0.97);
+}
+
+/* 留言列表卡片 */
+.comment-list-card {
+    background: var(--card-background);
+    border-radius: 16px;
+    padding: 28px;
+    border: 1px solid rgba(var(--timeline-accent-color-rgb), 0.1);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+}
+
+.comment-list-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.comment-list-header h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--timeline-accent-color);
+    margin: 0;
+}
+
+.comment-count-badge {
+    font-size: 0.75rem;
+    padding: 2px 10px;
+    background: rgba(var(--timeline-accent-color-rgb), 0.12);
+    color: var(--timeline-accent-color);
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.comment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    max-height: 420px;
+    overflow-y: auto;
+    padding-right: 6px;
+}
+
+.comment-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.comment-list::-webkit-scrollbar-thumb {
+    background: rgba(var(--timeline-accent-color-rgb), 0.2);
+    border-radius: 10px;
+}
+
+.comment-item {
+    display: flex;
+    gap: 12px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(var(--timeline-accent-color-rgb), 0.08);
+}
+
+.comment-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.comment-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--timeline-accent-color), var(--timeline-secondary-color));
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+}
+
+.comment-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.comment-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.comment-author {
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: var(--text-color);
+}
+
+.comment-time {
+    font-size: 0.78rem;
+    color: var(--text-color);
+    opacity: 0.45;
+}
+
+.comment-text {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--text-color);
+    opacity: 0.85;
+    margin: 0;
+}
+
+/* 回复样式 */
+.comment-reply {
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: rgba(var(--timeline-accent-color-rgb), 0.05);
+    border-radius: 10px;
+    border-left: 3px solid var(--timeline-accent-color);
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.comment-reply-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--timeline-accent-color);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.78rem;
+    flex-shrink: 0;
+}
+
+.comment-reply-content {
+    flex: 1;
+}
+
+.comment-reply-author {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--timeline-accent-color);
+}
+
+.comment-reply-content p {
+    margin: 4px 0 0;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: var(--text-color);
+    opacity: 0.8;
+}
+
+/* API 提示 */
+.comment-api-notice {
+    margin-top: 18px;
+    padding: 10px 16px;
+    background: rgba(var(--timeline-secondary-color-rgb), 0.08);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.82rem;
+    color: var(--timeline-secondary-color);
+    font-weight: 500;
+}
+
+.comment-api-notice i {
+    font-size: 0.9rem;
+}
+
+/* 提交成功提示 */
+.comment-submit-toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    padding: 12px 28px;
+    background: var(--timeline-secondary-color);
+    color: #fff;
+    border-radius: 10px;
+    font-size: 0.92rem;
+    font-weight: 500;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.15);
+    opacity: 0;
+    transition: opacity 0.35s, transform 0.35s;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+.comment-submit-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* ========== 评论区响应式 ========== */
+@media (max-width: 768px) {
+    .comment-form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .comments-header h2 {
+        font-size: 1.6rem;
+    }
+
+    .changelog-comments-section {
+        padding: 0 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .comment-form-card,
+    .comment-list-card {
+        padding: 20px;
+    }
+
+    .changelog-search-input {
+        font-size: 0.92rem;
+        padding: 12px 40px 12px 42px;
+    }
 } 

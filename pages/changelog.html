@@ -83,7 +83,73 @@
             <p data-en="Track the evolution of this website" data-zh="记录网站的演变历程">记录网站的演变历程</p>
         </section>
 
+        <!-- 搜索框 -->
+        <section class="changelog-search-section">
+            <div class="changelog-search-box">
+                <i class="fas fa-search changelog-search-icon"></i>
+                <input type="text" id="changelogSearch" class="changelog-search-input"
+                       placeholder="搜索日志内容..."
+                       data-placeholder-zh="搜索日志内容..."
+                       data-placeholder-en="Search changelog...">
+                <button id="changelogSearchClear" class="changelog-search-clear" style="display:none;" aria-label="Clear">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="changelogSearchStats" class="changelog-search-stats" style="display:none;">
+                <span id="changelogSearchCount"></span>
+            </div>
+        </section>
+
         <section class="changelog-timeline">
+            <div class="timeline-item">
+                <div class="timeline-date">2026-04-23</div>
+                <div class="timeline-content">
+                    <h2 data-en="Data Center Dashboard v3.0 — Full Overhaul" data-zh="数据中心仪表板 v3.0 — 全面重构">数据中心仪表板 v3.0 — 全面重构</h2>
+                    <ul>
+                        <li data-en="Layout: Upgraded from auto-fit grid to a 12-column Bento Grid with asymmetric card sizing for richer visual hierarchy." data-zh="布局：从 auto-fit 网格升级为 12 列 Bento Grid，卡片大小非对称排列，视觉层次更丰富。"><strong>布局</strong>：从 auto-fit 网格升级为 12 列 Bento Grid，卡片大小非对称排列，视觉层次更丰富。</li>
+                        <li data-en="New: Quick Stats row — 4 mini stat cards (Total Pages, Blog Posts, Total Visitors, Avg Load) with sparkline mini-charts." data-zh="新增：Quick Stats 概览条 — 4 格迷你统计卡片（总页面、博客文章、累计访客、平均加载），各带 Sparkline 迷你折线图。"><strong>新增</strong>：Quick Stats 概览条 — 4 格迷你统计卡片（总页面、博客文章、累计访客、平均加载），各带 Sparkline 迷你折线图。</li>
+                        <li data-en="New: Browser & Device analytics — doughnut chart showing Chrome/Safari/Edge/Firefox distribution with custom legend." data-zh="新增：浏览器 &amp; 设备分析 — 环形图展示 Chrome/Safari/Edge/Firefox 占比，带自定义图例。"><strong>新增</strong>：浏览器 &amp; 设备分析 — 环形图展示 Chrome/Safari/Edge/Firefox 占比，带自定义图例。</li>
+                        <li data-en="New: GitHub-style Contribution Heatmap — 26-week calendar with 5-level density coloring and hover zoom." data-zh="新增：GitHub 风格内容贡献热力图 — 26 周日历，5 级密度着色，hover 放大 + 日期 tooltip。"><strong>新增</strong>：GitHub 风格内容贡献热力图 — 26 周日历，5 级密度着色，hover 放大 + 日期 tooltip。</li>
+                        <li data-en="New: Live Activity Feed — simulated real-time event stream (page views / deploys / commits / new visitors), auto-pushes every 4-8s." data-zh="新增：实时活动流 — 模拟 Live Feed（页面浏览/部署/commit/新访客），每 4-8 秒自动推入新事件。"><strong>新增</strong>：实时活动流 — 模拟 Live Feed（页面浏览/部署/commit/新访客），每 4-8 秒自动推入新事件。</li>
+                        <li data-en="New: Tech Stack showcase — 8 colored icon cards with tooltip, plus a real-time header clock." data-zh="新增：技术栈展示 — 8 个彩色图标卡片 + tooltip，Header 增加实时时钟。"><strong>新增</strong>：技术栈展示 — 8 个彩色图标卡片 + tooltip，Header 增加实时时钟。</li>
+                        <li data-en="Enhanced: World map redrawn with smoother continent outlines and animated dashed connection lines; Server Status now shows 30-day uptime timeline bars; Regions list adds rank badges and progress bars." data-zh="优化：世界地图重绘更圆润并增加虚线连接动画；服务状态新增 30 天 Uptime 时间线条；地区列表增加排名徽标与进度条。"><strong>优化</strong>：世界地图重绘更圆润并增加虚线连接动画；服务状态新增 30 天 Uptime 时间线条；地区列表增加排名徽标与进度条。</li>
+                        <li data-en="Responsive: 3 breakpoints (1100px / 768px / 480px); all charts and grids adapt gracefully." data-zh="响应式：三档断点（1100px / 768px / 480px），图表与网格均自适应。"><strong>响应式</strong>：三档断点（1100px / 768px / 480px），图表与网格均自适应。</li>
+                        <li data-en="Changed Files: pages/project/datacenter.html, css/datacenter.css, js/datacenter.js (full rewrite)." data-zh="改动文件：pages/project/datacenter.html、css/datacenter.css、js/datacenter.js（三文件全面重写）。"><strong>改动文件</strong>：pages/project/datacenter.html、css/datacenter.css、js/datacenter.js（三文件全面重写）。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-date">2026-04-23</div>
+                <div class="timeline-content">
+                    <h2 data-en="Links Page — Layout Restructure & Apply-for-Links Upgrade" data-zh="友链页面 — 布局重组与申请友链板块升级">友链页面 — 布局重组与申请友链板块升级</h2>
+                    <ul>
+                        <li data-en="Moved 'Apply for Friend Link' section to the top of the page so visitors see it first." data-zh="将「申请友链」板块移至页面最顶部，访客进入即可见。"><strong>布局调整</strong>：将「申请友链」板块移至页面最顶部，访客进入即可见。</li>
+                        <li data-en="Redesigned apply section into a two-column layout: left column shows site info JSON + 3-step guide + requirements checklist; right column displays the application form directly (no longer hidden behind a button)." data-zh="申请友链板块重构为双栏布局：左列展示本站 JSON 信息 + 三步流程 + 申请要求清单；右列直接展示申请表单（不再隐藏在按钮后）。"><strong>UI 升级</strong>：申请友链板块重构为双栏布局：左列展示本站 JSON 信息 + 三步流程 + 申请要求清单；右列直接展示申请表单（不再隐藏在按钮后）。</li>
+                        <li data-en="Personal Links section now displays all 4 cards (GitHub, Resume, WeChat, Zhihu) in a single row on desktop." data-zh="个人链接板块桌面端 4 卡片一行展示（GitHub、在线简历、微信公众号、知乎）。"><strong>个人链接</strong>：桌面端 4 卡片一行展示（GitHub、在线简历、微信公众号、知乎），中屏 2 列，手机单列。</li>
+                        <li data-en="Friend Links section: removed 6 placeholder entries, keeping only the real friend link 'Ohaoz'." data-zh="友情链接板块：移除 6 个占位友链，仅保留真实友链 Ohaoz。"><strong>友情链接</strong>：移除 6 个占位友链，仅保留真实友链 Ohaoz。</li>
+                        <li data-en="Removed the redundant HTML/CSS template code section from the old apply block." data-zh="移除旧申请板块中冗余的 HTML/CSS 模板代码区。"><strong>精简</strong>：移除旧申请板块中冗余的 HTML/CSS 模板代码区。</li>
+                        <li data-en="Changed Files: pages/links.html (section reorder + content cleanup), css/links-enhanced.css (responsive rules for 4-col personal links and 2-col apply layout)." data-zh="改动文件：pages/links.html（板块重排 + 内容清理）、css/links-enhanced.css（个人链接四列与申请双栏的响应式规则）。"><strong>改动文件</strong>：pages/links.html（板块重排 + 内容清理）、css/links-enhanced.css（个人链接四列与申请双栏的响应式规则）。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-date">2026-04-23</div>
+                <div class="timeline-content">
+                    <h2 data-en="404 Page — Redesign with Geek Minimalist Style" data-zh="404 页面 — 极客极简风格重构">404 页面 — 极客极简风格重构</h2>
+                    <ul>
+                        <li data-en="Replaced the old pink/purple gradient background and emoji particle system with the main site's blue (#007AFF) + warm white (#f9f7f2) color scheme." data-zh="移除旧版粉紫渐变背景与 Emoji 粒子系统，配色统一为主站蓝色（#007AFF）+ 米白（#f9f7f2）体系。"><strong>配色统一</strong>：移除旧版粉紫渐变背景与 Emoji 粒子系统，配色统一为主站蓝色（#007AFF）+ 米白（#f9f7f2）体系。</li>
+                        <li data-en="Added Canvas particle + connection line background (scientific/geek style), replacing the bouncing emoji system." data-zh="新增 Canvas 粒子 + 连线背景（科研极客风），取代弹跳 Emoji 粒子系统。"><strong>粒子背景</strong>：新增 Canvas 粒子 + 连线背景（科研极客风），取代弹跳 Emoji 粒子系统。</li>
+                        <li data-en="404 number uses JetBrains Mono font with a periodic RGB glitch animation effect." data-zh="404 数字使用 JetBrains Mono 等宽字体，配周期性 RGB Glitch 故障动画效果。"><strong>Glitch 特效</strong>：404 数字使用 JetBrains Mono 等宽字体，配周期性 RGB Glitch 故障动画效果。</li>
+                        <li data-en="Added terminal-style elements: '$ curl -I this-page' prompt badge and a simulated error log panel showing real URL path and live UTC timestamp." data-zh="新增终端风格元素：`$ curl -I this-page` 终端提示符徽标 + 模拟错误日志面板（实时 URL 路径与 UTC 时间戳）。"><strong>终端风格</strong>：新增 `$ curl -I this-page` 终端提示符徽标 + 模拟错误日志面板（实时 URL 路径与 UTC 时间戳）。</li>
+                        <li data-en="Simplified the footer from a 3-column layout to a single-line copyright bar." data-zh="页脚从三栏复杂布局精简为单行版权栏。"><strong>页脚精简</strong>：从三栏复杂布局精简为单行版权栏。</li>
+                        <li data-en="Page is fully self-contained (inline CSS/JS), does not import main site style.css/dark-mode.css, zero impact on other pages." data-zh="页面完全自包含（CSS/JS 均内联），不引入主站 style.css / dark-mode.css，对其他页面零影响。"><strong>零影响</strong>：页面完全自包含（CSS/JS 均内联），不引入主站 style.css / dark-mode.css，对其他页面零影响。</li>
+                        <li data-en="Changed Files: pages/project/404notfound.html (full rewrite, self-contained)." data-zh="改动文件：pages/project/404notfound.html（完全重写，自包含）。"><strong>改动文件</strong>：pages/project/404notfound.html（完全重写，自包含）。</li>
+                    </ul>
+                </div>
+            </div>
+
             <div class="timeline-item">
                 <div class="timeline-date">2026-04-21</div>
                 <div class="timeline-content">
@@ -477,6 +543,65 @@
                 </div>
             </div>
         </section>
+        <!-- 评论 / 问答区 -->
+        <section class="changelog-comments-section">
+            <div class="comments-header">
+                <h2 data-en="Questions & Feedback" data-zh="提问与反馈">提问与反馈</h2>
+                <p data-en="Leave your questions or suggestions, we will respond as soon as possible" data-zh="留下你的疑问或建议，我们会尽快回复">留下你的疑问或建议，我们会尽快回复</p>
+            </div>
+
+            <div class="comments-body">
+                <!-- 留言表单 -->
+                <div class="comment-form-card">
+                    <h3 data-en="Post a Message" data-zh="发表留言">发表留言</h3>
+                    <form id="commentForm" class="comment-form" onsubmit="return false;">
+                        <div class="comment-form-row">
+                            <div class="comment-form-group">
+                                <label for="commentName" data-en="Name" data-zh="昵称">昵称</label>
+                                <input type="text" id="commentName" maxlength="30"
+                                       placeholder="你的昵称"
+                                       data-placeholder-zh="你的昵称"
+                                       data-placeholder-en="Your name" required>
+                            </div>
+                            <div class="comment-form-group">
+                                <label for="commentEmail" data-en="Email (optional)" data-zh="邮箱（选填）">邮箱（选填）</label>
+                                <input type="email" id="commentEmail" maxlength="60"
+                                       placeholder="your@email.com"
+                                       data-placeholder-zh="your@email.com"
+                                       data-placeholder-en="your@email.com">
+                            </div>
+                        </div>
+                        <div class="comment-form-group">
+                            <label for="commentBody" data-en="Message" data-zh="留言内容">留言内容</label>
+                            <textarea id="commentBody" rows="4" maxlength="500"
+                                      placeholder="写下你的问题或建议..."
+                                      data-placeholder-zh="写下你的问题或建议..."
+                                      data-placeholder-en="Write your question or suggestion..." required></textarea>
+                            <span class="comment-char-count"><span id="commentCharCurrent">0</span>/500</span>
+                        </div>
+                        <button type="submit" class="comment-submit-btn" id="commentSubmitBtn">
+                            <i class="fas fa-paper-plane"></i>
+                            <span data-en="Submit" data-zh="提交留言">提交留言</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- 留言列表 -->
+                <div class="comment-list-card">
+                    <div class="comment-list-header">
+                        <h3 data-en="Recent Messages" data-zh="最近留言">最近留言</h3>
+                        <span class="comment-count-badge" id="commentCountBadge">0</span>
+                    </div>
+                    <div class="comment-list" id="commentList">
+                        <!-- 留言将通过 API 动态加载 -->
+                    </div>
+                    <div class="comment-api-notice">
+                        <i class="fas fa-info-circle"></i>
+                        <span data-en="Comment API is under development, current messages are for display only" data-zh="评论 API 正在开发中，当前留言仅供展示">评论 API 正在开发中，当前留言仅供展示</span>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- 页脚 -->
@@ -489,7 +614,7 @@
                     <span class="footer-logo-text" data-en="HealthJian Blog" data-zh="HealthJian Blog">HealthJian Blog</span>
                 </a>
                 <div class="footer-copyright">
-                    <p>&copy; 2025 CaiNiaojian & HealthJian</p>
+                    <p>&copy; 2025-2026 CaiNiaojian & HealthJian</p>
                     <p data-en="All Rights Reserved" data-zh="保留所有权利">保留所有权利</p>
                 </div>
             </div>

@@ -353,6 +353,42 @@ function getBlogPosts() {
     // 文章数据
     return [
         {
+            "id": "langchain-complete-guide-20260423",
+            "title": "LangChain 全解：从基础组件到生产级 Agent 开发 -- 2026 年开发者必读指南",
+            "title_en": "A Comprehensive Guide to LangChain: From Core Components to Production-Grade Agent Development -- The Essential Developer's Guide for 2026",
+            "excerpt": "LangChain 已成为构建大语言模型应用的事实标准框架。2025 年 10 月，LangChain 与 LangGraph 双双达到 v1.0 里程碑，标志着该生态从'原型开发工具'正式跨入'生产级基础设施'阶段。本文将系统梳理 LangChain 的核心组件、编程范式、生态工具与选型策略，涵盖 LCEL 声明式链式编程、LangGraph 图式编排、LangSmith 可观测性平台，以及与 CrewAI、AutoGen、LlamaIndex 等框架的横向对比。",
+            "excerpt_en": "LangChain has become the de facto standard framework for building LLM applications. In October 2025, both LangChain and LangGraph reached their v1.0 milestones. This article systematically reviews LangChain's core components, programming paradigms, ecosystem tools, and selection strategies, covering LCEL declarative chain programming, LangGraph graph-based orchestration, LangSmith observability platform, and horizontal comparison with CrewAI, AutoGen, LlamaIndex and other frameworks.",
+            "date": "2026-04-23",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260423_zh_1.md",
+            "category": "tech",
+            "tags": ["LangChain", "LangGraph", "LCEL", "AI Agent", "LLM"],
+            "tags_en": ["LangChain", "LangGraph", "LCEL", "AI Agent", "LLM"]
+        },
+        {
+            "id": "data-analysis-statistics-guide-20260423",
+            "title": "数据炼金术：数据分析与统计学的完整知识图谱",
+            "title_en": "Data Alchemy: A Complete Knowledge Graph of Data Analysis and Statistics",
+            "excerpt": "从零开始系统梳理数据分析与统计学的核心知识体系，涵盖描述统计与推断统计的理论基础、概率论与贝叶斯思维的哲学内核、跨行业应用场景的分类与案例、Python/R/BI工具的完整技术栈评测、可视化方向的深度综述与选型指南，以及统计学与人工智能融合的前沿趋势。全文采用'理论-工具-应用-前沿'四层递进结构。",
+            "excerpt_en": "A comprehensive review of the core knowledge system of data analysis and statistics from scratch, covering descriptive and inferential statistics foundations, probability theory and Bayesian thinking, cross-industry application scenarios, Python/R/BI technology stack evaluation, data visualization deep review, and the cutting-edge trends in the integration of statistics and AI. The article adopts a four-layer progressive structure of Theory-Tool-Application-Frontier.",
+            "date": "2026-04-23",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260423_zh_2.md",
+            "category": "tech",
+            "tags": ["数据分析", "统计学", "Python", "数据可视化", "贝叶斯"],
+            "tags_en": ["Data Analysis", "Statistics", "Python", "Data Visualization", "Bayesian"]
+        },
+        {
+            "id": "data-engineering-rag-llm-guide-20260423",
+            "title": "数据炼金术：从原始数据到智能应用的全链路实战指南",
+            "title_en": "Data Alchemy: A Comprehensive Practical Guide from Raw Data to Intelligent Applications",
+            "excerpt": "系统梳理从原始数据到智能应用的全链路数据工程实践，重点聚焦LLM与RAG时代数据工程面临的新挑战：数据预处理、探索性数据分析、特征工程、海量非结构化文档的解析、向量数据库的数据准备、大规模预训练数据的清洗与质量管控、数据脱敏与隐私保护等。全文贯穿工程化视角与最佳实践。",
+            "excerpt_en": "A systematic guide to full-chain data engineering from raw data to intelligent applications, focusing on new challenges in the LLM and RAG era: data preprocessing, exploratory data analysis, feature engineering, parsing massive unstructured documents, vector database data preparation, large-scale pre-training data cleaning and quality control, data desensitization and privacy protection. The article adopts an engineering perspective and best practices throughout.",
+            "date": "2026-04-23",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260423_zh_3.md",
+            "category": "tech",
+            "tags": ["数据预处理", "EDA", "数据挖掘", "RAG", "LLM"],
+            "tags_en": ["Data Preprocessing", "EDA", "Data Mining", "RAG", "LLM"]
+        },
+        {
             "id": "multi-agent-collaboration-20260421",
             "title": "多智能体协作：AI时代的分布式任务处理范式",
             "title_en": "Multi-Agent Collaboration: Distributed Task Processing Paradigm in the AI Era",
@@ -1128,6 +1164,11 @@ function getTagTranslation(tag, targetLang) {
         'Multi-Agent': '多智能体',
         'AutoGen': 'AutoGen',
         'CrewAI': 'CrewAI',
+        'LCEL': 'LCEL',
+        'Statistics': '统计学',
+        'Data Visualization': '数据可视化',
+        'Bayesian': '贝叶斯',
+        'EDA': 'EDA',
         /* 新增标签翻译 */
         'CUDA': 'CUDA',
         'GPU Programming': 'GPU编程', 
@@ -1270,6 +1311,11 @@ function getTagTranslation(tag, targetLang) {
         'Codex CLI': 'Codex CLI',
         'AutoGen': 'AutoGen',
         'CrewAI': 'CrewAI',
+        'LCEL': 'LCEL',
+        '统计学': 'Statistics',
+        '数据可视化': 'Data Visualization',
+        '贝叶斯': 'Bayesian',
+        'EDA': 'EDA',
         /* 新增标签翻译 */
         'CUDA': 'CUDA',
         'GPU编程': 'GPU Programming',

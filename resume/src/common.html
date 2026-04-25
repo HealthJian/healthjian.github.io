@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>** - 个人简历</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #333333;
+      --border-color: #eeeeee;
+      --accent-color: #2563eb; 
+      --hover-bg: #f3f4f6;
+      --shadow: rgba(0, 0, 0, 0.05);
+      --bento-shadow: rgba(0, 0, 0, 0.08);
+    }
+
+    [data-theme="dark"] {
+      --bg-color: #0f172a;
+      --text-color: #f1f5f9;
+      --border-color: #1e293b;
+      --accent-color: #60a5fa;
+      --hover-bg: #1e293b;
+      --shadow: rgba(0, 0, 0, 0.3);
+      --bento-shadow: rgba(0, 0, 0, 0.4);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Inter", -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color 0.3s, color 0.3s;
+      line-height: 1.7;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 2rem;
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      background: var(--bg-color);
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+
+    .logo-container {
+      position: relative;
+      width: 45px;
+      height: 45px;
+    }
+
+    .logo {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: var(--accent-color);
+      border: 2.5px solid var(--accent-color);
+      border-radius: 12px;
+      transition: transform 0.3s ease;
+    }
+
+    .nav-btns {
+      display: flex;
+      gap: 0.8rem;
+    }
+
+    .lang-toggle, .theme-toggle, .contact-btn {
+      background: var(--hover-bg);
+      border: 1px solid var(--border-color);
+      font-size: 0.85rem;
+      color: var(--text-color);
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .contact-btn {
+      background: var(--accent-color);
+      color: white;
+      border: none;
+    }
+
+    .lang-toggle:hover, .theme-toggle:hover {
+      border-color: var(--accent-color);
+    }
+
+    main {
+      max-width: 850px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    section {
+      margin-bottom: 3.5rem;
+      animation: fadeIn 0.8s ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      margin-bottom: 1.8rem;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 0.5rem;
+    }
+
+    .section-header h2 {
+      font-size: 1.5rem;
+      margin: 0;
+      color: var(--accent-color);
+      letter-spacing: 1px;
+    }
+
+    .avatar-small {
+      width: 60px;
+      height: 60px;
+      border-radius: 15px;
+      object-fit: cover;
+      border: 2px solid var(--accent-color);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .avatar-small:hover {
+      transform: scale(1.1) rotate(3deg);
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      margin-bottom: 0.3rem;
+    }
+
+    .item-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .time {
+      font-size: 0.85rem;
+      color: var(--accent-color);
+      font-weight: 500;
+      background: var(--hover-bg);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .sub-info {
+      color: var(--accent-color);
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .sub-info-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .school-badge {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+    }
+
+    .score-tag {
+      font-size: 0.75rem;
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--accent-color);
+      border: 1px solid var(--accent-color);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    [data-theme="dark"] .score-tag {
+      background: rgba(96, 165, 250, 0.15);
+    }
+
+    .content-list {
+      list-style: none;
+      font-size: 0.95rem;
+      color: var(--text-color);
+      opacity: 0.9;
+    }
+
+    .content-list li {
+      position: relative;
+      padding-left: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .content-list li::before {
+      content: "▹";
+      position: absolute;
+      left: 0;
+      color: var(--accent-color);
+    }
+
+    /* 便当盒样式 (Bento Box) */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.2rem;
+    }
+
+    .bento-card {
+      background: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.4rem;
+      box-shadow: 0 4px 12px var(--shadow);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .bento-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px var(--bento-shadow);
+      border-color: var(--accent-color);
+    }
+
+    .bento-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent-color);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .bento-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .bento-tag {
+      background: var(--hover-bg);
+      border: 1px solid var(--border-color);
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: var(--text-color);
+      font-weight: 500;
+      transition: background-color 0.2s;
+    }
+
+    .bento-tag:hover {
+      background: var(--border-color);
+    }
+
+    footer {
+      background: var(--hover-bg);
+      padding: 3rem 1rem;
+      text-align: center;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .footer-bold {
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text-color);
+    }
+
+    .motto {
+      font-style: italic;
+      font-size: 0.95rem;
+      margin: 1.5rem 0;
+      color: var(--accent-color);
+      font-weight: 700;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .social-link {
+      color: var(--text-color);
+      font-size: 1.4rem;
+      transition: color 0.2s;
+    }
+
+    .social-link:hover {
+      color: var(--accent-color);
+    }
+
+    @media (max-width: 650px) {
+      .item-header { flex-direction: column; }
+      .time { margin-top: 0.3rem; }
+      .bento-grid { grid-template-columns: 1fr; }
+    }
+    
+    @keyframes photoWiggle {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-10deg) scale(1.1); }
+      75% { transform: rotate(10deg) scale(1.1); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo-container">
+      <div class="logo" id="logo">G</div>
+    </div>
+    <div class="nav-btns">
+      <button class="lang-toggle" id="langToggle">EN / 中</button>
+      <button class="theme-toggle" id="themeToggle">🌓</button>
+      <button class="contact-btn" id="contactBtn" data-en="Contact" data-zh="联系我">联系我</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="intro">
+      <div class="section-header">
+        <img src="images/5679705c1eb83ed4787a82ddaa142099.png" alt="头像" class="avatar-small" id="avatar" />
+        <h2 data-en="Profile" data-zh="个人简介">个人简介</h2>
+      </div>
+      <p data-en="I am a Junior at <strong>China University of Mining and Technology</strong>, majoring in Data Science and Big Data Technology. I focus on the intersection of <strong>AIGC, Product Design, and Data Analysis</strong>. With a strong foundation in computer science and a 'Product Owner' mindset, I aim to bridge the gap between cutting-edge AI technology and practical business value." 
+         data-zh="我是来自 <strong>中国矿业大学</strong> 数据科学与大数据技术专业的准毕业生。我专注于 <strong>AIGC、产品设计与数据分析</strong> 的交叉领域。拥有扎实的计算机底层背景与极强的“产品负责人”意识，致力于将前沿 AI 技术转化为实际的业务价值。">
+        我是来自 <strong>中国矿业大学</strong> 数据科学与大数据技术专业的准毕业生。我专注于 <strong>AIGC、产品设计与数据分析</strong> 的交叉领域。拥有扎实的计算机底层背景与极强的“产品负责人”意识，致力于将前沿 AI 技术转化为实际的业务价值。
+      </p>
+    </section>
+
+    <section id="education">
+      <div class="section-header">
+        <h2 data-en="Education" data-zh="教育背景">教育背景</h2>
+      </div>
+      <div class="experience-item">
+        <div class="item-header">
+          <span class="item-title" data-en="China University of Mining and Technology" data-zh="中国矿业大学">中国矿业大学</span>
+          <span class="time">2022.09 – 2026.07</span>
+        </div>
+        
+        <div class="sub-info">
+          <div class="sub-info-group">
+            <img src="https://upload.wikimedia.org/wikipedia/zh/thumb/9/9a/China_University_of_Mining_and_Technology_logo.svg/1200px-China_University_of_Mining_and_Technology_logo.svg.png" class="school-badge" alt="logo">
+            <span data-en="B.Eng in Data Science & Big Data (GPA: 3.41/4.0)" data-zh="数据科学与大数据技术 · 本科 (GPA: 3.41/4.0)">数据科学与大数据技术 · 本科 (GPA: 3.41/4.0)</span>
+          </div>
+          <div class="sub-info-group">
+            <span class="score-tag" data-en="CET-4: 500" data-zh="英语四级：500分">英语四级：500分</span>
+            <span class="score-tag" data-en="CET-6: 471" data-zh="英语六级：471分">英语六级：471分</span>
+          </div>
+        </div>
+
+        <p style="font-size: 0.85rem; opacity: 0.8; margin-top: 0.5rem;" data-en="Core: Data Structures, OS, Data Mining, Machine Learning, Deep Learning, Database Principles" data-zh="核心课程：数据结构、操作系统、数据挖掘、机器学习、深度学习、数据库原理">核心课程：数据结构、操作系统、数据挖掘、机器学习、深度学习、数据库原理</p>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="section-header">
+        <h2 data-en="Skills" data-zh="技能特长">技能特长</h2>
+      </div>
+      <div class="bento-grid">
+        
+        <div class="bento-card">
+          <div class="bento-title">
+            <i class="fas fa-robot"></i>
+            <span data-en="AI & AIGC" data-zh="AI 与大模型">AI 与大模型</span>
+          </div>
+          <div class="bento-tags">
+            <div class="bento-tag">Vibe Coding</div>
+            <div class="bento-tag">AI Tools (Cursor/Codex)</div>
+            <div class="bento-tag">Prompt Engineering</div>
+            <div class="bento-tag">RAG / Agent Design</div>
+          </div>
+        </div>
+
+        <div class="bento-card">
+          <div class="bento-title">
+            <i class="fas fa-chart-pie"></i>
+            <span data-en="Data & Algorithms" data-zh="数据与算法">数据与算法</span>
+          </div>
+          <div class="bento-tags">
+            <div class="bento-tag" data-en="Deep Learning" data-zh="深度学习">深度学习</div>
+            <div class="bento-tag" data-en="Data Analysis (EDA)" data-zh="数据分析与可视化">数据分析与可视化</div>
+            <div class="bento-tag">Matlab / GWO</div>
+          </div>
+        </div>
+
+        <div class="bento-card">
+          <div class="bento-title">
+            <i class="fas fa-code"></i>
+            <span data-en="Programming & Tech" data-zh="编程与开发">编程与开发</span>
+          </div>
+          <div class="bento-tags">
+            <div class="bento-tag">Python</div>
+            <div class="bento-tag">SQL</div>
+            <div class="bento-tag">C++</div>
+            <div class="bento-tag">openclow</div>
+          </div>
+        </div>
+
+        <div class="bento-card">
+          <div class="bento-title">
+            <i class="fas fa-lightbulb"></i>
+            <span data-en="Product & Design" data-zh="产品与设计">产品与设计</span>
+          </div>
+          <div class="bento-tags">
+            <div class="bento-tag" data-en="Product Lifecycle (PRD)" data-zh="产品全生命周期管理">产品全生命周期管理</div>
+            <div class="bento-tag" data-en="UX/UI Design" data-zh="交互与原型设计">交互与原型设计</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="internship">
+      <div class="section-header">
+        <h2 data-en="Internships" data-zh="实习经历">实习经历</h2>
+      </div>
+      <div class="experience-item">
+        <div class="item-header">
+          <span class="item-title" data-en="ByteDance (Douyin)" data-zh="字节跳动（抖音）">字节跳动（抖音）</span>
+          <span class="time">2023.09 – 2023.11</span>
+        </div>
+        <div class="sub-info" data-en="AI Data Labeling Intern (University-Enterprise Collaboration)" data-zh="AI 数据标注实习生（校企合作）">AI 数据标注实习生（校企合作）</div>
+        <ul class="content-list">
+          <li data-en="Participated in LLM training data construction, performing semantic correction and quality audit for CS-related texts." data-zh="参与大模型训练数据构建，针对计算机领域文本数据进行语义纠错与质量审核。">参与大模型训练数据构建，针对计算机领域文本数据进行语义纠错与质量审核。</li>
+          <li data-en="Executed content labeling for multimodal tasks, including image classification and ASR accuracy validation for audio." data-zh="负责多模态业务场景实践，进行图像内容分类及音频 ASR 识别准确性校验。">负责多模态业务场景实践，进行图像内容分类及音频 ASR 识别准确性校验。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="section-header">
+        <h2 data-en="Projects" data-zh="项目经历">项目经历</h2>
+      </div>
+      
+      <div class="experience-item" style="margin-bottom: 2rem;">
+        <div class="item-header">
+          <span class="item-title" data-en="LLM-based Intelligent Resume Assistant" data-zh="基于大模型的智能简历生成助手">基于大模型的智能简历生成助手</span>
+          <span class="time">2025.12 – Present</span>
+        </div>
+        <div class="sub-info" data-en="Project Leader / Product Designer" data-zh="项目负责人 / 产品设计">项目负责人 / 产品设计</div>
+        <ul class="content-list">
+          <li data-en="Designed a 'Cloud-Edge Hybrid' architecture utilizing Qwen3.5-9B and RAG technology for professional content generation." data-zh="设计“端云混合”调用架构，基于 Qwen3.5-9B 模型结合 RAG 技术保障生成内容的专业性。">设计“端云混合”调用架构，基于 Qwen3.5-9B 模型结合 RAG 技术保障生成内容的专业性。</li>
+          <li data-en="Implemented semantic matching using BERT-Whitening, achieving a Top-5 job matching rate ≥ 82%." data-zh="采用 BERT-Whitening 算法计算 JD 语义相似度，实现 Top-5 岗位匹配率 ≥ 82%。">采用 BERT-Whitening 算法计算 JD 语义相似度，实现 Top-5 岗位匹配率 ≥ 82%。</li>
+        </ul>
+      </div>
+
+      <div class="experience-item" style="margin-bottom: 2rem;">
+        <div class="item-header">
+          <span class="item-title" data-en="Bearing Fault Diagnosis using GWO-AlexNet" data-zh="基于GWO-AlexNet的工业轴承故障诊断系统">基于GWO-AlexNet的工业轴承故障诊断系统</span>
+          <span class="time">2023.11 – 2024.01</span>
+        </div>
+        <ul class="content-list">
+          <li data-en="Optimized AlexNet hyperparameters using Grey Wolf Optimizer (GWO), reaching 99.17% accuracy on test sets." data-zh="利用灰狼优化算法 (GWO) 自动化优化网络超参数，将模型测试集准确率提升至 99.17%。">利用灰狼优化算法 (GWO) 自动化优化网络超参数，将模型测试集准确率提升至 99.17%。</li>
+          <li data-en="Introduced Grad-CAM for decision visualization, providing interpretable heatmaps for fault localization." data-zh="引入 Grad-CAM 实现决策可视化，通过生成热力图直观展示模型关注的故障振动区域。">引入 Grad-CAM 实现决策可视化，通过生成热力图直观展示模型关注的故障振动区域。</li>
+        </ul>
+      </div>
+
+      <div class="experience-item">
+        <div class="item-header">
+          <span class="item-title" data-en="NBA Player Data Analysis & Smart Classification" data-zh="NBA 球员数据分析与智能分类系统">NBA 球员数据分析与智能分类系统</span>
+          <span class="time">2025.04 – 2025.06</span>
+        </div>
+        <ul class="content-list">
+          <li data-en="Analyzed 2,835 historical NBA player records (1980-2017) to explore evolving tactical roles." data-zh="基于 1980-2017 赛季 2835 名球员数据，通过 EDA 挖掘三分球比例提升等战术趋势。">基于 1980-2017 赛季 2835 名球员数据，通过 EDA 挖掘三分球比例提升等战术趋势。</li>
+          <li data-en="Built a DNN model for role prediction with 90.83% accuracy and used K-Means for new role clustering." data-zh="构建 DNN 模型进行位置预测，准确率达 90.83%；利用 K-Means 聚类探索现代篮球新角色。">构建 DNN 模型进行位置预测，准确率达 90.83%；利用 K-Means 聚类探索现代篮球新角色。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="awards">
+      <div class="section-header">
+        <h2 data-en="Awards" data-zh="荣誉证书">荣誉证书</h2>
+      </div>
+      <ul class="content-list">
+        <li><strong data-en="National Third Prize" data-zh="全国三等奖">全国三等奖</strong> | <span data-en="China College Computer Design Competition" data-zh="全国大学生计算机设计大赛">全国大学生计算机设计大赛</span> (2025.08)</li>
+        <li><strong data-en="National Third Prize" data-zh="全国三等奖">全国三等奖</strong> | <span data-en="National Simulation Innovation Application Competition" data-zh="全国仿真创新应用大赛">全国仿真创新应用大赛</span> (2024.12)</li>
+        <li><strong data-en="University Scholarship" data-zh="校级奖学金">校级奖学金</strong> | <span data-en="CUMT Academic Excellence Award" data-zh="中国矿业大学优秀奖学金">中国矿业大学优秀奖学金</span> (2023, 2024, 2025)</li>
+      </ul>
+    </section>
+
+    <section id="evaluation">
+      <div class="section-header">
+        <h2 data-en="Self-Evaluation" data-zh="自我评价">自我评价</h2>
+      </div>
+      <p style="font-style: italic; font-size: 0.95rem;" data-en="A cross-disciplinary talent with a solid CS background and strong 'Product Owner' consciousness. Passionate about B-side digital transformation and leading-edge AI (AIGC/RAG) integration." 
+         data-zh="拥有扎实的计算机与数据科学背景，具备极强的“产品负责人”意识。对企业级 AI 技术（AIGC、RAG）及 B 端数字化转型充满热情，具备优秀的逻辑拆解与跨部门协作能力。">
+        拥有扎实的计算机与数据科学背景，具备极强的“产品负责人”意识。对企业级 AI 技术（AIGC、RAG）及 B 端数字化转型充满热情，具备优秀的逻辑拆解与跨部门协作能力。
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-bold" data-en="Email: gaojian1573@foxmail.com" data-zh="电子邮箱：gaojian1573@foxmail.com">电子邮箱：gaojian1573@foxmail.com</div>
+    
+    <p class="motto" id="motto" 
+       data-zh="“我本将心向明月，奈何明月照沟渠”" 
+       data-en="“I offered my heart to the bright moon, but the moon shines upon the ditch.”">
+      “我本将心向明月，奈何明月照沟渠”
+    </p>
+
+    <div class="social-links">
+      <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+      <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+      <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
+    </div>
+  </footer>
+
+  <script>
+    let currentLang = 'zh';
+    const langToggle = document.getElementById('langToggle');
+    const themeToggle = document.getElementById('themeToggle');
+    const contactBtn = document.getElementById('contactBtn');
+    const logo = document.getElementById('logo');
+    const avatar = document.getElementById('avatar');
+
+    // Language switch
+    langToggle.addEventListener('click', () => {
+      currentLang = currentLang === 'zh' ? 'en' : 'zh';
+      const elements = document.querySelectorAll('[data-en], [data-zh]');
+      elements.forEach(el => {
+        el.innerHTML = currentLang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-zh');
+      });
+      langToggle.textContent = currentLang === 'zh' ? 'EN / 中' : '中 / EN';
+    });
+
+    // Dark mode
+    themeToggle.addEventListener('click', () => {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      document.documentElement.setAttribute('data-theme', isDark ? '' : 'dark');
+    });
+
+    // Logo Animation
+    const nameLetters = "GAOJIAN".split("");
+    let lIdx = 0;
+    setInterval(() => {
+      logo.textContent = nameLetters[lIdx % nameLetters.length];
+      lIdx++;
+    }, 2000);
+
+    // Scroll to footer
+    contactBtn.addEventListener('click', () => {
+      document.querySelector('footer').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Avatar Wiggle
+    avatar.addEventListener('click', () => {
+      avatar.style.animation = 'photoWiggle 0.6s ease-in-out';
+      setTimeout(() => avatar.style.animation = '', 600);
+    });
+  </script>
+</body>
+</html>

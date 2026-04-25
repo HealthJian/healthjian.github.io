@@ -74,13 +74,135 @@
             </div>
         </header>
 
+        <!-- ====== 申请友链（置顶） ====== -->
+        <section class="links-section">
+            <h2 class="section-title" data-en="Apply for Friend Link" data-zh="申请友链">
+                <i class="fas fa-handshake"></i>
+                <span>申请友链</span>
+            </h2>
+            
+            <div class="apply-container" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+                <!-- 左列：我的信息 + 步骤 -->
+                <div class="apply-intro" style="display:flex;flex-direction:column;gap:20px;">
+                    <div style="background:var(--card-background,#fff);border-radius:var(--border-radius,12px);padding:24px 28px;border:1px solid rgba(0,122,255,0.12);box-shadow:0 4px 20px rgba(0,122,255,0.06);">
+                        <h3 style="display:flex;align-items:center;gap:8px;margin-bottom:14px;font-size:1.1rem;" data-en="My Site Info" data-zh="本站信息"><i class="fas fa-id-card" style="color:var(--primary-color,#007AFF);"></i> 本站信息</h3>
+                        <div class="code-box" style="margin-bottom:0;">
+                            <pre><code>{
+  "name": "HealthJian",
+  "link": "https://healthjian.com",
+  "avatar": "https://healthjian.com/images/githubherofigureimage.png",
+  "description": "技术探索者，热爱分享编程和生活体验。"
+}</code></pre>
+                            <button class="copy-btn" onclick="copyToClipboard(this)" data-en="Copy" data-zh="复制">复制</button>
+                        </div>
+                    </div>
+
+                    <div style="background:var(--card-background,#fff);border-radius:var(--border-radius,12px);padding:24px 28px;box-shadow:0 2px 12px rgba(0,0,0,0.04);">
+                        <h3 style="display:flex;align-items:center;gap:8px;margin-bottom:16px;font-size:1.05rem;" data-en="3 Steps" data-zh="三步申请"><i class="fas fa-list-ol" style="color:var(--primary-color,#007AFF);"></i> 三步申请</h3>
+                        <div class="apply-steps" style="display:flex;flex-direction:column;gap:16px;">
+                            <div class="step" style="display:flex;align-items:flex-start;gap:14px;">
+                                <div class="step-number" style="min-width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#007AFF,#5AC8FA);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;flex-shrink:0;">1</div>
+                                <div>
+                                    <h4 style="font-size:.95rem;margin-bottom:3px;" data-en="Add my site to your links" data-zh="将本站加入您的友链">将本站加入您的友链</h4>
+                                    <p style="font-size:.85rem;color:var(--text-color,#666);opacity:.75;" data-en="Copy the JSON above and add it to your links page." data-zh="复制上方 JSON 信息，添加到您的友链页面。">复制上方 JSON 信息，添加到您的友链页面。</p>
+                                </div>
+                            </div>
+                            <div class="step" style="display:flex;align-items:flex-start;gap:14px;">
+                                <div class="step-number" style="min-width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#007AFF,#5AC8FA);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;flex-shrink:0;">2</div>
+                                <div>
+                                    <h4 style="font-size:.95rem;margin-bottom:3px;" data-en="Submit your site info" data-zh="提交您的网站信息">提交您的网站信息</h4>
+                                    <p style="font-size:.85rem;color:var(--text-color,#666);opacity:.75;" data-en="Use the form on the right or send an email." data-zh="使用右侧表单提交，或通过邮件发送。">使用右侧表单提交，或通过邮件发送。</p>
+                                </div>
+                            </div>
+                            <div class="step" style="display:flex;align-items:flex-start;gap:14px;">
+                                <div class="step-number" style="min-width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#007AFF,#5AC8FA);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;flex-shrink:0;">3</div>
+                                <div>
+                                    <h4 style="font-size:.95rem;margin-bottom:3px;" data-en="Wait for review (1-3 days)" data-zh="等待审核（1-3天）">等待审核（1-3天）</h4>
+                                    <p style="font-size:.85rem;color:var(--text-color,#666);opacity:.75;" data-en="I'll review and add your site ASAP." data-zh="审核通过后会尽快上线您的友链。">审核通过后会尽快上线您的友链。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 申请要求 -->
+                    <div class="requirements-container" style="background:var(--card-background,#fff);border-radius:var(--border-radius,12px);padding:24px 28px;box-shadow:0 2px 12px rgba(0,0,0,0.04);">
+                        <h3 style="display:flex;align-items:center;gap:8px;margin-bottom:14px;font-size:1.05rem;" data-en="Requirements" data-zh="申请要求"><i class="fas fa-clipboard-check" style="color:var(--primary-color,#007AFF);"></i> 申请要求</h3>
+                        <ul class="requirements-list" style="display:flex;flex-direction:column;gap:8px;padding-left:0;list-style:none;">
+                            <li style="display:flex;align-items:center;gap:8px;font-size:.88rem;"><i class="fas fa-check-circle" style="color:#34C759;flex-shrink:0;"></i> <span data-en="Original content with unique value" data-zh="原创内容，具有独特价值">原创内容，具有独特价值</span></li>
+                            <li style="display:flex;align-items:center;gap:8px;font-size:.88rem;"><i class="fas fa-check-circle" style="color:#34C759;flex-shrink:0;"></i> <span data-en="Actively maintained, updated monthly" data-zh="保持活跃，至少每月一篇更新">保持活跃，至少每月一篇更新</span></li>
+                            <li style="display:flex;align-items:center;gap:8px;font-size:.88rem;"><i class="fas fa-check-circle" style="color:#34C759;flex-shrink:0;"></i> <span data-en="Tech, design, or personal growth topics" data-zh="技术/设计/学习/成长相关主题">技术/设计/学习/成长相关主题</span></li>
+                            <li style="display:flex;align-items:center;gap:8px;font-size:.88rem;"><i class="fas fa-check-circle" style="color:#34C759;flex-shrink:0;"></i> <span data-en="HTTPS enabled, fast loading" data-zh="HTTPS 安全访问，加载迅速">HTTPS 安全访问，加载迅速</span></li>
+                            <li style="display:flex;align-items:center;gap:8px;font-size:.88rem;"><i class="fas fa-check-circle" style="color:#34C759;flex-shrink:0;"></i> <span data-en="Clean and user-friendly design" data-zh="界面美观、易读、用户友好">界面美观、易读、用户友好</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 右列：申请表单（直接展示） -->
+                <div style="background:var(--card-background,#fff);border-radius:var(--border-radius,12px);padding:28px 30px;box-shadow:0 4px 20px rgba(0,0,0,0.05);border:1px solid rgba(0,0,0,0.04);display:flex;flex-direction:column;">
+                    <h3 style="display:flex;align-items:center;gap:8px;margin-bottom:20px;font-size:1.1rem;" data-en="Application Form" data-zh="申请表单"><i class="fas fa-paper-plane" style="color:var(--primary-color,#007AFF);"></i> 申请表单</h3>
+                    <form id="friend-link-form" class="friend-link-form" style="display:flex;flex-direction:column;gap:16px;flex:1;">
+                        <div class="form-group">
+                            <label for="site-name" class="required-field" data-en="Site Name" data-zh="网站名称">网站名称</label>
+                            <input type="text" id="site-name" placeholder="例如：技术博客" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="site-url" class="required-field" data-en="Site URL" data-zh="网站链接">网站链接</label>
+                            <input type="url" id="site-url" placeholder="https://yourblog.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="avatar-url" class="required-field" data-en="Avatar URL" data-zh="头像链接">头像链接</label>
+                            <input type="url" id="avatar-url" placeholder="https://yourblog.com/avatar.png" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="site-desc" class="required-field" data-en="Description" data-zh="网站描述">网站描述</label>
+                            <textarea id="site-desc" placeholder="简短描述您的网站（30字以内）" maxlength="30" required></textarea>
+                            <span class="char-counter"><span id="char-count">0</span>/30</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="site-type" class="required-field" data-en="Category" data-zh="网站分类">网站分类</label>
+                            <select id="site-type" required>
+                                <option value="" disabled selected data-en="Select a category" data-zh="请选择分类">请选择分类</option>
+                                <option value="tech">技术博客</option>
+                                <option value="design">设计博客</option>
+                                <option value="personal">个人博客</option>
+                                <option value="life">生活博客</option>
+                                <option value="study">学习笔记</option>
+                                <option value="other">其他</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-email" class="required-field" data-en="Email" data-zh="联系邮箱">联系邮箱</label>
+                            <input type="email" id="contact-email" placeholder="your@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label data-en="Verified?" data-zh="确认互链">确认互链</label>
+                            <div class="verify-container" style="display:flex;gap:16px;margin-top:4px;">
+                                <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.9rem;">
+                                    <input type="radio" name="verify" value="yes" required> 
+                                    <span data-en="Yes, added" data-zh="已添加">已添加</span>
+                                </label>
+                                <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.9rem;">
+                                    <input type="radio" name="verify" value="no"> 
+                                    <span data-en="Will add later" data-zh="稍后添加">稍后添加</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-actions" style="display:flex;gap:12px;margin-top:auto;padding-top:8px;">
+                            <button type="submit" class="submit-btn" data-en="Submit" data-zh="提交申请" style="flex:1;">提交申请</button>
+                            <a href="mailto:gaojian1573@foxmail.com?subject=友链申请&body=网站名称：%0A网站链接：%0A头像链接：%0A网站描述：%0A" class="option-btn" style="text-align:center;flex:1;" data-en="Email Instead" data-zh="邮件申请">邮件申请</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
         <!-- 个人链接部分 -->
         <section class="links-section" data-category="personal">
             <h2 class="section-title" data-en="Personal Links" data-zh="个人链接">
                 <i class="fas fa-user-circle"></i>
                 <span>个人链接</span>
             </h2>
-            <div class="site-links">
+            <div class="site-links" style="grid-template-columns:repeat(4,1fr);">
                 <!-- GitHub -->
                 <div class="site-card">
                     <div class="site-card-inner">
@@ -139,91 +261,6 @@
                 <span>友情链接</span>
             </h2>
             <div class="friends-links">
-                <!-- 朋友1 -->
-                <div class="friend-card">
-                    <div class="friend-info">
-                        <div class="friend-avatar">
-                            <img src="https://avatars.githubusercontent.com/u/1?v=4" alt="好友头像">
-                        </div>
-                        <div class="friend-details">
-                            <h3 class="friend-name" data-en="ByteDancer" data-zh="字节舞者">字节舞者</h3>
-                            <p class="friend-desc" data-en="Frontend engineer sharing web development experiences." data-zh="前端工程师，分享Web开发经验和心得。">前端工程师，分享Web开发经验和心得。擅长Vue和React，热爱探索新技术。<span class="emoji">🚀</span></p>
-                        </div>
-                    </div>
-                    <a href="#" target="_blank" class="friend-link" data-en="Visit Blog" data-zh="访问博客">访问博客</a>
-                </div>
-
-                <!-- 朋友2 -->
-                <div class="friend-card">
-                    <div class="friend-info">
-                        <div class="friend-avatar">
-                            <img src="https://avatars.githubusercontent.com/u/2?v=4" alt="好友头像">
-                        </div>
-                        <div class="friend-details">
-                            <h3 class="friend-name" data-en="CodePoet" data-zh="代码诗人">代码诗人</h3>
-                            <p class="friend-desc" data-en="Backend developer with a passion for system architecture." data-zh="后端开发者，热衷于系统架构设计。">后端开发者，热衷于系统架构设计。Java和Python爱好者，偶尔写写技术随笔。<span class="emoji">⚙️</span></p>
-                        </div>
-                    </div>
-                    <a href="#" target="_blank" class="friend-link" data-en="Visit Blog" data-zh="访问博客">访问博客</a>
-                </div>
-
-                <!-- 朋友3 -->
-                <div class="friend-card">
-                    <div class="recommend-badge" data-en="RECOMMEND" data-zh="推荐">推荐</div>
-                    <div class="friend-info">
-                        <div class="friend-avatar">
-                            <img src="https://avatars.githubusercontent.com/u/3?v=4" alt="好友头像">
-                        </div>
-                        <div class="friend-details">
-                            <h3 class="friend-name" data-en="Algorithm Master" data-zh="算法大师">算法大师</h3>
-                            <p class="friend-desc" data-en="Competitive programming enthusiast and algorithm teacher." data-zh="竞赛编程爱好者和算法教师。">竞赛编程爱好者和算法教师。每周分享一道算法题解析，助你攻克编程面试。<span class="emoji">🧠</span></p>
-                        </div>
-                    </div>
-                    <a href="#" target="_blank" class="friend-link" data-en="Visit Blog" data-zh="访问博客">访问博客</a>
-                </div>
-
-                <!-- 朋友4 -->
-                <div class="friend-card">
-                    <div class="friend-info">
-                        <div class="friend-avatar">
-                            <img src="https://avatars.githubusercontent.com/u/4?v=4" alt="好友头像">
-                        </div>
-                        <div class="friend-details">
-                            <h3 class="friend-name" data-en="AI Explorer" data-zh="AI探索者">AI探索者</h3>
-                            <p class="friend-desc" data-en="Machine learning researcher focusing on NLP and computer vision." data-zh="机器学习研究者，专注于自然语言处理和计算机视觉。">机器学习研究者，专注于自然语言处理和计算机视觉。定期分享AI论文解读和实践经验。<span class="emoji">🤖</span></p>
-                        </div>
-                    </div>
-                    <a href="#" target="_blank" class="friend-link" data-en="Visit Blog" data-zh="访问博客">访问博客</a>
-                </div>
-
-                <!-- 朋友5 -->
-                <div class="friend-card">
-                    <div class="friend-info">
-                        <div class="friend-avatar">
-                            <img src="https://avatars.githubusercontent.com/u/5?v=4" alt="好友头像">
-                        </div>
-                        <div class="friend-details">
-                            <h3 class="friend-name" data-en="Design Thinker" data-zh="设计思考者">设计思考者</h3>
-                            <p class="friend-desc" data-en="UI/UX designer with a focus on user-centered design." data-zh="UI/UX设计师，专注于以用户为中心的设计。">UI/UX设计师，专注于以用户为中心的设计。分享设计过程、工具技巧和行业趋势。<span class="emoji">🎨</span></p>
-                        </div>
-                    </div>
-                    <a href="#" target="_blank" class="friend-link" data-en="Visit Blog" data-zh="访问博客">访问博客</a>
-                </div>
-
-                <!-- 朋友6 -->
-                <div class="friend-card">
-                    <div class="friend-info">
-                        <div class="friend-avatar">
-                            <img src="https://avatars.githubusercontent.com/u/6?v=4" alt="好友头像">
-                        </div>
-                        <div class="friend-details">
-                            <h3 class="friend-name" data-en="Digital Nomad" data-zh="数字游民">数字游民</h3>
-                            <p class="friend-desc" data-en="Remote worker sharing tips on productivity and digital lifestyle." data-zh="远程工作者，分享关于生产力和数字生活方式的技巧。">远程工作者，分享关于生产力和数字生活方式的技巧。探讨如何平衡工作与生活。<span class="emoji">🌍</span></p>
-                        </div>
-                    </div>
-                    <a href="#" target="_blank" class="friend-link" data-en="Visit Blog" data-zh="访问博客">访问博客</a>
-                </div>
-                
                 <!-- Ohaoz -->
                 <div class="friend-card">
                     <div class="recommend-badge" data-en="NEW" data-zh="新友链">新友链</div>
@@ -521,246 +558,7 @@
             </div>
         </section>
 
-        <!-- 申请友链 -->
-        <section class="links-section">
-            <h2 class="section-title" data-en="Apply for Friend Link" data-zh="申请友链">
-                <i class="fas fa-handshake"></i>
-                <span>申请友链</span>
-            </h2>
-            
-            <div class="apply-container">
-                <div class="apply-intro">
-                    <h3 data-en="How to Apply" data-zh="如何申请">如何申请</h3>
-                    <p data-en="I welcome high-quality sites to exchange links! Here's how to get started:" data-zh="我欢迎高质量的网站交换链接！以下是申请步骤：">我欢迎高质量的网站交换链接！以下是申请步骤：<span class="emoji">🤝</span></p>
-                    
-                    <div class="apply-steps">
-                        <div class="step">
-                            <div class="step-number">1</div>
-                            <div class="step-content">
-                                <h4 data-en="Add My Site to Your Links Page" data-zh="将本站添加到您的友链页面">将本站添加到您的友链页面</h4>
-                                <p data-en="Use the information below to add my site to your links page." data-zh="使用下方信息将本站添加到您的友链页面。">使用下方信息将本站添加到您的友链页面。</p>
-                                <div class="my-site-info">
-                                    <div class="code-box">
-                                        <pre><code>{
-  "name": "HealthJian",
-  "link": "https://healthjian.com",
-  "avatar": "https://healthjian.com/images/githubherofigureimage.png",
-  "description": "技术探索者，热爱分享编程和生活体验。"
-}</code></pre>
-                                        <button class="copy-btn" onclick="copyToClipboard(this)" data-en="Copy" data-zh="复制">复制</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="step">
-                            <div class="step-number">2</div>
-                            <div class="step-content">
-                                <h4 data-en="Submit Your Information" data-zh="提交您的网站信息">提交您的网站信息</h4>
-                                <p data-en="Fill out the form below with your site details or send an email." data-zh="填写下方表单或发送邮件提交您的网站详情。">填写下方表单或发送邮件提交您的网站详情。</p>
-                                <div class="submit-options">
-                                    <button class="option-btn" onclick="showForm()" data-en="Use Form" data-zh="使用表单">使用表单</button>
-                                    <a href="mailto:gaojian1573@foxmail.com?subject=友链申请&body=请填写以下信息：%0A%0A网站名称：%0A网站链接：%0A头像链接：%0A网站描述：%0A网站主题/类型：%0A%0A感谢您的申请！" class="option-btn" data-en="Send Email" data-zh="发送邮件">发送邮件</a>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="step">
-                            <div class="step-number">3</div>
-                            <div class="step-content">
-                                <h4 data-en="Wait for Confirmation" data-zh="等待确认">等待确认</h4>
-                                <p data-en="I'll review your application and add your site as soon as possible." data-zh="我会尽快审核您的申请并添加您的网站。">我会尽快审核您的申请并添加您的网站。通常会在1-3天内完成。<span class="emoji">⏱️</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 申请要求 -->
-                <div class="requirements-container">
-                    <h3 data-en="Requirements" data-zh="申请要求">申请要求 <span class="hot-badge"><i class="fas fa-exclamation-circle"></i> 必读</span></h3>
-                    <ul class="requirements-list">
-                        <li data-en="Original content: Focus on creating unique, valuable content." data-zh="原创内容：专注于创作独特、有价值的内容。">原创内容：专注于创作独特、有价值的内容。</li>
-                        <li data-en="Regular updates: Your site should be actively maintained." data-zh="定期更新：您的网站应该是活跃维护的。">定期更新：您的网站应该是活跃维护的，至少一个月有一篇文章更新。</li>
-                        <li data-en="Relevant topics: Content related to technology, programming, design, or personal growth." data-zh="相关主题：内容与技术、编程、设计或个人成长相关。">相关主题：内容与技术、编程、设计、学习或个人成长相关。</li>
-                        <li data-en="Proper setup: Your site must be secure (HTTPS) and load quickly." data-zh="适当设置：您的网站必须是安全的(HTTPS)且加载迅速。">适当设置：您的网站必须是安全的(HTTPS)且加载迅速。</li>
-                        <li data-en="Aesthetic design: Clean, readable, and user-friendly interface." data-zh="美观设计：干净、易读且用户友好的界面。">美观设计：干净、易读且用户友好的界面。</li>
-                    </ul>
-                </div>
-                
-                <!-- 申请表单 (默认隐藏) -->
-                <div id="apply-form-container" class="apply-form-container" style="display: none;">
-                    <h3 data-en="Apply Form" data-zh="申请表单">申请表单</h3>
-                    <form id="friend-link-form" class="friend-link-form">
-                        <div class="form-group">
-                            <label for="site-name" class="required-field" data-en="Site Name" data-zh="网站名称">网站名称</label>
-                            <input type="text" id="site-name" placeholder="例如：技术博客" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="site-url" class="required-field" data-en="Site URL" data-zh="网站链接">网站链接</label>
-                            <input type="url" id="site-url" placeholder="例如：https://yourblog.com" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="avatar-url" class="required-field" data-en="Avatar URL" data-zh="头像链接">头像链接</label>
-                            <input type="url" id="avatar-url" placeholder="例如：https://yourblog.com/avatar.png" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="site-desc" class="required-field" data-en="Site Description" data-zh="网站描述">网站描述</label>
-                            <textarea id="site-desc" placeholder="简短描述您的网站内容和特点（30字以内）" maxlength="30" required></textarea>
-                            <span class="char-counter"><span id="char-count">0</span>/30</span>
-                        </div>
-                        <div class="form-group">
-                            <label for="site-type" class="required-field" data-en="Site Category" data-zh="网站分类">网站分类</label>
-                            <select id="site-type" required>
-                                <option value="" disabled selected>请选择一个分类</option>
-                                <option value="tech">技术博客</option>
-                                <option value="design">设计博客</option>
-                                <option value="personal">个人博客</option>
-                                <option value="life">生活博客</option>
-                                <option value="study">学习笔记</option>
-                                <option value="other">其他</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="contact-email" class="required-field" data-en="Contact Email" data-zh="联系邮箱">联系邮箱</label>
-                            <input type="email" id="contact-email" placeholder="例如：your@email.com" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="verification" class="required-field" data-en="Verification" data-zh="验证">验证</label>
-                            <div class="verify-container">
-                                <p data-en="Please confirm you've added my site to yours?" data-zh="请确认您已将本站添加到您的友链中？">请确认您已将本站添加到您的友链中？</p>
-                                <div class="radio-group">
-                                    <label>
-                                        <input type="radio" name="verify" value="yes" required> 
-                                        <span data-en="Yes, I've added your site" data-zh="是的，已添加">是的，已添加</span>
-                                    </label>
-                                    <label>
-                                        <input type="radio" name="verify" value="no"> 
-                                        <span data-en="Not yet, will add later" data-zh="尚未，稍后添加">尚未，稍后添加</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-actions">
-                            <button type="submit" class="submit-btn" data-en="Submit Application" data-zh="提交申请">提交申请</button>
-                            <button type="button" class="cancel-btn" onclick="hideForm()" data-en="Cancel" data-zh="取消">取消</button>
-                        </div>
-                    </form>
-                </div>
-                
-                <!-- 友链代码模板 -->
-                <div class="template-container">
-                    <h3 data-en="Template Code" data-zh="模板代码">模板代码 <span class="emoji">📋</span></h3>
-                    <p data-en="Here's a template you can use to add friend links to your site. Simply modify the content as needed:" data-zh="以下是您可以用来在网站上添加友链的模板代码。只需修改内容即可：">以下是您可以用来在网站上添加友链的模板代码。只需修改内容即可：</p>
-                    
-                    <div class="template-tabs">
-                        <button class="tab-btn active" data-tab="html" data-en="HTML" data-zh="HTML">HTML</button>
-                        <button class="tab-btn" data-tab="css" data-en="CSS" data-zh="CSS">CSS</button>
-                    </div>
-                    
-                    <div class="template-content">
-                        <div class="code-box template-code" id="html-template">
-                            <pre><code>&lt;!-- 友情链接卡片 --&gt;
-&lt;div class="friend-card"&gt;
-    &lt;div class="friend-info"&gt;
-        &lt;div class="friend-avatar"&gt;
-            &lt;img src="头像URL" alt="好友头像"&gt;
-        &lt;/div&gt;
-        &lt;div class="friend-details"&gt;
-            &lt;h3 class="friend-name"&gt;网站名称&lt;/h3&gt;
-            &lt;p class="friend-desc"&gt;网站描述，介绍网站的主要内容和特点。&lt;/p&gt;
-        &lt;/div&gt;
-    &lt;/div&gt;
-    &lt;a href="网站URL" target="_blank" class="friend-link"&gt;访问博客&lt;/a&gt;
-&lt;/div&gt;</code></pre>
-                            <button class="copy-btn" onclick="copyToClipboard(this)" data-en="Copy" data-zh="复制">复制</button>
-                        </div>
-                        
-                        <div class="code-box template-code" id="css-template" style="display: none;">
-                            <pre><code>/* 友情链接卡片样式 */
-.friend-card {
-    background-color: #fff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
-    display: flex;
-    flex-direction: column;
-}
-
-.friend-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-}
-
-.friend-info {
-    display: flex;
-    padding: 1.2rem;
-    gap: 0.8rem;
-    align-items: center;
-}
-
-.friend-avatar {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 2px solid #f0f0f0;
-}
-
-.friend-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-}
-
-.friend-card:hover .friend-avatar img {
-    transform: scale(1.1);
-}
-
-.friend-details {
-    flex: 1;
-}
-
-.friend-name {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 0.3rem;
-    color: #333;
-}
-
-.friend-desc {
-    font-size: 0.9rem;
-    color: #666;
-    line-height: 1.5;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.friend-link {
-    display: block;
-    padding: 0.8rem 1.2rem;
-    text-align: center;
-    background-color: #f8f8f8;
-    color: #3498db;
-    font-weight: 500;
-    text-decoration: none;
-    transition: all 0.2s ease;
-    border-top: 1px solid #f0f0f0;
-}
-
-.friend-link:hover {
-    background-color: #3498db;
-    color: white;
-}</code></pre>
-                            <button class="copy-btn" onclick="copyToClipboard(this)" data-en="Copy" data-zh="复制">复制</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <!-- 旧申请友链板块已移至顶部 -->
         <!-- 滚动到顶部按钮 -->
         <div class="scroll-top" id="scrollTop">
             <i class="fas fa-arrow-up"></i>
@@ -863,27 +661,6 @@
                 });
             });
             
-            // 模板代码标签切换
-            const templateTabs = document.querySelectorAll('.tab-btn');
-            
-            templateTabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    // 移除所有标签的活跃状态
-                    templateTabs.forEach(t => t.classList.remove('active'));
-                    // 给当前标签添加活跃状态
-                    this.classList.add('active');
-                    
-                    const tabId = this.getAttribute('data-tab');
-                    
-                    // 隐藏所有模板内容
-                    document.querySelectorAll('.template-code').forEach(template => {
-                        template.style.display = 'none';
-                    });
-                    
-                    // 显示选中的模板
-                    document.getElementById(tabId + '-template').style.display = 'block';
-                });
-            });
             
             // 字符计数功能
             const siteDescTextarea = document.getElementById('site-desc');
@@ -913,8 +690,8 @@
                 document.getElementById('friend-link-form').addEventListener('submit', function(e) {
                     e.preventDefault();
                     alert('感谢您的申请！我会尽快审核并添加您的网站。');
-                    hideForm();
                     this.reset();
+                    if(document.getElementById('char-count')) document.getElementById('char-count').textContent = '0';
                 });
             }
             
@@ -967,17 +744,6 @@
             });
         });
         
-        // 显示申请表单
-        function showForm() {
-            document.getElementById('apply-form-container').style.display = 'block';
-            // 平滑滚动到表单位置
-            document.getElementById('apply-form-container').scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        // 隐藏申请表单
-        function hideForm() {
-            document.getElementById('apply-form-container').style.display = 'none';
-        }
         
         // 复制到剪贴板
         function copyToClipboard(btn) {

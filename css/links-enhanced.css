@@ -552,4 +552,18 @@
     padding: 0.6rem 1.2rem;
     font-size: 0.9rem;
   }
+
+  .apply-container[style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  .site-links[style*="repeat(4"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1100px) {
+  .site-links[style*="repeat(4"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
 }

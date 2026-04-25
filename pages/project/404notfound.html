@@ -3,493 +3,333 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 未找到 - HealthJian的博客</title>
-    <!-- 保留您的外部引用，但在内部补全了样式以确保独立显示完美 -->
-    <link rel="stylesheet" href="../../css/style.css">
-    <link rel="stylesheet" href="../../css/dark-mode.css">
+    <title>404 - HealthJian</title>
+    <link rel="shortcut icon" href="../../images/favicon.ico" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* ==========================================
-           1. CSS 变量定义 (统一管理主题色)
-           ========================================== */
         :root {
-            /* 日间模式变量 */
-            --bg-gradient: linear-gradient(135deg, #ffe5d9 0%, #ffd7ba 25%, #ffe5d9 50%, #ffd7ba 75%, #ffe5d9 100%);
-            --glass-bg: rgba(255, 255, 255, 0.65);
-            --glass-border: rgba(255, 255, 255, 0.8);
-            --glass-shadow: rgba(255, 182, 193, 0.25);
-            --text-primary: #8b4a6b;
-            --text-secondary: #9d6b7f;
-            --text-404: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
-            --btn-bg: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-            --btn-shadow: rgba(255, 154, 158, 0.4);
-            --emoji-shadow: rgba(0, 0, 0, 0.1);
-            --nav-link-hover: #ff9a9e;
+            --primary: #007AFF;
+            --secondary: #5AC8FA;
+            --bg: #f9f7f2;
+            --card-bg: #ffffff;
+            --navbar-bg: rgba(250,235,215,0.82);
+            --text: #1a1a1a;
+            --text-muted: #6b7280;
+            --border: rgba(0,0,0,0.06);
+            --shadow: rgba(0,0,0,0.08);
+            --mono: 'JetBrains Mono','Consolas','Source Code Pro',monospace;
+            --sans: 'SF Pro Display',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
         }
 
         body.dark-mode {
-            /* 夜间模式变量 */
-            --bg-gradient: linear-gradient(135deg, #2d1b3d 0%, #3d2b4d 25%, #2d1b3d 50%, #3d2b4d 75%, #2d1b3d 100%);
-            --glass-bg: rgba(30, 30, 40, 0.75);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --glass-shadow: rgba(0, 0, 0, 0.4);
-            --text-primary: #e2e8f0;
-            --text-secondary: #a78bfa;
-            --text-404: linear-gradient(135deg, #a78bfa 0%, #c4b5fd 50%, #ddd6fe 100%);
-            --btn-bg: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
-            --btn-shadow: rgba(139, 92, 246, 0.4);
-            --emoji-shadow: rgba(139, 92, 246, 0.3);
-            --nav-link-hover: #c4b5fd;
+            --primary: #5AC8FA;
+            --secondary: #007AFF;
+            --bg: #003366;
+            --card-bg: #004080;
+            --navbar-bg: rgba(0,51,102,0.85);
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: rgba(255,255,255,0.08);
+            --shadow: rgba(0,0,0,0.3);
         }
 
-        /* ==========================================
-           2. 基础重置与全局样式
-           ========================================== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        *{margin:0;padding:0;box-sizing:border-box}
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            overflow-x: hidden;
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--text);
             min-height: 100vh;
-            background: var(--bg-gradient);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
-            transition: background 0.6s cubic-bezier(0.4, 0, 0.2, 1), color 0.6s ease;
-            color: var(--text-secondary);
             display: flex;
             flex-direction: column;
+            transition: background .35s, color .35s;
+            overflow-x: hidden;
         }
 
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
+        a { text-decoration:none; color:inherit; }
+        ul { list-style:none; }
 
-        a { text-decoration: none; color: inherit; }
-        ul { list-style: none; }
-
-        /* ==========================================
-           3. 导航栏样式 (补全独立显示所需的样式)
-           ========================================== */
+        /* ---- Navbar ---- */
         .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 70px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            position: fixed; top:0; left:0; width:100%;
+            height: 60px;
+            display: flex; justify-content:space-between; align-items:center;
             padding: 0 5%;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--glass-border);
+            background: var(--navbar-bg);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border);
             z-index: 100;
-            transition: all 0.5s ease;
+            transition: background .35s;
         }
 
         .nav-left .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: var(--text-primary);
+            display:flex; align-items:center; gap:10px;
+            font-weight:600; font-size:1.1rem; color:var(--text);
         }
-
         .nav-left .logo img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            transition: transform 0.3s ease;
+            width:32px; height:32px; border-radius:50%;
+            transition: transform .3s;
         }
-        .nav-left .logo:hover img { transform: rotate(15deg) scale(1.1); }
+        .nav-left .logo:hover img { transform:rotate(12deg) scale(1.1); }
 
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 24px;
+        .nav-right { display:flex; align-items:center; gap:18px; }
+        .menu { display:flex; gap:16px; }
+        .menu a { font-weight:500; font-size:.9rem; transition:color .3s; position:relative; }
+        .menu a::after {
+            content:''; position:absolute; width:0; height:2px;
+            bottom:-4px; left:0; background:var(--primary);
+            transition:width .3s;
         }
-
-        .menu {
-            display: flex;
-            gap: 20px;
-        }
-
-        .menu a {
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: color 0.3s ease;
-        }
-
-        .menu a:hover { color: var(--nav-link-hover); }
+        .menu a:hover { color:var(--primary); }
+        .menu a:hover::after { width:100%; }
 
         .social-icons a, .theme-toggle, .lang-toggle {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background:none; border:none; cursor:pointer;
+            font-size:1rem; color:var(--text-muted);
+            display:flex; align-items:center; justify-content:center;
+            transition: color .3s, transform .3s;
+        }
+        .social-icons a:hover,.theme-toggle:hover,.lang-toggle:hover {
+            color:var(--primary); transform:translateY(-2px);
         }
 
-        .social-icons a:hover, .theme-toggle:hover, .lang-toggle:hover {
-            color: var(--text-primary);
-            transform: translateY(-2px);
-        }
-
-        .theme-toggle i.fa-sun { display: none; }
-        body.dark-mode .theme-toggle i.fa-moon { display: none; }
-        body.dark-mode .theme-toggle i.fa-sun { display: block; }
+        .theme-toggle i.fa-sun { display:none; }
+        body.dark-mode .theme-toggle i.fa-moon { display:none; }
+        body.dark-mode .theme-toggle i.fa-sun { display:block; }
 
         .lang-toggle {
-            font-weight: 600;
-            font-size: 1rem;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: rgba(128, 128, 128, 0.1);
+            font-weight:600; font-size:.85rem;
+            width:28px; height:28px; border-radius:50%;
+            background:rgba(128,128,128,0.08);
         }
 
-        /* ==========================================
-           4. 表情包粒子容器
-           ========================================== */
-        .emoji-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-            overflow: hidden;
+        /* ---- Particle Canvas ---- */
+        #particleCanvas {
+            position:fixed; top:0; left:0; width:100%; height:100%;
+            pointer-events:none; z-index:0;
+            opacity:.3;
         }
+        body.dark-mode #particleCanvas { opacity:.45; }
 
-        .emoji {
-            position: absolute;
-            font-size: 48px;
-            user-select: none;
-            pointer-events: none;
-            /* 移除 transform 过渡，让 JS 直接控制以保证丝滑 */
-            transition: filter 0.5s ease;
-            filter: drop-shadow(0 4px 12px var(--emoji-shadow));
-            will-change: transform;
-        }
-
-        /* ==========================================
-           5. 主内容区域 (404 错误卡片)
-           ========================================== */
+        /* ---- Main ---- */
         main {
-            flex: 1;
-            position: relative;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 120px 20px 80px;
-            perspective: 1000px; /* 为 3D 悬浮效果提供透视 */
+            flex:1; position:relative; z-index:10;
+            display:flex; align-items:center; justify-content:center;
+            padding: 100px 20px 60px;
         }
 
-        .error-container {
-            max-width: 650px;
-            text-align: center;
-            padding: 60px 50px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border-radius: 32px;
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 30px 60px var(--glass-shadow), 
-                        inset 0 1px 0 rgba(255, 255, 255, 0.5);
-            animation: floatUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-            transition: background 0.5s ease, box-shadow 0.5s ease, transform 0.1s ease-out;
-            transform-style: preserve-3d;
+        .error-card {
+            max-width: 560px; width:100%;
+            text-align:center;
+            padding: 48px 40px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px var(--shadow);
+            backdrop-filter: blur(10px);
+            animation: cardIn .7s cubic-bezier(.2,.8,.2,1) forwards;
+            transition: background .35s, box-shadow .35s;
+        }
+        @keyframes cardIn {
+            from { opacity:0; transform:translateY(24px); }
+            to { opacity:1; transform:translateY(0); }
+        }
+        .error-card:hover {
+            box-shadow: 0 12px 40px var(--shadow);
         }
 
-        @keyframes floatUp {
-            from { opacity: 0; transform: translateY(50px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+        /* Terminal-style prompt */
+        .terminal-prompt {
+            display:inline-block;
+            font-family:var(--mono);
+            font-size:.82rem;
+            color:var(--primary);
+            background: rgba(0,122,255,0.08);
+            padding:5px 14px;
+            border-radius:999px;
+            border:1px solid rgba(0,122,255,0.15);
+            margin-bottom:28px;
+            letter-spacing:.5px;
+        }
+        body.dark-mode .terminal-prompt {
+            background:rgba(90,200,250,0.1);
+            border-color:rgba(90,200,250,0.2);
         }
 
+        /* 404 number with glitch effect */
         .error-code {
-            font-size: 160px;
-            font-weight: 800;
-            margin: 0;
-            background: var(--text-404);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1;
-            letter-spacing: -6px;
-            margin-bottom: 10px;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.05));
-            transform: translateZ(50px); /* 3D 景深 */
+            font-family:var(--mono);
+            font-size: 7.5rem;
+            font-weight:700;
+            line-height:1;
+            color:var(--primary);
+            letter-spacing:-4px;
+            margin-bottom:12px;
+            position:relative;
+            display:inline-block;
+            animation: glitchShake 4s ease-in-out infinite;
+        }
+        .error-code::before,
+        .error-code::after {
+            content:'404';
+            position:absolute; top:0; left:0;
+            width:100%; height:100%;
+            opacity:0;
+        }
+        .error-code::before {
+            color:var(--secondary);
+            animation: glitchTop 4s ease-in-out infinite;
+            clip-path: inset(0 0 60% 0);
+        }
+        .error-code::after {
+            color:#ff3b30;
+            animation: glitchBottom 4s ease-in-out infinite;
+            clip-path: inset(60% 0 0 0);
+        }
+
+        @keyframes glitchShake {
+            0%,90%,100% { transform:translate(0); }
+            92% { transform:translate(-2px,1px); }
+            94% { transform:translate(2px,-1px); }
+            96% { transform:translate(-1px,2px); }
+            98% { transform:translate(1px,-1px); }
+        }
+        @keyframes glitchTop {
+            0%,90%,100% { opacity:0; transform:translate(0); }
+            92% { opacity:.7; transform:translate(3px,-2px); }
+            94% { opacity:0; }
+            96% { opacity:.5; transform:translate(-2px,1px); }
+            98% { opacity:0; }
+        }
+        @keyframes glitchBottom {
+            0%,90%,100% { opacity:0; transform:translate(0); }
+            93% { opacity:.6; transform:translate(-3px,2px); }
+            95% { opacity:0; }
+            97% { opacity:.4; transform:translate(2px,-1px); }
+            99% { opacity:0; }
         }
 
         .error-title {
-            font-size: 32px;
-            font-weight: 700;
-            margin: 10px 0 20px;
-            color: var(--text-primary);
-            letter-spacing: -0.5px;
-            transform: translateZ(30px);
+            font-size:1.5rem; font-weight:600;
+            color:var(--text);
+            margin-bottom:14px;
+            transition: color .35s;
         }
 
         .error-message {
-            font-size: 17px;
-            margin-bottom: 45px;
-            color: var(--text-secondary);
-            line-height: 1.7;
-            font-weight: 400;
-            transform: translateZ(20px);
-            padding: 0 20px;
+            font-size:.95rem;
+            color:var(--text-muted);
+            line-height:1.8;
+            margin-bottom:32px;
+            transition: color .35s;
         }
 
-        .button-group {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-            transform: translateZ(40px);
+        /* Terminal-style error log */
+        .error-log {
+            font-family:var(--mono);
+            font-size:.78rem;
+            text-align:left;
+            background:rgba(0,0,0,0.03);
+            border:1px solid var(--border);
+            border-radius:10px;
+            padding:14px 18px;
+            margin-bottom:28px;
+            color:var(--text-muted);
+            line-height:1.8;
+        }
+        body.dark-mode .error-log {
+            background:rgba(255,255,255,0.03);
+        }
+        .error-log .log-prefix { color:var(--primary); font-weight:600; }
+        .error-log .log-warn { color:#ff9500; }
+        .error-log .log-err { color:#ff3b30; }
+
+        /* Buttons */
+        .btn-group {
+            display:flex; gap:14px; justify-content:center;
+            flex-wrap:wrap;
         }
 
-        .back-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            background: var(--btn-bg);
-            color: #fff;
-            padding: 15px 36px;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 16px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 10px 20px var(--btn-shadow);
-            border: none;
-            cursor: pointer;
-            letter-spacing: 0.5px;
+        .btn-primary, .btn-secondary {
+            display:inline-flex; align-items:center; gap:8px;
+            padding: 12px 28px;
+            border-radius:10px;
+            font-weight:600; font-size:.9rem;
+            transition: all .3s cubic-bezier(.4,0,.2,1);
+            border:none; cursor:pointer;
         }
 
-        .back-button:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 15px 30px var(--btn-shadow);
+        .btn-primary {
+            background:var(--primary);
+            color:#fff;
+            box-shadow:0 4px 14px rgba(0,122,255,0.25);
+        }
+        .btn-primary:hover {
+            transform:translateY(-2px);
+            box-shadow:0 6px 20px rgba(0,122,255,0.35);
         }
 
-        .back-button:active {
-            transform: translateY(1px);
+        .btn-secondary {
+            background:var(--card-bg);
+            color:var(--text);
+            border:1px solid var(--border);
+            box-shadow:0 2px 8px var(--shadow);
+        }
+        .btn-secondary:hover {
+            transform:translateY(-2px);
+            border-color:var(--primary);
+            color:var(--primary);
         }
 
-        /* ==========================================
-           6. 增强页脚样式
-           ========================================== */
-        .enhanced-footer {
-            position: relative;
-            z-index: 10;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-top: 1px solid var(--glass-border);
-            padding: 60px 0 30px;
-            margin-top: auto; /* 推到底部 */
+        /* ---- Footer ---- */
+        .simple-footer {
+            position:relative; z-index:10;
+            text-align:center;
+            padding:20px;
+            font-size:.82rem;
+            color:var(--text-muted);
+            border-top:1px solid var(--border);
+            background:var(--navbar-bg);
+            backdrop-filter:blur(10px);
+            transition: background .35s, color .35s;
+        }
+        .simple-footer a { color:var(--primary); }
+        .simple-footer a:hover { text-decoration:underline; }
+
+        /* ---- Responsive ---- */
+        @media (max-width:768px) {
+            .menu { display:none; }
+            .error-code { font-size:5rem; letter-spacing:-2px; }
+            .error-title { font-size:1.25rem; }
+            .error-card { padding:36px 24px; }
+            .error-log { font-size:.72rem; padding:10px 14px; }
         }
 
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 50px;
-            padding: 0 30px;
+        @media (max-width:420px) {
+            .error-code { font-size:4rem; }
+            .error-card { padding:28px 18px; border-radius:14px; }
+            .btn-primary,.btn-secondary { padding:10px 20px; font-size:.85rem; }
+            .navbar { padding:0 3%; }
         }
 
-        .footer-logo-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-
-        .footer-logo img {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            margin-bottom: 15px;
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 10px 20px var(--emoji-shadow);
-        }
-
-        .footer-logo:hover img { transform: scale(1.15) rotate(10deg); }
-
-        .footer-logo-text {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-        }
-
-        .footer-nav-section h3,
-        .footer-social-section h3 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 25px;
-            color: var(--text-primary);
-            position: relative;
-            display: inline-block;
-        }
-
-        .footer-nav-section h3:after,
-        .footer-social-section h3:after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 40px;
-            height: 3px;
-            border-radius: 2px;
-            background: var(--btn-bg);
-            transition: width 0.3s ease;
-        }
-
-        .footer-nav-section:hover h3:after,
-        .footer-social-section:hover h3:after { width: 100%; }
-
-        .footer-links-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-
-        .footer-links-grid a {
-            position: relative;
-            padding-left: 15px;
-            transition: all 0.3s ease;
-        }
-
-        .footer-links-grid a::before {
-            content: '›';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--nav-link-hover);
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-
-        .footer-links-grid a:hover {
-            color: var(--nav-link-hover);
-            padding-left: 20px;
-        }
-
-        .footer-links-grid a:hover::before { opacity: 1; left: 5px; }
-
-        .footer-contact-info p {
-            margin: 12px 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .footer-contact-info i { color: var(--nav-link-hover); }
-        .footer-contact-info a:hover { color: var(--nav-link-hover); }
-
-        .footer-social-icons {
-            display: flex;
-            gap: 15px;
-            margin: 25px 0;
-        }
-
-        .footer-social-icons a {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            color: var(--text-primary);
-        }
-
-        .footer-social-icons a:hover {
-            background: var(--btn-bg);
-            color: white;
-            transform: translateY(-5px) scale(1.1);
-            border-color: transparent;
-            box-shadow: 0 10px 20px var(--btn-shadow);
-        }
-
-        .footer-clock-section {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px dashed var(--glass-border);
-        }
-
-        .footer-clock {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            letter-spacing: 3px;
-            margin-bottom: 5px;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .footer-bottom {
-            margin-top: 40px;
-            padding-top: 25px;
-            border-top: 1px solid var(--glass-border);
-            text-align: center;
-            font-size: 0.95rem;
-        }
-
-        /* ==========================================
-           7. 响应式布局
-           ========================================== */
-        @media (max-width: 1024px) {
-            .footer-container { grid-template-columns: 1fr 1fr; }
-            .footer-logo-section { grid-column: span 2; }
-        }
-
-        @media (max-width: 768px) {
-            .menu { display: none; } /* 移动端隐藏中间菜单，保持简洁 */
-            
-            .error-code { font-size: 120px; }
-            .error-title { font-size: 26px; }
-            .error-container { padding: 40px 25px; }
-
-            .footer-container { grid-template-columns: 1fr; gap: 40px; }
-            .footer-logo-section, .footer-nav-section, .footer-social-section {
-                grid-column: span 1;
-                text-align: center;
-            }
-            .footer-nav-section h3:after, .footer-social-section h3:after {
-                left: 50%;
-                transform: translateX(-50%);
-            }
-            .footer-contact-info p { justify-content: center; }
-            .footer-social-icons { justify-content: center; }
+        @media (prefers-reduced-motion:reduce) {
+            .error-code,.error-code::before,.error-code::after { animation:none; }
+            .error-card { animation:none; opacity:1; transform:none; }
         }
     </style>
 </head>
 <body class="light-mode">
-    <!-- 导航栏 -->
+    <!-- Particle Background -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Navbar -->
     <nav class="navbar">
         <div class="nav-left">
             <a href="../../index.html" class="logo">
-                <img src="https://avatars.githubusercontent.com/u/74038190?v=4" alt="Logo" onerror="this.src='https://ui-avatars.com/api/?name=HJ&background=ff9a9e&color=fff'">
-                <span class="site-name" data-en="HealthJian Blog" data-zh="HealthJian">HealthJian</span>
+                <img src="https://avatars.githubusercontent.com/u/74038190?v=4" alt="Logo" onerror="this.src='https://ui-avatars.com/api/?name=HJ&background=007AFF&color=fff'">
+                <span class="site-name" data-en="HealthJian" data-zh="HealthJian">HealthJian</span>
             </a>
         </div>
         <div class="nav-right">
@@ -497,44 +337,50 @@
                 <li><a href="../../index.html" data-en="Home" data-zh="首页">首页</a></li>
                 <li><a href="../blog.html" data-en="Blog" data-zh="博客">博客</a></li>
                 <li><a href="project.html" data-en="Projects" data-zh="项目">项目</a></li>
-                <li><a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a></li>
                 <li><a href="../links.html" data-en="Links" data-zh="链接">链接</a></li>
                 <li><a href="../about.html" data-en="About" data-zh="关于">关于</a></li>
             </ul>
             <div class="social-icons">
-                <a href="https://steamcommunity.com/profiles/76561199031176587/" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
-                <a href="mailto:gaojian1573@foxmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+                <a href="https://github.com/CaiNiaojian" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
             </div>
-            <button id="theme-toggle" class="theme-toggle" title="切换主题">
+            <button id="theme-toggle" class="theme-toggle" title="Toggle theme">
                 <i class="fas fa-moon"></i>
                 <i class="fas fa-sun"></i>
             </button>
-            <button id="lang-toggle" class="lang-toggle" title="切换语言">
+            <button id="lang-toggle" class="lang-toggle" title="Toggle language">
                 <span class="lang-text" data-en="EN" data-zh="中">中</span>
             </button>
         </div>
     </nav>
 
-    <!-- 表情包动画容器 -->
-    <div class="emoji-container" id="emojiContainer"></div>
-
-    <!-- 主内容 -->
+    <!-- Main Content -->
     <main>
-        <div class="error-container" id="errorCard">
+        <div class="error-card">
+            <div class="terminal-prompt">$ curl -I this-page</div>
             <h1 class="error-code">404</h1>
             <h2 class="error-title">
-                <span class="lang-content" data-zh="Oops! 迷路了吗？" data-en="Oops! Are you lost?">Oops! 迷路了吗？</span>
+                <span class="lang-content" data-zh="页面未找到" data-en="Page Not Found">页面未找到</span>
             </h2>
             <p class="error-message">
-                <span class="lang-content" data-zh="很抱歉，您要访问的页面已被吸入黑洞或从未存在过。请检查 URL 是否正确，或者喝口水重新开始。" data-en="Sorry, the page you are looking for has been sucked into a black hole or never existed. Please check the URL, or take a sip of water and start again.">很抱歉，您要访问的页面已被吸入黑洞或从未存在过。请检查 URL 是否正确，或者喝口水重新开始。</span>
+                <span class="lang-content"
+                    data-zh="目标资源不存在或已被移动。请检查 URL 路径，或通过下方按钮导航回安全区域。"
+                    data-en="The requested resource does not exist or has been moved. Please verify the URL, or navigate back using the buttons below."
+                >目标资源不存在或已被移动。请检查 URL 路径，或通过下方按钮导航回安全区域。</span>
             </p>
-            
-            <div class="button-group">
-                <a href="../../index.html" class="back-button">
+
+            <div class="error-log">
+                <div><span class="log-prefix">GET</span> <span id="currentUrl">/unknown-path</span> <span class="log-err">404</span></div>
+                <div><span class="log-prefix">Server:</span> GitHub Pages</div>
+                <div><span class="log-prefix">Time:</span> <span id="logTime">--</span></div>
+                <div><span class="log-warn">WARN</span> <span class="lang-content" data-zh="路由匹配失败，建议返回首页" data-en="Route match failed. Consider returning to homepage.">路由匹配失败，建议返回首页</span></div>
+            </div>
+
+            <div class="btn-group">
+                <a href="../../index.html" class="btn-primary">
                     <i class="fas fa-home"></i>
-                    <span class="lang-content" data-zh="返回首页" data-en="Back to Home">返回首页</span>
+                    <span class="lang-content" data-zh="返回首页" data-en="Back Home">返回首页</span>
                 </a>
-                <a href="../blog.html" class="back-button">
+                <a href="../blog.html" class="btn-secondary">
                     <i class="fas fa-book-open"></i>
                     <span class="lang-content" data-zh="浏览博客" data-en="Browse Blog">浏览博客</span>
                 </a>
@@ -542,209 +388,132 @@
         </div>
     </main>
 
-    <!-- 页脚 -->
-    <footer class="enhanced-footer">
-        <div class="footer-container">
-            <div class="footer-logo-section">
-                <div class="footer-logo">
-                    <img src="https://avatars.githubusercontent.com/u/74038190?v=4" alt="Logo" onerror="this.src='https://ui-avatars.com/api/?name=HJ&background=ff9a9e&color=fff'">
-                </div>
-                <div class="footer-logo-text">HealthJian Blog</div>
-                <p class="footer-copyright lang-content" data-zh="分享知识，探索世界，保持热爱。" data-en="Sharing knowledge, exploring the world, keeping the passion.">分享知识，探索世界，保持热爱。</p>
-            </div>
-            
-            <div class="footer-nav-section">
-                <h3 class="lang-content" data-zh="快速链接" data-en="Quick Links">快速链接</h3>
-                <div class="footer-links-grid">
-                    <a href="../../index.html" class="lang-content" data-zh="首页" data-en="Home">首页</a>
-                    <a href="../blog.html" class="lang-content" data-zh="博客" data-en="Blog">博客</a>
-                    <a href="project.html" class="lang-content" data-zh="项目" data-en="Projects">项目</a>
-                    <a href="../blog/noval/one/index.html" class="lang-content" data-zh="小说" data-en="Novel">小说</a>
-                    <a href="../links.html" class="lang-content" data-zh="链接" data-en="Links">链接</a>
-                    <a href="../about.html" class="lang-content" data-zh="关于" data-en="About">关于</a>
-                </div>
-            </div>
-            
-            <div class="footer-social-section">
-                <h3 class="lang-content" data-zh="联系方式" data-en="Contact Us">联系方式</h3>
-                <div class="footer-contact-info">
-                    <p><i class="fas fa-envelope"></i> <a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
-                    <p><i class="fas fa-map-marker-alt"></i> <span class="lang-content" data-zh="中国，江苏" data-en="Jiangsu, China">中国，江苏</span></p>
-                </div>
-                <div class="footer-social-icons">
-                    <a href="https://github.com/CaiNiaojian" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="https://steamcommunity.com/profiles/76561199031176587/" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
-                </div>
-                <div class="footer-clock-section">
-                    <div class="footer-clock" id="footerClock">00:00:00</div>
-                    <div class="footer-date" id="footerDate"></div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; 2025 CaiNiaojian & HealthJian. <span class="lang-content" data-zh="保留所有权利" data-en="All rights reserved">保留所有权利</span>.</p>
-        </div>
+    <!-- Footer -->
+    <footer class="simple-footer">
+        <span>&copy; 2025 HealthJian &middot; <a href="../../index.html"><span class="lang-content" data-zh="返回主站" data-en="Back to Home">返回主站</span></a></span>
     </footer>
 
-    <!-- 交互逻辑脚本 -->
     <script>
-        /* ==========================================
-           1. 优化后的表情包粒子系统
-           ========================================== */
-        const emojis = ['😊', '😄', '🚀', '🌟', '😆', '😅', '🤣', '😂', '🙃', '😉', '🥳', '😍', '🤗', '🤩', '😜', '🤪', '👻', '👾', '👽', '🤖', '✨', '🎈', '🎉'];
-        
-        class EmojiParticle {
-            constructor() {
-                this.x = Math.random() * window.innerWidth;
-                this.y = Math.random() * window.innerHeight;
-                this.vx = (Math.random() - 0.5) * 3; // 降低初始速度使其更优雅
-                this.vy = (Math.random() - 0.5) * 3;
-                this.size = 35 + Math.random() * 25;
-                this.emoji = emojis[Math.floor(Math.random() * emojis.length)];
-                this.rotation = Math.random() * 360;
-                this.rotSpeed = (Math.random() - 0.5) * 2;
-                
-                this.element = document.createElement('div');
-                this.element.className = 'emoji';
-                this.element.textContent = this.emoji;
-                this.element.style.fontSize = this.size + 'px';
-                document.getElementById('emojiContainer').appendChild(this.element);
+    (function(){
+        'use strict';
+
+        /* ---- Particle Background ---- */
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animId = null;
+
+        function resizeCanvas(){
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        function createParticles(){
+            resizeCanvas();
+            const count = Math.min(Math.floor(window.innerWidth / 20), 50);
+            particles = [];
+            for(let i = 0; i < count; i++){
+                particles.push({
+                    x: Math.random()*canvas.width,
+                    y: Math.random()*canvas.height,
+                    r: Math.random()*1.8+0.6,
+                    dx:(Math.random()-0.5)*0.35,
+                    dy:(Math.random()-0.5)*0.35,
+                    a: Math.random()*0.4+0.15
+                });
+            }
+        }
+
+        function drawParticles(){
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            const isDark = document.body.classList.contains('dark-mode');
+            const rgb = isDark ? '90,200,250' : '0,122,255';
+
+            for(const p of particles){
+                ctx.beginPath();
+                ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+                ctx.fillStyle = `rgba(${rgb},${p.a})`;
+                ctx.fill();
+                p.x += p.dx; p.y += p.dy;
+                if(p.x<0||p.x>canvas.width) p.dx*=-1;
+                if(p.y<0||p.y>canvas.height) p.dy*=-1;
             }
 
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                this.rotation += this.rotSpeed;
-
-                // 边界反弹 (增加一定缓冲避免卡死)
-                if (this.x <= 0) { this.vx = Math.abs(this.vx); this.x = 0; }
-                if (this.x >= window.innerWidth - this.size) { this.vx = -Math.abs(this.vx); this.x = window.innerWidth - this.size; }
-                if (this.y <= 0) { this.vy = Math.abs(this.vy); this.y = 0; }
-                if (this.y >= window.innerHeight - this.size) { this.vy = -Math.abs(this.vy); this.y = window.innerHeight - this.size; }
-
-                // 使用 transform 合并位移和旋转，性能更好
-                this.element.style.transform = `translate3d(${this.x}px, ${this.y}px, 0) rotate(${this.rotation}deg)`;
-            }
-
-            checkCollision(other) {
-                const dx = this.x - other.x;
-                const dy = this.y - other.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                const minDistance = (this.size + other.size) / 2;
-
-                if (distance < minDistance) {
-                    // 仅当两个粒子相互靠近时才发生碰撞反弹 (解决粘连问题)
-                    const nx = dx / distance;
-                    const ny = dy / distance;
-                    const relativeVelocityX = this.vx - other.vx;
-                    const relativeVelocityY = this.vy - other.vy;
-                    const speed = relativeVelocityX * nx + relativeVelocityY * ny;
-
-                    if (speed < 0) {
-                        // 弹性碰撞交换速度
-                        const tempVx = this.vx;
-                        const tempVy = this.vy;
-                        this.vx = other.vx;
-                        this.vy = other.vy;
-                        other.vx = tempVx;
-                        other.vy = tempVy;
+            for(let i=0;i<particles.length;i++){
+                for(let j=i+1;j<particles.length;j++){
+                    const dx=particles[i].x-particles[j].x;
+                    const dy=particles[i].y-particles[j].y;
+                    const d=Math.sqrt(dx*dx+dy*dy);
+                    if(d<110){
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x,particles[i].y);
+                        ctx.lineTo(particles[j].x,particles[j].y);
+                        ctx.strokeStyle=`rgba(${rgb},${0.06*(1-d/110)})`;
+                        ctx.lineWidth=0.5;
+                        ctx.stroke();
                     }
                 }
             }
+
+            animId = requestAnimationFrame(drawParticles);
         }
 
-        let particles = [];
-        // 根据屏幕宽度调整粒子数量，避免移动端过卡
-        const particleCount = window.innerWidth < 768 ? 10 : 20;
+        createParticles();
+        drawParticles();
 
-        function initParticles() {
-            document.getElementById('emojiContainer').innerHTML = '';
-            particles = [];
-            for (let i = 0; i < particleCount; i++) {
-                particles.push(new EmojiParticle());
-            }
-        }
-
-        function animateParticles() {
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-                for (let j = i + 1; j < particles.length; j++) {
-                    particles[i].checkCollision(particles[j]);
-                }
-            }
-            requestAnimationFrame(animateParticles);
-        }
-
-        initParticles();
-        animateParticles();
-
-        window.addEventListener('resize', () => {
-            // 简单的防抖处理
-            clearTimeout(window.resizeTimer);
-            window.resizeTimer = setTimeout(initParticles, 300);
+        let resizeTimer;
+        window.addEventListener('resize',()=>{
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(()=>{
+                if(animId) cancelAnimationFrame(animId);
+                createParticles();
+                drawParticles();
+            },200);
         });
 
-        /* ==========================================
-           2. 3D 卡片悬浮视差效果
-           ========================================== */
-        const card = document.getElementById('errorCard');
-        document.addEventListener('mousemove', (e) => {
-            if(window.innerWidth < 768) return; // 移动端禁用
-            const xAxis = (window.innerWidth / 2 - e.pageX) / 40;
-            const yAxis = (window.innerHeight / 2 - e.pageY) / 40;
-            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-        });
+        /* ---- Error Log Info ---- */
+        const urlEl = document.getElementById('currentUrl');
+        if(urlEl) urlEl.textContent = window.location.pathname || '/404';
 
-        document.addEventListener('mouseleave', () => {
-            card.style.transform = `rotateY(0deg) rotateX(0deg)`;
-        });
-
-        /* ==========================================
-           3. 页脚时钟
-           ========================================== */
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('footerClock').textContent = 
-                `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
-            
-            document.getElementById('footerDate').textContent = 
-                now.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' });
+        function updateLogTime(){
+            const el = document.getElementById('logTime');
+            if(el) el.textContent = new Date().toISOString().replace('T',' ').slice(0,19)+' UTC';
         }
-        updateClock();
-        setInterval(updateClock, 1000);
+        updateLogTime();
+        setInterval(updateLogTime, 1000);
 
-        /* ==========================================
-           4. 主题与语言切换逻辑 (独立完整版)
-           ========================================== */
-        const themeToggle = document.getElementById('theme-toggle');
-        themeToggle.addEventListener('click', () => {
+        /* ---- Theme Toggle ---- */
+        const themeBtn = document.getElementById('theme-toggle');
+        const savedTheme = localStorage.getItem('404-theme');
+        if(savedTheme === 'dark') document.body.classList.add('dark-mode');
+
+        themeBtn.addEventListener('click',()=>{
             document.body.classList.toggle('dark-mode');
-            // 此处可添加 localStorage 保存逻辑
+            localStorage.setItem('404-theme',
+                document.body.classList.contains('dark-mode') ? 'dark' : 'light');
         });
 
-        const langToggle = document.getElementById('lang-toggle');
-        let currentLang = 'zh';
-        
-        langToggle.addEventListener('click', () => {
-            currentLang = currentLang === 'zh' ? 'en' : 'zh';
-            
-            // 切换按钮文字
-            const btnSpan = langToggle.querySelector('span');
-            btnSpan.textContent = btnSpan.getAttribute(`data-${currentLang}`);
+        /* ---- Language Toggle ---- */
+        const langBtn = document.getElementById('lang-toggle');
+        let lang = 'zh';
 
-            // 切换页面所有带有 lang-content 类的文本
-            document.querySelectorAll('.lang-content').forEach(el => {
-                el.textContent = el.getAttribute(`data-${currentLang}`);
+        langBtn.addEventListener('click',()=>{
+            lang = lang === 'zh' ? 'en' : 'zh';
+            langBtn.querySelector('span').textContent =
+                langBtn.querySelector('span').getAttribute('data-'+lang);
+
+            document.querySelectorAll('.lang-content').forEach(el=>{
+                const val = el.getAttribute('data-'+lang);
+                if(val) el.textContent = val;
             });
-            
-            // 切换导航栏上特定属性的文本
-            document.querySelectorAll('.menu a, .site-name').forEach(el => {
-                if(el.hasAttribute(`data-${currentLang}`)) {
-                    el.textContent = el.getAttribute(`data-${currentLang}`);
-                }
+
+            document.querySelectorAll('.menu a, .site-name').forEach(el=>{
+                const val = el.getAttribute('data-'+lang);
+                if(val) el.textContent = val;
             });
         });
+
+    })();
     </script>
 </body>
 </html>

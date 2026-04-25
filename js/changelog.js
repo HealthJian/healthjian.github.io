@@ -460,4 +460,341 @@ window.addEventListener('scroll', function() {
     // DOM已加载，立即执行
     initMilestoneTimeline();
   }
+})();
+
+// ========== 月度归档分组 ==========
+(function() {
+  function initArchiveGroups() {
+    const timeline = document.querySelector('.changelog-timeline');
+    if (!timeline) return;
+    const items = Array.from(timeline.querySelectorAll(':scope > .timeline-item'));
+    if (!items.length) return;
+
+    const MONTH_NAMES_ZH = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+    const MONTH_NAMES_EN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+    const groups = new Map();
+    items.forEach(item => {
+      const dateText = item.querySelector('.timeline-date')?.textContent.trim() || '';
+      const match = dateText.match(/^(\d{4})-(\d{2})/);
+      const key = match ? `${match[1]}-${match[2]}` : 'other';
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(item);
+    });
+
+    const now = new Date();
+    const currentYM = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+
+    groups.forEach((groupItems, key) => {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'archive-group';
+      wrapper.setAttribute('data-ym', key);
+
+      const header = document.createElement('div');
+      header.className = 'archive-group-header';
+
+      const toggle = document.createElement('span');
+      toggle.className = 'archive-group-toggle';
+      toggle.innerHTML = '<i class="fas fa-chevron-down"></i>';
+
+      const label = document.createElement('span');
+      label.className = 'archive-group-label';
+      const [y, m] = key.split('-');
+      const mi = parseInt(m, 10) - 1;
+      label.setAttribute('data-zh', `${y} 年 ${MONTH_NAMES_ZH[mi]}`);
+      label.setAttribute('data-en', `${MONTH_NAMES_EN[mi]} ${y}`);
+      const lang = getCurrentLangForTimeline();
+      label.textContent = lang === 'en' ? `${MONTH_NAMES_EN[mi]} ${y}` : `${y} 年 ${MONTH_NAMES_ZH[mi]}`;
+
+      const count = document.createElement('span');
+      count.className = 'archive-group-count';
+      const countZh = `${groupItems.length} 条`;
+      const countEn = `${groupItems.length} entries`;
+      count.setAttribute('data-zh', countZh);
+      count.setAttribute('data-en', countEn);
+      count.textContent = lang === 'en' ? countEn : countZh;
+
+      header.appendChild(toggle);
+      header.appendChild(label);
+      header.appendChild(count);
+
+      const body = document.createElement('div');
+      body.className = 'archive-group-items';
+
+      const firstItem = groupItems[0];
+      timeline.insertBefore(wrapper, firstItem);
+      wrapper.appendChild(header);
+      wrapper.appendChild(body);
+      groupItems.forEach(it => body.appendChild(it));
+
+      const shouldCollapse = key < currentYM;
+      if (shouldCollapse) {
+        header.classList.add('collapsed');
+        body.classList.add('collapsed');
+        body.style.maxHeight = '0px';
+      } else {
+        body.style.maxHeight = body.scrollHeight + 'px';
+      }
+
+      header.addEventListener('click', () => {
+        const isCollapsed = header.classList.contains('collapsed');
+        if (isCollapsed) {
+          header.classList.remove('collapsed');
+          body.classList.remove('collapsed');
+          body.style.maxHeight = body.scrollHeight + 'px';
+        } else {
+          header.classList.add('collapsed');
+          body.style.maxHeight = body.scrollHeight + 'px';
+          requestAnimationFrame(() => {
+            body.style.maxHeight = '0px';
+            body.classList.add('collapsed');
+          });
+        }
+      });
+    });
+
+    const langObs = new MutationObserver(() => {
+      const lang = getCurrentLangForTimeline();
+      timeline.querySelectorAll('.archive-group-label').forEach(el => {
+        el.textContent = el.getAttribute(`data-${lang}`) || el.getAttribute('data-zh');
+      });
+      timeline.querySelectorAll('.archive-group-count').forEach(el => {
+        el.textContent = el.getAttribute(`data-${lang}`) || el.getAttribute('data-zh');
+      });
+    });
+    langObs.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initArchiveGroups);
+  } else {
+    initArchiveGroups();
+  }
+})();
+
+// ========== 全文搜索 ==========
+(function() {
+  function initChangelogSearch() {
+    const input = document.getElementById('changelogSearch');
+    const clearBtn = document.getElementById('changelogSearchClear');
+    const statsEl = document.getElementById('changelogSearchStats');
+    const countEl = document.getElementById('changelogSearchCount');
+    if (!input) return;
+
+    let debounceTimer = null;
+
+    function getSearchableText(item) {
+      const lang = getCurrentLangForTimeline();
+      const dateText = item.querySelector('.timeline-date')?.textContent || '';
+      const h2 = item.querySelector('.timeline-content h2');
+      const title = (h2?.getAttribute(`data-${lang}`) || h2?.textContent || '').toLowerCase();
+      const lis = item.querySelectorAll('.timeline-content li');
+      let liText = '';
+      lis.forEach(li => {
+        liText += ' ' + (li.getAttribute(`data-${lang}`) || li.textContent || '').toLowerCase();
+      });
+      return (dateText + ' ' + title + liText).toLowerCase();
+    }
+
+    function escapeRegExp(str) {
+      return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    function highlightText(node, regex) {
+      if (node.nodeType === 3) {
+        const text = node.textContent;
+        if (!regex.test(text)) return;
+        const frag = document.createDocumentFragment();
+        let lastIdx = 0;
+        text.replace(regex, (match, offset) => {
+          if (offset > lastIdx) frag.appendChild(document.createTextNode(text.slice(lastIdx, offset)));
+          const mark = document.createElement('mark');
+          mark.className = 'changelog-highlight';
+          mark.textContent = match;
+          frag.appendChild(mark);
+          lastIdx = offset + match.length;
+        });
+        if (lastIdx < text.length) frag.appendChild(document.createTextNode(text.slice(lastIdx)));
+        node.parentNode.replaceChild(frag, node);
+      } else if (node.nodeType === 1 && node.tagName !== 'MARK') {
+        Array.from(node.childNodes).forEach(child => highlightText(child, regex));
+      }
+    }
+
+    function clearHighlights() {
+      document.querySelectorAll('.changelog-highlight').forEach(mark => {
+        const parent = mark.parentNode;
+        parent.replaceChild(document.createTextNode(mark.textContent), mark);
+        parent.normalize();
+      });
+    }
+
+    function doSearch() {
+      const keyword = input.value.trim();
+      clearHighlights();
+      const allItems = document.querySelectorAll('.changelog-timeline .timeline-item');
+      const allGroups = document.querySelectorAll('.changelog-timeline .archive-group');
+
+      if (!keyword) {
+        clearBtn.style.display = 'none';
+        statsEl.style.display = 'none';
+        allItems.forEach(it => it.classList.remove('search-hidden'));
+        allGroups.forEach(g => g.classList.remove('search-hidden'));
+        return;
+      }
+
+      clearBtn.style.display = '';
+      const lowerKw = keyword.toLowerCase();
+      const regex = new RegExp(escapeRegExp(keyword), 'gi');
+      let matchCount = 0;
+
+      allItems.forEach(item => {
+        const text = getSearchableText(item);
+        if (text.includes(lowerKw)) {
+          item.classList.remove('search-hidden');
+          matchCount++;
+          const content = item.querySelector('.timeline-content');
+          if (content) highlightText(content, regex);
+          const dateEl = item.querySelector('.timeline-date');
+          if (dateEl) highlightText(dateEl, regex);
+          const details = item.querySelector('.timeline-details');
+          if (details && details.classList.contains('is-collapsed')) {
+            details.classList.remove('is-collapsed');
+            details.classList.add('is-expanded');
+            if (typeof item._syncTimelineToggleLabel === 'function') item._syncTimelineToggleLabel();
+          }
+        } else {
+          item.classList.add('search-hidden');
+        }
+      });
+
+      allGroups.forEach(group => {
+        const visibleItems = group.querySelectorAll('.timeline-item:not(.search-hidden)');
+        if (visibleItems.length === 0) {
+          group.classList.add('search-hidden');
+        } else {
+          group.classList.remove('search-hidden');
+          const header = group.querySelector('.archive-group-header');
+          const body = group.querySelector('.archive-group-items');
+          if (header && header.classList.contains('collapsed')) {
+            header.classList.remove('collapsed');
+            body.classList.remove('collapsed');
+            body.style.maxHeight = body.scrollHeight + 'px';
+          }
+        }
+      });
+
+      const lang = getCurrentLangForTimeline();
+      if (lang === 'en') {
+        countEl.textContent = `Found ${matchCount} result${matchCount !== 1 ? 's' : ''}`;
+      } else {
+        countEl.textContent = `找到 ${matchCount} 条匹配结果`;
+      }
+      statsEl.style.display = matchCount >= 0 ? '' : 'none';
+    }
+
+    input.addEventListener('input', () => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(doSearch, 250);
+    });
+
+    clearBtn.addEventListener('click', () => {
+      input.value = '';
+      doSearch();
+      input.focus();
+    });
+
+    const langObs = new MutationObserver(() => {
+      const lang = getCurrentLangForTimeline();
+      input.placeholder = lang === 'en'
+        ? input.getAttribute('data-placeholder-en')
+        : input.getAttribute('data-placeholder-zh');
+      if (input.value.trim()) doSearch();
+    });
+    langObs.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initChangelogSearch);
+  } else {
+    initChangelogSearch();
+  }
+})();
+
+// ========== 评论/问答区（静态） ==========
+(function() {
+  function initCommentSection() {
+    const form = document.getElementById('commentForm');
+    const bodyInput = document.getElementById('commentBody');
+    const charCurrent = document.getElementById('commentCharCurrent');
+    const submitBtn = document.getElementById('commentSubmitBtn');
+    if (!form) return;
+
+    if (bodyInput && charCurrent) {
+      bodyInput.addEventListener('input', () => {
+        charCurrent.textContent = bodyInput.value.length;
+      });
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('commentName')?.value.trim();
+      const body = bodyInput?.value.trim();
+      if (!name || !body) return;
+
+      const list = document.getElementById('commentList');
+      const badge = document.getElementById('commentCountBadge');
+
+      const item = document.createElement('div');
+      item.className = 'comment-item';
+      const initial = name.charAt(0).toUpperCase();
+      const now = new Date();
+      const pad = n => String(n).padStart(2, '0');
+      const timeStr = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+
+      item.innerHTML =
+        `<div class="comment-avatar">${initial}</div>` +
+        `<div class="comment-content">` +
+          `<div class="comment-meta">` +
+            `<span class="comment-author">${name}</span>` +
+            `<span class="comment-time">${timeStr}</span>` +
+          `</div>` +
+          `<p class="comment-text">${body.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</p>` +
+        `</div>`;
+
+      list.insertBefore(item, list.firstChild);
+      if (badge) badge.textContent = list.querySelectorAll('.comment-item').length;
+
+      form.reset();
+      if (charCurrent) charCurrent.textContent = '0';
+
+      const toast = document.createElement('div');
+      toast.className = 'comment-submit-toast';
+      const lang = getCurrentLangForTimeline();
+      toast.textContent = lang === 'en' ? 'Message submitted (demo only)' : '留言已提交（仅供演示）';
+      document.body.appendChild(toast);
+      requestAnimationFrame(() => toast.classList.add('show'));
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 400);
+      }, 2500);
+    });
+
+    const langObs = new MutationObserver(() => {
+      const lang = getCurrentLangForTimeline();
+      const els = document.querySelectorAll('.changelog-comments-section [data-placeholder-zh]');
+      els.forEach(el => {
+        el.placeholder = lang === 'en'
+          ? el.getAttribute('data-placeholder-en')
+          : el.getAttribute('data-placeholder-zh');
+      });
+    });
+    langObs.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCommentSection);
+  } else {
+    initCommentSection();
+  }
 })(); 

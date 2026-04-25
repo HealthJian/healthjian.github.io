@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n="title">数据中心 - Data Center</title>
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;700&family=Source+Code+Pro:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+
     <!-- CSS -->
     <link rel="stylesheet" href="../../css/datacenter.css">
 </head>
@@ -30,6 +30,7 @@
                     </p>
                 </div>
                 <div class="header-controls">
+                    <div class="live-clock" id="liveClock">--:--:--</div>
                     <button class="lang-toggle" id="langToggle">
                         <span data-i18n="lang-toggle">中 / EN</span>
                     </button>
@@ -47,44 +48,96 @@
     <!-- Main Content -->
     <main class="main">
         <div class="container">
+
+            <!-- Row 1: Quick Stats -->
+            <div class="stats-row">
+                <div class="stat-mini" data-stat="pages">
+                    <div class="stat-mini-icon">📄</div>
+                    <div class="stat-mini-body">
+                        <div class="stat-mini-value" id="statPages">0</div>
+                        <div class="stat-mini-label" data-i18n="stat-pages">总页面数</div>
+                    </div>
+                    <div class="stat-mini-spark" id="sparkPages"></div>
+                </div>
+                <div class="stat-mini" data-stat="posts">
+                    <div class="stat-mini-icon">✍️</div>
+                    <div class="stat-mini-body">
+                        <div class="stat-mini-value" id="statPosts">0</div>
+                        <div class="stat-mini-label" data-i18n="stat-posts">博客文章</div>
+                    </div>
+                    <div class="stat-mini-spark" id="sparkPosts"></div>
+                </div>
+                <div class="stat-mini" data-stat="visitors">
+                    <div class="stat-mini-icon">👥</div>
+                    <div class="stat-mini-body">
+                        <div class="stat-mini-value" id="statVisitors">0</div>
+                        <div class="stat-mini-label" data-i18n="stat-visitors">累计访客</div>
+                    </div>
+                    <div class="stat-mini-spark" id="sparkVisitors"></div>
+                </div>
+                <div class="stat-mini" data-stat="speed">
+                    <div class="stat-mini-icon">⚡</div>
+                    <div class="stat-mini-body">
+                        <div class="stat-mini-value" id="statSpeed">0<small>ms</small></div>
+                        <div class="stat-mini-label" data-i18n="stat-speed">平均加载</div>
+                    </div>
+                    <div class="stat-mini-spark" id="sparkSpeed"></div>
+                </div>
+            </div>
+
+            <!-- Row 2: Main Dashboard Grid -->
             <div class="dashboard-grid">
+
                 <!-- 1. Global Status & World Map -->
                 <div class="card global-status">
-                    <h2 data-i18n="global-status">全局状态</h2>
-                    <div class="status-indicator">
-                        <span class="status-light online"></span>
-                        <span class="status-text" data-i18n="system-online">系统在线</span>
+                    <div class="card-header">
+                        <h2 data-i18n="global-status">全局状态</h2>
+                        <div class="status-indicator">
+                            <span class="status-light online"></span>
+                            <span class="status-text" data-i18n="system-online">系统在线</span>
+                        </div>
                     </div>
-                    <div class="uptime" data-i18n="uptime">100% 运行时间 (近24小时)</div>
-                    <div class="world-map">
+                    <div class="uptime-line">
+                        <span data-i18n="uptime">运行时间 99.97%</span>
+                        <span class="uptime-badge" data-i18n="uptime-24h">近 30 天</span>
+                    </div>
+                    <div class="world-map" id="worldMap">
                         <svg viewBox="0 0 1000 500" class="world-svg">
-                            <!-- Simplified world map -->
                             <g class="continents">
-                                <!-- North America -->
-                                <path d="M150,120 L250,100 L280,150 L250,200 L150,180 Z" class="continent"/>
-                                <!-- Europe -->
-                                <path d="M450,100 L520,90 L540,130 L500,150 L450,140 Z" class="continent"/>
-                                <!-- Asia -->
-                                <path d="M600,80 L750,70 L800,120 L750,160 L600,140 Z" class="continent"/>
-                                <!-- Australia -->
-                                <path d="M700,300 L780,290 L790,320 L720,330 Z" class="continent"/>
-                                <!-- Africa -->
-                                <path d="M480,200 L540,190 L560,280 L500,290 Z" class="continent"/>
+                                <path d="M120,80 Q160,60 220,70 Q260,75 280,100 Q300,130 280,160 Q260,190 220,200 Q190,210 160,200 Q130,180 110,150 Q100,120 120,80 Z" class="continent" data-name="North America"/>
+                                <path d="M220,240 Q240,220 260,230 Q280,250 285,280 Q280,330 260,370 Q240,390 225,380 Q210,360 205,320 Q200,280 220,240 Z" class="continent" data-name="South America"/>
+                                <path d="M430,80 Q460,70 490,80 Q520,90 530,120 Q520,145 490,150 Q460,145 440,130 Q425,110 430,80 Z" class="continent" data-name="Europe"/>
+                                <path d="M460,170 Q490,160 520,175 Q540,200 530,250 Q510,300 480,310 Q460,305 445,270 Q440,230 460,170 Z" class="continent" data-name="Africa"/>
+                                <path d="M560,60 Q620,40 700,50 Q770,65 810,100 Q830,130 800,165 Q760,190 700,180 Q640,170 600,140 Q560,110 560,60 Z" class="continent" data-name="Asia"/>
+                                <path d="M740,280 Q770,270 800,280 Q820,300 810,325 Q790,340 760,335 Q740,320 740,280 Z" class="continent" data-name="Oceania"/>
                             </g>
-                            <!-- Visitor dots -->
-                            <circle cx="200" cy="150" r="4" class="visitor-dot" data-region="North America"/>
-                            <circle cx="485" cy="115" r="4" class="visitor-dot" data-region="Europe"/>
-                            <circle cx="675" cy="110" r="4" class="visitor-dot" data-region="Asia"/>
-                            <circle cx="740" cy="310" r="4" class="visitor-dot" data-region="Australia"/>
-                            <circle cx="520" cy="245" r="4" class="visitor-dot" data-region="Africa"/>
+                            <!-- Animated connection lines -->
+                            <g class="connection-lines">
+                                <line x1="200" y1="130" x2="480" y2="110" class="conn-line"/>
+                                <line x1="480" y1="110" x2="680" y2="100" class="conn-line"/>
+                                <line x1="680" y1="100" x2="770" y2="300" class="conn-line"/>
+                                <line x1="200" y1="130" x2="240" y2="300" class="conn-line"/>
+                            </g>
+                            <!-- Visitor pulses -->
+                            <g class="visitor-pulses">
+                                <circle cx="200" cy="130" r="5" class="visitor-dot pulse-dot" data-region="North America"/>
+                                <circle cx="240" cy="300" r="4" class="visitor-dot pulse-dot" data-region="South America"/>
+                                <circle cx="480" cy="110" r="6" class="visitor-dot pulse-dot" data-region="Europe"/>
+                                <circle cx="490" cy="240" r="4" class="visitor-dot pulse-dot" data-region="Africa"/>
+                                <circle cx="680" cy="100" r="7" class="visitor-dot pulse-dot" data-region="Asia"/>
+                                <circle cx="770" cy="300" r="4" class="visitor-dot pulse-dot" data-region="Oceania"/>
+                            </g>
                         </svg>
                     </div>
                 </div>
 
                 <!-- 2. Real-time Visitor Trend -->
                 <div class="card visitor-trend">
-                    <h2 data-i18n="live-visitors">实时访客 (近60分钟)</h2>
-                    <canvas id="visitorChart" width="400" height="200"></canvas>
+                    <div class="card-header">
+                        <h2 data-i18n="live-visitors">实时访客趋势</h2>
+                        <span class="card-badge live-badge">LIVE</span>
+                    </div>
+                    <canvas id="visitorChart"></canvas>
                 </div>
 
                 <!-- 3. Today's Visitors -->
@@ -99,150 +152,234 @@
 
                 <!-- 4. Visitor Sources -->
                 <div class="card visitor-sources">
-                    <h2 data-i18n="visitor-sources">访客来源</h2>
+                    <div class="card-header">
+                        <h2 data-i18n="visitor-sources">访客来源</h2>
+                    </div>
                     <div class="sources-list">
                         <div class="source-item">
+                            <span class="source-icon">🔗</span>
                             <span class="source-name">Direct</span>
                             <span class="source-percent">35%</span>
-                            <div class="source-bar">
-                                <div class="bar-fill" style="width: 35%"></div>
-                            </div>
+                            <div class="source-bar"><div class="bar-fill" style="width:35%" data-color="blue"></div></div>
                         </div>
                         <div class="source-item">
+                            <span class="source-icon">🔍</span>
                             <span class="source-name">Google</span>
                             <span class="source-percent">25%</span>
-                            <div class="source-bar">
-                                <div class="bar-fill" style="width: 25%"></div>
-                            </div>
+                            <div class="source-bar"><div class="bar-fill" style="width:25%" data-color="green"></div></div>
                         </div>
                         <div class="source-item">
+                            <span class="source-icon">🔍</span>
                             <span class="source-name">Bing</span>
                             <span class="source-percent">15%</span>
-                            <div class="source-bar">
-                                <div class="bar-fill" style="width: 15%"></div>
-                            </div>
+                            <div class="source-bar"><div class="bar-fill" style="width:15%" data-color="blue"></div></div>
                         </div>
                         <div class="source-item">
+                            <span class="source-icon">🧭</span>
                             <span class="source-name">Safari</span>
                             <span class="source-percent">12%</span>
-                            <div class="source-bar">
-                                <div class="bar-fill" style="width: 12%"></div>
-                            </div>
+                            <div class="source-bar"><div class="bar-fill" style="width:12%" data-color="green"></div></div>
                         </div>
                         <div class="source-item">
-                            <span class="source-name">MI浏览器</span>
+                            <span class="source-icon">📱</span>
+                            <span class="source-name" data-i18n="mi-browser">MI浏览器</span>
                             <span class="source-percent">8%</span>
-                            <div class="source-bar">
-                                <div class="bar-fill" style="width: 8%"></div>
-                            </div>
+                            <div class="source-bar"><div class="bar-fill" style="width:8%" data-color="blue"></div></div>
                         </div>
                         <div class="source-item">
-                            <span class="source-name">Via</span>
+                            <span class="source-icon">🌐</span>
+                            <span class="source-name">GitHub</span>
                             <span class="source-percent">5%</span>
-                            <div class="source-bar">
-                                <div class="bar-fill" style="width: 5%"></div>
-                            </div>
+                            <div class="source-bar"><div class="bar-fill" style="width:5%" data-color="green"></div></div>
                         </div>
                     </div>
                 </div>
 
                 <!-- 5. Top Regions -->
                 <div class="card top-regions">
-                    <h2 data-i18n="top-regions">主要访问地区</h2>
+                    <div class="card-header">
+                        <h2 data-i18n="top-regions">主要访问地区</h2>
+                    </div>
                     <div class="regions-list">
                         <div class="region-item">
+                            <span class="region-rank">#1</span>
                             <span class="region-flag">🇨🇳</span>
                             <span class="region-name" data-i18n="jiangsu">中国江苏</span>
+                            <div class="region-bar-wrap"><div class="region-bar" style="width:59%"></div></div>
                             <span class="region-percent">59%</span>
                         </div>
                         <div class="region-item">
+                            <span class="region-rank">#2</span>
                             <span class="region-flag">🇸🇬</span>
                             <span class="region-name" data-i18n="singapore">新加坡</span>
+                            <div class="region-bar-wrap"><div class="region-bar" style="width:15%"></div></div>
                             <span class="region-percent">15%</span>
                         </div>
                         <div class="region-item">
+                            <span class="region-rank">#3</span>
                             <span class="region-flag">🇨🇳</span>
                             <span class="region-name" data-i18n="shandong">中国山东</span>
+                            <div class="region-bar-wrap"><div class="region-bar" style="width:10%"></div></div>
                             <span class="region-percent">10%</span>
                         </div>
                         <div class="region-item">
+                            <span class="region-rank">#4</span>
                             <span class="region-flag">🇺🇸</span>
                             <span class="region-name" data-i18n="united-states">美国</span>
+                            <div class="region-bar-wrap"><div class="region-bar" style="width:5%"></div></div>
                             <span class="region-percent">5%</span>
                         </div>
                         <div class="region-item">
+                            <span class="region-rank">#5</span>
                             <span class="region-flag">🇨🇳</span>
                             <span class="region-name" data-i18n="shanxi">中国山西</span>
-                            <span class="region-percent">1%</span>
+                            <div class="region-bar-wrap"><div class="region-bar" style="width:3%"></div></div>
+                            <span class="region-percent">3%</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- 6. Server Status -->
+                <!-- 6. Browser & Device Analytics (NEW) -->
+                <div class="card browser-analytics">
+                    <div class="card-header">
+                        <h2 data-i18n="browser-analytics">浏览器 & 设备</h2>
+                    </div>
+                    <div class="analytics-split">
+                        <div class="chart-half">
+                            <canvas id="browserChart"></canvas>
+                        </div>
+                        <div class="analytics-legend" id="browserLegend"></div>
+                    </div>
+                </div>
+
+                <!-- 7. Server Status -->
                 <div class="card server-status">
-                    <h2 data-i18n="server-status">核心服务状态</h2>
+                    <div class="card-header">
+                        <h2 data-i18n="server-status">核心服务状态</h2>
+                        <span class="card-badge ok-badge" data-i18n="all-operational">全部正常</span>
+                    </div>
                     <div class="services-list">
                         <div class="service-item">
+                            <span class="service-icon">🖥️</span>
                             <span class="service-name" data-i18n="api-service">API 服务</span>
-                            <span class="service-blocks">
-                                <span class="block"></span>
-                                <span class="block"></span>
-                                <span class="block"></span>
-                                <span class="block"></span>
-                                <span class="block"></span>
-                                <span class="block"></span>
-                            </span>
+                            <span class="service-uptime-bar" id="uptimeApi"></span>
                             <span class="service-status operational">
                                 <span class="status-dot"></span>
-                                <span data-i18n="operational">运行正常</span>
+                                <span data-i18n="operational">正常</span>
                             </span>
                         </div>
                         <div class="service-item">
+                            <span class="service-icon">🗄️</span>
                             <span class="service-name" data-i18n="database">数据库</span>
-                            <span class="service-blocks">
-                                <span class="block"></span>
-                                <span class="block"></span>
-                                <span class="block"></span>
-                                <span class="block"></span>
-                                <span class="block"></span>
-                                <span class="block"></span>
-                            </span>
+                            <span class="service-uptime-bar" id="uptimeDb"></span>
                             <span class="service-status operational">
                                 <span class="status-dot"></span>
-                                <span data-i18n="operational">运行正常</span>
+                                <span data-i18n="operational">正常</span>
                             </span>
                         </div>
                         <div class="service-item">
+                            <span class="service-icon">🌍</span>
                             <span class="service-name" data-i18n="cdn-network">CDN 网络</span>
-                            <span class="service-blocks">
-                                <span class="block"></span>
-                                <span class="block"></span>
-                                <span class="block"></span>
-                                <span class="block"></span>
-                                <span class="block"></span>
-                                <span class="block"></span>
-                            </span>
+                            <span class="service-uptime-bar" id="uptimeCdn"></span>
                             <span class="service-status operational">
                                 <span class="status-dot"></span>
-                                <span data-i18n="operational">运行正常</span>
+                                <span data-i18n="operational">正常</span>
+                            </span>
+                        </div>
+                        <div class="service-item">
+                            <span class="service-icon">📧</span>
+                            <span class="service-name" data-i18n="email-service">邮件服务</span>
+                            <span class="service-uptime-bar" id="uptimeEmail"></span>
+                            <span class="service-status operational">
+                                <span class="status-dot"></span>
+                                <span data-i18n="operational">正常</span>
                             </span>
                         </div>
                     </div>
                 </div>
 
-                <!-- 7. Page Load Performance -->
+                <!-- 8. Page Load Performance -->
                 <div class="card load-performance">
-                    <h2 data-i18n="page-load">页面加载性能</h2>
-                    <canvas id="performanceChart" width="400" height="200"></canvas>
+                    <div class="card-header">
+                        <h2 data-i18n="page-load">页面加载性能</h2>
+                        <span class="perf-avg" id="perfAvg">-- ms</span>
+                    </div>
+                    <canvas id="performanceChart"></canvas>
                 </div>
-            </div>
+
+                <!-- 9. GitHub-style Contribution Heatmap (NEW) -->
+                <div class="card contribution-heatmap">
+                    <div class="card-header">
+                        <h2 data-i18n="contribution-map">内容贡献热力图</h2>
+                        <span class="heatmap-total" id="heatmapTotal">-- <span data-i18n="contributions">次贡献</span></span>
+                    </div>
+                    <div class="heatmap-wrap" id="heatmapWrap"></div>
+                    <div class="heatmap-footer">
+                        <span data-i18n="heatmap-less">少</span>
+                        <div class="heatmap-scale">
+                            <span class="hm-cell" data-level="0"></span>
+                            <span class="hm-cell" data-level="1"></span>
+                            <span class="hm-cell" data-level="2"></span>
+                            <span class="hm-cell" data-level="3"></span>
+                            <span class="hm-cell" data-level="4"></span>
+                        </div>
+                        <span data-i18n="heatmap-more">多</span>
+                    </div>
+                </div>
+
+                <!-- 10. Live Activity Feed (NEW) -->
+                <div class="card activity-feed">
+                    <div class="card-header">
+                        <h2 data-i18n="activity-feed">实时活动流</h2>
+                        <span class="card-badge live-badge">LIVE</span>
+                    </div>
+                    <div class="feed-list" id="feedList">
+                        <!-- JS populates -->
+                    </div>
+                </div>
+
+                <!-- 11. Tech Stack (NEW) -->
+                <div class="card tech-stack">
+                    <div class="card-header">
+                        <h2 data-i18n="tech-stack">技术栈</h2>
+                    </div>
+                    <div class="stack-grid">
+                        <div class="stack-item" data-tip="HTML5">
+                            <div class="stack-icon" style="--stack-hue:14">H5</div>
+                        </div>
+                        <div class="stack-item" data-tip="CSS3">
+                            <div class="stack-icon" style="--stack-hue:210">CSS</div>
+                        </div>
+                        <div class="stack-item" data-tip="JavaScript">
+                            <div class="stack-icon" style="--stack-hue:50">JS</div>
+                        </div>
+                        <div class="stack-item" data-tip="Chart.js">
+                            <div class="stack-icon" style="--stack-hue:340">CJS</div>
+                        </div>
+                        <div class="stack-item" data-tip="Python">
+                            <div class="stack-icon" style="--stack-hue:200">PY</div>
+                        </div>
+                        <div class="stack-item" data-tip="GitHub Pages">
+                            <div class="stack-icon" style="--stack-hue:270">GH</div>
+                        </div>
+                        <div class="stack-item" data-tip="Markdown">
+                            <div class="stack-icon" style="--stack-hue:0">MD</div>
+                        </div>
+                        <div class="stack-item" data-tip="Font Awesome">
+                            <div class="stack-icon" style="--stack-hue:220">FA</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /dashboard-grid -->
+
         </div>
     </main>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 <span data-i18n="your-name">健❤</span>. <span data-i18n="powered-by">Powered by Passion</span>.</p>
+            <p>&copy; 2025-2026 <span data-i18n="your-name">**</span>. <span data-i18n="powered-by">Powered by Passion & Data</span>.</p>
         </div>
     </footer>
 

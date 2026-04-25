@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Resume Hub - 高健</title>
+  <meta name="description" content="高健的简历中心 - 选择职业方向查看定制简历" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="../images/favicon.ico" />
+
+  <!-- Styles (independent from main site) -->
+  <link rel="stylesheet" href="css/resume_css.css" />
+</head>
+<body>
+
+  <!-- Particle Background -->
+  <canvas id="r-particle-canvas"></canvas>
+
+  <!-- Header -->
+  <header class="r-header">
+    <a class="r-logo" href="resume.html">
+      <div class="r-logo-icon" id="r-logo-letter">G</div>
+      <span>Resume Hub</span>
+    </a>
+    <nav class="r-nav-actions">
+      <button class="r-btn" id="r-lang-toggle">EN</button>
+      <button class="r-btn" id="r-theme-toggle"><i class="fas fa-moon"></i></button>
+      <a class="r-btn r-btn-home" id="r-home-btn" href="../index.html"><i class="fas fa-home"></i> 主站</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="r-hero">
+    <div class="r-hero-terminal" id="r-hero-terminal">$ cd ~/career && ls directions/</div>
+    <h1 id="r-hero-title">选择你感兴趣的<span class="r-highlight">职业方向</span></h1>
+    <p class="r-hero-desc" id="r-hero-desc">不同岗位需要不同的简历侧重点。请选择下方的方向入口，查看针对该 JD 定制的个人简历。</p>
+  </section>
+
+  <!-- Direction Cards -->
+  <section class="r-cards-section">
+    <div class="r-cards-grid">
+
+      <!-- Card 1: 良率大数据工程师 -->
+      <a class="r-card" href="src/common.html">
+        <div class="r-card-icon"><i class="fas fa-database"></i></div>
+        <div class="r-card-title">良率大数据工程师</div>
+        <div class="r-card-desc">聚焦半导体/制造业良率分析，利用大数据平台与机器学习驱动产线优化。</div>
+        <div class="r-card-tags">
+          <span class="r-card-tag">Spark</span>
+          <span class="r-card-tag">Hive</span>
+          <span class="r-card-tag">Python</span>
+          <span class="r-card-tag">ML</span>
+        </div>
+        <div class="r-card-arrow">
+          <span class="r-card-arrow-text">查看简历</span>
+          <i class="fas fa-arrow-right"></i>
+        </div>
+      </a>
+
+      <!-- Card 2: AI Agent 应用开发工程师 -->
+      <a class="r-card" href="src/common.html">
+        <div class="r-card-icon"><i class="fas fa-robot"></i></div>
+        <div class="r-card-title">AI Agent 应用开发工程师</div>
+        <div class="r-card-desc">基于大模型构建智能体应用，涵盖 RAG、Prompt Engineering 与多智能体协作。</div>
+        <div class="r-card-tags">
+          <span class="r-card-tag">LLM</span>
+          <span class="r-card-tag">RAG</span>
+          <span class="r-card-tag">Agent</span>
+          <span class="r-card-tag">LangChain</span>
+        </div>
+        <div class="r-card-arrow">
+          <span class="r-card-arrow-text">查看简历</span>
+          <i class="fas fa-arrow-right"></i>
+        </div>
+      </a>
+
+      <!-- Card 3: 前端开发工程师 -->
+      <a class="r-card" href="src/common.html">
+        <div class="r-card-icon"><i class="fas fa-code"></i></div>
+        <div class="r-card-title">前端开发工程师</div>
+        <div class="r-card-desc">擅长响应式 Web 开发与交互设计，注重用户体验与性能优化。</div>
+        <div class="r-card-tags">
+          <span class="r-card-tag">HTML/CSS</span>
+          <span class="r-card-tag">JavaScript</span>
+          <span class="r-card-tag">Vue</span>
+          <span class="r-card-tag">React</span>
+        </div>
+        <div class="r-card-arrow">
+          <span class="r-card-arrow-text">查看简历</span>
+          <i class="fas fa-arrow-right"></i>
+        </div>
+      </a>
+
+      <!-- Card 4: 数据分析工程师 -->
+      <a class="r-card" href="src/common.html">
+        <div class="r-card-icon"><i class="fas fa-chart-line"></i></div>
+        <div class="r-card-title">数据分析工程师</div>
+        <div class="r-card-desc">通过数据挖掘与可视化洞察业务趋势，赋能产品决策与增长策略。</div>
+        <div class="r-card-tags">
+          <span class="r-card-tag">SQL</span>
+          <span class="r-card-tag">Python</span>
+          <span class="r-card-tag">EDA</span>
+          <span class="r-card-tag">Tableau</span>
+        </div>
+        <div class="r-card-arrow">
+          <span class="r-card-arrow-text">查看简历</span>
+          <i class="fas fa-arrow-right"></i>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="r-footer">
+    <div id="r-footer-copy">&copy; 2026 高健 &middot; <a href="../index.html">返回主站</a></div>
+    <div class="r-footer-motto" id="r-footer-motto">"我本将心向明月，奈何明月照沟渠"</div>
+  </footer>
+
+  <!-- Script (independent) -->
+  <script src="../js/resume.js"></script>
+</body>
+</html>
