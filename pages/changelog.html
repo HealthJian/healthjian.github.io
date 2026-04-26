@@ -102,6 +102,21 @@
 
         <section class="changelog-timeline">
             <div class="timeline-item">
+                <div class="timeline-date">2026-04-26</div>
+                <div class="timeline-content">
+                    <h2 data-en="Comment System — Migrate to Giscus" data-zh="评论系统 — 迁移至 Giscus">评论系统 — 迁移至 Giscus</h2>
+                    <ul>
+                        <li data-en="Replaced the original static comment form and message list with Giscus, a comment system powered by GitHub Discussions." data-zh="将原有的静态留言表单与留言列表替换为基于 GitHub Discussions 的 Giscus 评论系统。"><strong>评论升级</strong>：将原有的静态留言表单与留言列表替换为基于 GitHub Discussions 的 Giscus 评论系统。</li>
+                        <li data-en="Supports GitHub account login for commenting, reactions, and threaded replies." data-zh="支持 GitHub 账号登录评论、表情回应与嵌套回复。"><strong>功能增强</strong>：支持 GitHub 账号登录评论、表情回应与嵌套回复。</li>
+                        <li data-en="Auto-syncs with site dark/light theme — Giscus iframe updates to matching color scheme when toggling themes." data-zh="自动同步网站深色/浅色主题 — 切换主题时 Giscus iframe 同步更新配色。"><strong>主题同步</strong>：自动同步网站深色/浅色主题 — 切换主题时 Giscus iframe 同步更新配色。</li>
+                        <li data-en="Auto-syncs with site language — switches between zh-CN and en when toggling Chinese/English." data-zh="自动同步网站语言 — 切换中英文时 Giscus 界面语言联动切换。"><strong>语言同步</strong>：自动同步网站语言 — 切换中英文时 Giscus 界面语言联动切换。</li>
+                        <li data-en="Removed ~260 lines of legacy comment CSS (form, list, avatar, toast) and replaced with a minimal Giscus wrapper style." data-zh="移除约 260 行旧评论 CSS（表单、列表、头像、提示条），替换为简洁的 Giscus 容器样式。"><strong>样式精简</strong>：移除约 260 行旧评论 CSS（表单、列表、头像、提示条），替换为简洁的 Giscus 容器样式。</li>
+                        <li data-en="Changed Files: pages/changelog.html (comment section HTML), css/changelog.css (comment styles), js/changelog.js (comment logic → Giscus sync)." data-zh="改动文件：pages/changelog.html（评论区 HTML）、css/changelog.css（评论样式）、js/changelog.js（评论逻辑 → Giscus 同步）。"><strong>改动文件</strong>：pages/changelog.html（评论区 HTML）、css/changelog.css（评论样式）、js/changelog.js（评论逻辑 → Giscus 同步）。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
                 <div class="timeline-date">2026-04-23</div>
                 <div class="timeline-content">
                     <h2 data-en="Data Center Dashboard v3.0 — Full Overhaul" data-zh="数据中心仪表板 v3.0 — 全面重构">数据中心仪表板 v3.0 — 全面重构</h2>
@@ -543,63 +558,29 @@
                 </div>
             </div>
         </section>
-        <!-- 评论 / 问答区 -->
+        <!-- 评论 / 问答区 (Giscus) -->
         <section class="changelog-comments-section">
             <div class="comments-header">
                 <h2 data-en="Questions & Feedback" data-zh="提问与反馈">提问与反馈</h2>
-                <p data-en="Leave your questions or suggestions, we will respond as soon as possible" data-zh="留下你的疑问或建议，我们会尽快回复">留下你的疑问或建议，我们会尽快回复</p>
+                <p data-en="Leave your questions or suggestions via GitHub Discussions" data-zh="通过 GitHub Discussions 留下你的疑问或建议">通过 GitHub Discussions 留下你的疑问或建议</p>
             </div>
 
-            <div class="comments-body">
-                <!-- 留言表单 -->
-                <div class="comment-form-card">
-                    <h3 data-en="Post a Message" data-zh="发表留言">发表留言</h3>
-                    <form id="commentForm" class="comment-form" onsubmit="return false;">
-                        <div class="comment-form-row">
-                            <div class="comment-form-group">
-                                <label for="commentName" data-en="Name" data-zh="昵称">昵称</label>
-                                <input type="text" id="commentName" maxlength="30"
-                                       placeholder="你的昵称"
-                                       data-placeholder-zh="你的昵称"
-                                       data-placeholder-en="Your name" required>
-                            </div>
-                            <div class="comment-form-group">
-                                <label for="commentEmail" data-en="Email (optional)" data-zh="邮箱（选填）">邮箱（选填）</label>
-                                <input type="email" id="commentEmail" maxlength="60"
-                                       placeholder="your@email.com"
-                                       data-placeholder-zh="your@email.com"
-                                       data-placeholder-en="your@email.com">
-                            </div>
-                        </div>
-                        <div class="comment-form-group">
-                            <label for="commentBody" data-en="Message" data-zh="留言内容">留言内容</label>
-                            <textarea id="commentBody" rows="4" maxlength="500"
-                                      placeholder="写下你的问题或建议..."
-                                      data-placeholder-zh="写下你的问题或建议..."
-                                      data-placeholder-en="Write your question or suggestion..." required></textarea>
-                            <span class="comment-char-count"><span id="commentCharCurrent">0</span>/500</span>
-                        </div>
-                        <button type="submit" class="comment-submit-btn" id="commentSubmitBtn">
-                            <i class="fas fa-paper-plane"></i>
-                            <span data-en="Submit" data-zh="提交留言">提交留言</span>
-                        </button>
-                    </form>
-                </div>
-
-                <!-- 留言列表 -->
-                <div class="comment-list-card">
-                    <div class="comment-list-header">
-                        <h3 data-en="Recent Messages" data-zh="最近留言">最近留言</h3>
-                        <span class="comment-count-badge" id="commentCountBadge">0</span>
-                    </div>
-                    <div class="comment-list" id="commentList">
-                        <!-- 留言将通过 API 动态加载 -->
-                    </div>
-                    <div class="comment-api-notice">
-                        <i class="fas fa-info-circle"></i>
-                        <span data-en="Comment API is under development, current messages are for display only" data-zh="评论 API 正在开发中，当前留言仅供展示">评论 API 正在开发中，当前留言仅供展示</span>
-                    </div>
-                </div>
+            <div class="giscus-wrapper">
+                <script src="https://giscus.app/client.js"
+                        data-repo="HealthJian/healthjian.github.io"
+                        data-repo-id="R_kgDOOKZrqA"
+                        data-category="Announcements"
+                        data-category-id="DIC_kwDOOKZrqM4C7uA-"
+                        data-mapping="pathname"
+                        data-strict="0"
+                        data-reactions-enabled="1"
+                        data-emit-metadata="0"
+                        data-input-position="bottom"
+                        data-theme="preferred_color_scheme"
+                        data-lang="zh-CN"
+                        crossorigin="anonymous"
+                        async>
+                </script>
             </div>
         </section>
     </main>

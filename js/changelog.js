@@ -721,80 +721,62 @@ window.addEventListener('scroll', function() {
   }
 })();
 
-// ========== 评论/问答区（静态） ==========
+// ========== Giscus 主题 & 语言同步 ==========
 (function() {
-  function initCommentSection() {
-    const form = document.getElementById('commentForm');
-    const bodyInput = document.getElementById('commentBody');
-    const charCurrent = document.getElementById('commentCharCurrent');
-    const submitBtn = document.getElementById('commentSubmitBtn');
-    if (!form) return;
+  function getGiscusTheme() {
+    return document.body.classList.contains('dark-mode') ? 'dark_dimmed' : 'light';
+  }
 
-    if (bodyInput && charCurrent) {
-      bodyInput.addEventListener('input', () => {
-        charCurrent.textContent = bodyInput.value.length;
+  function getGiscusLang() {
+    return getCurrentLangForTimeline() === 'en' ? 'en' : 'zh-CN';
+  }
+
+  function sendGiscusMessage(msg) {
+    const iframe = document.querySelector('iframe.giscus-frame');
+    if (!iframe) return;
+    iframe.contentWindow.postMessage({ giscus: msg }, 'https://giscus.app');
+  }
+
+  function syncGiscusTheme() {
+    sendGiscusMessage({ setConfig: { theme: getGiscusTheme() } });
+  }
+
+  function syncGiscusLang() {
+    sendGiscusMessage({ setConfig: { lang: getGiscusLang() } });
+  }
+
+  function initGiscusSync() {
+    const themeBtn = document.getElementById('theme-toggle');
+    if (themeBtn) {
+      themeBtn.addEventListener('click', () => {
+        setTimeout(syncGiscusTheme, 100);
       });
     }
 
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const name = document.getElementById('commentName')?.value.trim();
-      const body = bodyInput?.value.trim();
-      if (!name || !body) return;
-
-      const list = document.getElementById('commentList');
-      const badge = document.getElementById('commentCountBadge');
-
-      const item = document.createElement('div');
-      item.className = 'comment-item';
-      const initial = name.charAt(0).toUpperCase();
-      const now = new Date();
-      const pad = n => String(n).padStart(2, '0');
-      const timeStr = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
-
-      item.innerHTML =
-        `<div class="comment-avatar">${initial}</div>` +
-        `<div class="comment-content">` +
-          `<div class="comment-meta">` +
-            `<span class="comment-author">${name}</span>` +
-            `<span class="comment-time">${timeStr}</span>` +
-          `</div>` +
-          `<p class="comment-text">${body.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</p>` +
-        `</div>`;
-
-      list.insertBefore(item, list.firstChild);
-      if (badge) badge.textContent = list.querySelectorAll('.comment-item').length;
-
-      form.reset();
-      if (charCurrent) charCurrent.textContent = '0';
-
-      const toast = document.createElement('div');
-      toast.className = 'comment-submit-toast';
-      const lang = getCurrentLangForTimeline();
-      toast.textContent = lang === 'en' ? 'Message submitted (demo only)' : '留言已提交（仅供演示）';
-      document.body.appendChild(toast);
-      requestAnimationFrame(() => toast.classList.add('show'));
-      setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => toast.remove(), 400);
-      }, 2500);
+    const observer = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        if (m.attributeName === 'class') {
+          syncGiscusTheme();
+          syncGiscusLang();
+          break;
+        }
+      }
     });
+    observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
-    const langObs = new MutationObserver(() => {
-      const lang = getCurrentLangForTimeline();
-      const els = document.querySelectorAll('.changelog-comments-section [data-placeholder-zh]');
-      els.forEach(el => {
-        el.placeholder = lang === 'en'
-          ? el.getAttribute('data-placeholder-en')
-          : el.getAttribute('data-placeholder-zh');
-      });
+    window.addEventListener('message', (e) => {
+      if (e.origin !== 'https://giscus.app') return;
+      if (!(typeof e.data === 'object' && e.data.giscus)) return;
+      if (e.data.giscus.discussion) {
+        syncGiscusTheme();
+        syncGiscusLang();
+      }
     });
-    langObs.observe(document.body, { attributes: true, attributeFilter: ['class'] });
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initCommentSection);
+    document.addEventListener('DOMContentLoaded', initGiscusSync);
   } else {
-    initCommentSection();
+    initGiscusSync();
   }
 })(); 

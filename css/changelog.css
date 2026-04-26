@@ -975,7 +975,7 @@ main::after {
     display: none;
 }
 
-/* ========== 评论/问答区 ========== */
+/* ========== 评论/问答区 (Giscus) ========== */
 .changelog-comments-section {
     max-width: 900px;
     margin: 60px auto 40px;
@@ -1018,310 +1018,21 @@ main::after {
     font-weight: 300;
 }
 
-.comments-body {
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
-}
-
-/* 表单卡片 */
-.comment-form-card {
+.giscus-wrapper {
     background: var(--card-background);
     border-radius: 16px;
-    padding: 28px;
+    padding: 24px;
     border: 1px solid rgba(var(--timeline-accent-color-rgb), 0.1);
     box-shadow: 0 4px 16px rgba(0,0,0,0.04);
 }
 
-.comment-form-card h3 {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--timeline-accent-color);
-    margin-bottom: 20px;
-}
-
-.comment-form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-}
-
-.comment-form-group {
-    margin-bottom: 16px;
-}
-
-.comment-form-group label {
-    display: block;
-    font-size: 0.88rem;
-    font-weight: 500;
-    margin-bottom: 6px;
-    color: var(--text-color);
-    opacity: 0.8;
-}
-
-.comment-form-group input,
-.comment-form-group textarea {
+.giscus-wrapper .giscus,
+.giscus-wrapper .giscus-frame {
     width: 100%;
-    padding: 10px 14px;
-    border: 1.5px solid rgba(var(--timeline-accent-color-rgb), 0.15);
-    border-radius: 10px;
-    background: var(--card-background);
-    color: var(--text-color);
-    font-size: 0.95rem;
-    outline: none;
-    transition: border-color 0.25s, box-shadow 0.25s;
-    box-sizing: border-box;
-    font-family: inherit;
 }
 
-.comment-form-group input:focus,
-.comment-form-group textarea:focus {
-    border-color: var(--timeline-accent-color);
-    box-shadow: 0 0 0 3px rgba(var(--timeline-accent-color-rgb), 0.08);
-}
-
-.comment-form-group textarea {
-    resize: vertical;
-    min-height: 90px;
-}
-
-.comment-form-group {
-    position: relative;
-}
-
-.comment-char-count {
-    position: absolute;
-    bottom: 10px;
-    right: 12px;
-    font-size: 0.75rem;
-    color: var(--text-color);
-    opacity: 0.4;
-}
-
-.comment-submit-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 26px;
-    background: linear-gradient(135deg, var(--timeline-accent-color), var(--timeline-secondary-color));
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    font-size: 0.95rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.25s;
-}
-
-.comment-submit-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(var(--timeline-accent-color-rgb), 0.3);
-}
-
-.comment-submit-btn:active {
-    transform: scale(0.97);
-}
-
-/* 留言列表卡片 */
-.comment-list-card {
-    background: var(--card-background);
-    border-radius: 16px;
-    padding: 28px;
-    border: 1px solid rgba(var(--timeline-accent-color-rgb), 0.1);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.04);
-}
-
-.comment-list-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.comment-list-header h3 {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--timeline-accent-color);
-    margin: 0;
-}
-
-.comment-count-badge {
-    font-size: 0.75rem;
-    padding: 2px 10px;
-    background: rgba(var(--timeline-accent-color-rgb), 0.12);
-    color: var(--timeline-accent-color);
-    border-radius: 20px;
-    font-weight: 600;
-}
-
-.comment-list {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    max-height: 420px;
-    overflow-y: auto;
-    padding-right: 6px;
-}
-
-.comment-list::-webkit-scrollbar {
-    width: 5px;
-}
-
-.comment-list::-webkit-scrollbar-thumb {
-    background: rgba(var(--timeline-accent-color-rgb), 0.2);
-    border-radius: 10px;
-}
-
-.comment-item {
-    display: flex;
-    gap: 12px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid rgba(var(--timeline-accent-color-rgb), 0.08);
-}
-
-.comment-item:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-}
-
-.comment-avatar {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--timeline-accent-color), var(--timeline-secondary-color));
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    font-size: 0.95rem;
-    flex-shrink: 0;
-}
-
-.comment-content {
-    flex: 1;
-    min-width: 0;
-}
-
-.comment-meta {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 6px;
-}
-
-.comment-author {
-    font-weight: 600;
-    font-size: 0.92rem;
-    color: var(--text-color);
-}
-
-.comment-time {
-    font-size: 0.78rem;
-    color: var(--text-color);
-    opacity: 0.45;
-}
-
-.comment-text {
-    font-size: 0.92rem;
-    line-height: 1.6;
-    color: var(--text-color);
-    opacity: 0.85;
-    margin: 0;
-}
-
-/* 回复样式 */
-.comment-reply {
-    margin-top: 10px;
-    padding: 10px 14px;
-    background: rgba(var(--timeline-accent-color-rgb), 0.05);
-    border-radius: 10px;
-    border-left: 3px solid var(--timeline-accent-color);
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-}
-
-.comment-reply-avatar {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: var(--timeline-accent-color);
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    font-size: 0.78rem;
-    flex-shrink: 0;
-}
-
-.comment-reply-content {
-    flex: 1;
-}
-
-.comment-reply-author {
-    font-weight: 600;
-    font-size: 0.85rem;
-    color: var(--timeline-accent-color);
-}
-
-.comment-reply-content p {
-    margin: 4px 0 0;
-    font-size: 0.88rem;
-    line-height: 1.5;
-    color: var(--text-color);
-    opacity: 0.8;
-}
-
-/* API 提示 */
-.comment-api-notice {
-    margin-top: 18px;
-    padding: 10px 16px;
-    background: rgba(var(--timeline-secondary-color-rgb), 0.08);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.82rem;
-    color: var(--timeline-secondary-color);
-    font-weight: 500;
-}
-
-.comment-api-notice i {
-    font-size: 0.9rem;
-}
-
-/* 提交成功提示 */
-.comment-submit-toast {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%) translateY(20px);
-    padding: 12px 28px;
-    background: var(--timeline-secondary-color);
-    color: #fff;
-    border-radius: 10px;
-    font-size: 0.92rem;
-    font-weight: 500;
-    box-shadow: 0 6px 24px rgba(0,0,0,0.15);
-    opacity: 0;
-    transition: opacity 0.35s, transform 0.35s;
-    z-index: 9999;
-    pointer-events: none;
-}
-
-.comment-submit-toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-}
-
-/* ========== 评论区响应式 ========== */
+/* ========== Giscus 响应式 ========== */
 @media (max-width: 768px) {
-    .comment-form-row {
-        grid-template-columns: 1fr;
-    }
-
     .comments-header h2 {
         font-size: 1.6rem;
     }
@@ -1329,12 +1040,16 @@ main::after {
     .changelog-comments-section {
         padding: 0 15px;
     }
+
+    .giscus-wrapper {
+        padding: 16px;
+    }
 }
 
 @media (max-width: 480px) {
-    .comment-form-card,
-    .comment-list-card {
-        padding: 20px;
+    .giscus-wrapper {
+        padding: 12px;
+        border-radius: 12px;
     }
 
     .changelog-search-input {
