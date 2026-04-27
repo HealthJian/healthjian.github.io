@@ -15,6 +15,14 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="../../css/datacenter.css">
+
+    <!-- AMap JS API 2.0 -->
+    <script type="text/javascript">
+        window._AMapSecurityConfig = {
+            securityJsCode: '2ef59afe0bd4fbf33ca615540768a7a5'
+        };
+    </script>
+    <!--<script src="https://webapi.amap.com/maps?v=2.0&key=84d50b8d0e8cbaca8e8be1a750c1c7d9"></script>-->
 </head>
 <body>
     <!-- Header -->
@@ -101,34 +109,7 @@
                         <span data-i18n="uptime">运行时间 99.97%</span>
                         <span class="uptime-badge" data-i18n="uptime-24h">近 30 天</span>
                     </div>
-                    <div class="world-map" id="worldMap">
-                        <svg viewBox="0 0 1000 500" class="world-svg">
-                            <g class="continents">
-                                <path d="M120,80 Q160,60 220,70 Q260,75 280,100 Q300,130 280,160 Q260,190 220,200 Q190,210 160,200 Q130,180 110,150 Q100,120 120,80 Z" class="continent" data-name="North America"/>
-                                <path d="M220,240 Q240,220 260,230 Q280,250 285,280 Q280,330 260,370 Q240,390 225,380 Q210,360 205,320 Q200,280 220,240 Z" class="continent" data-name="South America"/>
-                                <path d="M430,80 Q460,70 490,80 Q520,90 530,120 Q520,145 490,150 Q460,145 440,130 Q425,110 430,80 Z" class="continent" data-name="Europe"/>
-                                <path d="M460,170 Q490,160 520,175 Q540,200 530,250 Q510,300 480,310 Q460,305 445,270 Q440,230 460,170 Z" class="continent" data-name="Africa"/>
-                                <path d="M560,60 Q620,40 700,50 Q770,65 810,100 Q830,130 800,165 Q760,190 700,180 Q640,170 600,140 Q560,110 560,60 Z" class="continent" data-name="Asia"/>
-                                <path d="M740,280 Q770,270 800,280 Q820,300 810,325 Q790,340 760,335 Q740,320 740,280 Z" class="continent" data-name="Oceania"/>
-                            </g>
-                            <!-- Animated connection lines -->
-                            <g class="connection-lines">
-                                <line x1="200" y1="130" x2="480" y2="110" class="conn-line"/>
-                                <line x1="480" y1="110" x2="680" y2="100" class="conn-line"/>
-                                <line x1="680" y1="100" x2="770" y2="300" class="conn-line"/>
-                                <line x1="200" y1="130" x2="240" y2="300" class="conn-line"/>
-                            </g>
-                            <!-- Visitor pulses -->
-                            <g class="visitor-pulses">
-                                <circle cx="200" cy="130" r="5" class="visitor-dot pulse-dot" data-region="North America"/>
-                                <circle cx="240" cy="300" r="4" class="visitor-dot pulse-dot" data-region="South America"/>
-                                <circle cx="480" cy="110" r="6" class="visitor-dot pulse-dot" data-region="Europe"/>
-                                <circle cx="490" cy="240" r="4" class="visitor-dot pulse-dot" data-region="Africa"/>
-                                <circle cx="680" cy="100" r="7" class="visitor-dot pulse-dot" data-region="Asia"/>
-                                <circle cx="770" cy="300" r="4" class="visitor-dot pulse-dot" data-region="Oceania"/>
-                            </g>
-                        </svg>
-                    </div>
+                    <div class="world-map" id="worldMap"></div>
                 </div>
 
                 <!-- 2. Real-time Visitor Trend -->

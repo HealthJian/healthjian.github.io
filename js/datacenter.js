@@ -98,6 +98,9 @@
     let visitorChart = null;
     let performanceChart = null;
     let browserChart = null;
+    let amap = null;
+    let amapMarkers = [];
+    let amapPolylines = [];
 
     /* ===== Helpers ===== */
     const $ = (s) => document.querySelector(s);
@@ -113,6 +116,7 @@
         initEventListeners();
         initQuickStats();
         initCharts();
+        initAMap();
         initHeatmap();
         initUptimeBars();
         initActivityFeed();
@@ -146,6 +150,7 @@
     function toggleLang() {
         lang = lang === 'zh' ? 'en' : 'zh';
         applyLang();
+        refreshAMapMarkers();
     }
 
     /* ===== Clock ===== */
@@ -423,7 +428,144 @@
                 browserChart.data.datasets[0].borderColor = bgBorder;
                 browserChart.update('none');
             }
+
+            refreshAMap();
         }, 60);
+    }
+
+    /* ===== AMap (高德地图) ===== */
+    const MAP_LOCATIONS = [
+        { name: 'Jiangsu, CN',   nameZh: '中国江苏',  lng: 118.79, lat: 32.06,  radius: 7 },
+        { name: 'Singapore',     nameZh: '新加坡',    lng: 103.82, lat: 1.35,   radius: 5 },
+        { name: 'Shandong, CN',  nameZh: '中国山东',  lng: 116.99, lat: 36.67,  radius: 5 },
+        { name: 'United States', nameZh: '美国',      lng: -122.42, lat: 37.77, radius: 4 },
+        { name: 'Shanxi, CN',   nameZh: '中国山西',  lng: 112.55, lat: 37.87,  radius: 4 },
+        { name: 'Europe',       nameZh: '欧洲',      lng: 2.35,   lat: 48.86,  radius: 4 }
+    ];
+
+    const MAP_CONNECTIONS = [
+        [0, 1], [0, 2], [0, 3], [0, 5], [1, 5]
+    ];
+
+    function initAMap() {
+        if (typeof AMap === 'undefined') {
+            setTimeout(initAMap, 300);
+            return;
+        }
+
+        const mapEl = document.getElementById('worldMap');
+        if (!mapEl) return;
+
+        amap = new AMap.Map(mapEl, {
+            center: [70, 25],
+            zoom: 3,
+            zooms: [3, 7],
+            viewMode: '2D',
+            mapStyle: theme === 'dark' ? 'amap://styles/dark' : 'amap://styles/light',
+            features: ['bg', 'point'],
+            scrollWheel: false,
+            doubleClickZoom: false,
+            touchZoom: true,
+            dragEnable: true,
+            showLabel: false
+        });
+
+        addAMapMarkers();
+        addAMapConnections();
+    }
+
+    function addAMapMarkers() {
+        if (!amap) return;
+        amapMarkers.forEach(m => amap.remove(m));
+        amapMarkers = [];
+
+        const color = css('--accent-blue') || '#007BFF';
+
+        MAP_LOCATIONS.forEach(loc => {
+            const marker = new AMap.CircleMarker({
+                center: [loc.lng, loc.lat],
+                radius: loc.radius,
+                fillColor: color,
+                fillOpacity: 0.7,
+                strokeColor: color,
+                strokeWeight: 1.5,
+                strokeOpacity: 0.9,
+                cursor: 'pointer',
+                bubble: true
+            });
+            marker.setMap(amap);
+
+            marker.setExtData({ loc });
+
+            marker.on('mouseover', function () {
+                const l = this.getExtData().loc;
+                const label = new AMap.Marker({
+                    position: [l.lng, l.lat],
+                    content: `<div class="amap-marker-label">${lang === 'zh' ? l.nameZh : l.name}</div>`,
+                    offset: new AMap.Pixel(-30, -30),
+                    zIndex: 200
+                });
+                label.setMap(amap);
+                this.setExtData({ loc: l, label });
+            });
+
+            marker.on('mouseout', function () {
+                const data = this.getExtData();
+                if (data.label) {
+                    amap.remove(data.label);
+                    this.setExtData({ loc: data.loc });
+                }
+            });
+
+            amapMarkers.push(marker);
+        });
+    }
+
+    function addAMapConnections() {
+        if (!amap) return;
+        amapPolylines.forEach(p => amap.remove(p));
+        amapPolylines = [];
+
+        const color = css('--accent-blue') || '#007BFF';
+
+        MAP_CONNECTIONS.forEach(([a, b]) => {
+            const line = new AMap.Polyline({
+                path: [
+                    [MAP_LOCATIONS[a].lng, MAP_LOCATIONS[a].lat],
+                    [MAP_LOCATIONS[b].lng, MAP_LOCATIONS[b].lat]
+                ],
+                strokeColor: color,
+                strokeWeight: 1.2,
+                strokeOpacity: 0.3,
+                strokeStyle: 'dashed',
+                strokeDasharray: [6, 4],
+                geodesic: true
+            });
+            line.setMap(amap);
+            amapPolylines.push(line);
+        });
+    }
+
+    function refreshAMapMarkers() {
+        if (!amap) return;
+        const color = css('--accent-blue') || '#007BFF';
+
+        amapMarkers.forEach(marker => {
+            marker.setOptions({
+                fillColor: color,
+                strokeColor: color
+            });
+        });
+
+        amapPolylines.forEach(p => {
+            p.setOptions({ strokeColor: color });
+        });
+    }
+
+    function refreshAMap() {
+        if (!amap) return;
+        amap.setMapStyle(theme === 'dark' ? 'amap://styles/dark' : 'amap://styles/light');
+        setTimeout(refreshAMapMarkers, 60);
     }
 
     /* ===== Contribution Heatmap ===== */

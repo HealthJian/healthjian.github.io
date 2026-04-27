@@ -299,44 +299,29 @@ body {
     font-weight: 600;
 }
 
-/* World Map */
+/* World Map (AMap) */
 .world-map {
-    height: 180px; display: flex; align-items: center;
-    justify-content: center; overflow: hidden;
+    height: 220px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    z-index: 0;
 }
 
-.world-svg { width: 100%; height: 100%; max-width: 420px; }
+.world-map .amap-logo,
+.world-map .amap-copyright { display: none !important; }
 
-.continent {
-    fill: var(--text-secondary); opacity: .18;
-    transition: opacity .3s, fill .3s;
+.amap-marker-label {
+    background: var(--card-bg, #fff) !important;
+    color: var(--text-primary, #333) !important;
+    border: 1px solid var(--border-color, rgba(0,0,0,0.1)) !important;
+    border-radius: 6px !important;
+    padding: 3px 8px !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12) !important;
+    white-space: nowrap !important;
 }
-.continent:hover { opacity: .35; fill: var(--accent-blue); }
-
-.conn-line {
-    stroke: var(--accent-blue); stroke-width: 0.8;
-    stroke-dasharray: 6 4; opacity: .25;
-    animation: dashFlow 3s linear infinite;
-}
-@keyframes dashFlow { to { stroke-dashoffset: -40; } }
-
-.visitor-dot {
-    fill: var(--accent-blue); cursor: pointer;
-    transition: r .2s;
-}
-.pulse-dot { animation: dotPulse 3s ease-in-out infinite; }
-.pulse-dot:nth-child(2) { animation-delay: .5s; }
-.pulse-dot:nth-child(3) { animation-delay: 1s; }
-.pulse-dot:nth-child(4) { animation-delay: 1.5s; }
-.pulse-dot:nth-child(5) { animation-delay: 2s; }
-.pulse-dot:nth-child(6) { animation-delay: 2.5s; }
-
-@keyframes dotPulse {
-    0%,100% { opacity: 1; }
-    50% { opacity: .3; }
-}
-
-.visitor-dot:hover { fill: var(--accent-green); }
 
 /* ---------- Visitor Trend ---------- */
 .visitor-trend canvas { width: 100% !important; height: 180px !important; }
@@ -634,7 +619,7 @@ body {
     .big-number { font-size: 2.4rem; }
 
     .card { padding: 18px; }
-    .world-map { height: 140px; }
+    .world-map { height: 160px; }
     .visitor-trend canvas,
     .load-performance canvas { height: 150px !important; }
 
