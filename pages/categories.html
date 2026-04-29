@@ -6,14 +6,503 @@
     <link rel="shortcut icon" href="../images/favicon.ico" />
     <title>分类 - HealthJian Blog</title>
     
-    <!-- 样式表 -->
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/dark-mode.css">
     <link rel="stylesheet" href="../css/footer-enhanced.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
-    <!-- 字体 -->
     <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+    /* ========== Categories Page Styles ========== */
+
+    .categories-page { max-width: 1100px; margin: 0 auto; padding: 0 24px 60px; }
+
+    /* --- Hero Header --- */
+    .cat-hero {
+        position: relative;
+        overflow: hidden;
+        max-width: 1100px;
+        margin: 20px auto 0;
+        border-radius: var(--border-radius);
+        padding: 56px 40px 48px;
+        background: linear-gradient(135deg, #007AFF 0%, #5856D6 40%, #AF52DE 70%, #FF9500 100%);
+        color: #fff;
+        text-align: center;
+    }
+    .cat-hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+            radial-gradient(circle at 18% 35%, rgba(255,255,255,.12) 0%, transparent 50%),
+            radial-gradient(circle at 82% 65%, rgba(255,255,255,.08) 0%, transparent 45%);
+        pointer-events: none;
+    }
+    .cat-hero-grid {
+        position: absolute; inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+    }
+    .cat-hero-node {
+        position: absolute;
+        border-radius: 50%;
+        opacity: .18;
+        animation: nodeFloat 6s ease-in-out infinite alternate;
+    }
+    .cat-hero-node:nth-child(1)  { width:90px;height:90px;top:10%;left:6%;background:#5AC8FA;animation-delay:0s; }
+    .cat-hero-node:nth-child(2)  { width:60px;height:60px;top:60%;left:12%;background:#FF9500;animation-delay:1s; }
+    .cat-hero-node:nth-child(3)  { width:45px;height:45px;top:22%;right:10%;background:#34C759;animation-delay:2s; }
+    .cat-hero-node:nth-child(4)  { width:70px;height:70px;top:65%;right:8%;background:#FF2D55;animation-delay:.5s; }
+    .cat-hero-node:nth-child(5)  { width:35px;height:35px;top:40%;left:30%;background:#BF5AF2;animation-delay:1.5s; }
+    .cat-hero-node:nth-child(6)  { width:50px;height:50px;top:15%;right:30%;background:#FFD60A;animation-delay:3s; }
+    .cat-hero-line {
+        position: absolute;
+        height: 1px;
+        background: rgba(255,255,255,.1);
+        transform-origin: left center;
+    }
+    .cat-hero-line:nth-child(7)  { width:180px;top:30%;left:8%;transform:rotate(25deg); }
+    .cat-hero-line:nth-child(8)  { width:140px;top:55%;left:18%;transform:rotate(-15deg); }
+    .cat-hero-line:nth-child(9)  { width:200px;top:40%;right:5%;transform:rotate(10deg); }
+    .cat-hero-line:nth-child(10) { width:120px;top:70%;right:22%;transform:rotate(-30deg); }
+    @keyframes nodeFloat {
+        0%   { transform: translateY(0) scale(1); }
+        100% { transform: translateY(-14px) scale(1.08); }
+    }
+
+    .cat-hero-content { position: relative; z-index: 1; }
+    .cat-hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255,255,255,.18);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(255,255,255,.2);
+        border-radius: 20px;
+        padding: 5px 16px;
+        font-size: .78rem;
+        font-weight: 500;
+        letter-spacing: .3px;
+        margin-bottom: 18px;
+    }
+    .cat-hero-title {
+        font-size: 2.6rem;
+        font-weight: 700;
+        letter-spacing: -.5px;
+        margin-bottom: 12px;
+        line-height: 1.2;
+        color: #fff !important;
+        -webkit-text-fill-color: #fff;
+        text-shadow: 0 2px 20px rgba(0,0,0,.12);
+    }
+    .cat-hero-sub {
+        font-size: 1.08rem;
+        opacity: .85;
+        font-weight: 400;
+        color: #fff !important;
+        -webkit-text-fill-color: #fff;
+        max-width: 480px;
+        margin: 0 auto 24px;
+        line-height: 1.6;
+    }
+    .cat-hero-chips {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    .cat-hero-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: rgba(255,255,255,.14);
+        border: 1px solid rgba(255,255,255,.18);
+        border-radius: 10px;
+        padding: 7px 14px;
+        font-size: .82rem;
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        transition: background .2s;
+        color: #fff !important;
+        -webkit-text-fill-color: #fff;
+    }
+    .cat-hero-chip:hover { background: rgba(255,255,255,.24); }
+    .cat-hero-chip i { font-size: .7rem; opacity: .7; }
+
+    .dark-mode .cat-hero {
+        background: linear-gradient(135deg, #003366 0%, #1a1a5e 40%, #3d1a6e 70%, #5c3d00 100%);
+    }
+
+    @media (max-width: 480px) {
+        .cat-hero { padding: 40px 20px 36px; }
+        .cat-hero-title { font-size: 1.8rem; }
+        .cat-hero-sub { font-size: .95rem; }
+    }
+
+    /* --- Stats Banner --- */
+    .stats-banner {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+        margin-bottom: 42px;
+    }
+    .stat-card {
+        background: var(--card-background);
+        border-radius: var(--border-radius);
+        padding: 28px 20px;
+        text-align: center;
+        box-shadow: 0 2px 12px var(--shadow-color);
+        transition: transform .25s, box-shadow .25s;
+    }
+    .stat-card:hover { transform: translateY(-4px); box-shadow: 0 6px 24px var(--shadow-color); }
+    .stat-number {
+        font-size: 2.4rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    .stat-label { font-size: .9rem; margin-top: 6px; opacity: .7; }
+
+    /* --- Section Title --- */
+    .section-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 22px;
+        padding-left: 14px;
+        border-left: 4px solid var(--primary-color);
+    }
+
+    /* --- Category Cards Grid --- */
+    .category-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 20px;
+        margin-bottom: 48px;
+    }
+    .category-card {
+        background: var(--card-background);
+        border-radius: var(--border-radius);
+        padding: 28px 24px;
+        box-shadow: 0 2px 12px var(--shadow-color);
+        cursor: pointer;
+        transition: transform .25s, box-shadow .25s;
+        position: relative;
+        overflow: hidden;
+    }
+    .category-card::before {
+        content: '';
+        position: absolute; top: 0; left: 0; right: 0;
+        height: 4px;
+        border-radius: var(--border-radius) var(--border-radius) 0 0;
+    }
+    .category-card[data-cat="tech"]::before      { background: linear-gradient(90deg,#007AFF,#5AC8FA); }
+    .category-card[data-cat="idea"]::before       { background: linear-gradient(90deg,#FF9500,#FFCC00); }
+    .category-card[data-cat="life"]::before       { background: linear-gradient(90deg,#34C759,#30D158); }
+    .category-card[data-cat="interview"]::before  { background: linear-gradient(90deg,#AF52DE,#BF5AF2); }
+    .category-card:hover { transform: translateY(-4px); box-shadow: 0 8px 28px var(--shadow-color); }
+    .category-icon { font-size: 2rem; margin-bottom: 10px; }
+    .category-card h3 { font-size: 1.15rem; margin-bottom: 6px; }
+    .category-count {
+        font-size: .85rem;
+        opacity: .65;
+        margin-bottom: 10px;
+    }
+    .category-tags {
+        display: flex; flex-wrap: wrap; gap: 6px;
+    }
+    .category-tags span {
+        font-size: .72rem;
+        padding: 2px 8px;
+        border-radius: 10px;
+        background: rgba(0,122,255,.08);
+        color: var(--primary-color);
+    }
+    .dark-mode .category-tags span {
+        background: rgba(90,200,250,.15);
+        color: var(--secondary-color);
+    }
+
+    /* --- Word Cloud --- */
+    .wordcloud-section { margin-bottom: 48px; }
+    .wordcloud-wrap {
+        background: var(--card-background);
+        border-radius: var(--border-radius);
+        box-shadow: 0 2px 12px var(--shadow-color);
+        padding: 32px;
+        min-height: 320px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 6px 14px;
+        line-height: 2.2;
+    }
+    .wc-tag {
+        display: inline-block;
+        cursor: pointer;
+        transition: transform .2s, opacity .2s;
+        font-weight: 500;
+        white-space: nowrap;
+    }
+    .wc-tag:hover { transform: scale(1.18); opacity: 1 !important; }
+
+    /* --- Knowledge Graph --- */
+    .graph-section { margin-bottom: 48px; }
+    .graph-container {
+        background: var(--card-background);
+        border-radius: var(--border-radius);
+        box-shadow: 0 2px 12px var(--shadow-color);
+        position: relative;
+        overflow: hidden;
+    }
+    .graph-container canvas {
+        width: 100%;
+        display: block;
+    }
+    .graph-legend {
+        display: flex; flex-wrap: wrap; gap: 14px;
+        padding: 14px 24px;
+        font-size: .82rem;
+        opacity: .7;
+        border-top: 1px solid var(--shadow-color);
+    }
+    .graph-legend span::before {
+        content: '';
+        display: inline-block;
+        width: 10px; height: 10px;
+        border-radius: 50%;
+        margin-right: 5px;
+        vertical-align: middle;
+    }
+    .graph-legend .leg-tech::before    { background: #007AFF; }
+    .graph-legend .leg-idea::before    { background: #FF9500; }
+    .graph-legend .leg-life::before    { background: #34C759; }
+    .graph-legend .leg-interview::before { background: #AF52DE; }
+    .graph-legend .leg-shared::before  { background: #8E8E93; }
+
+    /* --- Timeline Heatmap --- */
+    .timeline-section { margin-bottom: 48px; }
+    .timeline-wrap {
+        background: var(--card-background);
+        border-radius: var(--border-radius);
+        box-shadow: 0 2px 12px var(--shadow-color);
+        padding: 28px 24px;
+    }
+    .timeline-months {
+        display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
+    }
+    .tm-month {
+        text-align: center;
+        min-width: 60px;
+    }
+    .tm-month-label { font-size: .72rem; opacity: .55; margin-bottom: 6px; }
+    .tm-bar {
+        width: 100%;
+        border-radius: 4px;
+        min-height: 6px;
+        transition: height .4s;
+    }
+    .tm-count { font-size: .7rem; margin-top: 4px; opacity: .6; }
+
+    /* --- Search Bar --- */
+    .search-section {
+        margin-bottom: 36px;
+        position: relative;
+    }
+    .search-bar {
+        display: flex;
+        align-items: center;
+        background: var(--card-background);
+        border-radius: var(--border-radius);
+        box-shadow: 0 2px 12px var(--shadow-color);
+        padding: 6px 8px 6px 20px;
+        transition: box-shadow .25s;
+    }
+    .search-bar:focus-within {
+        box-shadow: 0 4px 24px var(--shadow-color), 0 0 0 2px var(--primary-color);
+    }
+    .search-bar input {
+        flex: 1;
+        border: none;
+        outline: none;
+        background: transparent;
+        font-size: 1rem;
+        color: var(--text-color);
+        padding: 10px 0;
+        font-family: inherit;
+    }
+    .search-bar input::placeholder { opacity: .45; }
+    .search-bar button {
+        border: none;
+        background: var(--primary-color);
+        color: #fff;
+        border-radius: 8px;
+        padding: 10px 18px;
+        font-size: .92rem;
+        cursor: pointer;
+        transition: background .2s;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+    }
+    .search-bar button:hover { background: #005ecb; }
+    .search-bar .search-clear {
+        background: none;
+        color: var(--text-color);
+        opacity: .4;
+        padding: 8px;
+        font-size: 1.1rem;
+        border-radius: 50%;
+        display: none;
+    }
+    .search-bar .search-clear:hover { opacity: .8; background: rgba(128,128,128,.1); }
+    .search-bar .search-clear.visible { display: flex; }
+    .search-hint {
+        font-size: .78rem;
+        opacity: .5;
+        margin-top: 8px;
+        padding-left: 4px;
+    }
+
+    /* --- Search Results Panel --- */
+    .search-results {
+        margin-top: 16px;
+        display: none;
+    }
+    .search-results.active { display: block; }
+    .search-results-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 14px;
+    }
+    .search-results-header h3 {
+        font-size: 1.05rem;
+        font-weight: 600;
+    }
+    .search-results-count {
+        font-size: .82rem;
+        opacity: .55;
+    }
+    .sr-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .sr-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        background: var(--card-background);
+        border-radius: 10px;
+        padding: 16px 18px;
+        box-shadow: 0 1px 6px var(--shadow-color);
+        cursor: pointer;
+        transition: transform .2s, box-shadow .2s;
+        text-decoration: none;
+    }
+    .sr-item:hover {
+        transform: translateX(4px);
+        box-shadow: 0 3px 14px var(--shadow-color);
+    }
+    .sr-cat-dot {
+        width: 8px; height: 8px;
+        border-radius: 50%;
+        margin-top: 7px;
+        flex-shrink: 0;
+    }
+    .sr-cat-dot[data-cat="tech"]      { background: #007AFF; }
+    .sr-cat-dot[data-cat="idea"]      { background: #FF9500; }
+    .sr-cat-dot[data-cat="life"]      { background: #34C759; }
+    .sr-cat-dot[data-cat="interview"] { background: #AF52DE; }
+    .sr-body { flex: 1; min-width: 0; }
+    .sr-title {
+        font-size: .95rem;
+        font-weight: 600;
+        margin-bottom: 4px;
+        color: var(--text-color);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .sr-title mark {
+        background: rgba(0,122,255,.15);
+        color: var(--primary-color);
+        border-radius: 2px;
+        padding: 0 2px;
+    }
+    .dark-mode .sr-title mark {
+        background: rgba(90,200,250,.2);
+        color: var(--secondary-color);
+    }
+    .sr-excerpt {
+        font-size: .8rem;
+        opacity: .6;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin-bottom: 6px;
+    }
+    .sr-excerpt mark {
+        background: rgba(0,122,255,.1);
+        color: inherit;
+        border-radius: 2px;
+        padding: 0 1px;
+    }
+    .sr-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: .72rem;
+        opacity: .5;
+    }
+    .sr-tags {
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+    }
+    .sr-tags span {
+        font-size: .68rem;
+        padding: 1px 6px;
+        border-radius: 8px;
+        background: rgba(0,122,255,.08);
+        color: var(--primary-color);
+    }
+    .sr-tags span.matched {
+        background: rgba(0,122,255,.2);
+        font-weight: 600;
+    }
+    .dark-mode .sr-tags span {
+        background: rgba(90,200,250,.12);
+        color: var(--secondary-color);
+    }
+    .dark-mode .sr-tags span.matched {
+        background: rgba(90,200,250,.28);
+    }
+    .sr-empty {
+        text-align: center;
+        padding: 32px 20px;
+        opacity: .5;
+        font-size: .95rem;
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 768px) {
+        .stats-banner { grid-template-columns: repeat(2, 1fr); }
+        .category-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+        .stats-banner { grid-template-columns: 1fr 1fr; gap: 10px; }
+        .category-grid { grid-template-columns: 1fr; }
+        .stat-number { font-size: 1.8rem; }
+        .search-bar { padding: 4px 6px 4px 14px; }
+        .search-bar button span { display: none; }
+    }
+    </style>
 </head>
 <body class="light-mode">
     <!-- 导航栏 -->
@@ -47,22 +536,86 @@
 
     <!-- 主要内容 -->
     <main>
-        <header class="page-header">
-            <h1 data-en="Categories" data-zh="分类">分类</h1>
-            <p data-en="Browse articles by category" data-zh="按分类浏览文章">按分类浏览文章</p>
-        </header>
-        
-        <section class="categories-container">
-            <div class="categories-info">
-                <p data-en="This page is under construction. Please check back soon!" data-zh="此页面正在建设中，敬请期待！">此页面正在建设中，敬请期待！</p>
+        <!-- Hero Header -->
+        <section class="cat-hero">
+            <div class="cat-hero-grid">
+                <div class="cat-hero-node"></div>
+                <div class="cat-hero-node"></div>
+                <div class="cat-hero-node"></div>
+                <div class="cat-hero-node"></div>
+                <div class="cat-hero-node"></div>
+                <div class="cat-hero-node"></div>
+                <div class="cat-hero-line"></div>
+                <div class="cat-hero-line"></div>
+                <div class="cat-hero-line"></div>
+                <div class="cat-hero-line"></div>
+            </div>
+            <div class="cat-hero-content">
+                <div class="cat-hero-badge">
+                    <i class="fas fa-project-diagram"></i>
+                    <span data-en="Knowledge Explorer" data-zh="知识探索器">知识探索器</span>
+                </div>
+                <h1 class="cat-hero-title" data-en="Categories & Knowledge Map" data-zh="分类与知识图谱">分类与知识图谱</h1>
+                <p class="cat-hero-sub" data-en="Navigate through topics, uncover hidden connections between articles, and visualize the knowledge network." data-zh="探索主题脉络，发现文章间的隐藏关联，可视化知识网络全景">探索主题脉络，发现文章间的隐藏关联，可视化知识网络全景</p>
+                <div class="cat-hero-chips" id="heroChips"></div>
             </div>
         </section>
+
+        <div class="categories-page">
+            <!-- 搜索栏 -->
+            <section class="search-section">
+                <div class="search-bar">
+                    <input type="text" id="searchInput"
+                           placeholder="搜索文章标题、摘要或标签..."
+                           data-en-placeholder="Search titles, excerpts, or tags..."
+                           data-zh-placeholder="搜索文章标题、摘要或标签...">
+                    <button class="search-clear" id="searchClear" title="清除"><i class="fas fa-times"></i></button>
+                    <button id="searchBtn"><i class="fas fa-search"></i> <span data-en="Search" data-zh="搜索">搜索</span></button>
+                </div>
+                <div class="search-hint" data-en="Press Enter to search. Supports title, excerpt, and tag matching."
+                     data-zh="按回车搜索，支持标题、摘要和标签匹配">按回车搜索，支持标题、摘要和标签匹配</div>
+                <div class="search-results" id="searchResults"></div>
+            </section>
+
+            <!-- 统计概览 -->
+            <div class="stats-banner" id="statsBanner"></div>
+
+            <!-- 分类卡片 -->
+            <h2 class="section-title" data-en="Categories" data-zh="文章分类">文章分类</h2>
+            <div class="category-grid" id="categoryGrid"></div>
+
+            <!-- 词云 -->
+            <h2 class="section-title" data-en="Tag Cloud" data-zh="标签词云">标签词云</h2>
+            <section class="wordcloud-section">
+                <div class="wordcloud-wrap" id="wordCloud"></div>
+            </section>
+
+            <!-- 知识图谱 -->
+            <h2 class="section-title" data-en="Knowledge Graph" data-zh="知识图谱">知识图谱</h2>
+            <section class="graph-section">
+                <div class="graph-container">
+                    <canvas id="knowledgeGraph"></canvas>
+                    <div class="graph-legend">
+                        <span class="leg-tech"  data-en="Tech" data-zh="技术">技术</span>
+                        <span class="leg-idea"  data-en="Ideas" data-zh="想法">想法</span>
+                        <span class="leg-life"  data-en="Life" data-zh="生活">生活</span>
+                        <span class="leg-interview" data-en="Interview" data-zh="面试">面试</span>
+                        <span class="leg-shared" data-en="Cross-topic" data-zh="跨主题">跨主题</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 发布时间线 -->
+            <h2 class="section-title" data-en="Publishing Timeline" data-zh="发布时间线">发布时间线</h2>
+            <section class="timeline-section">
+                <div class="timeline-wrap" id="timeline"></div>
+            </section>
+        </div>
     </main>
 
     <!-- 页脚 -->
     <footer>
         <div class="footer-container">
-            <!-- Logo部分 -->
             <div class="footer-logo-section">
                 <a href="../index.html" class="footer-logo">
                     <img src="../images/githubherofigureimage.png" alt="HealthJian Logo">
@@ -73,8 +626,6 @@
                     <p data-en="All Rights Reserved" data-zh="保留所有权利">保留所有权利</p>
                 </div>
             </div>
-            
-            <!-- 导航部分 -->
             <div class="footer-nav-section">
                 <h3 data-en="Quick Links" data-zh="快速链接">快速链接</h3>
                 <div class="footer-links-grid">
@@ -86,8 +637,6 @@
                     <a href="links.html" data-en="Links" data-zh="网站">网站</a>
                 </div>
             </div>
-            
-            <!-- 社交媒体部分 -->
             <div class="footer-social-section">
                 <h3 data-en="Connect With Me" data-zh="联系我">联系我</h3>
                 <div class="footer-contact-info">
@@ -101,24 +650,462 @@
                     <a href="mailto:example@gmail.com" title="Gmail"><i class="far fa-envelope"></i></a>
                     <a href="https://steamcommunity.com/id/yoursteamid" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
                 </div>
-                
-                <!-- 时钟部分移到这里 -->
                 <div class="footer-clock-section">
                     <div class="footer-clock">00:00:00</div>
                     <div class="footer-date" data-en="2025-05-19 Week One" data-zh="2025年05月19日 星期一">2025年05月19日 星期一</div>
                 </div>
             </div>
         </div>
-        
-        <!-- 页脚底部信息 -->
         <div class="footer-bottom">
             <p data-en="Designed with ❤️ by " data-zh="由 ">由 <a href="about.html">HealthJian</a> <span data-en="with " data-zh="用 ">用 </span>❤️ <span data-en="designed" data-zh="设计">设计</span></p>
         </div>
     </footer>
 
+    <script>window.SKIP_BLOG_INIT = true;</script>
+    <script src="../js/blog.js"></script>
     <script src="../js/main.js"></script>
     <script src="../js/theme.js"></script>
     <script src="../js/language.js"></script>
     <script src="../js/footer.js"></script>
+
+    <script>
+    (function () {
+        const posts = getBlogPosts();
+        const lang = () => document.body.classList.contains('en') ? 'en' : 'zh';
+
+        /* ===== helpers ===== */
+        const CAT_META = {
+            tech:      { icon: '💻', zh: '技术',  en: 'Tech',      color: '#007AFF' },
+            idea:      { icon: '💡', zh: '想法',  en: 'Ideas',     color: '#FF9500' },
+            life:      { icon: '🌱', zh: '生活',  en: 'Life',      color: '#34C759' },
+            interview: { icon: '🎯', zh: '面试',  en: 'Interview', color: '#AF52DE' },
+        };
+
+        function catPosts(cat) { return posts.filter(p => p.category === cat); }
+
+        function allTags() {
+            const map = {};
+            posts.forEach(p => {
+                const tags = (lang() === 'en' && p.tags_en) ? p.tags_en : p.tags;
+                if (!tags) return;
+                tags.forEach(t => { map[t] = (map[t] || 0) + 1; });
+            });
+            return map;
+        }
+
+        /* ===== Hero Chips ===== */
+        function renderHeroChips() {
+            const isEn = lang() === 'en';
+            const tagSet = new Set();
+            posts.forEach(p => (p.tags || []).forEach(t => tagSet.add(t)));
+            const cats = new Set(posts.map(p => p.category));
+            const dates = posts.map(p => p.date).sort();
+            const days = Math.ceil((new Date(dates[dates.length-1]) - new Date(dates[0])) / 86400000);
+
+            const chips = [
+                { icon: 'fa-file-alt',   zh: `${posts.length} 篇文章`, en: `${posts.length} Posts` },
+                { icon: 'fa-layer-group', zh: `${cats.size} 个分类`,   en: `${cats.size} Categories` },
+                { icon: 'fa-tags',        zh: `${tagSet.size} 个标签`,  en: `${tagSet.size} Tags` },
+                { icon: 'fa-calendar',    zh: `${days} 天创作`,        en: `${days} Days` },
+            ];
+
+            document.getElementById('heroChips').innerHTML = chips.map(c =>
+                `<div class="cat-hero-chip"><i class="fas ${c.icon}"></i><span data-en="${c.en}" data-zh="${c.zh}">${isEn ? c.en : c.zh}</span></div>`
+            ).join('');
+        }
+
+        /* ===== 0. Search ===== */
+        function initSearch() {
+            const input  = document.getElementById('searchInput');
+            const btn    = document.getElementById('searchBtn');
+            const clear  = document.getElementById('searchClear');
+            const panel  = document.getElementById('searchResults');
+
+            function toggleClear() {
+                clear.classList.toggle('visible', input.value.trim().length > 0);
+            }
+
+            function highlightText(text, term) {
+                if (!term) return text;
+                const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>');
+            }
+
+            function doSearch() {
+                const raw = input.value.trim();
+                if (!raw) { panel.classList.remove('active'); return; }
+                const q = raw.toLowerCase();
+                const isEn = lang() === 'en';
+
+                const results = posts.filter(p => {
+                    const title   = (isEn ? p.title_en : p.title).toLowerCase();
+                    const excerpt = (isEn ? p.excerpt_en : p.excerpt).toLowerCase();
+                    const tags    = ((isEn && p.tags_en) ? p.tags_en : p.tags) || [];
+                    return title.includes(q) ||
+                           excerpt.includes(q) ||
+                           tags.some(t => t.toLowerCase().includes(q));
+                });
+
+                const countText = isEn
+                    ? `${results.length} result${results.length!==1?'s':''}`
+                    : `${results.length} 条结果`;
+                const headerLabel = isEn ? 'Search Results' : '搜索结果';
+
+                if (results.length === 0) {
+                    const emptyMsg = isEn
+                        ? `No articles found for "<b>${raw}</b>". Try different keywords.`
+                        : `未找到与"<b>${raw}</b>"相关的文章，请尝试其他关键词`;
+                    panel.innerHTML = `
+                        <div class="search-results-header">
+                            <h3>${headerLabel}</h3>
+                            <span class="search-results-count">${countText}</span>
+                        </div>
+                        <div class="sr-empty"><i class="fas fa-search" style="margin-right:6px;opacity:.4"></i>${emptyMsg}</div>`;
+                    panel.classList.add('active');
+                    return;
+                }
+
+                let html = `
+                    <div class="search-results-header">
+                        <h3>${headerLabel}</h3>
+                        <span class="search-results-count">${countText}</span>
+                    </div>
+                    <div class="sr-list">`;
+
+                results.forEach(p => {
+                    const title   = isEn ? p.title_en : p.title;
+                    const excerpt = isEn ? p.excerpt_en : p.excerpt;
+                    const tags    = ((isEn && p.tags_en) ? p.tags_en : p.tags) || [];
+                    const catName = CAT_META[p.category] ? (isEn ? CAT_META[p.category].en : CAT_META[p.category].zh) : p.category;
+
+                    html += `
+                        <a class="sr-item" href="${p.url}" target="_blank">
+                            <div class="sr-cat-dot" data-cat="${p.category}"></div>
+                            <div class="sr-body">
+                                <div class="sr-title">${highlightText(title, raw)}</div>
+                                <div class="sr-excerpt">${highlightText(excerpt.slice(0, 120), raw)}${excerpt.length > 120 ? '...' : ''}</div>
+                                <div class="sr-meta">
+                                    <span>${p.date}</span>
+                                    <span>${catName}</span>
+                                    <div class="sr-tags">
+                                        ${tags.map(t => {
+                                            const isMatch = t.toLowerCase().includes(q);
+                                            return `<span class="${isMatch ? 'matched' : ''}">${t}</span>`;
+                                        }).join('')}
+                                    </div>
+                                </div>
+                            </div>
+                        </a>`;
+                });
+
+                html += '</div>';
+                panel.innerHTML = html;
+                panel.classList.add('active');
+            }
+
+            btn.addEventListener('click', doSearch);
+            input.addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
+            input.addEventListener('input', () => {
+                toggleClear();
+                if (input.value.trim() === '') {
+                    panel.classList.remove('active');
+                }
+            });
+            clear.addEventListener('click', () => {
+                input.value = '';
+                toggleClear();
+                panel.classList.remove('active');
+                input.focus();
+            });
+
+            const langObs = new MutationObserver(() => {
+                const isEn = lang() === 'en';
+                input.placeholder = isEn
+                    ? input.getAttribute('data-en-placeholder')
+                    : input.getAttribute('data-zh-placeholder');
+                if (input.value.trim()) doSearch();
+            });
+            langObs.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+        }
+
+        /* ===== 1. Stats Banner ===== */
+        function renderStats() {
+            const tagSet = new Set();
+            posts.forEach(p => (p.tags || []).forEach(t => tagSet.add(t)));
+            const cats = new Set(posts.map(p => p.category));
+            const dates = posts.map(p => p.date).sort();
+
+            const items = [
+                { n: posts.length, zh: '文章总数',  en: 'Total Posts' },
+                { n: cats.size,    zh: '分类数',    en: 'Categories' },
+                { n: tagSet.size,  zh: '标签数',    en: 'Tags' },
+                { n: Math.ceil((new Date(dates[dates.length-1]) - new Date(dates[0])) / 86400000), zh: '创作天数', en: 'Active Days' },
+            ];
+
+            document.getElementById('statsBanner').innerHTML = items.map(s => `
+                <div class="stat-card">
+                    <div class="stat-number">${s.n}</div>
+                    <div class="stat-label" data-en="${s.en}" data-zh="${s.zh}">${lang()==='en'?s.en:s.zh}</div>
+                </div>`).join('');
+        }
+
+        /* ===== 2. Category Cards ===== */
+        function renderCategories() {
+            const grid = document.getElementById('categoryGrid');
+            grid.innerHTML = '';
+            Object.entries(CAT_META).forEach(([key, meta]) => {
+                const cp = catPosts(key);
+                if (cp.length === 0) return;
+                const topTags = {};
+                cp.forEach(p => {
+                    const tags = (lang() === 'en' && p.tags_en) ? p.tags_en : p.tags;
+                    if (!tags) return;
+                    tags.forEach(t => { topTags[t] = (topTags[t]||0)+1; });
+                });
+                const sorted = Object.entries(topTags).sort((a,b)=>b[1]-a[1]).slice(0,5);
+
+                const card = document.createElement('div');
+                card.className = 'category-card';
+                card.dataset.cat = key;
+                const countLabel = lang()==='en' ? `${cp.length} posts` : `${cp.length} 篇文章`;
+                card.innerHTML = `
+                    <div class="category-icon">${meta.icon}</div>
+                    <h3 data-en="${meta.en}" data-zh="${meta.zh}">${lang()==='en'?meta.en:meta.zh}</h3>
+                    <div class="category-count">${countLabel}</div>
+                    <div class="category-tags">${sorted.map(([t])=>`<span>${t}</span>`).join('')}</div>`;
+                card.addEventListener('click', () => {
+                    window.location.href = 'blog.html';
+                });
+                grid.appendChild(card);
+            });
+        }
+
+        /* ===== 3. Word Cloud ===== */
+        const WC_PALETTE = ['#007AFF','#5AC8FA','#FF9500','#FF2D55','#AF52DE','#34C759','#FF3B30','#5856D6','#00C7BE','#FF6482'];
+
+        function renderWordCloud() {
+            const container = document.getElementById('wordCloud');
+            container.innerHTML = '';
+            const tagMap = allTags();
+            const entries = Object.entries(tagMap).sort((a,b) => b[1]-a[1]);
+            if (entries.length === 0) return;
+            const maxFreq = entries[0][1];
+            const minFreq = entries[entries.length - 1][1];
+
+            entries.forEach(([tag, freq], i) => {
+                const span = document.createElement('span');
+                span.className = 'wc-tag';
+                span.textContent = tag;
+                const ratio = maxFreq === minFreq ? 1 : (freq - minFreq) / (maxFreq - minFreq);
+                const size = 0.78 + ratio * 1.8;
+                span.style.fontSize = size + 'rem';
+                span.style.color = WC_PALETTE[i % WC_PALETTE.length];
+                span.style.opacity = 0.55 + ratio * 0.45;
+                span.title = `${tag}: ${freq}`;
+                span.addEventListener('click', () => {
+                    window.location.href = 'blog.html';
+                });
+                container.appendChild(span);
+            });
+        }
+
+        /* ===== 4. Knowledge Graph (force-directed canvas) ===== */
+        function renderGraph() {
+            const canvas = document.getElementById('knowledgeGraph');
+            const rect = canvas.parentElement.getBoundingClientRect();
+            const W = rect.width;
+            const H = Math.max(420, Math.min(W * 0.55, 560));
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = W * dpr;
+            canvas.height = H * dpr;
+            canvas.style.height = H + 'px';
+            const ctx = canvas.getContext('2d');
+            ctx.scale(dpr, dpr);
+
+            const isDark = document.body.classList.contains('dark-mode');
+            const textColor = isDark ? '#e8eaf0' : '#333';
+            const edgeColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
+
+            const tagMap = {};
+            const edges = [];
+            const edgeSet = new Set();
+
+            posts.forEach(p => {
+                const tags = (lang() === 'en' && p.tags_en) ? p.tags_en : p.tags;
+                if (!tags) return;
+                tags.forEach(t => {
+                    if (!tagMap[t]) tagMap[t] = { label: t, count: 0, cats: new Set() };
+                    tagMap[t].count++;
+                    tagMap[t].cats.add(p.category);
+                });
+                for (let i = 0; i < tags.length; i++) {
+                    for (let j = i + 1; j < tags.length; j++) {
+                        const a = tags[i], b = tags[j];
+                        const key = a < b ? a+'|'+b : b+'|'+a;
+                        if (!edgeSet.has(key)) { edgeSet.add(key); edges.push([a, b]); }
+                    }
+                }
+            });
+
+            const nodes = Object.values(tagMap)
+                .sort((a,b) => b.count - a.count)
+                .slice(0, 40);
+            const nodeNames = new Set(nodes.map(n => n.label));
+            const filteredEdges = edges.filter(([a,b]) => nodeNames.has(a) && nodeNames.has(b));
+
+            nodes.forEach((n, i) => {
+                const angle = (2 * Math.PI * i) / nodes.length;
+                const r = Math.min(W, H) * 0.32;
+                n.x = W / 2 + r * Math.cos(angle) + (Math.random() - 0.5) * 40;
+                n.y = H / 2 + r * Math.sin(angle) + (Math.random() - 0.5) * 40;
+                n.vx = 0; n.vy = 0;
+            });
+
+            const nodeMap2 = {};
+            nodes.forEach(n => { nodeMap2[n.label] = n; });
+
+            function colorForNode(n) {
+                if (n.cats.size > 1) return '#8E8E93';
+                const cat = [...n.cats][0];
+                return (CAT_META[cat] || {}).color || '#8E8E93';
+            }
+
+            function simulate() {
+                const k = 0.008;
+                const repulsion = 2800;
+                nodes.forEach(a => {
+                    a.fx = 0; a.fy = 0;
+                    nodes.forEach(b => {
+                        if (a === b) return;
+                        let dx = a.x - b.x, dy = a.y - b.y;
+                        let dist = Math.sqrt(dx*dx + dy*dy) || 1;
+                        let f = repulsion / (dist * dist);
+                        a.fx += (dx / dist) * f;
+                        a.fy += (dy / dist) * f;
+                    });
+                });
+                filteredEdges.forEach(([aName, bName]) => {
+                    const a = nodeMap2[aName], b = nodeMap2[bName];
+                    if (!a || !b) return;
+                    let dx = b.x - a.x, dy = b.y - a.y;
+                    let dist = Math.sqrt(dx*dx + dy*dy) || 1;
+                    let f = (dist - 120) * k;
+                    a.fx += (dx / dist) * f;
+                    a.fy += (dy / dist) * f;
+                    b.fx -= (dx / dist) * f;
+                    b.fy -= (dy / dist) * f;
+                });
+                nodes.forEach(n => {
+                    n.fx += (W/2 - n.x) * 0.002;
+                    n.fy += (H/2 - n.y) * 0.002;
+                    n.vx = (n.vx + n.fx) * 0.6;
+                    n.vy = (n.vy + n.fy) * 0.6;
+                    n.x += n.vx;
+                    n.y += n.vy;
+                    n.x = Math.max(40, Math.min(W - 40, n.x));
+                    n.y = Math.max(40, Math.min(H - 40, n.y));
+                });
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, W, H);
+                filteredEdges.forEach(([a, b]) => {
+                    const na = nodeMap2[a], nb = nodeMap2[b];
+                    if (!na || !nb) return;
+                    ctx.beginPath();
+                    ctx.moveTo(na.x, na.y);
+                    ctx.lineTo(nb.x, nb.y);
+                    ctx.strokeStyle = edgeColor;
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                });
+                const maxC = Math.max(...nodes.map(n => n.count));
+                nodes.forEach(n => {
+                    const r = 5 + (n.count / maxC) * 14;
+                    const c = colorForNode(n);
+                    ctx.beginPath();
+                    ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
+                    ctx.fillStyle = c;
+                    ctx.globalAlpha = 0.85;
+                    ctx.fill();
+                    ctx.globalAlpha = 1;
+                    ctx.fillStyle = textColor;
+                    ctx.font = `${Math.max(10, 9 + (n.count/maxC)*4)}px "SF Pro Display", sans-serif`;
+                    ctx.textAlign = 'center';
+                    ctx.fillText(n.label, n.x, n.y + r + 13);
+                });
+            }
+
+            let frame = 0;
+            function tick() {
+                simulate();
+                draw();
+                frame++;
+                if (frame < 200) requestAnimationFrame(tick);
+            }
+            tick();
+        }
+
+        /* ===== 5. Timeline ===== */
+        function renderTimeline() {
+            const container = document.getElementById('timeline');
+            const monthMap = {};
+            posts.forEach(p => {
+                const ym = p.date.slice(0, 7);
+                monthMap[ym] = (monthMap[ym] || 0) + 1;
+            });
+            const sorted = Object.entries(monthMap).sort((a,b) => a[0].localeCompare(b[0]));
+            const maxCount = Math.max(...sorted.map(([,c]) => c));
+
+            const monthNames = {
+                zh: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+                en: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+            };
+
+            let html = '<div class="timeline-months">';
+            sorted.forEach(([ym, count]) => {
+                const [y, m] = ym.split('-');
+                const mLabel = monthNames[lang()][parseInt(m)-1];
+                const label = `${y} ${mLabel}`;
+                const ratio = count / maxCount;
+                const h = 8 + ratio * 80;
+                const color = `hsl(${210 + ratio * 30}, ${60 + ratio * 20}%, ${55 - ratio * 15}%)`;
+                html += `<div class="tm-month">
+                    <div class="tm-bar" style="height:${h}px;background:${color}"></div>
+                    <div class="tm-count">${count}</div>
+                    <div class="tm-month-label">${label}</div>
+                </div>`;
+            });
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        /* ===== Init ===== */
+        let searchInited = false;
+        function renderAll() {
+            renderHeroChips();
+            renderStats();
+            renderCategories();
+            renderWordCloud();
+            renderGraph();
+            renderTimeline();
+            if (!searchInited) { initSearch(); searchInited = true; }
+        }
+
+        document.addEventListener('DOMContentLoaded', renderAll);
+
+        window.addEventListener('resize', () => { renderGraph(); });
+
+        const observer = new MutationObserver((mutations) => {
+            for (const m of mutations) {
+                if (m.attributeName === 'class') {
+                    renderAll();
+                    break;
+                }
+            }
+        });
+        observer.observe(document.body, { attributes: true });
+    })();
+    </script>
 </body>
-</html> 
+</html>
