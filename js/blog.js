@@ -353,6 +353,18 @@ function getBlogPosts() {
     // 文章数据
     return [
         {
+            "id": "gwo-alexnet-bearing-paper-review-20260429",
+            "title": "论文精读：基于 GWO-AlexNet 的工业轴承可解释性图像分类方法",
+            "title_en": "Paper Review: Interpretable Image Classification Method for Industrial Bearing Based on GWO-AlexNet",
+            "excerpt": "对轴承故障诊断领域的一篇论文进行系统精读，涵盖二维小波变换信号预处理、AlexNet 迁移学习、灰狼优化算法（GWO）超参数搜索、t-SNE 特征可视化以及 Grad-CAM 决策可解释性分析，在 CWRU 数据集上实现 99.17% 诊断准确率。",
+            "excerpt_en": "A systematic deep-dive into a bearing fault diagnosis paper, covering 2D wavelet transform signal preprocessing, AlexNet transfer learning, Grey Wolf Optimizer (GWO) hyperparameter search, t-SNE feature visualization, and Grad-CAM decision interpretability analysis, achieving 99.17% diagnostic accuracy on the CWRU dataset.",
+            "date": "2026-04-29",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260429_zh_1.md",
+            "category": "tech",
+            "tags": ["论文精读", "GWO-AlexNet", "轴承故障诊断", "Grad-CAM", "深度学习"],
+            "tags_en": ["Paper Review", "GWO-AlexNet", "Bearing Fault Diagnosis", "Grad-CAM", "Deep Learning"]
+        },
+        {
             "id": "langchain-complete-guide-20260423",
             "title": "LangChain 全解：从基础组件到生产级 Agent 开发 -- 2026 年开发者必读指南",
             "title_en": "A Comprehensive Guide to LangChain: From Core Components to Production-Grade Agent Development -- The Essential Developer's Guide for 2026",
@@ -1169,6 +1181,9 @@ function getTagTranslation(tag, targetLang) {
         'Data Visualization': '数据可视化',
         'Bayesian': '贝叶斯',
         'EDA': 'EDA',
+        'GWO-AlexNet': 'GWO-AlexNet',
+        'Bearing Fault Diagnosis': '轴承故障诊断',
+        'Grad-CAM': 'Grad-CAM',
         /* 新增标签翻译 */
         'CUDA': 'CUDA',
         'GPU Programming': 'GPU编程', 
@@ -1316,6 +1331,9 @@ function getTagTranslation(tag, targetLang) {
         '数据可视化': 'Data Visualization',
         '贝叶斯': 'Bayesian',
         'EDA': 'EDA',
+        'GWO-AlexNet': 'GWO-AlexNet',
+        '轴承故障诊断': 'Bearing Fault Diagnosis',
+        'Grad-CAM': 'Grad-CAM',
         /* 新增标签翻译 */
         'CUDA': 'CUDA',
         'GPU编程': 'GPU Programming',

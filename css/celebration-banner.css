@@ -1,25 +1,44 @@
-/* 庆祝横幅样式 - 中国人民解放军建立98周年 */
+/* ══════════════════════════════════════════════════════
+   节日横幅样式 — 自动节日主题系统
+   支持：元旦 / 春节 / 劳动节 / 端午 / 儿童节 / 建党日 / 国庆 / 中秋
+   通过 CSS 自定义属性实现主题切换，每个节日仅需覆盖变量
+   ══════════════════════════════════════════════════════ */
+
+/* ── 基础样式 & 默认主题变量 ── */
 .celebration-banner {
+    --cb-bg:            linear-gradient(135deg, #E53935 0%, #FF6F00 50%, #E53935 100%);
+    --cb-color:         #ffffff;
+    --cb-shadow:        rgba(229, 57, 53, 0.35);
+    --cb-border:        #FFCA28;
+    --cb-star:          #FFCA28;
+    --cb-shimmer:       rgba(255, 255, 255, 0.25);
+
     position: fixed;
-    top: 70px; /* 位于导航栏下方 */
+    top: 70px;
     left: 0;
     right: 0;
     z-index: 999;
-    background: linear-gradient(135deg, #DC143C 0%, #B22222 50%, #DC143C 100%);
-    color: #FFD700;
     padding: 12px 20px;
     text-align: center;
     font-family: 'ZCOOL KuaiLe', '黑体', sans-serif;
     font-size: 16px;
     font-weight: 600;
     letter-spacing: 1px;
-    box-shadow: 0 4px 12px rgba(220, 20, 60, 0.3);
-    border-bottom: 2px solid #FFD700;
+    overflow: hidden;
     transform: translateY(-100%);
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow: hidden;
+
+    background: var(--cb-bg);
+    color: var(--cb-color);
+    box-shadow: 0 4px 12px var(--cb-shadow);
+    border-bottom: 2px solid var(--cb-border);
 }
 
+.celebration-banner.show {
+    transform: translateY(0);
+}
+
+/* ── 流光扫过效果 ── */
 .celebration-banner::before {
     content: '';
     position: absolute;
@@ -27,23 +46,16 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
-    animation: shimmer 3s infinite;
+    background: linear-gradient(90deg, transparent, var(--cb-shimmer), transparent);
+    animation: cb-shimmer 3s infinite;
 }
 
-@keyframes shimmer {
-    0% {
-        left: -100%;
-    }
-    100% {
-        left: 100%;
-    }
+@keyframes cb-shimmer {
+    0%   { left: -100%; }
+    100% { left: 100%; }
 }
 
-.celebration-banner.show {
-    transform: translateY(0);
-}
-
+/* ── 内容布局 ── */
 .celebration-banner-content {
     position: relative;
     z-index: 1;
@@ -51,41 +63,6 @@
     align-items: center;
     justify-content: center;
     gap: 12px;
-}
-
-.celebration-banner .flag-icon {
-    display: inline-block;
-    font-size: 20px;
-    animation: wave 2s ease-in-out infinite;
-}
-
-@keyframes wave {
-    0%, 100% {
-        transform: rotate(0deg);
-    }
-    25% {
-        transform: rotate(-10deg);
-    }
-    75% {
-        transform: rotate(10deg);
-    }
-}
-
-.celebration-banner .star-icon {
-    color: #FFD700;
-    font-size: 14px;
-    animation: twinkle 1.5s ease-in-out infinite alternate;
-}
-
-@keyframes twinkle {
-    0% {
-        opacity: 0.7;
-        transform: scale(1);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1.1);
-    }
 }
 
 .celebration-banner-text {
@@ -99,28 +76,174 @@
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
 }
 
-/* 响应式设计 */
+/* ── 图标动画 ── */
+.celebration-banner .flag-icon {
+    display: inline-block;
+    font-size: 20px;
+    animation: cb-wave 2s ease-in-out infinite;
+}
+
+.celebration-banner .star-icon {
+    color: var(--cb-star);
+    font-size: 14px;
+    animation: cb-twinkle 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes cb-wave {
+    0%, 100% { transform: rotate(0deg); }
+    25%      { transform: rotate(-10deg); }
+    75%      { transform: rotate(10deg); }
+}
+
+@keyframes cb-twinkle {
+    0%   { opacity: 0.7; transform: scale(1); }
+    100% { opacity: 1;   transform: scale(1.1); }
+}
+
+
+/* ══════════════════════════════════════════════════════
+   主题配色
+   ══════════════════════════════════════════════════════ */
+
+/* 元旦 — 深蓝星空 + 金色烟花 */
+.celebration-banner.theme-newyear {
+    --cb-bg:      linear-gradient(135deg, #0D47A1 0%, #1565C0 50%, #0D47A1 100%);
+    --cb-color:   #FFFFFF;
+    --cb-shadow:  rgba(13, 71, 161, 0.4);
+    --cb-border:  #FFD700;
+    --cb-star:    #FFD700;
+    --cb-shimmer: rgba(255, 215, 0, 0.2);
+}
+
+/* 春节/除夕 — 中国红 + 金色 */
+.celebration-banner.theme-spring {
+    --cb-bg:      linear-gradient(135deg, #B71C1C 0%, #D32F2F 50%, #B71C1C 100%);
+    --cb-color:   #FFD700;
+    --cb-shadow:  rgba(183, 28, 28, 0.45);
+    --cb-border:  #FFD700;
+    --cb-star:    #FFD700;
+    --cb-shimmer: rgba(255, 215, 0, 0.25);
+}
+
+/* 劳动节 — 热情红橙 */
+.celebration-banner.theme-labor {
+    --cb-bg:      linear-gradient(135deg, #E53935 0%, #FF6F00 50%, #E53935 100%);
+    --cb-color:   #FFFFFF;
+    --cb-shadow:  rgba(229, 57, 53, 0.35);
+    --cb-border:  #FFCA28;
+    --cb-star:    #FFCA28;
+    --cb-shimmer: rgba(255, 255, 255, 0.25);
+}
+
+/* 端午节 — 竹青墨绿 */
+.celebration-banner.theme-dragon {
+    --cb-bg:      linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #1B5E20 100%);
+    --cb-color:   #FFFFFF;
+    --cb-shadow:  rgba(27, 94, 32, 0.4);
+    --cb-border:  #A5D6A7;
+    --cb-star:    #A5D6A7;
+    --cb-shimmer: rgba(165, 214, 167, 0.25);
+}
+
+/* 儿童节 — 活泼粉彩 */
+.celebration-banner.theme-children {
+    --cb-bg:      linear-gradient(135deg, #E91E63 0%, #FF80AB 50%, #E91E63 100%);
+    --cb-color:   #FFFFFF;
+    --cb-shadow:  rgba(233, 30, 99, 0.35);
+    --cb-border:  #FFD54F;
+    --cb-star:    #FFD54F;
+    --cb-shimmer: rgba(255, 255, 255, 0.3);
+}
+
+/* 建党日 — 庄严红 + 金星 */
+.celebration-banner.theme-party {
+    --cb-bg:      linear-gradient(135deg, #B71C1C 0%, #C62828 50%, #B71C1C 100%);
+    --cb-color:   #FFD700;
+    --cb-shadow:  rgba(183, 28, 28, 0.45);
+    --cb-border:  #FFD700;
+    --cb-star:    #FFD700;
+    --cb-shimmer: rgba(255, 215, 0, 0.2);
+}
+
+/* 国庆节 — 鲜红国旗 + 金色 */
+.celebration-banner.theme-national {
+    --cb-bg:      linear-gradient(135deg, #D50000 0%, #FF1744 50%, #D50000 100%);
+    --cb-color:   #FFD700;
+    --cb-shadow:  rgba(213, 0, 0, 0.45);
+    --cb-border:  #FFD700;
+    --cb-star:    #FFD700;
+    --cb-shimmer: rgba(255, 215, 0, 0.25);
+}
+
+/* 中秋节 — 靛蓝月色 + 暖金 */
+.celebration-banner.theme-midautumn {
+    --cb-bg:      linear-gradient(135deg, #1A237E 0%, #283593 50%, #1A237E 100%);
+    --cb-color:   #FFE082;
+    --cb-shadow:  rgba(26, 35, 126, 0.45);
+    --cb-border:  #FFE082;
+    --cb-star:    #FFE082;
+    --cb-shimmer: rgba(255, 224, 130, 0.2);
+}
+
+
+/* ══════════════════════════════════════════════════════
+   暗色模式适配（加深背景，增强辉光）
+   ══════════════════════════════════════════════════════ */
+
+body.dark-mode .celebration-banner.theme-newyear {
+    --cb-bg:     linear-gradient(135deg, #0A3070 0%, #0D47A1 50%, #0A3070 100%);
+    --cb-shadow: rgba(10, 48, 112, 0.55);
+}
+
+body.dark-mode .celebration-banner.theme-spring {
+    --cb-bg:     linear-gradient(135deg, #8E1515 0%, #B71C1C 50%, #8E1515 100%);
+    --cb-shadow: rgba(142, 21, 21, 0.55);
+}
+
+body.dark-mode .celebration-banner.theme-labor {
+    --cb-bg:     linear-gradient(135deg, #C62828 0%, #E65100 50%, #C62828 100%);
+    --cb-shadow: rgba(198, 40, 40, 0.5);
+}
+
+body.dark-mode .celebration-banner.theme-dragon {
+    --cb-bg:     linear-gradient(135deg, #134118 0%, #1B5E20 50%, #134118 100%);
+    --cb-shadow: rgba(19, 65, 24, 0.55);
+}
+
+body.dark-mode .celebration-banner.theme-children {
+    --cb-bg:     linear-gradient(135deg, #C2185B 0%, #E91E63 50%, #C2185B 100%);
+    --cb-shadow: rgba(194, 24, 91, 0.5);
+}
+
+body.dark-mode .celebration-banner.theme-party {
+    --cb-bg:     linear-gradient(135deg, #8E1515 0%, #B71C1C 50%, #8E1515 100%);
+    --cb-shadow: rgba(142, 21, 21, 0.55);
+}
+
+body.dark-mode .celebration-banner.theme-national {
+    --cb-bg:     linear-gradient(135deg, #A00000 0%, #D50000 50%, #A00000 100%);
+    --cb-shadow: rgba(160, 0, 0, 0.55);
+}
+
+body.dark-mode .celebration-banner.theme-midautumn {
+    --cb-bg:     linear-gradient(135deg, #111A5E 0%, #1A237E 50%, #111A5E 100%);
+    --cb-shadow: rgba(17, 26, 94, 0.55);
+}
+
+
+/* ══════════════════════════════════════════════════════
+   响应式设计
+   ══════════════════════════════════════════════════════ */
+
 @media (max-width: 768px) {
     .celebration-banner {
         font-size: 14px;
         padding: 10px 15px;
     }
-    
-    .celebration-banner-content {
-        gap: 8px;
-    }
-    
-    .celebration-banner .flag-icon {
-        font-size: 18px;
-    }
-    
-    .celebration-banner-text {
-        font-size: 14px;
-    }
-    
-    .celebration-banner-year {
-        font-size: 16px;
-    }
+    .celebration-banner-content { gap: 8px; }
+    .celebration-banner .flag-icon { font-size: 18px; }
+    .celebration-banner-text { font-size: 14px; }
+    .celebration-banner-year { font-size: 16px; }
 }
 
 @media (max-width: 480px) {
@@ -128,45 +251,24 @@
         font-size: 12px;
         padding: 8px 10px;
     }
-    
     .celebration-banner-content {
         flex-direction: column;
         gap: 4px;
     }
-    
-    .celebration-banner .flag-icon {
-        font-size: 16px;
-    }
-    
-    .celebration-banner-text {
-        font-size: 12px;
-    }
-    
-    .celebration-banner-year {
-        font-size: 14px;
-    }
+    .celebration-banner .flag-icon { font-size: 16px; }
+    .celebration-banner-text { font-size: 12px; }
+    .celebration-banner-year { font-size: 14px; }
 }
 
-/* 暗色模式适配 */
-body.dark-mode .celebration-banner {
-    box-shadow: 0 4px 12px rgba(220, 20, 60, 0.4);
-}
 
-body.dark-mode .celebration-banner::before {
-    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
-}
-
-/* 确保横幅不影响主要内容的布局 */
-body.celebration-banner-active {
-    /* 当横幅显示时，为主要内容添加额外的顶部间距 */
-}
+/* ══════════════════════════════════════════════════════
+   布局保护 & 英文模式字体
+   ══════════════════════════════════════════════════════ */
 
 body.celebration-banner-active main {
-    /* 平滑过渡效果 */
     transition: margin-top 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* 英文模式下的字体调整 */
 body.en .celebration-banner {
     font-family: 'Chewy', 'Arial', sans-serif;
     letter-spacing: 0.5px;
@@ -178,4 +280,4 @@ body.en .celebration-banner-text {
 
 body.en .celebration-banner-year {
     font-size: 17px;
-} 
+}
