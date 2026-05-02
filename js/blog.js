@@ -353,6 +353,30 @@ function getBlogPosts() {
     // 文章数据
     return [
         {
+            "id": "self-consistency-in-imperfection-20260502",
+            "title": "从不圆满中自洽人生",
+            "title_en": "Finding Self-Consistency in an Imperfect Life",
+            "excerpt": "人生不如意，十常八九。不圆满是常态，残缺是本质。从不圆满中自洽人生，学会豁达从容，摒弃社会达尔文主义的丛林法则，以辩证的眼光看世界，在不完美的尘世中经营自己的天地，这才是真正的智慧。",
+            "excerpt_en": "Life is rarely as we wish — imperfection is the norm, and incompleteness is the essence. Finding self-consistency amid imperfection, embracing openness and composure, rejecting Social Darwinism, viewing the world dialectically, and cultivating one's own place in an imperfect world — that is true wisdom.",
+            "date": "2026-05-02",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260502_zh_1.md",
+            "category": "idea",
+            "tags": ["思想", "人生", "哲学", "辩证", "自洽"],
+            "tags_en": ["Thoughts", "Life", "Philosophy", "Dialectics", "Self-Consistency"]
+        },
+        {
+            "id": "wisdom-and-accumulation-20260502",
+            "title": "达而知命，厚积而薄发",
+            "title_en": "Understanding Destiny Through Wisdom, Accumulating for Breakthrough",
+            "excerpt": "欲望本身便是虚无缥缈之物，我们却常常为其所困。达而知命，并非消极认命，而是在通达事理之后认清自己；厚积而薄发，也非消极等待，而是在沉默中积蓄力量。在百年未有之大变局中，保持奋斗的理想，也要学会适度躺平，给自己的欲望加上一把锁。",
+            "excerpt_en": "Desire is inherently ethereal, yet we are often trapped by it. Understanding destiny is not passive resignation but clear self-awareness after grasping the nature of things; accumulating for breakthrough is not passive waiting but gathering strength in silence. Amid unprecedented changes, we must maintain ideals of endeavor while learning to moderate our desires.",
+            "date": "2026-05-02",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260502_zh_2.md",
+            "category": "idea",
+            "tags": ["思想", "人生", "哲学", "厚积薄发", "知命"],
+            "tags_en": ["Thoughts", "Life", "Philosophy", "Accumulation", "Destiny"]
+        },
+        {
             "id": "gwo-alexnet-bearing-paper-review-20260429",
             "title": "论文精读：基于 GWO-AlexNet 的工业轴承可解释性图像分类方法",
             "title_en": "Paper Review: Interpretable Image Classification Method for Industrial Bearing Based on GWO-AlexNet",
@@ -1184,6 +1208,11 @@ function getTagTranslation(tag, targetLang) {
         'GWO-AlexNet': 'GWO-AlexNet',
         'Bearing Fault Diagnosis': '轴承故障诊断',
         'Grad-CAM': 'Grad-CAM',
+        'Philosophy': '哲学',
+        'Dialectics': '辩证',
+        'Self-Consistency': '自洽',
+        'Accumulation': '厚积薄发',
+        'Destiny': '知命',
         /* 新增标签翻译 */
         'CUDA': 'CUDA',
         'GPU Programming': 'GPU编程', 
@@ -1334,6 +1363,11 @@ function getTagTranslation(tag, targetLang) {
         'GWO-AlexNet': 'GWO-AlexNet',
         '轴承故障诊断': 'Bearing Fault Diagnosis',
         'Grad-CAM': 'Grad-CAM',
+        '哲学': 'Philosophy',
+        '辩证': 'Dialectics',
+        '自洽': 'Self-Consistency',
+        '厚积薄发': 'Accumulation',
+        '知命': 'Destiny',
         /* 新增标签翻译 */
         'CUDA': 'CUDA',
         'GPU编程': 'GPU Programming',
