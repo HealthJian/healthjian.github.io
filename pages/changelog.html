@@ -102,6 +102,21 @@
 
         <section class="changelog-timeline">
             <div class="timeline-item">
+                <div class="timeline-date">2026-05-09</div>
+                <div class="timeline-content">
+                    <h2 data-en="Sort Visualizer — Race Mode Bug Fixes & Stability" data-zh="排序可视化 — 竞技模式 Bug 修复与稳定性改进">排序可视化 — 竞技模式 Bug 修复与稳定性改进</h2>
+                    <ul>
+                        <li data-en="Fixed RaceController constructor mismatch — now accepts no arguments and initializes runner list as empty." data-zh="修复 RaceController 构造函数参数不匹配问题 — 改为无参构造，初始化为空 runner 列表。"><strong>构造函数修复</strong>：修复 RaceController 构造函数参数不匹配问题 — 改为无参构造，初始化为空 runner 列表。</li>
+                        <li data-en="Added missing addRunner() method to RaceController class for proper runner registration." data-zh="为 RaceController 类补充缺失的 addRunner() 方法，用于正确注册 runner。"><strong>补充方法</strong>：为 RaceController 类补充缺失的 addRunner() 方法，用于正确注册 runner。</li>
+                        <li data-en="Fixed AlgorithmRunner 3rd argument — passing ALGO_INFO object instead of a number, restoring comparison table data (stability, time complexity)." data-zh="修复 AlgorithmRunner 第三个参数 — 改为传入 ALGO_INFO 对象而非数值，恢复对比表格的稳定性、时间复杂度等数据。"><strong>参数修正</strong>：修复 AlgorithmRunner 第三个参数 — 改为传入 ALGO_INFO 对象而非数值，恢复对比表格的稳定性、时间复杂度等数据。</li>
+                        <li data-en="Fixed race mode UI freeze root cause: render() crashed on null querySelector (missing .race-comparisons / .race-swaps class elements), silently breaking the requestAnimationFrame loop and leaving state.sorting permanently stuck as true. Added null guards to prevent the crash." data-zh="修复竞技模式界面无响应根因：render() 中 querySelector 因查找不存在的 .race-comparisons / .race-swaps 类元素而返回 null，导致 TypeError 静默中断 requestAnimationFrame 循环，state.sorting 永久卡在 true 状态。添加了空值保护防止崩溃。"><strong>界面卡死修复</strong>：修复竞技模式界面无响应的根因 — render() 中 querySelector 因查找不存在的类元素而返回 null，导致 TypeError 静默中断动画循环且 state.sorting 永久卡死，添加空值保护防止崩溃。</li>
+                        <li data-en="Removed unused renderSpeed variable from startRace()." data-zh="移除 startRace() 中未使用的 renderSpeed 变量。"><strong>清理死代码</strong>：移除 startRace() 中未使用的 renderSpeed 变量。</li>
+                        <li data-en="Changed Files: pages/demo/demojs/sort-visualizer.js (all fixes in engine/controller code)." data-zh="改动文件：pages/demo/demojs/sort-visualizer.js（引擎与控制器的全部修复）。"><strong>改动文件</strong>：pages/demo/demojs/sort-visualizer.js（引擎与控制器的全部修复）。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
                 <div class="timeline-date">2026-04-29</div>
                 <div class="timeline-content">
                     <h2 data-en="Categories & Knowledge Map Page — New Feature / About Page — Internship Experience" data-zh="分类与知识图谱页面 — 全新上线 / 关于页面 — 新增实习经历">分类与知识图谱页面 — 全新上线 / 关于页面 — 新增实习经历</h2>
