@@ -141,6 +141,35 @@
         }
 
         /* Terminal-style prompt */
+        /* Lottie cat (alive_cat.json) */
+        .cat-lottie-wrap {
+            width: min(100%, 360px);
+            margin: 0 auto 16px;
+            aspect-ratio: 1070 / 456;
+            position: relative;
+        }
+        .cat-lottie {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+        .cat-lottie svg {
+            width: 100% !important;
+            height: auto !important;
+            max-height: 100%;
+        }
+        .cat-lottie-fallback {
+            display: none;
+            font-size: 3rem;
+            line-height: 1;
+            opacity: 0.35;
+        }
+        .cat-lottie-wrap.is-fallback .cat-lottie { display: none; }
+        .cat-lottie-wrap.is-fallback .cat-lottie-fallback { display: block; }
+
         .terminal-prompt {
             display:inline-block;
             font-family:var(--mono);
@@ -150,7 +179,7 @@
             padding:5px 14px;
             border-radius:999px;
             border:1px solid rgba(0,122,255,0.15);
-            margin-bottom:28px;
+            margin-bottom:20px;
             letter-spacing:.5px;
         }
         body.dark-mode .terminal-prompt {
@@ -318,6 +347,10 @@
             .error-code,.error-code::before,.error-code::after { animation:none; }
             .error-card { animation:none; opacity:1; transform:none; }
         }
+
+        @media (max-width:420px) {
+            .cat-lottie-wrap { width: min(100%, 280px); margin-bottom: 12px; }
+        }
     </style>
 </head>
 <body class="light-mode">
@@ -357,6 +390,10 @@
     <main>
         <div class="error-card">
             <div class="terminal-prompt">$ curl -I this-page</div>
+            <div class="cat-lottie-wrap" id="catLottieWrap" title="Cat playing animation">
+                <div id="catLottie" class="cat-lottie" aria-hidden="true"></div>
+                <span class="cat-lottie-fallback" aria-hidden="true">🐱</span>
+            </div>
             <h1 class="error-code">404</h1>
             <h2 class="error-title">
                 <span class="lang-content" data-zh="页面未找到" data-en="Page Not Found">页面未找到</span>
@@ -393,9 +430,55 @@
         <span>&copy; 2025 HealthJian &middot; <a href="../../index.html"><span class="lang-content" data-zh="返回主站" data-en="Back to Home">返回主站</span></a></span>
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" crossorigin="anonymous"></script>
     <script>
     (function(){
         'use strict';
+
+        /* ---- Lottie cat (../../alive_cat.json) ---- */
+        function initCatLottie(){
+            const wrap = document.getElementById('catLottieWrap');
+            const container = document.getElementById('catLottie');
+            if(!wrap || !container) return;
+
+            if(typeof lottie === 'undefined'){
+                wrap.classList.add('is-fallback');
+                return;
+            }
+
+            const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            let anim;
+
+            try {
+                anim = lottie.loadAnimation({
+                    container: container,
+                    renderer: 'svg',
+                    loop: true,
+                    autoplay: !reducedMotion,
+                    path: '../../alive_cat.json'
+                });
+            } catch (e) {
+                wrap.classList.add('is-fallback');
+                return;
+            }
+
+            anim.addEventListener('data_failed', () => {
+                wrap.classList.add('is-fallback');
+                try { anim.destroy(); } catch (_) {}
+            });
+
+            if(reducedMotion){
+                anim.addEventListener('DOMLoaded', () => {
+                    anim.goToAndStop(0, true);
+                });
+            }
+        }
+
+        if(document.readyState === 'loading'){
+            document.addEventListener('DOMContentLoaded', initCatLottie);
+        } else {
+            initCatLottie();
+        }
 
         /* ---- Particle Background ---- */
         const canvas = document.getElementById('particleCanvas');

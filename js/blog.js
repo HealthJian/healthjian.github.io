@@ -365,6 +365,18 @@ function getBlogPosts() {
             "tags_en": ["Multi-Agent", "E-Commerce", "LangGraph", "Electron", "FastAPI"]
         },
         {
+            "id": "llm-resume-assistant-thesis-20260603",
+            "title": "本科毕设成果综述：基于大模型的智能简历生成助手",
+            "title_en": "Thesis Retrospective: LLM-Based Intelligent Resume Generation Assistant",
+            "excerpt": "对毕业设计工作的脱敏技术复盘：四段式简历生成流水线、约 15 万条 ShareGPT 指令微调数据、Qwen+LoRA/RAG/动态 Prompt、React+FastAPI 系统与 ATS 闭环，以及消融实验、事实一致性与安全合规方面的主要结论与个人工程收获。",
+            "excerpt_en": "A de-identified technical retrospective of an undergraduate thesis: four-stage resume pipeline, ~150k ShareGPT SFT samples, Qwen+LoRA/RAG/dynamic prompts, React+FastAPI app with ATS loop, plus ablation results, factual consistency checks, security design, and engineering takeaways.",
+            "date": "2026-06-03",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260603_zh_2.md",
+            "category": "tech",
+            "tags": ["毕业设计", "大模型", "简历生成", "LoRA", "RAG"],
+            "tags_en": ["Thesis", "LLM", "Resume Generation", "LoRA", "RAG"]
+        },
+        {
             "id": "self-consistency-in-imperfection-20260502",
             "title": "从不圆满中自洽人生",
             "title_en": "Finding Self-Consistency in an Imperfect Life",
@@ -1228,6 +1240,8 @@ function getTagTranslation(tag, targetLang) {
         'E-Commerce': '电商',
         'Multi-Agent': '多智能体',
         'FastAPI': 'FastAPI',
+        'Thesis': '毕业设计',
+        'Resume Generation': '简历生成',
         /* 新增标签翻译 */
         'CUDA': 'CUDA',
         'GPU Programming': 'GPU编程', 
@@ -1385,6 +1399,8 @@ function getTagTranslation(tag, targetLang) {
         '知命': 'Destiny',
         '电商': 'E-Commerce',
         'FastAPI': 'FastAPI',
+        '毕业设计': 'Thesis',
+        '简历生成': 'Resume Generation',
         /* 新增标签翻译 */
         'CUDA': 'CUDA',
         'GPU编程': 'GPU Programming',
