@@ -34,6 +34,39 @@
         }
     </script>
     <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- ========== LOTTIE space_plant 样式 START（删除至 END 可回档）========== -->
+    <style>
+        .blog-space-plant-wrap {
+            width: min(160px, 42vw);
+            aspect-ratio: 211 / 158;
+            position: relative;
+            opacity: 0.92;
+        }
+        .blog-space-plant {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+        .blog-space-plant svg {
+            width: 100% !important;
+            height: auto !important;
+            max-height: 100%;
+        }
+        .blog-space-plant-fallback {
+            display: none;
+            font-size: 2rem;
+            line-height: 1;
+            text-align: center;
+            opacity: 0.35;
+        }
+        .blog-space-plant-wrap.is-fallback .blog-space-plant { display: none; }
+        .blog-space-plant-wrap.is-fallback .blog-space-plant-fallback { display: block; }
+    </style>
+    <!-- ========== LOTTIE space_plant 样式 END ========== -->
 </head>
 <body class="light-mode" data-blog-ui="textblog">
     <!-- 导航栏 -->
@@ -105,6 +138,15 @@
                 </div>
             </div>
         </section>
+
+        <!-- ========== LOTTIE space_plant START：删除本段至 END 可回档 ========== -->
+        <div class="px-6 md:px-12 lg:px-24 -mt-6 mb-2 flex justify-center pointer-events-none select-none" aria-hidden="true">
+            <div class="blog-space-plant-wrap" id="blogSpacePlantWrap" title="Space plant animation">
+                <div id="blogSpacePlant" class="blog-space-plant"></div>
+                <span class="blog-space-plant-fallback">🌱</span>
+            </div>
+        </div>
+        <!-- ========== LOTTIE space_plant END ========== -->
 
         <!-- 文章卡片区 -->
         <section class="px-6 md:px-12 lg:px-24 pb-20">
@@ -356,5 +398,45 @@
             render(articles);
         });
     </script>
+
+    <!-- ========== LOTTIE space_plant 脚本 START（删除至 END 可回档）========== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" crossorigin="anonymous"></script>
+    <script>
+    (function(){
+        function initBlogSpacePlant(){
+            const wrap = document.getElementById('blogSpacePlantWrap');
+            const container = document.getElementById('blogSpacePlant');
+            if(!wrap || !container) return;
+            if(typeof lottie === 'undefined'){ wrap.classList.add('is-fallback'); return; }
+            const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            let anim;
+            try {
+                anim = lottie.loadAnimation({
+                    container: container,
+                    renderer: 'svg',
+                    loop: true,
+                    autoplay: !reducedMotion,
+                    path: '../space_plant.json'
+                });
+            } catch (e) {
+                wrap.classList.add('is-fallback');
+                return;
+            }
+            anim.addEventListener('data_failed', () => {
+                wrap.classList.add('is-fallback');
+                try { anim.destroy(); } catch (_) {}
+            });
+            if(reducedMotion){
+                anim.addEventListener('DOMLoaded', () => { anim.goToAndStop(0, true); });
+            }
+        }
+        if(document.readyState === 'loading'){
+            document.addEventListener('DOMContentLoaded', initBlogSpacePlant);
+        } else {
+            initBlogSpacePlant();
+        }
+    })();
+    </script>
+    <!-- ========== LOTTIE space_plant 脚本 END ========== -->
 </body>
 </html>
