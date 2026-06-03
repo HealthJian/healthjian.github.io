@@ -353,6 +353,18 @@ function getBlogPosts() {
     // 文章数据
     return [
         {
+            "id": "ecommerce-agent-hub-20260603",
+            "title": "从 Demo 到桌面：多 Agent 电商运营中枢的工程实践手记",
+            "title_en": "From Demo to Desktop: Engineering Notes on a Multi-Agent E-Commerce Operations Hub",
+            "excerpt": "中小型电商真正缺的往往不是一个聊天框，而是一套本地可审计、敢碰库存与资金的运营系统。本文以开发者手记形式，完整讲述多 Agent 电商运营中枢 V3.0 的架构选型、八个 LangGraph Agent 的中断点设计、红色放权机制，以及 M0–M4 里程碑里的真实取舍与踩坑。",
+            "excerpt_en": "SMB e-commerce teams often need a local, auditable ops system—not another chat box. This engineering narrative covers architecture choices, eight LangGraph agents with human-in-the-loop interrupts, red authorization, and honest M0–M4 trade-offs for the Multi-Agent E-Commerce Operations Hub V3.0.",
+            "date": "2026-06-03",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260603_zh_1.md",
+            "category": "tech",
+            "tags": ["多智能体", "电商", "LangGraph", "Electron", "FastAPI"],
+            "tags_en": ["Multi-Agent", "E-Commerce", "LangGraph", "Electron", "FastAPI"]
+        },
+        {
             "id": "self-consistency-in-imperfection-20260502",
             "title": "从不圆满中自洽人生",
             "title_en": "Finding Self-Consistency in an Imperfect Life",
@@ -1213,6 +1225,9 @@ function getTagTranslation(tag, targetLang) {
         'Self-Consistency': '自洽',
         'Accumulation': '厚积薄发',
         'Destiny': '知命',
+        'E-Commerce': '电商',
+        'Multi-Agent': '多智能体',
+        'FastAPI': 'FastAPI',
         /* 新增标签翻译 */
         'CUDA': 'CUDA',
         'GPU Programming': 'GPU编程', 
@@ -1368,6 +1383,8 @@ function getTagTranslation(tag, targetLang) {
         '自洽': 'Self-Consistency',
         '厚积薄发': 'Accumulation',
         '知命': 'Destiny',
+        '电商': 'E-Commerce',
+        'FastAPI': 'FastAPI',
         /* 新增标签翻译 */
         'CUDA': 'CUDA',
         'GPU编程': 'GPU Programming',

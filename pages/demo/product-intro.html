@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>多 Agent 电商运营中枢 V3.0 — 产品介绍</title>
+  <style>
+    :root {
+      --primary: #1a56db;
+      --primary-dark: #0e3a8a;
+      --accent: #0891b2;
+      --gold: #d97706;
+      --success: #059669;
+      --danger: #dc2626;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --gradient: linear-gradient(135deg, #1a56db 0%, #0891b2 100%);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      font-size: 15px;
+    }
+
+  /* ── Cover ── */
+    .cover {
+      min-height: 100vh;
+      background: var(--gradient);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 60px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cover::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .cover-badge {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      padding: 6px 20px;
+      border-radius: 999px;
+      font-size: 13px;
+      letter-spacing: 2px;
+      margin-bottom: 32px;
+      backdrop-filter: blur(8px);
+    }
+    .cover h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      color: #fff;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .cover .subtitle {
+      font-size: clamp(1rem, 2.5vw, 1.35rem);
+      color: rgba(255,255,255,0.85);
+      max-width: 720px;
+      margin-bottom: 48px;
+      position: relative;
+    }
+    .cover-meta {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+      position: relative;
+    }
+    .cover-meta-item { text-align: center; color: rgba(255,255,255,0.9); }
+    .cover-meta-item .num {
+      font-size: 2.2rem;
+      font-weight: 800;
+      display: block;
+      color: #fff;
+    }
+    .cover-meta-item .label { font-size: 13px; opacity: 0.75; }
+
+  /* ── Nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px;
+    }
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 0;
+      overflow-x: auto;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    nav a {
+      display: block;
+      padding: 14px 18px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+    }
+    nav a:hover { color: var(--primary); border-bottom-color: var(--primary); }
+
+  /* ── Layout ── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+    section { padding: 72px 0; }
+    section:nth-child(even) { background: #fff; }
+
+    .section-label {
+      display: inline-block;
+      background: #eff6ff;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+  h2 {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+    .section-desc {
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 760px;
+      margin-bottom: 48px;
+    }
+
+  /* ── Cards ── */
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .card:hover { box-shadow: 0 8px 32px rgba(26,86,219,0.1); transform: translateY(-2px); }
+    .card-icon {
+      width: 48px; height: 48px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      margin-bottom: 16px;
+    }
+    .card h3 { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+    .card p { color: var(--muted); font-size: 14px; }
+
+  /* ── Pain Points ── */
+    .pain-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .pain-item:last-child { border-bottom: none; }
+    .pain-num {
+      width: 36px; height: 36px;
+      background: #fef2f2;
+      color: var(--danger);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 14px; flex-shrink: 0;
+    }
+    .pain-item h4 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .pain-item p { color: var(--muted); font-size: 14px; }
+
+  /* ── Value Banner ── */
+    .value-banner {
+      background: var(--gradient);
+      border-radius: 16px;
+      padding: 48px;
+      color: #fff;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 32px;
+      text-align: center;
+      margin-top: 48px;
+    }
+    .value-banner .v-num { font-size: 2.8rem; font-weight: 900; line-height: 1; }
+    .value-banner .v-label { font-size: 14px; opacity: 0.8; margin-top: 6px; }
+    .value-banner .v-desc { font-size: 12px; opacity: 0.65; margin-top: 4px; }
+
+  /* ── Architecture Images ── */
+    .arch-block { margin-bottom: 56px; }
+    .arch-block h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .arch-block h3::before {
+      content: "";
+      width: 4px; height: 22px;
+      background: var(--primary);
+      border-radius: 2px;
+      display: inline-block;
+    }
+    .arch-block .arch-desc { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
+    .arch-img-wrap {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    }
+    .arch-img-wrap img {
+      width: 100%;
+      display: block;
+    }
+    .arch-caption {
+      padding: 14px 20px;
+      background: #f8fafc;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+  /* ── Agent Table ── */
+    .agent-table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    thead { background: #1e293b; color: #fff; }
+    thead th { padding: 14px 16px; text-align: left; font-weight: 600; white-space: nowrap; }
+    tbody tr { border-bottom: 1px solid var(--border); }
+    tbody tr:hover { background: #f8fafc; }
+    tbody td { padding: 14px 16px; vertical-align: top; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .tag-auto { background: #dcfce7; color: #166534; }
+    .tag-pause { background: #fef9c3; color: #854d0e; }
+    .tag-realtime { background: #ede9fe; color: #5b21b6; }
+
+  /* ── Roadmap ── */
+    .milestone-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-top: 32px;
+    }
+    .milestone {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 16px;
+      text-align: center;
+      position: relative;
+    }
+    .milestone.done { border-color: #86efac; background: #f0fdf4; }
+    .milestone.active { border-color: #93c5fd; background: #eff6ff; }
+    .milestone.pending { border-color: var(--border); background: #fafafa; }
+    .milestone .m-id { font-size: 22px; font-weight: 900; color: var(--primary); }
+    .milestone .m-name { font-size: 13px; font-weight: 700; margin: 6px 0 4px; }
+    .milestone .m-time { font-size: 12px; color: var(--muted); }
+    .milestone .m-status {
+      margin-top: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      display: inline-block;
+    }
+    .milestone.done .m-status { background: #dcfce7; color: #166534; }
+    .milestone.active .m-status { background: #dbeafe; color: #1d4ed8; }
+    .milestone.pending .m-status { background: #f1f5f9; color: #64748b; }
+
+  /* ── Progress Bar ── */
+    .progress-section { margin-top: 40px; }
+    .progress-item { margin-bottom: 20px; }
+    .progress-header { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 14px; }
+    .progress-header span:first-child { font-weight: 600; }
+    .progress-header span:last-child { color: var(--primary); font-weight: 700; }
+    .progress-bar { height: 8px; background: #e2e8f0; border-radius: 999px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--gradient); border-radius: 999px; }
+
+  /* ── Red Auth ── */
+    .level-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+    .level-card {
+      border-radius: 10px;
+      padding: 20px;
+      border: 1px solid var(--border);
+    }
+    .level-card.l0 { border-left: 4px solid #64748b; }
+    .level-card.l1 { border-left: 4px solid #0891b2; }
+    .level-card.l2 { border-left: 4px solid #d97706; }
+    .level-card.l3 { border-left: 4px solid #dc2626; }
+    .level-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+    .level-card p { font-size: 13px; color: var(--muted); }
+
+  /* ── Security ── */
+    .security-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+    .security-item {
+      display: flex;
+      gap: 14px;
+      padding: 20px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+    .security-icon {
+      width: 40px; height: 40px;
+      background: #eff6ff;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
+    }
+    .security-item h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .security-item p { font-size: 13px; color: var(--muted); }
+
+  /* ── Funding ── */
+    .funding-box {
+      background: linear-gradient(135deg, #0e3a8a 0%, #1a56db 50%, #0891b2 100%);
+      border-radius: 16px;
+      padding: 56px;
+      color: #fff;
+      margin-top: 48px;
+    }
+    .funding-box h3 { font-size: 1.8rem; font-weight: 800; margin-bottom: 16px; }
+    .funding-box p { opacity: 0.85; margin-bottom: 32px; max-width: 680px; }
+    .funding-items { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; }
+    .funding-item {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 10px;
+      padding: 20px;
+    }
+    .funding-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 8px; opacity: 0.8; }
+    .funding-item p { font-size: 13px; opacity: 0.75; margin: 0; }
+
+  /* ── Comparison ── */
+    .compare-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .compare-table th, .compare-table td { padding: 12px 16px; border: 1px solid var(--border); text-align: center; }
+    .compare-table thead th { background: #1e293b; color: #fff; }
+    .compare-table thead th:first-child { text-align: left; }
+    .compare-table tbody td:first-child { text-align: left; font-weight: 600; background: #f8fafc; }
+    .check { color: var(--success); font-weight: 700; }
+    .cross { color: #cbd5e1; }
+
+  /* ── Footer ── */
+    footer {
+      background: #0f172a;
+      color: rgba(255,255,255,0.7);
+      padding: 48px 40px;
+      text-align: center;
+      font-size: 13px;
+    }
+    footer strong { color: #fff; display: block; font-size: 16px; margin-bottom: 8px; }
+
+  /* ── Print ── */
+    @media print {
+      nav { display: none; }
+      .cover { min-height: auto; padding: 40px; page-break-after: always; }
+      section { page-break-inside: avoid; }
+      .card:hover { transform: none; box-shadow: none; }
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 0 20px; }
+      nav { padding: 0 16px; }
+      section { padding: 48px 0; }
+      .funding-box { padding: 32px 24px; }
+      .value-banner { padding: 32px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════ COVER ═══════════════ -->
+<div class="cover">
+  <div class="cover-badge">PRODUCT PROPOSAL · V3.0 · 2026</div>
+  <h1>多 Agent 电商运营中枢</h1>
+  <p class="subtitle">面向中小型电商团队的本地化智能运营桌面系统<br>AI 辅助决策 · 人工终审把关 · 全链路合规对接 · 数据安全可控</p>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><span class="num">8</span><span class="label">智能 Agent</span></div>
+    <div class="cover-meta-item"><span class="num">3</span><span class="label">平台 API 对接</span></div>
+    <div class="cover-meta-item"><span class="num">25+</span><span class="label">数据表 / 7 大域</span></div>
+    <div class="cover-meta-item"><span class="num">15</span><span class="label">前端功能页面</span></div>
+  </div>
+</div>
+
+<!-- ═══════════════ NAV ═══════════════ -->
+<nav>
+  <ul>
+    <li><a href="#overview">项目概述</a></li>
+    <li><a href="#pain">痛点分析</a></li>
+    <li><a href="#value">核心价值</a></li>
+    <li><a href="#architecture">系统架构</a></li>
+    <li><a href="#agents">Agent 体系</a></li>
+    <li><a href="#features">功能模块</a></li>
+    <li><a href="#security">安全合规</a></li>
+    <li><a href="#progress">开发进度</a></li>
+    <li><a href="#roadmap">实施路线</a></li>
+    <li><a href="#funding">资金规划</a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════════ 01 OVERVIEW ═══════════════ -->
+<section id="overview">
+  <div class="container">
+    <span class="section-label">01 · 项目概述</span>
+    <h2>让 AI 成为电商团队的「智能副驾」，而非「黑盒替代」</h2>
+    <p class="section-desc">
+      多 Agent 电商运营中枢 V3.0 是一套运行于 Windows 环境的大型桌面软件，专为中小型电商团队设计。
+      系统通过 <strong>8 个专业 Agent 协作 + 人工终审 + 本地数据池 + 合规 API 对接</strong>，
+      实现从竞品发现、选品寻源、采购入库到多平台订单履约、资产管理、数据分析的全链路智能化，
+      彻底告别低效手工操作及定期大规模盘点。
+    </p>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-icon" style="background:#eff6ff">🎯</div>
+        <h3>精准定位</h3>
+        <p>聚焦小红书（营销洞察）+ 美团（订单履约）+ 1688（采购寻源）三平台闭环，不做大而全，做深做透。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background:#f0fdf4">🤖</div>
+        <h3>AI 辅助，人工终审</h3>
+        <p>所有涉及资金、库存、采购的关键操作均需人工确认。AI 生成推荐与预填单，支付必须在平台完成，不代付、不托管资金。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background:#fdf4ff">🔒</div>
+        <h3>本地化优先</h3>
+        <p>数据库、服务全量本地部署，后端仅监听 127.0.0.1，确保商业数据安全可控，符合数据合规要求。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background:#fff7ed">📊</div>
+        <h3>量化决策看板</h3>
+        <p>借鉴金融量化分析理念，提供商品动量、波动率、毛利估值等指标，支持拖拽式自定义分析画布。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background:#fef2f2">🔴</div>
+        <h3>红色放权机制</h3>
+        <p>极端缺人时可逐级释放 Agent 自主权（L0→L3），全程红色预警、金额硬顶、事后审计，风险可控。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background:#ecfeff">🏭</div>
+        <h3>资产全生命周期</h3>
+        <p>统一管理商超资产（货架、冷柜）和仓库资产（叉车、扫描枪），含保养计划、耗材联动采购。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 02 PAIN POINTS ═══════════════ -->
+<section id="pain" style="background:#fff">
+  <div class="container">
+    <span class="section-label">02 · 痛点分析</span>
+    <h2>中小型电商团队正在面临的六大运营困境</h2>
+    <p class="section-desc">我们深入调研了 20+ 家中小型电商团队的日常运营流程，总结出以下核心痛点，正是本系统要解决的根本问题。</p>
+
+    <div style="background:#fafafa;border:1px solid var(--border);border-radius:12px;padding:8px 28px">
+      <div class="pain-item">
+        <div class="pain-num">01</div>
+        <div>
+          <h4>竞品信息碎片化，趋势捕捉滞后</h4>
+          <p>运营人员每天手动刷小红书、记录爆款，无法系统化追踪热度变化，错失选品窗口期。平均反应滞后 3-7 天。</p>
+        </div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-num">02</div>
+        <div>
+          <h4>选品采购依赖个人经验，缺乏数据支撑</h4>
+          <p>1688 上同款商品成千上万，靠肉眼比价、凭感觉下单，毛利率波动大，供应商可靠性无系统评估。</p>
+        </div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-num">03</div>
+        <div>
+          <h4>多平台订单与库存不同步</h4>
+          <p>美团、自有渠道订单分散管理，库存扣减靠人工，超卖、缺货频发，售后处理效率低。</p>
+        </div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-num">04</div>
+        <div>
+          <h4>库存管理粗放，盘点耗力</h4>
+          <p>缺乏销量预测和补货建议，要么积压占资金，要么断货丢单。定期全量盘点占用 2-3 人天。</p>
+        </div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-num">05</div>
+        <div>
+          <h4>资产与耗材管理缺失</h4>
+          <p>货架、冷柜、叉车等固定资产无台账，维修保养靠记忆；包装耗材与商品库存割裂，重复采购或断供。</p>
+        </div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-num">06</div>
+        <div>
+          <h4>数据报表手工制作，决策缺乏依据</h4>
+          <p>日报、周报靠 Excel 汇总，耗时 1-2 小时/天，数据口径不统一，管理层无法实时掌握经营状况。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 03 VALUE ═══════════════ -->
+<section id="value">
+  <div class="container">
+    <span class="section-label">03 · 核心价值</span>
+    <h2>量化收益：系统上线后可预期的运营提升</h2>
+    <p class="section-desc">基于同类系统落地经验及当前 Demo 验证数据，以下为保守估算的预期收益。</p>
+
+    <div class="value-banner">
+      <div>
+        <div class="v-num">70%</div></div>
+        <div class="v-label">竞品监控自动化</div>
+        <div class="v-desc">每日 8:00 自动抓取分析<br>替代 2h 人工刷帖</div>
+      </div>
+      <div>
+        <div class="v-num">50%</div>
+        <div class="v-label">选品决策效率提升</div>
+        <div class="v-desc">AI 性价比分析 + 毛利预估<br>缩短选品周期 3→1 天</div>
+      </div>
+      <div>
+        <div class="v-num">90%</div>
+        <div class="v-label">报表自动生成</div>
+        <div class="v-desc">18:00 自动生成 HTML/PDF 日报<br>含 AI 洞察与行动建议</div>
+      </div>
+      <div>
+        <div class="v-num">0</div>
+        <div class="v-label">资金托管风险</div>
+        <div class="v-desc">不代付、不托管<br>支付必须在平台完成</div>
+      </div>
+    </div>
+
+    <div style="margin-top:56px">
+      <h3 style="font-size:18px;font-weight:700;margin-bottom:24px">与市面通用 ERP / SaaS 对比</h3>
+      <div style="overflow-x:auto;border-radius:12px;border:1px solid var(--border)">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>能力维度</th>
+              <th>通用 ERP</th>
+              <th>云端 SaaS</th>
+              <th style="background:var(--primary)">本系统 V3.0</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>AI Agent 协同</td><td class="cross">✗</td><td class="cross">部分</td><td class="check">✓ 8 Agent</td></tr>
+            <tr><td>竞品智能监控（小红书）</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓ CLIP+DeepSeek</td></tr>
+            <tr><td>1688 智能选品推荐</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓ 毛利预估</td></tr>
+            <tr><td>数据本地化部署</td><td class="check">✓</td><td class="cross">✗ 云端</td><td class="check">✓ 127.0.0.1</td></tr>
+            <tr><td>人工终审 + 红色放权</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓ L0-L3</td></tr>
+            <tr><td>异常检测（检查官 Agent）</td><td class="cross">✗</td><td class="cross">部分</td><td class="check">✓ ML+规则</td></tr>
+            <tr><td>量化分析拖拽画布</td><td class="cross">✗</td><td class="cross">部分</td><td class="check">✓ 12 预设</td></tr>
+            <tr><td>3D 仓库可视化</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓ Three.js</td></tr>
+            <tr><td>资产全生命周期管理</td><td class="cross">部分</td><td class="cross">✗</td><td class="check">✓ 含保养</td></tr>
+            <tr><td>Agent 提示词可配置</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓ 9 项独立</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 04 ARCHITECTURE ═══════════════ -->
+<section id="architecture" style="background:#fff">
+  <div class="container">
+    <span class="section-label">04 · 系统架构</span>
+    <h2>四层架构 · 本地优先 · AI 原生设计</h2>
+    <p class="section-desc">系统采用 Electron 桌面壳 + Python FastAPI 本地服务 + 多 Agent 调度引擎的分层架构，所有商业数据本地存储，AI 能力通过 DeepSeek API 按需调用。</p>
+
+    <div class="arch-block">
+      <h3>总体架构总览</h3>
+      <p class="arch-desc">从用户交互层到外部 API 集成的完整技术栈：Electron 多窗口桌面应用 → FastAPI 本地后端（8500 端口，仅 127.0.0.1）→ PostgreSQL / Redis / Qdrant 三存储 → DeepSeek + 1688 + 美团 + 小红书外部 API。</p>
+      <div class="arch-img-wrap">
+        <img src="product-intro-assets/arch-overview.png" alt="系统总体架构总览图">
+        <div class="arch-caption">图 4-1 · 系统总体架构总览 — Electron 桌面壳 + FastAPI 本地服务 + 8 Agent 调度引擎 + 三平台 API 网关</div>
+      </div>
+    </div>
+
+    <div class="arch-block">
+      <h3>进程架构图</h3>
+      <p class="arch-desc">Electron 主进程负责系统托盘、窗口管理、本地服务守护；Renderer 进程承载 Vue Web UI，集成指挥官仪表盘、任务中心、量化分析室、3D 仓库视图等多标签工作区。</p>
+      <div class="arch-img-wrap">
+        <img src="product-intro-assets/process-arch.png" alt="进程架构图">
+        <div class="arch-caption">图 4-2 · 进程架构 — Electron 主进程 + 多 Renderer 窗口 + FastAPI 本地后端 + 三存储层 + 外部 AI 与平台 API</div>
+      </div>
+    </div>
+
+    <div class="arch-block">
+      <h3>应用架构图</h3>
+      <p class="arch-desc">应用展示层（Electron 多标签 UI）→ 本地后端服务（认证鉴权 / API 网关 / 数据分析 / 任务调度）→ 多 Agent 业务核心 → 数据与接口层（PostgreSQL + Redis + 外部 API 池）。</p>
+      <div class="arch-img-wrap">
+        <img src="product-intro-assets/app-arch.png" alt="应用架构图">
+        <div class="arch-caption">图 4-3 · 应用架构 — 四层分离：展示层 / 服务层 / Agent 核心 / 数据接口层</div>
+      </div>
+    </div>
+
+    <div class="arch-block">
+      <h3>数据架构 — 七大业务域</h3>
+      <p class="arch-desc">25+ 数据表划分为 7 大业务域：用户权限域、商品库存域、采购域、订单域、竞品域、资产域、Agent 监控域。库存流水仅 INSERT 不可 DELETE，所有敏感操作写入不可篡改审计日志。</p>
+      <div class="arch-img-wrap">
+        <img src="product-intro-assets/data-arch.png" alt="数据架构图">
+        <div class="arch-caption">图 4-4 · 数据架构 — 7 大业务域 25+ 表，Agent 监控域贯穿全局，向量特征存 Qdrant</div>
+      </div>
+    </div>
+
+    <div class="grid-4" style="margin-top:32px">
+      <div class="card">
+        <h3 style="font-size:15px">🖥️ 桌面载体</h3>
+        <p>Electron 28+，多窗口、系统托盘、开机自启、增量更新</p>
+      </div>
+      <div class="card">
+        <h3 style="font-size:15px">⚡ 本地后端</h3>
+        <p>Python FastAPI + SQLAlchemy + Alembic，97+ RESTful 端点</p>
+      </div>
+      <div class="card">
+        <h3 style="font-size:15px">🧠 AI 引擎</h3>
+        <p>DeepSeek API + LangGraph 状态图 + CLIP 本地向量</p>
+      </div>
+      <div class="card">
+        <h3 style="font-size:15px">🗄️ 数据存储</h3>
+        <p>PostgreSQL 16 + Redis/Celery + Qdrant 向量库</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 05 AGENTS ═══════════════ -->
+<section id="agents">
+  <div class="container">
+    <span class="section-label">05 · 多 Agent 体系</span>
+    <h2>8 个专业 Agent · 分工协作 · 人工终审</h2>
+    <p class="section-desc">每个 Agent 均为 LangGraph 状态图，关键操作节点设为中断点，生成待办任务推送至「任务中心」，仅授权角色确认后继续执行。所有 Agent 运行状态通过 WebSocket 实时推送。</p>
+
+    <div class="arch-block">
+      <div class="arch-img-wrap">
+        <img src="product-intro-assets/agent-arch.png" alt="Agent 协同体系机制图">
+        <div class="arch-caption">图 5-1 · 8 大 Agent 协同机制 — 核心流程 / 中断点 / 触发机制一览</div>
+      </div>
+    </div>
+
+    <div class="agent-table-wrap" style="margin-top:40px">
+      <table>
+        <thead>
+          <tr>
+            <th>Agent</th>
+            <th>核心流程</th>
+            <th>中断点（需人工）</th>
+            <th>触发方式</th>
+            <th>状态</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>🤖 竞品监控</strong></td>
+            <td>小红书抓取 → CLIP 特征 → DeepSeek 摘要 → 热度排行</td>
+            <td><span class="tag tag-auto">全自动</span></td>
+            <td>定时 8:00</td>
+            <td><span class="tag tag-auto">✅ 已实现</span></td>
+          </tr>
+          <tr>
+            <td><strong>🤖 智能选品</strong></td>
+            <td>1688 搜索 → 性价比分析 → 推荐清单</td>
+            <td><span class="tag tag-pause">生成推荐后暂停</span></td>
+            <td>联动 / 手动</td>
+            <td><span class="tag tag-auto">✅ 已实现</span></td>
+          </tr>
+          <tr>
+            <td><strong>🤖 采购推荐</strong></td>
+            <td>采购单 → 物流跟踪 → 到货转库存</td>
+            <td><span class="tag tag-pause">① 创建采购单 ② 到货确认</span></td>
+            <td>联动选品</td>
+            <td><span class="tag tag-auto">✅ 已实现</span></td>
+          </tr>
+          <tr>
+            <td><strong>🤖 订单运营</strong></td>
+            <td>自动拉单 → 扣库存 → 发货 → 售后分类</td>
+            <td><span class="tag tag-pause">① 库存不足 ② 退款处理</span></td>
+            <td>定时 / Webhook</td>
+            <td><span class="tag tag-auto">✅ 已实现</span></td>
+          </tr>
+          <tr>
+            <td><strong>🤖 库存调度</strong></td>
+            <td>水位校验 → Prophet 预测 → 补货建议 → 临期预警</td>
+            <td><span class="tag tag-pause">补货建议确认</span></td>
+            <td>每次出入库</td>
+            <td><span class="tag tag-auto">✅ 已实现</span></td>
+          </tr>
+          <tr>
+            <td><strong>🤖 资产管家</strong></td>
+            <td>生命周期事件 → 保养检查 → 临期提醒</td>
+            <td><span class="tag tag-pause">① 报废 ② 大额维修</span></td>
+            <td>用户 / 定时</td>
+            <td><span class="tag tag-auto">✅ 已实现</span></td>
+          </tr>
+          <tr>
+            <td><strong>🤖 检查官</strong></td>
+            <td>Redis Stream → Isolation Forest → DeepSeek 分析 → 预警</td>
+            <td><span class="tag tag-realtime">严重预警推送</span></td>
+            <td>实时</td>
+            <td><span class="tag tag-auto">✅ 已实现</span></td>
+          </tr>
+          <tr>
+            <td><strong>🤖 报告生成</strong></td>
+            <td>数据聚合 → DeepSeek 撰写 → HTML/PDF 导出</td>
+            <td><span class="tag tag-auto">全自动</span></td>
+            <td>定时 18:00</td>
+            <td><span class="tag tag-auto">✅ 已实现</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top:48px">
+      <h3 style="font-size:18px;font-weight:700;margin-bottom:20px">🔴 红色放权机制 — 极端缺人时的安全降级方案</h3>
+      <div class="level-cards">
+        <div class="level-card l0">
+          <h4>L0 · 完全人工（默认）</h4>
+          <p>任何资金、库存、采购相关操作均需人工确认，Agent 仅做推荐。适合日常人员充足场景。</p>
+        </div>
+        <div class="level-card l1">
+          <h4>L1 · 低风险自执行</h4>
+          <p>允许自动发货（库存充足时）、竞品数据自动抓取、补货建议生成。适合晚间 1 人值班。</p>
+        </div>
+        <div class="level-card l2">
+          <h4>L2 · 中等自主</h4>
+          <p>高置信度采购单自动生成（金额 &lt; 上限）、售后意图自动分类。适合周末无人值守。</p>
+        </div>
+        <div class="level-card l3">
+          <h4>L3 · 高自主（红色警戒）</h4>
+          <p>销量预测自动下单、紧急补货匹配供应商。全程红色横幅、金额硬顶、事后审计报告。</p>
+        </div>
+      </div>
+      <p style="margin-top:16px;font-size:13px;color:var(--danger);font-weight:600">❌ 永远禁止自主执行：实际资金支付、大额退款、隐私数据导出、删除关键日志</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 06 FEATURES ═══════════════ -->
+<section id="features" style="background:#fff">
+  <div class="container">
+    <span class="section-label">06 · 功能模块</span>
+    <h2>15 个功能页面 · 覆盖电商运营全链路</h2>
+    <p class="section-desc">前端采用 Vue 3 + Ant Design Vue 4，支持亮色/暗色双主题、Ctrl+K 全局命令面板、多标签工作区，对标 Bloomberg 终端的高密度信息展示风格。</p>
+
+    <div class="grid-3">
+      <div class="card">
+        <h3>🎛️ 指挥官仪表盘</h3>
+        <p>核心 KPI 卡片（GMV、订单量、库存周转、Agent 状态）+ 24h 异常流 + Agent 状态缩略图，一屏掌握全局。</p>
+      </div>
+      <div class="card">
+        <h3>📋 任务中心</h3>
+        <p>Agent 待办卡片瀑布流，按紧急程度排序，支持 Ctrl+Enter 快捷审批、批量操作、备注记录。</p>
+      </div>
+      <div class="card">
+        <h3>📦 商品管理</h3>
+        <p>Product/SKU CRUD、分类树、搜索筛选、库存历史，支持多规格 SKU 与图像向量关联。</p>
+      </div>
+      <div class="card">
+        <h3>📊 库存看板</h3>
+        <p>库存流水、盘点调整、StockCheck 表单，流水仅 INSERT 不可删除，冲红通过负记录实现。</p>
+      </div>
+      <div class="card">
+        <h3>🛒 订单管理</h3>
+        <p>多平台订单列表、详情 Drawer、发货/退款操作，库存不足自动挂起。</p>
+      </div>
+      <div class="card">
+        <h3>🔍 竞品分析</h3>
+        <p>触发竞品监控 Agent、热度趋势图、Top5 排行、历史快照对比，联动智能选品。</p>
+      </div>
+      <div class="card">
+        <h3>🛍️ 采购管理</h3>
+        <p>选品候选列表、采购推荐清单、采购单 CRUD、物流跟踪、到货确认转库存。</p>
+      </div>
+      <div class="card">
+        <h3>📈 量化分析室</h3>
+        <p>拖拽画布（grid-layout-plus）、12 个内置预设图表、4 数据源 × 11 指标 × 5 维度 DSL 查询、模板保存/加载。</p>
+      </div>
+      <div class="card">
+        <h3>📄 报告中心</h3>
+        <p>Agent 自动生成 HTML 日报列表、iframe 预览、PDF 导出、定时调度配置。</p>
+      </div>
+      <div class="card">
+        <h3>🏭 资产台账</h3>
+        <p>资产树形分类、CRUD、QR 码生成打印、移动记录、保养计划管理。</p>
+      </div>
+      <div class="card">
+        <h3>🔴 红色控制台</h3>
+        <p>红色放权 L0-L3 启用/关闭、授权范围 Checkbox、审计审核表、审计日志。</p>
+      </div>
+      <div class="card">
+        <h3>⚙️ 设置中心（9 标签）</h3>
+        <p>通用/安全/LLM 提供商/Agent 提示词/Agent 运行/平台 API/通知/存储/关于，Agent 提示词 9 项独立可配置。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 07 SECURITY ═══════════════ -->
+<section id="security">
+  <div class="container">
+    <span class="section-label">07 · 安全与合规</span>
+    <h2>五位一体安全体系 · 数据合规 · 操作可溯</h2>
+    <p class="section-desc">本系统不代付、不托管资金，所有外部 API 调用经过统一网关记录日志，支持限流和缓存。支付行为必须在 1688/美团等平台完成，系统仅采集行为数据作为对账依据。</p>
+
+    <div class="security-grid">
+      <div class="security-item">
+        <div class="security-icon">🔐</div>
+        <div>
+          <h4>身份认证</h4>
+          <p>JWT（access 30min + refresh 7d）+ RBAC 四角色（管理员/运营主管/仓管员/财务只读）+ TOTP 二次验证</p>
+        </div>
+      </div>
+      <div class="security-item">
+        <div class="security-icon">📝</div>
+        <div>
+          <h4>操作审计</h4>
+          <p>所有敏感操作写入 audit_logs，不可篡改；红色放权期间独立 red_audit 标记，保留 90 天</p>
+        </div>
+      </div>
+      <div class="security-item">
+        <div class="security-icon">🛡️</div>
+        <div>
+          <h4>网络安全</h4>
+          <p>后端仅监听 127.0.0.1；Electron 操作超时自动锁屏；API Key AES 加密存储</p>
+        </div>
+      </div>
+      <div class="security-item">
+        <div class="security-icon">💾</div>
+        <div>
+          <h4>数据安全</h4>
+          <p>PostgreSQL 本地存储；BitLocker / AES 字段加密；导出文件自动加水印（时间+操作人）</p>
+        </div>
+      </div>
+      <div class="security-item">
+        <div class="security-icon">⚠️</div>
+        <div>
+          <h4>异常监控</h4>
+          <p>检查官 Agent 实时 ML 异常检测 + 规则引擎；严重预警推送任务中心要求人工处理</p>
+        </div>
+      </div>
+      <div class="security-item">
+        <div class="security-icon">🔏</div>
+        <div>
+          <h4>软件完整性</h4>
+          <p>安装包签名校验；配置文件哈希锁定；非法修改自动锁定并提示</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 08 PROGRESS ═══════════════ -->
+<section id="progress" style="background:#fff">
+  <div class="container">
+    <span class="section-label">08 · 开发进度</span>
+    <h2>已完成 M0–M4 主体开发 · 可演示原型就绪</h2>
+    <p class="section-desc">截至 2026 年 5 月，系统已完成 15 周路线图中的前 13 周核心工作，9 个 Agent 全部可触发运行，前端 15 页全部可用，后端 97+ API 端点验证通过。</p>
+
+    <div class="progress-section">
+      <div class="progress-item">
+        <div class="progress-header"><span>M0 · 基础底座（认证/布局/仪表盘/资产）</span><span>100%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+      </div>
+      <div class="progress-item">
+        <div class="progress-header"><span>M1 · 核心连接（三平台 API/商品/订单/库存）</span><span>100%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+      </div>
+      <div class="progress-item">
+        <div class="progress-header"><span>M2 · 智能注入（DeepSeek/4 Agent/红色放权）</span><span>100%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+      </div>
+      <div class="progress-item">
+        <div class="progress-header"><span>M3 · 检查官与报告（4 Agent/WS/报告中心）</span><span>100%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+      </div>
+      <div class="progress-item">
+        <div class="progress-header"><span>M4 · 深度体验（分析室/主题/Agent 提示词配置）</span><span>95%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:95%"></div></div>
+      </div>
+      <div class="progress-item">
+        <div class="progress-header"><span>M5 · 交付增强（Electron/打包/系统工坊）</span><span>0%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <div class="grid-4" style="margin-top:40px">
+      <div class="card">
+        <h3 style="font-size:14px">✅ 后端验证</h3>
+        <p>97+ RESTful 端点 · 25 表 · 9 Agent 可触发 · WebSocket 推送 · 报告 HTML 生成</p>
+      </div>
+      <div class="card">
+        <h3 style="font-size:14px">✅ 前端验证</h3>
+        <p>15 页全可用 · Ctrl+K 命令面板 · 暗色主题 · 拖拽分析室 · 12 预设图表</p>
+      </div>
+      <div class="card">
+        <h3 style="font-size:14px">✅ Demo 数据</h3>
+        <p>20 单订单 · ¥520,338 GMV · 9 商品 · 10 资产 · 2 份 HTML 报告</p>
+      </div>
+      <div class="card">
+        <h3 style="font-size:14px">⏳ 待完成</h3>
+        <p>3D 仓库 Three.js · Electron 主进程 · NSIS 安装包 · 真实 API 注册</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 09 ROADMAP ═══════════════ -->
+<section id="roadmap">
+  <div class="container">
+    <span class="section-label">09 · 实施路线</span>
+    <h2>M0–M5 分阶段交付 · 风险可控 · 里程碑清晰</h2>
+    <p class="section-desc">15 周完整路线图，前 13 周已完成。剩余 M5 阶段（2 周）聚焦 Electron 打包、系统工坊、真实 API 注册，可在获得首笔资金后立即启动。</p>
+
+    <div class="arch-block">
+      <div class="arch-img-wrap">
+        <img src="product-intro-assets/tech-roadmap.png" alt="技术路线图 M0-M5">
+        <div class="arch-caption">图 9-1 · M0–M5 技术路线图 — 从核心指挥与资产 → 核心业务 → 分析控制 → 报告决策 → 高级可视化 → 系统基础设施</div>
+      </div>
+    </div>
+
+    <div class="milestone-grid">
+      <div class="milestone done">
+        <div class="m-id">M0</div>
+        <div class="m-name">基础底座</div>
+        <div class="m-time">第 1–2 周</div>
+        <div class="m-status">✅ 已完成</div>
+      </div>
+      <div class="milestone done">
+        <div class="m-id">M1</div>
+        <div class="m-name">核心连接</div>
+        <div class="m-time">第 3–5 周</div>
+        <div class="m-status">✅ 已完成</div>
+      </div>
+      <div class="milestone done">
+        <div class="m-id">M2</div>
+        <div class="m-name">智能注入</div>
+        <div class="m-time">第 6–8 周</div>
+        <div class="m-status">✅ 已完成</div>
+     </div>
+      <div class="milestone done">
+        <div class="m-id">M3</div>
+        <div class="m-name">检查官与报告</div>
+        <div class="m-time">第 9–10 周</div>
+        <div class="m-status">✅ 已完成</div>
+      </div>
+      <div class="milestone done">
+        <div class="m-id">M4</div>
+        <div class="m-name">深度体验</div>
+        <div class="m-time">第 11–13 周</div>
+        <div class="m-status">✅ 95% 完成</div>
+      </div>
+      <div class="milestone pending">
+        <div class="m-id">M5</div>
+        <div class="m-name">交付增强</div>
+        <div class="m-time">第 14–15 周</div>
+        <div class="m-status">⏳ 待启动</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 10 FUNDING ═══════════════ -->
+<section id="funding" style="background:#fff">
+  <div class="container">
+    <span class="section-label">10 · 资金规划</span>
+    <h2>首笔资金用途与交付承诺</h2>
+    <p class="section-desc">系统核心功能已验证可用，首笔资金将用于完成 M5 交付阶段、真实 API 注册对接、3D 仓库实地勘察开发，以及生产环境部署支持，确保甲方可在 4 周内获得可安装的正式版本。</p>
+
+    <div class="funding-box">
+      <h3>首笔资金 · 4 周交付里程碑</h3>
+      <p>基于当前 95% 完成度的可演示原型，首笔资金到位后 4 周内交付正式可安装版本，包含真实平台 API 对接、Electron 桌面安装包、完整用户文档与 2 周现场支持。</p>
+      <div class="funding-items">
+        <div class="funding-item">
+          <h4>Week 1 · API 注册与对接</h4>
+          <p>协助完成 1688/美团/小红书官方 API 注册与授权绑定，替换 mock 网关为真实接口，联调验证全链路</p>
+        </div>
+        <div class="funding-item">
+          <h4>Week 2 · Electron 打包</h4>
+          <p>Electron 主进程 + 托盘 + 服务守护 + PyInstaller 后端打包 + NSIS 安装向导，生成 Windows .exe 安装包</p>
+        </div>
+        <div class="funding-item">
+          <h4>Week 3 · 3D 仓库 + 系统工坊</h4>
+          <p>Three.js 3D 仓库视图（需实地勘察数据）+ 系统工坊 Agent 泳道/SQL 控制台 + M4.5 试用反馈 9 项改进</p>
+        </div>
+        <div class="funding-item">
+          <h4>Week 4 · 验收与培训</h4>
+          <p>现场部署安装 + 用户培训 + 操作手册 + 2 周远程支持</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top:48px">
+      <div class="card">
+        <h3>📦 交付物清单</h3>
+        <ul style="margin-top:12px;padding-left:20px;color:var(--muted);font-size:14px">
+          <li>Windows 安装包（.exe，约 400MB，含 PostgreSQL/Qdrant/Redis）</li>
+          <li>完整用户操作手册（HTML/PDF）</li>
+          <li>API 配置文档与平台注册指南</li>
+          <li>Agent 提示词配置说明</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🎯 验收标准</h3>
+        <ul style="margin-top:12px;padding-left:20px;color:var(--muted);font-size:14px">
+          <li>9 个 Agent 全部可触发且产生正确 run/task 记录</li>
+          <li>三平台真实 API 拉单/下单/抓取成功</li>
+          <li>报告中心生成含真实 GMV 数据的 HTML 日报</li>
+          <li>安装包在甲方 Windows 10/11 机器一键安装可用</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer>
+  <strong>多 Agent 电商运营中枢 V3.0</strong>
+  <p>本地化 · AI 辅助 · 人工终审 · 合规对接 · 数据安全可控</p>
+  <p style="margin-top:16px;opacity:0.5">文档版本 2026-05-24 · 仅供项目招标及合作洽谈使用</p>
+</footer>
+
+</body>
+</html>

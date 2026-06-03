@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title data-en="Tree &amp; Graph Visualizer" data-zh="树与图可视化">树与图可视化</title>
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link rel="stylesheet" href="../../css/dark-mode.css" />
+    <link rel="stylesheet" href="democss/demo.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="democss/tree-visualizer.css" />
+</head>
+<body class="zh">
+
+    <!-- Navigation Bar -->
+    <nav class="demo-navbar">
+        <div class="demo-nav-container">
+            <div class="demo-nav-logo">
+                <a href="../../index.html" class="demo-logo-link">
+                    <div class="logo-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <div class="logo-text">
+                        <span class="logo-main" data-zh="树与图可视化" data-en="Tree &amp; Graph Viz">树与图可视化</span>
+                        <span class="logo-sub" data-zh="算法" data-en="Algo">算法</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="demo-breadcrumb">
+                <a href="../../index.html" class="breadcrumb-item" data-zh="首页" data-en="Home">
+                    <i class="fas fa-home"></i>
+                    <span data-zh="首页" data-en="Home">首页</span>
+                </a>
+                <i class="fas fa-chevron-right breadcrumb-separator"></i>
+                <a href="index.html" class="breadcrumb-item" data-zh="Demo空间" data-en="Demo Space">
+                    <span data-zh="Demo空间" data-en="Demo Space">Demo空间</span>
+                </a>
+                <i class="fas fa-chevron-right breadcrumb-separator"></i>
+                <span class="breadcrumb-item current" data-zh="树与图可视化" data-en="Tree &amp; Graph Viz">树与图可视化</span>
+            </div>
+
+            <div class="demo-nav-menu">
+                <a href="../../index.html" class="demo-nav-link" data-zh="首页" data-en="Home">
+                    <i class="fas fa-home"></i>
+                    <span data-zh="首页" data-en="Home">首页</span>
+                </a>
+                <a href="../blog.html" class="demo-nav-link" data-zh="博客" data-en="Blog">
+                    <i class="fas fa-blog"></i>
+                    <span data-zh="博客" data-en="Blog">博客</span>
+                </a>
+                <a href="../project/project.html" class="demo-nav-link" data-zh="项目" data-en="Projects">
+                    <i class="fas fa-folder"></i>
+                    <span data-zh="项目" data-en="Projects">项目</span>
+                </a>
+                <a href="index.html" class="demo-nav-link" data-zh="Demo" data-en="Demo">
+                    <i class="fas fa-flask"></i>
+                    <span data-zh="Demo" data-en="Demo">Demo</span>
+                </a>
+            </div>
+
+            <button class="demo-mobile-toggle" id="mobile-menu-toggle">
+                <span></span><span></span><span></span>
+            </button>
+
+            <div class="demo-nav-controls">
+                <button id="lang-toggle" class="demo-control-btn" title="切换语言 / Switch Language">
+                    <i class="fas fa-globe"></i>
+                    <span class="control-text" data-zh="EN" data-en="中文">EN</span>
+                </button>
+                <button id="theme-toggle" class="demo-control-btn theme-toggle" title="切换主题 / Switch Theme">
+                    <i class="fas fa-moon"></i>
+                    <i class="fas fa-sun" style="display: none;"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <!-- Hero -->
+        <section class="page-header">
+            <div class="page-header-content">
+                <h1 data-en="Tree &amp; Graph Visualizer" data-zh="树与图可视化">树与图可视化</h1>
+                <p data-en="Explore tree and graph algorithms through interactive visualization" data-zh="通过交互式可视化探索树与图算法">
+                    通过交互式可视化探索树与图算法
+                </p>
+            </div>
+        </section>
+
+        <!-- Controls -->
+        <section class="controls-section">
+            <div class="control-row">
+                <!-- Mode Toggle -->
+                <div class="control-group">
+                    <label class="control-label" data-en="Mode" data-zh="模式">模式</label>
+                    <div class="mode-tabs" id="mode-tabs">
+                        <button class="mode-tab active" data-mode="tree" data-en="Tree" data-zh="树">树</button>
+                        <button class="mode-tab" data-mode="graph" data-en="Graph" data-zh="图">图</button>
+                    </div>
+                </div>
+
+                <!-- Tree Type Select (BST / Heap) -->
+                <div class="control-group" id="tree-type-group">
+                    <label class="control-label" data-en="Tree Type" data-zh="树类型">树类型</label>
+                    <select class="control-select" id="tree-type-select">
+                        <option value="bst" data-en="BST" data-zh="二叉排序树">二叉排序树</option>
+                        <option value="maxheap" data-en="Max-Heap" data-zh="大根堆">大根堆</option>
+                        <option value="minheap" data-en="Min-Heap" data-zh="小根堆">小根堆</option>
+                    </select>
+                </div>
+
+                <!-- Graph Type Toggle (Undirected / Directed) -->
+                <div class="control-group" id="graph-type-group">
+                    <label class="control-label" data-en="Graph Type" data-zh="图类型">图类型</label>
+                    <select class="control-select" id="graph-type-select">
+                        <option value="undirected" data-en="Undirected" data-zh="无向图">无向图</option>
+                        <option value="directed" data-en="Directed" data-zh="有向图">有向图</option>
+                    </select>
+                </div>
+
+                <!-- Algorithm Select -->
+                <div class="control-group">
+                    <label class="control-label" data-en="Algorithm" data-zh="算法">算法</label>
+                    <select class="control-select" id="algo-select">
+                        <!-- Populated by JS -->
+                    </select>
+                </div>
+
+                <!-- Node Count -->
+                <div class="control-group">
+                    <label class="control-label" for="size-slider">
+                        <span data-en="Nodes" data-zh="节点数">节点数</span>
+                        <span class="value-badge" id="size-value">8</span>
+                    </label>
+                    <input type="range" class="control-slider" id="size-slider" min="4" max="50" value="8" />
+                </div>
+
+                <!-- Speed -->
+                <div class="control-group">
+                    <label class="control-label" for="speed-slider">
+                        <span data-en="Speed" data-zh="速度">速度</span>
+                        <span class="value-badge" id="speed-value">5</span>
+                    </label>
+                    <input type="range" class="control-slider" id="speed-slider" min="1" max="10" value="5" />
+                </div>
+            </div>
+
+            <div class="control-row">
+                <!-- Input -->
+                <div class="control-group input-group">
+                    <label class="control-label" data-en="Input" data-zh="输入">输入</label>
+                    <div class="input-row">
+                        <input type="text" class="control-input" id="node-input" placeholder="e.g. 3,7,1,9,4" data-en-placeholder="e.g. 3,7,1,9,4" data-zh-placeholder="如 3,7,1,9,4" />
+                        <button class="btn-action btn-secondary" id="btn-apply-input" title="Apply">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button class="btn-action btn-secondary" id="btn-random">
+                            <i class="fas fa-dice"></i>
+                            <span data-en="Random" data-zh="随机">随机</span>
+                        </button>
+                        <button class="btn-action btn-secondary" id="btn-clear">
+                            <i class="fas fa-eraser"></i>
+                            <span data-en="Clear" data-zh="清空">清空</span>
+                        </button>
+                    </div>
+                    <!-- Tree insert controls (hidden in graph mode) -->
+                    <div class="tree-insert-row" id="tree-insert-controls">
+                        <input type="text" class="control-input insert-input" id="insert-parent-input" placeholder="Parent" data-en-placeholder="Parent" data-zh-placeholder="父节点值" />
+                        <input type="text" class="control-input insert-input" id="insert-value-input" placeholder="Value" data-en-placeholder="Value" data-zh-placeholder="新节点值" />
+                        <button class="btn-action btn-secondary btn-insert" id="btn-insert-left">
+                            <i class="fas fa-arrow-left"></i>
+                            <span data-en="L-child" data-zh="左孩子">左孩子</span>
+                        </button>
+                        <button class="btn-action btn-secondary btn-insert" id="btn-insert-right">
+                            <i class="fas fa-arrow-right"></i>
+                            <span data-en="R-child" data-zh="右孩子">右孩子</span>
+                        </button>
+                    </div>
+                    <!-- Graph start vertex control (hidden in tree mode) -->
+                    <div class="graph-start-row" id="graph-start-controls">
+                        <label class="insert-label" data-en="Start from:" data-zh="起始顶点：">起始顶点：</label>
+                        <select class="control-select start-select" id="graph-start-select">
+                            <option value="">--</option>
+                        </select>
+                        <button class="btn-action btn-secondary" id="btn-set-start" title="Set Start">
+                            <i class="fas fa-play"></i>
+                            <span data-en="Go" data-zh="开始">开始</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="control-group control-actions">
+                    <button class="btn-action btn-primary" id="btn-start">
+                        <i class="fas fa-play"></i>
+                        <span data-en="Start" data-zh="开始">开始</span>
+                    </button>
+                    <button class="btn-action btn-secondary" id="btn-pause" style="display:none">
+                        <i class="fas fa-pause"></i>
+                        <span data-en="Pause" data-zh="暂停">暂停</span>
+                    </button>
+                    <button class="btn-action btn-secondary" id="btn-step">
+                        <i class="fas fa-forward-step"></i>
+                        <span data-en="Step" data-zh="步进">步进</span>
+                    </button>
+                    <button class="btn-action btn-secondary" id="btn-reset">
+                        <i class="fas fa-rotate-left"></i>
+                        <span data-en="Reset" data-zh="重置">重置</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Visualization Canvas -->
+        <section class="viz-section">
+            <div class="viz-container" id="viz-container">
+                <canvas id="viz-canvas"></canvas>
+                <div class="viz-placeholder" id="viz-placeholder">
+                    <i class="fas fa-tree"></i>
+                    <p data-en="Create a tree or graph and click Start" data-zh="创建树或图后点击「开始」">创建树或图后点击「开始」</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Info Bar -->
+        <section class="info-bar">
+            <div class="stats-panel">
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-cube"></i></div>
+                    <div>
+                        <div class="stat-label" data-en="Nodes" data-zh="节点">节点</div>
+                        <div class="stat-value" id="stat-nodes">0</div>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-shoe-prints"></i></div>
+                    <div>
+                        <div class="stat-label" data-en="Steps" data-zh="步数">步数</div>
+                        <div class="stat-value" id="stat-steps">0</div>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                    <div>
+                        <div class="stat-label" data-en="Time" data-zh="用时">用时</div>
+                        <div class="stat-value" id="stat-time">0.000s</div>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-info-circle"></i></div>
+                    <div>
+                        <div class="stat-label" data-en="Status" data-zh="状态">状态</div>
+                        <div class="stat-value" id="stat-status">就绪</div>
+                    </div>
+                </div>
+            </div>
+            <div class="legend-panel" id="legend-panel">
+                <!-- Populated by JS based on mode -->
+            </div>
+        </section>
+
+        <!-- Step Description -->
+        <section class="step-description">
+            <div class="step-content">
+                <i class="fas fa-comment step-icon"></i>
+                <span id="step-text" data-en="Adjust parameters and click Start to begin" data-zh="调整参数后点击「开始」查看算法运行">
+                    调整参数后点击「开始」查看算法运行
+                </span>
+            </div>
+        </section>
+
+        <!-- Output Panel -->
+        <section class="output-section">
+            <div class="output-panel">
+                <div class="output-header">
+                    <span class="output-title">
+                        <i class="fas fa-terminal"></i>
+                        <span data-en="Output" data-zh="输出">输出</span>
+                    </span>
+                    <button class="btn-action btn-secondary btn-output-clear" id="btn-output-clear">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+                <div class="output-body" id="output-body">
+                    <div class="output-placeholder" data-en="Algorithm output will appear here..." data-zh="算法输出将显示在此处...">算法输出将显示在此处...</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3 data-en="Tree &amp; Graph Visualizer" data-zh="树与图可视化">树与图可视化</h3>
+                <p data-en="Learn tree and graph algorithms visually" data-zh="直观学习树与图核心算法">直观学习树与图核心算法</p>
+            </div>
+            <div class="footer-section">
+                <h4 data-en="Quick Links" data-zh="快速链接">快速链接</h4>
+                <ul>
+                    <li><a href="../../index.html" data-en="Home" data-zh="首页">首页</a></li>
+                    <li><a href="../blog.html" data-en="Blog" data-zh="博客">博客</a></li>
+                    <li><a href="index.html" data-en="Demo Space" data-zh="Demo空间">Demo空间</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4 data-en="Algorithms" data-zh="算法列表">算法列表</h4>
+                <ul>
+                    <li data-en="Tree: BFS, DFS" data-zh="树: BFS, DFS">树: BFS, DFS</li>
+                    <li data-en="Graph: BFS, DFS, Dijkstra" data-zh="图: BFS, DFS, Dijkstra">图: BFS, DFS, Dijkstra</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 <span data-en="Tree &amp; Graph Visualizer" data-zh="树与图可视化">树与图可视化</span>.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../../js/theme.js"></script>
+    <script src="../../js/language.js"></script>
+    <script src="demojs/demo.js"></script>
+    <script src="demojs/tree-visualizer-tree.js"></script>
+    <script src="demojs/tree-visualizer-graph.js"></script>
+    <script src="demojs/tree-visualizer-main.js"></script>
+</body>
+</html>
