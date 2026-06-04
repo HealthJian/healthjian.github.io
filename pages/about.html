@@ -191,6 +191,19 @@
                 <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/sleepgirlandcat.avif" alt="个人主页Banner" class="banner-image">
             </div>
             
+            <!-- 页内极简导航 -->
+            <nav class="about-inner-nav" id="about-inner-nav">
+                <a href="#about-author" data-en="About" data-zh="关于作者">关于作者</a>
+                <span class="nav-dot">/</span>
+                <a href="#projects" data-en="Projects" data-zh="项目经历">项目经历</a>
+                <span class="nav-dot">/</span>
+                <a href="#internship" data-en="Internship" data-zh="实习经历">实习经历</a>
+                <span class="nav-dot">/</span>
+                <a href="#awards" data-en="Awards" data-zh="奖项">奖项</a>
+                <span class="nav-dot">/</span>
+                <a href="#qia" data-en="Q&amp;A" data-zh="问答与想法">问答与想法</a>
+            </nav>
+
             <!-- 主要内容区域 -->
             <div class="about-content-main">
                 <div class="author-section">
@@ -259,7 +272,7 @@
                 </div>
                 <!-- ========== LOTTIE global_earth END ========== -->
             </div>
-            <div class="about-text">
+            <div class="about-text" id="about-author">
                 <h1 data-en="About the Author" data-zh="关于作者">关于作者
                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" style="vertical-align: middle; margin-left: 10px;" aria-hidden="true" focusable="false">
                         <defs>
@@ -376,7 +389,7 @@
         </div>
 
         <!-- 项目经历部分 -->
-        <section class="projects-section">
+        <section id="projects" class="projects-section">
             <h2 data-en="Project Experience" data-zh="项目经历">项目经历</h2>
             <div class="disclaimer">
                 <p data-en="Disclaimer: I'm still a novice learner without impressive achievements. The following projects are just modest experiences that might not be significant for experts, but they help me build some basic skills! /(ㄒoㄒ)/~~" data-zh="免责声明：本人太菜，没有什么可写的，只能拿这些大佬都看不上的东西勉强装一下门面！/(ㄒoㄒ)/~~">免责声明：本人太菜，没有什么可写的，只能拿这些大佬都看不上的东西勉强装一下门面！/(ㄒoㄒ)/~~</p>
@@ -572,7 +585,7 @@
         </section>
 
         <!-- 实习经历部分 -->
-        <section class="projects-section">
+        <section id="internship" class="projects-section">
             <h2 data-en="Internship Experience" data-zh="实习经历">实习经历</h2>
             <div class="projects-container">
                 <div class="project-item">
@@ -593,7 +606,7 @@
         </section>
 
         <!-- 奖项部分 -->
-        <section class="awards-section">
+        <section class="awards-section" id="awards">
             <h2 data-en="Awards & Honors" data-zh="奖项">奖项</h2>
             <div class="awards-container">
                 <div class="year-group">
@@ -649,7 +662,7 @@
         </section>
 
         <!-- 问答与想法部分 -->
-        <section class="qia-section">
+        <section class="qia-section" id="qia">
             <h2 data-en="Q_I&A (Questions, Issues, Ideas & Answers)" data-zh="问答与想法">问答与想法</h2>
             <div class="qia-container">
                 
@@ -811,6 +824,11 @@
         </section>
     </main>
 
+    <!-- 回到顶部浮动按钮 -->
+    <button id="back-to-top" class="back-to-top" title="回到顶部" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
     <!-- 页脚 -->
     <footer>
         <div class="footer-container">
@@ -910,6 +928,42 @@
     })();
     </script>
     <!-- ========== LOTTIE global_earth 脚本 END ========== -->
+
+    <!-- 回到顶部 & 页内导航平滑滚动 -->
+    <script>
+    (function(){
+        var btn = document.getElementById('back-to-top');
+        if(!btn) return;
+        var scrollThreshold = 400;
+        function toggleBtn(){
+            if(window.scrollY > scrollThreshold){
+                btn.classList.add('visible');
+            } else {
+                btn.classList.remove('visible');
+            }
+        }
+        window.addEventListener('scroll', toggleBtn, {passive:true});
+        toggleBtn();
+        btn.addEventListener('click', function(){
+            window.scrollTo({top:0, behavior:'smooth'});
+        });
+
+        var nav = document.getElementById('about-inner-nav');
+        if(nav){
+            nav.addEventListener('click', function(e){
+                var link = e.target.closest('a[href^="#"]');
+                if(!link) return;
+                e.preventDefault();
+                var target = document.querySelector(link.getAttribute('href'));
+                if(target){
+                    var offset = 80;
+                    var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                    window.scrollTo({top: top, behavior:'smooth'});
+                }
+            });
+        }
+    })();
+    </script>
 
     <script src="../js/main.js"></script>
     <script src="../js/theme.js"></script>
