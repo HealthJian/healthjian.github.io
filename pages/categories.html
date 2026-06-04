@@ -17,26 +17,39 @@
 
     .categories-page { max-width: 1100px; margin: 0 auto; padding: 0 24px 60px; }
 
-    /* --- Hero Header --- */
+    /* --- Hero Header（与站点米白/古董白主题一致）--- */
     .cat-hero {
         position: relative;
         overflow: hidden;
         max-width: 1100px;
         margin: 20px auto 0;
         border-radius: var(--border-radius);
-        padding: 56px 40px 48px;
-        background: linear-gradient(135deg, #007AFF 0%, #5856D6 40%, #AF52DE 70%, #FF9500 100%);
-        color: #fff;
+        padding: 52px 40px 44px;
         text-align: center;
+        color: var(--text-color);
+        background: linear-gradient(165deg,
+            rgba(250, 235, 215, 0.92) 0%,
+            var(--background-color) 42%,
+            rgba(0, 122, 255, 0.06) 100%);
+        border: 1px solid rgba(0, 122, 255, 0.12);
+        box-shadow: 0 8px 32px var(--shadow-color);
     }
     .cat-hero::before {
         content: '';
         position: absolute;
         inset: 0;
         background:
-            radial-gradient(circle at 18% 35%, rgba(255,255,255,.12) 0%, transparent 50%),
-            radial-gradient(circle at 82% 65%, rgba(255,255,255,.08) 0%, transparent 45%);
+            radial-gradient(circle at 12% 28%, rgba(0, 122, 255, 0.08) 0%, transparent 42%),
+            radial-gradient(circle at 88% 72%, rgba(90, 200, 250, 0.1) 0%, transparent 40%);
         pointer-events: none;
+    }
+    .cat-hero::after {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        opacity: 0.85;
     }
     .cat-hero-grid {
         position: absolute; inset: 0;
@@ -49,16 +62,16 @@
         opacity: .18;
         animation: nodeFloat 6s ease-in-out infinite alternate;
     }
-    .cat-hero-node:nth-child(1)  { width:90px;height:90px;top:10%;left:6%;background:#5AC8FA;animation-delay:0s; }
-    .cat-hero-node:nth-child(2)  { width:60px;height:60px;top:60%;left:12%;background:#FF9500;animation-delay:1s; }
-    .cat-hero-node:nth-child(3)  { width:45px;height:45px;top:22%;right:10%;background:#34C759;animation-delay:2s; }
-    .cat-hero-node:nth-child(4)  { width:70px;height:70px;top:65%;right:8%;background:#FF2D55;animation-delay:.5s; }
-    .cat-hero-node:nth-child(5)  { width:35px;height:35px;top:40%;left:30%;background:#BF5AF2;animation-delay:1.5s; }
-    .cat-hero-node:nth-child(6)  { width:50px;height:50px;top:15%;right:30%;background:#FFD60A;animation-delay:3s; }
+    .cat-hero-node:nth-child(1)  { width:72px;height:72px;top:12%;left:8%;background:rgba(0,122,255,.14);animation-delay:0s; }
+    .cat-hero-node:nth-child(2)  { width:48px;height:48px;top:62%;left:14%;background:rgba(90,200,250,.16);animation-delay:1s; }
+    .cat-hero-node:nth-child(3)  { width:40px;height:40px;top:24%;right:12%;background:rgba(0,122,255,.1);animation-delay:2s; }
+    .cat-hero-node:nth-child(4)  { width:56px;height:56px;top:68%;right:10%;background:rgba(250,235,215,.5);animation-delay:.5s; }
+    .cat-hero-node:nth-child(5)  { width:32px;height:32px;top:42%;left:32%;background:rgba(90,200,250,.12);animation-delay:1.5s; }
+    .cat-hero-node:nth-child(6)  { width:44px;height:44px;top:18%;right:28%;background:rgba(0,122,255,.08);animation-delay:3s; }
     .cat-hero-line {
         position: absolute;
         height: 1px;
-        background: rgba(255,255,255,.1);
+        background: rgba(0, 122, 255, 0.1);
         transform-origin: left center;
     }
     .cat-hero-line:nth-child(7)  { width:180px;top:30%;left:8%;transform:rotate(25deg); }
@@ -75,16 +88,16 @@
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        background: rgba(255,255,255,.18);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        border: 1px solid rgba(255,255,255,.2);
+        background: var(--card-background);
+        border: 1px solid rgba(0, 122, 255, 0.15);
         border-radius: 20px;
         padding: 5px 16px;
         font-size: .78rem;
         font-weight: 500;
         letter-spacing: .3px;
         margin-bottom: 18px;
+        color: var(--primary-color);
+        box-shadow: 0 2px 8px var(--shadow-color);
     }
     .cat-hero-title {
         font-size: 2.6rem;
@@ -92,19 +105,18 @@
         letter-spacing: -.5px;
         margin-bottom: 12px;
         line-height: 1.2;
-        color: #fff !important;
-        -webkit-text-fill-color: #fff;
-        text-shadow: 0 2px 20px rgba(0,0,0,.12);
+        color: var(--text-color) !important;
+        -webkit-text-fill-color: var(--text-color);
     }
     .cat-hero-sub {
         font-size: 1.08rem;
-        opacity: .85;
+        opacity: .72;
         font-weight: 400;
-        color: #fff !important;
-        -webkit-text-fill-color: #fff;
-        max-width: 480px;
+        color: var(--text-color) !important;
+        -webkit-text-fill-color: var(--text-color);
+        max-width: 520px;
         margin: 0 auto 24px;
-        line-height: 1.6;
+        line-height: 1.65;
     }
     .cat-hero-chips {
         display: flex;
@@ -116,23 +128,32 @@
         display: inline-flex;
         align-items: center;
         gap: 5px;
-        background: rgba(255,255,255,.14);
-        border: 1px solid rgba(255,255,255,.18);
+        background: var(--card-background);
+        border: 1px solid rgba(0, 122, 255, 0.12);
         border-radius: 10px;
         padding: 7px 14px;
         font-size: .82rem;
-        backdrop-filter: blur(4px);
-        -webkit-backdrop-filter: blur(4px);
-        transition: background .2s;
-        color: #fff !important;
-        -webkit-text-fill-color: #fff;
+        transition: transform .2s, box-shadow .2s;
+        color: var(--text-color) !important;
+        -webkit-text-fill-color: var(--text-color);
+        box-shadow: 0 2px 10px var(--shadow-color);
     }
-    .cat-hero-chip:hover { background: rgba(255,255,255,.24); }
-    .cat-hero-chip i { font-size: .7rem; opacity: .7; }
+    .cat-hero-chip:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px var(--shadow-color);
+    }
+    .cat-hero-chip i { font-size: .7rem; color: var(--primary-color); opacity: .85; }
+    .cat-hero-chip .chip-num { font-weight: 700; color: var(--primary-color); min-width: 1.2em; }
 
     .dark-mode .cat-hero {
-        background: linear-gradient(135deg, #003366 0%, #1a1a5e 40%, #3d1a6e 70%, #5c3d00 100%);
+        background: linear-gradient(165deg,
+            rgba(0, 51, 102, 0.98) 0%,
+            var(--card-background) 55%,
+            rgba(90, 200, 250, 0.08) 100%);
+        border-color: rgba(90, 200, 250, 0.2);
     }
+    .dark-mode .cat-hero-node { opacity: .22; }
+    .dark-mode .cat-hero-line { background: rgba(90, 200, 250, 0.12); }
 
     @media (max-width: 480px) {
         .cat-hero { padding: 40px 20px 36px; }
@@ -163,6 +184,10 @@
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
+        font-variant-numeric: tabular-nums;
+    }
+    .stat-number.counting {
+        -webkit-text-fill-color: transparent;
     }
     .stat-label { font-size: .9rem; margin-top: 6px; opacity: .7; }
 
@@ -225,6 +250,122 @@
         color: var(--secondary-color);
     }
 
+    /* --- News Ticker --- */
+    .news-ticker {
+        display: flex;
+        align-items: stretch;
+        margin: 0 0 28px;
+        background: var(--card-background);
+        border-radius: var(--border-radius);
+        box-shadow: 0 2px 12px var(--shadow-color);
+        border: 1px solid rgba(0, 122, 255, 0.1);
+        overflow: hidden;
+        min-height: 42px;
+    }
+    .news-ticker-label {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 0 14px;
+        font-size: .78rem;
+        font-weight: 600;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: #fff;
+        letter-spacing: .5px;
+    }
+    .news-ticker-viewport {
+        flex: 1;
+        overflow: hidden;
+        position: relative;
+        mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
+        -webkit-mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
+    }
+    .news-ticker-track {
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+        animation: tickerScroll 48s linear infinite;
+        padding: 10px 0;
+    }
+    .news-ticker-track:hover { animation-play-state: paused; }
+    @keyframes tickerScroll {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+    .news-ticker-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 28px;
+        font-size: .86rem;
+        color: var(--text-color);
+        text-decoration: none;
+        border-right: 1px dashed rgba(128, 128, 128, 0.25);
+        transition: color .2s;
+    }
+    .news-ticker-item:hover { color: var(--primary-color); }
+    .news-ticker-item .nt-date {
+        font-size: .72rem;
+        opacity: .55;
+        font-variant-numeric: tabular-nums;
+    }
+    .news-ticker-item .nt-badge {
+        font-size: .68rem;
+        padding: 2px 8px;
+        border-radius: 6px;
+        background: rgba(0, 122, 255, 0.1);
+        color: var(--primary-color);
+    }
+
+    /* --- Panel Toolbar (词云/热力图、时间线模式) --- */
+    .panel-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 14px;
+    }
+    .panel-toolbar-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+    }
+    .panel-btn {
+        border: 1px solid rgba(0, 122, 255, 0.2);
+        background: var(--card-background);
+        color: var(--text-color);
+        border-radius: 8px;
+        padding: 6px 14px;
+        font-size: .82rem;
+        cursor: pointer;
+        transition: background .2s, color .2s, border-color .2s;
+        font-family: inherit;
+    }
+    .panel-btn:hover { border-color: var(--primary-color); color: var(--primary-color); }
+    .panel-btn.active {
+        background: var(--primary-color);
+        color: #fff;
+        border-color: var(--primary-color);
+    }
+    .panel-hint {
+        font-size: .75rem;
+        opacity: .55;
+    }
+    .panel-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        font-size: .74rem;
+        opacity: .7;
+    }
+    .panel-legend span { display: inline-flex; align-items: center; gap: 5px; }
+    .leg-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+    .leg-pigeon { background: #8E8E93; }
+    .leg-diligent { background: #34C759; }
+
     /* --- Word Cloud --- */
     .wordcloud-section { margin-bottom: 48px; }
     .wordcloud-wrap {
@@ -248,6 +389,68 @@
         white-space: nowrap;
     }
     .wc-tag:hover { transform: scale(1.18); opacity: 1 !important; }
+
+    .tag-heatmap-wrap {
+        background: var(--card-background);
+        border-radius: var(--border-radius);
+        box-shadow: 0 2px 12px var(--shadow-color);
+        padding: 20px;
+        display: none;
+    }
+    .tag-heatmap-wrap.active { display: block; }
+    .wordcloud-wrap.hidden { display: none; }
+    .tag-heatmap-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+        gap: 6px;
+    }
+    .th-cell {
+        aspect-ratio: 1;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 4px;
+        cursor: pointer;
+        transition: transform .15s, box-shadow .15s;
+        text-align: center;
+        border: 1px solid rgba(0,0,0,.04);
+    }
+    .th-cell:hover {
+        transform: scale(1.06);
+        box-shadow: 0 4px 12px var(--shadow-color);
+        z-index: 1;
+    }
+    .th-cell .th-tag {
+        font-size: .68rem;
+        font-weight: 600;
+        line-height: 1.2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+        color: var(--text-color);
+    }
+    .th-cell .th-freq {
+        font-size: .62rem;
+        opacity: .75;
+        margin-top: 2px;
+    }
+    .th-scale {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 14px;
+        font-size: .72rem;
+        opacity: .6;
+    }
+    .th-scale-bar {
+        flex: 1;
+        max-width: 200px;
+        height: 8px;
+        border-radius: 4px;
+        background: linear-gradient(90deg, #B3E5FC, #4FC3F7, #FFB74D, #FF7043, #FF3B30);
+    }
 
     /* --- Knowledge Graph --- */
     .graph-section { margin-bottom: 48px; }
@@ -283,33 +486,147 @@
     .graph-legend .leg-interview::before { background: #AF52DE; }
     .graph-legend .leg-shared::before  { background: #8E8E93; }
 
-    /* --- Timeline Heatmap --- */
+    /* --- Timeline --- */
     .timeline-section { margin-bottom: 48px; }
     .timeline-wrap {
         background: var(--card-background);
         border-radius: var(--border-radius);
         box-shadow: 0 2px 12px var(--shadow-color);
-        padding: 28px 24px;
+        padding: 24px 20px 28px;
+    }
+    .timeline-chart-area {
+        position: relative;
+        margin-top: 8px;
+    }
+    .timeline-canvas {
+        width: 100%;
+        height: 220px;
+        display: block;
     }
     .timeline-months {
-        display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
+        display: flex; gap: 6px; flex-wrap: nowrap;
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding-bottom: 8px;
+        scrollbar-width: thin;
     }
+    .timeline-months.year-mode .tm-month { min-width: 72px; }
     .tm-month {
         text-align: center;
-        min-width: 60px;
+        min-width: 52px;
+        flex-shrink: 0;
+        position: relative;
     }
-    .tm-month-label { font-size: .72rem; opacity: .55; margin-bottom: 6px; }
+    .tm-month-label { font-size: .7rem; opacity: .55; margin-top: 8px; }
+    .tm-bar-wrap {
+        height: 100px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+    }
     .tm-bar {
-        width: 100%;
-        border-radius: 4px;
-        min-height: 6px;
-        transition: height .4s;
+        width: 72%;
+        max-width: 36px;
+        border-radius: 6px 6px 2px 2px;
+        min-height: 4px;
+        transition: height .45s cubic-bezier(.34,1.2,.64,1);
+        background: linear-gradient(180deg, var(--secondary-color), var(--primary-color));
     }
-    .tm-count { font-size: .7rem; margin-top: 4px; opacity: .6; }
+    .tm-count { font-size: .68rem; margin-top: 5px; opacity: .65; font-weight: 600; }
+    .tm-pigeon {
+        position: absolute;
+        top: -4px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: .95rem;
+        line-height: 1;
+        filter: grayscale(0.2);
+    }
+    .timeline-summary {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 12px;
+        margin-top: 18px;
+        padding-top: 16px;
+        border-top: 1px dashed rgba(128,128,128,.2);
+    }
+    .tl-stat-pill {
+        background: rgba(0, 122, 255, 0.06);
+        border-radius: 10px;
+        padding: 10px 14px;
+        font-size: .8rem;
+    }
+    .dark-mode .tl-stat-pill { background: rgba(90, 200, 250, 0.1); }
+    .tl-stat-pill strong { color: var(--primary-color); font-size: 1.05rem; }
+
+    /* --- 产能 K 线 --- */
+    .kline-section { margin-bottom: 48px; }
+    .kline-wrap {
+        background: var(--card-background);
+        border-radius: var(--border-radius);
+        box-shadow: 0 2px 12px var(--shadow-color);
+        padding: 24px 20px;
+    }
+    .kline-desc {
+        font-size: .88rem;
+        opacity: .65;
+        margin: -8px 0 16px;
+        line-height: 1.55;
+    }
+    .kline-canvas {
+        width: 100%;
+        height: 280px;
+        display: block;
+        cursor: crosshair;
+    }
+    .kline-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-top: 14px;
+        font-size: .78rem;
+        opacity: .7;
+    }
+    .kline-tooltip {
+        position: fixed;
+        pointer-events: none;
+        z-index: 200;
+        background: var(--card-background);
+        border: 1px solid rgba(0,122,255,.25);
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-size: .75rem;
+        box-shadow: 0 8px 24px var(--shadow-color);
+        display: none;
+        max-width: 220px;
+    }
+    .kline-legend-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 12px;
+        font-size: .74rem;
+        opacity: .65;
+    }
+    .kline-legend-row span::before {
+        content: '';
+        display: inline-block;
+        width: 10px; height: 10px;
+        margin-right: 5px;
+        vertical-align: middle;
+        border-radius: 2px;
+    }
+    .kline-leg-up::before { background: #34C759; }
+    .kline-leg-down::before { background: #FF3B30; }
+    .kline-leg-vol::before { background: rgba(0,122,255,.35); }
+    .kline-leg-line::before { background: #FF9500; height: 3px; border-radius: 1px; }
+    .tl-legend-year-only { display: none; }
+    .timeline-wrap.year-view .tl-legend-month-only { display: none; }
+    .timeline-wrap.year-view .tl-legend-year-only { display: inline-flex; }
 
     /* --- Search Bar --- */
     .search-section {
-        margin-bottom: 36px;
+        margin-bottom: 0;
         position: relative;
     }
     .search-bar {
@@ -364,8 +681,12 @@
     .search-hint {
         font-size: .78rem;
         opacity: .5;
-        margin-top: 8px;
+        margin: 8px 0 14px;
         padding-left: 4px;
+        line-height: 1.4;
+    }
+    .search-ticker-gap {
+        height: 4px;
     }
 
     /* --- Search Results Panel --- */
@@ -576,6 +897,18 @@
                      data-zh="按回车搜索，支持标题、摘要和标签匹配">按回车搜索，支持标题、摘要和标签匹配</div>
                 <div class="search-results" id="searchResults"></div>
             </section>
+            <div class="search-ticker-gap" aria-hidden="true"></div>
+
+            <!-- 最新文章动态条（同步 blog.js） -->
+            <div class="news-ticker" id="newsTicker" aria-label="Latest articles">
+                <div class="news-ticker-label">
+                    <i class="fas fa-broadcast-tower"></i>
+                    <span data-en="LATEST" data-zh="最新">最新</span>
+                </div>
+                <div class="news-ticker-viewport">
+                    <div class="news-ticker-track" id="newsTickerTrack"></div>
+                </div>
+            </div>
 
             <!-- 统计概览 -->
             <div class="stats-banner" id="statsBanner"></div>
@@ -587,7 +920,24 @@
             <!-- 词云 -->
             <h2 class="section-title" data-en="Tag Cloud" data-zh="标签词云">标签词云</h2>
             <section class="wordcloud-section">
+                <div class="panel-toolbar">
+                    <div class="panel-toolbar-group">
+                        <button type="button" class="panel-btn active" data-tag-view="cloud" id="btnTagCloud"
+                                data-en="Word Cloud" data-zh="词云视图">词云视图</button>
+                        <button type="button" class="panel-btn" data-tag-view="heatmap" id="btnTagHeatmap"
+                                data-en="Heatmap" data-zh="热力图">热力图</button>
+                    </div>
+                    <span class="panel-hint" data-en="Click a tag to open the blog" data-zh="点击标签可跳转博客列表">点击标签可跳转博客列表</span>
+                </div>
                 <div class="wordcloud-wrap" id="wordCloud"></div>
+                <div class="tag-heatmap-wrap" id="tagHeatmap">
+                    <div class="tag-heatmap-grid" id="tagHeatmapGrid"></div>
+                    <div class="th-scale">
+                        <span data-en="Low" data-zh="低">低</span>
+                        <div class="th-scale-bar"></div>
+                        <span data-en="High heat" data-zh="高热度">高热度</span>
+                    </div>
+                </div>
             </section>
 
             <!-- 知识图谱 -->
@@ -608,8 +958,54 @@
             <!-- 发布时间线 -->
             <h2 class="section-title" data-en="Publishing Timeline" data-zh="发布时间线">发布时间线</h2>
             <section class="timeline-section">
-                <div class="timeline-wrap" id="timeline"></div>
+                <div class="timeline-wrap" id="timeline">
+                    <div class="panel-toolbar">
+                        <div class="panel-toolbar-group">
+                            <button type="button" class="panel-btn active" data-tl-mode="month" id="btnTlMonth"
+                                    data-en="By Month" data-zh="按月">按月</button>
+                            <button type="button" class="panel-btn" data-tl-mode="year" id="btnTlYear"
+                                    data-en="By Year" data-zh="按年">按年</button>
+                        </div>
+                        <div class="panel-legend">
+                            <span class="tl-legend-month-only"><i class="leg-dot leg-diligent"></i><span data-en="Diligent curve (3-mo avg)" data-zh="勤劳曲线（三月均）">勤劳曲线（三月均）</span></span>
+                            <span class="tl-legend-month-only">🕊️ <span data-en="Pigeon = fewer than 4 posts/mo" data-zh="鸽子 = 当月发文 &lt; 4 篇">鸽子 = 当月发文 &lt; 4 篇</span></span>
+                            <span class="tl-legend-year-only"><i class="leg-dot" style="background:#007AFF"></i><span data-en="Trend line (yearly)" data-zh="趋势线（按年）">趋势线（按年）</span></span>
+                        </div>
+                    </div>
+                    <div class="timeline-chart-area">
+                        <canvas class="timeline-canvas" id="timelineCanvas" aria-hidden="true"></canvas>
+                    </div>
+                    <div class="timeline-months" id="timelineBars"></div>
+                    <div class="timeline-summary" id="timelineSummary"></div>
+                </div>
             </section>
+
+            <!-- 产能 K 线 -->
+            <h2 class="section-title" data-en="Productivity K-Line" data-zh="产能 K 线">产能 K 线</h2>
+            <section class="kline-section">
+                <div class="kline-wrap">
+                    <p class="kline-desc" data-en="Simulated candlesticks from changelog update frequency — a playful view of site maintenance &amp; dev rhythm. Hover for details." data-zh="根据更新日志条目数量生成模拟 K 线，直观反映站点维护与开发节奏（悬停查看详情）。">根据更新日志条目数量生成模拟 K 线，直观反映站点维护与开发节奏（悬停查看详情）。</p>
+                    <div class="panel-toolbar">
+                        <div class="panel-toolbar-group">
+                            <button type="button" class="panel-btn active" data-kline-mode="month" id="btnKlineMonth"
+                                    data-en="By Month" data-zh="按月">按月</button>
+                            <button type="button" class="panel-btn" data-kline-mode="year" id="btnKlineYear"
+                                    data-en="By Year" data-zh="按年">按年</button>
+                        </div>
+                    </div>
+                    <canvas class="kline-canvas" id="productivityKline"></canvas>
+                    <div class="kline-meta" id="klineMeta"></div>
+                    <div class="kline-legend-row">
+                        <span class="kline-leg-up" data-en="Bull (more updates)" data-zh="阳线（更新增多）">阳线（更新增多）</span>
+                        <span class="kline-leg-down" data-en="Bear (fewer updates)" data-zh="阴线（更新减少）">阴线（更新减少）</span>
+                        <span class="kline-leg-vol" data-en="Volume = blog posts" data-zh="成交量 = 当月发文">成交量 = 当月发文</span>
+                        <span class="kline-leg-line" data-en="Close trend line" data-zh="收盘折线">收盘折线</span>
+                    </div>
+                    <a href="changelog.html" class="panel-hint" style="display:inline-block;margin-top:10px;"
+                       data-en="View full changelog →" data-zh="查看完整更新日志 →">查看完整更新日志 →</a>
+                </div>
+            </section>
+            <div class="kline-tooltip" id="klineTooltip"></div>
         </div>
     </main>
 
@@ -693,25 +1089,77 @@
             return map;
         }
 
-        /* ===== Hero Chips ===== */
-        function renderHeroChips() {
-            const isEn = lang() === 'en';
+        /* ===== Count-up animation ===== */
+        let didCountAnim = false;
+
+        function animateCount(el, target, duration) {
+            if (!el || target <= 0) { if (el) el.textContent = String(target); return; }
+            const start = performance.now();
+            const from = 0;
+            function step(now) {
+                const t = Math.min(1, (now - start) / duration);
+                const ease = 1 - Math.pow(1 - t, 3);
+                el.textContent = String(Math.round(from + (target - from) * ease));
+                if (t < 1) requestAnimationFrame(step);
+                else el.textContent = String(target);
+            }
+            requestAnimationFrame(step);
+        }
+
+        function getOverviewStats() {
             const tagSet = new Set();
             posts.forEach(p => (p.tags || []).forEach(t => tagSet.add(t)));
             const cats = new Set(posts.map(p => p.category));
             const dates = posts.map(p => p.date).sort();
-            const days = Math.ceil((new Date(dates[dates.length-1]) - new Date(dates[0])) / 86400000);
+            const days = dates.length < 2 ? 0
+                : Math.max(1, Math.ceil((new Date(dates[dates.length - 1]) - new Date(dates[0])) / 86400000));
+            return { posts: posts.length, cats: cats.size, tags: tagSet.size, days };
+        }
 
+        /* ===== Hero Chips ===== */
+        function renderHeroChips(runAnim) {
+            const isEn = lang() === 'en';
+            const s = getOverviewStats();
             const chips = [
-                { icon: 'fa-file-alt',   zh: `${posts.length} 篇文章`, en: `${posts.length} Posts` },
-                { icon: 'fa-layer-group', zh: `${cats.size} 个分类`,   en: `${cats.size} Categories` },
-                { icon: 'fa-tags',        zh: `${tagSet.size} 个标签`,  en: `${tagSet.size} Tags` },
-                { icon: 'fa-calendar',    zh: `${days} 天创作`,        en: `${days} Days` },
+                { icon: 'fa-file-alt',   n: s.posts, zh: '篇文章', en: 'Posts' },
+                { icon: 'fa-layer-group', n: s.cats,  zh: '个分类', en: 'Categories' },
+                { icon: 'fa-tags',        n: s.tags,  zh: '个标签', en: 'Tags' },
+                { icon: 'fa-calendar',    n: s.days,  zh: '天创作', en: 'Days' },
             ];
 
             document.getElementById('heroChips').innerHTML = chips.map(c =>
-                `<div class="cat-hero-chip"><i class="fas ${c.icon}"></i><span data-en="${c.en}" data-zh="${c.zh}">${isEn ? c.en : c.zh}</span></div>`
+                `<div class="cat-hero-chip"><i class="fas ${c.icon}"></i><span><span class="chip-num" data-target="${c.n}">0</span> <span data-en="${c.en}" data-zh="${c.zh}">${isEn ? c.en : c.zh}</span></span></div>`
             ).join('');
+
+            if (runAnim) {
+                document.querySelectorAll('#heroChips .chip-num').forEach(el => {
+                    animateCount(el, +el.dataset.target, 900);
+                });
+            } else {
+                document.querySelectorAll('#heroChips .chip-num').forEach(el => {
+                    el.textContent = el.dataset.target;
+                });
+            }
+        }
+
+        /* ===== News Ticker ===== */
+        function renderNewsTicker() {
+            const track = document.getElementById('newsTickerTrack');
+            if (!track || posts.length === 0) return;
+            const isEn = lang() === 'en';
+            const sorted = [...posts].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 10);
+            const items = sorted.map(p => {
+                const title = isEn ? (p.title_en || p.title) : p.title;
+                const cat = CAT_META[p.category] ? (isEn ? CAT_META[p.category].en : CAT_META[p.category].zh) : p.category;
+                return `<a class="news-ticker-item" href="${p.url}" target="_blank" rel="noopener">
+                    <span class="nt-badge">${cat}</span>
+                    <span class="nt-title">${title}</span>
+                    <span class="nt-date">${p.date}</span>
+                </a>`;
+            }).join('');
+            track.innerHTML = items + items;
+            const sec = Math.max(28, sorted.length * 6);
+            track.style.animationDuration = sec + 's';
         }
 
         /* ===== 0. Search ===== */
@@ -829,24 +1277,26 @@
         }
 
         /* ===== 1. Stats Banner ===== */
-        function renderStats() {
-            const tagSet = new Set();
-            posts.forEach(p => (p.tags || []).forEach(t => tagSet.add(t)));
-            const cats = new Set(posts.map(p => p.category));
-            const dates = posts.map(p => p.date).sort();
-
+        function renderStats(runAnim) {
+            const s = getOverviewStats();
             const items = [
-                { n: posts.length, zh: '文章总数',  en: 'Total Posts' },
-                { n: cats.size,    zh: '分类数',    en: 'Categories' },
-                { n: tagSet.size,  zh: '标签数',    en: 'Tags' },
-                { n: Math.ceil((new Date(dates[dates.length-1]) - new Date(dates[0])) / 86400000), zh: '创作天数', en: 'Active Days' },
+                { n: s.posts, zh: '文章总数',  en: 'Total Posts' },
+                { n: s.cats,  zh: '分类数',    en: 'Categories' },
+                { n: s.tags,  zh: '标签数',    en: 'Tags' },
+                { n: s.days,  zh: '创作天数', en: 'Active Days' },
             ];
 
-            document.getElementById('statsBanner').innerHTML = items.map(s => `
+            document.getElementById('statsBanner').innerHTML = items.map(it => `
                 <div class="stat-card">
-                    <div class="stat-number">${s.n}</div>
-                    <div class="stat-label" data-en="${s.en}" data-zh="${s.zh}">${lang()==='en'?s.en:s.zh}</div>
+                    <div class="stat-number"><span class="stat-num-val" data-target="${it.n}">0</span></div>
+                    <div class="stat-label" data-en="${it.en}" data-zh="${it.zh}">${lang()==='en'?it.en:it.zh}</div>
                 </div>`).join('');
+
+            document.querySelectorAll('#statsBanner .stat-num-val').forEach(el => {
+                const target = +el.dataset.target;
+                if (runAnim) animateCount(el, target, 1100);
+                else el.textContent = String(target);
+            });
         }
 
         /* ===== 2. Category Cards ===== */
@@ -880,8 +1330,9 @@
             });
         }
 
-        /* ===== 3. Word Cloud ===== */
+        /* ===== 3. Word Cloud & Heatmap ===== */
         const WC_PALETTE = ['#007AFF','#5AC8FA','#FF9500','#FF2D55','#AF52DE','#34C759','#FF3B30','#5856D6','#00C7BE','#FF6482'];
+        let tagViewMode = 'cloud';
 
         function renderWordCloud() {
             const container = document.getElementById('wordCloud');
@@ -902,10 +1353,82 @@
                 span.style.color = WC_PALETTE[i % WC_PALETTE.length];
                 span.style.opacity = 0.55 + ratio * 0.45;
                 span.title = `${tag}: ${freq}`;
-                span.addEventListener('click', () => {
-                    window.location.href = 'blog.html';
-                });
+                span.addEventListener('click', () => { window.location.href = 'blog.html'; });
                 container.appendChild(span);
+            });
+        }
+
+        const HEAT_STOPS = [
+            [0, [179, 229, 252]],
+            [0.35, [79, 195, 247]],
+            [0.6, [255, 213, 79]],
+            [0.82, [255, 138, 101]],
+            [1, [255, 59, 48]],
+        ];
+
+        function heatColorAt(ratio) {
+            const t = Math.max(0, Math.min(1, ratio));
+            for (let i = 1; i < HEAT_STOPS.length; i++) {
+                const [p0, c0] = HEAT_STOPS[i - 1];
+                const [p1, c1] = HEAT_STOPS[i];
+                if (t <= p1) {
+                    const k = (t - p0) / (p1 - p0 || 1);
+                    const r = Math.round(c0[0] + (c1[0] - c0[0]) * k);
+                    const g = Math.round(c0[1] + (c1[1] - c0[1]) * k);
+                    const b = Math.round(c0[2] + (c1[2] - c0[2]) * k);
+                    return `rgb(${r},${g},${b})`;
+                }
+            }
+            const c = HEAT_STOPS[HEAT_STOPS.length - 1][1];
+            return `rgb(${c[0]},${c[1]},${c[2]})`;
+        }
+
+        function renderTagHeatmap() {
+            const grid = document.getElementById('tagHeatmapGrid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            const tagMap = allTags();
+            const entries = Object.entries(tagMap).sort((a,b) => b[1]-a[1]);
+            if (entries.length === 0) return;
+            const maxFreq = entries[0][1];
+            const minFreq = entries[entries.length - 1][1];
+
+            entries.forEach(([tag, freq]) => {
+                const ratio = maxFreq === minFreq ? 1 : (freq - minFreq) / (maxFreq - minFreq);
+                const cell = document.createElement('div');
+                cell.className = 'th-cell';
+                cell.style.background = heatColorAt(ratio);
+                cell.style.color = ratio > 0.55 ? '#fff' : 'var(--text-color)';
+                cell.title = `${tag}: ${freq}`;
+                cell.innerHTML = `<span class="th-tag">${tag}</span><span class="th-freq">${freq}</span>`;
+                cell.addEventListener('click', () => { window.location.href = 'blog.html'; });
+                grid.appendChild(cell);
+            });
+        }
+
+        function applyTagView() {
+            const cloud = document.getElementById('wordCloud');
+            const heat = document.getElementById('tagHeatmap');
+            document.querySelectorAll('[data-tag-view]').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.tagView === tagViewMode);
+            });
+            if (tagViewMode === 'heatmap') {
+                cloud.classList.add('hidden');
+                heat.classList.add('active');
+                renderTagHeatmap();
+            } else {
+                cloud.classList.remove('hidden');
+                heat.classList.remove('active');
+                renderWordCloud();
+            }
+        }
+
+        function initTagViewToggle() {
+            document.querySelectorAll('[data-tag-view]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    tagViewMode = btn.dataset.tagView;
+                    applyTagView();
+                });
             });
         }
 
@@ -1047,59 +1570,453 @@
         }
 
         /* ===== 5. Timeline ===== */
-        function renderTimeline() {
-            const container = document.getElementById('timeline');
-            const monthMap = {};
-            posts.forEach(p => {
-                const ym = p.date.slice(0, 7);
-                monthMap[ym] = (monthMap[ym] || 0) + 1;
-            });
-            const sorted = Object.entries(monthMap).sort((a,b) => a[0].localeCompare(b[0]));
-            const maxCount = Math.max(...sorted.map(([,c]) => c));
+        let timelineMode = 'month';
+        const PIGEON_POST_THRESHOLD = 4;
 
+        function fillMonthRange(monthMap) {
+            const keys = Object.keys(monthMap).sort();
+            if (keys.length === 0) return monthMap;
+            let [y, m] = keys[0].split('-').map(Number);
+            const [ey, em] = keys[keys.length - 1].split('-').map(Number);
+            const filled = {};
+            while (y < ey || (y === ey && m <= em)) {
+                const k = `${y}-${String(m).padStart(2, '0')}`;
+                filled[k] = monthMap[k] || 0;
+                m++;
+                if (m > 12) { m = 1; y++; }
+            }
+            return filled;
+        }
+
+        function buildTimelineSeries(mode) {
+            const raw = {};
+            posts.forEach(p => {
+                const key = mode === 'year' ? p.date.slice(0, 4) : p.date.slice(0, 7);
+                raw[key] = (raw[key] || 0) + 1;
+            });
+            const map = mode === 'month' ? fillMonthRange(raw) : raw;
+            const sorted = Object.entries(map).sort((a, b) => a[0].localeCompare(b[0]));
+            const counts = sorted.map(([, c]) => c);
+            const maxCount = Math.max(1, ...counts);
+
+            const pigeonSet = new Set();
+            if (mode === 'month') {
+                sorted.forEach(([k, c]) => {
+                    if (c < PIGEON_POST_THRESHOLD) pigeonSet.add(k);
+                });
+            }
+
+            const diligent = counts.map((_, i) => {
+                const slice = counts.slice(Math.max(0, i - 2), i + 1);
+                return slice.reduce((a, b) => a + b, 0) / slice.length;
+            });
+            const avgDiligent = diligent.reduce((a, b) => a + b, 0) / (diligent.length || 1);
+
+            return { sorted, maxCount, pigeonSet, diligent, avgDiligent, counts, mode };
+        }
+
+        function drawTimelineOverlay(series) {
+            const canvas = document.getElementById('timelineCanvas');
+            const wrap = canvas && canvas.parentElement;
+            if (!canvas || !wrap) return;
+            const W = wrap.clientWidth;
+            const H = 220;
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = W * dpr;
+            canvas.height = H * dpr;
+            canvas.style.height = H + 'px';
+            const ctx = canvas.getContext('2d');
+            ctx.scale(dpr, dpr);
+            ctx.clearRect(0, 0, W, H);
+
+            const { sorted, diligent, maxCount, avgDiligent, counts, mode } = series;
+            const n = sorted.length;
+            if (n === 0) return;
+
+            const isDark = document.body.classList.contains('dark-mode');
+            const pad = { l: 36, r: 16, t: 24, b: 32 };
+            const chartW = W - pad.l - pad.r;
+            const chartH = H - pad.t - pad.b;
+            const step = chartW / n;
+
+            ctx.strokeStyle = isDark ? 'rgba(255,255,255,.08)' : 'rgba(0,0,0,.06)';
+            for (let i = 0; i <= 4; i++) {
+                const y = pad.t + (chartH * i) / 4;
+                ctx.beginPath();
+                ctx.moveTo(pad.l, y);
+                ctx.lineTo(W - pad.r, y);
+                ctx.stroke();
+            }
+
+            const maxD = Math.max(maxCount, ...(mode === 'month' ? diligent : counts), 0.01);
+
+            if (mode === 'year') {
+                const pts = counts.map((c, i) => ({
+                    x: pad.l + step * (i + 0.5),
+                    y: pad.t + chartH - (c / maxD) * chartH * 0.92,
+                    c,
+                }));
+                for (let i = 1; i < pts.length; i++) {
+                    const up = pts[i].c >= pts[i - 1].c;
+                    ctx.beginPath();
+                    ctx.strokeStyle = up ? '#34C759' : '#FF3B30';
+                    ctx.lineWidth = 2.5;
+                    ctx.moveTo(pts[i - 1].x, pts[i - 1].y);
+                    ctx.lineTo(pts[i].x, pts[i].y);
+                    ctx.stroke();
+                }
+                ctx.beginPath();
+                ctx.strokeStyle = '#007AFF';
+                ctx.lineWidth = 1.5;
+                ctx.setLineDash([6, 4]);
+                pts.forEach((p, i) => {
+                    if (i === 0) ctx.moveTo(p.x, p.y);
+                    else ctx.lineTo(p.x, p.y);
+                });
+                ctx.stroke();
+                ctx.setLineDash([]);
+            } else {
+                ctx.beginPath();
+                ctx.strokeStyle = '#34C759';
+                ctx.lineWidth = 2.5;
+                diligent.forEach((v, i) => {
+                    const x = pad.l + step * (i + 0.5);
+                    const y = pad.t + chartH - (v / maxD) * chartH * 0.92;
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                });
+                ctx.stroke();
+
+                ctx.setLineDash([4, 4]);
+                ctx.strokeStyle = isDark ? 'rgba(255,255,255,.25)' : 'rgba(0,0,0,.2)';
+                ctx.lineWidth = 1;
+                const avgY = pad.t + chartH - (avgDiligent / maxD) * chartH * 0.92;
+                ctx.beginPath();
+                ctx.moveTo(pad.l, avgY);
+                ctx.lineTo(W - pad.r, avgY);
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+        }
+
+        function renderTimeline() {
+            const barsEl = document.getElementById('timelineBars');
+            const summaryEl = document.getElementById('timelineSummary');
+            const timelineWrap = document.getElementById('timeline');
+            if (!barsEl) return;
+            if (timelineWrap) timelineWrap.classList.toggle('year-view', timelineMode === 'year');
+
+            const series = buildTimelineSeries(timelineMode);
+            const { sorted, maxCount, pigeonSet, diligent, avgDiligent, counts } = series;
             const monthNames = {
                 zh: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
                 en: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
             };
+            const isEn = lang() === 'en';
 
-            let html = '<div class="timeline-months">';
-            sorted.forEach(([ym, count]) => {
-                const [y, m] = ym.split('-');
-                const mLabel = monthNames[lang()][parseInt(m)-1];
-                const label = `${y} ${mLabel}`;
+            barsEl.className = 'timeline-months' + (timelineMode === 'year' ? ' year-mode' : '');
+            let html = '';
+            sorted.forEach(([key, count], i) => {
+                let label;
+                if (timelineMode === 'year') {
+                    label = key;
+                } else {
+                    const [y, m] = key.split('-');
+                    label = `${y} ${monthNames[lang()][parseInt(m, 10) - 1]}`;
+                }
                 const ratio = count / maxCount;
-                const h = 8 + ratio * 80;
-                const color = `hsl(${210 + ratio * 30}, ${60 + ratio * 20}%, ${55 - ratio * 15}%)`;
-                html += `<div class="tm-month">
-                    <div class="tm-bar" style="height:${h}px;background:${color}"></div>
+                const h = 8 + ratio * 88;
+                const pigeon = timelineMode === 'month' && pigeonSet.has(key);
+                const isDiligent = timelineMode === 'month' && diligent[i] >= avgDiligent * 1.15 && count >= PIGEON_POST_THRESHOLD;
+                const tip = isEn
+                    ? (pigeon ? 'Pigeon month (<4 posts)' : (isDiligent ? 'Active streak' : ''))
+                    : (pigeon ? '鸽子月（少于4篇）' : (isDiligent ? '更新频繁' : ''));
+                html += `<div class="tm-month" title="${label}: ${count}${tip ? ' · ' + tip : ''}">
+                    ${pigeon ? `<span class="tm-pigeon" title="${isEn ? 'Pigeon — &lt;4 posts' : '鸽子 — 当月&lt;4篇'}">🕊️</span>` : ''}
+                    <div class="tm-bar-wrap"><div class="tm-bar" style="height:${h}px"></div></div>
                     <div class="tm-count">${count}</div>
                     <div class="tm-month-label">${label}</div>
                 </div>`;
             });
-            html += '</div>';
-            container.innerHTML = html;
+            barsEl.innerHTML = html;
+
+            const totalPosts = sorted.reduce((a, [, c]) => a + c, 0);
+            const peak = sorted.reduce((best, cur) => cur[1] > best[1] ? cur : best, ['', 0]);
+            const pigeonN = pigeonSet.size;
+            const trendDelta = counts.length >= 2 ? counts[counts.length - 1] - counts[0] : 0;
+            if (summaryEl) {
+                if (timelineMode === 'year') {
+                    const trendLabel = isEn
+                        ? (trendDelta > 0 ? 'Uptrend' : trendDelta < 0 ? 'Downtrend' : 'Flat')
+                        : (trendDelta > 0 ? '整体增长' : trendDelta < 0 ? '整体下降' : '持平');
+                    summaryEl.innerHTML = isEn ? `
+                        <div class="tl-stat-pill">Peak <strong>${peak[1]}</strong> · ${peak[0]}</div>
+                        <div class="tl-stat-pill">Avg / year <strong>${(totalPosts / (sorted.length || 1)).toFixed(1)}</strong></div>
+                        <div class="tl-stat-pill">Trend <strong>${trendLabel}</strong> (${trendDelta >= 0 ? '+' : ''}${trendDelta})</div>`
+                    : `
+                        <div class="tl-stat-pill">峰值 <strong>${peak[1]}</strong> 篇 · ${peak[0]}</div>
+                        <div class="tl-stat-pill">年均 <strong>${(totalPosts / (sorted.length || 1)).toFixed(1)}</strong> 篇</div>
+                        <div class="tl-stat-pill">趋势 <strong>${trendLabel}</strong>（${trendDelta >= 0 ? '+' : ''}${trendDelta}）</div>`;
+                } else {
+                    summaryEl.innerHTML = isEn ? `
+                        <div class="tl-stat-pill">Peak <strong>${peak[1]}</strong> · ${peak[0]}</div>
+                        <div class="tl-stat-pill">Pigeon months (&lt;4) <strong>${pigeonN}</strong></div>
+                        <div class="tl-stat-pill">Avg / month <strong>${(totalPosts / (sorted.length || 1)).toFixed(1)}</strong></div>
+                        <div class="tl-stat-pill">Diligent line <strong>3-mo</strong></div>`
+                    : `
+                        <div class="tl-stat-pill">峰值 <strong>${peak[1]}</strong> 篇 · ${peak[0]}</div>
+                        <div class="tl-stat-pill">鸽子月（&lt;4篇）<strong>${pigeonN}</strong></div>
+                        <div class="tl-stat-pill">月均 <strong>${(totalPosts / (sorted.length || 1)).toFixed(1)}</strong> 篇</div>
+                        <div class="tl-stat-pill">勤劳曲线 <strong>三月均</strong></div>`;
+                }
+            }
+
+            drawTimelineOverlay(series);
+        }
+
+        function initTimelineMode() {
+            document.querySelectorAll('[data-tl-mode]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    timelineMode = btn.dataset.tlMode;
+                    document.querySelectorAll('[data-tl-mode]').forEach(b =>
+                        b.classList.toggle('active', b.dataset.tlMode === timelineMode));
+                    renderTimeline();
+                });
+            });
+        }
+
+        /* ===== 6. Productivity K-Line ===== */
+        let changelogDatesCache = null;
+        let klineDataCache = null;
+        let klineMode = 'month';
+
+        async function fetchChangelogDates() {
+            if (changelogDatesCache) return changelogDatesCache;
+            try {
+                const res = await fetch('changelog.html');
+                const html = await res.text();
+                changelogDatesCache = [...html.matchAll(/timeline-date">(\d{4}-\d{2}-\d{2})/g)].map(m => m[1]);
+            } catch (e) {
+                changelogDatesCache = [];
+            }
+            return changelogDatesCache;
+        }
+
+        function buildKlineSeries(changelogDates, mode) {
+            const bucket = {};
+            const keyOf = (d) => mode === 'year' ? d.slice(0, 4) : d.slice(0, 7);
+            changelogDates.forEach(d => {
+                const k = keyOf(d);
+                if (!bucket[k]) bucket[k] = { log: 0, blog: 0 };
+                bucket[k].log++;
+            });
+            posts.forEach(p => {
+                const k = keyOf(p.date);
+                if (!bucket[k]) bucket[k] = { log: 0, blog: 0 };
+                bucket[k].blog++;
+            });
+            const keys = Object.keys(bucket).sort();
+            let prevClose = 1;
+            return keys.map(k => {
+                const log = bucket[k].log;
+                const open = prevClose;
+                const close = Math.max(0.2, log);
+                const high = Math.max(open, close) + (bucket[k].blog > 2 ? 0.6 : 0.2);
+                const low = Math.max(0.1, Math.min(open, close) * 0.65);
+                prevClose = close;
+                return { ym: k, open, high, low, close, vol: bucket[k].blog, log };
+            });
+        }
+
+        function drawKline(data) {
+            const canvas = document.getElementById('productivityKline');
+            const meta = document.getElementById('klineMeta');
+            const tip = document.getElementById('klineTooltip');
+            if (!canvas || data.length === 0) return;
+
+            const wrap = canvas.parentElement;
+            const W = wrap.clientWidth;
+            const H = 280;
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = W * dpr;
+            canvas.height = H * dpr;
+            canvas.style.height = H + 'px';
+            const ctx = canvas.getContext('2d');
+            ctx.scale(dpr, dpr);
+
+            const isDark = document.body.classList.contains('dark-mode');
+            const isEn = lang() === 'en';
+            const pad = { l: 44, r: 20, t: 20, b: 36 };
+            const chartW = W - pad.l - pad.r;
+            const chartH = H - pad.t - pad.b;
+            const n = data.length;
+            const maxP = Math.max(...data.map(d => d.high), 1);
+            const maxVol = Math.max(...data.map(d => d.vol), 1);
+            const slot = chartW / n;
+            const candleW = Math.min(14, slot * 0.55);
+
+            const hits = [];
+
+            function yPrice(v) {
+                return pad.t + chartH * 0.72 - (v / maxP) * chartH * 0.65;
+            }
+            function yVol(v) {
+                return pad.t + chartH - (v / maxVol) * chartH * 0.22;
+            }
+
+            function paint() {
+                ctx.clearRect(0, 0, W, H);
+                ctx.strokeStyle = isDark ? 'rgba(255,255,255,.08)' : 'rgba(0,0,0,.06)';
+                for (let g = 0; g <= 4; g++) {
+                    const gy = pad.t + (chartH * g) / 4;
+                    ctx.beginPath();
+                    ctx.moveTo(pad.l, gy);
+                    ctx.lineTo(W - pad.r, gy);
+                    ctx.stroke();
+                }
+                ctx.fillStyle = isDark ? '#e8eaf0' : '#333';
+                ctx.font = '11px "SF Pro Display", sans-serif';
+
+                const linePts = [];
+
+                data.forEach((d, i) => {
+                    const cx = pad.l + slot * i + slot / 2;
+                    const bull = d.close >= d.open;
+                    const color = bull ? '#34C759' : '#FF3B30';
+                    const yO = yPrice(d.open), yC = yPrice(d.close);
+                    const yH = yPrice(d.high), yL = yPrice(d.low);
+                    ctx.strokeStyle = color;
+                    ctx.fillStyle = color;
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(cx, yH);
+                    ctx.lineTo(cx, yL);
+                    ctx.stroke();
+                    const top = Math.min(yO, yC);
+                    const h = Math.max(2, Math.abs(yC - yO));
+                    ctx.fillRect(cx - candleW / 2, top, candleW, h);
+
+                    const vh = (d.vol / maxVol) * chartH * 0.18;
+                    ctx.fillStyle = isDark ? 'rgba(90,200,250,.35)' : 'rgba(0,122,255,.28)';
+                    ctx.fillRect(cx - candleW / 2, pad.t + chartH - vh, candleW, vh);
+
+                    linePts.push({ cx, y: yC });
+
+                    if (i % Math.ceil(n / 8) === 0 || i === n - 1) {
+                        ctx.fillStyle = isDark ? 'rgba(255,255,255,.5)' : 'rgba(0,0,0,.45)';
+                        ctx.textAlign = 'center';
+                        ctx.fillText(d.ym, cx, H - 10);
+                    }
+                    hits.push({ d, cx, yO, yC, bull });
+                });
+
+                if (linePts.length > 1) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = '#FF9500';
+                    ctx.lineWidth = 2.5;
+                    ctx.lineJoin = 'round';
+                    linePts.forEach((p, i) => {
+                        if (i === 0) ctx.moveTo(p.cx, p.y);
+                        else ctx.lineTo(p.cx, p.y);
+                    });
+                    ctx.stroke();
+                    linePts.forEach(p => {
+                        ctx.beginPath();
+                        ctx.fillStyle = '#FF9500';
+                        ctx.arc(p.cx, p.y, 3, 0, Math.PI * 2);
+                        ctx.fill();
+                    });
+                }
+            }
+            paint();
+
+            const totalLog = changelogDatesCache ? changelogDatesCache.length : data.reduce((a, x) => a + x.log, 0);
+            const bucketLabel = isEn
+                ? (klineMode === 'year' ? 'Years' : 'Months')
+                : (klineMode === 'year' ? '统计年数' : '统计月数');
+            if (meta) {
+                meta.innerHTML = isEn
+                    ? `<span>Changelog entries: <strong>${totalLog}</strong></span><span>${bucketLabel}: <strong>${n}</strong></span><span>View: <strong>${klineMode}</strong></span><span><a href="changelog.html">changelog</a></span>`
+                    : `<span>更新日志条目：<strong>${totalLog}</strong></span><span>${bucketLabel}：<strong>${n}</strong></span><span>视图：<strong>${klineMode === 'year' ? '按年' : '按月'}</strong></span><span><a href="changelog.html">更新日志</a></span>`;
+            }
+
+            canvas.onmousemove = (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const mx = e.clientX - rect.left;
+                const hit = hits.find(h => Math.abs(h.cx - mx) < slot / 2);
+                if (!hit || !tip) { tip.style.display = 'none'; return; }
+                const { d, bull } = hit;
+                tip.style.display = 'block';
+                tip.style.left = (e.clientX + 12) + 'px';
+                tip.style.top = (e.clientY - 8) + 'px';
+                tip.innerHTML = isEn
+                    ? `<strong>${d.ym}</strong><br>O ${d.open.toFixed(1)} H ${d.high.toFixed(1)} L ${d.low.toFixed(1)} C ${d.close.toFixed(1)}<br>Changelog: ${d.log} · Posts: ${d.vol}<br>${bull ? '📈 Bull' : '📉 Bear'}`
+                    : `<strong>${d.ym}</strong><br>开 ${d.open.toFixed(1)} 高 ${d.high.toFixed(1)} 低 ${d.low.toFixed(1)} 收 ${d.close.toFixed(1)}<br>日志 ${d.log} 篇 · 发文 ${d.vol}<br>${bull ? '📈 阳线' : '📉 阴线'}`;
+            };
+            canvas.onmouseleave = () => { if (tip) tip.style.display = 'none'; };
+        }
+
+        function refreshKlineFromCache() {
+            if (!changelogDatesCache) return;
+            klineDataCache = buildKlineSeries(changelogDatesCache, klineMode);
+            drawKline(klineDataCache);
+        }
+
+        async function renderKline() {
+            const dates = await fetchChangelogDates();
+            klineDataCache = buildKlineSeries(dates, klineMode);
+            drawKline(klineDataCache);
+        }
+
+        function initKlineMode() {
+            document.querySelectorAll('[data-kline-mode]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    klineMode = btn.dataset.klineMode;
+                    document.querySelectorAll('[data-kline-mode]').forEach(b =>
+                        b.classList.toggle('active', b.dataset.klineMode === klineMode));
+                    refreshKlineFromCache();
+                });
+            });
         }
 
         /* ===== Init ===== */
         let searchInited = false;
+        let tagToggleInited = false;
+        let tlModeInited = false;
+        let klineModeInited = false;
+
         function renderAll() {
-            renderHeroChips();
-            renderStats();
+            const runAnim = !didCountAnim;
+            renderHeroChips(runAnim);
+            renderStats(runAnim);
+            if (runAnim) didCountAnim = true;
+            renderNewsTicker();
             renderCategories();
-            renderWordCloud();
+            applyTagView();
             renderGraph();
             renderTimeline();
             if (!searchInited) { initSearch(); searchInited = true; }
+            if (!tagToggleInited) { initTagViewToggle(); tagToggleInited = true; }
+            if (!tlModeInited) { initTimelineMode(); tlModeInited = true; }
+            if (!klineModeInited) { initKlineMode(); klineModeInited = true; }
         }
 
-        document.addEventListener('DOMContentLoaded', renderAll);
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAll();
+            renderKline();
+        });
 
-        window.addEventListener('resize', () => { renderGraph(); });
+        window.addEventListener('resize', () => {
+            renderGraph();
+            renderTimeline();
+            if (klineDataCache) drawKline(klineDataCache);
+        });
 
         const observer = new MutationObserver((mutations) => {
             for (const m of mutations) {
                 if (m.attributeName === 'class') {
                     renderAll();
+                    refreshKlineFromCache();
                     break;
                 }
             }
