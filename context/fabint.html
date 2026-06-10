@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fab Semiconductor Career Map</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --bg:#070a13;
+  --text:#ffffff;
+  --muted:#b9c4d8;
+  --card:#ffffff14;
+  --card2:#ffffff08;
+  --border:#ffffff22;
+  --panel:#05081488;
+  --accent:#8eefff;
+}
+
+body.light{
+  --bg:#f4f7fb;
+  --text:#111827;
+  --muted:#536174;
+  --card:#ffffffcc;
+  --card2:#eef4ffcc;
+  --border:#d8e2f0;
+  --panel:#ffffffd8;
+  --accent:#2563eb;
+}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  transition:.35s;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  background:
+    radial-gradient(circle at 15% 15%,#2563eb70,transparent 28%),
+    radial-gradient(circle at 80% 20%,#06b6d455,transparent 24%),
+    radial-gradient(circle at 70% 85%,#9333ea55,transparent 28%),
+    linear-gradient(135deg,var(--bg),var(--bg));
+}
+
+.topbar{
+  position:fixed;
+  top:22px;
+  right:8vw;
+  z-index:10;
+  display:flex;
+  gap:12px;
+}
+
+.toggle{
+  border:none;
+  cursor:pointer;
+  padding:12px 18px;
+  border-radius:999px;
+  color:var(--text);
+  background:var(--card);
+  border:1px solid var(--border);
+  backdrop-filter:blur(16px);
+}
+
+.toggle:hover{
+  transform:translateY(-2px);
+}
+
+header{
+  padding:90px 8vw 35px;
+}
+
+.badge{
+  display:inline-block;
+  padding:10px 18px;
+  border-radius:999px;
+  background:var(--card);
+  border:1px solid var(--border);
+  color:var(--accent);
+  margin-bottom:22px;
+}
+
+h1{
+  max-width:950px;
+  font-size:clamp(38px,7vw,82px);
+  line-height:1;
+  letter-spacing:-3px;
+}
+
+header p{
+  margin-top:24px;
+  max-width:760px;
+  color:var(--muted);
+  line-height:1.8;
+  font-size:18px;
+}
+
+.toolbar{
+  padding:10px 8vw 35px;
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+}
+
+.search,.filter{
+  outline:none;
+  color:var(--text);
+  background:var(--card);
+  border:1px solid var(--border);
+  backdrop-filter:blur(16px);
+}
+
+.search{
+  flex:1;
+  min-width:260px;
+  padding:17px 22px;
+  border-radius:22px;
+  font-size:16px;
+}
+
+.filter{
+  padding:14px 20px;
+  border-radius:999px;
+  cursor:pointer;
+}
+
+.filter.active,.filter:hover{
+  background:linear-gradient(135deg,#1ddcff,#7c3aed);
+  color:white;
+}
+
+.grid{
+  padding:0 8vw 80px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:24px;
+}
+
+.job-card{
+  position:relative;
+  min-height:280px;
+  padding:30px;
+  border-radius:36px;
+  cursor:pointer;
+  overflow:hidden;
+  background:linear-gradient(145deg,var(--card),var(--card2));
+  border:1px solid var(--border);
+  box-shadow:0 28px 70px #00000025;
+  transition:.35s;
+}
+
+.job-card::after{
+  content:"";
+  position:absolute;
+  width:180px;
+  height:180px;
+  right:-65px;
+  top:-65px;
+  border-radius:50%;
+  background:var(--glow);
+  filter:blur(18px);
+  opacity:.45;
+}
+
+.job-card:hover{
+  transform:translateY(-10px) scale(1.015);
+  border-color:#8eefff90;
+}
+
+.icon{
+  width:64px;
+  height:64px;
+  border-radius:22px;
+  display:grid;
+  place-items:center;
+  font-size:32px;
+  background:var(--card);
+  margin-bottom:24px;
+}
+
+.job-card h2{
+  font-size:25px;
+  margin-bottom:12px;
+}
+
+.job-card p{
+  color:var(--muted);
+  line-height:1.7;
+}
+
+.more{
+  position:absolute;
+  bottom:28px;
+  left:30px;
+  color:var(--accent);
+  font-weight:700;
+}
+
+.detail{
+  display:none;
+  padding:70px 8vw 90px;
+}
+
+.back{
+  border:none;
+  padding:14px 22px;
+  border-radius:999px;
+  color:var(--text);
+  background:var(--card);
+  border:1px solid var(--border);
+  cursor:pointer;
+  margin-bottom:34px;
+}
+
+.detail-hero{
+  position:relative;
+  overflow:hidden;
+  border-radius:46px;
+  padding:45px;
+  background:linear-gradient(145deg,var(--card),var(--card2));
+  border:1px solid var(--border);
+  box-shadow:0 30px 80px #00000025;
+}
+
+.detail-hero::before{
+  content:"";
+  position:absolute;
+  width:360px;
+  height:360px;
+  right:-100px;
+  top:-100px;
+  border-radius:50%;
+  background:var(--glow);
+  filter:blur(28px);
+  opacity:.35;
+}
+
+.detail-title{
+  position:relative;
+  max-width:850px;
+}
+
+.big-icon{
+  font-size:58px;
+  margin-bottom:16px;
+}
+
+.detail-title h2{
+  font-size:clamp(36px,6vw,68px);
+  line-height:1.05;
+  margin-bottom:18px;
+}
+
+.detail-title p{
+  color:var(--muted);
+  line-height:1.9;
+  font-size:18px;
+}
+
+.detail-grid{
+  margin-top:28px;
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:24px;
+}
+
+.info-box{
+  padding:28px;
+  border-radius:30px;
+  background:var(--panel);
+  border:1px solid var(--border);
+}
+
+.info-box h3{
+  font-size:23px;
+  margin-bottom:18px;
+}
+
+ul{list-style:none}
+
+li{
+  color:var(--muted);
+  margin:12px 0;
+  padding-left:25px;
+  line-height:1.6;
+  position:relative;
+}
+
+li::before{
+  content:"";
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:var(--accent);
+  position:absolute;
+  left:0;
+  top:9px;
+}
+
+.path{
+  margin-top:24px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:16px;
+}
+
+.path-card{
+  padding:20px;
+  border-radius:24px;
+  background:var(--card);
+  border:1px solid var(--border);
+}
+
+.path-card span{
+  color:var(--accent);
+  font-weight:800;
+}
+
+footer{
+  text-align:center;
+  color:var(--muted);
+  padding:30px;
+}
+
+@media(max-width:850px){
+  .detail-grid{grid-template-columns:1fr}
+  .detail-hero{padding:30px}
+  .topbar{position:static;padding:20px 8vw 0}
+}
+</style>
+</head>
+
+<body>
+<div class="topbar">
+  <button class="toggle" id="themeBtn">🌙 夜间</button>
+  <button class="toggle" id="langBtn">EN</button>
+</div>
+
+<section id="home">
+<header>
+  <div class="badge" data-i18n="badge"></div>
+  <h1 data-i18n="title"></h1>
+  <p data-i18n="subtitle"></p>
+</header>
+
+<div class="toolbar">
+  <input id="search" class="search" />
+  <button class="filter active" data-type="all" data-i18n="all"></button>
+  <button class="filter" data-type="tech" data-i18n="tech"></button>
+  <button class="filter" data-type="manufacturing" data-i18n="manufacturing"></button>
+  <button class="filter" data-type="support" data-i18n="support"></button>
+</div>
+
+<main class="grid" id="grid"></main>
+</section>
+
+<section class="detail" id="detail"></section>
+
+<footer data-i18n="footer"></footer>
+
+<script>
+let lang = "zh";
+let current = "all";
+
+const ui = {
+  zh:{
+    badge:"FAB 半导体职业地图",
+    title:"Fab 半导体岗位地图",
+    subtitle:"先从岗位名片快速了解方向，点击任意岗位后进入详细页面，查看工作内容、核心技能、成长路径和适合人群。",
+    search:"搜索岗位，例如：工艺、设备、良率、厂务...",
+    all:"全部",
+    tech:"技术类",
+    manufacturing:"制造类",
+    support:"支撑类",
+    more:"点击查看详情 →",
+    back:"← 返回岗位总览",
+    works:"主要工作内容",
+    skills:"需要学习的技能",
+    path:"成长路径",
+    fit:"适合人群",
+    footer:"© Fab 半导体岗位介绍 · 单文件 HTML / CSS / JS",
+    themeDark:"🌙 夜间",
+    themeLight:"☀️ 日间",
+    langBtn:"EN"
+  },
+  en:{
+    badge:"FAB SEMICONDUCTOR CAREER MAP",
+    title:"Fab Semiconductor Career Map",
+    subtitle:"Start with simple role cards. Click any position to view detailed responsibilities, required skills, career path and ideal candidate profile.",
+    search:"Search roles, e.g. process, equipment, yield, facility...",
+    all:"All",
+    tech:"Technical",
+    manufacturing:"Manufacturing",
+    support:"Support",
+    more:"View details →",
+    back:"← Back to overview",
+    works:"Main Responsibilities",
+    skills:"Skills to Learn",
+    path:"Career Path",
+    fit:"Best Fit",
+    footer:"© Fab Semiconductor Role Guide · Single-file HTML / CSS / JS",
+    themeDark:"🌙 Dark",
+    themeLight:"☀️ Light",
+    langBtn:"中文"
+  }
+};
+
+const jobs = [
+{
+ type:"tech", icon:"🧪", glow:"#00e5ff",
+ zh:{
+  title:"工艺工程师", en:"Process Engineer", brief:"负责制程参数优化、异常分析与良率提升。",
+  intro:"工艺工程师是 Fab 中最核心的技术岗位之一，通常负责光刻、刻蚀、薄膜、扩散、CMP、清洗等某一个制程模块。",
+  works:["建立、维护和优化工艺 recipe","分析 wafer 异常、缺陷、膜厚、CD、电性等数据","设计 DOE 实验，寻找最佳工艺窗口","处理量产异常，降低报废率和返工率"],
+  skills:["半导体制造流程和材料基础","SPC 统计过程控制","DOE 实验设计","JMP、Excel、Python 数据分析"],
+  path:["助理工艺工程师","模块工艺工程师","高级工艺工程师","制程专家 / 技术经理"],
+  fit:"适合喜欢技术分析、实验验证、数据推理，并且能长期钻研细节的人。"
+ },
+ en:{
+  title:"Process Engineer", en:"工艺工程师", brief:"Optimizes process parameters, analyzes abnormalities and improves yield.",
+  intro:"Process Engineers are among the core technical roles in a fab. They usually own one process module such as lithography, etch, thin film, diffusion, CMP or cleaning.",
+  works:["Build, maintain and optimize process recipes","Analyze wafer abnormalities, defects, film thickness, CD and electrical data","Design DOE experiments to identify the best process window","Handle production issues and reduce scrap or rework"],
+  skills:["Semiconductor process and material fundamentals","SPC control methods","DOE methodology","JMP, Excel and Python data analysis"],
+  path:["Assistant Process Engineer","Module Process Engineer","Senior Process Engineer","Process Expert / Technical Manager"],
+  fit:"Ideal for people who enjoy technical analysis, experiments, data reasoning and deep problem solving."
+ }
+},
+{
+ type:"tech", icon:"⚙️", glow:"#7c5cff",
+ zh:{
+  title:"设备工程师", en:"Equipment Engineer", brief:"保障机台稳定运行，提升设备稼动率。",
+  intro:"设备工程师负责 Fab 内复杂的生产设备，包括光刻机、刻蚀机、PVD、CVD、CMP、清洗机、离子注入机等。",
+  works:["执行设备保养、校准、维修和升级","分析 alarm、downtime、MTBF、MTTR","解决机械、电气、真空、气体、robot 等问题","支持新设备安装、验收和量产导入"],
+  skills:["机械、电气、自动化、真空基础","PLC、Sensor、Robot、Pump 基础知识","设备故障排查能力","安全规范、化学品和气体知识"],
+  path:["设备助理工程师","模块设备工程师","高级设备工程师","设备专家 / 设备经理"],
+  fit:"适合动手能力强、喜欢排查故障、能接受轮班或紧急响应的人。"
+ },
+ en:{
+  title:"Equipment Engineer", en:"设备工程师", brief:"Keeps tools stable and improves equipment availability.",
+  intro:"Equipment Engineers maintain complex fab tools such as lithography scanners, etchers, PVD, CVD, CMP, wet tools and ion implanters.",
+  works:["Perform maintenance, calibration, repair and upgrades","Analyze alarms, downtime, MTBF and MTTR","Troubleshoot mechanical, electrical, vacuum, gas and robot issues","Support new tool installation and qualification"],
+  skills:["Mechanical, electrical, automation and vacuum fundamentals","PLC, sensor, robot and pump knowledge","Troubleshooting capability","Safety, chemical and gas knowledge"],
+  path:["Assistant Equipment Engineer","Module Equipment Engineer","Senior Equipment Engineer","Equipment Expert / Manager"],
+  fit:"Ideal for hands-on people who enjoy troubleshooting and can support urgent production needs."
+ }
+},
+{
+ type:"tech", icon:"🧩", glow:"#ff8c42",
+ zh:{
+  title:"整合工程师", en:"Integration Engineer", brief:"连接各制程模块，关注产品整体良率。",
+  intro:"整合工程师关注完整产品路线，需要把制程、器件、电性、缺陷和良率联系起来。",
+  works:["跟踪 wafer 从投片到出货的完整表现","分析电性测试、缺陷图、失效模式和良率趋势","协调工艺、设备、量测、生产团队解决跨模块问题","负责新产品导入和良率爬坡"],
+  skills:["完整半导体流程理解","器件物理和电性测试基础","Yield Analysis、Defect Analysis","SQL、Python、数据可视化"],
+  path:["产品 / 整合助理工程师","整合工程师","高级整合工程师","产品负责人 / 技术经理"],
+  fit:"适合系统思维强、沟通能力好、喜欢从全局角度解决复杂问题的人。"
+ },
+ en:{
+  title:"Integration Engineer", en:"整合工程师", brief:"Connects process modules and focuses on full-product yield.",
+  intro:"Integration Engineers look at the full product flow and connect process, device, electrical, defect and yield information.",
+  works:["Track wafer performance from start to shipment","Analyze electrical tests, defect maps, failure modes and yield trends","Coordinate cross-module issue solving","Support new product introduction and yield ramp"],
+  skills:["Full semiconductor flow understanding","Device physics and electrical test basics","Yield and defect analysis","SQL, Python and data visualization"],
+  path:["Product / Integration Assistant Engineer","Integration Engineer","Senior Integration Engineer","Product Owner / Technical Manager"],
+  fit:"Ideal for people with system thinking, communication skills and strong ownership."
+ }
+},
+{
+ type:"manufacturing", icon:"🏭", glow:"#ff5ca8",
+ zh:{
+  title:"生产工程师", en:"Manufacturing Engineer", brief:"管理产线节奏、WIP、排程和产能。",
+  intro:"生产工程师负责让晶圆在 Fab 中高效流动，重点关注产出、周期时间、瓶颈站点和交付计划。",
+  works:["监控 WIP、Cycle Time、Move、Output 等指标","优化派工规则和生产节奏","识别瓶颈站点并推动产能改善","协调异常 lot 和 priority lot"],
+  skills:["生产管理和 Lean 思维","MES 系统操作","Excel、SQL、Power BI 基础","现场沟通和压力管理能力"],
+  path:["生产助理工程师","生产工程师","高级生产工程师","制造主管 / 生产经理"],
+  fit:"适合执行力强、沟通协调能力好、喜欢运营管理和效率优化的人。"
+ },
+ en:{
+  title:"Manufacturing Engineer", en:"生产工程师", brief:"Manages line flow, WIP, scheduling and output.",
+  intro:"Manufacturing Engineers ensure wafers move efficiently through the fab, focusing on output, cycle time, bottlenecks and delivery.",
+  works:["Monitor WIP, cycle time, moves and output","Optimize dispatching rules and production rhythm","Identify bottlenecks and drive capacity improvement","Coordinate abnormal lots and priority lots"],
+  skills:["Production management and lean thinking","MES operation","Excel, SQL and Power BI basics","Communication and pressure management"],
+  path:["Assistant Manufacturing Engineer","Manufacturing Engineer","Senior Manufacturing Engineer","Manufacturing Supervisor / Manager"],
+  fit:"Ideal for people who enjoy operations, coordination and efficiency improvement."
+ }
+},
+{
+ type:"support", icon:"📈", glow:"#00ffc6",
+ zh:{
+  title:"良率工程师", en:"Yield Engineer", brief:"通过数据和缺陷分析提升产品良率。",
+  intro:"良率工程师通过海量制造数据找到影响产品良率的关键因素，是 Fab 数据驱动改善的重要角色。",
+  works:["建立良率监控 dashboard","分析 defect map、wafer map、bin map、电测数据","定位系统性失效和异常批次","推动跨部门改善行动"],
+  skills:["统计学、相关性分析和异常检测","Python、SQL、Tableau / Power BI","半导体缺陷和失效分析基础","RCA 根因分析能力"],
+  path:["良率分析工程师","良率工程师","高级良率工程师","良率专家 / 数据分析负责人"],
+  fit:"适合喜欢数据、逻辑推理、可视化分析，并愿意理解制造现场的人。"
+ },
+ en:{
+  title:"Yield Engineer", en:"良率工程师", brief:"Improves product yield through data and defect analysis.",
+  intro:"Yield Engineers use large-scale manufacturing data to identify key factors that affect product yield.",
+  works:["Build yield monitoring dashboards","Analyze defect maps, wafer maps, bin maps and test data","Identify systematic failures and abnormal lots","Drive cross-functional improvement actions"],
+  skills:["Statistics, correlation analysis and anomaly detection","Python, SQL, Tableau / Power BI","Defect and failure analysis basics","Root cause analysis"],
+  path:["Yield Analysis Engineer","Yield Engineer","Senior Yield Engineer","Yield Expert / Data Analytics Lead"],
+  fit:"Ideal for people who enjoy data, logic, visualization and manufacturing analysis."
+ }
+},
+{
+ type:"support", icon:"🤖", glow:"#4cc9f0",
+ zh:{
+  title:"自动化工程师", en:"Automation Engineer", brief:"维护 MES、EAP、AMHS 等智能制造系统。",
+  intro:"自动化工程师负责让 Fab 中的设备、物料、系统和数据自动连接，是智能制造的重要岗位。",
+  works:["维护 MES、EAP、FDC、RMS、AMHS 系统","开发设备联机、自动派工和报警逻辑","处理系统异常和数据传输问题","支持智能制造和数字化项目"],
+  skills:["Java、Python、SQL、JavaScript 基础","SECS/GEM 通讯协议","数据库和接口开发能力","制造流程和设备逻辑理解"],
+  path:["自动化助理工程师","自动化工程师","系统架构工程师","智能制造负责人"],
+  fit:"适合喜欢编程、系统设计、自动化流程和数字化制造的人。"
+ },
+ en:{
+  title:"Automation Engineer", en:"自动化工程师", brief:"Maintains MES, EAP, AMHS and smart manufacturing systems.",
+  intro:"Automation Engineers connect tools, material flow, systems and data inside the fab.",
+  works:["Maintain MES, EAP, FDC, RMS and AMHS systems","Develop tool connection, auto-dispatching and alarm logic","Troubleshoot system and data transmission issues","Support smart manufacturing projects"],
+  skills:["Java, Python, SQL and JavaScript basics","SECS/GEM protocol","Database and API development","Manufacturing flow and equipment logic"],
+  path:["Assistant Automation Engineer","Automation Engineer","System Architect","Smart Manufacturing Lead"],
+  fit:"Ideal for people who enjoy programming, systems and digital manufacturing."
+ }
+},
+{
+ type:"support", icon:"🌬️", glow:"#80ffdb",
+ zh:{
+  title:"厂务工程师", en:"Facility Engineer", brief:"保障水、电、气、化、洁净室等基础系统。",
+  intro:"厂务工程师负责 Fab 背后的基础设施，包括超纯水、电力、特气、化学品、空调、排风、废水和洁净室环境。",
+  works:["维护 UPW、CDA、Gas、Chemical、HVAC、Waste 系统","监控洁净室温湿度、压差、颗粒和能耗","处理厂务报警和紧急事故","支持设备 hook-up 和扩产项目"],
+  skills:["机电、暖通、化工或环境工程基础","安全、环保和厂务系统知识","图纸阅读和工程项目管理","应急处理和风险意识"],
+  path:["厂务助理工程师","厂务工程师","高级厂务工程师","厂务主管 / 设施经理"],
+  fit:"适合工程实践能力强、重视安全稳定、能处理复杂系统运行的人。"
+ },
+ en:{
+  title:"Facility Engineer", en:"厂务工程师", brief:"Ensures stable utilities, cleanroom and facility systems.",
+  intro:"Facility Engineers maintain the infrastructure behind the fab, including UPW, power, gases, chemicals, HVAC, exhaust, wastewater and cleanroom conditions.",
+  works:["Maintain UPW, CDA, gas, chemical, HVAC and waste systems","Monitor temperature, humidity, pressure, particles and energy usage","Handle facility alarms and emergencies","Support tool hook-up and expansion projects"],
+  skills:["Mechanical, electrical, HVAC, chemical or environmental engineering basics","Safety, EHS and facility system knowledge","Drawing reading and project management","Emergency response and risk awareness"],
+  path:["Assistant Facility Engineer","Facility Engineer","Senior Facility Engineer","Facility Supervisor / Manager"],
+  fit:"Ideal for people who value system stability, safety and engineering operations."
+ }
+}
+];
+
+const grid = document.getElementById("grid");
+const home = document.getElementById("home");
+const detail = document.getElementById("detail");
+const search = document.getElementById("search");
+const filters = document.querySelectorAll(".filter");
+const themeBtn = document.getElementById("themeBtn");
+const langBtn = document.getElementById("langBtn");
+
+function t(key){
+  return ui[lang][key];
+}
+
+function applyLang(){
+  document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    el.textContent = t(el.dataset.i18n);
+  });
+  search.placeholder = t("search");
+  langBtn.textContent = t("langBtn");
+  updateThemeText();
+  renderCards();
+
+  if(detail.style.display === "block"){
+    const index = Number(detail.dataset.index);
+    showDetail(index,false);
+  }
+}
+
+function updateThemeText(){
+  themeBtn.textContent = document.body.classList.contains("light") ? t("themeLight") : t("themeDark");
+}
+
+function renderCards(){
+  const keyword = search.value.toLowerCase();
+  grid.innerHTML = "";
+
+  jobs.filter(job=>{
+    const item = job[lang];
+    const matchType = current === "all" || job.type === current;
+    const text = JSON.stringify(item).toLowerCase();
+    return matchType && text.includes(keyword);
+  }).forEach((job,index)=>{
+    const item = job[lang];
+    const card = document.createElement("article");
+    card.className = "job-card";
+    card.style.setProperty("--glow",job.glow);
+    card.innerHTML = `
+      <div class="icon">${job.icon}</div>
+      <h2>${item.title}</h2>
+      <p>${item.brief}</p>
+      <div class="more">${t("more")}</div>
+    `;
+    card.onclick = () => showDetail(index,true);
+    grid.appendChild(card);
+  });
+}
+
+function showDetail(index,scroll=true){
+  const job = jobs[index];
+  const item = job[lang];
+
+  home.style.display = "none";
+  detail.style.display = "block";
+  detail.dataset.index = index;
+
+  detail.innerHTML = `
+    <button class="back" onclick="backHome()">${t("back")}</button>
+
+    <div class="detail-hero" style="--glow:${job.glow}">
+      <div class="detail-title">
+        <div class="big-icon">${job.icon}</div>
+        <h2>${item.title}<br><span style="color:var(--accent)">${item.en}</span></h2>
+        <p>${item.intro}</p>
+      </div>
+
+      <div class="detail-grid">
+        <div class="info-box">
+          <h3>${t("works")}</h3>
+          <ul>${item.works.map(x=>`<li>${x}</li>`).join("")}</ul>
+        </div>
+
+        <div class="info-box">
+          <h3>${t("skills")}</h3>
+          <ul>${item.skills.map(x=>`<li>${x}</li>`).join("")}</ul>
+        </div>
+      </div>
+
+      <div class="detail-grid">
+        <div class="info-box">
+          <h3>${t("path")}</h3>
+          <div class="path">
+            ${item.path.map((p,i)=>`
+              <div class="path-card">
+                <span>0${i+1}</span>
+                <p>${p}</p>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+
+        <div class="info-box">
+          <h3>${t("fit")}</h3>
+          <p style="color:var(--muted);line-height:1.8">${item.fit}</p>
+        </div>
+      </div>
+    </div>
+  `;
+
+  if(scroll) window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function backHome(){
+  detail.style.display = "none";
+  home.style.display = "block";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+themeBtn.onclick = () => {
+  document.body.classList.toggle("light");
+  updateThemeText();
+};
+
+langBtn.onclick = () => {
+  lang = lang === "zh" ? "en" : "zh";
+  applyLang();
+};
+
+filters.forEach(btn=>{
+  btn.onclick = ()=>{
+    filters.forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    current = btn.dataset.type;
+    renderCards();
+  };
+});
+
+search.oninput = renderCards;
+
+applyLang();
+</script>
+</body>
+</html>
