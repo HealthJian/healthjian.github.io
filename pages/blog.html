@@ -65,6 +65,67 @@
         }
         .blog-space-plant-wrap.is-fallback .blog-space-plant { display: none; }
         .blog-space-plant-wrap.is-fallback .blog-space-plant-fallback { display: block; }
+
+        .blog-cat-badge {
+            color: #1f2937;
+            border-color: rgba(0,0,0,.72);
+        }
+        .blog-cat-tech { background: #fde68a; }
+        .blog-cat-interview { background: #fed7aa; }
+        .blog-cat-life { background: #bbf7d0; }
+        .blog-cat-thoughts { background: #ddd6fe; }
+        .blog-cat-idea { background: #fbcfe8; }
+        .blog-cat-excerpt { background: #bfdbfe; }
+        .blog-cat-paper { background: #fecaca; }
+        .blog-cat-default,
+        .blog-cat-all { background: #e5e7eb; }
+        .dark .blog-cat-badge {
+            color: #f8fafc;
+            border-color: rgba(255,255,255,.7);
+        }
+        .dark .blog-cat-tech { background: rgba(202,138,4,.72); }
+        .dark .blog-cat-interview { background: rgba(194,65,12,.72); }
+        .dark .blog-cat-life { background: rgba(22,101,52,.72); }
+        .dark .blog-cat-thoughts { background: rgba(109,40,217,.72); }
+        .dark .blog-cat-idea { background: rgba(190,24,93,.72); }
+        .dark .blog-cat-excerpt { background: rgba(30,64,175,.72); }
+        .dark .blog-cat-paper { background: rgba(185,28,28,.72); }
+        .dark .blog-cat-default,
+        .dark .blog-cat-all { background: rgba(75,85,99,.72); }
+
+        .blog-back-to-top {
+            position: fixed;
+            right: 22px;
+            bottom: 24px;
+            z-index: 900;
+            width: 38px;
+            height: 38px;
+            border: 1px solid rgba(0, 122, 255, .18);
+            border-radius: 50%;
+            background: rgba(255,255,255,.82);
+            color: #007AFF;
+            box-shadow: 0 10px 24px rgba(0,0,0,.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(10px);
+            transition: opacity .25s ease, transform .25s ease, background-color .25s ease;
+        }
+        .blog-back-to-top.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+        .blog-back-to-top:hover {
+            background: rgba(255,255,255,.96);
+            transform: translateY(-2px);
+        }
+        .dark .blog-back-to-top {
+            background: rgba(17,74,128,.82);
+            color: #ffffff;
+            border-color: rgba(90,200,250,.24);
+        }
     </style>
     <!-- ========== LOTTIE space_plant 样式 END ========== -->
 </head>
@@ -154,9 +215,30 @@
                 <div id="blog-grid" class="blog-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 transition-all duration-300">
                     <!-- JS 渲染文章 -->
                 </div>
+                <div class="mt-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-t-2 border-black/15 dark:border-white/20 pt-6">
+                    <div class="flex items-center gap-3 font-mono text-sm">
+                        <span class="font-bold dark:text-white" data-en="Per page" data-zh="每页数量">每页数量</span>
+                        <select id="blog-page-size" class="px-3 py-2 border border-black dark:border-white bg-white dark:bg-darkCard text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400">
+                            <option value="12">12</option>
+                            <option value="24">24</option>
+                            <option value="36">36</option>
+                            <option value="48">48</option>
+                        </select>
+                        <span id="blog-page-summary" class="text-gray-600 dark:text-gray-300"></span>
+                    </div>
+                    <div class="flex items-center gap-2 blog-pagination" aria-label="Blog pagination">
+                        <button id="blog-prev-page" class="px-3 py-2 border border-black dark:border-white bg-white dark:bg-darkCard text-black dark:text-white disabled:opacity-40 disabled:cursor-not-allowed" type="button" data-en="Prev" data-zh="上一页">上一页</button>
+                        <div id="blog-page-numbers" class="flex flex-wrap gap-2"></div>
+                        <button id="blog-next-page" class="px-3 py-2 border border-black dark:border-white bg-white dark:bg-darkCard text-black dark:text-white disabled:opacity-40 disabled:cursor-not-allowed" type="button" data-en="Next" data-zh="下一页">下一页</button>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
+
+    <button id="blogBackToTop" class="blog-back-to-top" type="button" title="回到顶部" aria-label="Back to top">
+        <i data-lucide="chevron-up" class="w-5 h-5 mx-auto"></i>
+    </button>
 
     <!-- 页脚 -->
     <footer>
@@ -218,6 +300,8 @@
     <script>
         window.SKIP_BLOG_INIT = true; // 仅复用数据，跳过旧UI初始化
     </script>
+    <script src="../js/blog-posts-data.js"></script>
+    <script src="../js/blog-category-meta.js"></script>
     <script src="../js/blog.js"></script>
     <script src="../js/theme.js"></script>
     <script src="../js/language.js"></script>
@@ -270,17 +354,23 @@
                 : fallbackArticles
             ).sort((a, b) => parseDate(b.date) - parseDate(a.date));
 
-            // 分类标签映射（含新增分类）
-            const categoryLabel = {
-                zh: { all: '全部', tech: '技术', interview: '面试', life: '生活', thoughts: '随想', idea: '思想', excerpt: '摘抄', paper: '论文' },
-                en: { all: 'All', tech: 'Technology', interview: 'Interview', life: 'Life', thoughts: 'Thoughts', idea: 'Ideas', excerpt: 'Excerpt', paper: 'Paper' },
-            };
-
             const grid = document.getElementById('blog-grid');
             const filterBtns = document.querySelectorAll('.filter-tags .filter-btn');
             const searchInput = document.getElementById('search-input');
+            const pageSizeSelect = document.getElementById('blog-page-size');
+            const pageSummary = document.getElementById('blog-page-summary');
+            const pageNumbers = document.getElementById('blog-page-numbers');
+            const prevPageBtn = document.getElementById('blog-prev-page');
+            const nextPageBtn = document.getElementById('blog-next-page');
+            let currentPage = 1;
+            let currentPageSize = parseInt(pageSizeSelect?.value || '12', 10);
+            let filteredArticles = articles;
 
             const getLang = () => document.body.classList.contains('en') ? 'en' : 'zh';
+            const getCategoryMeta = (category) => {
+                if (typeof getBlogCategoryMeta === 'function') return getBlogCategoryMeta(category);
+                return { zh: category, en: category, badgeClass: 'blog-cat-default' };
+            };
 
             const syncUIByLang = () => {
                 const lang = getLang();
@@ -304,12 +394,38 @@
                 });
             };
 
+            const getFilteredArticles = () => {
+                const activeBtn = document.querySelector('.filter-tags .filter-btn.active');
+                const cat = activeBtn ? activeBtn.dataset.category : 'all';
+                const term = (searchInput?.value || '').trim().toLowerCase();
+                let list = articles;
+                if (cat && cat !== 'all') list = list.filter(a => a.category === cat);
+                if (term) {
+                    list = list.filter(a =>
+                        a.title.toLowerCase().includes(term) ||
+                        a.title_en.toLowerCase().includes(term) ||
+                        a.desc.toLowerCase().includes(term) ||
+                        a.desc_en.toLowerCase().includes(term) ||
+                        (a.tags || []).some(t => String(t).toLowerCase().includes(term)) ||
+                        (a.tags_en || []).some(t => String(t).toLowerCase().includes(term))
+                    );
+                }
+                return list;
+            };
+
             const render = (list) => {
                 if (!grid) return;
                 grid.innerHTML = '';
                 const lang = getLang();
+                if (!list.length) {
+                    grid.innerHTML = `<div class="md:col-span-2 lg:col-span-3 border border-black dark:border-white bg-white dark:bg-darkCard p-8 text-center font-mono dark:text-white">${lang === 'en' ? 'No articles found.' : '暂无匹配文章。'}</div>`;
+                    lucide.createIcons();
+                    return;
+                }
                 list.forEach(item => {
-                    const catText = categoryLabel[lang]?.[item.category] || item.category;
+                    const catMeta = getCategoryMeta(item.category);
+                    const catText = lang === 'en' ? catMeta.en : catMeta.zh;
+                    const catClass = catMeta.badgeClass || 'blog-cat-default';
                     const card = document.createElement('article');
                     card.className = 'group relative overflow-hidden border border-black dark:border-white bg-white dark:bg-darkCard p-6 flex flex-col gap-4 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.12)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.08)] transition-transform duration-300 hover:-translate-y-1';
 
@@ -317,7 +433,7 @@
                         <div class="flex items-start justify-between gap-3">
                             <div class="text-xs font-mono font-bold text-gray-600 dark:text-gray-400 border border-gray-300 dark:border-gray-600 px-2 py-1">${item.date}</div>
                             <div class="flex gap-2 items-center">
-                                <span class="text-xs font-mono px-2 py-1 border border-black dark:border-white bg-yellow-200 dark:bg-yellow-800 dark:text-white">${catText}</span>
+                                <span class="blog-cat-badge ${catClass} text-xs font-mono px-2 py-1 border">${catText}</span>
                             </div>
                         </div>
                         <h3 class="text-xl font-bold leading-tight dark:text-white">
@@ -337,6 +453,47 @@
                 lucide.createIcons();
             };
 
+            const updatePagination = () => {
+                if (!pageNumbers || !prevPageBtn || !nextPageBtn) return;
+                const lang = getLang();
+                const total = filteredArticles.length;
+                const totalPages = Math.max(1, Math.ceil(total / currentPageSize));
+                currentPage = Math.min(Math.max(currentPage, 1), totalPages);
+
+                pageNumbers.innerHTML = '';
+                for (let page = 1; page <= totalPages; page++) {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.textContent = page;
+                    btn.className = `min-w-9 px-3 py-2 border border-black dark:border-white font-mono text-sm transition-all ${page === currentPage ? 'bg-black text-white dark:bg-white dark:text-black' : 'bg-white dark:bg-darkCard text-black dark:text-white hover:bg-blue-50 dark:hover:bg-blue-900/30'}`;
+                    btn.addEventListener('click', () => {
+                        currentPage = page;
+                        renderCurrentPage();
+                    });
+                    pageNumbers.appendChild(btn);
+                }
+
+                prevPageBtn.disabled = currentPage === 1;
+                nextPageBtn.disabled = currentPage === totalPages;
+                if (pageSummary) {
+                    const start = total === 0 ? 0 : (currentPage - 1) * currentPageSize + 1;
+                    const end = Math.min(currentPage * currentPageSize, total);
+                    pageSummary.textContent = lang === 'en'
+                        ? `${start}-${end} / ${total}`
+                        : `${start}-${end} / 共 ${total} 篇`;
+                }
+            };
+
+            const renderCurrentPage = () => {
+                syncUIByLang();
+                syncTailwindTheme();
+                currentPageSize = parseInt(pageSizeSelect?.value || '12', 10);
+                const start = (currentPage - 1) * currentPageSize;
+                const end = start + currentPageSize;
+                render(filteredArticles.slice(start, end));
+                updatePagination();
+            };
+
             const syncTailwindTheme = () => {
                 const isDark = document.body.classList.contains('dark-mode');
                 document.documentElement.classList.toggle('dark', isDark);
@@ -345,20 +502,9 @@
             const applyFilter = () => {
                 syncUIByLang();
                 syncTailwindTheme();
-                const activeBtn = document.querySelector('.filter-tags .filter-btn.active');
-                const cat = activeBtn ? activeBtn.dataset.category : 'all';
-                const term = (searchInput?.value || '').trim().toLowerCase();
-                let list = articles;
-                if (cat && cat !== 'all') list = list.filter(a => a.category === cat);
-                if (term) {
-                    list = list.filter(a =>
-                        a.title.toLowerCase().includes(term) ||
-                        a.title_en.toLowerCase().includes(term) ||
-                        a.desc.toLowerCase().includes(term) ||
-                        a.desc_en.toLowerCase().includes(term)
-                    );
-                }
-                render(list);
+                filteredArticles = getFilteredArticles();
+                currentPage = 1;
+                renderCurrentPage();
             };
 
             filterBtns.forEach(btn => {
@@ -371,6 +517,32 @@
 
             if (searchInput) {
                 searchInput.addEventListener('input', applyFilter);
+            }
+
+            if (pageSizeSelect) {
+                pageSizeSelect.addEventListener('change', () => {
+                    currentPage = 1;
+                    renderCurrentPage();
+                });
+            }
+
+            if (prevPageBtn) {
+                prevPageBtn.addEventListener('click', () => {
+                    if (currentPage > 1) {
+                        currentPage--;
+                        renderCurrentPage();
+                    }
+                });
+            }
+
+            if (nextPageBtn) {
+                nextPageBtn.addEventListener('click', () => {
+                    const totalPages = Math.max(1, Math.ceil(filteredArticles.length / currentPageSize));
+                    if (currentPage < totalPages) {
+                        currentPage++;
+                        renderCurrentPage();
+                    }
+                });
             }
 
             // 语言切换时重新渲染
@@ -395,7 +567,20 @@
             // 初始同步一次
             syncTailwindTheme();
 
-            render(articles);
+            filteredArticles = getFilteredArticles();
+            renderCurrentPage();
+
+            const backToTop = document.getElementById('blogBackToTop');
+            if (backToTop) {
+                const syncBackToTop = () => {
+                    backToTop.classList.toggle('visible', window.pageYOffset > 360);
+                };
+                window.addEventListener('scroll', syncBackToTop, { passive: true });
+                backToTop.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+                syncBackToTop();
+            }
         });
     </script>
 

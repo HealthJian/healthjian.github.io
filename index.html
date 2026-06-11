@@ -107,7 +107,7 @@
 			/* ========== LOTTIE Cool_emoji 样式 END ========== */
 		</style>
 	</head>
-	<body class="light-mode">
+	<body class="light-mode home-page">
 		<!-- 导航栏 -->
 		<nav class="navbar">
 			<div class="nav-left">
@@ -119,22 +119,29 @@
 					<span class="site-name" data-en="HealthJian Blog" data-zh="HealthJian Blog">HealthJian</span>
 				</a>
 			</div>
-			<div class="nav-right">
+			<button class="home-menu-toggle" type="button" aria-label="打开导航菜单" aria-expanded="false"
+				aria-controls="homeNavRight">
+				<span></span>
+				<span></span>
+				<span></span>
+			</button>
+			<div class="nav-right" id="homeNavRight">
 				<ul class="menu">
 					<li><a href="index.html" data-en="Home" data-zh="首页">首页</a></li>
 					<li><a href="pages/blog.html" data-en="Blog" data-zh="博客">博客</a></li>
 					<!--<li><a href="pages/project/404notfound.html" data-en="Demo" data-zh="Demo">Demo</a></li>demo.html暂时停用pages/project/personalgallery.html-->
-					<li><a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub"
-							data-zh="GitHub"><!--GitHub 暂时停用 https://github.com/CaiNiaojian</a></li>-->
 					<li><a href="pages/links.html" data-en="Links" data-zh="链接">链接</a></li><!--links.html暂时停用-->
 					<li><a href="pages/about.html" data-en="About" data-zh="关于">关于</a></li>
 					<li><a href="pages/project/404notfound.html" data-en="Resume" data-zh="简历">简历</a></li>
 					<!--resume.pdf暂时停用pages/project/404notfound.html-->
 				</ul>
 				<div class="social-icons">
+					<a href="https://github.com/CaiNiaojian" target="_blank" title="GitHub" aria-label="GitHub"><i
+							class="fab fa-github"></i></a>
 					<a href="https://steamcommunity.com/profiles/76561199031176587/" target="_blank" title="Steam"><i
 							class="fab fa-steam"></i></a>
 					<a href="mailto:gaojian1573@foxmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+					<a href="#" title="Douyin" aria-label="Douyin"><i class="fab fa-tiktok"></i></a>
 				</div>
 				<button id="theme-toggle" class="theme-toggle" title="切换主题">
 					<i class="fas fa-moon"></i>
@@ -356,7 +363,7 @@
 
 			<section class="hero-bio-section" style="padding: 40px 20px 40px; margin-top: -30px;">
 				<div class="bio"
-					style="font-size: 150%; line-height: 2.0; padding: 20px; border-radius: 15px; background-color: rgba(255,255,255,0.1); max-width: 900px; margin: 0 auto;">
+					style="font-size: 157.5%; line-height: 2.0; padding: 20px; border-radius: 15px; background-color: rgba(255,255,255,0.1); max-width: 900px; margin: 0 auto;">
 					<div class="digital-garden"
 						data-en="Hello! I'm Jian, the developer and operator of this webpage, HealthJian Github-just an ordinary, unremarkable guy.&#10;&#10;My intention in creating this site was very simple, and I am far from being the &quot;tech guru&quot; that others might consider me to be. At first, I blindly followed the tech-obsessed habits of my IT predecessors, dabbling in a little bit of everything. However, I always felt I couldn't catch up, and I never truly mastered anything.&#10;&#10;When I actually built this webpage, I found frontend development to be incredibly interesting. I love tinkering with UI beautification, the nested layers of webpages, and designing clever little features. So, I dove a bit deeper, even though there is still so much more I need to learn... With the explosion of technologies like LLMs, vibe coding, and OpenClow, I have grown even more fond of building little projects. Recently, people have been saying &quot;frontend is dead,&quot; but I think that's an overstatement. Personally, I believe that with the empowerment of AI, frontend development will usher in a new peak, though the demands placed on engineers will likely become much higher.&#10;&#10;An engineer's growth requires continuous learning. The progress of our era goes hand-in-hand with technological development, and the iteration of technology requires learners to constantly delve deeper. I've been away from studying for a while now. Looking back to half a year ago, I was still exploring new knowledge; even when I only had a superficial understanding of it, I felt a sense of joy. But now, I am afraid of falling behind and becoming obsolete. An undercurrent of anxiety is slowly eroding and affecting my &quot;underlying code.&quot;&#10;&#10;What can I do? Become an AI Product Manager (AIPM) or an Agent Engineer? A Frontend Developer, an Informatization Engineer, or perhaps a Data Engineer? I feel like I have fallen into a terrifying cognitive abyss where I am completely clueless about my own situation. This drain of self-confidence and self-awareness is a non-linear effect driven by the environment, independent of human will. As I grow older, I am gradually recognizing my past mistakes and naivety-I suppose this is the price of growing up.&#10;&#10;There is no turning back now. Creating this website was also about finding a quiet place to vent my frustrations. So, let this webpage become my space for learning and publishing my insights.&#10;&#10;Much like a core philosophy of the KMP algorithm: how far a person can go doesn't depend on how fast they run in favorable conditions, but rather on how quickly they can find their past self when facing adversity. And just as the theme of this website goes: think less, and happiness will chase after you!"
 						data-zh="您好！我是 Jian，HealthJian GitHub 这个网页的开发者兼运营者，一个平凡且不起眼的普通人。&#10;&#10;搭建这个网页的初衷非常单纯，我远没有达到别人眼中“技术大拿”的水平。起初，我只是盲目追随 IT 前辈们的技术狂热，什么都去学一点，却总是望尘莫及，博而不精。直到真正亲手建起这个网页，我才发觉前端的妙趣横生。我很享受琢磨 UI 的美化、梳理网页的层层嵌套，以及在细节处设计一些小巧思。于是我顺其自然地深入探索了下去，尽管我知道，自己要学的东西还有很多……随着 LLM、vibe coding、OpenClow 等技术的井喷式爆发，我愈发沉迷于开发一些有趣的小玩意儿。最近常听人唱衰“前端已死”，我倒觉得这恐怕有失偏颇。私以为，在“AI+”的赋能下，前端领域不仅不会消亡，反而会迎来新一波的发展高潮，只是对工程师的综合素质要求必将水涨船高。&#10;&#10;工程师的成长离不开持续的学习。时代在进步，技术在迭代，这便要求局中人不断钻研。我已经脱离系统性学习有一段时间了，回想起半年前，即使面对新知识只是一知半解，内心也充满探索的欣喜；而如今，取而代之的却是对技术断代和被淘汰的恐惧。一股隐秘的焦虑，正缓慢侵蚀着我内心的“底层代码”。&#10;&#10;我究竟还能做些什么？是去做 AIPM、Agent 工程师，还是继续做前端开发者？亦或是转向信息化工程师、数据工程师？我感觉自己跌入了一个可怕的“认知深谷”，对自身的处境一无所知。这种自信与自知的流失，就像是受环境影响的非线性函数，不以人的意志为转移。随着年岁渐长，我也逐渐看清了当初的错误与幼稚，这恐怕就是成长的代价吧。&#10;&#10;但开弓没有回头路。最初写这个网站，也是想给自己留一个能悄悄发牢骚的自留地。那么接下来，就让它成为我记录学习轨迹、发布心得体会的阵地吧。&#10;&#10;正如 KMP 算法所蕴含的哲学：一个人能走多远，不在于他在顺境中奔跑得多快，而在于他在逆境中能用多久找回曾经的自己。也正如这个网站的主题所言——只要想得少，快乐追着跑！"
@@ -517,133 +524,73 @@
 						下滑查看想法、问题与解答</p>
 				</div>
 
-				<div class="qia-stack">
-					<article class="qia-card">
+				<div class="qia-stack" id="homeQiaStack">
+					<article class="qia-card" data-qia-card>
 						<div class="qia-card-bar idea">
 							<div class="qia-card-title">
 								<i class="fas fa-lightbulb"></i>
-								<span data-en="Ideas" data-zh="想法">想法</span>
+								<span data-en="Idea" data-zh="想法">想法</span>
 							</div>
-							<span class="qia-part">Part 1/3</span>
+							<span class="qia-part">01</span>
 						</div>
-						<div class="qia-card-body">
-							<div class="qia-entry">
-								<h3 data-en="2025 National Computer Design Competition" data-zh="2025届全国计算机设计大赛落幕">
-									2025届全国计算机设计大赛落幕</h3>
-								<div class="qia-meta">
-									<span class="qia-status success" data-en="Awarded 🎉" data-zh="获奖 🎉">获奖 🎉</span>
-									<span class="qia-tag" data-en="2025" data-zh="2025">2025</span>
-								</div>
-								<p data-en="The 2025 National Computer Design Competition has come to an end, and I have won the national third prize."
-									data-zh="2025年全国大学生计算机设计大赛落下帷幕，我获得了国家级三等奖。">2025年全国大学生计算机设计大赛落下帷幕，我获得了国家级三等奖。</p>
-							</div>
-							<div class="qia-entry">
-								<h3 data-en="Idea🙃: New blog novel coming soon" data-zh="想法🙃：即将推出小说">想法🙃：即将推出小说</h3>
-								<div class="qia-meta">
-									<span class="qia-tag" data-en="Writing" data-zh="写作">写作</span>
-									<span class="qia-tag" data-en="Healing" data-zh="治愈">治愈</span>
-								</div>
-								<p data-en="Although I've been busy lately, I still find time to slack off. When I feel emotionally confused or anxious, I spend an hour each day writing something - blog posts, journals, or even novels. My writing isn't great, but it helps shift my focus."
-									data-zh="最近虽然忙，但是还是有空摆烂。情绪混乱或者焦虑的时候，我就每天花1个小时去写点东西，博客、日志甚至是小说。写的很烂，但是这能转移我的注意力。">
-									最近虽然忙，但是还是有空摆烂。情绪混乱或者焦虑的时候，我就每天花1个小时去写点东西，博客、日志甚至是小说。写的很烂，但是这能转移我的注意力。</p>
-							</div>
+						<h3 data-en="Spring recruitment is over, received the OFFER — understand destiny through wisdom, accumulate deeply and unleash when ready."
+							data-zh="春招结束，收到OFFER，达而知命，厚积薄发">春招结束，收到OFFER，达而知命，厚积薄发</h3>
+						<p class="qia-preview" data-en="A milestone, not an endpoint; what follows still needs clarity, patience, and steady growth."
+							data-zh="是节点而非终点，往后仍须清醒、沉潜与生长。">是节点而非终点，往后仍须清醒、沉潜与生长。</p>
+						<div class="qia-card-body" aria-hidden="true">
+							<p data-en="A milestone, not an endpoint; what follows still needs clarity, patience, and steady growth."
+								data-zh="是节点而非终点，往后仍须清醒、沉潜与生长。">是节点而非终点，往后仍须清醒、沉潜与生长。</p>
 						</div>
+						<button class="qia-detail-toggle" type="button" aria-expanded="false" data-en="View Details"
+							data-zh="阅览详情">阅览详情</button>
 					</article>
 
-					<article class="qia-card">
-						<div class="qia-card-bar issue">
-							<div class="qia-card-title">
-								<i class="fas fa-fire"></i>
-								<span data-en="Issues & Fixes" data-zh="问题与修复">问题与修复</span>
-							</div>
-							<span class="qia-part">Part 2/3</span>
-						</div>
-						<div class="qia-card-body">
-							<div class="qia-entry">
-								<h3 data-en="Website image loading is slow🤡" data-zh="网站图片加载缓慢🤡">网站图片加载缓慢🤡</h3>
-								<div class="qia-meta">
-									<span class="qia-status warn" data-en="Pending" data-zh="待优化">待优化</span>
-									<span class="qia-tag warn" data-en="CDN" data-zh="加速">加速</span>
-								</div>
-								<p data-en="The images in the blog posts and background images still load slowly, resulting in poor reading experience.🥵"
-									data-zh="不论博客文章中的插图还是背景图片，改用avif图片后依然加载缓慢，阅读体验效果不理想。🥵">
-									不论博客文章中的插图还是背景图片，改用avif图片后依然加载缓慢，阅读体验效果不理想。🥵</p>
-								<div class="qia-answer-box">
-									<strong data-en="Answer:" data-zh="解答：">解答：</strong>
-									<span
-										data-en="Limited by Github Pages bandwidth; domestic DNS/CDN not planned for now."
-										data-zh="受限于Github Pages带宽，暂不考虑国内DNS/CDN加速。">受限于Github
-										Pages带宽，暂不考虑国内DNS/CDN加速。</span>
-								</div>
-							</div>
-							<div class="qia-entry">
-								<h3 data-en="Blog post links 404 (Resolved✅)" data-zh="博客文章链接404（已解决✅）">博客文章链接404（已解决✅）
-								</h3>
-								<div class="qia-meta">
-									<span class="qia-status" data-en="Fixed" data-zh="已修复">已修复</span>
-									<span class="qia-tag success" data-en="v1.1.1" data-zh="v1.1.1">v1.1.1</span>
-								</div>
-								<p data-en="Homepage and blog page article links returned 404 due to inconsistent paths."
-									data-zh="主页与博客页文章链接因路径不一致导致404。">主页与博客页文章链接因路径不一致导致404。</p>
-								<div class="qia-answer-box">
-									<strong data-en="Answer:" data-zh="解答：">解答：</strong>
-									<span data-en="Unified paths and JS references; if still failing, clear cache."
-										data-zh="已统一路径与JS引用，如仍异常请清缓存。">已统一路径与JS引用，如仍异常请清缓存。</span>
-								</div>
-							</div>
-							<div class="qia-entry">
-								<h3 data-en="Font loading issue on first visit (Resolved✅)" data-zh="首次访问字体加载异常（已解决✅）">
-									首次访问字体加载异常（已解决✅）</h3>
-								<div class="qia-meta">
-									<span class="qia-status" data-en="Fixed" data-zh="已修复">已修复</span>
-									<span class="qia-tag success" data-en="v1.1.0" data-zh="v1.1.0">v1.1.0</span>
-								</div>
-								<p data-en="Text fonts occasionally failed to render on first load."
-									data-zh="首次加载时正文字体偶发渲染失败。">首次加载时正文字体偶发渲染失败。</p>
-								<div class="qia-answer-box">
-									<strong data-en="Answer:" data-zh="解答：">解答：</strong>
-									<span
-										data-en="Added default language + font fallback logic; content now shows on first visit."
-										data-zh="已增加默认语言与字体兜底逻辑，首次访问即可显示内容。">已增加默认语言与字体兜底逻辑，首次访问即可显示内容。</span>
-								</div>
-							</div>
-						</div>
-					</article>
-
-					<article class="qia-card">
+					<article class="qia-card" data-qia-card>
 						<div class="qia-card-bar question">
 							<div class="qia-card-title">
 								<i class="fas fa-comment-dots"></i>
-								<span data-en="Questions & Plans" data-zh="疑问与计划">疑问与计划</span>
+								<span data-en="Question" data-zh="疑问">疑问</span>
 							</div>
-							<span class="qia-part">Part 3/3</span>
+							<span class="qia-part">02</span>
 						</div>
-						<div class="qia-card-body">
-							<div class="qia-entry">
-								<h3 data-en="New blog series coming soon" data-zh="即将推出新专栏">即将推出新专栏</h3>
-								<div class="qia-tags">
-									<span class="qia-tag" data-en="Writing" data-zh="写作">写作</span>
-									<span class="qia-tag" data-en="Data Mining" data-zh="数据挖掘">数据挖掘</span>
-									<span class="qia-tag" data-en="C Language" data-zh="C语言">C语言</span>
-								</div>
-								<p data-en="Planned series: 'My First Twenty Years', '26-Year Essays', 'Data Mining', 'C Language for Beginners', 'Coding Practice Notes'."
-									data-zh="计划专栏：《我的人生前二十》《26年随笔》《数据挖掘》《C语言入门》《刷题笔记》等。">
-									计划专栏：《我的人生前二十》《26年随笔》《数据挖掘》《C语言入门》《刷题笔记》等。</p>
-							</div>
-							<div class="qia-entry">
-								<h3 data-en="Update schedule" data-zh="更新计划">更新计划</h3>
-								<div class="qia-meta">
-									<span class="qia-status warn" data-en="Pending" data-zh="待更新">待更新</span>
-									<span class="qia-tag" data-en="2026-06+" data-zh="2026年6月后">2026年6月后</span>
-								</div>
-								<p data-en="Time is tight now; regular updates will resume after June 2026."
-									data-zh="现在时间紧张，预计26年6月后恢复常规更新。">现在时间紧张，预计26年6月后恢复常规更新。</p>
-							</div>
+						<h3 data-en="Any frontend UI layout experts out there? Please give me some advice and suggestions!"
+							data-zh="有精通前端UI布局的佬吗，为我提一些建议，出谋划策！">有精通前端UI布局的佬吗，为我提一些建议，出谋划策！</h3>
+						<p class="qia-preview" data-en="Leave your comments on GitHub Discussion or in the comment section of the website's footer update plan!"
+							data-zh="留言在GitHub discussion或者网站的页脚更新计划的留言评论区">留言在GitHub discussion或者网站的页脚更新计划的留言评论区</p>
+						<div class="qia-card-body" aria-hidden="true">
+							<p data-en="Leave your comments on GitHub Discussion or in the comment section of the website's footer update plan!"
+								data-zh="留言在GitHub discussion或者网站的页脚更新计划的留言评论区">留言在GitHub discussion或者网站的页脚更新计划的留言评论区</p>
 						</div>
+						<button class="qia-detail-toggle" type="button" aria-expanded="false" data-en="View Details"
+							data-zh="阅览详情">阅览详情</button>
+					</article>
+
+					<article class="qia-card" data-qia-card>
+						<div class="qia-card-bar idea">
+							<div class="qia-card-title">
+								<i class="fas fa-lightbulb"></i>
+								<span data-en="Idea" data-zh="想法">想法</span>
+							</div>
+							<span class="qia-part">03</span>
+						</div>
+						<h3 data-en="Some things about spring recruitment" data-zh="春招的一些事情">春招的一些事情</h3>
+						<p class="qia-preview" data-en="After failing the postgraduate entrance exam, I decided to look for a job first, but obviously jobs aren't easy to find."
+							data-zh="自考研失败以后，我决定先去找工作，但显然工作不是很好找吖。">自考研失败以后，我决定先去找工作，但显然工作不是很好找吖。</p>
+						<div class="qia-card-body" aria-hidden="true">
+							<p data-en="After failing the postgraduate entrance exam, I decided to look for a job first, but obviously jobs aren't easy to find. So far I've had 4 interviews, 20+ written tests, waiting for responses from several companies, 3 HR interviews, still waiting for news... It's truly tough."
+								data-zh="自考研失败以后，我决定先去找工作，但显然工作不是很好找吖。现在一共面试了4家，笔试了20+家，等候若干消息，hr面3家，等待消息......真是太艰难了。">
+								自考研失败以后，我决定先去找工作，但显然工作不是很好找吖。现在一共面试了4家，笔试了20+家，等候若干消息，hr面3家，等待消息......真是太艰难了。</p>
+						</div>
+						<button class="qia-detail-toggle" type="button" aria-expanded="false" data-en="View Details"
+							data-zh="阅览详情">阅览详情</button>
 					</article>
 				</div>
 			</section>
 		</main>
+
+		<button id="homeBackToTop" class="home-back-to-top" type="button" title="回到顶部" aria-label="Back to top">
+			<i class="fas fa-chevron-up"></i>
+		</button>
 
 		<!-- 页脚 -->
 		<footer>
@@ -765,8 +712,11 @@
 		<script>
 			window.SKIP_BLOG_INIT = true;
 		</script>
+		<script src="js/blog-posts-data.js"></script>
+		<script src="js/blog-category-meta.js"></script>
 		<script src="js/blog.js"></script>
 		<script src="js/latest-articles.js"></script>
+		<script src="js/home.js"></script>
 		<script src="js/greeting.js"></script>
 		<script src="js/celebration-banner.js"></script>
 		<script src="js/footer.js"></script>
