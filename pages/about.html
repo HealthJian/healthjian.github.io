@@ -1,82 +1,99 @@
 <!DOCTYPE html>
 <html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="../images/favicon.ico" />
-    <title>关于 - HealthJian的博客</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/dark-mode.css">
-    <link rel="stylesheet" href="../css/celebration-banner.css">
-    <link rel="stylesheet" href="../css/about.css">
-    <link rel="stylesheet" href="../css/blog-post.css">
-    <link rel="stylesheet" href="../css/footer-enhanced.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="preload" href="../images/crycat_night.avif" as="image" type="image/avif">
-    <style>
-        /* 确保SVG正确显示的关键样式 */
-        .about-text h1 svg {
-            display: inline-block;
-            vertical-align: middle;
-            margin-left: 10px;
-            width: 48px;
-            height: 48px;
-        }
-        .about-text h1 svg mask {
-            -webkit-mask-type: luminance;
-            mask-type: luminance;
-        }
-        .about-text h1 svg rect[mask] {
-            fill: #a95b5b;
-        }
-        body.dark-mode .about-text h1 svg rect[mask] {
-            fill: #cf6a6a;
-        }
-        .author-image .author-avatar-night {
-            display: none;
-        }
-        body.dark-mode .author-image .author-avatar-day {
-            display: none;
-        }
-        body.dark-mode .author-image .author-avatar-night {
-            display: block;
-        }
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="shortcut icon" href="../images/favicon.ico" />
+		<title>关于 - HealthJian的博客</title>
+		<link rel="stylesheet" href="../css/style.css">
+		<link rel="stylesheet" href="../css/dark-mode.css">
+		<link rel="stylesheet" href="../css/celebration-banner.css">
+		<link rel="stylesheet" href="../css/about.css">
+		<link rel="stylesheet" href="../css/blog-post.css">
+		<link rel="stylesheet" href="../css/footer-enhanced.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+		<link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap"
+			rel="stylesheet">
+		<link rel="preload" href="../images/crycat_night.avif" as="image" type="image/avif">
+		<style>
+			/* 确保SVG正确显示的关键样式 */
+			.about-text h1 svg {
+				display: inline-block;
+				vertical-align: middle;
+				margin-left: 10px;
+				width: 48px;
+				height: 48px;
+			}
 
-        /* ========== LOTTIE global_earth 样式 START（删除至 END 可回档）========== */
-        .earth-lottie-wrap {
-            width: min(100%, 200px);
-            margin: 18px auto 0;
-            aspect-ratio: 1 / 1;
-            position: relative;
-            pointer-events: none;
-        }
-        .earth-lottie {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .earth-lottie svg {
-            width: 100% !important;
-            height: auto !important;
-            max-height: 100%;
-        }
-        .earth-lottie-fallback {
-            display: none;
-            font-size: 2.5rem;
-            line-height: 1;
-            text-align: center;
-            opacity: 0.4;
-        }
-        .earth-lottie-wrap.is-fallback .earth-lottie { display: none; }
-        .earth-lottie-wrap.is-fallback .earth-lottie-fallback { display: block; }
-        /* ========== LOTTIE global_earth 样式 END ========== */
-    </style>
-</head>
-<body class="light-mode">
-    <!-- ===================== MAINTENANCE_START =====================
+			.about-text h1 svg mask {
+				-webkit-mask-type: luminance;
+				mask-type: luminance;
+			}
+
+			.about-text h1 svg rect[mask] {
+				fill: #a95b5b;
+			}
+
+			body.dark-mode .about-text h1 svg rect[mask] {
+				fill: #cf6a6a;
+			}
+
+			.author-image .author-avatar-night {
+				display: none;
+			}
+
+			body.dark-mode .author-image .author-avatar-day {
+				display: none;
+			}
+
+			body.dark-mode .author-image .author-avatar-night {
+				display: block;
+			}
+
+			/* ========== LOTTIE global_earth 样式 START（删除至 END 可回档）========== */
+			.earth-lottie-wrap {
+				width: min(100%, 200px);
+				margin: 18px auto 0;
+				aspect-ratio: 1 / 1;
+				position: relative;
+				pointer-events: none;
+			}
+
+			.earth-lottie {
+				width: 100%;
+				height: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			.earth-lottie svg {
+				width: 100% !important;
+				height: auto !important;
+				max-height: 100%;
+			}
+
+			.earth-lottie-fallback {
+				display: none;
+				font-size: 2.5rem;
+				line-height: 1;
+				text-align: center;
+				opacity: 0.4;
+			}
+
+			.earth-lottie-wrap.is-fallback .earth-lottie {
+				display: none;
+			}
+
+			.earth-lottie-wrap.is-fallback .earth-lottie-fallback {
+				display: block;
+			}
+
+			/* ========== LOTTIE global_earth 样式 END ========== */
+		</style>
+	</head>
+	<body class="light-mode">
+		<!-- ===================== MAINTENANCE_START =====================
          维护中遮罩功能：仅用于临时展示。
          你只需要删除本块（从 MAINTENANCE_START 到 MAINTENANCE_END）即可恢复原始页面。
     
@@ -148,74 +165,78 @@
     </script>
      ====================== MAINTENANCE_END ====================== -->
 
-    <!-- 导航栏 -->
-    <nav class="navbar">
-        <div class="nav-left">
-            <a href="../index.html" class="logo">
-                <img src="../images/githubherofigureimage.png" alt="Logo">
-                <span class="site-name" data-en="HealthJian Blog" data-zh="HealthJian">HealthJian</span>
-            </a>
-        </div>
-        <div class="nav-right">
-            <ul class="menu">
-                <li><a href="../index.html" data-en="Home" data-zh="首页">首页</a></li>
-                <li><a href="blog.html" data-en="Blog" data-zh="博客">博客</a></li>
-                <li><a href="project/404notfound.html" data-en="Projects" data-zh="项目">项目</a></li>
-                <li><a href="project/404notfound.html" data-en="Demo" data-zh="Demo">Demo</a></li>
-                <li><a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a></li>
-                <li><a href="links.html" data-en="Links" data-zh="链接">链接</a></li>
-                <li><a href="about.html" data-en="About" data-zh="关于">关于</a></li>
-            </ul>
-            <div class="social-icons">
-                <a href="https://steamcommunity.com/profiles/76561199031176587/" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
-                <a href="mailto:gaojian1573@foxmail.com" title="Email"><i class="fas fa-envelope"></i></a>
-            </div>
-            <button id="theme-toggle" class="theme-toggle" title="切换主题">
-                <i class="fas fa-moon"></i>
-                <i class="fas fa-sun"></i>
-            </button>
-            <button id="lang-toggle" class="lang-toggle" title="切换语言">
-                <span data-en="EN" data-zh="中">中</span>
-            </button>
-        </div>
-    </nav>
+		<!-- 导航栏 -->
+		<nav class="navbar">
+			<div class="nav-left">
+				<a href="../index.html" class="logo">
+					<img src="../images/githubherofigureimage.png" alt="Logo">
+					<span class="site-name" data-en="HealthJian Blog" data-zh="HealthJian">HealthJian</span>
+				</a>
+			</div>
+			<div class="nav-right">
+				<ul class="menu">
+					<li><a href="../index.html" data-en="Home" data-zh="首页">首页</a></li>
+					<li><a href="blog.html" data-en="Blog" data-zh="博客">博客</a></li>
+					<li><a href="project/404notfound.html" data-en="Projects" data-zh="项目">项目</a></li>
+					<li><a href="project/404notfound.html" data-en="Demo" data-zh="Demo">Demo</a></li>
+					<li><a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub"
+							data-zh="GitHub">GitHub</a></li>
+					<li><a href="links.html" data-en="Links" data-zh="链接">链接</a></li>
+					<li><a href="about.html" data-en="About" data-zh="关于">关于</a></li>
+				</ul>
+				<div class="social-icons">
+					<a href="https://steamcommunity.com/profiles/76561199031176587/" target="_blank" title="Steam"><i
+							class="fab fa-steam"></i></a>
+					<a href="mailto:gaojian1573@foxmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+				</div>
+				<button id="theme-toggle" class="theme-toggle" title="切换主题">
+					<i class="fas fa-moon"></i>
+					<i class="fas fa-sun"></i>
+				</button>
+				<button id="lang-toggle" class="lang-toggle" title="切换语言">
+					<span data-en="EN" data-zh="中">中</span>
+				</button>
+			</div>
+		</nav>
 
-    <!-- 背景图片 - 50%模糊效果 -->
-    <div class="about-background"></div>
+		<!-- 背景图片 - 50%模糊效果 -->
+		<div class="about-background"></div>
 
-    <!-- 主要内容 -->
-    <main class="about-container">
-        <div class="about-content">
-            <!-- Banner图片 -->
-            <div class="author-banner">
-                <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/sleepgirlandcat.avif" alt="个人主页Banner" class="banner-image">
-            </div>
-            
-            <!-- 页内极简导航 -->
-            <nav class="about-inner-nav" id="about-inner-nav">
-                <a href="#about-author" data-en="About" data-zh="关于作者">关于作者</a>
-                <span class="nav-dot">/</span>
-                <a href="#projects" data-en="Projects" data-zh="项目经历">项目经历</a>
-                <span class="nav-dot">/</span>
-                <a href="#internship" data-en="Internship" data-zh="实习经历">实习经历</a>
-                <span class="nav-dot">/</span>
-                <a href="#awards" data-en="Awards" data-zh="奖项">奖项</a>
-                <span class="nav-dot">/</span>
-                <a href="#qia" data-en="Q&amp;A" data-zh="问答与想法">问答与想法</a>
-            </nav>
+		<!-- 主要内容 -->
+		<main class="about-container">
+			<div class="about-content">
+				<!-- Banner图片 -->
+				<div class="author-banner">
+					<img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/sleepgirlandcat.avif"
+						alt="个人主页Banner" class="banner-image">
+				</div>
 
-            <!-- 主要内容区域 -->
-            <div class="about-content-main">
-                <div class="author-section">
-                <div class="author-image">
-                    <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/crycat.avif" alt="作者照片" class="author-avatar-day">
-                    <img src="../images/crycat_night.avif" alt="作者照片" class="author-avatar-night">
-                </div>
-              
-                <!-- 社交媒体颜色块 - 调整顺序 
+				<!-- 页内极简导航 -->
+				<nav class="about-inner-nav" id="about-inner-nav">
+					<a href="#about-author" data-en="About" data-zh="关于作者">关于作者</a>
+					<span class="nav-dot">/</span>
+					<a href="#projects" data-en="Projects" data-zh="项目经历">项目经历</a>
+					<span class="nav-dot">/</span>
+					<a href="#internship" data-en="Internship" data-zh="实习经历">实习经历</a>
+					<span class="nav-dot">/</span>
+					<a href="#awards" data-en="Awards" data-zh="奖项">奖项</a>
+					<span class="nav-dot">/</span>
+					<a href="#qia" data-en="Q&amp;A" data-zh="问答与想法">问答与想法</a>
+				</nav>
+
+				<!-- 主要内容区域 -->
+				<div class="about-content-main">
+					<div class="author-section">
+						<div class="author-image">
+							<img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/catcat.avif"
+								alt="作者照片" class="author-avatar-day">
+							<img src="../images/night_catcat.avif" alt="作者照片" class="author-avatar-night">
+						</div>
+
+						<!-- 社交媒体颜色块 - 调整顺序 
             
                 <div class="social-grid">-->
-                    <!-- 第一行: 微信、Bilibili、领英 
+						<!-- 第一行: 微信、Bilibili、领英 
                     <a href="https://weixin.qq.com/" class="social-item wechat" title="微信" data-en="WeChat" data-zh="微信">
                         <span><i class="fab fa-weixin"></i></span>
                     </a>
@@ -227,7 +248,7 @@
                         <span><i class="fab fa-linkedin-in"></i></span>
                     </a>
                     -->
-                    <!-- 第二行: Steam、GitHub、LeetCode 
+						<!-- 第二行: Steam、GitHub、LeetCode 
                     <a href="https://steamcommunity.com/id/yoursteamid" class="social-item steam" title="Steam" target="_blank">
                         <span><i class="fab fa-steam"></i></span>
                     </a>
@@ -239,309 +260,541 @@
                     </a>
                     
                 </div>-->
-        
-            
-                <!-- 个人信息部分 -->
-                <div class="personal-info">
-                    <div class="info-item" data-en="Location: ~" data-zh="生活地：~">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>生活地：~</span>
-                    </div>
-                    <div class="info-item" data-en="Status: CPC Member" data-zh="面貌：CPC Member">
-                        <i class="fas fa-user-tie"></i>
-                        <span>面貌：CPC Member</span>
-                    </div>
-                    <div class="info-item" data-en="Email: gaojian1573@foxmail.com" data-zh="邮件：gaojian1573@foxmail.com">
-                        <i class="fas fa-envelope-open-text"></i>
-                        <span>邮件：gaojian1573@foxmail.com</span>
-                    </div>
-                    <div class="info-item" data-en="Skill: Python C/C++ Web CUDA" data-zh="技能：Python C/C++ Web CUDA">
-                        <i class="fas fa-star"></i>
-                        <span>技能：Python C/C++ Web CUDA</span>
-                    </div>
-                    <div class="info-item" data-en="Perspective: Labor creates value and improves personality" data-zh="观点：劳动创造价值并完善人格">
-                        <i class="fas fa-star"></i>
-                        <span>观点：劳动创造价值并完善人格</span>
-                    </div>
-                </div>
-
-                <!-- ========== LOTTIE global_earth START：删除本段至 END 可回档 ========== -->
-                <div class="earth-lottie-wrap" id="earthLottieWrap" title="Earth animation" aria-hidden="true">
-                    <div id="earthLottie" class="earth-lottie"></div>
-                    <span class="earth-lottie-fallback">🌍</span>
-                </div>
-                <!-- ========== LOTTIE global_earth END ========== -->
-            </div>
-            <div class="about-text" id="about-author">
-                <h1 data-en="About the Author" data-zh="关于作者">关于作者
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" style="vertical-align: middle; margin-left: 10px;" aria-hidden="true" focusable="false">
-                        <defs>
-                            <mask id="lineMdRedditLoop0" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse">
-                                <g fill="#fff" fill-opacity="0">
-                                    <ellipse cx="12" cy="14.71" stroke="#fff" stroke-dasharray="48" stroke-dashoffset="48" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" data-swindex="0" rx="8" ry="5.29">
-                                        <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.6s" values="48;0"></animate>
-                                        <animate fill="freeze" attributeName="fill-opacity" begin="0.6s" dur="0.4s" values="0;1"></animate>
-                                    </ellipse>
-                                    <circle cx="7.24" cy="11.97" r="2.24">
-                                        <set attributeName="fill-opacity" begin="1s" to="1"></set>
-                                        <animate fill="freeze" attributeName="cx" begin="1s" dur="0.2s" values="7.24;3.94"></animate>
-                                    </circle>
-                                    <circle cx="16.76" cy="11.97" r="2.24">
-                                        <set attributeName="fill-opacity" begin="1s" to="1"></set>
-                                        <animate fill="freeze" attributeName="cx" begin="1s" dur="0.2s" values="16.76;20.06"></animate>
-                                    </circle>
-                                    <circle cx="18.45" cy="4.23" r="1.61">
-                                        <set attributeName="fill-opacity" begin="2.6s" to="1"></set>
-                                        <animate attributeName="cx" begin="2.4s" dur="6s" repeatCount="indefinite" values="18.45;5.75;18.45"></animate>
-                                    </circle>
-                                </g>
-                                <path fill="none" stroke="#fff" stroke-dasharray="12" stroke-dashoffset="12" stroke-linecap="round" stroke-linejoin="round" stroke-width=".8" data-swindex="1" d="M12 8.75L13.18 3.11L18.21 4.18">
-                                    <animate fill="freeze" attributeName="stroke-dashoffset" begin="2.4s" dur="0.2s" values="12;0"></animate>
-                                    <animate attributeName="d" begin="2.4s" dur="6s" repeatCount="indefinite" values="M12 8.75L13.18 3.11L18.21 4.18;M12 8.75L12 2L12 4.18;M12 8.75L10.82 3.11L5.79 4.18;M12 8.75L12 2L12 4.18;M12 8.75L13.18 3.11L18.21 4.18"></animate>
-                                </path>
-                                <g fill-opacity="0">
-                                    <circle cx="8.45" cy="13.59" r="1.61">
-                                        <animate fill="freeze" attributeName="fill-opacity" begin="1.2s" dur="0.4s" values="0;1"></animate>
-                                    </circle>
-                                    <circle cx="15.55" cy="13.59" r="1.61">
-                                        <animate fill="freeze" attributeName="fill-opacity" begin="1.6s" dur="0.4s" values="0;1"></animate>
-                                    </circle>
-                                </g>
-                                <path fill="none" stroke="#fff" stroke-dasharray="8" stroke-dashoffset="8" stroke-linecap="round" stroke-width=".8" data-swindex="1" d="M8.47 17.52C8.47 17.52 9.41 18.58 12 18.58C14.58 18.58 15.53 17.52 15.53 17.52">
-                                    <animate fill="freeze" attributeName="stroke-dashoffset" begin="2s" dur="0.2s" values="8;0"></animate>
-                                </path>
-                            </mask>
-                        </defs>
-                        <rect width="24" height="24" fill="#a95b5b" mask="url(#lineMdRedditLoop0)"></rect>
-                    </svg>
-                </h1>
-                <div class="about-description">
-                    <p data-en="Hello! I'm Jian, the developer and operator of this webpage, HealthJian GitHub-just an ordinary, unremarkable guy." data-zh="您好！我是 Jian，HealthJian GitHub 这个网页的开发者兼运营者，一个平凡且不起眼的普通人。">您好！我是 Jian，HealthJian GitHub 这个网页的开发者兼运营者，一个平凡且不起眼的普通人。</p>
-                    <p data-en="Just as the theme of this website says: &quot;Think less, and happiness will chase after you!&quot; I have always aspired to and advocated for a healthy and happy lifestyle (although I am still working hard to practice it myself). Since this is an &quot;About&quot; page, please allow me to introduce myself first." data-zh="正如这个网站的主题所言——“只要想得少，快乐追着跑！” 我一直向往并提倡健康快乐的生活方式（尽管我自己也还在努力践行的路上）。既然这是一个“关于”页面，那就请允许我先做个自我介绍吧。">正如这个网站的主题所言——“只要想得少，快乐追着跑！” 我一直向往并提倡健康快乐的生活方式（尽管我自己也还在努力践行的路上）。既然这是一个“关于”页面，那就请允许我先做个自我介绍吧。</p>
-                    <p data-en="I will be graduating this July from C#%T (apologies, please allow me to slightly hide my alma mater's name), majoring in Data Science and Big Data Technology. By the way, I still feel that, aside from big data architectures like Hadoop, Spark, and Flink, as well as data analysis and visualization tools, the courses I've taken aren't much different from a traditional &quot;Computer Science and Technology&quot; major-at least, that's how it is in our school's curriculum." data-zh="我将于今年 7 月毕业于 C#%T（抱歉，请允许我稍微隐藏一下母校的名字），专业方向是数据科学与大数据技术。顺便提一句，我至今仍然觉得，除了 Hadoop、Spark、Flink 等大数据架构以及数据分析与可视化工具之外，我所学的课程与传统的“计算机科学与技术”专业并没有太大差别——至少在我们学校的培养方案里是这样的。">我将于今年 7 月毕业于 C#%T（抱歉，请允许我稍微隐藏一下母校的名字），专业方向是数据科学与大数据技术。顺便提一句，我至今仍然觉得，除了 Hadoop、Spark、Flink 等大数据架构以及数据分析与可视化工具之外，我所学的课程与传统的“计算机科学与技术”专业并没有太大差别——至少在我们学校的培养方案里是这样的。</p>
-                    <p data-en="It's a bit regrettable to say, both for myself and for the visitors reading this: I am actually quite interested in statistics, but due to some unforeseen circumstances, I bombed the exam (though thankfully, I didn't fail the course). This directly derailed my original plans for further studies..." data-zh="说来有些遗憾，无论是对我自己还是对看到这里的访客：我其实对统计学很感兴趣，但因为一些突发情况，这门课我考砸了（虽然万幸没有挂科），但这直接打乱了我最初的升学计划……">说来有些遗憾，无论是对我自己还是对看到这里的访客：我其实对统计学很感兴趣，但因为一些突发情况，这门课我考砸了（虽然万幸没有挂科），但这直接打乱了我最初的升学计划……</p>
-                    <p data-en="As a graduating senior, I have viscerally felt my own insignificance and powerlessness. At least, that's how I feel as I write these words. This year's graduate school entrance exam was like a &quot;black swan event&quot; for me; the cutoff score for my target university in 2026 unexpectedly surged by 30 points (coupled with my own underperformance, it was truly a pity). Therefore, I don't plan to try again for another year. Instead, I dove headfirst into the spring recruitment season. As of now, I still have zero offers. Sometimes I laugh at myself, thinking that the &quot;most failed human being&quot; is probably no worse than this." data-zh="作为一名应届本科生，我已经无比直观地感受到了自身的渺小与无力。起码在写下这段文字时是这样的——今年的考研对我来说就像触发了一场“黑天鹅事件”，我报考院校 2026 年的分数线居然比原先暴涨了 30 分（加上我自己发挥失常，实在令人遗憾）。因此，我不打算再战一年，而是转头扎进了春招。直到现在，我依然是 0 Offer。有时候我会自嘲，恐怕“最失败的人类”也不过如此了吧。">作为一名应届本科生，我已经无比直观地感受到了自身的渺小与无力。起码在写下这段文字时是这样的——今年的考研对我来说就像触发了一场“黑天鹅事件”，我报考院校 2026 年的分数线居然比原先暴涨了 30 分（加上我自己发挥失常，实在令人遗憾）。因此，我不打算再战一年，而是转头扎进了春招。直到现在，我依然是 0 Offer。有时候我会自嘲，恐怕“最失败的人类”也不过如此了吧。</p>
-                    <p data-en="Of course, setting aside regret and self-blame, I can actually sense that my love for IT might be somewhat shallow and utilitarian. It hasn't given me that absolute, relentless, enthusiastic, and highly motivated fanaticism. As the old saying goes, entering the wrong profession is one of life's greatest regrets, but I actually feel quite lucky; at least I haven't reached that point. I don't repel writing code, and I still maintain a desire to explore new things and the drive to learn. I continue to keep an eye on global affairs, national development, and market changes, and I sincerely hope to stay in this current industry." data-zh="当然，抛开后悔与自责，我其实也能感觉到，自己对 IT 的热爱或许有些浅薄和功利。它并没有赋予我那种锲而不舍、兴致勃勃且充满斗志的绝对狂热。老话常说，“男怕入错行，女怕嫁错郎”是人生最大的遗憾，但我倒觉得我还算幸运，起码还没到那个地步。我不排斥写代码，依旧保持着对新事物的探索欲和学习的劲头。我依旧关注着国际局势、国家发展与市场变化，并且真心希望能继续留在当前这个行业里。">当然，抛开后悔与自责，我其实也能感觉到，自己对 IT 的热爱或许有些浅薄和功利。它并没有赋予我那种锲而不舍、兴致勃勃且充满斗志的绝对狂热。老话常说，“男怕入错行，女怕嫁错郎”是人生最大的遗憾，但我倒觉得我还算幸运，起码还没到那个地步。我不排斥写代码，依旧保持着对新事物的探索欲和学习的劲头。我依旧关注着国际局势、国家发展与市场变化，并且真心希望能继续留在当前这个行业里。</p>
-                    <p data-en="Watching the booming development of LLMs (Large Language Models) today, tools like Codex, Cursor, worksuffer, and OpenClow have made technical validation more convenient than ever, which genuinely makes me happy. The emergence of products like ChatGPT, Qwen, DeepSeek, and DouBao also makes me highly optimistic about the convenience of acquiring knowledge. From vibe coding to super Agents, technological empowerment is about to experience a massive explosion!" data-zh="看着如今 LLM（大语言模型）的蓬勃发展，诸如 Codex、Cursor、worksuffer、OpenClow 这一类工具，让技术验证变得前所未有地便捷，这让我感到由衷的高兴；而 ChatGPT、Qwen、DeepSeek、DouBao 等产品的涌现，又让我对获取知识的便利性充满乐观。从 Vibe coding 到超级 Agent，技术赋能即将迎来一场大爆发！">看着如今 LLM（大语言模型）的蓬勃发展，诸如 Codex、Cursor、worksuffer、OpenClow 这一类工具，让技术验证变得前所未有地便捷，这让我感到由衷的高兴；而 ChatGPT、Qwen、DeepSeek、DouBao 等产品的涌现，又让我对获取知识的便利性充满乐观。从 Vibe coding 到超级 Agent，技术赋能即将迎来一场大爆发！</p>
-                    <p data-en="The road ahead is long and full of obstacles. Watching my peers bloom along their paths and sing songs of triumph, I feel genuinely happy for them. But looking back at myself, as Mr. Lu Xun once said: &quot;Human sorrows and joys are not connected.&quot; They might not be able to understand my envy and inferiority, just as I cannot fully relate to their pressure and confidence. With no school to attend and no job secured, a bleak outlook, and an uncertain future-this is the predicament I am currently facing." data-zh="前路漫漫，道阻且长。看着周围的小伙伴们一路生花、高奏凯歌，我由衷地为他们感到喜悦。但反观自己，正如鲁迅先生所言：“人类的悲欢并不相通。”他们或许无法理解我的羡慕与自卑，就像我也无法完全体会他们的压力与自信一样。没学上，也没找到工作，前途黯淡，未来迷茫——这就是我当下正在直面的困境。">前路漫漫，道阻且长。看着周围的小伙伴们一路生花、高奏凯歌，我由衷地为他们感到喜悦。但反观自己，正如鲁迅先生所言：“人类的悲欢并不相通。”他们或许无法理解我的羡慕与自卑，就像我也无法完全体会他们的压力与自信一样。没学上，也没找到工作，前途黯淡，未来迷茫——这就是我当下正在直面的困境。</p>
-                    <p data-en="But even so, I shouldn't give up on learning, and I certainly cannot give up on optimism. As Chairman Mao once said: &quot;Ten thousand years are too long, seize the day.&quot; Life is just getting started; I've barely scratched the surface..." data-zh="但即便如此，我也不该放弃学习，更不能放弃乐观。毛主席曾说：“一万年太久，只争朝夕。”人生才刚刚起步，现在才哪到哪啊……">但即便如此，我也不该放弃学习，更不能放弃乐观。毛主席曾说：“一万年太久，只争朝夕。”人生才刚刚起步，现在才哪到哪啊……</p>
-                    <p data-en="Written at the end: I hope you, the person reading this, find happiness in life and that everything goes smoothly for you." data-zh="写在最后：希望看到这里的你，生活快乐，一切顺利。">写在最后：希望看到这里的你，生活快乐，一切顺利。</p>
-                    <div class="quote-block">
-                        <blockquote data-en="Even without a magnificent life, even if destined to be ordinary, one must face life like a warrior." data-zh="没有轰轰烈烈的人生，即使注定平凡，也要像勇士一样直面生活">没有轰轰烈烈的人生，即使注定平凡，也要像勇士一样直面生活</blockquote>
-                        <cite data-en="- Anonymous" data-zh="- 佚名">- 佚名</cite>
-                    </div>
-                    <div class="post-image">
-                        <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/comfortable.webp" alt="舒适" class="responsive-image">
-                        <figcaption data-en="The comfortable" data-zh="巴适">舒适 <span class="emoji">🌙</span></figcaption>
-                    </div>
-                    <p data-en="One must cultivate a resilient mindset, like a sun-seeking seed that finds light through cracks. In prosperity, stay grounded knowing blossoms fade; in adversity, hold composure trusting clouds part for moonlight. Never let sudden storms of gain and loss dampen your inner flame. Learn to replace calculations with experiences, and overlay regrets with growth. Remember: the days demanding your grit are precisely when roots grow deepest. Keep your breathing steady, keep the spark in your eyes alive, and you will eventually meet branches heavy with blossoms on some bright morning." data-zh="人得有一个好心态，就像向阳而生的种子总能在裂缝中找到光。顺境时保持清醒，知道繁花易逝；逆境时守住从容，明白云散月自明。别让得失的骤雨打湿内心的火苗，学会用「体验」代替「计较」，用「成长」覆盖「遗憾」。记住：那些需要你咬牙坚持的日子，恰是扎根生长的良机。保持呼吸的节奏，保持眼里的微光，你终会在某个清晨遇见满枝繁花。">人得有一个好心态 😌，就像向阳而生的种子总能在裂缝中找到光 🌱。顺境时保持清醒，知道繁花易逝 🌸；逆境时守住从容，明白云散月自明 🌙。别让得失的骤雨打湿内心的火苗 🔥，学会用「体验」代替「计较」，用「成长」覆盖「遗憾」💪。记住：那些需要你咬牙坚持的日子 😤，恰是扎根生长的良机。保持呼吸的节奏，保持眼里的微光 ✨，你终会在某个清晨遇见满枝繁花 🌺。</p>
-                    <p data-en="As Su Shi wrote, 'Heed not the rain beating on the forest leaves, why not chant and walk slowly?' Storms are but temples for tempering the soul. Wang Yangming's teaching that 'High mountains always have paths for travelers' mirrors the belief that even night voyages require trust in the North Star. Remember Laozi's wisdom: 'Conquering others requires force; mastering oneself needs true strength' - the real battle lies within. Let Li Bai's declaration 'Heaven bred talents must find purpose' become the wind parting storm clouds, while Liang Qichao's insight 'Life demands knowing the bitterness of duty to taste the joy of fulfillment' transforms mud into starlight. Though the road ahead twists like a thousand mountain passes, embrace Xin Qiji's poetic vision: 'I see the green mountain's grace, and the mountain sees mine' - with such luminous resolve, even the Yellow River's nine bends will lead to sails piercing the clouds."data-zh="正如苏轼所言'莫听穿林打叶声，何妨吟啸且徐行'，风雨本是修心的道场。王阳明说'山高自有客行路'，恰似暗夜行舟当信天有北斗。且记老子'胜人者力，自胜者强'的箴言，真正的较量永远在方寸之间。李白的'天生我材必有用'当化作穿云破雾的底气，梁启超'人生须知负责任的苦处，才能知道尽责任的乐趣'更是将泥泞淬炼成星光的密钥。前路纵有千岩万转，亦要如稼轩词中'我见青山多妩媚，料青山见我应如是'，持这般坦荡心境，自能在九曲黄河里走出直挂云帆的航程。">正如苏轼所言"莫听穿林打叶声，何妨吟啸且徐行" 🍃，风雨本是修心的道场 ⛈️。王阳明说"山高自有客行路" 🏔️，恰似暗夜行舟当信天有北斗 🌠。且记老子"胜人者力，自胜者强"的箴言 💭，真正的较量永远在方寸之间 🧘‍♂️。李白的"天生我材必有用"当化作穿云破雾的底气 ☁️，梁启超"人生须知负责任的苦处，才能知道尽责任的乐趣"更是将泥泞淬炼成星光的密钥 🗝️。前路纵有千岩万转 🛤️，亦要如稼轩词中"我见青山多妩媚，料青山见我应如是" 🌄，持这般坦荡心境，自能在九曲黄河里走出直挂云帆的航程 ⛵。</p>
-                    <p data-en="As Nietzsche proclaimed, 'What does not kill me makes me stronger'—a Western resonance of Laozi's 'Disaster hides blessing'. Hemingway's 'grace under pressure' harmonizes with Su Shi's 'Looking back at the bleakness, return—no rain, no sun'. When Goethe said 'The Eternal Feminine draws us onward', know this eternity blooms in daily perseverance. Rilke's counsel in Letters to a Young Poet: 'Have patience with unresolved matters in your heart, try to love the questions themselves' unveils the alchemy transforming Liang Qichao's 'bitterness of duty' into stardust. Heed Socrates' warning that 'The unexamined life is not worth living', yet also Jung's insight: 'Those who look outward dream; who look inward awaken'. Through the Yellow River's bends, you'll grasp da Vinci's eternal gaze: 'Once you have tasted flight, you will walk the earth with your eyes turned skyward'."data-zh="正如尼采所言'那些杀不死我的，必使我更强大'，这何尝不是对老子'祸兮福所倚'的西方回响？海明威笔下'优雅是压力下的从容'，恰与东坡'回首向来萧瑟处，归去，也无风雨也无晴'共奏生命交响。当歌德说'永恒之女性引领我们上升'，须知这'永恒'正藏在你我日拱一卒的跋涉里。里尔克在《致青年诗人的信》中写'要对你心里所有还未解决的事保持耐心，试着去爱问题本身'，这恰是将梁启超所言'负责任的苦处'化作星尘的秘径。记住苏格拉底'未经省察的人生不值得过'的警示，更要如荣格所说'向外看的人沉睡，向内看的人觉醒'，在九曲黄河的奔涌中，终会懂得达芬奇'一旦你尝过飞翔的滋味，行走时也会仰望天空'的永恒眺望。">正如尼采所言'那些杀不死我的，必使我更强大' 💪，这何尝不是对老子'祸兮福所倚'的西方回响？海明威笔下'优雅是压力下的从容' 🧠，恰与东坡'回首向来萧瑟处，归去，也无风雨也无晴'共奏生命交响 🎵。当歌德说'永恒之女性引领我们上升' 👑，须知这'永恒'正藏在你我日拱一卒的跋涉里 👣。里尔克在《致青年诗人的信》中写'要对你心里所有还未解决的事保持耐心，试着去爱问题本身' 📝，这恰是将梁启超所言'负责任的苦处'化作星尘的秘径 ✨。记住苏格拉底'未经省察的人生不值得过'的警示 🔍，更要如荣格所说'向外看的人沉睡，向内看的人觉醒' 👁️，在九曲黄河的奔涌中 🌊，终会懂得达芬奇'一旦你尝过飞翔的滋味，行走时也会仰望天空'的永恒眺望 🦅。</p>
-                    <p data-en="After all is said and done, one should always embrace optimism and reject pessimism. Now, as we stand amidst unprecedented global transformations unseen in a century—with the world's landscape shifting and our lives evolving—where will this torrent of our times carry us? Only time will tell."data-zh="当然，说一千道一万，人总应该是乐观主义向上，摒弃悲观。现在正处于世界百年未有之大变局，世界格局在变化，你我的生活也在变化，这种时代的洪流会推我们走向何方？只有天知道。">当然，说一千道一万，人总应该是乐观主义向上，摒弃悲观。现在正处于世界百年未有之大变局，世界格局在变化，你我的生活也在变化，这种时代的洪流会推我们走向何方？只有天知道。</p>
-                    <div class="post-image">
-                        <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/countryside.avif" alt="安逸" class="responsive-image">
-                        <figcaption data-en="The comfortable" data-zh="安逸">安逸 <span class="emoji">🌞</span></figcaption>
-                    </div>
-                    <div class="quote-block">
-                        <blockquote data-en="The journey of a thousand miles begins with a single step." data-zh="千里之行，始于足下。">千里之行，始于足下。</blockquote>
-                        <cite data-en="- Lao Tzu" data-zh="- 老子">- 老子</cite>
-                    </div>
-                    <div class="quote-block">
-                        <blockquote data-en="There is only one heroism in the world: to see the truth of life and still love it." data-zh="世上只有一种英雄主义，就是看清生活真相依然热爱它。">世上只有一种英雄主义，就是看清生活真相依然热爱它。</blockquote>
-                        <cite data-en="- Romain Rolland" data-zh="- 罗曼·罗兰">- 罗曼·罗兰</cite>
-                    </div>
-                    
-                    <p data-en="For a period of time, I have seriously reflected on myself, but I haven't really come to any conclusions from this reflection. It's nothing more than endless internal consumption. Human self-awareness is always full of limitations and self-protective tendencies. After compromising back and forth, I finally make some concessions and compromises to myself in a self-moved manner, finding excuses about circumstances and environment, but in the end I regret it and blame myself for not working harder, not being more ambitious, and not being tougher on myself. Cognition influences height, and height determines the future. I had deep insights before, but now I increasingly feel my own weakness and worthlessness." data-zh="一个时期以来，我认真反思了自己，但也没真的反思出什么结果，不过是来来回回内耗自己罢了，人对自己的认识总是充满了局限性和自我保护性，折中了半天最后自我感动式的愿意给自己做出一些让步和妥协，找些借口和环境云云，但到头来后悔，埋怨自己当初为什么不努力不上进不对自己狠一点。认识影响高度，高度决定未来。之前我深有感悟，现在我愈发感觉到自己的软弱和一无是处。">一个时期以来，我认真反思了自己，但也没真的反思出什么结果，不过是来来回回内耗自己罢了，人对自己的认识总是充满了局限性和自我保护性，折中了半天最后自我感动式的愿意给自己做出一些让步和妥协，找些借口和环境云云，但到头来后悔，埋怨自己当初为什么不努力不上进不对自己狠一点。认识影响高度，高度决定未来。之前我深有感悟，现在我愈发感觉到自己的软弱和一无是处。</p>
-                        
-                    <p data-en="Chinese people are always good at consuming themselves internally. When the experiences and gazes of family, peers, close friends, lovers (if they may appear), comrades, teachers, and seniors focus on oneself, that ready-to-go, eager-to-try, budding, arrow-on-the-string, almost white-hot driving force and external pressure make us walk, run, sprint, and charge forward. But when we think about it in the end, where are our goals? What exactly is my goal? This question should be what I pursue for a lifetime." data-zh="中国人总是擅长内耗自己，家人、朋辈、挚友、爱人（可能出现的话）、战友、老师、前辈的经历和目光聚焦在于自己一身的时候，那种伺机待发、跃跃欲试、含苞待放、箭在弦上、几近白热化地前进的驱动力和外力让我们走起来了，跑起来了，奔跑起来了，冲刺起来了。到头来想想，自己的目标在哪里呢？我的目标究竟是什么？这个问题应该是我一辈子追求的问题了。">中国人总是擅长内耗自己，家人、朋辈、挚友、爱人（可能出现的话）、战友、老师、前辈的经历和目光聚焦在于自己一身的时候，那种伺机待发、跃跃欲试、含苞待放、箭在弦上、几近白热化地前进的驱动力和外力让我们走起来了，跑起来了，奔跑起来了，冲刺起来了。到头来想想，自己的目标在哪里呢？我的目标究竟是什么？这个问题应该是我一辈子追求的问题了。</p>
-                        
-                    <p data-en="I always ask myself: you are clearly not outstanding, not remarkable, not in a core position, so why do you, as a marginal person, worry about everything? This is too sentimental, too emotional. Yes, I am always wandering back and forth in such an internally consuming, emotional personality, never able to get out." data-zh="我总问自己，你明明并不优秀，并不出彩，并不在核心的位置上，边缘人的你为什么也事事焦虑一下呢？这样太过伤感了，太情绪化了。没错，我总是在这样一个内耗自己的情绪化的人格中反复徘徊，一直走不出去。">我总问自己，你明明并不优秀，并不出彩，并不在核心的位置上，边缘人的你为什么也事事焦虑一下呢？这样太过伤感了，太情绪化了。没错，我总是在这样一个内耗自己的情绪化的人格中反复徘徊，一直走不出去。</p>
-                        
-                    <p data-en="'Long caged in captivity,' I'm afraid I've always been in this cage, longing for freedom yet fearing to lose the protection of the cage. But this is the last chance, at least the best and most intense opportunity in the next one to two years. The past efforts of enduring humiliation, inferiority, and aimlessness have finally welcomed a new bugle call. This internal consumption will be dispelled by a narrative, and this charge bugle will resonate throughout 2025-2026." data-zh=""久在樊笼里"，我恐怕一直在这个樊笼之中，渴望自由，又害怕失去笼子的保护。但是，这是最后的机会了，起码来说是近一到两年最好也是最激烈的机会了。过去忍气吞声的、自卑的、无头绪的努力终于迎来了新的号角，这种内耗将在一种叙事在驱散，这股冲锋的号角将响彻整个2025-2026.">"久在樊笼里"，我恐怕一直在这个樊笼之中，渴望自由，又害怕失去笼子的保护。但是，这是最后的机会了，起码来说是近一到两年最好也是最激烈的机会了。过去忍气吞声的、自卑的、无头绪的努力终于迎来了新的号角，这种内耗将在一种叙事在驱散，这股冲锋的号角将响彻整个2025-2026.</p>
-                        
-                    <p data-en="Further education, employment, and future prospects are the three mountains weighing on my heart. Now the overwhelming confidence in my heart will rise again and burst with fighting spirit, launching the final charge toward my ideal institution! The three mountains of further education, employment, and future prospects are nothing but fleeting external things, but now, in order to find the next turning point, I must get excited, get passionate, and march toward victory!!!" data-zh="升学、就业、前途是我心口的三座大山。现在我内心中的压倒的自信力将重新起来并焕发斗志，向着理想的院校发起最后的冲锋！升学、就业、前途的三座大山不过过眼烟云的身外之物，但现在为了寻找下一个转折点，我必须激动起来、热情起来，向着胜利前进！！！">升学、就业、前途是我心口的三座大山。现在我内心中的压倒的自信力将重新起来并焕发斗志，向着理想的院校发起最后的冲锋！升学、就业、前途的三座大山不过过眼烟云的身外之物，但现在为了寻找下一个转折点，我必须激动起来、热情起来，向着胜利前进！！！</p>
-                    <div class="post-image">
-                        <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/quiet-road.avif" alt="路在何方" class="responsive-image">
-                        <figcaption data-en="Where is the Road?" data-zh="路在何方">路在何方 <span class="emoji">😳</span></figcaption>
-                    </div>
-
-                    <p data-en="😝 The above is nothing more than meaningless complaining detached from practice and labor." data-zh="😝 以上不过是脱离实践和劳动的无病呻吟罢了。" >😝 以上不过是脱离实践和劳动的无病呻吟罢了。</p>
-                    <div class="post-image">
-                        <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/---imageonline.co-8747137.avif" alt="稳坐如狗" class="responsive-image">
-                        <figcaption data-en="Sitting firmly like a dog" data-zh="稳坐如狗">稳坐如狗 <span class="emoji">🤗</span></figcaption>
-                    </div>
-
-                    <div class="post-image">
-                        <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/--imageonline.co-8387874.avif" alt="水墨世界" class="responsive-image">
-                        <figcaption data-en="The World of Ink" data-zh="水墨世界">水墨世界 <span class="emoji">🤗</span></figcaption>
-                    </div>
-
-                    <p data-en="Received the offer, spring recruitment is over. Understanding destiny through wisdom, accumulating for breakthrough." data-zh="收到offer，春招结束，达而知命，厚积薄发。">收到offer，春招结束，达而知命，厚积薄发。</p>
-
-                    <div class="post-image">
-                        <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/newroad.avif" alt="新的道路" class="responsive-image">
-                        <figcaption data-en="A New Road Ahead" data-zh="新的道路">新的道路 <span class="emoji">🤗</span></figcaption>
-                    </div>
-                    
-                </div>
-            </div>
-            </div> <!-- 关闭 about-content-main -->
-        </div>
-
-        <!-- 项目经历部分 -->
-        <section id="projects" class="projects-section">
-            <h2 data-en="Project Experience" data-zh="项目经历">项目经历</h2>
-            <div class="disclaimer">
-                <p data-en="Disclaimer: I'm still a novice learner without impressive achievements. The following projects are just modest experiences that might not be significant for experts, but they help me build some basic skills! /(ㄒoㄒ)/~~" data-zh="免责声明：本人太菜，没有什么可写的，只能拿这些大佬都看不上的东西勉强装一下门面！/(ㄒoㄒ)/~~">免责声明：本人太菜，没有什么可写的，只能拿这些大佬都看不上的东西勉强装一下门面！/(ㄒoㄒ)/~~</p>
-            </div>
-            <div class="projects-container">
-
-                <div class="project-item">
-                    <div class="project-period" data-en="2026.01 - 2026.5" data-zh="2026.01 - 2026.5">2026.01 - 2026.5</div>
-                    <div class="project-content">
-                        <h3 data-en="Multi-Agent E-Commerce Operations Hub V3.0 | Independent Developer / Architecture &amp; Full-Stack" data-zh="多 Agent 电商运营中枢 V3.0 | 独立开发 / 架构设计与全栈实现">多 Agent 电商运营中枢 V3.0 | 独立开发 / 架构设计与全栈实现</h3>
-                        <div class="project-description">
-                            <div class="project-abstract">
-                                <h4 data-en="Abstract" data-zh="摘要">摘要</h4>
-                                <p data-en="To address fragmented e-commerce operations and non-auditable AI decisions, I built a local-first multi-agent operations hub from 0 to 1. The system follows &quot;AI assists, humans approve; funds stay on-platform; data stays on-machine,&quot; covering Xiaohongshu insight, 1688 sourcing, and Meituan fulfillment in one auditable desktop workflow." data-zh="针对中小型电商运营中数据散落、决策难追溯的痛点，我从 0 到 1 搭建本地优先的多 Agent 运营中枢 V3.0，遵循「AI 辅助决策、人工终审把关；资金不托管、数据不出本机」原则，将小红书洞察、1688 采购与美团履约纳入同一可审计的桌面工作流。">针对中小型电商运营中数据散落、决策难追溯的痛点，我从 0 到 1 搭建本地优先的多 Agent 运营中枢 V3.0，遵循「AI 辅助决策、人工终审把关；资金不托管、数据不出本机」原则，将小红书洞察、1688 采购与美团履约纳入同一可审计的桌面工作流。</p>
-                            </div>
-                            <div class="project-abstract">
-                                <h4 data-en="Work Experience" data-zh="参与工作">参与工作</h4>
-                                <p data-en="- Designed a four-tier local-first stack: Electron desktop shell, FastAPI backend (127.0.0.1 only), Vue 3 UI, and PostgreSQL / Redis / Qdrant storage; integrated DeepSeek API and platform gateways for 1688, Meituan, and Xiaohongshu." data-zh="- 设计四层本地优先架构：Electron 桌面壳、FastAPI 本地服务（仅 127.0.0.1）、Vue 3 前端与 PostgreSQL / Redis / Qdrant 三存储；集成 DeepSeek API 及 1688、美团、小红书等平台网关。">- 设计四层本地优先架构：Electron 桌面壳、FastAPI 本地服务（仅 127.0.0.1）、Vue 3 前端与 PostgreSQL / Redis / Qdrant 三存储；集成 DeepSeek API 及 1688、美团、小红书等平台网关。</p>
-                                <p data-en="- Implemented eight LangGraph business agents with Registry/Runner pipeline; enforced human-in-the-loop interrupts on money, inventory, and permission nodes, routed to a task center for approve/reject before continuation." data-zh="- 实现八个 LangGraph 业务 Agent 及 Registry/Runner 调度管线；对涉及资金、库存、权限的节点强制 interrupt，经任务中心人工批准/驳回后再继续执行。">- 实现八个 LangGraph 业务 Agent 及 Registry/Runner 调度管线；对涉及资金、库存、权限的节点强制 interrupt，经任务中心人工批准/驳回后再继续执行。</p>
-                                <p data-en="- Built a 25-table, seven-domain data model with append-only audit rules; decoupled competitor vectors (CLIP + Qdrant) from transactional DB; linked agent_runs and agent_tasks for end-to-end traceability." data-zh="- 构建 25 表七域数据模型与「只增不改」审计铁律；竞品向量（CLIP + Qdrant）与事务库解耦；agent_runs / agent_tasks 与 WebSocket 事件实现全链路可追溯。">- 构建 25 表七域数据模型与「只增不改」审计铁律；竞品向量（CLIP + Qdrant）与事务库解耦；agent_runs / agent_tasks 与 WebSocket 事件实现全链路可追溯。</p>
-                                <p data-en="- Delivered commander dashboard, analytics room (DSL), report center, red authorization, and real-time agent status push; completed M0–M4 milestones with a demo-ready prototype (M5 packaging planned)." data-zh="- 交付指挥官仪表盘、量化分析室（Analytics DSL）、报告中心、红色放权与 Agent 状态实时推送；完成 M0–M4 里程碑并达到可演示原型（M5 打包交付规划中）。">- 交付指挥官仪表盘、量化分析室（Analytics DSL）、报告中心、红色放权与 Agent 状态实时推送；完成 M0–M4 里程碑并达到可演示原型（M5 打包交付规划中）。</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-item">
-                    <div class="project-period" data-en="2025.12 - 2026.5" data-zh="2025.12 - 2026.5">2025.12 - 2026.5</div>
-                    <div class="project-content">
-                        <h3 data-en="LLM-Powered Intelligent Resume Generation Assistant | Project Lead / Product Design" data-zh="基于大模型的智能简历生成助手 | 项目负责人 / 产品设计">基于大模型的智能简历生成助手 | 项目负责人 / 产品设计</h3>
-                        <div class="project-description">
-                            <div class="project-abstract">
-                                <h4 data-en="Abstract" data-zh="摘要">摘要</h4>
-                                <p data-en="To solve the low efficiency of manual resume customization in job hunting, I led a role-oriented intelligent resume platform from 0 to 1. The product is driven by large language models and designed as a full workflow from information intake to final layout and export." data-zh="针对求职场景中“手动定制简历效率低下”的痛点，我主导从 0 到 1 落地了一款岗位导向、由大模型驱动的智能简历生成平台，形成了从信息采集到成稿导出的完整产品闭环。">针对求职场景中“手动定制简历效率低下”的痛点，我主导从 0 到 1 落地了一款岗位导向、由大模型驱动的智能简历生成平台，形成了从信息采集到成稿导出的完整产品闭环。</p>
-                            </div>
-                            <div class="project-abstract">
-                                <h4 data-en="Work Experience" data-zh="参与工作">参与工作</h4>
-                                <p data-en="- Led product planning and lifecycle management from market research, requirement decomposition, interaction design, development coordination to launch. Designed a four-stage core pipeline: input parsing -> profile completion -> JD alignment -> style generation; implemented guided interaction with AI Agent multi-turn review and final drafting on visual canvas output." data-zh="- 负责产品规划与全生命周期管理：完成市场调研、需求拆解、交互设计、研发协同与上线闭环；设计“输入解析 -> 信息补全 -> 岗位对齐 -> 风格生成”四段式主链路，实现 AI Agent 多轮对话审阅、定稿与可视化画布导出。">- 负责产品规划与全生命周期管理：完成市场调研、需求拆解、交互设计、研发协同与上线闭环；设计“输入解析 -> 信息补全 -> 岗位对齐 -> 风格生成”四段式主链路，实现 AI Agent 多轮对话审阅、定稿与可视化画布导出。</p>
-                                <p data-en="- Designed and implemented a hybrid edge-cloud AI architecture. Integrated DeepSeek and Qwen APIs for complex intent understanding and generation, and introduced RAG plus instruction fine-tuning for vertical-domain quality control. Built JD semantic matching with BERT-Whitening, achieving Top-5 match rate >= 82%." data-zh="- 设计并落地端云混合 AI 调用架构：后端集成 DeepSeek、Qwen 等模型 API，结合 RAG 与指令微调提升垂直领域生成质量；基于 BERT-Whitening 构建 JD 语义匹配能力，Top-5 岗位匹配率 >= 82%。">- 设计并落地端云混合 AI 调用架构：后端集成 DeepSeek、Qwen 等模型 API，结合 RAG 与指令微调提升垂直领域生成质量；基于 BERT-Whitening 构建 JD 语义匹配能力，Top-5 岗位匹配率 >= 82%。</p>
-                                <p data-en="- Built high-quality LLM data assets by processing 15,000+ multilingual recruitment records. Established staged data pipelines for automated cleaning, deduplication, and PII desensitization; delivered 175k standardized corpus entries and 316k SFT instruction samples with checksum-based traceable delivery manifests." data-zh="- 深度参与高质量大模型数据底座建设：处理超 15,000 份多源异构中英文招聘数据，搭建分阶段清洗、去重、PII 脱敏流水线，沉淀 17.5 万条标准化语料与 31.6 万条 SFT 指令样本，并通过 checksum 清单实现训练数据 100% 可追溯。">- 深度参与高质量大模型数据底座建设：处理超 15,000 份多源异构中英文招聘数据，搭建分阶段清洗、去重、PII 脱敏流水线，沉淀 17.5 万条标准化语料与 31.6 万条 SFT 指令样本，并通过 checksum 清单实现训练数据 100% 可追溯。</p>
-                                <p data-en="- Established a product quality and safety evaluation system with sensitive-word and fairness constraints (violation rate < 1%). Optimized generation latency to < 3s per resume, with improved generation quality (BLEU 42, human satisfaction 4.2/5)." data-zh="- 建立效果评估与安全约束体系：内置敏感词与公平性策略，将违规率控制在 1% 以下；实现单份简历生成响应 < 3s，生成质量显著提升（BLEU 42，人工满意度 4.2/5）。">- 建立效果评估与安全约束体系：内置敏感词与公平性策略，将违规率控制在 1% 以下；实现单份简历生成响应 < 3s，生成质量显著提升（BLEU 42，人工满意度 4.2/5）。</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
 
-                <div class="project-item">
-                    <div class="project-period" data-en="2025.05 - 2025.07" data-zh="2025.05 - 2025.07">2025.05 - 2025.07</div>
-                    <div class="project-content">
-                        <h3 data-en="NBA Multi-Dimensional Player Profiling and Tactical Role Evolution Analysis System" data-zh="NBA 球员多维画像与战术角色演变分析系统">NBA 球员多维画像与战术角色演变分析系统</h3>
-                        <div class="project-description">
-                            <p data-en="To address the gap between traditional position labels (PG/SG/SF/PF/C) and modern positionless basketball, this project mined 2,835 NBA players (1980-2017) and built a full analytics pipeline from macro trend diagnosis to micro archetype definition and automated classification." data-zh="本项目聚焦传统位置标签（PG/SG/SF/PF/C）与现代“位置模糊化”战术实践的脱节问题。基于 1980-2017 赛季 2835 名球员数据，构建了从宏观演变诊断、微观原型定义到自动化分类决策的完整分析链路。">本项目聚焦传统位置标签（PG/SG/SF/PF/C）与现代“位置模糊化”战术实践的脱节问题。基于 1980-2017 赛季 2835 名球员数据，构建了从宏观演变诊断、微观原型定义到自动化分类决策的完整分析链路。</p>
-                            <div class="project-abstract">
-                                <h4 data-en="Key Achievements" data-zh="主要成果">主要成果</h4>
-                                <p data-en="• Built an EDA + feature-engineering workflow with Python (Pandas/Matplotlib/Seaborn); quantified pace-to-efficiency evolution using TS% and USG%, and found elite 30+ PPG seasons account for only 0.26% in 14,000+ samples." data-zh="· 基于 Python（Pandas/Matplotlib/Seaborn）完成 EDA 与特征工程，构建 TS%（真实命中率）、USG%（球权使用率）等高阶指标；在 14000+ 样本中发现“场均 30+ 分精英赛季”仅占 0.26%。">· 基于 Python（Pandas/Matplotlib/Seaborn）完成 EDA 与特征工程，构建 TS%（真实命中率）、USG%（球权使用率）等高阶指标；在 14000+ 样本中发现“场均 30+ 分精英赛季”仅占 0.26%。</p>
-                                <p data-en="• Applied K-Means with elbow/silhouette optimization and business-driven K adjustment (K=8), defining 8 interpretable archetypes such as primary ball-handling core, 3D role player, and high-efficiency interior." data-zh="· 采用 K-Means 聚类并结合肘部法则、轮廓系数迭代优化，最终以 K=8 定义 8 类可解释球员原型（如持球大核心、3D 角色球员、高效率内线等）。">· 采用 K-Means 聚类并结合肘部法则、轮廓系数迭代优化，最终以 K=8 定义 8 类可解释球员原型（如持球大核心、3D 角色球员、高效率内线等）。</p>
-                                <p data-en="• Built white-box ID3/C4.5 decision trees to extract transparent IF-THEN rules; C4.5 generated numeric thresholds (e.g., USG% > 21.45 and TS% > 0.575 for scoring-forward profile) and improved explainability for tactical decisions." data-zh="· 构建 ID3/C4.5 “白盒”决策树，提取透明 IF-THEN 规则；C4.5 可直接处理连续特征并给出数值阈值（如 USG% > 21.45 且 TS% > 0.575）。">· 构建 ID3/C4.5 “白盒”决策树，提取透明 IF-THEN 规则；C4.5 可直接处理连续特征并给出数值阈值（如 USG% > 21.45 且 TS% > 0.575）。</p>
-                                <p data-en="• Trained a DNN with BatchNorm/ReLU/Dropout/EarlyStopping; reached 90.43% accuracy on 8-class tasks. The system exposed limits of the traditional five-position scheme (SF role-blurring rate up to 72%), providing a quantitative basis for player valuation and lineup construction." data-zh="· 训练 DNN（BatchNorm/ReLU/Dropout/EarlyStopping），在 8 分类任务中达到 90.43% 准确率；并验证传统五位置体系局限性（小前锋角色模糊率最高达 72%），为球员评估与战术搭配提供量化依据。">· 训练 DNN（BatchNorm/ReLU/Dropout/EarlyStopping），在 8 分类任务中达到 90.43% 准确率；并验证传统五位置体系局限性（小前锋角色模糊率最高达 72%），为球员评估与战术搭配提供量化依据。</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+						<!-- 个人信息部分 -->
+						<div class="personal-info">
+							<div class="info-item" data-en="Location: ~" data-zh="生活地：~">
+								<i class="fas fa-map-marker-alt"></i>
+								<span>生活地：~</span>
+							</div>
+							<div class="info-item" data-en="Status: CPC Member" data-zh="面貌：CPC Member">
+								<i class="fas fa-user-tie"></i>
+								<span>面貌：CPC Member</span>
+							</div>
+							<div class="info-item" data-en="Email: gaojian1573@foxmail.com"
+								data-zh="邮件：gaojian1573@foxmail.com">
+								<i class="fas fa-envelope-open-text"></i>
+								<span>邮件：gaojian1573@foxmail.com</span>
+							</div>
+							<div class="info-item" data-en="Skill: Python C/C++ Web CUDA"
+								data-zh="技能：Python C/C++ Web CUDA">
+								<i class="fas fa-star"></i>
+								<span>技能：Python C/C++ Web CUDA</span>
+							</div>
+							<div class="info-item" data-en="Perspective: Labor creates value and improves personality"
+								data-zh="观点：劳动创造价值并完善人格">
+								<i class="fas fa-star"></i>
+								<span>观点：劳动创造价值并完善人格</span>
+							</div>
+						</div>
 
-                <div class="project-item">
-                    <div class="project-period" data-en="2025.05 - 2025.06" data-zh="2025.05 - 2025.06">2025.05 - 2025.06</div>
-                    <div class="project-content">
-                        <h3 data-en="World Military Data Visualization Platform" data-zh="世界军事数据可视化平台">世界军事数据可视化平台</h3>
-                        <div class="project-description">
-                            <p data-en="Responsibilities: Data cleaning and restructuring of military expenditure and force data from 1948-2023 based on SIPRI and other authoritative sources. Developed data management scripts for countries and continents. Implemented 3D globe and dynamic charts using React and Three.js, integrated with AMap API and Firebase backend for multi-dimensional data analysis and real-time updates." data-zh="主要负责：基于SIPRI等权威数据，清洗和重构了1948-2023年全球主要国家的军费、军事力量等数据，并开发了数据分国、分洲管理脚本。前端采用React与Three.js实现3D地球与动态图表，集成高德地图API和Firebase后端，支持多维度数据分析和实时更新。">主要负责：基于SIPRI等权威数据，清洗和重构了1948-2023年全球主要国家的军费、军事力量等数据，并开发了数据分国、分洲管理脚本。前端采用React与Three.js实现3D地球与动态图表，集成高德地图API和Firebase后端，支持多维度数据分析和实时更新。</p>
-                        </div>
-                        <div class="project-abstract">
-                            <h4 data-en="World Military Data Visualization Platform Project Summary" data-zh="世界军事数据可视化平台项目摘要">世界军事数据可视化平台项目摘要</h4>
-                            <p data-en="This project aims to create an intuitive, interactive global military data analysis and visualization system. The platform displays global military power distribution, military expenditure trends, and future development predictions through 3D globes, dynamic charts, and interactive maps. Users can switch views by country, continent, military alliance, and other dimensions to gain a deep understanding of the global military landscape." data-zh="本项目旨在打造一个直观、交互式的全球军事数据分析与展示系统。平台通过3D地球仪、动态图表及交互式地图等多种可视化方式，全面展现各国军事力量分布、军费支出趋势以及未来发展预测。用户可按国家、大洲、军事联盟等多维度切换视图，深入了解世界军事格局。">本项目旨在打造一个直观、交互式的全球军事数据分析与展示系统。平台通过3D地球仪、动态图表及交互式地图等多种可视化方式，全面展现各国军事力量分布、军费支出趋势以及未来发展预测。用户可按国家、大洲、军事联盟等多维度切换视图，深入了解世界军事格局。</p>
-                            <p data-en="The platform supports historical data analysis and predicts future military development based on three scenarios (baseline, high tension, peaceful development), providing powerful data support for policy making, scientific research, and public understanding. The system emphasizes data accuracy and diversity, with authoritative data sources and real-time updates, featuring good scalability and user experience." data-zh="平台不仅支持历史数据的分析，还结合三种情景（基线、高紧张度、和平发展）对未来军事发展进行预测，为政策制定、科研与公众了解提供有力的数据支持。系统强调数据的准确性和多样性，数据来源权威，且支持实时更新，具有良好的可扩展性和用户体验。">平台不仅支持历史数据的分析，还结合三种情景（基线、高紧张度、和平发展）对未来军事发展进行预测，为政策制定、科研与公众了解提供有力的数据支持。系统强调数据的准确性和多样性，数据来源权威，且支持实时更新，具有良好的可扩展性和用户体验。</p>
-                            <p data-en="Technology Stack: React (frontend framework), TypeScript (type safety enhancement), Styled Components (style and theme management), Framer Motion (animation and transition effects), Recharts (data visualization charts), Three.js (3D globe and three-dimensional display), React Router (routing management), AMap API (Gaode Maps, regional military data), Firebase (backend storage and real-time updates)." data-zh="技术栈：React（前端框架）、TypeScript（类型安全增强）、Styled Components（样式与主题管理）、Framer Motion（动画与过渡效果）、Recharts（数据可视化图表）、Three.js（3D地球仪与三维展示）、React Router（路由管理）、AMap API（高德地图，区域军事数据）、Firebase（后端存储与实时更新）。">技术栈：React（前端框架）、TypeScript（类型安全增强）、Styled Components（样式与主题管理）、Framer Motion（动画与过渡效果）、Recharts（数据可视化图表）、Three.js（3D地球仪与三维展示）、React Router（路由管理）、AMap API（高德地图，区域军事数据）、Firebase（后端存储与实时更新）。</p>
-                        </div>
-                    </div>
-                </div>
+						<!-- ========== LOTTIE global_earth START：删除本段至 END 可回档 ========== -->
+						<div class="earth-lottie-wrap" id="earthLottieWrap" title="Earth animation" aria-hidden="true">
+							<div id="earthLottie" class="earth-lottie"></div>
+							<span class="earth-lottie-fallback">🌍</span>
+						</div>
+						<!-- ========== LOTTIE global_earth END ========== -->
+					</div>
+					<div class="about-text" id="about-author">
+						<h1 data-en="About the Author" data-zh="关于作者">关于作者
+							<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"
+								style="vertical-align: middle; margin-left: 10px;" aria-hidden="true" focusable="false">
+								<defs>
+									<mask id="lineMdRedditLoop0" maskUnits="userSpaceOnUse"
+										maskContentUnits="userSpaceOnUse">
+										<g fill="#fff" fill-opacity="0">
+											<ellipse cx="12" cy="14.71" stroke="#fff" stroke-dasharray="48"
+												stroke-dashoffset="48" stroke-linecap="round" stroke-linejoin="round"
+												stroke-width="2" data-swindex="0" rx="8" ry="5.29">
+												<animate fill="freeze" attributeName="stroke-dashoffset" dur="0.6s"
+													values="48;0"></animate>
+												<animate fill="freeze" attributeName="fill-opacity" begin="0.6s"
+													dur="0.4s" values="0;1"></animate>
+											</ellipse>
+											<circle cx="7.24" cy="11.97" r="2.24">
+												<set attributeName="fill-opacity" begin="1s" to="1"></set>
+												<animate fill="freeze" attributeName="cx" begin="1s" dur="0.2s"
+													values="7.24;3.94"></animate>
+											</circle>
+											<circle cx="16.76" cy="11.97" r="2.24">
+												<set attributeName="fill-opacity" begin="1s" to="1"></set>
+												<animate fill="freeze" attributeName="cx" begin="1s" dur="0.2s"
+													values="16.76;20.06"></animate>
+											</circle>
+											<circle cx="18.45" cy="4.23" r="1.61">
+												<set attributeName="fill-opacity" begin="2.6s" to="1"></set>
+												<animate attributeName="cx" begin="2.4s" dur="6s"
+													repeatCount="indefinite" values="18.45;5.75;18.45"></animate>
+											</circle>
+										</g>
+										<path fill="none" stroke="#fff" stroke-dasharray="12" stroke-dashoffset="12"
+											stroke-linecap="round" stroke-linejoin="round" stroke-width=".8"
+											data-swindex="1" d="M12 8.75L13.18 3.11L18.21 4.18">
+											<animate fill="freeze" attributeName="stroke-dashoffset" begin="2.4s"
+												dur="0.2s" values="12;0"></animate>
+											<animate attributeName="d" begin="2.4s" dur="6s" repeatCount="indefinite"
+												values="M12 8.75L13.18 3.11L18.21 4.18;M12 8.75L12 2L12 4.18;M12 8.75L10.82 3.11L5.79 4.18;M12 8.75L12 2L12 4.18;M12 8.75L13.18 3.11L18.21 4.18">
+											</animate>
+										</path>
+										<g fill-opacity="0">
+											<circle cx="8.45" cy="13.59" r="1.61">
+												<animate fill="freeze" attributeName="fill-opacity" begin="1.2s"
+													dur="0.4s" values="0;1"></animate>
+											</circle>
+											<circle cx="15.55" cy="13.59" r="1.61">
+												<animate fill="freeze" attributeName="fill-opacity" begin="1.6s"
+													dur="0.4s" values="0;1"></animate>
+											</circle>
+										</g>
+										<path fill="none" stroke="#fff" stroke-dasharray="8" stroke-dashoffset="8"
+											stroke-linecap="round" stroke-width=".8" data-swindex="1"
+											d="M8.47 17.52C8.47 17.52 9.41 18.58 12 18.58C14.58 18.58 15.53 17.52 15.53 17.52">
+											<animate fill="freeze" attributeName="stroke-dashoffset" begin="2s"
+												dur="0.2s" values="8;0"></animate>
+										</path>
+									</mask>
+								</defs>
+								<rect width="24" height="24" fill="#a95b5b" mask="url(#lineMdRedditLoop0)"></rect>
+							</svg>
+						</h1>
+						<div class="about-description">
+							<p data-en="Hello! I'm Jian, the developer and operator of this webpage, HealthJian GitHub-just an ordinary, unremarkable guy."
+								data-zh="您好！我是 Jian，HealthJian GitHub 这个网页的开发者兼运营者，一个平凡且不起眼的普通人。">您好！我是 Jian，HealthJian
+								GitHub 这个网页的开发者兼运营者，一个平凡且不起眼的普通人。</p>
+							<p data-en="Just as the theme of this website says: &quot;Think less, and happiness will chase after you!&quot; I have always aspired to and advocated for a healthy and happy lifestyle (although I am still working hard to practice it myself). Since this is an &quot;About&quot; page, please allow me to introduce myself first."
+								data-zh="正如这个网站的主题所言——“只要想得少，快乐追着跑！” 我一直向往并提倡健康快乐的生活方式（尽管我自己也还在努力践行的路上）。既然这是一个“关于”页面，那就请允许我先做个自我介绍吧。">
+								正如这个网站的主题所言——“只要想得少，快乐追着跑！”
+								我一直向往并提倡健康快乐的生活方式（尽管我自己也还在努力践行的路上）。既然这是一个“关于”页面，那就请允许我先做个自我介绍吧。</p>
+							<p data-en="I will be graduating this July from C#%T (apologies, please allow me to slightly hide my alma mater's name), majoring in Data Science and Big Data Technology. By the way, I still feel that, aside from big data architectures like Hadoop, Spark, and Flink, as well as data analysis and visualization tools, the courses I've taken aren't much different from a traditional &quot;Computer Science and Technology&quot; major-at least, that's how it is in our school's curriculum."
+								data-zh="我将于今年 7 月毕业于 C#%T（抱歉，请允许我稍微隐藏一下母校的名字），专业方向是数据科学与大数据技术。顺便提一句，我至今仍然觉得，除了 Hadoop、Spark、Flink 等大数据架构以及数据分析与可视化工具之外，我所学的课程与传统的“计算机科学与技术”专业并没有太大差别——至少在我们学校的培养方案里是这样的。">
+								我将于今年 7 月毕业于 C#%T（抱歉，请允许我稍微隐藏一下母校的名字），专业方向是数据科学与大数据技术。顺便提一句，我至今仍然觉得，除了
+								Hadoop、Spark、Flink
+								等大数据架构以及数据分析与可视化工具之外，我所学的课程与传统的“计算机科学与技术”专业并没有太大差别——至少在我们学校的培养方案里是这样的。</p>
+							<p data-en="It's a bit regrettable to say, both for myself and for the visitors reading this: I am actually quite interested in statistics, but due to some unforeseen circumstances, I bombed the exam (though thankfully, I didn't fail the course). This directly derailed my original plans for further studies..."
+								data-zh="说来有些遗憾，无论是对我自己还是对看到这里的访客：我其实对统计学很感兴趣，但因为一些突发情况，这门课我考砸了（虽然万幸没有挂科），但这直接打乱了我最初的升学计划……">
+								说来有些遗憾，无论是对我自己还是对看到这里的访客：我其实对统计学很感兴趣，但因为一些突发情况，这门课我考砸了（虽然万幸没有挂科），但这直接打乱了我最初的升学计划……</p>
+							<p data-en="As a graduating senior, I have viscerally felt my own insignificance and powerlessness. At least, that's how I feel as I write these words. This year's graduate school entrance exam was like a &quot;black swan event&quot; for me; the cutoff score for my target university in 2026 unexpectedly surged by 30 points (coupled with my own underperformance, it was truly a pity). Therefore, I don't plan to try again for another year. Instead, I dove headfirst into the spring recruitment season. As of now, I still have zero offers. Sometimes I laugh at myself, thinking that the &quot;most failed human being&quot; is probably no worse than this."
+								data-zh="作为一名应届本科生，我已经无比直观地感受到了自身的渺小与无力。起码在写下这段文字时是这样的——今年的考研对我来说就像触发了一场“黑天鹅事件”，我报考院校 2026 年的分数线居然比原先暴涨了 30 分（加上我自己发挥失常，实在令人遗憾）。因此，我不打算再战一年，而是转头扎进了春招。直到现在，我依然是 0 Offer。有时候我会自嘲，恐怕“最失败的人类”也不过如此了吧。">
+								作为一名应届本科生，我已经无比直观地感受到了自身的渺小与无力。起码在写下这段文字时是这样的——今年的考研对我来说就像触发了一场“黑天鹅事件”，我报考院校 2026
+								年的分数线居然比原先暴涨了 30 分（加上我自己发挥失常，实在令人遗憾）。因此，我不打算再战一年，而是转头扎进了春招。直到现在，我依然是 0
+								Offer。有时候我会自嘲，恐怕“最失败的人类”也不过如此了吧。</p>
+							<p data-en="Of course, setting aside regret and self-blame, I can actually sense that my love for IT might be somewhat shallow and utilitarian. It hasn't given me that absolute, relentless, enthusiastic, and highly motivated fanaticism. As the old saying goes, entering the wrong profession is one of life's greatest regrets, but I actually feel quite lucky; at least I haven't reached that point. I don't repel writing code, and I still maintain a desire to explore new things and the drive to learn. I continue to keep an eye on global affairs, national development, and market changes, and I sincerely hope to stay in this current industry."
+								data-zh="当然，抛开后悔与自责，我其实也能感觉到，自己对 IT 的热爱或许有些浅薄和功利。它并没有赋予我那种锲而不舍、兴致勃勃且充满斗志的绝对狂热。老话常说，“男怕入错行，女怕嫁错郎”是人生最大的遗憾，但我倒觉得我还算幸运，起码还没到那个地步。我不排斥写代码，依旧保持着对新事物的探索欲和学习的劲头。我依旧关注着国际局势、国家发展与市场变化，并且真心希望能继续留在当前这个行业里。">
+								当然，抛开后悔与自责，我其实也能感觉到，自己对 IT
+								的热爱或许有些浅薄和功利。它并没有赋予我那种锲而不舍、兴致勃勃且充满斗志的绝对狂热。老话常说，“男怕入错行，女怕嫁错郎”是人生最大的遗憾，但我倒觉得我还算幸运，起码还没到那个地步。我不排斥写代码，依旧保持着对新事物的探索欲和学习的劲头。我依旧关注着国际局势、国家发展与市场变化，并且真心希望能继续留在当前这个行业里。
+							</p>
+							<p data-en="Watching the booming development of LLMs (Large Language Models) today, tools like Codex, Cursor, worksuffer, and OpenClow have made technical validation more convenient than ever, which genuinely makes me happy. The emergence of products like ChatGPT, Qwen, DeepSeek, and DouBao also makes me highly optimistic about the convenience of acquiring knowledge. From vibe coding to super Agents, technological empowerment is about to experience a massive explosion!"
+								data-zh="看着如今 LLM（大语言模型）的蓬勃发展，诸如 Codex、Cursor、worksuffer、OpenClow 这一类工具，让技术验证变得前所未有地便捷，这让我感到由衷的高兴；而 ChatGPT、Qwen、DeepSeek、DouBao 等产品的涌现，又让我对获取知识的便利性充满乐观。从 Vibe coding 到超级 Agent，技术赋能即将迎来一场大爆发！">
+								看着如今 LLM（大语言模型）的蓬勃发展，诸如 Codex、Cursor、worksuffer、OpenClow
+								这一类工具，让技术验证变得前所未有地便捷，这让我感到由衷的高兴；而 ChatGPT、Qwen、DeepSeek、DouBao 等产品的涌现，又让我对获取知识的便利性充满乐观。从
+								Vibe coding 到超级 Agent，技术赋能即将迎来一场大爆发！</p>
+							<p data-en="The road ahead is long and full of obstacles. Watching my peers bloom along their paths and sing songs of triumph, I feel genuinely happy for them. But looking back at myself, as Mr. Lu Xun once said: &quot;Human sorrows and joys are not connected.&quot; They might not be able to understand my envy and inferiority, just as I cannot fully relate to their pressure and confidence. With no school to attend and no job secured, a bleak outlook, and an uncertain future-this is the predicament I am currently facing."
+								data-zh="前路漫漫，道阻且长。看着周围的小伙伴们一路生花、高奏凯歌，我由衷地为他们感到喜悦。但反观自己，正如鲁迅先生所言：“人类的悲欢并不相通。”他们或许无法理解我的羡慕与自卑，就像我也无法完全体会他们的压力与自信一样。没学上，也没找到工作，前途黯淡，未来迷茫——这就是我当下正在直面的困境。">
+								前路漫漫，道阻且长。看着周围的小伙伴们一路生花、高奏凯歌，我由衷地为他们感到喜悦。但反观自己，正如鲁迅先生所言：“人类的悲欢并不相通。”他们或许无法理解我的羡慕与自卑，就像我也无法完全体会他们的压力与自信一样。没学上，也没找到工作，前途黯淡，未来迷茫——这就是我当下正在直面的困境。
+							</p>
+							<p data-en="But even so, I shouldn't give up on learning, and I certainly cannot give up on optimism. As Chairman Mao once said: &quot;Ten thousand years are too long, seize the day.&quot; Life is just getting started; I've barely scratched the surface..."
+								data-zh="但即便如此，我也不该放弃学习，更不能放弃乐观。毛主席曾说：“一万年太久，只争朝夕。”人生才刚刚起步，现在才哪到哪啊……">
+								但即便如此，我也不该放弃学习，更不能放弃乐观。毛主席曾说：“一万年太久，只争朝夕。”人生才刚刚起步，现在才哪到哪啊……</p>
+							<p data-en="Written at the end: I hope you, the person reading this, find happiness in life and that everything goes smoothly for you."
+								data-zh="写在最后：希望看到这里的你，生活快乐，一切顺利。">写在最后：希望看到这里的你，生活快乐，一切顺利。</p>
+							<div class="quote-block">
+								<blockquote
+									data-en="Even without a magnificent life, even if destined to be ordinary, one must face life like a warrior."
+									data-zh="没有轰轰烈烈的人生，即使注定平凡，也要像勇士一样直面生活">没有轰轰烈烈的人生，即使注定平凡，也要像勇士一样直面生活</blockquote>
+								<cite data-en="- Anonymous" data-zh="- 佚名">- 佚名</cite>
+							</div>
+							<div class="post-image">
+								<img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/comfortable.webp"
+									alt="舒适" class="responsive-image">
+								<figcaption data-en="The comfortable" data-zh="巴适">舒适 <span class="emoji">🌙</span>
+								</figcaption>
+							</div>
+							<p data-en="One must cultivate a resilient mindset, like a sun-seeking seed that finds light through cracks. In prosperity, stay grounded knowing blossoms fade; in adversity, hold composure trusting clouds part for moonlight. Never let sudden storms of gain and loss dampen your inner flame. Learn to replace calculations with experiences, and overlay regrets with growth. Remember: the days demanding your grit are precisely when roots grow deepest. Keep your breathing steady, keep the spark in your eyes alive, and you will eventually meet branches heavy with blossoms on some bright morning."
+								data-zh="人得有一个好心态，就像向阳而生的种子总能在裂缝中找到光。顺境时保持清醒，知道繁花易逝；逆境时守住从容，明白云散月自明。别让得失的骤雨打湿内心的火苗，学会用「体验」代替「计较」，用「成长」覆盖「遗憾」。记住：那些需要你咬牙坚持的日子，恰是扎根生长的良机。保持呼吸的节奏，保持眼里的微光，你终会在某个清晨遇见满枝繁花。">
+								人得有一个好心态 😌，就像向阳而生的种子总能在裂缝中找到光 🌱。顺境时保持清醒，知道繁花易逝 🌸；逆境时守住从容，明白云散月自明 🌙。别让得失的骤雨打湿内心的火苗
+								🔥，学会用「体验」代替「计较」，用「成长」覆盖「遗憾」💪。记住：那些需要你咬牙坚持的日子 😤，恰是扎根生长的良机。保持呼吸的节奏，保持眼里的微光
+								✨，你终会在某个清晨遇见满枝繁花 🌺。</p>
+							<p data-en="As Su Shi wrote, 'Heed not the rain beating on the forest leaves, why not chant and walk slowly?' Storms are but temples for tempering the soul. Wang Yangming's teaching that 'High mountains always have paths for travelers' mirrors the belief that even night voyages require trust in the North Star. Remember Laozi's wisdom: 'Conquering others requires force; mastering oneself needs true strength' - the real battle lies within. Let Li Bai's declaration 'Heaven bred talents must find purpose' become the wind parting storm clouds, while Liang Qichao's insight 'Life demands knowing the bitterness of duty to taste the joy of fulfillment' transforms mud into starlight. Though the road ahead twists like a thousand mountain passes, embrace Xin Qiji's poetic vision: 'I see the green mountain's grace, and the mountain sees mine' - with such luminous resolve, even the Yellow River's nine bends will lead to sails piercing the clouds."
+								data-zh="正如苏轼所言'莫听穿林打叶声，何妨吟啸且徐行'，风雨本是修心的道场。王阳明说'山高自有客行路'，恰似暗夜行舟当信天有北斗。且记老子'胜人者力，自胜者强'的箴言，真正的较量永远在方寸之间。李白的'天生我材必有用'当化作穿云破雾的底气，梁启超'人生须知负责任的苦处，才能知道尽责任的乐趣'更是将泥泞淬炼成星光的密钥。前路纵有千岩万转，亦要如稼轩词中'我见青山多妩媚，料青山见我应如是'，持这般坦荡心境，自能在九曲黄河里走出直挂云帆的航程。">
+								正如苏轼所言"莫听穿林打叶声，何妨吟啸且徐行" 🍃，风雨本是修心的道场 ⛈️。王阳明说"山高自有客行路" 🏔️，恰似暗夜行舟当信天有北斗
+								🌠。且记老子"胜人者力，自胜者强"的箴言 💭，真正的较量永远在方寸之间 🧘‍♂️。李白的"天生我材必有用"当化作穿云破雾的底气
+								☁️，梁启超"人生须知负责任的苦处，才能知道尽责任的乐趣"更是将泥泞淬炼成星光的密钥 🗝️。前路纵有千岩万转 🛤️，亦要如稼轩词中"我见青山多妩媚，料青山见我应如是"
+								🌄，持这般坦荡心境，自能在九曲黄河里走出直挂云帆的航程 ⛵。</p>
+							<p data-en="As Nietzsche proclaimed, 'What does not kill me makes me stronger'—a Western resonance of Laozi's 'Disaster hides blessing'. Hemingway's 'grace under pressure' harmonizes with Su Shi's 'Looking back at the bleakness, return—no rain, no sun'. When Goethe said 'The Eternal Feminine draws us onward', know this eternity blooms in daily perseverance. Rilke's counsel in Letters to a Young Poet: 'Have patience with unresolved matters in your heart, try to love the questions themselves' unveils the alchemy transforming Liang Qichao's 'bitterness of duty' into stardust. Heed Socrates' warning that 'The unexamined life is not worth living', yet also Jung's insight: 'Those who look outward dream; who look inward awaken'. Through the Yellow River's bends, you'll grasp da Vinci's eternal gaze: 'Once you have tasted flight, you will walk the earth with your eyes turned skyward'."
+								data-zh="正如尼采所言'那些杀不死我的，必使我更强大'，这何尝不是对老子'祸兮福所倚'的西方回响？海明威笔下'优雅是压力下的从容'，恰与东坡'回首向来萧瑟处，归去，也无风雨也无晴'共奏生命交响。当歌德说'永恒之女性引领我们上升'，须知这'永恒'正藏在你我日拱一卒的跋涉里。里尔克在《致青年诗人的信》中写'要对你心里所有还未解决的事保持耐心，试着去爱问题本身'，这恰是将梁启超所言'负责任的苦处'化作星尘的秘径。记住苏格拉底'未经省察的人生不值得过'的警示，更要如荣格所说'向外看的人沉睡，向内看的人觉醒'，在九曲黄河的奔涌中，终会懂得达芬奇'一旦你尝过飞翔的滋味，行走时也会仰望天空'的永恒眺望。">
+								正如尼采所言'那些杀不死我的，必使我更强大' 💪，这何尝不是对老子'祸兮福所倚'的西方回响？海明威笔下'优雅是压力下的从容'
+								🧠，恰与东坡'回首向来萧瑟处，归去，也无风雨也无晴'共奏生命交响 🎵。当歌德说'永恒之女性引领我们上升' 👑，须知这'永恒'正藏在你我日拱一卒的跋涉里
+								👣。里尔克在《致青年诗人的信》中写'要对你心里所有还未解决的事保持耐心，试着去爱问题本身' 📝，这恰是将梁启超所言'负责任的苦处'化作星尘的秘径
+								✨。记住苏格拉底'未经省察的人生不值得过'的警示 🔍，更要如荣格所说'向外看的人沉睡，向内看的人觉醒' 👁️，在九曲黄河的奔涌中
+								🌊，终会懂得达芬奇'一旦你尝过飞翔的滋味，行走时也会仰望天空'的永恒眺望 🦅。</p>
+							<p data-en="After all is said and done, one should always embrace optimism and reject pessimism. Now, as we stand amidst unprecedented global transformations unseen in a century—with the world's landscape shifting and our lives evolving—where will this torrent of our times carry us? Only time will tell."
+								data-zh="当然，说一千道一万，人总应该是乐观主义向上，摒弃悲观。现在正处于世界百年未有之大变局，世界格局在变化，你我的生活也在变化，这种时代的洪流会推我们走向何方？只有天知道。">
+								当然，说一千道一万，人总应该是乐观主义向上，摒弃悲观。现在正处于世界百年未有之大变局，世界格局在变化，你我的生活也在变化，这种时代的洪流会推我们走向何方？只有天知道。</p>
+							<div class="post-image">
+								<img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/countryside.avif"
+									alt="安逸" class="responsive-image">
+								<figcaption data-en="The comfortable" data-zh="安逸">安逸 <span class="emoji">🌞</span>
+								</figcaption>
+							</div>
+							<div class="quote-block">
+								<blockquote data-en="The journey of a thousand miles begins with a single step."
+									data-zh="千里之行，始于足下。">千里之行，始于足下。</blockquote>
+								<cite data-en="- Lao Tzu" data-zh="- 老子">- 老子</cite>
+							</div>
+							<div class="quote-block">
+								<blockquote
+									data-en="There is only one heroism in the world: to see the truth of life and still love it."
+									data-zh="世上只有一种英雄主义，就是看清生活真相依然热爱它。">世上只有一种英雄主义，就是看清生活真相依然热爱它。</blockquote>
+								<cite data-en="- Romain Rolland" data-zh="- 罗曼·罗兰">- 罗曼·罗兰</cite>
+							</div>
 
-                <div class="project-item">
-                    <div class="project-period" data-en="April 2025" data-zh="2025年4月">2025年4月</div>
-                    <div class="project-content">
-                        <h3 data-en="Interpretable Industrial Bearing Fault Diagnosis System Based on GWO-AlexNet" data-zh="基于 GWO-AlexNet 的工业轴承可解释性故障诊断系统">基于 GWO-AlexNet 的工业轴承可解释性故障诊断系统</h3>
-                        <div class="project-description">
-                            <div class="project-abstract">
-                                <h4 data-en="Abstract" data-zh="摘要">摘要</h4>
-                                <p data-en="To address low accuracy in industrial bearing fault diagnosis and the trust issue of deep-learning black boxes, this project developed an end-to-end interpretable diagnosis system based on GWO-optimized AlexNet. The pipeline covers raw vibration signal processing, automated classification, and heatmap-based decision explanation, with strong robustness under noisy conditions." data-zh="针对工业轴承故障诊断准确率不足及深度学习“黑盒”可信度低的问题，本项目构建了基于 GWO 优化 AlexNet 的全链路可解释诊断系统，实现了从原始振动信号处理、自动分类到热力图决策解释的一体化流程，并在强噪声环境下保持高稳健性。">针对工业轴承故障诊断准确率不足及深度学习“黑盒”可信度低的问题，本项目构建了基于 GWO 优化 AlexNet 的全链路可解释诊断系统，实现了从原始振动信号处理、自动分类到热力图决策解释的一体化流程，并在强噪声环境下保持高稳健性。</p>
-                            </div>
-                            <div class="project-abstract">
-                                <h4 data-en="Work Experience" data-zh="参与工作">参与工作</h4>
-                                <p data-en="- Implemented 2D Wavelet Transform to convert 1D vibration signals into 227x227 time-frequency energy maps, and built a 4-class dataset (normal, inner-race fault, roller fault, outer-race fault) for multi-condition diagnosis." data-zh="- 使用二维小波变换将一维振动信号映射为 227x227 时频能量图，并构建正常/内圈故障/滚子故障/外圈故障 4 类数据集，提升多工况诊断能力。">- 使用二维小波变换将一维振动信号映射为 227x227 时频能量图，并构建正常/内圈故障/滚子故障/外圈故障 4 类数据集，提升多工况诊断能力。</p>
-                                <p data-en="- Designed a transfer-learning-based GWO-AlexNet model, preserving pretrained shallow feature extraction while fine-tuning high-level layers; used GWO to jointly optimize learning rate and batch size, and benchmarked against CS/BOA/WOA." data-zh="- 设计迁移学习版 GWO-AlexNet：保留预训练浅层特征提取能力并微调高层参数；引入 GWO 联合优化学习率与 Batch Size，并与 CS/BOA/WOA 等算法对比验证综合优势。">- 设计迁移学习版 GWO-AlexNet：保留预训练浅层特征提取能力并微调高层参数；引入 GWO 联合优化学习率与 Batch Size，并与 CS/BOA/WOA 等算法对比验证综合优势。</p>
-                                <p data-en="- Validated on the CWRU public dataset with 99.17% accuracy; compared AlexNet and GoogLeNet under different SNR settings (including 15 dB), confirming stronger robustness in complex industrial noise environments." data-zh="- 在 CWRU 公开数据集上实现 99.17% 诊断准确率；并在不同信噪比（含 15dB）下对比 AlexNet 与 GoogLeNet，验证模型在复杂工业噪声场景中的稳健性。">- 在 CWRU 公开数据集上实现 99.17% 诊断准确率；并在不同信噪比（含 15dB）下对比 AlexNet 与 GoogLeNet，验证模型在复杂工业噪声场景中的稳健性。</p>
-                                <p data-en="- Applied Grad-CAM to generate class-activation heatmaps and localize abnormal frequency regions, making diagnosis decisions transparent and physically interpretable for engineering teams." data-zh="- 应用 Grad-CAM 生成类别激活热力图并定位异常频率区域，实现诊断决策可视化与可解释化，确保结果具有可被工程人员理解的物理意义。">- 应用 Grad-CAM 生成类别激活热力图并定位异常频率区域，实现诊断决策可视化与可解释化，确保结果具有可被工程人员理解的物理意义。</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+							<p data-en="For a period of time, I have seriously reflected on myself, but I haven't really come to any conclusions from this reflection. It's nothing more than endless internal consumption. Human self-awareness is always full of limitations and self-protective tendencies. After compromising back and forth, I finally make some concessions and compromises to myself in a self-moved manner, finding excuses about circumstances and environment, but in the end I regret it and blame myself for not working harder, not being more ambitious, and not being tougher on myself. Cognition influences height, and height determines the future. I had deep insights before, but now I increasingly feel my own weakness and worthlessness."
+								data-zh="一个时期以来，我认真反思了自己，但也没真的反思出什么结果，不过是来来回回内耗自己罢了，人对自己的认识总是充满了局限性和自我保护性，折中了半天最后自我感动式的愿意给自己做出一些让步和妥协，找些借口和环境云云，但到头来后悔，埋怨自己当初为什么不努力不上进不对自己狠一点。认识影响高度，高度决定未来。之前我深有感悟，现在我愈发感觉到自己的软弱和一无是处。">
+								一个时期以来，我认真反思了自己，但也没真的反思出什么结果，不过是来来回回内耗自己罢了，人对自己的认识总是充满了局限性和自我保护性，折中了半天最后自我感动式的愿意给自己做出一些让步和妥协，找些借口和环境云云，但到头来后悔，埋怨自己当初为什么不努力不上进不对自己狠一点。认识影响高度，高度决定未来。之前我深有感悟，现在我愈发感觉到自己的软弱和一无是处。
+							</p>
 
-                <div class="project-item">
-                    <div class="project-period" data-en="2025.01" data-zh="2025.01">2025.01</div>
-                    <div class="project-content">
-                        <h3 data-en="Baltimore City Traffic Network Optimization and Impact Analysis Model | Main Contributor (Algorithm Implementation, Modeling and Validation)" data-zh="巴尔的摩市交通网络优化与影响分析模型 | 主要贡献者 (算法实现、建模与验证)">巴尔的摩市交通网络优化与影响分析模型 | 主要贡献者 (算法实现、建模与验证)</h3>
-                        <div class="project-description">
-                            <p data-en="2025 Mathematical Contest in Modeling (MCM/ICM)" data-zh="2025年美国大学生数学建模竞赛 (MCM/ICM)">2025年美国大学生数学建模竞赛 (MCM/ICM)</p>
-                            <div class="project-abstract">
-                                <h4 data-en="Project Overview" data-zh="项目概述">项目概述</h4>
-                                <p data-en="This project addresses the collapse of the Francis Scott Key Bridge in Baltimore, aiming to quantitatively assess its impact on the city's traffic network and provide a comprehensive traffic system optimization solution for the municipal government. Through the construction of multi-level mathematical models, we successfully optimized public transportation routes and proposed strategies to improve traffic congestion and system resilience." data-zh="本项目针对巴尔的摩市弗朗西斯·斯科特·基大桥坍塌事件，旨在量化评估其对城市交通网络造成的影响，并为市政府提供一套全面的交通系统优化方案。通过构建多层次的数学模型，我们成功地优化了公共交通路线，并提出了改善交通拥堵和系统弹性的策略。">本项目针对巴尔的摩市弗朗西斯·斯科特·基大桥坍塌事件，旨在量化评估其对城市交通网络造成的影响，并为市政府提供一套全面的交通系统优化方案。通过构建多层次的数学模型，我们成功地优化了公共交通路线，并提出了改善交通拥堵和系统弹性的策略。</p>
-                            </div>
-                            <div class="project-abstract">
-                                <h4 data-en="My Responsibilities and Contributions" data-zh="我的职责与贡献">我的职责与贡献</h4>
-                                <p data-en="Algorithm Implementation and Model Programming:" data-zh="算法实现与模型编程:">算法实现与模型编程:</p>
-                                <p data-en="• Network Flow Model Development: Based on graph theory, used Python to abstract Baltimore's traffic system as a network model, defining key locations as nodes and roads as edges. Utilized OpenStreetMap and Maryland Department of Transportation's AADT dataset for network initialization." data-zh="网络流模型开发: 基于图论，使用 Python 将巴尔的摩的交通系统抽象为网络模型，将关键地点定义为节点，道路定义为边。利用 OpenStreetMap 和马里兰州交通部的 AADT 数据集进行网络初始化。">网络流模型开发: 基于图论，使用 Python 将巴尔的摩的交通系统抽象为网络模型，将关键地点定义为节点，道路定义为边。利用 OpenStreetMap 和马里兰州交通部的 AADT 数据集进行网络初始化。</p>
-                                <p data-en="• Traffic Assignment Algorithm: Programmed and implemented the Frank-Wolfe algorithm to iteratively solve traffic assignment problems, simulating traffic flow redistribution after bridge collapse. Also introduced and implemented Yen's K-shortest path algorithm to generate alternative routes." data-zh="交通分配算法: 编程实现 Frank-Wolfe 算法，以迭代方式求解交通分配问题，模拟大桥坍塌后的流量重新分布。同时，引入并实现了 Yen's K-最短路径算法以生成备选路径。">交通分配算法: 编程实现 Frank-Wolfe 算法，以迭代方式求解交通分配问题，模拟大桥坍塌后的流量重新分布。同时，引入并实现了 Yen's K-最短路径算法以生成备选路径。</p>
-                                <p data-en="• Clustering and Optimization Algorithms: Responsible for implementing K-means clustering algorithm to functionally partition traffic hubs, identifying commercial, residential, and transportation core areas. Based on this, programmed and implemented Prim's minimum spanning tree algorithm to optimize and reorganize bus routes within each functional area." data-zh="聚类与优化算法: 负责编写 K-means 聚类算法，对交通枢纽进行功能分区，识别出商业、住宅和交通核心区。在此基础上，编程实现 Prim 最小生成树算法，对各功能区内的公交线路进行优化重组。">聚类与优化算法: 负责编写 K-means 聚类算法，对交通枢纽进行功能分区，识别出商业、住宅和交通核心区。在此基础上，编程实现 Prim 最小生成树算法，对各功能区内的公交线路进行优化重组。</p>
-                            </div>
-                            <div class="project-abstract">
-                                <h4 data-en="Data Visualization and Analysis" data-zh="数据可视化与分析">数据可视化与分析</h4>
-                                <p data-en="• Traffic Heat Map Generation: Used programming tools to generate heat maps of road node density and bus stop passenger flow density, visually identifying that the city's traffic core hubs are mainly distributed in the northwest area of the port." data-zh="交通热力图绘制: 利用编程工具生成了道路节点密度和公交站点客流密度的热力图，直观地识别出城市交通的核心枢纽主要分布在港口西北区域。">交通热力图绘制: 利用编程工具生成了道路节点密度和公交站点客流密度的热力图，直观地识别出城市交通的核心枢纽主要分布在港口西北区域。</p>
-                                <p data-en="• Network Structure Comparison Charts: Created traffic network topology comparison charts before and after bridge collapse, clearly showing changes in network structure and traffic flow transfer trends." data-zh="网络结构对比图: 创建了大桥坍塌前后的交通网络拓扑对比图，清晰地展示了网络结构的变化和流量的转移趋势。">网络结构对比图: 创建了大桥坍塌前后的交通网络拓扑对比图，清晰地展示了网络结构的变化和流量的转移趋势。</p>
-                                <p data-en="• Data Insights Visualization: Created Top 20 bar chart of busiest bus stops, providing key basis for subsequent node analysis and optimization." data-zh="数据洞察可视化: 制作了最繁忙公交站点的 Top 20 条形图，为后续的节点分析和优化提供了关键依据。">数据洞察可视化: 制作了最繁忙公交站点的 Top 20 条形图，为后续的节点分析和优化提供了关键依据。</p>
-                            </div>
-                            <div class="project-abstract">
-                                <h4 data-en="Model Validation and Analysis" data-zh="模型验证与分析">模型验证与分析</h4>
-                                <p data-en="• Parameter Sensitivity Analysis: Participated in designing and executing model sensitivity analysis, evaluating the impact of core parameter changes such as congestion sensitivity (α) and agglomeration effect (β) in the BPR function on model output results." data-zh="参数敏感性分析: 参与设计并执行了模型的敏感性分析，评估了 BPR 函数中的拥堵敏感度 (α) 和集聚效应 (β) 等核心参数变化对模型输出结果的影响。">参数敏感性分析: 参与设计并执行了模型的敏感性分析，评估了 BPR 函数中的拥堵敏感度 (α) 和集聚效应 (β) 等核心参数变化对模型输出结果的影响。</p>
-                                <p data-en="• Quantitative Result Validation: Performed performance evaluation of the optimized solution. Data showed that the optimization solution reduced residents' average commuting time by 29.9% and improved quality of life related indicators by 7.5%, validating the model's effectiveness." data-zh="结果量化验证: 对优化后的方案进行了性能评估。数据显示，优化方案使居民平均通勤时间减少了29.9%，生活质量相关指标提升了7.5%，验证了模型的有效性。">结果量化验证: 对优化后的方案进行了性能评估。数据显示，优化方案使居民平均通勤时间减少了29.9%，生活质量相关指标提升了7.5%，验证了模型的有效性。</p>
-                            </div>
-                            <div class="project-abstract">
-                                <h4 data-en="Technologies and Tools Used" data-zh="使用的技术与工具">使用的技术与工具</h4>
-                                <p data-en="Programming Language: Python | Core Algorithms: Network flow model, Frank-Wolfe algorithm, Yen's K-shortest path, K-means clustering, Prim's minimum spanning tree | Data Sources: OpenStreetMap, Maryland Department of Transportation AADT Dataset | Theoretical Framework: Wardrop user equilibrium theory, BPR road impedance function" data-zh="编程语言: Python | 核心算法: 网络流模型、Frank-Wolfe 算法、Yen's K-最短路径、K-means 聚类、Prim 最小生成树 | 数据源: OpenStreetMap , Maryland Department of Transportation AADT Dataset | 理论框架: Wardrop 用户均衡理论 , BPR 道路阻抗函数">编程语言: Python | 核心算法: 网络流模型、Frank-Wolfe 算法、Yen's K-最短路径、K-means 聚类、Prim 最小生成树 | 数据源: OpenStreetMap , Maryland Department of Transportation AADT Dataset | 理论框架: Wardrop 用户均衡理论 , BPR 道路阻抗函数</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="project-item">
-                    <div class="project-period" data-en="2024.05 - 2025.05" data-zh="2024.05 - 2025.05">2024.05 - 2025.05</div>
-                    <div class="project-content">
-                        <h3 data-en="Single-Chip Microcomputer Teaching Platform - Full Stack Engineer" data-zh="单片机教学平台 - 全栈工程师">单片机教学平台 - 全栈工程师</h3>
-                        <div class="project-description">
-                            <p data-en="Responsibilities: Designed and developed the complete website architecture using HTML, CSS, and JavaScript. Implemented both frontend and backend functionalities, deployed the platform to cloud servers, authored educational blog content, and served as a news editor and publisher." data-zh="主要负责：完整的网站架构和（HTML、CSS、JavaScript）前后端开发，云平台部署、部分博客编写、新闻动态撰稿人及发布">主要负责：完整的网站架构和（HTML、CSS、JavaScript）前后端开发，云平台部署、部分博客编写、新闻动态撰稿人及发布</p>
-                            <div class="project-abstract">
-                                <h4 data-en="MCU Learn Microcontroller Teaching Platform Engineering Summary" data-zh="MCU Learn微控制器教学平台工程摘要">MCU Learn微控制器教学平台工程摘要</h4>
-                                <p data-en="MCU Learn is a microcontroller teaching platform built on modern web technology stack with a frontend-backend separation architecture. The frontend is developed using HTML5, CSS3, and native JavaScript, implementing responsive layout design to ensure excellent experience across different devices. The system integrates AOS scrolling animation library and Font Awesome icon library to enhance user interface interaction. The project adopts a modular development approach, separating CSS and JavaScript code into z_css and z_js directories for easier maintenance and expansion." data-zh="MCU Learn是基于现代Web技术栈构建的微控制器教学平台，采用前后端分离架构。前端使用HTML5、CSS3和原生JavaScript开发，实现了响应式布局设计，确保在不同设备上的良好体验。系统集成了AOS滚动动画库和Font Awesome图标库，提升用户界面交互体验。项目采用模块化开发方法，将CSS和JavaScript代码分离存放于z_css和z_js目录，便于维护和扩展。">MCU Learn是基于现代Web技术栈构建的微控制器教学平台，采用前后端分离架构。前端使用HTML5、CSS3和原生JavaScript开发，实现了响应式布局设计，确保在不同设备上的良好体验。系统集成了AOS滚动动画库和Font Awesome图标库，提升用户界面交互体验。项目采用模块化开发方法，将CSS和JavaScript代码分离存放于z_css和z_js目录，便于维护和扩展。</p>
-                                <p data-en="Core functional modules include: multi-language support system (Chinese-English bilingual switching), dark/light theme switching, component search engine (supporting multi-dimensional filtering and sorting), learning resource management, and community interaction system. The search engine implements advanced filtering functionality, supporting precise queries by category, manufacturer, package type, and other conditions, while providing voice search and hot search tag features." data-zh="核心功能模块包括：多语言支持系统（中英双语切换）、深色/浅色主题切换、元器件搜索引擎（支持多维度筛选和排序）、学习资源管理和社区互动系统。搜索引擎实现了高级筛选功能，支持按类别、制造商、封装类型等条件精确查询，并提供语音搜索和热门搜索标签功能。">核心功能模块包括：多语言支持系统（中英双语切换）、深色/浅色主题切换、元器件搜索引擎（支持多维度筛选和排序）、学习资源管理和社区互动系统。搜索引擎实现了高级筛选功能，支持按类别、制造商、封装类型等条件精确查询，并提供语音搜索和热门搜索标签功能。</p>
-                                <p data-en="The project structure is clear, and through unified style specifications and interaction logic, it builds a feature-complete, user-friendly microcontroller learning ecosystem, providing comprehensive technical support for users at different levels from beginners to professionals." data-zh="项目结构清晰，通过统一的样式规范和交互逻辑，构建了一个功能完备、用户友好的微控制器学习生态系统，为不同层次的用户提供从入门到专业的全方位技术支持。">项目结构清晰，通过统一的样式规范和交互逻辑，构建了一个功能完备、用户友好的微控制器学习生态系统，为不同层次的用户提供从入门到专业的全方位技术支持。</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--
+							<p data-en="Chinese people are always good at consuming themselves internally. When the experiences and gazes of family, peers, close friends, lovers (if they may appear), comrades, teachers, and seniors focus on oneself, that ready-to-go, eager-to-try, budding, arrow-on-the-string, almost white-hot driving force and external pressure make us walk, run, sprint, and charge forward. But when we think about it in the end, where are our goals? What exactly is my goal? This question should be what I pursue for a lifetime."
+								data-zh="中国人总是擅长内耗自己，家人、朋辈、挚友、爱人（可能出现的话）、战友、老师、前辈的经历和目光聚焦在于自己一身的时候，那种伺机待发、跃跃欲试、含苞待放、箭在弦上、几近白热化地前进的驱动力和外力让我们走起来了，跑起来了，奔跑起来了，冲刺起来了。到头来想想，自己的目标在哪里呢？我的目标究竟是什么？这个问题应该是我一辈子追求的问题了。">
+								中国人总是擅长内耗自己，家人、朋辈、挚友、爱人（可能出现的话）、战友、老师、前辈的经历和目光聚焦在于自己一身的时候，那种伺机待发、跃跃欲试、含苞待放、箭在弦上、几近白热化地前进的驱动力和外力让我们走起来了，跑起来了，奔跑起来了，冲刺起来了。到头来想想，自己的目标在哪里呢？我的目标究竟是什么？这个问题应该是我一辈子追求的问题了。
+							</p>
+
+							<p data-en="I always ask myself: you are clearly not outstanding, not remarkable, not in a core position, so why do you, as a marginal person, worry about everything? This is too sentimental, too emotional. Yes, I am always wandering back and forth in such an internally consuming, emotional personality, never able to get out."
+								data-zh="我总问自己，你明明并不优秀，并不出彩，并不在核心的位置上，边缘人的你为什么也事事焦虑一下呢？这样太过伤感了，太情绪化了。没错，我总是在这样一个内耗自己的情绪化的人格中反复徘徊，一直走不出去。">
+								我总问自己，你明明并不优秀，并不出彩，并不在核心的位置上，边缘人的你为什么也事事焦虑一下呢？这样太过伤感了，太情绪化了。没错，我总是在这样一个内耗自己的情绪化的人格中反复徘徊，一直走不出去。
+							</p>
+
+							<p data-en="'Long caged in captivity,' I'm afraid I've always been in this cage, longing for freedom yet fearing to lose the protection of the cage. But this is the last chance, at least the best and most intense opportunity in the next one to two years. The past efforts of enduring humiliation, inferiority, and aimlessness have finally welcomed a new bugle call. This internal consumption will be dispelled by a narrative, and this charge bugle will resonate throughout 2025-2026."
+								data-zh=""
+								久在樊笼里"，我恐怕一直在这个樊笼之中，渴望自由，又害怕失去笼子的保护。但是，这是最后的机会了，起码来说是近一到两年最好也是最激烈的机会了。过去忍气吞声的、自卑的、无头绪的努力终于迎来了新的号角，这种内耗将在一种叙事在驱散，这股冲锋的号角将响彻整个2025-2026.">
+								"久在樊笼里"，我恐怕一直在这个樊笼之中，渴望自由，又害怕失去笼子的保护。但是，这是最后的机会了，起码来说是近一到两年最好也是最激烈的机会了。过去忍气吞声的、自卑的、无头绪的努力终于迎来了新的号角，这种内耗将在一种叙事在驱散，这股冲锋的号角将响彻整个2025-2026.
+							</p>
+
+							<p data-en="Further education, employment, and future prospects are the three mountains weighing on my heart. Now the overwhelming confidence in my heart will rise again and burst with fighting spirit, launching the final charge toward my ideal institution! The three mountains of further education, employment, and future prospects are nothing but fleeting external things, but now, in order to find the next turning point, I must get excited, get passionate, and march toward victory!!!"
+								data-zh="升学、就业、前途是我心口的三座大山。现在我内心中的压倒的自信力将重新起来并焕发斗志，向着理想的院校发起最后的冲锋！升学、就业、前途的三座大山不过过眼烟云的身外之物，但现在为了寻找下一个转折点，我必须激动起来、热情起来，向着胜利前进！！！">
+								升学、就业、前途是我心口的三座大山。现在我内心中的压倒的自信力将重新起来并焕发斗志，向着理想的院校发起最后的冲锋！升学、就业、前途的三座大山不过过眼烟云的身外之物，但现在为了寻找下一个转折点，我必须激动起来、热情起来，向着胜利前进！！！
+							</p>
+							<div class="post-image">
+								<img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/quiet-road.avif"
+									alt="路在何方" class="responsive-image">
+								<figcaption data-en="Where is the Road?" data-zh="路在何方">路在何方 <span
+										class="emoji">😳</span></figcaption>
+							</div>
+
+							<p data-en="😝 The above is nothing more than meaningless complaining detached from practice and labor."
+								data-zh="😝 以上不过是脱离实践和劳动的无病呻吟罢了。">😝 以上不过是脱离实践和劳动的无病呻吟罢了。</p>
+							<div class="post-image">
+								<img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/---imageonline.co-8747137.avif"
+									alt="稳坐如狗" class="responsive-image">
+								<figcaption data-en="Sitting firmly like a dog" data-zh="稳坐如狗">稳坐如狗 <span
+										class="emoji">🤗</span></figcaption>
+							</div>
+
+							<div class="post-image">
+								<img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/--imageonline.co-8387874.avif"
+									alt="水墨世界" class="responsive-image">
+								<figcaption data-en="The World of Ink" data-zh="水墨世界">水墨世界 <span class="emoji">🤗</span>
+								</figcaption>
+							</div>
+
+							<p data-en="Received the offer, spring recruitment is over. Understanding destiny through wisdom, accumulating for breakthrough."
+								data-zh="收到offer，春招结束，达而知命，厚积薄发。">收到offer，春招结束，达而知命，厚积薄发。</p>
+
+							<div class="post-image">
+								<img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/newroad.avif"
+									alt="新的道路" class="responsive-image">
+								<figcaption data-en="A New Road Ahead" data-zh="新的道路">新的道路 <span class="emoji">🤗</span>
+								</figcaption>
+							</div>
+
+						</div>
+					</div>
+				</div> <!-- 关闭 about-content-main -->
+			</div>
+
+			<!-- 项目经历部分 -->
+			<section id="projects" class="projects-section">
+				<h2 data-en="Project Experience" data-zh="项目经历">项目经历</h2>
+				<div class="disclaimer">
+					<p data-en="Disclaimer: I'm still a novice learner without impressive achievements. The following projects are just modest experiences that might not be significant for experts, but they help me build some basic skills! /(ㄒoㄒ)/~~"
+						data-zh="免责声明：本人太菜，没有什么可写的，只能拿这些大佬都看不上的东西勉强装一下门面！/(ㄒoㄒ)/~~">
+						免责声明：本人太菜，没有什么可写的，只能拿这些大佬都看不上的东西勉强装一下门面！/(ㄒoㄒ)/~~</p>
+				</div>
+				<div class="projects-container">
+
+					<div class="project-item">
+						<div class="project-period" data-en="2026.01 - 2026.5" data-zh="2026.01 - 2026.5">2026.01 -
+							2026.5</div>
+						<div class="project-content">
+							<h3 data-en="Multi-Agent E-Commerce Operations Hub V3.0 | Independent Developer / Architecture &amp; Full-Stack"
+								data-zh="多 Agent 电商运营中枢 V3.0 | 独立开发 / 架构设计与全栈实现">多 Agent 电商运营中枢 V3.0 | 独立开发 / 架构设计与全栈实现
+							</h3>
+							<div class="project-description">
+								<div class="project-abstract">
+									<h4 data-en="Abstract" data-zh="摘要">摘要</h4>
+									<p data-en="To address fragmented e-commerce operations and non-auditable AI decisions, I built a local-first multi-agent operations hub from 0 to 1. The system follows &quot;AI assists, humans approve; funds stay on-platform; data stays on-machine,&quot; covering Xiaohongshu insight, 1688 sourcing, and Meituan fulfillment in one auditable desktop workflow."
+										data-zh="针对中小型电商运营中数据散落、决策难追溯的痛点，我从 0 到 1 搭建本地优先的多 Agent 运营中枢 V3.0，遵循「AI 辅助决策、人工终审把关；资金不托管、数据不出本机」原则，将小红书洞察、1688 采购与美团履约纳入同一可审计的桌面工作流。">
+										针对中小型电商运营中数据散落、决策难追溯的痛点，我从 0 到 1 搭建本地优先的多 Agent 运营中枢 V3.0，遵循「AI
+										辅助决策、人工终审把关；资金不托管、数据不出本机」原则，将小红书洞察、1688 采购与美团履约纳入同一可审计的桌面工作流。</p>
+								</div>
+								<div class="project-abstract">
+									<h4 data-en="Work Experience" data-zh="参与工作">参与工作</h4>
+									<p data-en="- Designed a four-tier local-first stack: Electron desktop shell, FastAPI backend (127.0.0.1 only), Vue 3 UI, and PostgreSQL / Redis / Qdrant storage; integrated DeepSeek API and platform gateways for 1688, Meituan, and Xiaohongshu."
+										data-zh="- 设计四层本地优先架构：Electron 桌面壳、FastAPI 本地服务（仅 127.0.0.1）、Vue 3 前端与 PostgreSQL / Redis / Qdrant 三存储；集成 DeepSeek API 及 1688、美团、小红书等平台网关。">
+										- 设计四层本地优先架构：Electron 桌面壳、FastAPI 本地服务（仅 127.0.0.1）、Vue 3 前端与 PostgreSQL / Redis
+										/ Qdrant 三存储；集成 DeepSeek API 及 1688、美团、小红书等平台网关。</p>
+									<p data-en="- Implemented eight LangGraph business agents with Registry/Runner pipeline; enforced human-in-the-loop interrupts on money, inventory, and permission nodes, routed to a task center for approve/reject before continuation."
+										data-zh="- 实现八个 LangGraph 业务 Agent 及 Registry/Runner 调度管线；对涉及资金、库存、权限的节点强制 interrupt，经任务中心人工批准/驳回后再继续执行。">
+										- 实现八个 LangGraph 业务 Agent 及 Registry/Runner 调度管线；对涉及资金、库存、权限的节点强制
+										interrupt，经任务中心人工批准/驳回后再继续执行。</p>
+									<p data-en="- Built a 25-table, seven-domain data model with append-only audit rules; decoupled competitor vectors (CLIP + Qdrant) from transactional DB; linked agent_runs and agent_tasks for end-to-end traceability."
+										data-zh="- 构建 25 表七域数据模型与「只增不改」审计铁律；竞品向量（CLIP + Qdrant）与事务库解耦；agent_runs / agent_tasks 与 WebSocket 事件实现全链路可追溯。">
+										- 构建 25 表七域数据模型与「只增不改」审计铁律；竞品向量（CLIP + Qdrant）与事务库解耦；agent_runs / agent_tasks 与
+										WebSocket 事件实现全链路可追溯。</p>
+									<p data-en="- Delivered commander dashboard, analytics room (DSL), report center, red authorization, and real-time agent status push; completed M0–M4 milestones with a demo-ready prototype (M5 packaging planned)."
+										data-zh="- 交付指挥官仪表盘、量化分析室（Analytics DSL）、报告中心、红色放权与 Agent 状态实时推送；完成 M0–M4 里程碑并达到可演示原型（M5 打包交付规划中）。">
+										- 交付指挥官仪表盘、量化分析室（Analytics DSL）、报告中心、红色放权与 Agent 状态实时推送；完成 M0–M4 里程碑并达到可演示原型（M5
+										打包交付规划中）。</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="project-item">
+						<div class="project-period" data-en="2025.12 - 2026.5" data-zh="2025.12 - 2026.5">2025.12 -
+							2026.5</div>
+						<div class="project-content">
+							<h3 data-en="LLM-Powered Intelligent Resume Generation Assistant | Project Lead / Product Design"
+								data-zh="基于大模型的智能简历生成助手 | 项目负责人 / 产品设计">基于大模型的智能简历生成助手 | 项目负责人 / 产品设计</h3>
+							<div class="project-description">
+								<div class="project-abstract">
+									<h4 data-en="Abstract" data-zh="摘要">摘要</h4>
+									<p data-en="To solve the low efficiency of manual resume customization in job hunting, I led a role-oriented intelligent resume platform from 0 to 1. The product is driven by large language models and designed as a full workflow from information intake to final layout and export."
+										data-zh="针对求职场景中“手动定制简历效率低下”的痛点，我主导从 0 到 1 落地了一款岗位导向、由大模型驱动的智能简历生成平台，形成了从信息采集到成稿导出的完整产品闭环。">
+										针对求职场景中“手动定制简历效率低下”的痛点，我主导从 0 到 1
+										落地了一款岗位导向、由大模型驱动的智能简历生成平台，形成了从信息采集到成稿导出的完整产品闭环。</p>
+								</div>
+								<div class="project-abstract">
+									<h4 data-en="Work Experience" data-zh="参与工作">参与工作</h4>
+									<p data-en="- Led product planning and lifecycle management from market research, requirement decomposition, interaction design, development coordination to launch. Designed a four-stage core pipeline: input parsing -> profile completion -> JD alignment -> style generation; implemented guided interaction with AI Agent multi-turn review and final drafting on visual canvas output."
+										data-zh="- 负责产品规划与全生命周期管理：完成市场调研、需求拆解、交互设计、研发协同与上线闭环；设计“输入解析 -> 信息补全 -> 岗位对齐 -> 风格生成”四段式主链路，实现 AI Agent 多轮对话审阅、定稿与可视化画布导出。">
+										- 负责产品规划与全生命周期管理：完成市场调研、需求拆解、交互设计、研发协同与上线闭环；设计“输入解析 -> 信息补全 -> 岗位对齐 ->
+										风格生成”四段式主链路，实现 AI Agent 多轮对话审阅、定稿与可视化画布导出。</p>
+									<p data-en="- Designed and implemented a hybrid edge-cloud AI architecture. Integrated DeepSeek and Qwen APIs for complex intent understanding and generation, and introduced RAG plus instruction fine-tuning for vertical-domain quality control. Built JD semantic matching with BERT-Whitening, achieving Top-5 match rate >= 82%."
+										data-zh="- 设计并落地端云混合 AI 调用架构：后端集成 DeepSeek、Qwen 等模型 API，结合 RAG 与指令微调提升垂直领域生成质量；基于 BERT-Whitening 构建 JD 语义匹配能力，Top-5 岗位匹配率 >= 82%。">
+										- 设计并落地端云混合 AI 调用架构：后端集成 DeepSeek、Qwen 等模型 API，结合 RAG 与指令微调提升垂直领域生成质量；基于
+										BERT-Whitening 构建 JD 语义匹配能力，Top-5 岗位匹配率 >= 82%。</p>
+									<p data-en="- Built high-quality LLM data assets by processing 15,000+ multilingual recruitment records. Established staged data pipelines for automated cleaning, deduplication, and PII desensitization; delivered 175k standardized corpus entries and 316k SFT instruction samples with checksum-based traceable delivery manifests."
+										data-zh="- 深度参与高质量大模型数据底座建设：处理超 15,000 份多源异构中英文招聘数据，搭建分阶段清洗、去重、PII 脱敏流水线，沉淀 17.5 万条标准化语料与 31.6 万条 SFT 指令样本，并通过 checksum 清单实现训练数据 100% 可追溯。">
+										- 深度参与高质量大模型数据底座建设：处理超 15,000 份多源异构中英文招聘数据，搭建分阶段清洗、去重、PII 脱敏流水线，沉淀 17.5 万条标准化语料与
+										31.6 万条 SFT 指令样本，并通过 checksum 清单实现训练数据 100% 可追溯。</p>
+									<p data-en="- Established a product quality and safety evaluation system with sensitive-word and fairness constraints (violation rate < 1%). Optimized generation latency to < 3s per resume, with improved generation quality (BLEU 42, human satisfaction 4.2/5)."
+										data-zh="- 建立效果评估与安全约束体系：内置敏感词与公平性策略，将违规率控制在 1% 以下；实现单份简历生成响应 < 3s，生成质量显著提升（BLEU 42，人工满意度 4.2/5）。">
+										- 建立效果评估与安全约束体系：内置敏感词与公平性策略，将违规率控制在 1% 以下；实现单份简历生成响应 < 3s，生成质量显著提升（BLEU 42，人工满意度
+											4.2/5）。</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="project-item">
+						<div class="project-period" data-en="2025.05 - 2025.07" data-zh="2025.05 - 2025.07">2025.05 -
+							2025.07</div>
+						<div class="project-content">
+							<h3 data-en="NBA Multi-Dimensional Player Profiling and Tactical Role Evolution Analysis System"
+								data-zh="NBA 球员多维画像与战术角色演变分析系统">NBA 球员多维画像与战术角色演变分析系统</h3>
+							<div class="project-description">
+								<p data-en="To address the gap between traditional position labels (PG/SG/SF/PF/C) and modern positionless basketball, this project mined 2,835 NBA players (1980-2017) and built a full analytics pipeline from macro trend diagnosis to micro archetype definition and automated classification."
+									data-zh="本项目聚焦传统位置标签（PG/SG/SF/PF/C）与现代“位置模糊化”战术实践的脱节问题。基于 1980-2017 赛季 2835 名球员数据，构建了从宏观演变诊断、微观原型定义到自动化分类决策的完整分析链路。">
+									本项目聚焦传统位置标签（PG/SG/SF/PF/C）与现代“位置模糊化”战术实践的脱节问题。基于 1980-2017 赛季 2835
+									名球员数据，构建了从宏观演变诊断、微观原型定义到自动化分类决策的完整分析链路。</p>
+								<div class="project-abstract">
+									<h4 data-en="Key Achievements" data-zh="主要成果">主要成果</h4>
+									<p data-en="• Built an EDA + feature-engineering workflow with Python (Pandas/Matplotlib/Seaborn); quantified pace-to-efficiency evolution using TS% and USG%, and found elite 30+ PPG seasons account for only 0.26% in 14,000+ samples."
+										data-zh="· 基于 Python（Pandas/Matplotlib/Seaborn）完成 EDA 与特征工程，构建 TS%（真实命中率）、USG%（球权使用率）等高阶指标；在 14000+ 样本中发现“场均 30+ 分精英赛季”仅占 0.26%。">
+										· 基于 Python（Pandas/Matplotlib/Seaborn）完成 EDA 与特征工程，构建
+										TS%（真实命中率）、USG%（球权使用率）等高阶指标；在 14000+ 样本中发现“场均 30+ 分精英赛季”仅占 0.26%。</p>
+									<p data-en="• Applied K-Means with elbow/silhouette optimization and business-driven K adjustment (K=8), defining 8 interpretable archetypes such as primary ball-handling core, 3D role player, and high-efficiency interior."
+										data-zh="· 采用 K-Means 聚类并结合肘部法则、轮廓系数迭代优化，最终以 K=8 定义 8 类可解释球员原型（如持球大核心、3D 角色球员、高效率内线等）。">
+										· 采用 K-Means 聚类并结合肘部法则、轮廓系数迭代优化，最终以 K=8 定义 8 类可解释球员原型（如持球大核心、3D 角色球员、高效率内线等）。
+									</p>
+									<p data-en="• Built white-box ID3/C4.5 decision trees to extract transparent IF-THEN rules; C4.5 generated numeric thresholds (e.g., USG% > 21.45 and TS% > 0.575 for scoring-forward profile) and improved explainability for tactical decisions."
+										data-zh="· 构建 ID3/C4.5 “白盒”决策树，提取透明 IF-THEN 规则；C4.5 可直接处理连续特征并给出数值阈值（如 USG% > 21.45 且 TS% > 0.575）。">
+										· 构建 ID3/C4.5 “白盒”决策树，提取透明 IF-THEN 规则；C4.5 可直接处理连续特征并给出数值阈值（如 USG% > 21.45 且 TS%
+										> 0.575）。</p>
+									<p data-en="• Trained a DNN with BatchNorm/ReLU/Dropout/EarlyStopping; reached 90.43% accuracy on 8-class tasks. The system exposed limits of the traditional five-position scheme (SF role-blurring rate up to 72%), providing a quantitative basis for player valuation and lineup construction."
+										data-zh="· 训练 DNN（BatchNorm/ReLU/Dropout/EarlyStopping），在 8 分类任务中达到 90.43% 准确率；并验证传统五位置体系局限性（小前锋角色模糊率最高达 72%），为球员评估与战术搭配提供量化依据。">
+										· 训练 DNN（BatchNorm/ReLU/Dropout/EarlyStopping），在 8 分类任务中达到 90.43%
+										准确率；并验证传统五位置体系局限性（小前锋角色模糊率最高达 72%），为球员评估与战术搭配提供量化依据。</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="project-item">
+						<div class="project-period" data-en="2025.05 - 2025.06" data-zh="2025.05 - 2025.06">2025.05 -
+							2025.06</div>
+						<div class="project-content">
+							<h3 data-en="World Military Data Visualization Platform" data-zh="世界军事数据可视化平台">世界军事数据可视化平台
+							</h3>
+							<div class="project-description">
+								<p data-en="Responsibilities: Data cleaning and restructuring of military expenditure and force data from 1948-2023 based on SIPRI and other authoritative sources. Developed data management scripts for countries and continents. Implemented 3D globe and dynamic charts using React and Three.js, integrated with AMap API and Firebase backend for multi-dimensional data analysis and real-time updates."
+									data-zh="主要负责：基于SIPRI等权威数据，清洗和重构了1948-2023年全球主要国家的军费、军事力量等数据，并开发了数据分国、分洲管理脚本。前端采用React与Three.js实现3D地球与动态图表，集成高德地图API和Firebase后端，支持多维度数据分析和实时更新。">
+									主要负责：基于SIPRI等权威数据，清洗和重构了1948-2023年全球主要国家的军费、军事力量等数据，并开发了数据分国、分洲管理脚本。前端采用React与Three.js实现3D地球与动态图表，集成高德地图API和Firebase后端，支持多维度数据分析和实时更新。
+								</p>
+							</div>
+							<div class="project-abstract">
+								<h4 data-en="World Military Data Visualization Platform Project Summary"
+									data-zh="世界军事数据可视化平台项目摘要">世界军事数据可视化平台项目摘要</h4>
+								<p data-en="This project aims to create an intuitive, interactive global military data analysis and visualization system. The platform displays global military power distribution, military expenditure trends, and future development predictions through 3D globes, dynamic charts, and interactive maps. Users can switch views by country, continent, military alliance, and other dimensions to gain a deep understanding of the global military landscape."
+									data-zh="本项目旨在打造一个直观、交互式的全球军事数据分析与展示系统。平台通过3D地球仪、动态图表及交互式地图等多种可视化方式，全面展现各国军事力量分布、军费支出趋势以及未来发展预测。用户可按国家、大洲、军事联盟等多维度切换视图，深入了解世界军事格局。">
+									本项目旨在打造一个直观、交互式的全球军事数据分析与展示系统。平台通过3D地球仪、动态图表及交互式地图等多种可视化方式，全面展现各国军事力量分布、军费支出趋势以及未来发展预测。用户可按国家、大洲、军事联盟等多维度切换视图，深入了解世界军事格局。
+								</p>
+								<p data-en="The platform supports historical data analysis and predicts future military development based on three scenarios (baseline, high tension, peaceful development), providing powerful data support for policy making, scientific research, and public understanding. The system emphasizes data accuracy and diversity, with authoritative data sources and real-time updates, featuring good scalability and user experience."
+									data-zh="平台不仅支持历史数据的分析，还结合三种情景（基线、高紧张度、和平发展）对未来军事发展进行预测，为政策制定、科研与公众了解提供有力的数据支持。系统强调数据的准确性和多样性，数据来源权威，且支持实时更新，具有良好的可扩展性和用户体验。">
+									平台不仅支持历史数据的分析，还结合三种情景（基线、高紧张度、和平发展）对未来军事发展进行预测，为政策制定、科研与公众了解提供有力的数据支持。系统强调数据的准确性和多样性，数据来源权威，且支持实时更新，具有良好的可扩展性和用户体验。
+								</p>
+								<p data-en="Technology Stack: React (frontend framework), TypeScript (type safety enhancement), Styled Components (style and theme management), Framer Motion (animation and transition effects), Recharts (data visualization charts), Three.js (3D globe and three-dimensional display), React Router (routing management), AMap API (Gaode Maps, regional military data), Firebase (backend storage and real-time updates)."
+									data-zh="技术栈：React（前端框架）、TypeScript（类型安全增强）、Styled Components（样式与主题管理）、Framer Motion（动画与过渡效果）、Recharts（数据可视化图表）、Three.js（3D地球仪与三维展示）、React Router（路由管理）、AMap API（高德地图，区域军事数据）、Firebase（后端存储与实时更新）。">
+									技术栈：React（前端框架）、TypeScript（类型安全增强）、Styled Components（样式与主题管理）、Framer
+									Motion（动画与过渡效果）、Recharts（数据可视化图表）、Three.js（3D地球仪与三维展示）、React Router（路由管理）、AMap
+									API（高德地图，区域军事数据）、Firebase（后端存储与实时更新）。</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="project-item">
+						<div class="project-period" data-en="April 2025" data-zh="2025年4月">2025年4月</div>
+						<div class="project-content">
+							<h3 data-en="Interpretable Industrial Bearing Fault Diagnosis System Based on GWO-AlexNet"
+								data-zh="基于 GWO-AlexNet 的工业轴承可解释性故障诊断系统">基于 GWO-AlexNet 的工业轴承可解释性故障诊断系统</h3>
+							<div class="project-description">
+								<div class="project-abstract">
+									<h4 data-en="Abstract" data-zh="摘要">摘要</h4>
+									<p data-en="To address low accuracy in industrial bearing fault diagnosis and the trust issue of deep-learning black boxes, this project developed an end-to-end interpretable diagnosis system based on GWO-optimized AlexNet. The pipeline covers raw vibration signal processing, automated classification, and heatmap-based decision explanation, with strong robustness under noisy conditions."
+										data-zh="针对工业轴承故障诊断准确率不足及深度学习“黑盒”可信度低的问题，本项目构建了基于 GWO 优化 AlexNet 的全链路可解释诊断系统，实现了从原始振动信号处理、自动分类到热力图决策解释的一体化流程，并在强噪声环境下保持高稳健性。">
+										针对工业轴承故障诊断准确率不足及深度学习“黑盒”可信度低的问题，本项目构建了基于 GWO 优化 AlexNet
+										的全链路可解释诊断系统，实现了从原始振动信号处理、自动分类到热力图决策解释的一体化流程，并在强噪声环境下保持高稳健性。</p>
+								</div>
+								<div class="project-abstract">
+									<h4 data-en="Work Experience" data-zh="参与工作">参与工作</h4>
+									<p data-en="- Implemented 2D Wavelet Transform to convert 1D vibration signals into 227x227 time-frequency energy maps, and built a 4-class dataset (normal, inner-race fault, roller fault, outer-race fault) for multi-condition diagnosis."
+										data-zh="- 使用二维小波变换将一维振动信号映射为 227x227 时频能量图，并构建正常/内圈故障/滚子故障/外圈故障 4 类数据集，提升多工况诊断能力。">
+										- 使用二维小波变换将一维振动信号映射为 227x227 时频能量图，并构建正常/内圈故障/滚子故障/外圈故障 4 类数据集，提升多工况诊断能力。</p>
+									<p data-en="- Designed a transfer-learning-based GWO-AlexNet model, preserving pretrained shallow feature extraction while fine-tuning high-level layers; used GWO to jointly optimize learning rate and batch size, and benchmarked against CS/BOA/WOA."
+										data-zh="- 设计迁移学习版 GWO-AlexNet：保留预训练浅层特征提取能力并微调高层参数；引入 GWO 联合优化学习率与 Batch Size，并与 CS/BOA/WOA 等算法对比验证综合优势。">
+										- 设计迁移学习版 GWO-AlexNet：保留预训练浅层特征提取能力并微调高层参数；引入 GWO 联合优化学习率与 Batch Size，并与
+										CS/BOA/WOA 等算法对比验证综合优势。</p>
+									<p data-en="- Validated on the CWRU public dataset with 99.17% accuracy; compared AlexNet and GoogLeNet under different SNR settings (including 15 dB), confirming stronger robustness in complex industrial noise environments."
+										data-zh="- 在 CWRU 公开数据集上实现 99.17% 诊断准确率；并在不同信噪比（含 15dB）下对比 AlexNet 与 GoogLeNet，验证模型在复杂工业噪声场景中的稳健性。">
+										- 在 CWRU 公开数据集上实现 99.17% 诊断准确率；并在不同信噪比（含 15dB）下对比 AlexNet 与
+										GoogLeNet，验证模型在复杂工业噪声场景中的稳健性。</p>
+									<p data-en="- Applied Grad-CAM to generate class-activation heatmaps and localize abnormal frequency regions, making diagnosis decisions transparent and physically interpretable for engineering teams."
+										data-zh="- 应用 Grad-CAM 生成类别激活热力图并定位异常频率区域，实现诊断决策可视化与可解释化，确保结果具有可被工程人员理解的物理意义。">-
+										应用 Grad-CAM 生成类别激活热力图并定位异常频率区域，实现诊断决策可视化与可解释化，确保结果具有可被工程人员理解的物理意义。</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="project-item">
+						<div class="project-period" data-en="2025.01" data-zh="2025.01">2025.01</div>
+						<div class="project-content">
+							<h3 data-en="Baltimore City Traffic Network Optimization and Impact Analysis Model | Main Contributor (Algorithm Implementation, Modeling and Validation)"
+								data-zh="巴尔的摩市交通网络优化与影响分析模型 | 主要贡献者 (算法实现、建模与验证)">巴尔的摩市交通网络优化与影响分析模型 | 主要贡献者
+								(算法实现、建模与验证)</h3>
+							<div class="project-description">
+								<p data-en="2025 Mathematical Contest in Modeling (MCM/ICM)"
+									data-zh="2025年美国大学生数学建模竞赛 (MCM/ICM)">2025年美国大学生数学建模竞赛 (MCM/ICM)</p>
+								<div class="project-abstract">
+									<h4 data-en="Project Overview" data-zh="项目概述">项目概述</h4>
+									<p data-en="This project addresses the collapse of the Francis Scott Key Bridge in Baltimore, aiming to quantitatively assess its impact on the city's traffic network and provide a comprehensive traffic system optimization solution for the municipal government. Through the construction of multi-level mathematical models, we successfully optimized public transportation routes and proposed strategies to improve traffic congestion and system resilience."
+										data-zh="本项目针对巴尔的摩市弗朗西斯·斯科特·基大桥坍塌事件，旨在量化评估其对城市交通网络造成的影响，并为市政府提供一套全面的交通系统优化方案。通过构建多层次的数学模型，我们成功地优化了公共交通路线，并提出了改善交通拥堵和系统弹性的策略。">
+										本项目针对巴尔的摩市弗朗西斯·斯科特·基大桥坍塌事件，旨在量化评估其对城市交通网络造成的影响，并为市政府提供一套全面的交通系统优化方案。通过构建多层次的数学模型，我们成功地优化了公共交通路线，并提出了改善交通拥堵和系统弹性的策略。
+									</p>
+								</div>
+								<div class="project-abstract">
+									<h4 data-en="My Responsibilities and Contributions" data-zh="我的职责与贡献">我的职责与贡献</h4>
+									<p data-en="Algorithm Implementation and Model Programming:" data-zh="算法实现与模型编程:">
+										算法实现与模型编程:</p>
+									<p data-en="• Network Flow Model Development: Based on graph theory, used Python to abstract Baltimore's traffic system as a network model, defining key locations as nodes and roads as edges. Utilized OpenStreetMap and Maryland Department of Transportation's AADT dataset for network initialization."
+										data-zh="网络流模型开发: 基于图论，使用 Python 将巴尔的摩的交通系统抽象为网络模型，将关键地点定义为节点，道路定义为边。利用 OpenStreetMap 和马里兰州交通部的 AADT 数据集进行网络初始化。">
+										网络流模型开发: 基于图论，使用 Python 将巴尔的摩的交通系统抽象为网络模型，将关键地点定义为节点，道路定义为边。利用 OpenStreetMap
+										和马里兰州交通部的 AADT 数据集进行网络初始化。</p>
+									<p data-en="• Traffic Assignment Algorithm: Programmed and implemented the Frank-Wolfe algorithm to iteratively solve traffic assignment problems, simulating traffic flow redistribution after bridge collapse. Also introduced and implemented Yen's K-shortest path algorithm to generate alternative routes."
+										data-zh="交通分配算法: 编程实现 Frank-Wolfe 算法，以迭代方式求解交通分配问题，模拟大桥坍塌后的流量重新分布。同时，引入并实现了 Yen's K-最短路径算法以生成备选路径。">
+										交通分配算法: 编程实现 Frank-Wolfe 算法，以迭代方式求解交通分配问题，模拟大桥坍塌后的流量重新分布。同时，引入并实现了 Yen's
+										K-最短路径算法以生成备选路径。</p>
+									<p data-en="• Clustering and Optimization Algorithms: Responsible for implementing K-means clustering algorithm to functionally partition traffic hubs, identifying commercial, residential, and transportation core areas. Based on this, programmed and implemented Prim's minimum spanning tree algorithm to optimize and reorganize bus routes within each functional area."
+										data-zh="聚类与优化算法: 负责编写 K-means 聚类算法，对交通枢纽进行功能分区，识别出商业、住宅和交通核心区。在此基础上，编程实现 Prim 最小生成树算法，对各功能区内的公交线路进行优化重组。">
+										聚类与优化算法: 负责编写 K-means 聚类算法，对交通枢纽进行功能分区，识别出商业、住宅和交通核心区。在此基础上，编程实现 Prim
+										最小生成树算法，对各功能区内的公交线路进行优化重组。</p>
+								</div>
+								<div class="project-abstract">
+									<h4 data-en="Data Visualization and Analysis" data-zh="数据可视化与分析">数据可视化与分析</h4>
+									<p data-en="• Traffic Heat Map Generation: Used programming tools to generate heat maps of road node density and bus stop passenger flow density, visually identifying that the city's traffic core hubs are mainly distributed in the northwest area of the port."
+										data-zh="交通热力图绘制: 利用编程工具生成了道路节点密度和公交站点客流密度的热力图，直观地识别出城市交通的核心枢纽主要分布在港口西北区域。">
+										交通热力图绘制: 利用编程工具生成了道路节点密度和公交站点客流密度的热力图，直观地识别出城市交通的核心枢纽主要分布在港口西北区域。</p>
+									<p data-en="• Network Structure Comparison Charts: Created traffic network topology comparison charts before and after bridge collapse, clearly showing changes in network structure and traffic flow transfer trends."
+										data-zh="网络结构对比图: 创建了大桥坍塌前后的交通网络拓扑对比图，清晰地展示了网络结构的变化和流量的转移趋势。">网络结构对比图:
+										创建了大桥坍塌前后的交通网络拓扑对比图，清晰地展示了网络结构的变化和流量的转移趋势。</p>
+									<p data-en="• Data Insights Visualization: Created Top 20 bar chart of busiest bus stops, providing key basis for subsequent node analysis and optimization."
+										data-zh="数据洞察可视化: 制作了最繁忙公交站点的 Top 20 条形图，为后续的节点分析和优化提供了关键依据。">数据洞察可视化:
+										制作了最繁忙公交站点的 Top 20 条形图，为后续的节点分析和优化提供了关键依据。</p>
+								</div>
+								<div class="project-abstract">
+									<h4 data-en="Model Validation and Analysis" data-zh="模型验证与分析">模型验证与分析</h4>
+									<p data-en="• Parameter Sensitivity Analysis: Participated in designing and executing model sensitivity analysis, evaluating the impact of core parameter changes such as congestion sensitivity (α) and agglomeration effect (β) in the BPR function on model output results."
+										data-zh="参数敏感性分析: 参与设计并执行了模型的敏感性分析，评估了 BPR 函数中的拥堵敏感度 (α) 和集聚效应 (β) 等核心参数变化对模型输出结果的影响。">
+										参数敏感性分析: 参与设计并执行了模型的敏感性分析，评估了 BPR 函数中的拥堵敏感度 (α) 和集聚效应 (β) 等核心参数变化对模型输出结果的影响。</p>
+									<p data-en="• Quantitative Result Validation: Performed performance evaluation of the optimized solution. Data showed that the optimization solution reduced residents' average commuting time by 29.9% and improved quality of life related indicators by 7.5%, validating the model's effectiveness."
+										data-zh="结果量化验证: 对优化后的方案进行了性能评估。数据显示，优化方案使居民平均通勤时间减少了29.9%，生活质量相关指标提升了7.5%，验证了模型的有效性。">
+										结果量化验证: 对优化后的方案进行了性能评估。数据显示，优化方案使居民平均通勤时间减少了29.9%，生活质量相关指标提升了7.5%，验证了模型的有效性。</p>
+								</div>
+								<div class="project-abstract">
+									<h4 data-en="Technologies and Tools Used" data-zh="使用的技术与工具">使用的技术与工具</h4>
+									<p data-en="Programming Language: Python | Core Algorithms: Network flow model, Frank-Wolfe algorithm, Yen's K-shortest path, K-means clustering, Prim's minimum spanning tree | Data Sources: OpenStreetMap, Maryland Department of Transportation AADT Dataset | Theoretical Framework: Wardrop user equilibrium theory, BPR road impedance function"
+										data-zh="编程语言: Python | 核心算法: 网络流模型、Frank-Wolfe 算法、Yen's K-最短路径、K-means 聚类、Prim 最小生成树 | 数据源: OpenStreetMap , Maryland Department of Transportation AADT Dataset | 理论框架: Wardrop 用户均衡理论 , BPR 道路阻抗函数">
+										编程语言: Python | 核心算法: 网络流模型、Frank-Wolfe 算法、Yen's K-最短路径、K-means 聚类、Prim 最小生成树 |
+										数据源: OpenStreetMap , Maryland Department of Transportation AADT Dataset | 理论框架:
+										Wardrop 用户均衡理论 , BPR 道路阻抗函数</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="project-item">
+						<div class="project-period" data-en="2024.05 - 2025.05" data-zh="2024.05 - 2025.05">2024.05 -
+							2025.05</div>
+						<div class="project-content">
+							<h3 data-en="Single-Chip Microcomputer Teaching Platform - Full Stack Engineer"
+								data-zh="单片机教学平台 - 全栈工程师">单片机教学平台 - 全栈工程师</h3>
+							<div class="project-description">
+								<p data-en="Responsibilities: Designed and developed the complete website architecture using HTML, CSS, and JavaScript. Implemented both frontend and backend functionalities, deployed the platform to cloud servers, authored educational blog content, and served as a news editor and publisher."
+									data-zh="主要负责：完整的网站架构和（HTML、CSS、JavaScript）前后端开发，云平台部署、部分博客编写、新闻动态撰稿人及发布">
+									主要负责：完整的网站架构和（HTML、CSS、JavaScript）前后端开发，云平台部署、部分博客编写、新闻动态撰稿人及发布</p>
+								<div class="project-abstract">
+									<h4 data-en="MCU Learn Microcontroller Teaching Platform Engineering Summary"
+										data-zh="MCU Learn微控制器教学平台工程摘要">MCU Learn微控制器教学平台工程摘要</h4>
+									<p data-en="MCU Learn is a microcontroller teaching platform built on modern web technology stack with a frontend-backend separation architecture. The frontend is developed using HTML5, CSS3, and native JavaScript, implementing responsive layout design to ensure excellent experience across different devices. The system integrates AOS scrolling animation library and Font Awesome icon library to enhance user interface interaction. The project adopts a modular development approach, separating CSS and JavaScript code into z_css and z_js directories for easier maintenance and expansion."
+										data-zh="MCU Learn是基于现代Web技术栈构建的微控制器教学平台，采用前后端分离架构。前端使用HTML5、CSS3和原生JavaScript开发，实现了响应式布局设计，确保在不同设备上的良好体验。系统集成了AOS滚动动画库和Font Awesome图标库，提升用户界面交互体验。项目采用模块化开发方法，将CSS和JavaScript代码分离存放于z_css和z_js目录，便于维护和扩展。">
+										MCU
+										Learn是基于现代Web技术栈构建的微控制器教学平台，采用前后端分离架构。前端使用HTML5、CSS3和原生JavaScript开发，实现了响应式布局设计，确保在不同设备上的良好体验。系统集成了AOS滚动动画库和Font
+										Awesome图标库，提升用户界面交互体验。项目采用模块化开发方法，将CSS和JavaScript代码分离存放于z_css和z_js目录，便于维护和扩展。
+									</p>
+									<p data-en="Core functional modules include: multi-language support system (Chinese-English bilingual switching), dark/light theme switching, component search engine (supporting multi-dimensional filtering and sorting), learning resource management, and community interaction system. The search engine implements advanced filtering functionality, supporting precise queries by category, manufacturer, package type, and other conditions, while providing voice search and hot search tag features."
+										data-zh="核心功能模块包括：多语言支持系统（中英双语切换）、深色/浅色主题切换、元器件搜索引擎（支持多维度筛选和排序）、学习资源管理和社区互动系统。搜索引擎实现了高级筛选功能，支持按类别、制造商、封装类型等条件精确查询，并提供语音搜索和热门搜索标签功能。">
+										核心功能模块包括：多语言支持系统（中英双语切换）、深色/浅色主题切换、元器件搜索引擎（支持多维度筛选和排序）、学习资源管理和社区互动系统。搜索引擎实现了高级筛选功能，支持按类别、制造商、封装类型等条件精确查询，并提供语音搜索和热门搜索标签功能。
+									</p>
+									<p data-en="The project structure is clear, and through unified style specifications and interaction logic, it builds a feature-complete, user-friendly microcontroller learning ecosystem, providing comprehensive technical support for users at different levels from beginners to professionals."
+										data-zh="项目结构清晰，通过统一的样式规范和交互逻辑，构建了一个功能完备、用户友好的微控制器学习生态系统，为不同层次的用户提供从入门到专业的全方位技术支持。">
+										项目结构清晰，通过统一的样式规范和交互逻辑，构建了一个功能完备、用户友好的微控制器学习生态系统，为不同层次的用户提供从入门到专业的全方位技术支持。</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--
                 <div class="project-item">
                     <div class="project-period" data-en="2024.10 - 2025.04" data-zh="2024.10 - 2025.04">2024.10 - 2025.04</div>
                     <div class="project-content">
@@ -552,25 +805,37 @@
                     </div>
                 </div>
                 -->
-                <div class="project-item">
-                    <div class="project-period" data-en="2024.11 - 2025.01" data-zh="2024.11 - 2025.01">2024.11 - 2025.01</div>
-                    <div class="project-content">
-                        <h3 data-en="ETC Traffic Visualization Management Platform" data-zh="ETC交通可视化管理平台">ETC交通可视化管理平台</h3>
-                        <div class="project-description">
-                            <div class="project-abstract">
-                                <h4 data-en="Abstract" data-zh="摘要">摘要</h4>
-                                <p data-en="The ETC Big Data Visualization Monitoring Platform is an intelligent traffic data monitoring system developed with modern frontend technologies such as Next.js 13. It is designed to achieve real-time monitoring, visualization, interactive querying, and intelligent analysis of multi-dimensional ETC (Electronic Toll Collection) data. The platform is composed of three core modules: Monitoring Center, Interactive Query, and Analysis Reports. The Monitoring Center uses rich visualization components to present key indicators such as traffic flow and device status in real time, supporting multi-site comparison and anomaly alerts. The Interactive Query module enables flexible multi-condition searches, allowing efficient filtering and data export by license plate, vehicle type, time range, toll station, and more, with intelligent input validation to enhance user experience. The Analysis Reports module integrates weather information, traffic forecasting, time series analysis, and other features to provide multi-perspective, data-driven support for decision-making. The system adopts a hybrid data communication architecture combining REST APIs and WebSocket, and leverages a Mycat distributed database solution to ensure high concurrency and real-time performance. The platform emphasizes security (such as JWT authentication, access control, and data masking), performance optimization (such as caching, batch requests, and asynchronous processing), and future scalability. Innovative features include real-time intelligent prediction, modern UI/UX, multi-dimensional interaction, and an extensible data analytics framework, delivering a comprehensive digital solution for smart traffic management." data-zh="ETC大数据可视化监控平台是一个基于Next.js 13等现代前端技术栈开发的交通数据智能监控系统，旨在实现ETC（电子不停车收费）多维度数据的实时监控、可视化、交互查询与智能分析。平台主要包含监控大厅、交互查询和分析报告三大功能模块。监控大厅以丰富的可视化组件实时呈现流量、设备状态等关键指标，支持多站点对比和异常预警。交互查询模块实现了灵活的多条件组合检索，支持按车牌、车型、时间、收费站等多维度高效筛选和数据导出，并通过智能输入校验提升了用户体验。分析报告模块集成了天气信息、流量预测、时间序列分析等能力，为管理决策提供多角度、数据驱动的支持。系统采用REST API和WebSocket混合数据通信架构，结合Mycat分布式数据库方案，保障高并发和实时性。平台注重安全（如JWT认证、权限控制和数据脱敏）、性能优化（如缓存、批量请求和异步处理）及未来可扩展性。创新点包括实时智能预测、现代化UI/UX、多维交互与可扩展的数据分析框架，为智慧交通管理提供了全面的数字化解决方案。">ETC大数据可视化监控平台是一个基于Next.js 13等现代前端技术栈开发的交通数据智能监控系统，旨在实现ETC（电子不停车收费）多维度数据的实时监控、可视化、交互查询与智能分析。平台主要包含监控大厅、交互查询和分析报告三大功能模块。监控大厅以丰富的可视化组件实时呈现流量、设备状态等关键指标，支持多站点对比和异常预警。交互查询模块实现了灵活的多条件组合检索，支持按车牌、车型、时间、收费站等多维度高效筛选和数据导出，并通过智能输入校验提升了用户体验。分析报告模块集成了天气信息、流量预测、时间序列分析等能力，为管理决策提供多角度、数据驱动的支持。系统采用REST API和WebSocket混合数据通信架构，结合Mycat分布式数据库方案，保障高并发和实时性。平台注重安全（如JWT认证、权限控制和数据脱敏）、性能优化（如缓存、批量请求和异步处理）及未来可扩展性。创新点包括实时智能预测、现代化UI/UX、多维交互与可扩展的数据分析框架，为智慧交通管理提供了全面的数字化解决方案。</p>
-                            </div>
-                            <div class="project-abstract">
-                                <h4 data-en="Work Experience" data-zh="参与工作">参与工作</h4>
-                                <p data-en="Copilot said: Independently designed and developed the ETC Big Data Visualization Monitoring Platform using Next.js 13 (App Router), TypeScript, React 18, and TailwindCSS to implement a responsive frontend UI with dynamic theme switching. Integrated AMap API and ECharts for real-time traffic data visualization and multi-dimensional analysis. The backend features a hybrid communication architecture with REST APIs and WebSocket, combined with a Mycat distributed database and Redis caching to support high-concurrency, real-time data processing. Designed flexible multi-condition queries, intelligent traffic forecasting, data desensitization, and JWT-based access control, significantly enhancing system security and performance. The platform provides an efficient and scalable digital solution for smart traffic management." data-zh="独立设计与开发了ETC大数据可视化监控平台，采用Next.js 13（App Router）、TypeScript、React 18与TailwindCSS，实现前端响应式UI与动态主题切换。集成高德地图API和ECharts，实现交通数据的实时可视化和多维度分析。后端通过REST API与WebSocket实现混合通信，结合Mycat分布式数据库与Redis缓存，支持高并发实时数据处理。设计了灵活的多条件查询、智能流量预测、数据脱敏和基于JWT的权限控制，全面提升了系统安全性与性能，为智慧交通管理提供了高效、可扩展的数字化解决方案。">独立设计与开发了ETC大数据可视化监控平台，采用Next.js 13（App Router）、TypeScript、React 18与TailwindCSS，实现前端响应式UI与动态主题切换。集成高德地图API和ECharts，实现交通数据的实时可视化和多维度分析。后端通过REST API与WebSocket实现混合通信，结合Mycat分布式数据库与Redis缓存，支持高并发实时数据处理。设计了灵活的多条件查询、智能流量预测、数据脱敏和基于JWT的权限控制，全面提升了系统安全性与性能，为智慧交通管理提供了高效、可扩展的数字化解决方案。</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                
-                <!--
+					<div class="project-item">
+						<div class="project-period" data-en="2024.11 - 2025.01" data-zh="2024.11 - 2025.01">2024.11 -
+							2025.01</div>
+						<div class="project-content">
+							<h3 data-en="ETC Traffic Visualization Management Platform" data-zh="ETC交通可视化管理平台">
+								ETC交通可视化管理平台</h3>
+							<div class="project-description">
+								<div class="project-abstract">
+									<h4 data-en="Abstract" data-zh="摘要">摘要</h4>
+									<p data-en="The ETC Big Data Visualization Monitoring Platform is an intelligent traffic data monitoring system developed with modern frontend technologies such as Next.js 13. It is designed to achieve real-time monitoring, visualization, interactive querying, and intelligent analysis of multi-dimensional ETC (Electronic Toll Collection) data. The platform is composed of three core modules: Monitoring Center, Interactive Query, and Analysis Reports. The Monitoring Center uses rich visualization components to present key indicators such as traffic flow and device status in real time, supporting multi-site comparison and anomaly alerts. The Interactive Query module enables flexible multi-condition searches, allowing efficient filtering and data export by license plate, vehicle type, time range, toll station, and more, with intelligent input validation to enhance user experience. The Analysis Reports module integrates weather information, traffic forecasting, time series analysis, and other features to provide multi-perspective, data-driven support for decision-making. The system adopts a hybrid data communication architecture combining REST APIs and WebSocket, and leverages a Mycat distributed database solution to ensure high concurrency and real-time performance. The platform emphasizes security (such as JWT authentication, access control, and data masking), performance optimization (such as caching, batch requests, and asynchronous processing), and future scalability. Innovative features include real-time intelligent prediction, modern UI/UX, multi-dimensional interaction, and an extensible data analytics framework, delivering a comprehensive digital solution for smart traffic management."
+										data-zh="ETC大数据可视化监控平台是一个基于Next.js 13等现代前端技术栈开发的交通数据智能监控系统，旨在实现ETC（电子不停车收费）多维度数据的实时监控、可视化、交互查询与智能分析。平台主要包含监控大厅、交互查询和分析报告三大功能模块。监控大厅以丰富的可视化组件实时呈现流量、设备状态等关键指标，支持多站点对比和异常预警。交互查询模块实现了灵活的多条件组合检索，支持按车牌、车型、时间、收费站等多维度高效筛选和数据导出，并通过智能输入校验提升了用户体验。分析报告模块集成了天气信息、流量预测、时间序列分析等能力，为管理决策提供多角度、数据驱动的支持。系统采用REST API和WebSocket混合数据通信架构，结合Mycat分布式数据库方案，保障高并发和实时性。平台注重安全（如JWT认证、权限控制和数据脱敏）、性能优化（如缓存、批量请求和异步处理）及未来可扩展性。创新点包括实时智能预测、现代化UI/UX、多维交互与可扩展的数据分析框架，为智慧交通管理提供了全面的数字化解决方案。">
+										ETC大数据可视化监控平台是一个基于Next.js
+										13等现代前端技术栈开发的交通数据智能监控系统，旨在实现ETC（电子不停车收费）多维度数据的实时监控、可视化、交互查询与智能分析。平台主要包含监控大厅、交互查询和分析报告三大功能模块。监控大厅以丰富的可视化组件实时呈现流量、设备状态等关键指标，支持多站点对比和异常预警。交互查询模块实现了灵活的多条件组合检索，支持按车牌、车型、时间、收费站等多维度高效筛选和数据导出，并通过智能输入校验提升了用户体验。分析报告模块集成了天气信息、流量预测、时间序列分析等能力，为管理决策提供多角度、数据驱动的支持。系统采用REST
+										API和WebSocket混合数据通信架构，结合Mycat分布式数据库方案，保障高并发和实时性。平台注重安全（如JWT认证、权限控制和数据脱敏）、性能优化（如缓存、批量请求和异步处理）及未来可扩展性。创新点包括实时智能预测、现代化UI/UX、多维交互与可扩展的数据分析框架，为智慧交通管理提供了全面的数字化解决方案。
+									</p>
+								</div>
+								<div class="project-abstract">
+									<h4 data-en="Work Experience" data-zh="参与工作">参与工作</h4>
+									<p data-en="Copilot said: Independently designed and developed the ETC Big Data Visualization Monitoring Platform using Next.js 13 (App Router), TypeScript, React 18, and TailwindCSS to implement a responsive frontend UI with dynamic theme switching. Integrated AMap API and ECharts for real-time traffic data visualization and multi-dimensional analysis. The backend features a hybrid communication architecture with REST APIs and WebSocket, combined with a Mycat distributed database and Redis caching to support high-concurrency, real-time data processing. Designed flexible multi-condition queries, intelligent traffic forecasting, data desensitization, and JWT-based access control, significantly enhancing system security and performance. The platform provides an efficient and scalable digital solution for smart traffic management."
+										data-zh="独立设计与开发了ETC大数据可视化监控平台，采用Next.js 13（App Router）、TypeScript、React 18与TailwindCSS，实现前端响应式UI与动态主题切换。集成高德地图API和ECharts，实现交通数据的实时可视化和多维度分析。后端通过REST API与WebSocket实现混合通信，结合Mycat分布式数据库与Redis缓存，支持高并发实时数据处理。设计了灵活的多条件查询、智能流量预测、数据脱敏和基于JWT的权限控制，全面提升了系统安全性与性能，为智慧交通管理提供了高效、可扩展的数字化解决方案。">
+										独立设计与开发了ETC大数据可视化监控平台，采用Next.js 13（App Router）、TypeScript、React
+										18与TailwindCSS，实现前端响应式UI与动态主题切换。集成高德地图API和ECharts，实现交通数据的实时可视化和多维度分析。后端通过REST
+										API与WebSocket实现混合通信，结合Mycat分布式数据库与Redis缓存，支持高并发实时数据处理。设计了灵活的多条件查询、智能流量预测、数据脱敏和基于JWT的权限控制，全面提升了系统安全性与性能，为智慧交通管理提供了高效、可扩展的数字化解决方案。
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					<!--
                 <div class="project-item">
                     <div class="project-period" data-en="Early 2023" data-zh="2023年年初">2023年年初</div>
                     <div class="project-content">
@@ -581,395 +846,500 @@
                     </div>
                 </div>
                 -->
-            </div>
-        </section>
+				</div>
+			</section>
 
-        <!-- 实习经历部分 -->
-        <section id="internship" class="projects-section">
-            <h2 data-en="Internship Experience" data-zh="实习经历">实习经历</h2>
-            <div class="projects-container">
-                <div class="project-item">
-                    <div class="project-period" data-en="2023.09 - 2023.11" data-zh="2023-09 ~ 2023-11">2023-09 ~ 2023-11</div>
-                    <div class="project-content">
-                        <h3 data-en="ByteDance - AI Data Annotation Intern (School-Enterprise Cooperation)" data-zh="字节跳动 - AI数据标注实习生（校企合作）">字节跳动 - AI数据标注实习生（校企合作）</h3>
-                        <div class="project-description">
-                            <div class="project-abstract">
-                                <h4 data-en="Internship Experience" data-zh="实习经验">实习经验</h4>
-                                <p data-en="LLM Data Asset Construction: Participated in AIGC large model training data construction, providing high-quality underlying data asset support for model iteration." data-zh="大模型数据资产建设：参与 AIGC 大模型训练数据构建，为模型迭代提供高质量的底层数据资产支持。">大模型数据资产建设：参与 AIGC 大模型训练数据构建，为模型迭代提供高质量的底层数据资产支持。</p>
-                                <p data-en="Multimodal Business Scenario Practice: Responsible for text semantic error correction, image content classification, and audio ASR recognition accuracy verification, gaining deep understanding of data requirements and technical boundaries of multimodal interaction models through practical work." data-zh="多模态业务场景实践：负责文本语义纠错、图像内容分类及音频 ASR 识别准确性校验，在实战中深入理解多模态交互模型的数据需求与技术边界。">多模态业务场景实践：负责文本语义纠错、图像内容分类及音频 ASR 识别准确性校验，在实战中深入理解多模态交互模型的数据需求与技术边界。</p>
-                                <p data-en="Quality Assessment and Feedback Optimization: Systematically organized and summarized common error types across various modal data, providing effective reference for data quality optimization and performance evaluation in large model training." data-zh="质量评估与反馈优化：体系化梳理并总结各模态数据的常见错误类型，为大模型训练的数据质量优化及效果评估提供有效参考依据。">质量评估与反馈优化：体系化梳理并总结各模态数据的常见错误类型，为大模型训练的数据质量优化及效果评估提供有效参考依据。</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+			<!-- 实习经历部分 -->
+			<section id="internship" class="projects-section">
+				<h2 data-en="Internship Experience" data-zh="实习经历">实习经历</h2>
+				<div class="projects-container">
+					<div class="project-item">
+						<div class="project-period" data-en="2023.09 - 2023.11" data-zh="2023-09 ~ 2023-11">2023-09 ~
+							2023-11</div>
+						<div class="project-content">
+							<h3 data-en="ByteDance - AI Data Annotation Intern (School-Enterprise Cooperation)"
+								data-zh="字节跳动 - AI数据标注实习生（校企合作）">字节跳动 - AI数据标注实习生（校企合作）</h3>
+							<div class="project-description">
+								<div class="project-abstract">
+									<h4 data-en="Internship Experience" data-zh="实习经验">实习经验</h4>
+									<p data-en="LLM Data Asset Construction: Participated in AIGC large model training data construction, providing high-quality underlying data asset support for model iteration."
+										data-zh="大模型数据资产建设：参与 AIGC 大模型训练数据构建，为模型迭代提供高质量的底层数据资产支持。">大模型数据资产建设：参与 AIGC
+										大模型训练数据构建，为模型迭代提供高质量的底层数据资产支持。</p>
+									<p data-en="Multimodal Business Scenario Practice: Responsible for text semantic error correction, image content classification, and audio ASR recognition accuracy verification, gaining deep understanding of data requirements and technical boundaries of multimodal interaction models through practical work."
+										data-zh="多模态业务场景实践：负责文本语义纠错、图像内容分类及音频 ASR 识别准确性校验，在实战中深入理解多模态交互模型的数据需求与技术边界。">
+										多模态业务场景实践：负责文本语义纠错、图像内容分类及音频 ASR 识别准确性校验，在实战中深入理解多模态交互模型的数据需求与技术边界。</p>
+									<p data-en="Quality Assessment and Feedback Optimization: Systematically organized and summarized common error types across various modal data, providing effective reference for data quality optimization and performance evaluation in large model training."
+										data-zh="质量评估与反馈优化：体系化梳理并总结各模态数据的常见错误类型，为大模型训练的数据质量优化及效果评估提供有效参考依据。">
+										质量评估与反馈优化：体系化梳理并总结各模态数据的常见错误类型，为大模型训练的数据质量优化及效果评估提供有效参考依据。</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
 
-        <!-- 奖项部分 -->
-        <section class="awards-section" id="awards">
-            <h2 data-en="Awards & Honors" data-zh="奖项">奖项</h2>
-            <div class="awards-container">
-                <div class="year-group">
-                    <div class="year-label" data-en="2025" data-zh="2025年">2025年</div>
-                    <div class="awards-list">
-                        <div class="award-item">
-                            <div class="award-name" data-en="University Second-Class Scholarship" data-zh="校级二等奖学金">校级二等奖学金</div>
-                            <div class="award-detail" data-en="Second Prize - University Level" data-zh="校级二等奖学金">校级二等奖学金</div>
-                        </div>
-                        <div class="award-item">
-                            <div class="award-name" data-en="New World Cup National College Student Computer Design Competition" data-zh="‘新大陆杯’全国大学生计算机设计大赛">‘新大陆杯’全国大学生计算机设计大赛</div>
-                            <div class="award-detail" data-en="Third Prize - Country Level" data-zh="国家级三等奖">国家级三等奖</div>
-                        </div>
-                        <div class="award-item">
-                            <div class="award-name" data-en="Computer Software Patent" data-zh="计算机软件专利">计算机软件专利</div>
-                            <div class="award-detail" data-en="First Developer - Full Stack Development" data-zh="第一开发人-全栈开发">第一开发人-全栈开发</div>
-                        </div>
-                        <div class="award-item">
-                            <div class="award-name" data-en="Provincial Innovation Project" data-zh="省级大创">省级大创</div>
-                            <div class="award-detail" data-en="National University Student Innovation and Entrepreneurship Competition" data-zh="全国大学生创新创业大赛">全国大学生创新创业大赛</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="year-group">
-                    <div class="year-label" data-en="2024" data-zh="2024年">2024年</div>
-                    <div class="awards-list">
-                        <div class="award-item">
-                            <div class="award-name" data-en="National Simulation Innovation Application Competition" data-zh="全国仿真创新应用大赛">全国仿真创新应用大赛</div>
-                            <div class="award-detail" data-en="National Third Prize" data-zh="国家级三等奖">国家级三等奖</div>
-                        </div>
-                        <div class="award-item">
-                            <div class="award-name" data-en="University Second-Class Scholarship" data-zh="校级二等奖学金">校级二等奖学金</div>
-                            <div class="award-detail" data-en="Enterprise Scholarship (Pingmei Shenma Scholarship)" data-zh="企业奖学金（平煤神马奖学金）">企业奖学金（平煤神马奖学金）</div>
-                        </div>
-                        <div class="award-item">
-                            <div class="award-name" data-en="Mathematical Modeling Competition" data-zh="数学建模">数学建模</div>
-                            <div class="award-detail" data-en="Provincial Third Prize, Statistical Modeling Jiangsu Regional Provincial Third Prize" data-zh="省级三等奖、统计建模江苏区省级三等奖">省级三等奖、统计建模江苏区省级三等奖</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="year-group">
-                    <div class="year-label" data-en="2023" data-zh="2023年">2023年</div>
-                    <div class="awards-list">
-                        <div class="award-item">
-                            <div class="award-name" data-en="University Third-Class Scholarship" data-zh="校级三等奖学金">校级三等奖学金</div>
-                            <div class="award-detail"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+			<!-- 奖项部分 -->
+			<section class="awards-section" id="awards">
+				<h2 data-en="Awards & Honors" data-zh="奖项">奖项</h2>
+				<div class="awards-container">
+					<div class="year-group">
+						<div class="year-label" data-en="2025" data-zh="2025年">2025年</div>
+						<div class="awards-list">
+							<div class="award-item">
+								<div class="award-name" data-en="University Second-Class Scholarship" data-zh="校级二等奖学金">
+									校级二等奖学金</div>
+								<div class="award-detail" data-en="Second Prize - University Level" data-zh="校级二等奖学金">
+									校级二等奖学金</div>
+							</div>
+							<div class="award-item">
+								<div class="award-name"
+									data-en="New World Cup National College Student Computer Design Competition"
+									data-zh="‘新大陆杯’全国大学生计算机设计大赛">‘新大陆杯’全国大学生计算机设计大赛</div>
+								<div class="award-detail" data-en="Third Prize - Country Level" data-zh="国家级三等奖">国家级三等奖
+								</div>
+							</div>
+							<div class="award-item">
+								<div class="award-name" data-en="Computer Software Patent" data-zh="计算机软件专利">计算机软件专利
+								</div>
+								<div class="award-detail" data-en="First Developer - Full Stack Development"
+									data-zh="第一开发人-全栈开发">第一开发人-全栈开发</div>
+							</div>
+							<div class="award-item">
+								<div class="award-name" data-en="Provincial Innovation Project" data-zh="省级大创">省级大创
+								</div>
+								<div class="award-detail"
+									data-en="National University Student Innovation and Entrepreneurship Competition"
+									data-zh="全国大学生创新创业大赛">全国大学生创新创业大赛</div>
+							</div>
+						</div>
+					</div>
 
-        <!-- 问答与想法部分 -->
-        <section class="qia-section" id="qia">
-            <h2 data-en="Q_I&A (Questions, Issues, Ideas & Answers)" data-zh="问答与想法">问答与想法</h2>
-            <div class="qia-container">
-                
-                <div class="qia-item idea">
-                    <div class="qia-badge" data-en="Idea" data-zh="想法">想法</div>
-                    <div class="qia-content">
-                        <h3 data-en="Spring recruitment is over, received the OFFER — understand destiny through wisdom, accumulate deeply and unleash when ready." data-zh="春招结束，收到OFFER，达而知命，厚积薄发">春招结束，收到OFFER，达而知命，厚积薄发</h3>
-                        <p data-en="A milestone, not an endpoint; what follows still needs clarity, patience, and steady growth." data-zh="是节点而非终点，往后仍须清醒、沉潜与生长。">是节点而非终点，往后仍须清醒、沉潜与生长。</p>
-                    </div>
-                </div>
+					<div class="year-group">
+						<div class="year-label" data-en="2024" data-zh="2024年">2024年</div>
+						<div class="awards-list">
+							<div class="award-item">
+								<div class="award-name" data-en="National Simulation Innovation Application Competition"
+									data-zh="全国仿真创新应用大赛">全国仿真创新应用大赛</div>
+								<div class="award-detail" data-en="National Third Prize" data-zh="国家级三等奖">国家级三等奖</div>
+							</div>
+							<div class="award-item">
+								<div class="award-name" data-en="University Second-Class Scholarship" data-zh="校级二等奖学金">
+									校级二等奖学金</div>
+								<div class="award-detail" data-en="Enterprise Scholarship (Pingmei Shenma Scholarship)"
+									data-zh="企业奖学金（平煤神马奖学金）">企业奖学金（平煤神马奖学金）</div>
+							</div>
+							<div class="award-item">
+								<div class="award-name" data-en="Mathematical Modeling Competition" data-zh="数学建模">数学建模
+								</div>
+								<div class="award-detail"
+									data-en="Provincial Third Prize, Statistical Modeling Jiangsu Regional Provincial Third Prize"
+									data-zh="省级三等奖、统计建模江苏区省级三等奖">省级三等奖、统计建模江苏区省级三等奖</div>
+							</div>
+						</div>
+					</div>
 
-                <div class="qia-item question">
-                    <div class="qia-badge" data-en="Question" data-zh="疑问">疑问</div>
-                    <div class="qia-content">
-                        <h3 data-en="Any frontend UI layout experts out there? Please give me some advice and suggestions!" data-zh="有精通前端UI布局的佬吗，为我提一些建议，出谋划策！">有精通前端UI布局的佬吗，为我提一些建议，出谋划策！</h3>
-                        <p data-en="Leave your comments on GitHub Discussion or in the comment section of the website's footer update plan!" data-zh="留言在GitHub discussion或者网站的页脚更新计划的留言评论区">留言在GitHub discussion或者网站的页脚更新计划的留言评论区</p>
-                    </div>
-                </div>
-                
-                <div class="qia-item idea">
-                    <div class="qia-badge" data-en="Idea" data-zh="想法">想法</div>
-                    <div class="qia-content">
-                        <h3 data-en="Some things about spring recruitment" data-zh="春招的一些事情">春招的一些事情</h3>
-                        <p data-en="After failing the postgraduate entrance exam, I decided to look for a job first, but obviously jobs aren't easy to find. So far I've had 4 interviews, 20+ written tests, waiting for responses from several companies, 3 HR interviews, still waiting for news... It's truly tough." data-zh="自考研失败以后，我决定先去找工作，但显然工作不是很好找吖。现在一共面试了4家，笔试了20+家，等候若干消息，hr面3家，等待消息......真是太艰难了。">自考研失败以后，我决定先去找工作，但显然工作不是很好找吖。现在一共面试了4家，笔试了20+家，等候若干消息，hr面3家，等待消息......真是太艰难了。</p>
-                    </div>
-                </div>
+					<div class="year-group">
+						<div class="year-label" data-en="2023" data-zh="2023年">2023年</div>
+						<div class="awards-list">
+							<div class="award-item">
+								<div class="award-name" data-en="University Third-Class Scholarship" data-zh="校级三等奖学金">
+									校级三等奖学金</div>
+								<div class="award-detail"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
 
-                <div class="qia-item idea">
-                    <div class="qia-badge" data-en="Idea" data-zh="想法">想法</div>
-                    <div class="qia-content">
-                        <h3 data-en="Thoughts on website optimization and partial content restructuring - some pages are a bit over the top, and the more I look at them the less interesting they seem. I haven't studied much about UI and layout." data-zh="网站优化及部分内容重构的想法，一些网页有些言过其实，而且越看越没意思，UI和布局这一块我研究的很少">网站优化及部分内容重构的想法，一些网页有些言过其实，而且越看越没意思，UI和布局这一块我研究的很少</h3>
-                        <p data-en="Some pages were made last year when I didn't have much energy to polish them. Now that I'm idle at home with nothing to do, I plan to redo them, but I can't find a satisfying layout. I always feel I can't describe things clearly, and I'm even more afraid of overstating things." data-zh="有几个网页做的时候是去年了，那时候还没有太多精力去完善，现在赋闲在家，无所事事，打算重新做一下，但没有满意的布局，总觉得自己描述不清楚，更怕言过其实。">有几个网页做的时候是去年了，那时候还没有太多精力去完善，现在赋闲在家，无所事事，打算重新做一下，但没有满意的布局，总觉得自己描述不清楚，更怕言过其实。</p>
-                    </div>
-                </div>
+			<!-- 问答与想法部分 -->
+			<section class="qia-section" id="qia">
+				<h2 data-en="Q_I&A (Questions, Issues, Ideas & Answers)" data-zh="问答与想法">问答与想法</h2>
+				<div class="qia-container">
 
-                <div class="qia-item idea">
-                    <div class="qia-badge" data-en="Idea" data-zh="想法">想法</div>
-                    <div class="qia-content">
-                        <h3 data-en="Graduation is approaching, but employment is still unsettled. My thesis is mostly done. The sense of confusion is growing heavier." data-zh="马上就要毕业了，现在工作还没落实，毕业设计基本也写的差不多了，迷茫感越来越重了">马上就要毕业了，现在工作还没落实，毕业设计基本也写的差不多了，迷茫感越来越重了</h3>
-                        <p data-en="Quite a few people around me have found jobs, some are doing internships, others have gotten into graduate schools - everyone has something to do. I have nothing to do, so I'm just venting here, writing some words. It's been a while since I've studied properly too. The blog articles also feel like they don't contribute much to my urgent need for progress, and I keep forgetting key points." data-zh="身边有不少人找到了工作，还有的在实习，也有升学的，大家都有事做，我无事可做，就在这里发牢骚，写写文字，也有段时间没好好学习了。博客里的几篇文章，也总感觉对目前的急切进步不大，一些关键点也老是遗忘。">身边有不少人找到了工作，还有的在实习，也有升学的，大家都有事做，我无事可做，就在这里发牢骚，写写文字，也有段时间没好好学习了。博客里的几篇文章，也总感觉对目前的急切进步不大，一些关键点也老是遗忘。</p>
-                    </div>
-                </div>
+					<div class="qia-item idea">
+						<div class="qia-badge" data-en="Idea" data-zh="想法">想法</div>
+						<div class="qia-content">
+							<h3 data-en="Spring recruitment is over, received the OFFER — understand destiny through wisdom, accumulate deeply and unleash when ready."
+								data-zh="春招结束，收到OFFER，达而知命，厚积薄发">春招结束，收到OFFER，达而知命，厚积薄发</h3>
+							<p data-en="A milestone, not an endpoint; what follows still needs clarity, patience, and steady growth."
+								data-zh="是节点而非终点，往后仍须清醒、沉潜与生长。">是节点而非终点，往后仍须清醒、沉潜与生长。</p>
+						</div>
+					</div>
 
-                <div class="qia-item idea">
-                    <div class="qia-badge" data-en="Idea" data-zh="想法">想法</div>
-                    <div class="qia-content">
-                        <h3 data-en="Since starting to lose weight in early April, I've already lost about 10 jin. Emotions fluctuate, and I've started eating more carbs these past two days. Sometimes I can't control the hunger." data-zh="自四月初减肥开始，业已减下十斤左右了，情绪上有起伏，碳水这两日开始多吃了，饥饿感有时控制不住">自四月初减肥开始，业已减下十斤左右了，情绪上有起伏，碳水这两日开始多吃了，饥饿感有时控制不住</h3>
-                        <p data-en="For someone with a large base weight, eating less means losing weight, but I'm worried about muscle loss. So on top of cardio, I've added core and strength training. If I can burn 2200Kcal + 900Kcal daily, I can keep losing weight consistently. Yesterday I had hotpot, kept dinner simple and wasn't even hungry, lost 200g (bitter laugh)." data-zh="对于大基数而言，少吃就能瘦，但害怕肌肉流失，在有氧的基础上就还加入了核心和力量训练，每天若能消耗2200Kcal+900Kcal，那就完全一直可以减下去。我昨日吃了一顿火锅，晚饭简略度过也没有饿，瘦了四两（苦笑）">对于大基数而言，少吃就能瘦，但害怕肌肉流失，在有氧的基础上就还加入了核心和力量训练，每天若能消耗2200Kcal+900Kcal，那就完全一直可以减下去。我昨日吃了一顿火锅，晚饭简略度过也没有饿，瘦了四两（苦笑）</p>
-                    </div>
-                </div>
+					<div class="qia-item question">
+						<div class="qia-badge" data-en="Question" data-zh="疑问">疑问</div>
+						<div class="qia-content">
+							<h3 data-en="Any frontend UI layout experts out there? Please give me some advice and suggestions!"
+								data-zh="有精通前端UI布局的佬吗，为我提一些建议，出谋划策！">有精通前端UI布局的佬吗，为我提一些建议，出谋划策！</h3>
+							<p data-en="Leave your comments on GitHub Discussion or in the comment section of the website's footer update plan!"
+								data-zh="留言在GitHub discussion或者网站的页脚更新计划的留言评论区">留言在GitHub discussion或者网站的页脚更新计划的留言评论区
+							</p>
+						</div>
+					</div>
 
-                
+					<div class="qia-item idea">
+						<div class="qia-badge" data-en="Idea" data-zh="想法">想法</div>
+						<div class="qia-content">
+							<h3 data-en="Some things about spring recruitment" data-zh="春招的一些事情">春招的一些事情</h3>
+							<p data-en="After failing the postgraduate entrance exam, I decided to look for a job first, but obviously jobs aren't easy to find. So far I've had 4 interviews, 20+ written tests, waiting for responses from several companies, 3 HR interviews, still waiting for news... It's truly tough."
+								data-zh="自考研失败以后，我决定先去找工作，但显然工作不是很好找吖。现在一共面试了4家，笔试了20+家，等候若干消息，hr面3家，等待消息......真是太艰难了。">
+								自考研失败以后，我决定先去找工作，但显然工作不是很好找吖。现在一共面试了4家，笔试了20+家，等候若干消息，hr面3家，等待消息......真是太艰难了。</p>
+						</div>
+					</div>
 
-                <div class="qia-item issue">
-                    <div class="qia-badge" data-en="Issue" data-zh="问题">问题</div>
-                    <div class="qia-content">
-                        <h3 data-en="Problem 5🔥: The search and classification UI of the blog page is too ugly, the experience is too poor, and the function layout of the network search is unreasonable, and it cannot be used after clicking, and the overall interference with the use and experience 🤡" data-zh="问题5🔥：博客页面的搜索和分类UI太丑、体验太差，联网搜索的功能布局不合理，点击之后不能用而且全局干扰了使用和体验 🤡">问题5🔥：博客页面的搜索和分类UI太丑、体验太差，联网搜索的功能布局不合理，点击之后不能用而且全局干扰了使用和体验 🤡</h3>
-                        <p data-en="On the one hand, when clicking on the Internet search, the entire page becomes black, and you cannot select Bing & Google, which is caused by typography interference, and the upper and lower priorities are blocked; On the other hand, the UI is so ugly that it needs to be modified." data-zh="一方面，点击联网搜索时整个页面变黑，无法选择bing&google，这是一个排版干扰造成的，上下层优先级被挡住了；另一方面，UI太丑了，得修改一下。">一方面，点击联网搜索时整个页面变黑，无法选择bing&google，这是一个排版干扰造成的，上下层优先级被挡住了；另一方面，UI太丑了，得修改一下。</p>
-                        <!--
+					<div class="qia-item idea">
+						<div class="qia-badge" data-en="Idea" data-zh="想法">想法</div>
+						<div class="qia-content">
+							<h3 data-en="Thoughts on website optimization and partial content restructuring - some pages are a bit over the top, and the more I look at them the less interesting they seem. I haven't studied much about UI and layout."
+								data-zh="网站优化及部分内容重构的想法，一些网页有些言过其实，而且越看越没意思，UI和布局这一块我研究的很少">
+								网站优化及部分内容重构的想法，一些网页有些言过其实，而且越看越没意思，UI和布局这一块我研究的很少</h3>
+							<p data-en="Some pages were made last year when I didn't have much energy to polish them. Now that I'm idle at home with nothing to do, I plan to redo them, but I can't find a satisfying layout. I always feel I can't describe things clearly, and I'm even more afraid of overstating things."
+								data-zh="有几个网页做的时候是去年了，那时候还没有太多精力去完善，现在赋闲在家，无所事事，打算重新做一下，但没有满意的布局，总觉得自己描述不清楚，更怕言过其实。">
+								有几个网页做的时候是去年了，那时候还没有太多精力去完善，现在赋闲在家，无所事事，打算重新做一下，但没有满意的布局，总觉得自己描述不清楚，更怕言过其实。</p>
+						</div>
+					</div>
+
+					<div class="qia-item idea">
+						<div class="qia-badge" data-en="Idea" data-zh="想法">想法</div>
+						<div class="qia-content">
+							<h3 data-en="Graduation is approaching, but employment is still unsettled. My thesis is mostly done. The sense of confusion is growing heavier."
+								data-zh="马上就要毕业了，现在工作还没落实，毕业设计基本也写的差不多了，迷茫感越来越重了">
+								马上就要毕业了，现在工作还没落实，毕业设计基本也写的差不多了，迷茫感越来越重了</h3>
+							<p data-en="Quite a few people around me have found jobs, some are doing internships, others have gotten into graduate schools - everyone has something to do. I have nothing to do, so I'm just venting here, writing some words. It's been a while since I've studied properly too. The blog articles also feel like they don't contribute much to my urgent need for progress, and I keep forgetting key points."
+								data-zh="身边有不少人找到了工作，还有的在实习，也有升学的，大家都有事做，我无事可做，就在这里发牢骚，写写文字，也有段时间没好好学习了。博客里的几篇文章，也总感觉对目前的急切进步不大，一些关键点也老是遗忘。">
+								身边有不少人找到了工作，还有的在实习，也有升学的，大家都有事做，我无事可做，就在这里发牢骚，写写文字，也有段时间没好好学习了。博客里的几篇文章，也总感觉对目前的急切进步不大，一些关键点也老是遗忘。
+							</p>
+						</div>
+					</div>
+
+					<div class="qia-item idea">
+						<div class="qia-badge" data-en="Idea" data-zh="想法">想法</div>
+						<div class="qia-content">
+							<h3 data-en="Since starting to lose weight in early April, I've already lost about 10 jin. Emotions fluctuate, and I've started eating more carbs these past two days. Sometimes I can't control the hunger."
+								data-zh="自四月初减肥开始，业已减下十斤左右了，情绪上有起伏，碳水这两日开始多吃了，饥饿感有时控制不住">
+								自四月初减肥开始，业已减下十斤左右了，情绪上有起伏，碳水这两日开始多吃了，饥饿感有时控制不住</h3>
+							<p data-en="For someone with a large base weight, eating less means losing weight, but I'm worried about muscle loss. So on top of cardio, I've added core and strength training. If I can burn 2200Kcal + 900Kcal daily, I can keep losing weight consistently. Yesterday I had hotpot, kept dinner simple and wasn't even hungry, lost 200g (bitter laugh)."
+								data-zh="对于大基数而言，少吃就能瘦，但害怕肌肉流失，在有氧的基础上就还加入了核心和力量训练，每天若能消耗2200Kcal+900Kcal，那就完全一直可以减下去。我昨日吃了一顿火锅，晚饭简略度过也没有饿，瘦了四两（苦笑）">
+								对于大基数而言，少吃就能瘦，但害怕肌肉流失，在有氧的基础上就还加入了核心和力量训练，每天若能消耗2200Kcal+900Kcal，那就完全一直可以减下去。我昨日吃了一顿火锅，晚饭简略度过也没有饿，瘦了四两（苦笑）
+							</p>
+						</div>
+					</div>
+
+
+
+					<div class="qia-item issue">
+						<div class="qia-badge" data-en="Issue" data-zh="问题">问题</div>
+						<div class="qia-content">
+							<h3 data-en="Problem 5🔥: The search and classification UI of the blog page is too ugly, the experience is too poor, and the function layout of the network search is unreasonable, and it cannot be used after clicking, and the overall interference with the use and experience 🤡"
+								data-zh="问题5🔥：博客页面的搜索和分类UI太丑、体验太差，联网搜索的功能布局不合理，点击之后不能用而且全局干扰了使用和体验 🤡">
+								问题5🔥：博客页面的搜索和分类UI太丑、体验太差，联网搜索的功能布局不合理，点击之后不能用而且全局干扰了使用和体验 🤡</h3>
+							<p data-en="On the one hand, when clicking on the Internet search, the entire page becomes black, and you cannot select Bing & Google, which is caused by typography interference, and the upper and lower priorities are blocked; On the other hand, the UI is so ugly that it needs to be modified."
+								data-zh="一方面，点击联网搜索时整个页面变黑，无法选择bing&google，这是一个排版干扰造成的，上下层优先级被挡住了；另一方面，UI太丑了，得修改一下。">
+								一方面，点击联网搜索时整个页面变黑，无法选择bing&google，这是一个排版干扰造成的，上下层优先级被挡住了；另一方面，UI太丑了，得修改一下。</p>
+							<!--
                         <div class="qia-answer">
                             <span class="answer-label" data-en="Answer:" data-zh="解答：">解答：</span>
                             <p data-en="The blog is deployed on Github Pages, and the image loading speed is limited by Github servers. Currently, it is not possible to solve this issue. The domestic DNS acceleration requires a significant amount of money, so it is not considered for now.🥵" data-zh="本博客部署在Github Pages上，图片加载速度受限于Github服务器，目前无法解决。国内DNS加速需要一笔不小的费用，暂时不考虑。🥵">本博客部署在Github Pages上，图片加载速度受限于Github服务器，目前无法解决。国内DNS加速需要一笔不小的费用，暂时不考虑。🥵</p>
                         </div>
                         -->
-                    </div>
-                </div>
+						</div>
+					</div>
 
-                <div class="qia-item issue">
-                    <div class="qia-badge" data-en="Issue" data-zh="问题">问题</div>
-                    <div class="qia-content">
-                        <h3 data-en="Question 4🔥: The API of the website's data center needs to be studied! 🤡" data-zh="问题4🔥：网站的数据中心的API还得研究！ 🤡">问题4🔥：网站的数据中心的API还得研究！ 🤡</h3>
-                        <p data-en="API and CDN issues are still being investigated, and there is not enough time to do it. The data center's data still needs to use some simulated data, but the general direction is correct." data-zh="API和CDN的问题还在徘徊，而且并没有充足的时间来做，数据中心的数据还得用点模拟数据，但大方向是对的。">API和CDN的问题还在徘徊，而且并没有充足的时间来做，数据中心的数据还得用点模拟数据，但大方向是对的。</p>
-                        <!--
+					<div class="qia-item issue">
+						<div class="qia-badge" data-en="Issue" data-zh="问题">问题</div>
+						<div class="qia-content">
+							<h3 data-en="Question 4🔥: The API of the website's data center needs to be studied! 🤡"
+								data-zh="问题4🔥：网站的数据中心的API还得研究！ 🤡">问题4🔥：网站的数据中心的API还得研究！ 🤡</h3>
+							<p data-en="API and CDN issues are still being investigated, and there is not enough time to do it. The data center's data still needs to use some simulated data, but the general direction is correct."
+								data-zh="API和CDN的问题还在徘徊，而且并没有充足的时间来做，数据中心的数据还得用点模拟数据，但大方向是对的。">
+								API和CDN的问题还在徘徊，而且并没有充足的时间来做，数据中心的数据还得用点模拟数据，但大方向是对的。</p>
+							<!--
                         <div class="qia-answer">
                             <span class="answer-label" data-en="Answer:" data-zh="解答：">解答：</span>
                             <p data-en="The blog is deployed on Github Pages, and the image loading speed is limited by Github servers. Currently, it is not possible to solve this issue. The domestic DNS acceleration requires a significant amount of money, so it is not considered for now.🥵" data-zh="本博客部署在Github Pages上，图片加载速度受限于Github服务器，目前无法解决。国内DNS加速需要一笔不小的费用，暂时不考虑。🥵">本博客部署在Github Pages上，图片加载速度受限于Github服务器，目前无法解决。国内DNS加速需要一笔不小的费用，暂时不考虑。🥵</p>
                         </div>
                         -->
-                    </div>
-                </div>
+						</div>
+					</div>
 
-                <div class="qia-item idea">
-                    <div class="qia-badge" data-en="Idea" data-zh="想法">想法</div>
-                    <div class="qia-content">
-                        <h3 data-en="2025 National Computer Design Competition" data-zh="2025届全国计算机设计大赛落幕">2025届全国计算机设计大赛落幕</h3>
-                        <p data-en="The 2025 National Computer Design Competition has come to an end, and I have won the national third prize." data-zh="2025年全国大学生计算机设计大赛落下帷幕，我获得了国家级三等奖。">2025年全国大学生计算机设计大赛落下帷幕，我获得了国家级三等奖。</p>
-                    </div>
-                </div>
+					<div class="qia-item idea">
+						<div class="qia-badge" data-en="Idea" data-zh="想法">想法</div>
+						<div class="qia-content">
+							<h3 data-en="2025 National Computer Design Competition" data-zh="2025届全国计算机设计大赛落幕">
+								2025届全国计算机设计大赛落幕</h3>
+							<p data-en="The 2025 National Computer Design Competition has come to an end, and I have won the national third prize."
+								data-zh="2025年全国大学生计算机设计大赛落下帷幕，我获得了国家级三等奖。">2025年全国大学生计算机设计大赛落下帷幕，我获得了国家级三等奖。</p>
+						</div>
+					</div>
 
-                <div class="qia-item idea">
-                    <div class="qia-badge" data-en="Idea" data-zh="想法">想法</div>
-                    <div class="qia-content">
-                        <h3 data-en="Recently, I've been in a very poor state of mind, lacking motivation for studying, always a big step behind others. The information from the outside world really disturbs me a lot. 'Trapped in a cage', this kind of sober pain is probably the eternity of life!" data-zh="最近的心态很差，对学习没有动力，总是慢人一大步，看着外界的信息，真有点把我扰动的厉害。‘就在樊笼里’，这种清醒的痛苦恐怕才是人生的永恒吧！">最近的心态很差，对学习没有动力，总是慢人一大步，看着外界的信息，真有点把我扰动的厉害。‘就在樊笼里’，这种清醒的痛苦恐怕才是人生的永恒吧！</h3>
-                        <p data-en="This kind of thinking didn't emerge out of thin air, but has developed along with the accumulation of fear effects and defeatist emotions. I made the mistakes of book worship and empiricism, and under the influence of utilitarian mentality for a period of time, now I'm facing backlashes and setbacks. I need to maintain optimism in the short term. 😳" data-zh="这种想法并非凭空出现，而是伴随着恐惧效应和失败主义情绪累积发展起来的。我犯了本本主义和经验主义的错误，整个人在一段时期的功利主义心态的影响下，现在迎来了反噬和挫折。短期要好好保持乐观。😳">这种想法并非凭空出现，而是伴随着恐惧效应和失败主义情绪累积发展起来的。我犯了本本主义和经验主义的错误，整个人在一段时期的功利主义心态的影响下，现在迎来了反噬和挫折。短期要好好保持乐观。😳</p>
-                    </div>
-                </div>
+					<div class="qia-item idea">
+						<div class="qia-badge" data-en="Idea" data-zh="想法">想法</div>
+						<div class="qia-content">
+							<h3 data-en="Recently, I've been in a very poor state of mind, lacking motivation for studying, always a big step behind others. The information from the outside world really disturbs me a lot. 'Trapped in a cage', this kind of sober pain is probably the eternity of life!"
+								data-zh="最近的心态很差，对学习没有动力，总是慢人一大步，看着外界的信息，真有点把我扰动的厉害。‘就在樊笼里’，这种清醒的痛苦恐怕才是人生的永恒吧！">
+								最近的心态很差，对学习没有动力，总是慢人一大步，看着外界的信息，真有点把我扰动的厉害。‘就在樊笼里’，这种清醒的痛苦恐怕才是人生的永恒吧！</h3>
+							<p data-en="This kind of thinking didn't emerge out of thin air, but has developed along with the accumulation of fear effects and defeatist emotions. I made the mistakes of book worship and empiricism, and under the influence of utilitarian mentality for a period of time, now I'm facing backlashes and setbacks. I need to maintain optimism in the short term. 😳"
+								data-zh="这种想法并非凭空出现，而是伴随着恐惧效应和失败主义情绪累积发展起来的。我犯了本本主义和经验主义的错误，整个人在一段时期的功利主义心态的影响下，现在迎来了反噬和挫折。短期要好好保持乐观。😳">
+								这种想法并非凭空出现，而是伴随着恐惧效应和失败主义情绪累积发展起来的。我犯了本本主义和经验主义的错误，整个人在一段时期的功利主义心态的影响下，现在迎来了反噬和挫折。短期要好好保持乐观。😳
+							</p>
+						</div>
+					</div>
 
-                <div class="qia-item idea">
-                    <div class="qia-badge" data-en="Idea" data-zh="想法">想法</div>
-                    <div class="qia-content">
-                        <h3 data-en="Idea🙃: New blog novel coming soon" data-zh="想法🙃：即将推出小说">想法🙃：即将推出小说</h3>
-                        <p data-en="Although I've been busy lately, I still find time to slack off. When I feel emotionally confused or anxious, I spend an hour each day writing something - blog posts, journals, or even novels. My writing isn't great, but it helps shift my focus." data-zh="最近虽然忙，但是还是有空摆烂。情绪混乱或者焦虑的时候，我就每天花1个小时去写点东西，博客、日志甚至是小说。写的很烂，但是这能转移我的注意力。">最近虽然忙，但是还是有空摆烂。情绪混乱或者焦虑的时候，我就每天花1个小时去写点东西，博客、日志甚至是小说。写的很烂，但是这能转移我的注意力。</p>
-                    </div>
-                </div>
-                
-                <!-- 问题1 -->
-                <div class="qia-item issue">
-                    <div class="qia-badge" data-en="Issue" data-zh="问题">问题</div>
-                    <div class="qia-content">
-                        <h3 data-en="Issues1: Website image loading is slow🤡(Resolved✅)" data-zh="问题1：网站图片加载缓慢🤡(已解决✅)">问题1：网站图片加载缓慢🤡</h3>
-                        <p data-en="The images in the blog posts and background images still load slowly, resulting in poor reading experience.🥵" data-zh="不论博客文章中的插图还是背景图片，改用avif图片后依然加载缓慢，阅读体验效果不理想。🥵">不论博客文章中的插图还是背景图片，改用avif图片后依然加载缓慢，阅读体验效果不理想。🥵</p>
-                        <div class="qia-answer">
-                            <span class="answer-label" data-en="Answer:" data-zh="解答：">解答：</span>
-                            <p data-en="The blog is deployed on Github Pages, and the image loading speed is limited by Github servers. Currently, it is not possible to solve this issue. The domestic DNS acceleration requires a significant amount of money, so it is not considered for now.🥵" data-zh="本博客部署在Github Pages上，图片加载速度受限于Github服务器，目前无法解决。国内DNS加速需要一笔不小的费用，暂时不考虑。🥵">本博客部署在Github Pages上，图片加载速度受限于Github服务器，目前无法解决。国内DNS加速需要一笔不小的费用，暂时不考虑。🥵</p>
-                        </div>
-                    </div>
-                </div>
+					<div class="qia-item idea">
+						<div class="qia-badge" data-en="Idea" data-zh="想法">想法</div>
+						<div class="qia-content">
+							<h3 data-en="Idea🙃: New blog novel coming soon" data-zh="想法🙃：即将推出小说">想法🙃：即将推出小说</h3>
+							<p data-en="Although I've been busy lately, I still find time to slack off. When I feel emotionally confused or anxious, I spend an hour each day writing something - blog posts, journals, or even novels. My writing isn't great, but it helps shift my focus."
+								data-zh="最近虽然忙，但是还是有空摆烂。情绪混乱或者焦虑的时候，我就每天花1个小时去写点东西，博客、日志甚至是小说。写的很烂，但是这能转移我的注意力。">
+								最近虽然忙，但是还是有空摆烂。情绪混乱或者焦虑的时候，我就每天花1个小时去写点东西，博客、日志甚至是小说。写的很烂，但是这能转移我的注意力。</p>
+						</div>
+					</div>
 
-                <div class="qia-item issue">
-                    <div class="qia-badge" data-en="Issue" data-zh="问题">问题</div>
-                    <div class="qia-content">
-                        <h3 data-en="Issues2: Blog post links show 404 error (Resolved✅)" data-zh="问题2：博客文章链接显示404错误(已解决✅)">问题2：博客文章链接显示404错误(已解决✅)</h3>
-                        <p data-en="Why do blog post links on the homepage show 404 errors when clicked?🥵New Error: Blog page article links also show 404 errors.❌" data-zh="首页博客文章点击无法跳转显示404，为什么？🥵新增错误：截至2025-03-22博客页面文章也无法跳转！❌">首页博客文章点击无法跳转显示404，为什么？🥵新增错误：截至2025-03-22博客页面文章也无法跳转！❌</p>
-                        <div class="qia-answer">
-                            <span class="answer-label" data-en="Answer:" data-zh="解答：">解答：</span>
-                            <p data-en="Good news! This issue has been completely resolved in version 1.1.1 (March 27, 2025). The problem was caused by inconsistent URL paths for blog articles and a missing JavaScript reference. All links now work correctly from both the homepage and blog page. If you're still experiencing any issues, please clear your browser cache. Thank you for your patience! 😊" data-zh="好消息！此问题已在1.1.1版本（2025年3月27日）中完全解决。问题是由博客文章URL路径不一致和缺少JavaScript引用导致的。现在，所有链接都可以从主页和博客页面正确工作。如果您仍然遇到任何问题，请清除浏览器缓存。感谢您的耐心等待！😊">好消息！此问题已在1.1.1版本（2025年3月27日）中完全解决。问题是由博客文章URL路径不一致和缺少JavaScript引用导致的。现在，所有链接都可以从主页和博客页面正确工作。如果您仍然遇到任何问题，请清除浏览器缓存。感谢您的耐心等待！😊</p>
-                        </div>
-                    </div>
-                </div>
+					<!-- 问题1 -->
+					<div class="qia-item issue">
+						<div class="qia-badge" data-en="Issue" data-zh="问题">问题</div>
+						<div class="qia-content">
+							<h3 data-en="Issues1: Website image loading is slow🤡(Resolved✅)"
+								data-zh="问题1：网站图片加载缓慢🤡(已解决✅)">问题1：网站图片加载缓慢🤡</h3>
+							<p data-en="The images in the blog posts and background images still load slowly, resulting in poor reading experience.🥵"
+								data-zh="不论博客文章中的插图还是背景图片，改用avif图片后依然加载缓慢，阅读体验效果不理想。🥵">
+								不论博客文章中的插图还是背景图片，改用avif图片后依然加载缓慢，阅读体验效果不理想。🥵</p>
+							<div class="qia-answer">
+								<span class="answer-label" data-en="Answer:" data-zh="解答：">解答：</span>
+								<p data-en="The blog is deployed on Github Pages, and the image loading speed is limited by Github servers. Currently, it is not possible to solve this issue. The domestic DNS acceleration requires a significant amount of money, so it is not considered for now.🥵"
+									data-zh="本博客部署在Github Pages上，图片加载速度受限于Github服务器，目前无法解决。国内DNS加速需要一笔不小的费用，暂时不考虑。🥵">
+									本博客部署在Github Pages上，图片加载速度受限于Github服务器，目前无法解决。国内DNS加速需要一笔不小的费用，暂时不考虑。🥵</p>
+							</div>
+						</div>
+					</div>
 
-                <div class="qia-item issue">
-                    <div class="qia-badge" data-en="Issue" data-zh="问题">问题</div>
-                    <div class="qia-content">
-                        <h3 data-en="Issues3: Font loading bug on first visit (Resolved✅)" data-zh="问题3：首次访问时字体加载错误(已解决✅)">问题3：首次访问时字体加载错误(已解决✅)</h3>
-                        <p data-en="When loading the site for the first time, there might be issues with text font rendering." data-zh="首次加载时会出现正文字体加载不出来的bug。">首次加载时会出现正文字体加载不出来的bug。</p>
-                        <div class="qia-answer">
-                            <span class="answer-label" data-en="Answer:" data-zh="解答：">解答：</span>
-                            <p data-en="Good news! This issue has been fixed in version 1.1.0. The website now properly displays all content on first visit without requiring any user interaction. If you're still experiencing any issues, please refresh your browser cache.😊" data-zh="好消息！此问题已在1.1.0版本中修复。网站现在可以在首次访问时正确显示所有内容，无需任何用户交互。如果您仍然遇到问题，请刷新浏览器缓存。😊">好消息！此问题已在1.1.0版本中修复。网站现在可以在首次访问时正确显示所有内容，无需任何用户交互。如果您仍然遇到问题，请刷新浏览器缓存。😊</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="qia-item idea">
-                    <div class="qia-badge" data-en="Idea" data-zh="想法">想法</div>
-                    <div class="qia-content">
-                        <h3 data-en="Idea1: New blog series coming soon" data-zh="想法1：即将推出新专栏">想法1：即将推出新专栏</h3>
-                        <p data-en="The blog will launch new series including: 'My First Twenty Years', '26-Year Essays', 'Data Mining', 'C Language for Beginners', 'Coding Practice Notes', and more." data-zh="日会会开辟新的专栏：《我的人生前二十年》、《26年随笔》、《数据挖掘》、《C语言入门》、《刷题笔记》等专栏。">日会会开辟新的专栏：《我的人生前二十》、《26年随笔》、《数据挖掘》、《C语言入门》、《刷题笔记》等专栏。</p>
-                    </div>
-                </div>
-                
-                <div class="qia-item question">
-                    <div class="qia-badge" data-en="Question" data-zh="疑问">疑问</div>
-                    <div class="qia-content">
-                        <h3 data-en="Question1: Update schedule" data-zh="疑问1：更新计划">疑问1：更新计划</h3>
-                        <p data-en="Time is currently tight, but regular updates will resume after June 2026! 😀" data-zh="现在时间很紧张，未来大概在26年6月以后会持续更新！😀">现在时间很紧张，未来大概在26年6月以后会持续更新！😀</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
+					<div class="qia-item issue">
+						<div class="qia-badge" data-en="Issue" data-zh="问题">问题</div>
+						<div class="qia-content">
+							<h3 data-en="Issues2: Blog post links show 404 error (Resolved✅)"
+								data-zh="问题2：博客文章链接显示404错误(已解决✅)">问题2：博客文章链接显示404错误(已解决✅)</h3>
+							<p data-en="Why do blog post links on the homepage show 404 errors when clicked?🥵New Error: Blog page article links also show 404 errors.❌"
+								data-zh="首页博客文章点击无法跳转显示404，为什么？🥵新增错误：截至2025-03-22博客页面文章也无法跳转！❌">
+								首页博客文章点击无法跳转显示404，为什么？🥵新增错误：截至2025-03-22博客页面文章也无法跳转！❌</p>
+							<div class="qia-answer">
+								<span class="answer-label" data-en="Answer:" data-zh="解答：">解答：</span>
+								<p data-en="Good news! This issue has been completely resolved in version 1.1.1 (March 27, 2025). The problem was caused by inconsistent URL paths for blog articles and a missing JavaScript reference. All links now work correctly from both the homepage and blog page. If you're still experiencing any issues, please clear your browser cache. Thank you for your patience! 😊"
+									data-zh="好消息！此问题已在1.1.1版本（2025年3月27日）中完全解决。问题是由博客文章URL路径不一致和缺少JavaScript引用导致的。现在，所有链接都可以从主页和博客页面正确工作。如果您仍然遇到任何问题，请清除浏览器缓存。感谢您的耐心等待！😊">
+									好消息！此问题已在1.1.1版本（2025年3月27日）中完全解决。问题是由博客文章URL路径不一致和缺少JavaScript引用导致的。现在，所有链接都可以从主页和博客页面正确工作。如果您仍然遇到任何问题，请清除浏览器缓存。感谢您的耐心等待！😊
+								</p>
+							</div>
+						</div>
+					</div>
 
-    <!-- 回到顶部浮动按钮 -->
-    <button id="back-to-top" class="back-to-top" title="回到顶部" aria-label="Back to top">
-        <i class="fas fa-chevron-up"></i>
-    </button>
+					<div class="qia-item issue">
+						<div class="qia-badge" data-en="Issue" data-zh="问题">问题</div>
+						<div class="qia-content">
+							<h3 data-en="Issues3: Font loading bug on first visit (Resolved✅)"
+								data-zh="问题3：首次访问时字体加载错误(已解决✅)">问题3：首次访问时字体加载错误(已解决✅)</h3>
+							<p data-en="When loading the site for the first time, there might be issues with text font rendering."
+								data-zh="首次加载时会出现正文字体加载不出来的bug。">首次加载时会出现正文字体加载不出来的bug。</p>
+							<div class="qia-answer">
+								<span class="answer-label" data-en="Answer:" data-zh="解答：">解答：</span>
+								<p data-en="Good news! This issue has been fixed in version 1.1.0. The website now properly displays all content on first visit without requiring any user interaction. If you're still experiencing any issues, please refresh your browser cache.😊"
+									data-zh="好消息！此问题已在1.1.0版本中修复。网站现在可以在首次访问时正确显示所有内容，无需任何用户交互。如果您仍然遇到问题，请刷新浏览器缓存。😊">
+									好消息！此问题已在1.1.0版本中修复。网站现在可以在首次访问时正确显示所有内容，无需任何用户交互。如果您仍然遇到问题，请刷新浏览器缓存。😊</p>
+							</div>
+						</div>
+					</div>
 
-    <!-- 页脚 -->
-    <footer>
-        <div class="footer-container">
-            <!-- Logo部分 -->
-            <div class="footer-logo-section">
-                <a href="../index.html" class="footer-logo">
-                    <img src="../images/githubherofigureimage.png" alt="HealthJian Logo">
-                    <span class="footer-logo-text" data-en="HealthJian Blog" data-zh="HealthJian Blog">HealthJian Blog</span>
-                </a>
-                <div class="footer-copyright">
-                    <p>&copy; 2025-2026 CaiNiaojian & HealthJian</p>
-                    <p data-en="All Rights Reserved" data-zh="保留所有权利">保留所有权利</p>
-                </div>
-            </div>
-            
-            <!-- 导航部分 -->
-            <div class="footer-nav-section">
-                <h3 data-en="Quick Links" data-zh="快速链接">快速链接</h3>
-                <div class="footer-links-grid">
-                    <a href="../index.html" data-en="Home" data-zh="首页">首页</a>
-                    <a href="blog.html" data-en="Blog" data-zh="博客">博客</a>
-                    <a href="../resume/resume.html" data-en="Resume" data-zh="简历">简历</a>
-                    <a href="links.html" data-en="Links" data-zh="链接">链接</a>
-                    <a href="gallery.html" data-en="Gallery" data-zh="图集">图集</a>
-                    <a href="changelog.html" data-en="ChangeLog" data-zh="更新日志">更新日志</a>
-                    <a href="categories.html" data-en="Categories" data-zh="分类">分类</a>
-                    <a href="../pages/project/project.html" data-en="Project" data-zh="项目">项目</a>
-                    <a href="../pages/project/datacenter.html" data-en="Data Center" data-zh="数据中心">数据中心</a>
-                </div>
-            </div>
-            
-            <!-- 社交媒体部分 -->
-            <div class="footer-social-section">
-                <h3 data-en="Connect With Me" data-zh="联系我">联系我</h3>
-                <div class="footer-contact-info">
-                    <p data-en="Email: gaojian1573@foxmail.com" data-zh="邮箱：gaojian1573@foxmail.com">邮箱：<a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
-                    <p data-en="Location: ~" data-zh="地址：~">地址：~</p>
-                </div>
-                <div class="footer-social-icons">
-                    <a href="https://github.com/CaiNiaojian" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="#" title="WeChat"><i class="fab fa-weixin"></i></a>
-                    <a href="#" target="_blank" title="Twitter/X"><i class="fab fa-twitter"></i></a>
-                    <a href="mailto:jke0214@gmail.com" title="Gmail"><i class="far fa-envelope"></i></a>
-                    <a href="https://steamcommunity.com/profiles/76561199031176587/" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
-                </div>
-                
-                <!-- 时钟部分移到这里 -->
-                <div class="footer-clock-section">
-                    <div class="footer-clock">00:00:00</div>
-                    <div class="footer-date" data-en="2025-05-19 Week One" data-zh="2025年05月19日 星期一">2025年05月19日 星期一</div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- 页脚底部信息 -->
-        <div class="footer-bottom">
-            <p data-en="Designed with 💓 by HealthJian 📚 Last updated: 2026/04/08" data-zh="Designed with 💓 by HealthJian 📚 Last updated: 2026/04/08">由 <a href="about.html">HealthJian</a> <span data-en="with " data-zh="用 ">用 </span>💓 <span data-en="designed" data-zh="设计">设计</span></p>
-        </div>
-    </footer>
+					<div class="qia-item idea">
+						<div class="qia-badge" data-en="Idea" data-zh="想法">想法</div>
+						<div class="qia-content">
+							<h3 data-en="Idea1: New blog series coming soon" data-zh="想法1：即将推出新专栏">想法1：即将推出新专栏</h3>
+							<p data-en="The blog will launch new series including: 'My First Twenty Years', '26-Year Essays', 'Data Mining', 'C Language for Beginners', 'Coding Practice Notes', and more."
+								data-zh="日会会开辟新的专栏：《我的人生前二十年》、《26年随笔》、《数据挖掘》、《C语言入门》、《刷题笔记》等专栏。">
+								日会会开辟新的专栏：《我的人生前二十》、《26年随笔》、《数据挖掘》、《C语言入门》、《刷题笔记》等专栏。</p>
+						</div>
+					</div>
 
-    <!-- ========== LOTTIE global_earth 脚本 START（删除至 END 可回档）========== -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" crossorigin="anonymous"></script>
-    <script>
-    (function(){
-        function initEarthLottie(){
-            const wrap = document.getElementById('earthLottieWrap');
-            const container = document.getElementById('earthLottie');
-            if(!wrap || !container) return;
-            if(typeof lottie === 'undefined'){ wrap.classList.add('is-fallback'); return; }
-            const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            let anim;
-            try {
-                anim = lottie.loadAnimation({
-                    container: container,
-                    renderer: 'svg',
-                    loop: true,
-                    autoplay: !reducedMotion,
-                    path: '../global_earth.json'
-                });
-            } catch (e) {
-                wrap.classList.add('is-fallback');
-                return;
-            }
-            anim.addEventListener('data_failed', () => {
-                wrap.classList.add('is-fallback');
-                try { anim.destroy(); } catch (_) {}
-            });
-            if(reducedMotion){
-                anim.addEventListener('DOMLoaded', () => { anim.goToAndStop(0, true); });
-            }
-        }
-        if(document.readyState === 'loading'){
-            document.addEventListener('DOMContentLoaded', initEarthLottie);
-        } else {
-            initEarthLottie();
-        }
-    })();
-    </script>
-    <!-- ========== LOTTIE global_earth 脚本 END ========== -->
+					<div class="qia-item question">
+						<div class="qia-badge" data-en="Question" data-zh="疑问">疑问</div>
+						<div class="qia-content">
+							<h3 data-en="Question1: Update schedule" data-zh="疑问1：更新计划">疑问1：更新计划</h3>
+							<p data-en="Time is currently tight, but regular updates will resume after June 2026! 😀"
+								data-zh="现在时间很紧张，未来大概在26年6月以后会持续更新！😀">现在时间很紧张，未来大概在26年6月以后会持续更新！😀</p>
+						</div>
+					</div>
+				</div>
+			</section>
+		</main>
 
-    <!-- 回到顶部 & 页内导航平滑滚动 -->
-    <script>
-    (function(){
-        var btn = document.getElementById('back-to-top');
-        if(!btn) return;
-        var scrollThreshold = 400;
-        function toggleBtn(){
-            if(window.scrollY > scrollThreshold){
-                btn.classList.add('visible');
-            } else {
-                btn.classList.remove('visible');
-            }
-        }
-        window.addEventListener('scroll', toggleBtn, {passive:true});
-        toggleBtn();
-        btn.addEventListener('click', function(){
-            window.scrollTo({top:0, behavior:'smooth'});
-        });
+		<!-- 回到顶部浮动按钮 -->
+		<button id="back-to-top" class="back-to-top" title="回到顶部" aria-label="Back to top">
+			<i class="fas fa-chevron-up"></i>
+		</button>
 
-        var nav = document.getElementById('about-inner-nav');
-        if(nav){
-            nav.addEventListener('click', function(e){
-                var link = e.target.closest('a[href^="#"]');
-                if(!link) return;
-                e.preventDefault();
-                var target = document.querySelector(link.getAttribute('href'));
-                if(target){
-                    var offset = 80;
-                    var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
-                    window.scrollTo({top: top, behavior:'smooth'});
-                }
-            });
-        }
-    })();
-    </script>
+		<!-- 页脚 -->
+		<footer>
+			<div class="footer-container">
+				<!-- Logo部分 -->
+				<div class="footer-logo-section">
+					<a href="../index.html" class="footer-logo">
+						<img src="../images/githubherofigureimage.png" alt="HealthJian Logo">
+						<span class="footer-logo-text" data-en="HealthJian Blog" data-zh="HealthJian Blog">HealthJian
+							Blog</span>
+					</a>
+					<div class="footer-copyright">
+						<p>&copy; 2025-2026 CaiNiaojian & HealthJian</p>
+						<p data-en="All Rights Reserved" data-zh="保留所有权利">保留所有权利</p>
+					</div>
+				</div>
 
-    <script src="../js/main.js"></script>
-    <script src="../js/theme.js"></script>
-    <script src="../js/language.js"></script>
-    <script src="../js/celebration-banner.js"></script>
-    <script src="../js/footer.js"></script>
+				<!-- 导航部分 -->
+				<div class="footer-nav-section">
+					<h3 data-en="Quick Links" data-zh="快速链接">快速链接</h3>
+					<div class="footer-links-grid">
+						<a href="../index.html" data-en="Home" data-zh="首页">首页</a>
+						<a href="blog.html" data-en="Blog" data-zh="博客">博客</a>
+						<a href="../resume/resume.html" data-en="Resume" data-zh="简历">简历</a>
+						<a href="links.html" data-en="Links" data-zh="链接">链接</a>
+						<a href="gallery.html" data-en="Gallery" data-zh="图集">图集</a>
+						<a href="changelog.html" data-en="ChangeLog" data-zh="更新日志">更新日志</a>
+						<a href="categories.html" data-en="Categories" data-zh="分类">分类</a>
+						<a href="../pages/project/project.html" data-en="Project" data-zh="项目">项目</a>
+						<a href="../pages/project/datacenter.html" data-en="Data Center" data-zh="数据中心">数据中心</a>
+					</div>
+				</div>
 
-</body>
-</html> 
+				<!-- 社交媒体部分 -->
+				<div class="footer-social-section">
+					<h3 data-en="Connect With Me" data-zh="联系我">联系我</h3>
+					<div class="footer-contact-info">
+						<p data-en="Email: gaojian1573@foxmail.com" data-zh="邮箱：gaojian1573@foxmail.com">邮箱：<a
+								href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
+						<p data-en="Location: ~" data-zh="地址：~">地址：~</p>
+					</div>
+					<div class="footer-social-icons">
+						<a href="https://github.com/CaiNiaojian" target="_blank" title="GitHub"><i
+								class="fab fa-github"></i></a>
+						<a href="#" title="WeChat"><i class="fab fa-weixin"></i></a>
+						<a href="#" target="_blank" title="Twitter/X"><i class="fab fa-twitter"></i></a>
+						<a href="mailto:jke0214@gmail.com" title="Gmail"><i class="far fa-envelope"></i></a>
+						<a href="https://steamcommunity.com/profiles/76561199031176587/" target="_blank"
+							title="Steam"><i class="fab fa-steam"></i></a>
+					</div>
+
+					<!-- 时钟部分移到这里 -->
+					<div class="footer-clock-section">
+						<div class="footer-clock">00:00:00</div>
+						<div class="footer-date" data-en="2025-05-19 Week One" data-zh="2025年05月19日 星期一">2025年05月19日 星期一
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- 页脚底部信息 -->
+			<div class="footer-bottom">
+				<p data-en="Designed with 💓 by HealthJian 📚 Last updated: 2026/04/08"
+					data-zh="Designed with 💓 by HealthJian 📚 Last updated: 2026/04/08">由 <a
+						href="about.html">HealthJian</a> <span data-en="with " data-zh="用 ">用 </span>💓 <span
+						data-en="designed" data-zh="设计">设计</span></p>
+			</div>
+		</footer>
+
+		<!-- ========== LOTTIE global_earth 脚本 START（删除至 END 可回档）========== -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" crossorigin="anonymous">
+		</script>
+		<script>
+			(function() {
+				function initEarthLottie() {
+					const wrap = document.getElementById('earthLottieWrap');
+					const container = document.getElementById('earthLottie');
+					if (!wrap || !container) return;
+					if (typeof lottie === 'undefined') {
+						wrap.classList.add('is-fallback');
+						return;
+					}
+					const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+					let anim;
+					try {
+						anim = lottie.loadAnimation({
+							container: container,
+							renderer: 'svg',
+							loop: true,
+							autoplay: !reducedMotion,
+							path: '../global_earth.json'
+						});
+					} catch (e) {
+						wrap.classList.add('is-fallback');
+						return;
+					}
+					anim.addEventListener('data_failed', () => {
+						wrap.classList.add('is-fallback');
+						try {
+							anim.destroy();
+						} catch (_) {}
+					});
+					if (reducedMotion) {
+						anim.addEventListener('DOMLoaded', () => {
+							anim.goToAndStop(0, true);
+						});
+					}
+				}
+				if (document.readyState === 'loading') {
+					document.addEventListener('DOMContentLoaded', initEarthLottie);
+				} else {
+					initEarthLottie();
+				}
+			})();
+		</script>
+		<!-- ========== LOTTIE global_earth 脚本 END ========== -->
+
+		<!-- 回到顶部 & 页内导航平滑滚动 -->
+		<script>
+			(function() {
+				var btn = document.getElementById('back-to-top');
+				if (!btn) return;
+				var scrollThreshold = 400;
+
+				function toggleBtn() {
+					if (window.scrollY > scrollThreshold) {
+						btn.classList.add('visible');
+					} else {
+						btn.classList.remove('visible');
+					}
+				}
+				window.addEventListener('scroll', toggleBtn, {
+					passive: true
+				});
+				toggleBtn();
+				btn.addEventListener('click', function() {
+					window.scrollTo({
+						top: 0,
+						behavior: 'smooth'
+					});
+				});
+
+				var nav = document.getElementById('about-inner-nav');
+				if (nav) {
+					nav.addEventListener('click', function(e) {
+						var link = e.target.closest('a[href^="#"]');
+						if (!link) return;
+						e.preventDefault();
+						var target = document.querySelector(link.getAttribute('href'));
+						if (target) {
+							var offset = 80;
+							var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+							window.scrollTo({
+								top: top,
+								behavior: 'smooth'
+							});
+						}
+					});
+				}
+			})();
+		</script>
+
+		<script src="../js/main.js"></script>
+		<script src="../js/theme.js"></script>
+		<script src="../js/language.js"></script>
+		<script src="../js/celebration-banner.js"></script>
+		<script src="../js/footer.js"></script>
+
+	</body>
+</html>
