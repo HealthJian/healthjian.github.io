@@ -311,6 +311,26 @@
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
 
+            const resolveBlogListUrl = (url) => {
+                if (!url || /^(https?:|mailto:|#)/.test(url)) return url || '#';
+                if (!url.startsWith('/')) return url;
+
+                const targetParts = url.replace(/^\/+/, '').split('/');
+                const pathName = window.location.pathname.replace(/\\/g, '/');
+                const pagesIndex = pathName.lastIndexOf('/pages/');
+                const currentSitePath = pagesIndex >= 0
+                    ? pathName.slice(pagesIndex + 1)
+                    : pathName.replace(/^\/+/, '').split('/').pop();
+                const currentDir = currentSitePath.split('/').slice(0, -1).filter(Boolean);
+                let shared = 0;
+
+                while (shared < currentDir.length && shared < targetParts.length && currentDir[shared] === targetParts[shared]) {
+                    shared++;
+                }
+
+                return '../'.repeat(currentDir.length - shared) + targetParts.slice(shared).join('/');
+            };
+
             // 数据源：优先使用 getBlogPosts（来自 js/blog.js），否则使用本地备份
             const fallbackArticles = [
                 { title: '毛泽东的诞辰，中国人的圣诞', title_en: 'Birthday of Mao Zedong, Christmas of Chinese people', date: '2025-12-30', category: 'idea', desc: '毛泽东的诞辰，中国人的圣诞', desc_en: 'Birthday of Mao Zedong, Christmas of Chinese people', tags: ['领袖','纪念','转载'], tags_en: ['Leader','Memorial','Reprint'], url: '/pages/blog/life/20251230.html' },
@@ -339,20 +359,19 @@
 
             // 统一处理日期排序（倒序，最新在前）
             const parseDate = (d) => Date.parse(d) || 0;
-            const articles = ((typeof getBlogPosts === 'function')
-                ? getBlogPosts().map(post => ({
+            const blogPosts = (typeof getBlogPosts === 'function') ? getBlogPosts() : [];
+            const sourceArticles = blogPosts.length ? blogPosts : fallbackArticles;
+            const articles = sourceArticles.map(post => ({
                     title: post.title,
                     title_en: post.title_en || post.title,
                     date: post.date,
                     category: post.category || 'tech',
-                    desc: post.excerpt || '',
-                    desc_en: post.excerpt_en || post.excerpt || '',
+                    desc: post.excerpt || post.desc || '',
+                    desc_en: post.excerpt_en || post.desc_en || post.excerpt || post.desc || '',
                     tags: post.tags || [],
                     tags_en: post.tags_en || post.tags || [],
-                    url: post.url || '#',
-                }))
-                : fallbackArticles
-            ).sort((a, b) => parseDate(b.date) - parseDate(a.date));
+                    url: resolveBlogListUrl(post.url || '#'),
+            })).sort((a, b) => parseDate(b.date) - parseDate(a.date));
 
             const grid = document.getElementById('blog-grid');
             const filterBtns = document.querySelectorAll('.filter-tags .filter-btn');

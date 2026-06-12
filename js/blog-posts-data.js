@@ -1,6 +1,42 @@
 // 博客文章数据源：供 blog.js、博客页、分类页与首页最新文章复用
 window.BLOG_POSTS_DATA = [
         {
+            "id": "graduation-divergence-reflection-20260606",
+            "title": "分流之年：一个毕业生的时代反思",
+            "title_en": "The Year of Divergence: Reflections from a Graduate",
+            "excerpt": "从毕业答辩后的个人体感出发，反思就业、升学、AI浪潮与阶层分化交织下的时代处境，讨论内卷、停滞、消费主义和共同富裕之间的复杂关系。",
+            "excerpt_en": "Starting from the lived experience after thesis defense, this essay reflects on employment, graduate study, the AI wave, class divergence, involution, stagnation, consumerism, and common prosperity.",
+            "date": "2026-06-06",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260606_zh_1.md",
+            "category": "idea",
+            "tags": ["毕业", "就业", "时代反思", "共同富裕", "AI"],
+            "tags_en": ["Graduation", "Employment", "Era Reflection", "Common Prosperity", "AI"]
+        },
+        {
+            "id": "ai-agent-model-tool-skill-harness-20260605",
+            "title": "AI Agent 核心概念深度解析：从 Model、Tool、Skill 到 Harness 工程",
+            "title_en": "AI Agent Core Concepts: From Model, Tool, and Skill to Harness Engineering",
+            "excerpt": "围绕 Model、Tool、Skill 与 Harness 四个核心概念，系统梳理 AI Agent 从模型能力到外部认知基础设施的工程化演进。",
+            "excerpt_en": "A systematic breakdown of Model, Tool, Skill, and Harness, tracing AI Agent engineering from model capability toward external cognitive infrastructure.",
+            "date": "2026-06-05",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260605_zh_1.md",
+            "category": "tech",
+            "tags": ["AI Agent", "大模型", "Tool", "Skill", "Harness"],
+            "tags_en": ["AI Agent", "LLM", "Tool", "Skill", "Harness"]
+        },
+        {
+            "id": "letter-to-grandma-film-review-20260604",
+            "title": "《给阿嬷的情书》极可能是当下最重要的电影",
+            "title_en": "A Letter to Grandma May Be One of the Most Important Films of Our Time",
+            "excerpt": "转载自新潮沉思录。文章以《给阿嬷的情书》的口碑与票房逆袭为切口，讨论身份认同、共同体意识、地方经验与当代中国社会共识。",
+            "excerpt_en": "Reposted from New Tide Reflections. Using the film's word-of-mouth and box-office rise as an entry point, the article discusses identity, community consciousness, local experience, and social consensus in contemporary China.",
+            "date": "2026-06-04",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260604_zh_1.md",
+            "category": "excerpt",
+            "tags": ["转载", "电影", "共同体", "身份认同", "文化"],
+            "tags_en": ["Repost", "Film", "Community", "Identity", "Culture"]
+        },
+        {
             "id": "ecommerce-agent-hub-20260603",
             "title": "从 Demo 到桌面：多 Agent 电商运营中枢的工程实践手记",
             "title_en": "From Demo to Desktop: Engineering Notes on a Multi-Agent E-Commerce Operations Hub",

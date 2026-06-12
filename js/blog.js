@@ -348,10 +348,33 @@ function filterPosts(category) {
     }
 }
 
+function resolveBlogPostUrl(url) {
+    if (!url || /^(https?:|mailto:|#)/.test(url)) return url || '#';
+    if (url.charAt(0) !== '/') return url;
+
+    const targetParts = url.replace(/^\/+/, '').split('/');
+    const pathName = (window.location && window.location.pathname ? window.location.pathname : '').replace(/\\/g, '/');
+    const pagesIndex = pathName.lastIndexOf('/pages/');
+    const currentSitePath = pagesIndex >= 0
+        ? pathName.slice(pagesIndex + 1)
+        : pathName.replace(/^\/+/, '').split('/').pop();
+    const currentDir = currentSitePath.split('/').slice(0, -1).filter(Boolean);
+    let shared = 0;
+
+    while (shared < currentDir.length && shared < targetParts.length && currentDir[shared] === targetParts[shared]) {
+        shared++;
+    }
+
+    return '../'.repeat(currentDir.length - shared) + targetParts.slice(shared).join('/');
+}
+
 // 获取博客文章数据
 function getBlogPosts() {
     if (Array.isArray(window.BLOG_POSTS_DATA)) {
-        return window.BLOG_POSTS_DATA.map(post => ({ ...post }));
+        return window.BLOG_POSTS_DATA.map(post => ({
+            ...post,
+            url: resolveBlogPostUrl(post.url)
+        }));
     }
     console.warn('[blog] BLOG_POSTS_DATA is not loaded; returning an empty article list.');
     return [];
