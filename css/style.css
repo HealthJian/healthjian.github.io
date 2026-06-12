@@ -1151,19 +1151,16 @@ body.dark-mode .ui-marquee-dot{
     cursor: pointer;
     opacity: 0;
     pointer-events: none;
-    transform: translateY(10px);
-    transition: opacity var(--transition-speed), transform var(--transition-speed), background-color var(--transition-speed);
+    transition: opacity var(--transition-speed), background-color var(--transition-speed);
 }
 
 .home-back-to-top.visible {
     opacity: 1;
     pointer-events: auto;
-    transform: translateY(0);
 }
 
 .home-back-to-top:hover {
     background: rgba(255, 255, 255, 0.95);
-    transform: translateY(-2px);
 }
 
 body.dark-mode .home-menu-toggle {

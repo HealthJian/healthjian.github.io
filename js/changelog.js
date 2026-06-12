@@ -79,6 +79,15 @@ function getTimelineToggleLabel(isExpanded, lang) {
   return isExpanded ? '收回内容' : '阅览详情';
 }
 
+function refreshArchiveGroupHeightFromChild(child) {
+  const archiveBody = child.closest('.archive-group-items');
+  if (!archiveBody || archiveBody.classList.contains('collapsed')) return;
+
+  requestAnimationFrame(() => {
+    archiveBody.style.maxHeight = archiveBody.scrollHeight + 'px';
+  });
+}
+
 function initTimelineDetailsToggle() {
   const timelineItems = document.querySelectorAll('.timeline-item');
   if (!timelineItems.length) return;
@@ -125,6 +134,13 @@ function initTimelineDetailsToggle() {
       details.classList.toggle('is-expanded', !isExpanded);
       details.classList.toggle('is-collapsed', isExpanded);
       syncToggleLabel();
+      refreshArchiveGroupHeightFromChild(details);
+    });
+
+    details.addEventListener('transitionend', function(event) {
+      if (event.propertyName === 'max-height') {
+        refreshArchiveGroupHeightFromChild(details);
+      }
     });
 
     // 默认收起（显示摘要）
@@ -779,4 +795,4 @@ window.addEventListener('scroll', function() {
   } else {
     initGiscusSync();
   }
-})(); 
+})();
