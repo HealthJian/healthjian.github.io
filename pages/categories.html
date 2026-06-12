@@ -811,6 +811,128 @@
         font-size: .95rem;
     }
 
+    /* --- View Switch & Archive --- */
+    .cat-view-switch {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin: 22px 0 30px;
+        flex-wrap: wrap;
+    }
+    .cat-view-btn {
+        border: 1px solid rgba(0, 122, 255, 0.2);
+        background: var(--card-background);
+        color: var(--text-color);
+        border-radius: 10px;
+        padding: 10px 18px;
+        font-size: .92rem;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 2px 10px var(--shadow-color);
+        transition: background .2s, color .2s, transform .2s, border-color .2s;
+    }
+    .cat-view-btn:hover {
+        transform: translateY(-2px);
+        border-color: rgba(0, 122, 255, 0.35);
+    }
+    .cat-view-btn.active {
+        background: var(--primary-color);
+        color: #fff;
+        border-color: var(--primary-color);
+    }
+    .cat-main-view.is-hidden,
+    .author-data-view.is-hidden,
+    .archive-view.is-hidden {
+        display: none;
+    }
+    .author-data-view,
+    .archive-view {
+        max-width: 1100px;
+        margin: 0 auto 60px;
+    }
+    .archive-view {
+        max-width: 980px;
+    }
+    .archive-panel {
+        background: var(--card-background);
+        border-radius: var(--border-radius);
+        box-shadow: 0 2px 12px var(--shadow-color);
+        overflow: hidden;
+        margin-bottom: 18px;
+        border: 1px solid rgba(0, 122, 255, 0.1);
+    }
+    .archive-year-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 18px 22px;
+        border-bottom: 1px solid rgba(0, 122, 255, 0.08);
+    }
+    .archive-year-title {
+        font-size: 1.35rem;
+        font-weight: 700;
+        color: var(--text-color);
+    }
+    .archive-count {
+        font-size: .82rem;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(0, 122, 255, 0.1);
+        color: var(--primary-color);
+        flex-shrink: 0;
+    }
+    .archive-month {
+        padding: 18px 22px;
+        border-top: 1px solid rgba(0, 0, 0, 0.04);
+    }
+    .archive-month:first-of-type {
+        border-top: 0;
+    }
+    .archive-month-title {
+        margin: 0 0 12px;
+        font-size: 1rem;
+        color: var(--primary-color);
+        font-weight: 700;
+    }
+    .archive-list {
+        display: grid;
+        gap: 10px;
+    }
+    .archive-item {
+        display: grid;
+        grid-template-columns: 92px 1fr auto;
+        gap: 12px;
+        align-items: center;
+        padding: 12px 0;
+        color: var(--text-color);
+        border-bottom: 1px dashed rgba(0, 0, 0, 0.08);
+    }
+    .archive-item:last-child {
+        border-bottom: 0;
+    }
+    .archive-date {
+        font-size: .82rem;
+        opacity: .65;
+        font-variant-numeric: tabular-nums;
+    }
+    .archive-title {
+        color: var(--text-color);
+        font-weight: 600;
+        line-height: 1.5;
+    }
+    .archive-title:hover {
+        color: var(--primary-color);
+    }
+    .archive-cat {
+        font-size: .78rem;
+        padding: 3px 9px;
+        border-radius: 999px;
+        background: rgba(0, 122, 255, 0.08);
+        color: var(--primary-color);
+        white-space: nowrap;
+    }
+
     /* --- Responsive --- */
     @media (max-width: 768px) {
         .stats-banner { grid-template-columns: repeat(2, 1fr); }
@@ -822,6 +944,13 @@
         .stat-number { font-size: 1.8rem; }
         .search-bar { padding: 4px 6px 4px 14px; }
         .search-bar button span { display: none; }
+        .archive-item {
+            grid-template-columns: 1fr;
+            gap: 5px;
+        }
+        .archive-cat {
+            width: fit-content;
+        }
     }
     </style>
 </head>
@@ -899,6 +1028,16 @@
             </section>
             <div class="search-ticker-gap" aria-hidden="true"></div>
 
+            <div class="cat-view-switch" role="tablist" aria-label="Category page views">
+                <button type="button" class="cat-view-btn active" data-view="overview" aria-selected="true"
+                        data-en="Overview" data-zh="分类概览">分类概览</button>
+                <button type="button" class="cat-view-btn" data-view="author" aria-selected="false"
+                        data-en="Author Data" data-zh="作者数据">作者数据</button>
+                <button type="button" class="cat-view-btn" data-view="archive" aria-selected="false"
+                        data-en="Article Archive" data-zh="文章归档">文章归档</button>
+            </div>
+
+            <div class="cat-main-view" id="categoryOverview">
             <!-- 最新文章动态条（同步 blog.js） -->
             <div class="news-ticker" id="newsTicker" aria-label="Latest articles">
                 <div class="news-ticker-label">
@@ -954,6 +1093,9 @@
                     </div>
                 </div>
             </section>
+            </div>
+
+            <section class="author-data-view is-hidden" id="authorDataView" aria-live="polite">
 
             <!-- 发布时间线 -->
             <h2 class="section-title" data-en="Publishing Timeline" data-zh="发布时间线">发布时间线</h2>
@@ -1006,6 +1148,12 @@
                 </div>
             </section>
             <div class="kline-tooltip" id="klineTooltip"></div>
+            </section>
+
+            <section class="archive-view is-hidden" id="articleArchiveView" aria-live="polite">
+                <h2 class="section-title" data-en="Article Archive" data-zh="文章归档">文章归档</h2>
+                <div id="articleArchive"></div>
+            </section>
         </div>
     </main>
 
@@ -1080,6 +1228,14 @@
         };
 
         function catPosts(cat) { return posts.filter(p => p.category === cat); }
+
+        function getCatName(cat) {
+            if (typeof getBlogCategoryMeta === 'function') {
+                const meta = getBlogCategoryMeta(cat);
+                return lang() === 'en' ? meta.en : meta.zh;
+            }
+            return CAT_META[cat] ? (lang() === 'en' ? CAT_META[cat].en : CAT_META[cat].zh) : cat;
+        }
 
         function allTags() {
             const map = {};
@@ -1981,11 +2137,115 @@
             });
         }
 
+        function renderArchive() {
+            const root = document.getElementById('articleArchive');
+            if (!root) return;
+            const isEn = lang() === 'en';
+            const sorted = [...posts].sort((a, b) => b.date.localeCompare(a.date));
+            const years = new Map();
+
+            sorted.forEach(post => {
+                const match = String(post.date || '').match(/^(\d{4})-(\d{2})/);
+                const year = match ? match[1] : (isEn ? 'Undated' : '未标日期');
+                const month = match ? match[2] : '00';
+                if (!years.has(year)) years.set(year, new Map());
+                const months = years.get(year);
+                if (!months.has(month)) months.set(month, []);
+                months.get(month).push(post);
+            });
+
+            const monthName = (month) => {
+                if (month === '00') return isEn ? 'Undated' : '未标日期';
+                return isEn
+                    ? new Date(`2026-${month}-01`).toLocaleString('en', { month: 'short' })
+                    : `${parseInt(month, 10)}月`;
+            };
+
+            root.innerHTML = Array.from(years.entries()).map(([year, months]) => {
+                const total = Array.from(months.values()).reduce((sum, list) => sum + list.length, 0);
+                const yearCount = isEn ? `${total} posts` : `${total} 篇`;
+                const monthHtml = Array.from(months.entries()).map(([month, list]) => {
+                    const monthCount = isEn ? `${list.length} posts` : `${list.length} 篇`;
+                    const items = list.map(post => {
+                        const title = isEn ? (post.title_en || post.title) : post.title;
+                        return `<a class="archive-item" href="${post.url}" target="_blank" rel="noopener">
+                            <span class="archive-date">${post.date || ''}</span>
+                            <span class="archive-title">${title}</span>
+                            <span class="archive-cat">${getCatName(post.category)}</span>
+                        </a>`;
+                    }).join('');
+
+                    return `<div class="archive-month">
+                        <h3 class="archive-month-title">${monthName(month)} <span class="archive-count">${monthCount}</span></h3>
+                        <div class="archive-list">${items}</div>
+                    </div>`;
+                }).join('');
+
+                return `<article class="archive-panel">
+                    <div class="archive-year-header">
+                        <div class="archive-year-title">${year}</div>
+                        <span class="archive-count">${yearCount}</span>
+                    </div>
+                    ${monthHtml}
+                </article>`;
+            }).join('');
+        }
+
+        let activeCatView = 'overview';
+
+        function renderAuthorData() {
+            renderTimeline();
+            renderKline();
+        }
+
+        function initViewSwitch() {
+            const buttons = document.querySelectorAll('.cat-view-btn');
+            const overview = document.getElementById('categoryOverview');
+            const author = document.getElementById('authorDataView');
+            const archive = document.getElementById('articleArchiveView');
+            if (!buttons.length || !overview || !author || !archive) return;
+
+            function activate(view, shouldScroll) {
+                activeCatView = view || 'overview';
+                buttons.forEach(btn => {
+                    const active = btn.dataset.view === activeCatView;
+                    btn.classList.toggle('active', active);
+                    btn.setAttribute('aria-selected', active ? 'true' : 'false');
+                });
+
+                overview.classList.toggle('is-hidden', activeCatView !== 'overview');
+                author.classList.toggle('is-hidden', activeCatView !== 'author');
+                archive.classList.toggle('is-hidden', activeCatView !== 'archive');
+
+                if (activeCatView === 'author') {
+                    requestAnimationFrame(renderAuthorData);
+                }
+                if (activeCatView === 'overview') {
+                    requestAnimationFrame(renderGraph);
+                }
+                if (activeCatView === 'archive') {
+                    renderArchive();
+                }
+
+                if (shouldScroll) {
+                    const target = activeCatView === 'author' ? author : activeCatView === 'archive' ? archive : overview;
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+
+            buttons.forEach(button => {
+                button.addEventListener('click', () => activate(button.dataset.view || 'overview', true));
+            });
+
+            activate('overview', false);
+        }
+
         /* ===== Init ===== */
         let searchInited = false;
         let tagToggleInited = false;
         let tlModeInited = false;
         let klineModeInited = false;
+        let viewSwitchInited = false;
 
         function renderAll() {
             const runAnim = !didCountAnim;
@@ -1995,30 +2255,33 @@
             renderNewsTicker();
             renderCategories();
             applyTagView();
-            renderGraph();
-            renderTimeline();
+            if (activeCatView === 'overview') renderGraph();
+            if (activeCatView === 'author') renderTimeline();
+            if (activeCatView === 'archive') renderArchive();
             if (!searchInited) { initSearch(); searchInited = true; }
             if (!tagToggleInited) { initTagViewToggle(); tagToggleInited = true; }
             if (!tlModeInited) { initTimelineMode(); tlModeInited = true; }
             if (!klineModeInited) { initKlineMode(); klineModeInited = true; }
+            if (!viewSwitchInited) { initViewSwitch(); viewSwitchInited = true; }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             renderAll();
-            renderKline();
         });
 
         window.addEventListener('resize', () => {
-            renderGraph();
-            renderTimeline();
-            if (klineDataCache) drawKline(klineDataCache);
+            if (activeCatView === 'overview') renderGraph();
+            if (activeCatView === 'author') {
+                renderTimeline();
+                if (klineDataCache) drawKline(klineDataCache);
+            }
         });
 
         const observer = new MutationObserver((mutations) => {
             for (const m of mutations) {
                 if (m.attributeName === 'class') {
                     renderAll();
-                    refreshKlineFromCache();
+                    if (activeCatView === 'author') refreshKlineFromCache();
                     break;
                 }
             }
