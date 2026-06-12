@@ -819,25 +819,102 @@ body.dark-mode .md-icon-action {
     transform: translateY(0);
 }
 
+/* 移动端侧栏遮罩层（桌面端隐藏） */
+.md-sidebar-backdrop {
+    display: none;
+}
+
 @media (max-width: 992px) {
+    /* 恢复侧栏收缩按钮，固定在屏幕左侧中部 */
     .md-sidebar-drawer-btn {
-        display: none;
+        display: flex;
+        position: fixed;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 992;
+        width: 26px;
+        height: 56px;
+        border-radius: 0 10px 10px 0;
     }
 
+    .md-article-layout.md-layout--sidebar-collapsed .md-sidebar-drawer-btn {
+        position: fixed;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    /* 侧栏改为固定定位的左侧抽屉面板 */
+    .md-article-layout .blog-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 300px;
+        max-width: 80vw;
+        height: 100vh;
+        height: 100dvh;
+        z-index: 991;
+        overflow-y: auto;
+        border-radius: 0;
+        margin: 0;
+        padding: 70px 20px 20px;
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+        transform: translateX(0);
+        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                    opacity 0.28s ease,
+                    visibility 0s;
+    }
+
+    /* 侧栏收起时滑出屏幕 */
     .md-article-layout.md-layout--sidebar-collapsed .blog-sidebar {
-        max-width: none;
-        width: 100%;
+        transform: translateX(-100%);
+        opacity: 0;
+        pointer-events: none;
+        visibility: hidden;
+        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                    opacity 0.28s ease,
+                    visibility 0s 0.35s;
+        width: 300px;
+        max-width: 80vw;
         min-width: 0;
-        opacity: 1;
-        padding: 25px;
-        pointer-events: auto;
-        border-radius: var(--border-radius);
-        box-shadow: 0 5px 15px var(--shadow-color);
+        padding: 70px 20px 20px;
+        box-shadow: none;
     }
 
+    /* 主内容区始终全宽 */
+    .md-article-layout .blog-post-main,
     .md-article-layout.md-layout--sidebar-collapsed .blog-post-main {
         max-width: 100%;
         margin-left: 0;
         margin-right: 0;
+    }
+
+    /* 遮罩层：侧栏展开时覆盖页面背景 */
+    .md-sidebar-backdrop {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 990;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0s 0.3s;
+    }
+
+    .md-sidebar-backdrop.active {
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.3s ease, visibility 0s;
+    }
+
+    /* 侧栏打开时禁止页面背景滚动 */
+    body.md-sidebar-open {
+        overflow: hidden;
+    }
+
+    /* 移动端目录区域可用更大的滚动空间 */
+    .md-article-layout .toc-scroll-area {
+        max-height: min(55vh, 480px);
     }
 }

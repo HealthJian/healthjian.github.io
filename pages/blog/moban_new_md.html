@@ -580,14 +580,51 @@
             }
         }
 
+        function closeMobileSidebar() {
+            if (window.innerWidth > 992) return;
+            const layout = document.getElementById('md-article-layout');
+            const btn = document.getElementById('md-sidebar-drawer-btn');
+            const backdrop = document.querySelector('.md-sidebar-backdrop');
+            if (!layout || layout.classList.contains('md-layout--sidebar-collapsed')) return;
+            layout.classList.add('md-layout--sidebar-collapsed');
+            if (btn) {
+                btn.classList.add('md-sidebar-drawer-btn--collapsed');
+                btn.setAttribute('aria-expanded', 'false');
+            }
+            if (backdrop) backdrop.classList.remove('active');
+            document.body.classList.remove('md-sidebar-open');
+            const lang = getCurrentLang();
+            if (btn) btn.setAttribute('title', lang === 'zh' ? '展开侧栏' : 'Show sidebar');
+        }
+
         function initSidebarDrawer() {
             const layout = document.getElementById('md-article-layout');
             const btn = document.getElementById('md-sidebar-drawer-btn');
             if (!layout || !btn) return;
+
+            var backdrop = document.querySelector('.md-sidebar-backdrop');
+            if (!backdrop) {
+                backdrop = document.createElement('div');
+                backdrop.className = 'md-sidebar-backdrop';
+                document.body.appendChild(backdrop);
+            }
+
+            if (window.innerWidth <= 992) {
+                layout.classList.add('md-layout--sidebar-collapsed');
+                btn.classList.add('md-sidebar-drawer-btn--collapsed');
+                btn.setAttribute('aria-expanded', 'false');
+            }
+
             btn.addEventListener('click', function () {
                 const collapsed = layout.classList.toggle('md-layout--sidebar-collapsed');
                 btn.classList.toggle('md-sidebar-drawer-btn--collapsed', collapsed);
                 btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+
+                if (window.innerWidth <= 992) {
+                    backdrop.classList.toggle('active', !collapsed);
+                    document.body.classList.toggle('md-sidebar-open', !collapsed);
+                }
+
                 const lang = getCurrentLang();
                 if (collapsed) {
                     btn.setAttribute('title', lang === 'zh' ? '展开侧栏' : 'Show sidebar');
@@ -595,6 +632,8 @@
                     syncMdChromeI18n();
                 }
             });
+
+            backdrop.addEventListener('click', closeMobileSidebar);
         }
 
         function initTocBranchToggles(root) {
@@ -732,6 +771,8 @@
                     const targetElement = document.getElementById(targetId);
 
                     if (targetElement) {
+                        closeMobileSidebar();
+
                         targetElement.scrollIntoView({
                             behavior: 'smooth',
                             block: 'start'
