@@ -1,6 +1,30 @@
 // 博客文章数据源：供 blog.js、博客页、分类页与首页最新文章复用
 window.BLOG_POSTS_DATA = [
         {
+            "id": "semiconductor-wafer-yield-ai-survey-20260613",
+            "title": "从晶圆到良率：AI 如何提前预判一片晶圆的命运？",
+            "title_en": "From Wafer to Yield: How AI Predicts the Fate of a Wafer in Advance",
+            "excerpt": "围绕人工智能预测半导体晶圆良率的综述论文展开精读，系统梳理制造流程、数据类型、机器学习与深度学习方法，以及小样本、可解释和多模态预测三条未来方向。",
+            "excerpt_en": "An in-depth read of a survey on AI-based semiconductor wafer yield prediction, covering manufacturing flow, data types, machine learning and deep learning methods, plus future directions in few-shot, explainable, and multimodal prediction.",
+            "date": "2026-06-13",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260613_zh_1.md",
+            "category": "paper",
+            "tags": ["论文精读", "半导体", "良率预测", "工业AI", "深度学习"],
+            "tags_en": ["Paper Review", "Semiconductor", "Yield Prediction", "Industrial AI", "Deep Learning"]
+        },
+        {
+            "id": "agent-externalization-memory-skills-harness-20260612",
+            "title": "为什么 AI Agent 不只是大语言模型：从外部化视角理解记忆、技能、协议与 Harness",
+            "title_en": "Why AI Agents Are More Than Just Large Language Models",
+            "excerpt": "基于 Agent 外部化综述论文，解释真正有用的 AI Agent 为什么依赖模型之外的认知基础设施：记忆系统、技能系统、协议层与 Harness 工程如何共同组织长期状态、可复用流程、工具调用和治理闭环。",
+            "excerpt_en": "Based on a review of externalization in LLM agents, this article explains why useful AI agents rely on cognitive infrastructure beyond the model: memory, skills, protocols, and harness engineering.",
+            "date": "2026-06-12",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260612_en_1.md%3Fsource=en",
+            "category": "tech",
+            "tags": ["AI Agent", "大模型", "Memory", "Skill", "Harness"],
+            "tags_en": ["AI Agent", "LLM", "Memory", "Skill", "Harness"]
+        },
+        {
             "id": "graduation-divergence-reflection-20260606",
             "title": "分流之年：一个毕业生的时代反思",
             "title_en": "The Year of Divergence: Reflections from a Graduate",

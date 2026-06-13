@@ -203,10 +203,15 @@ class MarkdownRenderer {
         // 数学公式的正则表达式
         this.mathPatterns = {
             // 块级公式：$$...$$
-            blockMath: /\$\$([^$]+?)\$\$/g,
+            blockMath: /\$\$([\s\S]+?)\$\$/g,
             // 行内公式：$...$（但不匹配$$...$$）
             inlineMath: /(?<!\$)\$([^$\n]+?)\$(?!\$)/g
         };
+    }
+
+    // 生成不会被 marked 当作强调语法处理的数学公式占位符
+    createMathPlaceholder(type, index) {
+        return `@@MATH-${type}-${index}@@`;
     }
 
     // 预处理数学公式
@@ -217,7 +222,7 @@ class MarkdownRenderer {
 
         // 先处理块级公式
         processedText = processedText.replace(this.mathPatterns.blockMath, (match, formula) => {
-            const placeholder = `__MATH_BLOCK_${blockIndex}__`;
+            const placeholder = this.createMathPlaceholder('BLOCK', blockIndex);
             mathBlocks.push({
                 type: 'block',
                 formula: formula.trim(),
@@ -229,7 +234,7 @@ class MarkdownRenderer {
 
         // 再处理行内公式
         processedText = processedText.replace(this.mathPatterns.inlineMath, (match, formula) => {
-            const placeholder = `__MATH_INLINE_${blockIndex}__`;
+            const placeholder = this.createMathPlaceholder('INLINE', blockIndex);
             mathBlocks.push({
                 type: 'inline',
                 formula: formula.trim(),
@@ -255,11 +260,13 @@ class MarkdownRenderer {
             if (type === 'block') {
                 // 块级公式
                 const mathHtml = `<div class="math-block" data-formula="${this.escapeHtml(formula)}">$$${formula}$$</div>`;
-                processedHtml = processedHtml.replace(placeholder, mathHtml);
+                processedHtml = processedHtml
+                    .replace(`<p>${placeholder}</p>`, mathHtml)
+                    .split(placeholder).join(mathHtml);
             } else if (type === 'inline') {
                 // 行内公式
                 const mathHtml = `<span class="math-inline" data-formula="${this.escapeHtml(formula)}">$${formula}$</span>`;
-                processedHtml = processedHtml.replace(placeholder, mathHtml);
+                processedHtml = processedHtml.split(placeholder).join(mathHtml);
             }
         });
 
