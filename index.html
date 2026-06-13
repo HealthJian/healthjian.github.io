@@ -105,6 +105,47 @@
 			}
 
 			/* ========== LOTTIE Cool_emoji 样式 END ========== */
+
+			/* ========== LOTTIE smile-face 样式 START（删除至 END 可回档）========== */
+			.home-smile-face-wrap {
+				width: min(180px, 42vw);
+				margin: 18px auto 32px;
+				aspect-ratio: 1 / 1;
+				position: relative;
+				pointer-events: none;
+			}
+
+			.home-smile-face {
+				width: 100%;
+				height: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			.home-smile-face svg {
+				width: 100% !important;
+				height: auto !important;
+				max-height: 100%;
+			}
+
+			.home-smile-face-fallback {
+				display: none;
+				font-size: 3rem;
+				line-height: 1;
+				text-align: center;
+				opacity: 0.5;
+			}
+
+			.home-smile-face-wrap.is-fallback .home-smile-face {
+				display: none;
+			}
+
+			.home-smile-face-wrap.is-fallback .home-smile-face-fallback {
+				display: block;
+			}
+
+			/* ========== LOTTIE smile-face 样式 END ========== */
 		</style>
 	</head>
 	<body class="light-mode home-page">
@@ -586,6 +627,13 @@
 					</article>
 				</div>
 			</section>
+
+			<!-- ========== LOTTIE smile-face START：删除本段至 END 可回档 ========== -->
+			<div class="home-smile-face-wrap" id="homeSmileFaceWrap" aria-hidden="true">
+				<div class="home-smile-face" id="homeSmileFace"></div>
+				<div class="home-smile-face-fallback">☺</div>
+			</div>
+			<!-- ========== LOTTIE smile-face END ========== -->
 		</main>
 
 		<button id="homeBackToTop" class="home-back-to-top" type="button" title="回到顶部" aria-label="Back to top">
@@ -663,9 +711,9 @@
 		</script>
 		<script>
 			(function() {
-				function initHomeCoolEmoji() {
-					const wrap = document.getElementById('homeCoolEmojiWrap');
-					const container = document.getElementById('homeCoolEmoji');
+				function initHomeLottieAnimation(config) {
+					const wrap = document.getElementById(config.wrapId);
+					const container = document.getElementById(config.containerId);
 					if (!wrap || !container) return;
 					if (typeof lottie === 'undefined') {
 						wrap.classList.add('is-fallback');
@@ -677,9 +725,9 @@
 						anim = lottie.loadAnimation({
 							container: container,
 							renderer: 'svg',
-							loop: true,
+							loop: config.loop,
 							autoplay: !reducedMotion,
-							path: 'Cool_emoji.json'
+							path: config.path
 						});
 					} catch (e) {
 						wrap.classList.add('is-fallback');
@@ -697,10 +745,30 @@
 						});
 					}
 				}
+				function initHomeCoolEmoji() {
+					initHomeLottieAnimation({
+						wrapId: 'homeCoolEmojiWrap',
+						containerId: 'homeCoolEmoji',
+						path: 'Cool_emoji.json',
+						loop: true
+					});
+				}
+				function initHomeSmileFace() {
+					initHomeLottieAnimation({
+						wrapId: 'homeSmileFaceWrap',
+						containerId: 'homeSmileFace',
+						path: 'smile-face.json',
+						loop: true
+					});
+				}
 				if (document.readyState === 'loading') {
-					document.addEventListener('DOMContentLoaded', initHomeCoolEmoji);
+					document.addEventListener('DOMContentLoaded', function() {
+						initHomeCoolEmoji();
+						initHomeSmileFace();
+					});
 				} else {
 					initHomeCoolEmoji();
+					initHomeSmileFace();
 				}
 			})();
 		</script>
