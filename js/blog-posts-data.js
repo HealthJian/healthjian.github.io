@@ -19,8 +19,8 @@ window.BLOG_POSTS_DATA = [
             "excerpt": "基于 Agent 外部化综述论文，解释真正有用的 AI Agent 为什么依赖模型之外的认知基础设施：记忆系统、技能系统、协议层与 Harness 工程如何共同组织长期状态、可复用流程、工具调用和治理闭环。",
             "excerpt_en": "Based on a review of externalization in LLM agents, this article explains why useful AI agents rely on cognitive infrastructure beyond the model: memory, skills, protocols, and harness engineering.",
             "date": "2026-06-12",
-            "url": "/pages/blog/moban_new_md.html?md=../../context/20260612_en_1.md%3Fsource=en",
-            "category": "tech",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260612_zh_1.md",
+            "category": "paper",
             "tags": ["AI Agent", "大模型", "Memory", "Skill", "Harness"],
             "tags_en": ["AI Agent", "LLM", "Memory", "Skill", "Harness"]
         },

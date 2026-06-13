@@ -143,7 +143,7 @@
             display: flex;
             justify-content: center;
             margin: 1.5rem 0;
-            padding: 1rem;
+            padding: 1.25rem;
             background: var(--bg-color, #fff);
             border: 1px solid var(--border-color, #e0e0e0);
             border-radius: 8px;
@@ -156,7 +156,31 @@
         }
 
         .mermaid-container svg {
-            max-width: 100%;
+            width: min(100%, 980px);
+            min-width: min(100%, 560px);
+            max-width: none;
+            height: auto;
+        }
+
+        .svg-render-container {
+            display: flex;
+            justify-content: center;
+            margin: 1.5rem 0;
+            padding: 1.25rem;
+            background: var(--bg-color, #fff);
+            border: 1px solid var(--border-color, #e0e0e0);
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        body.dark-mode .svg-render-container {
+            background: #1e1e2e;
+            border-color: #3a3a4a;
+        }
+
+        .svg-render-container svg {
+            width: min(100%, 980px);
+            max-width: none;
             height: auto;
         }
 

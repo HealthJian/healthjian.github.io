@@ -102,6 +102,23 @@
 
         <section class="changelog-timeline">
             <div class="timeline-item">
+                <div class="timeline-date">2026-06-13</div>
+                <div class="timeline-content">
+                    <h2 data-en="Markdown Reader Rendering Robustness Upgrade" data-zh="Markdown 阅读模板渲染鲁棒性升级">Markdown 阅读模板渲染鲁棒性升级</h2>
+                    <ul>
+                        <li data-en="Math rendering robustness: extended markdown-renderer.js to support LaTeX-style block formulas written as \[...\] and inline formulas written as \(...\), in addition to the existing $$...$$ and $...$ formats." data-zh="公式渲染鲁棒性：扩展 markdown-renderer.js，除原有 $$...$$ 与 $...$ 外，新增支持 \[...\] 块级公式和 \(...\) 行内公式写法。"><strong>公式渲染鲁棒性</strong>：扩展 markdown-renderer.js，除原有 $$...$$ 与 $...$ 外，新增支持 \[...\] 块级公式和 \(...\) 行内公式写法。</li>
+                        <li data-en="Math compatibility fix: replaced Markdown-sensitive math placeholders with stable tokens to prevent MATH_BLOCK / MATH_INLINE leakage, and normalized common unescaped percent signs before KaTeX rendering." data-zh="公式兼容修复：将容易被 Markdown 强调语法破坏的公式占位符改为稳定 token，避免 MATH_BLOCK / MATH_INLINE 泄漏；并在 KaTeX 渲染前兼容常见未转义百分号。"><strong>公式兼容修复</strong>：将容易被 Markdown 强调语法破坏的公式占位符改为稳定 token，避免 MATH_BLOCK / MATH_INLINE 泄漏；并在 KaTeX 渲染前兼容常见未转义百分号。</li>
+                        <li data-en="SVG rendering support: HTML / SVG / XML fenced code blocks that contain a complete &lt;svg&gt;...&lt;/svg&gt; are now rendered as diagrams inside a dedicated responsive container, while ordinary code blocks remain highlighted code." data-zh="SVG 渲染支持：当 html / svg / xml 代码块内容是完整的 &lt;svg&gt;...&lt;/svg&gt; 时，会在专用响应式容器中渲染为图形；普通代码块仍保持代码高亮展示。"><strong>SVG 渲染支持</strong>：当 html / svg / xml 代码块内容是完整的 &lt;svg&gt;...&lt;/svg&gt; 时，会在专用响应式容器中渲染为图形；普通代码块仍保持代码高亮展示。</li>
+                        <li data-en="SVG safety guard: before injecting SVG into the article, the renderer strips script tags, foreignObject blocks, inline event handlers and javascript: links to reduce risk while preserving normal static SVG diagrams." data-zh="SVG 安全兜底：在把 SVG 注入正文前，渲染器会移除 script、foreignObject、行内事件属性和 javascript: 链接，降低风险，同时保留普通静态 SVG 图。"><strong>SVG 安全兜底</strong>：在把 SVG 注入正文前，渲染器会移除 script、foreignObject、行内事件属性和 javascript: 链接，降低风险，同时保留普通静态 SVG 图。</li>
+                        <li data-en="Mermaid readability: adjusted Mermaid diagram container spacing and SVG sizing in moban_new_md.html so diagrams appear larger and more readable by default, while keeping the existing fullscreen zoom feature." data-zh="Mermaid 可读性优化：调整 moban_new_md.html 中 Mermaid 图表容器间距与 SVG 尺寸，让图表默认显示更大、更易读，同时保留既有全屏放大功能。"><strong>Mermaid 可读性优化</strong>：调整 moban_new_md.html 中 Mermaid 图表容器间距与 SVG 尺寸，让图表默认显示更大、更易读，同时保留既有全屏放大功能。</li>
+                        <li data-en="Markdown cleanup: removed a stray opening ```markdown fence from context/20260613_en_1.md so the article header is no longer rendered as a code block." data-zh="Markdown 清理：移除 context/20260613_en_1.md 开头残留的 ```markdown 围栏，避免文章标题区域被误渲染为代码块。"><strong>Markdown 清理</strong>：移除 context/20260613_en_1.md 开头残留的 ```markdown 围栏，避免文章标题区域被误渲染为代码块。</li>
+                        <li data-en="Validation: checked JavaScript syntax for js/blog-posts-data.js and markdown-renderer.js, verified the local 127.0.0.1:5501 article URL and Markdown file return 200, and confirmed SVG code blocks are converted into render containers." data-zh="验证：完成 js/blog-posts-data.js 与 markdown-renderer.js 语法检查；确认本地 127.0.0.1:5501 文章 URL 与 Markdown 文件返回 200；并验证 SVG 代码块会转换为渲染容器。"><strong>验证</strong>：完成 js/blog-posts-data.js 与 markdown-renderer.js 语法检查；确认本地 127.0.0.1:5501 文章 URL 与 Markdown 文件返回 200；并验证 SVG 代码块会转换为渲染容器。</li>
+                        <li data-en="Changed Files: pages/blog/blogjs_markdown/markdown-renderer.js, pages/blog/moban_new_md.html, context/20260613_en_1.md, pages/changelog.html." data-zh="改动文件：pages/blog/blogjs_markdown/markdown-renderer.js、pages/blog/moban_new_md.html、context/20260613_en_1.md、pages/changelog.html。"><strong>改动文件</strong>：pages/blog/blogjs_markdown/markdown-renderer.js、pages/blog/moban_new_md.html、context/20260613_en_1.md、pages/changelog.html。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
                 <div class="timeline-date">2026-06-12</div>
                 <div class="timeline-content">
                     <h2 data-en="Blog P0 Link Fix &amp; Categories Three-view Refinement" data-zh="博客 P0 链接修复与分类页三视图整理">博客 P0 链接修复与分类页三视图整理</h2>

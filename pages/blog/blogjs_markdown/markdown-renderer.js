@@ -107,6 +107,10 @@ class MarkdownRenderer {
 
         // 自定义代码块渲染
         renderer.code = (code, language) => {
+            if (this.isSvgCodeBlock(code, language)) {
+                return this.renderSvgCodeBlock(code);
+            }
+
             // Mermaid 图表：输出占位容器，后续由 mermaid.run() 渲染
             if (language && language.toLowerCase() === 'mermaid') {
                 const id = 'mermaid-' + (++this._mermaidCounter);
@@ -161,6 +165,27 @@ class MarkdownRenderer {
         this.setupMathSupport();
     }
 
+    isSvgCodeBlock(code, language) {
+        const lang = String(language || '').toLowerCase();
+        const trimmed = String(code || '').trim();
+        return (lang === 'svg' || lang === 'html' || lang === 'xml')
+            && /^<svg[\s>]/i.test(trimmed)
+            && /<\/svg>$/i.test(trimmed);
+    }
+
+    renderSvgCodeBlock(code) {
+        const svg = this.sanitizeSvg(code);
+        return `<div class="svg-render-container">${svg}</div>`;
+    }
+
+    sanitizeSvg(svgText) {
+        return String(svgText)
+            .replace(/<script\b[\s\S]*?<\/script>/gi, '')
+            .replace(/<foreignObject\b[\s\S]*?<\/foreignObject>/gi, '')
+            .replace(/\s+on[a-z]+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, '')
+            .replace(/\s+(?:href|xlink:href)\s*=\s*(["'])\s*javascript:[\s\S]*?\1/gi, '');
+    }
+
     // 生成标题的slug
     generateSlug(text) {
         return text
@@ -204,8 +229,12 @@ class MarkdownRenderer {
         this.mathPatterns = {
             // 块级公式：$$...$$
             blockMath: /\$\$([\s\S]+?)\$\$/g,
+            // 块级公式：\[...\]
+            bracketBlockMath: /\\\[([\s\S]+?)\\\]/g,
             // 行内公式：$...$（但不匹配$$...$$）
-            inlineMath: /(?<!\$)\$([^$\n]+?)\$(?!\$)/g
+            inlineMath: /(?<!\$)\$([^$\n]+?)\$(?!\$)/g,
+            // 行内公式：\(...\)
+            parenInlineMath: /\\\(((?:\\(?!\))|[^\\\n])+?)\\\)/g
         };
     }
 
@@ -232,8 +261,30 @@ class MarkdownRenderer {
             return placeholder;
         });
 
+        processedText = processedText.replace(this.mathPatterns.bracketBlockMath, (match, formula) => {
+            const placeholder = this.createMathPlaceholder('BLOCK', blockIndex);
+            mathBlocks.push({
+                type: 'block',
+                formula: formula.trim(),
+                placeholder: placeholder
+            });
+            blockIndex++;
+            return placeholder;
+        });
+
         // 再处理行内公式
         processedText = processedText.replace(this.mathPatterns.inlineMath, (match, formula) => {
+            const placeholder = this.createMathPlaceholder('INLINE', blockIndex);
+            mathBlocks.push({
+                type: 'inline',
+                formula: formula.trim(),
+                placeholder: placeholder
+            });
+            blockIndex++;
+            return placeholder;
+        });
+
+        processedText = processedText.replace(this.mathPatterns.parenInlineMath, (match, formula) => {
             const placeholder = this.createMathPlaceholder('INLINE', blockIndex);
             mathBlocks.push({
                 type: 'inline',
@@ -278,6 +329,11 @@ class MarkdownRenderer {
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
+    }
+
+    // 兼容常见 Markdown 写法中未完全按 LaTeX 转义的公式片段
+    normalizeMathFormula(formula) {
+        return String(formula).replace(/(^|[^\\])%/g, '$1\\%');
     }
 
     // 渲染Markdown内容
@@ -517,7 +573,7 @@ class MarkdownRenderer {
             // 渲染块级数学公式
             const blockMathElements = container.querySelectorAll('.math-block');
             blockMathElements.forEach(element => {
-                const formula = element.dataset.formula;
+                const formula = this.normalizeMathFormula(element.dataset.formula || '');
                 if (formula) {
                     try {
                         // 使用 renderToString 返回 HTML 字符串并插入到元素中
@@ -546,7 +602,7 @@ class MarkdownRenderer {
             // 渲染行内数学公式
             const inlineMathElements = container.querySelectorAll('.math-inline');
             inlineMathElements.forEach(element => {
-                const formula = element.dataset.formula;
+                const formula = this.normalizeMathFormula(element.dataset.formula || '');
                 if (formula) {
                     try {
                         // 行内公式使用 renderToString 并保留为内联
