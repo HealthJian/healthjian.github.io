@@ -533,6 +533,8 @@
     <script src="../../js/main.js"></script>
     <script src="../../js/theme.js"></script>
     <script src="../../js/language.js"></script>
+    <script src="../../js/blog-category-meta.js"></script>
+    <script src="../../js/blog-posts-data.js"></script>
     <script src="../../js/blog-post.js"></script>
     
     <!-- Markdown渲染器 -->
@@ -563,6 +565,88 @@
 
         function getCurrentLang() {
             return document.body.classList.contains('en') ? 'en' : 'zh';
+        }
+
+        function normalizeMarkdownIdentity(path) {
+            if (!path) return '';
+            try {
+                const url = new URL(path, window.location.href);
+                return decodeURIComponent(url.pathname)
+                    .replace(/\\/g, '/')
+                    .toLowerCase()
+                    .replace(/_(?:zh|en)((?:_\d+)?)\.md$/i, '$1.md');
+            } catch (e) {
+                return String(path)
+                    .split('#')[0]
+                    .split('?')[0]
+                    .replace(/\\/g, '/')
+                    .toLowerCase()
+                    .replace(/_(?:zh|en)((?:_\d+)?)\.md$/i, '$1.md');
+            }
+        }
+
+        function getPostMarkdownIdentity(post) {
+            if (!post || !post.url) return '';
+            try {
+                const postUrl = new URL(post.url, window.location.href);
+                const mdParam = postUrl.searchParams.get('md') || postUrl.searchParams.get('file');
+                if (!mdParam) return '';
+                return normalizeMarkdownIdentity(new URL(mdParam, new URL('./', postUrl)).href);
+            } catch (e) {
+                return '';
+            }
+        }
+
+        function getCurrentArticlePost() {
+            const posts = Array.isArray(window.BLOG_POSTS_DATA) ? window.BLOG_POSTS_DATA : [];
+            if (!posts.length) return null;
+
+            const candidates = [
+                currentMarkdownFile,
+                mdBaseFromUrl,
+                getMarkdownFileFromURL()
+            ].map(normalizeMarkdownIdentity).filter(Boolean);
+
+            return posts.find(post => {
+                const postIdentity = getPostMarkdownIdentity(post);
+                return postIdentity && candidates.includes(postIdentity);
+            }) || null;
+        }
+
+        function getCategoryLabel(category, lang) {
+            const meta = typeof getBlogCategoryMeta === 'function'
+                ? getBlogCategoryMeta(category)
+                : (window.BLOG_CATEGORY_META && window.BLOG_CATEGORY_META[category]);
+            if (!meta) return category || PAGE_CONFIG.articleMeta.category;
+            return lang === 'en' ? (meta.en || meta.zh || category) : (meta.zh || meta.en || category);
+        }
+
+        function getResolvedArticleMeta() {
+            const lang = getCurrentLang();
+            const post = getCurrentArticlePost();
+            if (!post) {
+                return {
+                    date: PAGE_CONFIG.articleMeta.date,
+                    category: lang === 'en' ? PAGE_CONFIG.articleMeta.category_en : PAGE_CONFIG.articleMeta.category,
+                    categoryZh: PAGE_CONFIG.articleMeta.category,
+                    categoryEn: PAGE_CONFIG.articleMeta.category_en,
+                    tags: lang === 'en' ? PAGE_CONFIG.articleMeta.tags_en : PAGE_CONFIG.articleMeta.tags
+                };
+            }
+
+            const categoryZh = getCategoryLabel(post.category, 'zh');
+            const categoryEn = getCategoryLabel(post.category, 'en');
+            const tags = lang === 'en'
+                ? (post.tags_en && post.tags_en.length ? post.tags_en : post.tags)
+                : (post.tags && post.tags.length ? post.tags : post.tags_en);
+
+            return {
+                date: post.date || PAGE_CONFIG.articleMeta.date,
+                category: lang === 'en' ? categoryEn : categoryZh,
+                categoryZh,
+                categoryEn,
+                tags: tags && tags.length ? tags : (lang === 'en' ? PAGE_CONFIG.articleMeta.tags_en : PAGE_CONFIG.articleMeta.tags)
+            };
         }
 
         async function mdFileExists(url) {
@@ -877,6 +961,7 @@
             const lang = getCurrentLang();
             const fallback = lang === 'en' ? PAGE_CONFIG.articleMeta.title_en : PAGE_CONFIG.articleMeta.title;
             const pageTitle = extractedTitle || fallback;
+            const articleMeta = getResolvedArticleMeta();
 
             document.getElementById('page-title').textContent = `${pageTitle} - HealthJian的博客`;
 
@@ -884,18 +969,17 @@
             if (titleEl) titleEl.textContent = pageTitle;
             
             // 更新日期
-            document.getElementById('post-date').textContent = PAGE_CONFIG.articleMeta.date;
+            document.getElementById('post-date').textContent = articleMeta.date;
             
             // 更新分类
             const categoryElement = document.getElementById('post-category');
-            categoryElement.setAttribute('data-zh', PAGE_CONFIG.articleMeta.category);
-            categoryElement.setAttribute('data-en', PAGE_CONFIG.articleMeta.category_en);
-            categoryElement.textContent = PAGE_CONFIG.articleMeta.category;
+            categoryElement.setAttribute('data-zh', articleMeta.categoryZh);
+            categoryElement.setAttribute('data-en', articleMeta.categoryEn);
+            categoryElement.textContent = articleMeta.category;
             
             // 更新标签
             const tagsContainer = document.getElementById('post-tags');
-            const currentLang = document.body.classList.contains('en') ? 'en' : 'zh';
-            const tags = currentLang === 'en' ? PAGE_CONFIG.articleMeta.tags_en : PAGE_CONFIG.articleMeta.tags;
+            const tags = articleMeta.tags;
             
             tagsContainer.innerHTML = '';
             tags.forEach(tag => {
