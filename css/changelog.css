@@ -97,6 +97,68 @@ main::after {
     font-weight: 300;
 }
 
+.changelog-view-switch {
+    max-width: 760px;
+    margin: -30px auto 44px;
+    padding: 6px;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    background: rgba(var(--timeline-accent-color-rgb), 0.06);
+    border: 1px solid rgba(var(--timeline-accent-color-rgb), 0.12);
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+}
+
+.changelog-view-tab {
+    appearance: none;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text-color);
+    font: inherit;
+    font-weight: 600;
+    padding: 10px 18px;
+    min-height: 42px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+
+.changelog-view-tab i {
+    color: var(--timeline-accent-color);
+    font-size: 0.95rem;
+    transition: color 0.25s ease;
+}
+
+.changelog-view-tab:hover {
+    background: rgba(var(--timeline-accent-color-rgb), 0.1);
+    border-color: rgba(var(--timeline-accent-color-rgb), 0.18);
+    transform: translateY(-1px);
+}
+
+.changelog-view-tab.active {
+    background: linear-gradient(135deg, var(--timeline-accent-color), var(--timeline-secondary-color));
+    color: #fff;
+    box-shadow: 0 6px 16px rgba(var(--timeline-accent-color-rgb), 0.24);
+}
+
+.changelog-view-tab.active i {
+    color: #fff;
+}
+
+.changelog-view-tab:focus-visible {
+    outline: 2px solid rgba(var(--timeline-accent-color-rgb), 0.35);
+    outline-offset: 2px;
+}
+
+[data-changelog-view-panel][hidden] {
+    display: none !important;
+}
+
 .changelog-timeline {
     max-width: 800px;
     margin: 0 auto 60px;
@@ -367,6 +429,16 @@ main::after {
     
     .changelog-header p {
         font-size: 1.1rem;
+    }
+
+    .changelog-view-switch {
+        margin: -24px 15px 34px;
+        flex-wrap: wrap;
+    }
+
+    .changelog-view-tab {
+        flex: 1 1 130px;
+        padding: 10px 12px;
     }
     
     .timeline-content {
@@ -1056,4 +1128,4 @@ main::after {
         font-size: 0.92rem;
         padding: 12px 40px 12px 42px;
     }
-} 
+}

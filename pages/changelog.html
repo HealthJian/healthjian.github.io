@@ -46,8 +46,28 @@
     </nav>
 
     <main>
+        <section class="changelog-header">
+            <h1 data-en="ChangeLog" data-zh="更新日志">更新日志</h1>
+            <p data-en="Track the evolution of this website" data-zh="记录网站的演变历程">记录网站的演变历程</p>
+        </section>
+
+        <nav class="changelog-view-switch" role="tablist" aria-label="更新日志页面视图">
+            <button type="button" class="changelog-view-tab active" data-changelog-view="logs" role="tab" aria-selected="true">
+                <i class="fas fa-list-ul" aria-hidden="true"></i>
+                <span data-en="ChangeLog" data-zh="更新日志">更新日志</span>
+            </button>
+            <button type="button" class="changelog-view-tab" data-changelog-view="journey" role="tab" aria-selected="false">
+                <i class="fas fa-route" aria-hidden="true"></i>
+                <span data-en="Journey" data-zh="时光之旅">时光之旅</span>
+            </button>
+            <button type="button" class="changelog-view-tab" data-changelog-view="feedback" role="tab" aria-selected="false">
+                <i class="fas fa-comments" aria-hidden="true"></i>
+                <span data-en="Feedback" data-zh="提问与反馈">提问与反馈</span>
+            </button>
+        </nav>
+
         <!-- GitHub 贡献日历 -->
-        <section class="github-calendar-container">
+        <section class="github-calendar-container" data-changelog-view-panel="logs">
             <div class="github-calendar-header">
                 <h2 data-en="GitHub Contribution Calendar" data-zh="GitHub 贡献日历">GitHub 贡献日历</h2>
                 <a href="https://github.com/CaiNiaojian" target="_blank" class="github-username">
@@ -77,14 +97,9 @@
             
             <div class="day-tooltip" style="opacity: 0;"></div>
         </section>
-        
-        <section class="changelog-header">
-            <h1 data-en="ChangeLog" data-zh="更新日志">更新日志</h1>
-            <p data-en="Track the evolution of this website" data-zh="记录网站的演变历程">记录网站的演变历程</p>
-        </section>
 
         <!-- 搜索框 -->
-        <section class="changelog-search-section">
+        <section class="changelog-search-section" data-changelog-view-panel="logs">
             <div class="changelog-search-box">
                 <i class="fas fa-search changelog-search-icon"></i>
                 <input type="text" id="changelogSearch" class="changelog-search-input"
@@ -100,7 +115,7 @@
             </div>
         </section>
 
-        <section class="changelog-timeline">
+        <section class="changelog-timeline" data-changelog-view-panel="logs">
             <div class="timeline-item">
                 <div class="timeline-date">2026-06-14</div>
                 <div class="timeline-content">
@@ -109,11 +124,12 @@
                         <li data-en="Mermaid readability: refined Mermaid diagram sizing in moban_new_md.html and markdown-renderer.js. Diagram containers keep article-column width, while SVG height now uses a comfortable responsive range so charts are no longer rendered as tiny figures or oversized vertical blocks." data-zh="Mermaid 可读性优化：调整 moban_new_md.html 与 markdown-renderer.js 中的 Mermaid 图表尺寸规则。图表容器保持与正文同宽，SVG 高度改为舒适的响应式区间，避免图表过小或竖向无限拉长。"><strong>Mermaid 可读性优化</strong>：调整 moban_new_md.html 与 markdown-renderer.js 中的 Mermaid 图表尺寸规则。图表容器保持与正文同宽，SVG 高度改为舒适的响应式区间，避免图表过小或竖向无限拉长。</li>
                         <li data-en="Links page view switch: upgraded pages/links.html from the old mixed category filter into five mutually exclusive entries: Apply for Friend Link, Personal Links, Friend Links, Tech Resources, and Fun &amp; Inspiration. The initial view now opens on the friend-link application section." data-zh="链接页视图切换：将 pages/links.html 从旧的混合分类筛选升级为五个互斥入口：申请友链、个人链接、友情链接、技术资源、趣味与灵感；初始页默认进入“申请友链”板块。"><strong>链接页视图切换</strong>：将 pages/links.html 从旧的混合分类筛选升级为五个互斥入口：申请友链、个人链接、友情链接、技术资源、趣味与灵感；初始页默认进入“申请友链”板块。</li>
                         <li data-en="Links accessibility and responsive polish: converted category entries into tab-like buttons with aria-selected state, preserved the existing visual style, and verified the five entries wrap cleanly on narrow mobile screens." data-zh="链接页可访问性与响应式细化：将分类入口改为带 aria-selected 状态的类标签按钮，保留原视觉风格，并验证五个入口在窄屏手机宽度下可自然换行。"><strong>链接页可访问性与响应式细化</strong>：将分类入口改为带 aria-selected 状态的类标签按钮，保留原视觉风格，并验证五个入口在窄屏手机宽度下可自然换行。</li>
+                        <li data-en="Changelog view switch: added three tab-style entries to pages/changelog.html: ChangeLog, Journey, and Feedback. The default view remains the update log with the GitHub calendar, search and timeline; Journey and Feedback now open as independent views." data-zh="更新日志三视图切换：为 pages/changelog.html 增加“更新日志 / 时光之旅 / 提问与反馈”三个标签式入口；默认仍展示包含 GitHub 日历、搜索和日志时间线的更新日志视图，时光之旅与提问反馈改为独立视图打开。"><strong>更新日志三视图切换</strong>：为 pages/changelog.html 增加“更新日志 / 时光之旅 / 提问与反馈”三个标签式入口；默认仍展示包含 GitHub 日历、搜索和日志时间线的更新日志视图，时光之旅与提问反馈改为独立视图打开。</li>
                         <li data-en="Markdown title deduplication: fixed the duplicated H1 problem in articles rendered by moban_new_md.html. The template keeps the main article title, removes only the matching first rendered Markdown H1, and transfers the heading anchor to the post header so table-of-contents navigation still works." data-zh="Markdown 标题去重：修复 moban_new_md.html 渲染文章时一级标题重复显示的问题。模板保留顶部主标题，仅移除正文中匹配首个 Markdown # 的重复 h1，并把锚点转移到文章标题区域，确保目录跳转仍可用。"><strong>Markdown 标题去重</strong>：修复 moban_new_md.html 渲染文章时一级标题重复显示的问题。模板保留顶部主标题，仅移除正文中匹配首个 Markdown # 的重复 h1，并把锚点转移到文章标题区域，确保目录跳转仍可用。</li>
                         <li data-en="Desktop sidebar scrolling: added an independent hidden-scrollbar outer scroll area for the Markdown reader sidebar on PC. The inner table-of-contents scroll remains intact, while the metadata and navigation blocks can now be reached without scrolling the main article." data-zh="PC 端侧栏外层滚动：为 Markdown 阅读模板侧边功能栏增加独立的隐藏滚动条外层滚动区域。目录内部滚动保持不变，元信息与导航等板块也能在不滚动正文的情况下到达。"><strong>PC 端侧栏外层滚动</strong>：为 Markdown 阅读模板侧边功能栏增加独立的隐藏滚动条外层滚动区域。目录内部滚动保持不变，元信息与导航等板块也能在不滚动正文的情况下到达。</li>
                         <li data-en="Article metadata card readability: replaced the high-saturation gradient background in the date / tags / category card with a lighter low-saturation surface, restored dark text in light mode, and adjusted tag colors for clearer contrast." data-zh="文章元信息卡片可读性：将日期、标签、分类卡片从高饱和渐变背景改为更轻的低饱和底色，亮色模式恢复深色文字，并调整标签颜色以提升对比度。"><strong>文章元信息卡片可读性</strong>：将日期、标签、分类卡片从高饱和渐变背景改为更轻的低饱和底色，亮色模式恢复深色文字，并调整标签颜色以提升对比度。</li>
                         <li data-en="Validation: verified the local 127.0.0.1:5501 Markdown article URL, confirmed duplicate body H1 count is zero, checked Mermaid sizing, tested Links page tab switching, confirmed desktop sidebar outer scrolling, checked mobile sidebar behavior, and confirmed browser console has no errors or warnings." data-zh="验证：已检查本地 127.0.0.1:5501 Markdown 示例文章 URL，确认正文重复 h1 数量为 0；验证 Mermaid 尺寸、链接页五入口切换、PC 端侧栏外层滚动、移动端侧栏行为，并确认浏览器控制台无 error/warning。"><strong>验证</strong>：已检查本地 127.0.0.1:5501 Markdown 示例文章 URL，确认正文重复 h1 数量为 0；验证 Mermaid 尺寸、链接页五入口切换、PC 端侧栏外层滚动、移动端侧栏行为，并确认浏览器控制台无 error/warning。</li>
-                        <li data-en="Changed Files: pages/blog/moban_new_md.html, pages/blog/blogjs_markdown/markdown-renderer.js, css/blog-post.css, pages/links.html, css/links.css, css/links-enhanced.css, pages/changelog.html." data-zh="改动文件：pages/blog/moban_new_md.html、pages/blog/blogjs_markdown/markdown-renderer.js、css/blog-post.css、pages/links.html、css/links.css、css/links-enhanced.css、pages/changelog.html。"><strong>改动文件</strong>：pages/blog/moban_new_md.html、pages/blog/blogjs_markdown/markdown-renderer.js、css/blog-post.css、pages/links.html、css/links.css、css/links-enhanced.css、pages/changelog.html。</li>
+                        <li data-en="Changed Files: pages/blog/moban_new_md.html, pages/blog/blogjs_markdown/markdown-renderer.js, css/blog-post.css, pages/links.html, css/links.css, css/links-enhanced.css, pages/changelog.html, css/changelog.css, js/changelog.js." data-zh="改动文件：pages/blog/moban_new_md.html、pages/blog/blogjs_markdown/markdown-renderer.js、css/blog-post.css、pages/links.html、css/links.css、css/links-enhanced.css、pages/changelog.html、css/changelog.css、js/changelog.js。"><strong>改动文件</strong>：pages/blog/moban_new_md.html、pages/blog/blogjs_markdown/markdown-renderer.js、css/blog-post.css、pages/links.html、css/links.css、css/links-enhanced.css、pages/changelog.html、css/changelog.css、js/changelog.js。</li>
                     </ul>
                 </div>
             </div>
@@ -675,7 +691,7 @@
         </section>
 
         <!-- 时间大事轴 -->
-        <section class="milestone-timeline-section">
+        <section class="milestone-timeline-section" data-changelog-view-panel="journey" hidden>
             <div class="milestone-header">
                 <h2 data-en="Journey Through Time" data-zh="时光之旅">时光之旅</h2>
                 <p data-en="A nostalgic journey through our milestones" data-zh="一段怀旧的里程碑之旅">一段怀旧的里程碑之旅</p>
@@ -701,7 +717,7 @@
             </div>
         </section>
         <!-- 评论 / 问答区 (Giscus) -->
-        <section class="changelog-comments-section">
+        <section class="changelog-comments-section" data-changelog-view-panel="feedback" hidden>
             <div class="comments-header">
                 <h2 data-en="Questions & Feedback" data-zh="提问与反馈">提问与反馈</h2>
                 <p data-en="Leave your questions or suggestions via GitHub Discussions" data-zh="通过 GitHub Discussions 留下你的疑问或建议">通过 GitHub Discussions 留下你的疑问或建议</p>

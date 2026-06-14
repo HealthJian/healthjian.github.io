@@ -7,6 +7,8 @@
 
 // 当文档加载完成后执行
 document.addEventListener('DOMContentLoaded', function() {
+  initChangelogViewSwitch();
+
   // 创建滚动到顶部按钮
   const scrollTopBtn = document.createElement('div');
   scrollTopBtn.className = 'scroll-top';
@@ -67,6 +69,36 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(typeWriter, 500);
   }
 });
+
+function initChangelogViewSwitch() {
+  const tabs = document.querySelectorAll('.changelog-view-tab');
+  const panels = document.querySelectorAll('[data-changelog-view-panel]');
+  if (!tabs.length || !panels.length) return;
+
+  function switchView(view) {
+    tabs.forEach(tab => {
+      const isActive = tab.getAttribute('data-changelog-view') === view;
+      tab.classList.toggle('active', isActive);
+      tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+
+    panels.forEach(panel => {
+      panel.hidden = panel.getAttribute('data-changelog-view-panel') !== view;
+    });
+
+    if (view === 'journey') {
+      requestAnimationFrame(() => window.dispatchEvent(new Event('resize')));
+    }
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      switchView(tab.getAttribute('data-changelog-view'));
+    });
+  });
+
+  switchView('logs');
+}
 
 function getCurrentLangForTimeline() {
   return document.body.classList.contains('en') ? 'en' : 'zh';
