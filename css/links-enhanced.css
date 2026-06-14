@@ -116,6 +116,8 @@
   border-radius: var(--radius-full);
   background-color: var(--bg-color-secondary);
   color: var(--text-color);
+  appearance: none;
+  font: inherit;
   font-weight: 600;
   cursor: pointer;
   transition: all var(--transition-medium) ease;

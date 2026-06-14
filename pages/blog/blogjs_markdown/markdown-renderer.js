@@ -56,9 +56,19 @@ class MarkdownRenderer {
 
         try {
             await mermaid.run({ nodes: nodes });
+            this.normalizeMermaidDiagramSize(container);
         } catch (err) {
             console.error('Mermaid 渲染失败:', err);
         }
+    }
+
+    // Mermaid 会给部分图表写入较小的内联 max-width，这里只在图表容器内放宽它。
+    normalizeMermaidDiagramSize(container) {
+        container.querySelectorAll('.mermaid-container svg').forEach(svg => {
+            svg.style.width = '100%';
+            svg.style.maxWidth = '100%';
+            svg.style.height = '';
+        });
     }
 
     // 配置marked.js

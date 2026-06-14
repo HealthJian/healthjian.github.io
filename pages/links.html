@@ -64,18 +64,18 @@
                 </svg>
             </div>
             
-            <!-- 趣味分类标签 -->
-            <div class="fun-category">
-                <div class="category-tag active" data-category="all" data-en="All" data-zh="全部">全部</div>
-                <div class="category-tag" data-category="friends" data-en="Friends" data-zh="朋友">朋友</div>
-                <div class="category-tag" data-category="personal" data-en="Personal" data-zh="个人">个人</div>
-                <div class="category-tag" data-category="resources" data-en="Resources" data-zh="资源">资源</div>
-                <div class="category-tag" data-category="fun" data-en="Fun" data-zh="趣味">趣味</div>
+            <!-- 视图切换入口 -->
+            <div class="fun-category" role="tablist" aria-label="链接内容分类">
+                <button type="button" class="category-tag active" data-category="apply" data-en="Apply" data-zh="申请友链" role="tab" aria-selected="true">申请友链</button>
+                <button type="button" class="category-tag" data-category="personal" data-en="Personal" data-zh="个人链接" role="tab" aria-selected="false">个人链接</button>
+                <button type="button" class="category-tag" data-category="friends" data-en="Friends" data-zh="友情链接" role="tab" aria-selected="false">友情链接</button>
+                <button type="button" class="category-tag" data-category="resources" data-en="Tech Resources" data-zh="技术资源" role="tab" aria-selected="false">技术资源</button>
+                <button type="button" class="category-tag" data-category="fun" data-en="Fun & Inspiration" data-zh="趣味与灵感" role="tab" aria-selected="false">趣味与灵感</button>
             </div>
         </header>
 
         <!-- ====== 申请友链（置顶） ====== -->
-        <section class="links-section">
+        <section class="links-section" data-category="apply">
             <h2 class="section-title" data-en="Apply for Friend Link" data-zh="申请友链">
                 <i class="fas fa-handshake"></i>
                 <span>申请友链</span>
@@ -581,32 +581,25 @@
         document.addEventListener('DOMContentLoaded', function() {
             const categoryTags = document.querySelectorAll('.category-tag');
             const linksSections = document.querySelectorAll('.links-section');
+
+            function switchLinksView(category) {
+                categoryTags.forEach(tag => {
+                    const isActive = tag.getAttribute('data-category') === category;
+                    tag.classList.toggle('active', isActive);
+                    tag.setAttribute('aria-selected', isActive ? 'true' : 'false');
+                });
+
+                linksSections.forEach(section => {
+                    section.style.display = section.getAttribute('data-category') === category ? 'block' : 'none';
+                });
+            }
+
+            switchLinksView('apply');
             
             categoryTags.forEach(tag => {
                 tag.addEventListener('click', function() {
-                    // 移除所有标签的活跃状态
-                    categoryTags.forEach(t => t.classList.remove('active'));
-                    // 给当前标签添加活跃状态
-                    this.classList.add('active');
-                    
                     const category = this.getAttribute('data-category');
-                    
-                    // 显示或隐藏对应分类的内容
-                    if (category === 'all') {
-                        linksSections.forEach(section => {
-                            section.style.display = 'block';
-                        });
-                    } else {
-                        linksSections.forEach(section => {
-                            if (section.getAttribute('data-category') === category) {
-                                section.style.display = 'block';
-                            } else if (!section.hasAttribute('data-category')) {
-                                section.style.display = 'block'; // 没有分类的部分始终显示
-                            } else {
-                                section.style.display = 'none';
-                            }
-                        });
-                    }
+                    switchLinksView(category);
                 });
             });
             

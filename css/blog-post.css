@@ -602,9 +602,19 @@ body.dark-mode .md-sidebar-drawer-btn {
 .md-article-layout .blog-sidebar {
     position: sticky;
     top: 90px;
+    max-height: calc(100vh - 110px);
     transition: max-width 0.38s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.28s ease,
         padding 0.38s ease, margin 0.38s ease, border-width 0.38s ease;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.md-article-layout .blog-sidebar::-webkit-scrollbar {
+    width: 0;
+    height: 0;
 }
 
 .md-article-layout .blog-post-main {
@@ -852,6 +862,7 @@ body.dark-mode .md-icon-action {
         left: 0;
         width: 300px;
         max-width: 80vw;
+        max-height: none;
         height: 100vh;
         height: 100dvh;
         z-index: 991;

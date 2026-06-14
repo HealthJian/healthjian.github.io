@@ -119,28 +119,45 @@
         
         /* 文章元信息样式优化 */
         .post-meta-info {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
+            background: linear-gradient(135deg, rgba(0, 122, 255, 0.08), rgba(90, 200, 250, 0.14));
+            color: var(--text-color);
             border-radius: 8px;
             padding: 1rem;
             margin-bottom: 1rem;
+            border: 1px solid rgba(0, 122, 255, 0.16);
         }
         
         .post-meta-info .post-date,
         .post-meta-info .post-category {
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--text-color);
         }
         
         .post-meta-info .post-tags .tag {
-            background-color: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background-color: rgba(0, 122, 255, 0.12);
+            color: var(--primary-color);
+            border: 1px solid rgba(0, 122, 255, 0.22);
+        }
+
+        .post-meta-info i {
+            color: var(--primary-color);
+        }
+
+        body.dark-mode .post-meta-info {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(100, 180, 255, 0.22);
+        }
+
+        body.dark-mode .post-meta-info .post-tags .tag {
+            background-color: rgba(100, 180, 255, 0.14);
+            color: #9dccff;
+            border-color: rgba(100, 180, 255, 0.28);
         }
         
         /* Mermaid 图表容器 */
         .mermaid-container {
             position: relative;
             display: flex;
+            align-items: center;
             justify-content: center;
             margin: 1.5rem 0;
             padding: 1.25rem;
@@ -155,11 +172,30 @@
             border-color: #3a3a4a;
         }
 
+        .mermaid-container > .mermaid {
+            width: 100%;
+            min-width: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .mermaid-container svg {
-            width: min(100%, 980px);
-            min-width: min(100%, 560px);
-            max-width: none;
-            height: auto;
+            display: block;
+            width: 100% !important;
+            max-width: 100% !important;
+            height: clamp(280px, 34vw, 460px) !important;
+        }
+
+        @media (max-width: 768px) {
+            .mermaid-container {
+                padding: 1rem;
+            }
+
+            .mermaid-container svg {
+                height: clamp(240px, 60vw, 380px) !important;
+            }
         }
 
         .svg-render-container {
@@ -715,6 +751,7 @@
                     document.getElementById('markdown-content')
                 );
 
+                removeDuplicateRenderedTitle(markdownText);
                 updateTableOfContents(result.toc);
                 updatePageMetadata(markdownText);
                 hideLoadingState();
@@ -771,6 +808,28 @@
             // 更新目录为错误状态
             const toc = document.getElementById('toc-content');
             toc.innerHTML = `<p class="no-toc">${currentLang === 'en' ? 'Unable to load table of contents' : '无法加载目录'}</p>`;
+        }
+
+        function normalizeTitleText(text) {
+            return String(text || '').replace(/\s+/g, ' ').trim();
+        }
+
+        function removeDuplicateRenderedTitle(markdownText) {
+            const titleMatch = markdownText.match(/^#\s+(.+)$/m);
+            if (!titleMatch) return;
+
+            const content = document.getElementById('markdown-content');
+            const firstHeading = content && content.querySelector('h1');
+            if (!firstHeading) return;
+
+            const markdownTitle = normalizeTitleText(titleMatch[1]);
+            const renderedTitle = normalizeTitleText(firstHeading.textContent);
+            if (!markdownTitle || markdownTitle !== renderedTitle) return;
+
+            const anchorId = firstHeading.id;
+            const header = document.querySelector('.post-header');
+            if (anchorId && header) header.id = anchorId;
+            firstHeading.remove();
         }
 
         // 更新目录

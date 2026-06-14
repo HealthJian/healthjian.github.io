@@ -429,6 +429,8 @@
     border-radius: 30px;
     background-color: var(--bg-color-secondary);
     color: var(--text-color);
+    border: none;
+    font: inherit;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
