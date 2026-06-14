@@ -1,6 +1,30 @@
 // 博客文章数据源：供 blog.js、博客页、分类页与首页最新文章复用
 window.BLOG_POSTS_DATA = [
         {
+            "id": "semiconductor-ml-dl-industry-survey-20260614",
+            "title": "让晶圆厂学会“看见、判断、排程与自愈”",
+            "title_en": "Teaching the Fab to See, Judge, Schedule, and Heal Itself",
+            "excerpt": "基于半导体行业机器学习与深度学习综述论文，系统梳理视觉目标检测、表面缺陷检测、机器生产排程、故障诊断与预测、制造过程监控等五大应用场景，以及数据集、模型结构、产业落地难点与未来方向。",
+            "excerpt_en": "An in-depth read of a survey on machine learning and deep learning in the semiconductor industry, covering visual object detection, surface defect detection, machine production scheduling, fault diagnosis and prediction, manufacturing process monitoring, datasets, model architectures, deployment challenges, and future directions.",
+            "date": "2026-06-14",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260614_zh_1.md",
+            "category": "paper",
+            "tags": ["论文精读", "半导体", "机器学习", "深度学习", "智能制造"],
+            "tags_en": ["Paper Review", "Semiconductor", "Machine Learning", "Deep Learning", "Smart Manufacturing"]
+        },
+        {
+            "id": "wafer-regression-predictive-modeling-20260614",
+            "title": "从“经验调参”到“预测型晶圆厂”",
+            "title_en": "From Experience-Based Tuning to Predictive Wafer Fab",
+            "excerpt": "围绕晶圆制造中的回归分析与预测建模展开精读，覆盖 DOE、虚拟量测、故障检测、良率预测、预测性维护、数字孪生、APC、可解释 AI 和边缘 AI，讨论如何把制造数据转化为可解释、可预测、可控制的工程决策。",
+            "excerpt_en": "An in-depth review of regression analysis and predictive modeling in wafer manufacturing, covering DOE, virtual metrology, fault detection, yield prediction, predictive maintenance, digital twins, APC, explainable AI, and edge AI, with a focus on turning manufacturing data into explainable, predictable, and controllable engineering decisions.",
+            "date": "2026-06-14",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260614_zh_2.md",
+            "category": "paper",
+            "tags": ["论文精读", "晶圆制造", "回归分析", "预测建模", "数字孪生"],
+            "tags_en": ["Paper Review", "Wafer Manufacturing", "Regression Analysis", "Predictive Modeling", "Digital Twin"]
+        },
+        {
             "id": "semiconductor-wafer-yield-ai-survey-20260613",
             "title": "从晶圆到良率：AI 如何提前预判一片晶圆的命运？",
             "title_en": "From Wafer to Yield: How AI Predicts the Fate of a Wafer in Advance",
