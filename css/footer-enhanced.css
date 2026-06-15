@@ -145,9 +145,8 @@ body:not(.dark-mode) .footer-social-section h3:after {
 /* 快速链接网格 */
 .footer-links-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, auto);
-  gap: 15px 20px;
+  grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
+  gap: 12px 18px;
 }
 
 .footer-links-grid a {
@@ -157,6 +156,8 @@ body:not(.dark-mode) .footer-social-section h3:after {
   position: relative;
   padding-left: 0;
   display: inline-block;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
 }
 
 /* 日间模式下的链接颜色 */

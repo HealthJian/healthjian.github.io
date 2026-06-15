@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // 切换body类
             document.body.classList.remove(currentLang);
             document.body.classList.add(newLang);
+            document.documentElement.setAttribute('lang', newLang);
             
             // 更新语言切换按钮文本
             const langText = langToggle.querySelector('span');
@@ -65,6 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // 应用保存的语言设置
         document.body.classList.remove('en', 'zh');
         document.body.classList.add(savedLang);
+        document.documentElement.setAttribute('lang', savedLang);
         
         // 更新所有文本
         updateAllLanguageElements(savedLang);
@@ -89,6 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         // 如果没有保存的语言偏好，默认显示中文
         document.body.classList.add('zh');
+        document.documentElement.setAttribute('lang', 'zh');
         
         // 更新所有文本为中文
         updateAllLanguageElements('zh');
