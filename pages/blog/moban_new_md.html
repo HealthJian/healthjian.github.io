@@ -12,6 +12,7 @@
     
     <!-- Markdown专用样式 -->
     <link rel="stylesheet" href="blogjs_markdown/markdown-styles.css">
+    <link rel="stylesheet" href="../../css/leisure-markdown.css">
     
     <!-- 外部依赖 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -451,9 +452,9 @@
             <div class="post-navigation">
                 <h3 data-en="Navigation" data-zh="导航">导航</h3>
                 <div class="nav-buttons">
-                    <a href="../blog.html" class="nav-button" data-en="Back to Blog" data-zh="返回博客列表">
+                    <a href="../blog.html" id="post-back-link" class="nav-button">
                         <i class="fas fa-arrow-left"></i>
-                        <span data-en="Back to Blog" data-zh="返回博客列表">返回博客列表</span>
+                        <span id="post-back-label" data-en="Back to Blog" data-zh="返回博客列表">返回博客列表</span>
                     </a>
                 </div>
             </div>
@@ -535,10 +536,13 @@
     <script src="../../js/language.js"></script>
     <script src="../../js/blog-category-meta.js"></script>
     <script src="../../js/blog-posts-data.js"></script>
+    <script src="../../js/gameblog-posts-data.js"></script>
+    <script src="../../js/travelblog-posts-data.js"></script>
     <script src="../../js/blog-post.js"></script>
     
     <!-- Markdown渲染器 -->
     <script src="blogjs_markdown/markdown-renderer.js"></script>
+    <script src="../../js/leisure-markdown.js"></script>
     
     <!-- 页面主脚本 -->
     <script>
@@ -597,9 +601,34 @@
             }
         }
 
+        function getArticleDataSources() {
+            return [
+                {
+                    type: 'blog',
+                    posts: Array.isArray(window.BLOG_POSTS_DATA) ? window.BLOG_POSTS_DATA : [],
+                    backUrl: '../blog.html',
+                    backZh: '返回博客列表',
+                    backEn: 'Back to Blog'
+                },
+                {
+                    type: 'game',
+                    posts: Array.isArray(window.GAMEBLOG_POSTS_DATA) ? window.GAMEBLOG_POSTS_DATA : [],
+                    backUrl: 'noval/gameblog.html',
+                    backZh: '返回游戏博客',
+                    backEn: 'Back to Game Blog'
+                },
+                {
+                    type: 'travel',
+                    posts: Array.isArray(window.TRAVELBLOG_POSTS_DATA) ? window.TRAVELBLOG_POSTS_DATA : [],
+                    backUrl: 'noval/travelblog.html',
+                    backZh: '返回旅行见闻',
+                    backEn: 'Back to Travel Notes'
+                }
+            ];
+        }
+
         function getCurrentArticlePost() {
-            const posts = Array.isArray(window.BLOG_POSTS_DATA) ? window.BLOG_POSTS_DATA : [];
-            if (!posts.length) return null;
+            const sources = getArticleDataSources();
 
             const candidates = [
                 currentMarkdownFile,
@@ -607,10 +636,14 @@
                 getMarkdownFileFromURL()
             ].map(normalizeMarkdownIdentity).filter(Boolean);
 
-            return posts.find(post => {
-                const postIdentity = getPostMarkdownIdentity(post);
-                return postIdentity && candidates.includes(postIdentity);
-            }) || null;
+            for (const source of sources) {
+                const post = source.posts.find(item => {
+                    const postIdentity = getPostMarkdownIdentity(item);
+                    return postIdentity && candidates.includes(postIdentity);
+                });
+                if (post) return { post, source };
+            }
+            return null;
         }
 
         function getCategoryLabel(category, lang) {
@@ -623,19 +656,24 @@
 
         function getResolvedArticleMeta() {
             const lang = getCurrentLang();
-            const post = getCurrentArticlePost();
-            if (!post) {
+            const resolved = getCurrentArticlePost();
+            if (!resolved) {
                 return {
                     date: PAGE_CONFIG.articleMeta.date,
                     category: lang === 'en' ? PAGE_CONFIG.articleMeta.category_en : PAGE_CONFIG.articleMeta.category,
                     categoryZh: PAGE_CONFIG.articleMeta.category,
                     categoryEn: PAGE_CONFIG.articleMeta.category_en,
-                    tags: lang === 'en' ? PAGE_CONFIG.articleMeta.tags_en : PAGE_CONFIG.articleMeta.tags
+                    tags: lang === 'en' ? PAGE_CONFIG.articleMeta.tags_en : PAGE_CONFIG.articleMeta.tags,
+                    backUrl: '../blog.html',
+                    backZh: '返回博客列表',
+                    backEn: 'Back to Blog'
                 };
             }
 
-            const categoryZh = getCategoryLabel(post.category, 'zh');
-            const categoryEn = getCategoryLabel(post.category, 'en');
+            const post = resolved.post;
+            const source = resolved.source;
+            const categoryZh = post.category_zh || getCategoryLabel(post.category, 'zh');
+            const categoryEn = post.category_en || getCategoryLabel(post.category, 'en');
             const tags = lang === 'en'
                 ? (post.tags_en && post.tags_en.length ? post.tags_en : post.tags)
                 : (post.tags && post.tags.length ? post.tags : post.tags_en);
@@ -645,7 +683,10 @@
                 category: lang === 'en' ? categoryEn : categoryZh,
                 categoryZh,
                 categoryEn,
-                tags: tags && tags.length ? tags : (lang === 'en' ? PAGE_CONFIG.articleMeta.tags_en : PAGE_CONFIG.articleMeta.tags)
+                tags: tags && tags.length ? tags : (lang === 'en' ? PAGE_CONFIG.articleMeta.tags_en : PAGE_CONFIG.articleMeta.tags),
+                backUrl: source.backUrl,
+                backZh: source.backZh,
+                backEn: source.backEn
             };
         }
 
@@ -835,6 +876,10 @@
                     document.getElementById('markdown-content')
                 );
 
+                if (typeof window.setupLeisureMarkdownEnhancements === 'function') {
+                    window.setupLeisureMarkdownEnhancements(document.getElementById('markdown-content'));
+                }
+
                 removeDuplicateRenderedTitle(markdownText);
                 updateTableOfContents(result.toc);
                 updatePageMetadata(markdownText);
@@ -988,6 +1033,15 @@
                 tagElement.textContent = tag;
                 tagsContainer.appendChild(tagElement);
             });
+
+            const backLink = document.getElementById('post-back-link');
+            const backLabel = document.getElementById('post-back-label');
+            if (backLink && backLabel) {
+                backLink.href = articleMeta.backUrl;
+                backLabel.setAttribute('data-zh', articleMeta.backZh);
+                backLabel.setAttribute('data-en', articleMeta.backEn);
+                backLabel.textContent = lang === 'en' ? articleMeta.backEn : articleMeta.backZh;
+            }
         }
 
         // 初始化页面功能

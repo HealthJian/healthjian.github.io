@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图文分享 - 娱乐与休闲 - HealthJian</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/dark-mode.css">
+    <link rel="stylesheet" href="../../../css/entertainment.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="light-mode">
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="../../../index.html" class="logo"><img src="../../../images/githubherofigureimage.png" alt="Logo"><span class="site-name" data-en="HealthJian Blog" data-zh="HealthJian">HealthJian</span></a>
+        </div>
+        <div class="nav-right">
+            <ul class="menu">
+                <li><a href="../../../index.html" data-en="Home" data-zh="首页">首页</a></li>
+                <li><a href="../../blog.html" data-en="Blog" data-zh="博客">博客</a></li>
+                <li><a href="novel.html" data-en="Leisure" data-zh="娱乐与休闲">娱乐与休闲</a></li>
+                <li><a href="../../about.html" data-en="About" data-zh="关于">关于</a></li>
+            </ul>
+            <button id="theme-toggle" class="theme-toggle" title="切换主题"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
+            <button id="lang-toggle" class="lang-toggle" title="切换语言"><span data-en="EN" data-zh="中">中</span></button>
+        </div>
+    </nav>
+
+    <main class="entertainment-shell">
+        <section class="entertainment-hero compact-hero">
+            <div class="entertainment-container hero-layout hero-layout-single">
+                <div>
+                    <span class="hero-kicker" data-en="Photo Notes" data-zh="图文分享">图文分享</span>
+                    <h1 class="hero-title" data-en="Photo Notes" data-zh="图文分享">图文分享</h1>
+                    <p class="hero-copy" data-en="One row for one image note. Odd and even rows alternate image and text positions." data-zh="一条图文独占一行，奇偶行交替图左文右、图右文左。">一条图文独占一行，奇偶行交替图左文右、图右文左。</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="entertainment-container view-page">
+            <nav class="view-tabs" aria-label="Leisure views">
+                <a href="novel.html" data-en="Overview" data-zh="总览">总览</a>
+                <a href="fiction.html" data-en="Fiction" data-zh="小说">小说</a>
+                <a href="gallery.html" class="active" data-en="Photo Notes" data-zh="图文">图文</a>
+                <a href="gameblog.html" data-en="Game Blog" data-zh="游戏">游戏</a>
+                <a href="travelblog.html" data-en="Travel" data-zh="旅行">旅行</a>
+            </nav>
+
+            <div class="topic-tools">
+                <label class="topic-search">
+                    <input id="gallery-search" type="search" placeholder="搜索图文分享..." data-zh-placeholder="搜索图文分享..." data-en-placeholder="Search photo notes...">
+                </label>
+                <span class="section-count" id="gallery-count">3</span>
+            </div>
+
+            <div class="gallery-list" id="gallery-list">
+                <article class="gallery-row" data-search="小小图像日记 image diary 截图 涂鸦 照片 图注">
+                    <img src="../../../images/catcat.avif" alt="图文分享占位图">
+                    <div class="gallery-copy">
+                        <span class="topic-pill" data-en="Image Diary" data-zh="图像日记">图像日记</span>
+                        <h2 data-en="Small Image Diary" data-zh="小小图像日记">小小图像日记</h2>
+                        <p data-en="A future slot for screenshots, sketches, photos, and tiny captions. The current placeholder keeps the row layout ready." data-zh="这里会放截图、涂鸦、照片和短短的图注。当前先用占位图把单行布局撑起来。">这里会放截图、涂鸦、照片和短短的图注。当前先用占位图把单行布局撑起来。</p>
+                    </div>
+                </article>
+
+                <article class="gallery-row" data-search="视觉碎片 visual fragments 图片 长文 留一句话">
+                    <img src="../../../images/catcat.avif" alt="灵感碎片占位图">
+                    <div class="gallery-copy">
+                        <span class="topic-pill" data-en="Fragment" data-zh="碎片">碎片</span>
+                        <h2 data-en="Visual Fragments" data-zh="视觉碎片">视觉碎片</h2>
+                        <p data-en="Some images do not need a long article, but they still deserve one clean note and a little breathing room." data-zh="有些图片不需要长文，但仍值得给它留一句话和一点呼吸感。">有些图片不需要长文，但仍值得给它留一句话和一点呼吸感。</p>
+                    </div>
+                </article>
+
+                <article class="gallery-row" data-search="占位 未来 图片交互 图注 photo interaction caption">
+                    <img src="../../../images/catcat.avif" alt="图注交互占位图">
+                    <div class="gallery-copy">
+                        <span class="topic-pill" data-en="Caption Test" data-zh="图注测试">图注测试</span>
+                        <h2 data-en="Caption & Interaction Slot" data-zh="图注与交互预留">图注与交互预留</h2>
+                        <p data-en="This row prepares for future image captions, hover details, and click-to-view interactions." data-zh="这一行给未来的图注、悬停说明和点击查看交互预留空间。">这一行给未来的图注、悬停说明和点击查看交互预留空间。</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </main>
+
+    <script src="../../../js/main.js"></script>
+    <script src="../../../js/theme.js"></script>
+    <script src="../../../js/language.js"></script>
+    <script src="../../../js/entertainment.js"></script>
+</body>
+</html>

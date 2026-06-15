@@ -1,6 +1,30 @@
 // 博客文章数据源：供 blog.js、博客页、分类页与首页最新文章复用
 window.BLOG_POSTS_DATA = [
         {
+            "id": "loop-engineering-agent-control-system-20260615",
+            "title": "Loop 工程：AI Agent 时代，工程师不再写 Prompt，而是在设计循环",
+            "title_en": "Loop Engineering: In the Age of AI Agents, Engineers No Longer Write Prompts - They Design Loops",
+            "excerpt": "从 Prompt Engineering、Context Engineering、Harness Engineering 走向 Loop Engineering，系统解释 AI Agent 如何从单轮对话变成可持续发现任务、执行任务、验证结果、记录状态并继续推进的闭环系统，以及自动化、工作区、技能、连接器、子智能体和外部记忆在其中的作用。",
+            "excerpt_en": "A systematic explanation of how AI engineering moves from Prompt Engineering, Context Engineering, and Harness Engineering to Loop Engineering, where agents become closed-loop systems that discover tasks, execute them, verify results, record state, and keep moving through automations, worktrees, skills, connectors, sub-agents, and external memory.",
+            "date": "2026-06-15",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260615_zh_1.md",
+            "category": "tech",
+            "tags": ["AI Agent", "Loop Engineering", "Prompt Engineering", "Harness Engineering", "自动化"],
+            "tags_en": ["AI Agent", "Loop Engineering", "Prompt Engineering", "Harness Engineering", "Automation"]
+        },
+        {
+            "id": "semiconductor-yield-agent-harness-engineering-20260615",
+            "title": "Harness 工程：把 Agent 绑进半导体良率系统，而不是让它在 Fab 里自由发挥",
+            "title_en": "Harness Engineering: Strapping the Agent into a Semiconductor Yield System, Not Letting It Roam Free in the Fab",
+            "excerpt": "以半导体良率检测与提升为场景，解释 Agent Harness 如何通过数据接入、上下文装配、工具调用、权限控制、证据链组织、验证层与人类审批，把模型放进可追溯、可审计、可约束的 Fab 工程系统中。",
+            "excerpt_en": "Using semiconductor yield detection and improvement as the core scenario, this article explains how an Agent Harness uses data ingestion, context assembly, tool invocation, permission control, evidence-chain organization, verification layers, and human approval to place models inside traceable, auditable, and constrained fab engineering systems.",
+            "date": "2026-06-15",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260615_zh_2.md",
+            "category": "tech",
+            "tags": ["AI Agent", "Harness Engineering", "半导体", "良率工程", "Fab"],
+            "tags_en": ["AI Agent", "Harness Engineering", "Semiconductor", "Yield Engineering", "Fab"]
+        },
+        {
             "id": "semiconductor-ml-dl-industry-survey-20260614",
             "title": "让晶圆厂学会“看见、判断、排程与自愈”",
             "title_en": "Teaching the Fab to See, Judge, Schedule, and Heal Itself",
