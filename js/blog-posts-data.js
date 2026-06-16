@@ -1,16 +1,16 @@
 // 博客文章数据源：供 blog.js、博客页、分类页与首页最新文章复用
 window.BLOG_POSTS_DATA = [
         {
-            "id": "loop-engineering-agent-control-system-20260615",
-            "title": "Loop 工程：AI Agent 时代，工程师不再写 Prompt，而是在设计循环",
-            "title_en": "Loop Engineering: In the Age of AI Agents, Engineers No Longer Write Prompts - They Design Loops",
-            "excerpt": "从 Prompt Engineering、Context Engineering、Harness Engineering 走向 Loop Engineering，系统解释 AI Agent 如何从单轮对话变成可持续发现任务、执行任务、验证结果、记录状态并继续推进的闭环系统，以及自动化、工作区、技能、连接器、子智能体和外部记忆在其中的作用。",
-            "excerpt_en": "A systematic explanation of how AI engineering moves from Prompt Engineering, Context Engineering, and Harness Engineering to Loop Engineering, where agents become closed-loop systems that discover tasks, execute them, verify results, record state, and keep moving through automations, worktrees, skills, connectors, sub-agents, and external memory.",
-            "date": "2026-06-15",
-            "url": "/pages/blog/moban_new_md.html?md=../../context/20260615_zh_1.md",
+            "id": "classic-ml-algorithms-architecture-zh-20260616",
+            "title": "一文讲清楚 SVM、RF、XGBoost、K-Means 与 KNN：公式、思想、运算逻辑与实际建模架构",
+            "title_en": "One Article to Understand SVM, RF, XGBoost, K-Means & KNN: Formulas, Ideas, Operational Logic, and Real-World Modeling Architectures",
+            "excerpt": "系统梳理 SVM、随机森林、XGBoost、K-Means 与 KNN 五类经典机器学习算法，从公式推导、核心思想、运算逻辑、伪代码、使用建议到实际业务和科研建模架构，建立统一的算法选择视角。",
+            "excerpt_en": "A systematic guide to SVM, Random Forest, XGBoost, K-Means, and KNN, covering formulas, core ideas, operational logic, pseudo-code, practical advice, and real-world business and research modeling architectures.",
+            "date": "2026-06-16",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260616_zh_1.md",
             "category": "tech",
-            "tags": ["AI Agent", "Loop Engineering", "Prompt Engineering", "Harness Engineering", "自动化"],
-            "tags_en": ["AI Agent", "Loop Engineering", "Prompt Engineering", "Harness Engineering", "Automation"]
+            "tags": ["机器学习", "SVM", "Random Forest", "XGBoost", "K-Means", "KNN"],
+            "tags_en": ["Machine Learning", "SVM", "Random Forest", "XGBoost", "K-Means", "KNN"]
         },
         {
             "id": "semiconductor-yield-agent-harness-engineering-20260615",
@@ -23,6 +23,18 @@ window.BLOG_POSTS_DATA = [
             "category": "tech",
             "tags": ["AI Agent", "Harness Engineering", "半导体", "良率工程", "Fab"],
             "tags_en": ["AI Agent", "Harness Engineering", "Semiconductor", "Yield Engineering", "Fab"]
+        },
+        {
+            "id": "loop-engineering-agent-control-system-20260615",
+            "title": "Loop 工程：AI Agent 时代，工程师不再写 Prompt，而是在设计循环",
+            "title_en": "Loop Engineering: In the Age of AI Agents, Engineers No Longer Write Prompts - They Design Loops",
+            "excerpt": "从 Prompt Engineering、Context Engineering、Harness Engineering 走向 Loop Engineering，系统解释 AI Agent 如何从单轮对话变成可持续发现任务、执行任务、验证结果、记录状态并继续推进的闭环系统，以及自动化、工作区、技能、连接器、子智能体和外部记忆在其中的作用。",
+            "excerpt_en": "A systematic explanation of how AI engineering moves from Prompt Engineering, Context Engineering, and Harness Engineering to Loop Engineering, where agents become closed-loop systems that discover tasks, execute them, verify results, record state, and keep moving through automations, worktrees, skills, connectors, sub-agents, and external memory.",
+            "date": "2026-06-15",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260615_zh_1.md",
+            "category": "tech",
+            "tags": ["AI Agent", "Loop Engineering", "Prompt Engineering", "Harness Engineering", "自动化"],
+            "tags_en": ["AI Agent", "Loop Engineering", "Prompt Engineering", "Harness Engineering", "Automation"]
         },
         {
             "id": "semiconductor-ml-dl-industry-survey-20260614",
