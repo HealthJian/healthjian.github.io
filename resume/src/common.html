@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>** - 个人简历</title>
+  <title>Gao Jian - Resume</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
@@ -40,10 +40,15 @@
       line-height: 1.7;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 1rem;
       padding: 1.2rem 2rem;
       border-bottom: 1px solid var(--border-color);
       position: sticky;
@@ -57,6 +62,7 @@
       position: relative;
       width: 45px;
       height: 45px;
+      flex: 0 0 auto;
     }
 
     .logo {
@@ -76,6 +82,37 @@
     .nav-btns {
       display: flex;
       gap: 0.8rem;
+      flex: 0 0 auto;
+      align-items: center;
+    }
+
+    .resume-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.2rem;
+      flex-wrap: wrap;
+      margin: 0 auto;
+    }
+
+    .resume-nav a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      line-height: 1;
+      padding: 0.45rem 0.7rem;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      opacity: 0.82;
+      transition: all 0.2s ease;
+    }
+
+    .resume-nav a:hover {
+      color: var(--accent-color);
+      background: var(--hover-bg);
+      border-color: var(--border-color);
+      opacity: 1;
     }
 
     .lang-toggle, .theme-toggle, .contact-btn {
@@ -107,6 +144,7 @@
 
     section {
       margin-bottom: 3.5rem;
+      scroll-margin-top: 6rem;
       animation: fadeIn 0.8s ease-out forwards;
     }
 
@@ -122,6 +160,7 @@
       margin-bottom: 1.8rem;
       border-bottom: 2px solid var(--border-color);
       padding-bottom: 0.5rem;
+      position: relative;
     }
 
     .section-header h2 {
@@ -136,26 +175,38 @@
       height: 60px;
       border-radius: 15px;
       object-fit: cover;
-      border: 2px solid var(--accent-color);
       cursor: pointer;
       transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .intro-header .avatar-small {
+      position: absolute;
+      left: -78px;
+      top: 50%;
+      transform: translateY(-50%);
     }
 
     .avatar-small:hover {
       transform: scale(1.1) rotate(3deg);
     }
 
+    .intro-header .avatar-small:hover {
+      transform: translateY(-50%) scale(1.08) rotate(3deg);
+    }
+
     .item-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+      column-gap: 1rem;
+      row-gap: 0.4rem;
       margin-bottom: 0.3rem;
     }
 
     .item-title {
       font-weight: 700;
       font-size: 1.1rem;
+      min-width: 0;
     }
 
     .time {
@@ -165,6 +216,7 @@
       background: var(--hover-bg);
       padding: 2px 8px;
       border-radius: 4px;
+      justify-self: end;
     }
 
     .sub-info {
@@ -175,6 +227,13 @@
       align-items: center;
       flex-wrap: wrap;
       gap: 0.8rem;
+    }
+
+    .section-note {
+      color: var(--text-color);
+      font-size: 0.86rem;
+      margin: -1rem 0 1.6rem;
+      opacity: 0.68;
     }
 
     .sub-info-group {
@@ -303,13 +362,25 @@
     .social-links {
       display: flex;
       justify-content: center;
-      gap: 1.5rem;
+      align-items: center;
+      gap: 1.35rem;
       margin-top: 1.5rem;
+      flex-wrap: wrap;
     }
 
     .social-link {
+      width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
       color: var(--text-color);
       font-size: 1.4rem;
+      line-height: 1;
+      text-decoration: none;
+      cursor: pointer;
       transition: color 0.2s;
     }
 
@@ -317,10 +388,98 @@
       color: var(--accent-color);
     }
 
+    .profile-social {
+      justify-content: flex-start;
+      margin-top: 1.1rem;
+      gap: 1.1rem;
+    }
+
+    .qr-modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(15, 23, 42, 0.38);
+      padding: 1.5rem;
+      z-index: 200;
+    }
+
+    .qr-modal.is-open {
+      display: flex;
+    }
+
+    .qr-panel {
+      width: min(320px, 100%);
+      background: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      box-shadow: 0 18px 40px var(--bento-shadow);
+      padding: 1.4rem;
+      text-align: center;
+    }
+
+    .qr-panel h3 {
+      color: var(--accent-color);
+      font-size: 1.05rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .qr-placeholder {
+      width: 168px;
+      height: 168px;
+      margin: 0 auto 1rem;
+      display: grid;
+      place-items: center;
+      color: var(--accent-color);
+      border: 1px dashed var(--accent-color);
+      border-radius: 8px;
+      background: var(--hover-bg);
+      font-size: 2rem;
+    }
+
+    .qr-panel p {
+      font-size: 0.9rem;
+      opacity: 0.72;
+      margin-bottom: 1rem;
+    }
+
+    .modal-close {
+      background: var(--accent-color);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.45rem 1rem;
+      cursor: pointer;
+    }
+
     @media (max-width: 650px) {
-      .item-header { flex-direction: column; }
-      .time { margin-top: 0.3rem; }
+      header {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        padding: 1rem 1.2rem;
+      }
+      .resume-nav {
+        order: 3;
+        width: 100%;
+        justify-content: flex-start;
+      }
+      .resume-nav a {
+        padding: 0.42rem 0.58rem;
+      }
+      .item-header { grid-template-columns: 1fr; }
+      .time { justify-self: start; }
       .bento-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 1050px) {
+      .intro-header {
+        padding-left: 4.8rem;
+      }
+
+      .intro-header .avatar-small {
+        left: 0;
+      }
     }
     
     @keyframes photoWiggle {
@@ -335,53 +494,84 @@
     <div class="logo-container">
       <div class="logo" id="logo">G</div>
     </div>
+    <nav class="resume-nav" aria-label="Resume sections">
+      <a href="#intro" data-en="Profile" data-zh="简介">Profile</a>
+      <a href="#education" data-en="Education" data-zh="教育">Education</a>
+      <a href="#work" data-en="Work" data-zh="工作">Work</a>
+      <a href="#skills" data-en="Skills" data-zh="技能">Skills</a>
+      <a href="#internship" data-en="Internships" data-zh="实习">Internships</a>
+      <a href="#projects" data-en="Projects" data-zh="项目">Projects</a>
+      <a href="#awards" data-en="Awards" data-zh="荣誉">Awards</a>
+      <a href="#evaluation" data-en="Evaluation" data-zh="评价">Evaluation</a>
+    </nav>
     <div class="nav-btns">
-      <button class="lang-toggle" id="langToggle">EN / 中</button>
+      <button class="lang-toggle" id="langToggle">中 / EN</button>
       <button class="theme-toggle" id="themeToggle">🌓</button>
-      <button class="contact-btn" id="contactBtn" data-en="Contact" data-zh="联系我">联系我</button>
+      <button class="contact-btn" id="contactBtn" data-en="Contact" data-zh="联系我">Contact</button>
     </div>
   </header>
 
   <main>
     <section id="intro">
-      <div class="section-header">
-        <img src="images/5679705c1eb83ed4787a82ddaa142099.png" alt="头像" class="avatar-small" id="avatar" />
-        <h2 data-en="Profile" data-zh="个人简介">个人简介</h2>
+      <div class="section-header intro-header">
+        <img src="../../images/5679705c1eb83ed4787a82ddaa142099.png" alt="Portrait" class="avatar-small" id="avatar" />
+        <h2 data-en="Profile" data-zh="个人简介">Profile</h2>
       </div>
-      <p data-en="I am a Junior at <strong>China University of Mining and Technology</strong>, majoring in Data Science and Big Data Technology. I focus on the intersection of <strong>AIGC, Product Design, and Data Analysis</strong>. With a strong foundation in computer science and a 'Product Owner' mindset, I aim to bridge the gap between cutting-edge AI technology and practical business value." 
-         data-zh="我是来自 <strong>中国矿业大学</strong> 数据科学与大数据技术专业的准毕业生。我专注于 <strong>AIGC、产品设计与数据分析</strong> 的交叉领域。拥有扎实的计算机底层背景与极强的“产品负责人”意识，致力于将前沿 AI 技术转化为实际的业务价值。">
-        我是来自 <strong>中国矿业大学</strong> 数据科学与大数据技术专业的准毕业生。我专注于 <strong>AIGC、产品设计与数据分析</strong> 的交叉领域。拥有扎实的计算机底层背景与极强的“产品负责人”意识，致力于将前沿 AI 技术转化为实际的业务价值。
+      <p class="section-note" data-en="Last updated: 2026/06/18." data-zh="当前页面的最新更新时间截止 2026/06/18。">Last updated: 2026/06/18.</p>
+      <p data-en="I am a bachelor's graduate in <strong>Data Science and Big Data Technology</strong> from <strong>China University of Mining and Technology</strong>. My undergraduate thesis was an intelligent resume generation assistant based on large language models, supervised by Professor Xia Zhanguo. I focus my work and learning on <strong>AIGC + Fab, data analysis and visualization, semiconductor yield improvement, semiconductor AI Agents, and model fine-tuning</strong>. With a solid foundation in computer systems, I am committed to translating frontier AI technology into practical business value. I am currently employed at <strong>China Resources Microelectronics · Wuxi</strong>." 
+         data-zh="我是来自 <strong>中国矿业大学</strong> 数据科学与大数据技术专业的本科毕业生。我的本科毕业设计是基于大模型的智能简历生成助手，指导老师是夏战国教授。我专注于 <strong>AIGC+Fab、数据分析与可视化、半导体良率提升、半导体AI Agent、模型微调</strong> 领域的工作与学习。拥有较为扎实的计算机底层背景，致力于将前沿 AI 技术转化为实际的业务价值。目前就业于<strong>华润微电子 · 无锡</strong>">
+        I am a bachelor's graduate in <strong>Data Science and Big Data Technology</strong> from <strong>China University of Mining and Technology</strong>. My undergraduate thesis was an intelligent resume generation assistant based on large language models, supervised by Professor Xia Zhanguo. I focus my work and learning on <strong>AIGC + Fab, data analysis and visualization, semiconductor yield improvement, semiconductor AI Agents, and model fine-tuning</strong>. With a solid foundation in computer systems, I am committed to translating frontier AI technology into practical business value. I am currently employed at <strong>China Resources Microelectronics · Wuxi</strong>.
       </p>
+      <div class="social-links profile-social">
+        <a href="https://www.github.com/cainiaojian" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub" title="GitHub"><i class="fab fa-github"></i></a>
+        <a href="#" class="social-link" aria-label="LinkedIn" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="mailto:gaojian_2026@outlook.com" class="social-link" aria-label="Email" title="Email"><i class="fas fa-envelope"></i></a>
+        <a href="https://www.xiaohongshu.com/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Xiaohongshu" title="Xiaohongshu"><i class="fas fa-book-open"></i></a>
+        <a href="https://scholar.google.com/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Google Scholar" title="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
+        <button type="button" class="social-link wechat-trigger" aria-label="WeChat" title="WeChat"><i class="fab fa-weixin"></i></button>
+        <a href="../../pages/blog.html" class="social-link" aria-label="Blog" title="Blog"><i class="fas fa-blog"></i></a>
+      </div>
     </section>
 
     <section id="education">
       <div class="section-header">
-        <h2 data-en="Education" data-zh="教育背景">教育背景</h2>
+        <h2 data-en="Education" data-zh="教育背景">Education</h2>
       </div>
       <div class="experience-item">
         <div class="item-header">
-          <span class="item-title" data-en="China University of Mining and Technology" data-zh="中国矿业大学">中国矿业大学</span>
+          <span class="item-title" data-en="China University of Mining and Technology" data-zh="中国矿业大学">China University of Mining and Technology</span>
           <span class="time">2022.09 – 2026.07</span>
         </div>
         
         <div class="sub-info">
           <div class="sub-info-group">
-            <img src="https://upload.wikimedia.org/wikipedia/zh/thumb/9/9a/China_University_of_Mining_and_Technology_logo.svg/1200px-China_University_of_Mining_and_Technology_logo.svg.png" class="school-badge" alt="logo">
-            <span data-en="B.Eng in Data Science & Big Data (GPA: 3.41/4.0)" data-zh="数据科学与大数据技术 · 本科 (GPA: 3.41/4.0)">数据科学与大数据技术 · 本科 (GPA: 3.41/4.0)</span>
+            <img src="../../images/china-university-of-mining-and-technology-logo-1024px.png" class="school-badge" alt="China University of Mining and Technology logo">
+            <span data-en="B.Eng in Data Science & Big Data Technology (GPA: 3.44/4.0)" data-zh="数据科学与大数据技术 · 本科 (GPA: 3.44/4.0)">B.Eng in Data Science & Big Data Technology (GPA: 3.44/4.0)</span>
           </div>
           <div class="sub-info-group">
-            <span class="score-tag" data-en="CET-4: 500" data-zh="英语四级：500分">英语四级：500分</span>
-            <span class="score-tag" data-en="CET-6: 471" data-zh="英语六级：471分">英语六级：471分</span>
+            <span class="score-tag" data-en="CET-4: 500" data-zh="英语四级：500分">CET-4: 500</span>
+            <span class="score-tag" data-en="CET-6: 471" data-zh="英语六级：471分">CET-6: 471</span>
           </div>
         </div>
+      </div>
+    </section>
 
-        <p style="font-size: 0.85rem; opacity: 0.8; margin-top: 0.5rem;" data-en="Core: Data Structures, OS, Data Mining, Machine Learning, Deep Learning, Database Principles" data-zh="核心课程：数据结构、操作系统、数据挖掘、机器学习、深度学习、数据库原理">核心课程：数据结构、操作系统、数据挖掘、机器学习、深度学习、数据库原理</p>
+    <section id="work">
+      <div class="section-header">
+        <h2 data-en="Work Experience" data-zh="工作经历">Work Experience</h2>
+      </div>
+      <div class="experience-item">
+        <div class="item-header">
+          <span class="item-title" data-en="CR Micro · Wuxi CSMC Technologies Co., Ltd." data-zh="华润微电子无锡上华科技有限公司">CR Micro · Wuxi CSMC Technologies Co., Ltd.</span>
+          <span class="time" data-en="2026.06 – Present" data-zh="2026.06 – 至今">2026.06 – Present</span>
+        </div>
+        <div class="sub-info" data-en="Yield Big Data Engineer" data-zh="良率大数据工程师">Yield Big Data Engineer</div>
       </div>
     </section>
 
     <section id="skills">
       <div class="section-header">
-        <h2 data-en="Skills" data-zh="技能特长">技能特长</h2>
+        <h2 data-en="Skills" data-zh="技能特长">Skills</h2>
       </div>
       <div class="bento-grid">
         
@@ -425,12 +615,14 @@
 
         <div class="bento-card">
           <div class="bento-title">
-            <i class="fas fa-lightbulb"></i>
-            <span data-en="Product & Design" data-zh="产品与设计">产品与设计</span>
+            <i class="fas fa-microchip"></i>
+            <span data-en="Semiconductor & AI" data-zh="半导体与 AI 应用">Semiconductor & AI</span>
           </div>
           <div class="bento-tags">
-            <div class="bento-tag" data-en="Product Lifecycle (PRD)" data-zh="产品全生命周期管理">产品全生命周期管理</div>
-            <div class="bento-tag" data-en="UX/UI Design" data-zh="交互与原型设计">交互与原型设计</div>
+            <div class="bento-tag" data-en="Yield Big Data" data-zh="良率大数据">Yield Big Data</div>
+            <div class="bento-tag" data-en="Fab Data Analysis" data-zh="Fab 数据分析">Fab Data Analysis</div>
+            <div class="bento-tag" data-en="AI Agent Workflow" data-zh="AI Agent 工作流">AI Agent Workflow</div>
+            <div class="bento-tag" data-en="Model Fine-tuning" data-zh="模型微调">Model Fine-tuning</div>
           </div>
         </div>
 
@@ -458,13 +650,13 @@
       <div class="section-header">
         <h2 data-en="Projects" data-zh="项目经历">项目经历</h2>
       </div>
+      <p class="section-note" data-en="Note: These are undergraduate projects. Engineering projects will be updated in the future." data-zh="提示：以下为本科期间项目内容，未来会更新工程项目。">提示：以下为本科期间项目内容，未来会更新工程项目。</p>
       
       <div class="experience-item" style="margin-bottom: 2rem;">
         <div class="item-header">
           <span class="item-title" data-en="LLM-based Intelligent Resume Assistant" data-zh="基于大模型的智能简历生成助手">基于大模型的智能简历生成助手</span>
-          <span class="time">2025.12 – Present</span>
+          <span class="time">2025.12 – 2025.5</span>
         </div>
-        <div class="sub-info" data-en="Project Leader / Product Designer" data-zh="项目负责人 / 产品设计">项目负责人 / 产品设计</div>
         <ul class="content-list">
           <li data-en="Designed a 'Cloud-Edge Hybrid' architecture utilizing Qwen3.5-9B and RAG technology for professional content generation." data-zh="设计“端云混合”调用架构，基于 Qwen3.5-9B 模型结合 RAG 技术保障生成内容的专业性。">设计“端云混合”调用架构，基于 Qwen3.5-9B 模型结合 RAG 技术保障生成内容的专业性。</li>
           <li data-en="Implemented semantic matching using BERT-Whitening, achieving a Top-5 job matching rate ≥ 82%." data-zh="采用 BERT-Whitening 算法计算 JD 语义相似度，实现 Top-5 岗位匹配率 ≥ 82%。">采用 BERT-Whitening 算法计算 JD 语义相似度，实现 Top-5 岗位匹配率 ≥ 82%。</li>
@@ -473,7 +665,7 @@
 
       <div class="experience-item" style="margin-bottom: 2rem;">
         <div class="item-header">
-          <span class="item-title" data-en="Bearing Fault Diagnosis using GWO-AlexNet" data-zh="基于GWO-AlexNet的工业轴承故障诊断系统">基于GWO-AlexNet的工业轴承故障诊断系统</span>
+          <span class="item-title" data-en="Interpretable image classification method for industrial bearing based on GWO-AlexNet" data-zh="基于GWO-AlexNet的工业轴承故障诊断系统">基于GWO-AlexNet的工业轴承故障诊断系统</span>
           <span class="time">2023.11 – 2024.01</span>
         </div>
         <ul class="content-list">
@@ -501,7 +693,8 @@
       <ul class="content-list">
         <li><strong data-en="National Third Prize" data-zh="全国三等奖">全国三等奖</strong> | <span data-en="China College Computer Design Competition" data-zh="全国大学生计算机设计大赛">全国大学生计算机设计大赛</span> (2025.08)</li>
         <li><strong data-en="National Third Prize" data-zh="全国三等奖">全国三等奖</strong> | <span data-en="National Simulation Innovation Application Competition" data-zh="全国仿真创新应用大赛">全国仿真创新应用大赛</span> (2024.12)</li>
-        <li><strong data-en="University Scholarship" data-zh="校级奖学金">校级奖学金</strong> | <span data-en="CUMT Academic Excellence Award" data-zh="中国矿业大学优秀奖学金">中国矿业大学优秀奖学金</span> (2023, 2024, 2025)</li>
+        <li><strong data-en="Pingmei Shenma Enterprise Scholarship" data-zh="平煤神马企业奖学金">平煤神马企业奖学金</strong> (2024)</li>
+        <li><strong data-en="University Second-Class Scholarship" data-zh="校级二等奖学金">校级二等奖学金</strong> | <span data-en="China University of Mining and Technology" data-zh="中国矿业大学">中国矿业大学</span> (2023, 2024, 2025)</li>
       </ul>
     </section>
 
@@ -509,15 +702,15 @@
       <div class="section-header">
         <h2 data-en="Self-Evaluation" data-zh="自我评价">自我评价</h2>
       </div>
-      <p style="font-style: italic; font-size: 0.95rem;" data-en="A cross-disciplinary talent with a solid CS background and strong 'Product Owner' consciousness. Passionate about B-side digital transformation and leading-edge AI (AIGC/RAG) integration." 
-         data-zh="拥有扎实的计算机与数据科学背景，具备极强的“产品负责人”意识。对企业级 AI 技术（AIGC、RAG）及 B 端数字化转型充满热情，具备优秀的逻辑拆解与跨部门协作能力。">
-        拥有扎实的计算机与数据科学背景，具备极强的“产品负责人”意识。对企业级 AI 技术（AIGC、RAG）及 B 端数字化转型充满热情，具备优秀的逻辑拆解与跨部门协作能力。
+      <p style="font-style: italic; font-size: 0.95rem;" data-en="A data science graduate with a solid computer systems foundation, focused on applying AI, data analysis, and visualization to semiconductor manufacturing scenarios. I value rigorous problem decomposition, cross-functional collaboration, and turning model capabilities into measurable business outcomes." 
+         data-zh="拥有扎实的计算机与数据科学背景，关注 AI、数据分析与可视化在半导体制造场景中的落地。重视严谨的问题拆解、跨部门协作，以及将模型能力转化为可衡量的业务价值。">
+        A data science graduate with a solid computer systems foundation, focused on applying AI, data analysis, and visualization to semiconductor manufacturing scenarios. I value rigorous problem decomposition, cross-functional collaboration, and turning model capabilities into measurable business outcomes.
       </p>
     </section>
   </main>
 
   <footer>
-    <div class="footer-bold" data-en="Email: gaojian1573@foxmail.com" data-zh="电子邮箱：gaojian1573@foxmail.com">电子邮箱：gaojian1573@foxmail.com</div>
+    <div class="footer-bold" data-en="Email: gaojian_2026@outlook.com" data-zh="电子邮箱：gaojian_2026@outlook.com">Email: gaojian_2026@outlook.com</div>
     
     <p class="motto" id="motto" 
        data-zh="“我本将心向明月，奈何明月照沟渠”" 
@@ -526,28 +719,53 @@
     </p>
 
     <div class="social-links">
-      <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-      <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-      <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
+      <a href="https://www.github.com/cainiaojian" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub" title="GitHub"><i class="fab fa-github"></i></a>
+      <a href="#" class="social-link" aria-label="LinkedIn" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+      <a href="mailto:gaojian_2026@outlook.com" class="social-link" aria-label="Email" title="Email"><i class="fas fa-envelope"></i></a>
+      <a href="https://www.xiaohongshu.com/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Xiaohongshu" title="Xiaohongshu"><i class="fas fa-book-open"></i></a>
+      <a href="https://scholar.google.com/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Google Scholar" title="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
+      <button type="button" class="social-link wechat-trigger" aria-label="WeChat" title="WeChat"><i class="fab fa-weixin"></i></button>
+      <a href="../../pages/blog.html" class="social-link" aria-label="Blog" title="Blog"><i class="fas fa-blog"></i></a>
     </div>
   </footer>
 
+  <div class="qr-modal" id="wechatModal" aria-hidden="true">
+    <div class="qr-panel" role="dialog" aria-modal="true" aria-labelledby="wechatModalTitle">
+      <h3 id="wechatModalTitle" data-en="WeChat" data-zh="微信">WeChat</h3>
+      <div class="qr-placeholder" aria-label="WeChat QR code placeholder">
+        <i class="fab fa-weixin"></i>
+      </div>
+      <p data-en="WeChat ID / QR code will be added here." data-zh="微信 ID / 二维码将在这里补充。">WeChat ID / QR code will be added here.</p>
+      <button type="button" class="modal-close" id="wechatClose" data-en="Close" data-zh="关闭">Close</button>
+    </div>
+  </div>
+
   <script>
-    let currentLang = 'zh';
+    let currentLang = 'en';
     const langToggle = document.getElementById('langToggle');
     const themeToggle = document.getElementById('themeToggle');
     const contactBtn = document.getElementById('contactBtn');
     const logo = document.getElementById('logo');
     const avatar = document.getElementById('avatar');
+    const wechatTriggers = document.querySelectorAll('.wechat-trigger');
+    const wechatModal = document.getElementById('wechatModal');
+    const wechatClose = document.getElementById('wechatClose');
+
+    function applyLanguage(lang) {
+      const elements = document.querySelectorAll('[data-en], [data-zh]');
+      elements.forEach(el => {
+        el.innerHTML = lang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-zh');
+      });
+      document.documentElement.lang = lang === 'en' ? 'en' : 'zh-CN';
+      langToggle.textContent = lang === 'zh' ? 'EN / 中' : '中 / EN';
+    }
+
+    applyLanguage(currentLang);
 
     // Language switch
     langToggle.addEventListener('click', () => {
       currentLang = currentLang === 'zh' ? 'en' : 'zh';
-      const elements = document.querySelectorAll('[data-en], [data-zh]');
-      elements.forEach(el => {
-        el.innerHTML = currentLang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-zh');
-      });
-      langToggle.textContent = currentLang === 'zh' ? 'EN / 中' : '中 / EN';
+      applyLanguage(currentLang);
     });
 
     // Dark mode
@@ -567,6 +785,31 @@
     // Scroll to footer
     contactBtn.addEventListener('click', () => {
       document.querySelector('footer').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // WeChat QR placeholder modal
+    wechatTriggers.forEach(trigger => {
+      trigger.addEventListener('click', () => {
+        wechatModal.classList.add('is-open');
+        wechatModal.setAttribute('aria-hidden', 'false');
+      });
+    });
+
+    function closeWechatModal() {
+      wechatModal.classList.remove('is-open');
+      wechatModal.setAttribute('aria-hidden', 'true');
+    }
+
+    wechatClose.addEventListener('click', closeWechatModal);
+    wechatModal.addEventListener('click', (event) => {
+      if (event.target === wechatModal) {
+        closeWechatModal();
+      }
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && wechatModal.classList.contains('is-open')) {
+        closeWechatModal();
+      }
     });
 
     // Avatar Wiggle

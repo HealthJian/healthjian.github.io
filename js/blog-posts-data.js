@@ -1,6 +1,54 @@
 // 博客文章数据源：供 blog.js、博客页、分类页与首页最新文章复用
 window.BLOG_POSTS_DATA = [
         {
+            "id": "rl-series-4-ppo-sac-rlhf-zh-20260619",
+            "title": "强化学习系列第四篇：策略优化的巅峰——从PPO到RLHF的前沿图景",
+            "title_en": "Reinforcement Learning Series Part 4: The Pinnacle of Policy Optimization – From PPO to the Frontier of RLHF",
+            "excerpt": "直面Actor-Critic的步长困境，详述TRPO的信任域思想与PPO的裁剪机制，解析SAC的最大熵强化学习原理，并眺望离线强化学习与基于人类反馈的强化学习（RLHF）在大模型对齐中的应用。",
+            "excerpt_en": "Confronting the step-size challenge in Actor-Critic, detailing TRPO's trust region and PPO's clipping mechanism, explaining SAC's maximum entropy principle, and looking ahead to offline RL and RLHF (Reinforcement Learning from Human Feedback) in LLM alignment.",
+            "date": "2026-06-17",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260617_zh_4.md",
+            "category": "tech",
+            "tags": ["PPO", "TRPO", "SAC", "离线强化学习", "RLHF"],
+            "tags_en": ["PPO", "TRPO", "SAC", "Offline RL", "RLHF"]
+        },
+        {
+            "id": "rl-series-3-dqn-pg-ac-zh-20260618",
+            "title": "强化学习系列第三篇：深度强化学习崛起——DQN、策略梯度与Actor-Critic架构",
+            "title_en": "Reinforcement Learning Series Part 3: The Rise of Deep RL – DQN, Policy Gradients, and Actor-Critic Architecture",
+            "excerpt": "从表格方法跨越到深度强化学习，解析DQN的经验回放与目标网络两大创新，推导策略梯度定理及REINFORCE算法，并系统介绍Actor-Critic架构如何融合价值与策略方法，形成现代RL的核心骨架。",
+            "excerpt_en": "Bridging tabular methods to deep RL, dissecting DQN's experience replay and target network innovations, deriving the policy gradient theorem and REINFORCE, and systematically introducing the Actor-Critic architecture that combines value and policy methods as the core of modern RL.",
+            "date": "2026-06-17",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260617_zh_3.md",
+            "category": "tech",
+            "tags": ["深度强化学习", "DQN", "策略梯度", "Actor-Critic", "REINFORCE"],
+            "tags_en": ["Deep RL", "DQN", "Policy Gradient", "Actor-Critic", "REINFORCE"]
+        },
+        {
+            "id": "rl-series-2-dp-mc-td-zh-20260617",
+            "title": "强化学习系列第二篇：从蓝图到试错——动态规划、蒙特卡洛与时序差分学习",
+            "title_en": "Reinforcement Learning Series Part 2: From Blueprint to Trial-and-Error – Dynamic Programming, Monte Carlo, and Temporal-Difference Learning",
+            "excerpt": "深入讲解基于模型（动态规划）与无模型（蒙特卡洛、时序差分）两类求解MDP的核心方法，对比策略迭代、价值迭代、MC与TD的优劣，并推导SARSA与Q-learning两大经典表格型控制算法。",
+            "excerpt_en": "An in-depth exploration of model-based (Dynamic Programming) and model-free (Monte Carlo, Temporal-Difference) methods for solving MDPs, comparing policy iteration, value iteration, MC vs. TD, and deriving the classic tabular control algorithms SARSA and Q-learning.",
+            "date": "2026-06-17",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260617_zh_2.md",
+            "category": "tech",
+            "tags": ["动态规划", "蒙特卡洛", "时序差分", "SARSA", "Q-learning"],
+            "tags_en": ["Dynamic Programming", "Monte Carlo", "Temporal-Difference", "SARSA", "Q-learning"]
+        },
+        {
+            "id": "rl-series-1-intro-framework-zh-20260616",
+            "title": "强化学习系列第一篇：从试错到智能——强化学习导论与核心框架",
+            "title_en": "Reinforcement Learning Series Part 1: From Trial-and-Error to Intelligence – Introduction and Core Framework",
+            "excerpt": "系统介绍强化学习的基本定义、历史脉络、核心要素（智能体、环境、状态、动作、奖励、策略）、马尔可夫决策过程（MDP）与贝尔曼方程，并探讨探索-利用权衡，为后续算法奠定理论基础。",
+            "excerpt_en": "A comprehensive introduction to reinforcement learning: definitions, history, core elements (agent, environment, state, action, reward, policy), Markov Decision Process (MDP), Bellman equations, and the exploration-exploitation trade-off, laying the theoretical foundation for advanced algorithms.",
+            "date": "2026-06-17",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260617_zh_1.md",
+            "category": "tech",
+            "tags": ["强化学习", "MDP", "贝尔曼方程", "探索与利用", "智能体"],
+            "tags_en": ["Reinforcement Learning", "MDP", "Bellman Equation", "Exploration-Exploitation", "Agent"]
+        },
+        {
             "id": "classic-ml-algorithms-architecture-zh-20260616",
             "title": "一文讲清楚 SVM、RF、XGBoost、K-Means 与 KNN：公式、思想、运算逻辑与实际建模架构",
             "title_en": "One Article to Understand SVM, RF, XGBoost, K-Means & KNN: Formulas, Ideas, Operational Logic, and Real-World Modeling Architectures",
