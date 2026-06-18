@@ -209,6 +209,29 @@
       min-width: 0;
     }
 
+    .title-with-tip {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+
+    .inline-tip {
+      font-size: 0.72rem;
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--accent-color);
+      background: rgba(37, 99, 235, 0.08);
+      border: 1px solid rgba(37, 99, 235, 0.18);
+      border-radius: 999px;
+      padding: 0.18rem 0.5rem;
+    }
+
+    [data-theme="dark"] .inline-tip {
+      background: rgba(96, 165, 250, 0.12);
+      border-color: rgba(96, 165, 250, 0.28);
+    }
+
     .time {
       font-size: 0.85rem;
       color: var(--accent-color);
@@ -635,7 +658,10 @@
       </div>
       <div class="experience-item">
         <div class="item-header">
-          <span class="item-title" data-en="ByteDance (Douyin)" data-zh="字节跳动（抖音）">字节跳动（抖音）</span>
+          <span class="item-title title-with-tip">
+            <span data-en="ByteDance (Douyin)" data-zh="字节跳动（抖音）">字节跳动（抖音）</span>
+            <span class="inline-tip" data-en="University-enterprise collaboration via Yubing, Feishu, and a third-party platform" data-zh="校企合作通过语冰、飞书和第三方平台完成">校企合作通过语冰、飞书和第三方平台完成</span>
+          </span>
           <span class="time">2023.09 – 2023.11</span>
         </div>
         <div class="sub-info" data-en="AI Data Labeling Intern (University-Enterprise Collaboration)" data-zh="AI 数据标注实习生（校企合作）">AI 数据标注实习生（校企合作）</div>

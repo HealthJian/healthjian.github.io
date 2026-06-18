@@ -1,6 +1,30 @@
 // 博客文章数据源：供 blog.js、博客页、分类页与首页最新文章复用
 window.BLOG_POSTS_DATA = [
         {
+            "id": "cherishing-summer-farewell-graduation-20260618",
+            "title": "惜夏与告别：写在转瞬即逝的四年之后",
+            "title_en": "Cherishing Summer and Saying Goodbye: Notes from Four Fleeting Years",
+            "excerpt": "写在毕业季的一篇长文：回望从初入大学、疫情封校、绩点竞争、专业转向、考研失利到春招上岸的四年历程，在失落、感恩与遗憾中向大学与一座城市郑重告别。",
+            "excerpt_en": "A graduation-season essay looking back on four fleeting years: entering university, pandemic lockdowns, GPA competition, a shift into data science, postgraduate exam failure, and finally landing a job, ending with gratitude, regret, and farewell.",
+            "date": "2026-06-18",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260618_zh_1.md",
+            "category": "idea",
+            "tags": ["毕业", "大学", "青春", "就业", "个人反思"],
+            "tags_en": ["Graduation", "University", "Youth", "Employment", "Personal Reflection"]
+        },
+        {
+            "id": "mcp-large-language-models-explained-20260618",
+            "title": "把大模型的 MCP 讲解清楚",
+            "title_en": "Demystifying MCP for Large Language Models",
+            "excerpt": "从大模型应用开发中的 N×M 集成困境出发，系统解释 Model Context Protocol 的诞生背景、客户端-服务器架构、Host/Client/Server 三类角色、核心能力与生态趋势。",
+            "excerpt_en": "Starting from the N×M integration dilemma in LLM application development, this article explains the background, client-server architecture, Host/Client/Server roles, core capabilities, and ecosystem direction of Model Context Protocol.",
+            "date": "2026-06-18",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260618_zh_2.md",
+            "category": "tech",
+            "tags": ["MCP", "大模型", "AI Agent", "工具调用", "协议"],
+            "tags_en": ["MCP", "LLM", "AI Agent", "Tool Calling", "Protocol"]
+        },
+        {
             "id": "rl-series-4-ppo-sac-rlhf-zh-20260619",
             "title": "强化学习系列第四篇：策略优化的巅峰——从PPO到RLHF的前沿图景",
             "title_en": "Reinforcement Learning Series Part 4: The Pinnacle of Policy Optimization – From PPO to the Frontier of RLHF",
