@@ -1,6 +1,18 @@
 // 博客文章数据源：供 blog.js、博客页、分类页与首页最新文章复用
 window.BLOG_POSTS_DATA = [
         {
+            "id": "eco-aquarium-scientific-keeping-aquascaping-20260622",
+            "title": "从零打造你的水下世界：生态鱼缸科学养殖与造景全指南",
+            "title_en": "Build Your Underwater World from Scratch: A Complete Guide to Scientific Eco-Aquarium Keeping and Aquascaping",
+            "excerpt": "从生态平衡出发，系统讲解生态鱼缸的核心原理、氮循环、开缸材料、七步开缸流程、鱼虾入缸、水草配置、造景美学与日常维护，帮助新手少走弯路。",
+            "excerpt_en": "A beginner-friendly guide to eco-aquariums and aquascaping, covering ecological balance, the nitrogen cycle, setup materials, a seven-step tank setup process, livestock introduction, plant selection, layout aesthetics, and daily maintenance.",
+            "date": "2026-06-22",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260622_zh_1.md",
+            "category": "life",
+            "tags": ["生态鱼缸", "养鱼", "造景", "氮循环", "水草"],
+            "tags_en": ["Eco-Aquarium", "Fishkeeping", "Aquascaping", "Nitrogen Cycle", "Aquatic Plants"]
+        },
+        {
             "id": "cherishing-summer-farewell-graduation-20260618",
             "title": "惜夏与告别：写在转瞬即逝的四年之后",
             "title_en": "Cherishing Summer and Saying Goodbye: Notes from Four Fleeting Years",
