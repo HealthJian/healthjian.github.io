@@ -93,6 +93,17 @@
                 </div>
             </div>
 
+            <div class="category-jump-wrap">
+                <a class="category-jump" href="../categories.html">
+                    <span class="category-jump-icon">⌁</span>
+                    <span class="category-jump-copy">
+                        <strong data-i18n="category-jump-title">分类与知识图谱</strong>
+                        <small data-i18n="category-jump-desc">查看作者数据、文章归档与产能 K 线</small>
+                    </span>
+                    <span class="category-jump-arrow">→</span>
+                </a>
+            </div>
+
             <!-- Row 2: Main Dashboard Grid -->
             <div class="dashboard-grid">
 
@@ -131,7 +142,40 @@
                     </div>
                 </div>
 
-                <!-- 4. Visitor Sources -->
+                <!-- 4. Recent Update Frequency -->
+                <div class="card update-frequency">
+                    <div class="card-header">
+                        <h2 data-i18n="update-frequency">近一个月更新频率</h2>
+                        <span class="card-badge data-badge" data-i18n="real-data">REAL DATA</span>
+                    </div>
+                    <canvas id="updateFrequencyChart"></canvas>
+                    <div class="frequency-summary" id="updateFrequencySummary">--</div>
+                </div>
+
+                <!-- 5. Image Storage Inventory -->
+                <div class="card image-storage">
+                    <div class="card-header">
+                        <h2 data-i18n="image-storage">图片库存</h2>
+                        <span class="card-badge data-badge">images/</span>
+                    </div>
+                    <div class="image-storage-total">
+                        <span id="imageStorageTotal">0</span>
+                        <small data-i18n="image-files">image files</small>
+                    </div>
+                    <div class="image-storage-breakdown" id="imageStorageBreakdown"></div>
+                    <p class="inventory-note" data-i18n="image-storage-note">按当前 images 目录递归静态快照统计。</p>
+                </div>
+
+                <!-- 6. Top Tags Heatmap -->
+                <div class="card tag-heatmap">
+                    <div class="card-header">
+                        <h2 data-i18n="tag-heatmap">Top-9 标签热力图</h2>
+                        <span class="card-badge data-badge">TOP 9</span>
+                    </div>
+                    <div class="tag-heatmap-grid" id="tagHeatmapGrid"></div>
+                </div>
+
+                <!-- 7. Visitor Sources -->
                 <div class="card visitor-sources">
                     <div class="card-header">
                         <h2 data-i18n="visitor-sources">访客来源</h2>
@@ -352,6 +396,29 @@
                     </div>
                 </div>
 
+                <!-- 12. Changelog Archive -->
+                <div class="card changelog-archive">
+                    <div class="card-header">
+                        <h2 data-i18n="changelog-archive">日志归档</h2>
+                        <span class="card-badge archive-badge" id="changelogArchiveCount">--</span>
+                    </div>
+                    <p class="raw-module-note" data-i18n="changelog-archive-note">从 changelog 页面抽取原始日志，按专业审计视角逐条检查。</p>
+                    <div class="raw-log-list" id="changelogArchiveList">
+                        <pre>Loading changelog archive...</pre>
+                    </div>
+                    <a class="raw-module-link" href="../changelog.html" data-i18n="open-changelog">打开完整更新日志</a>
+                </div>
+
+                <!-- 13. Update Plan -->
+                <div class="card update-plan">
+                    <div class="card-header">
+                        <h2 data-i18n="update-plan">更新计划</h2>
+                        <span class="card-badge plan-badge">ROADMAP</span>
+                    </div>
+                    <p class="raw-module-note" data-i18n="update-plan-note">下一阶段维护清单，偏工程执行口径。</p>
+                    <div class="plan-list" id="updatePlanList"></div>
+                </div>
+
             </div><!-- /dashboard-grid -->
 
         </div>
@@ -365,6 +432,7 @@
     </footer>
 
     <!-- JavaScript -->
+    <script src="../../js/blog-posts-data.js"></script>
     <script src="../../js/datacenter.js"></script>
 </body>
 </html>

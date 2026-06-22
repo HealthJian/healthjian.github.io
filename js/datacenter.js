@@ -18,6 +18,12 @@
             'live-visitors': '实时访客趋势',
             'today-visitors': '今日访客',
             'vs-yesterday': '较昨日 +12%',
+            'update-frequency': '近一个月更新频率',
+            'real-data': '真实数据',
+            'image-storage': '图片库存',
+            'image-files': '图片文件',
+            'image-storage-note': '按当前 images 目录递归静态快照统计。',
+            'tag-heatmap': 'Top-9 标签热力图',
             'visitor-sources': '访客来源',
             'mi-browser': 'MI浏览器',
             'top-regions': '主要访问地区',
@@ -45,6 +51,13 @@
             'stat-posts': '博客文章',
             'stat-visitors': '累计访客',
             'stat-speed': '平均加载',
+            'category-jump-title': '分类与知识图谱',
+            'category-jump-desc': '查看作者数据、文章归档与产能 K 线',
+            'changelog-archive': '日志归档',
+            'changelog-archive-note': '从 changelog 页面抽取原始日志，按专业审计视角逐条检查。',
+            'open-changelog': '打开完整更新日志',
+            'update-plan': '更新计划',
+            'update-plan-note': '下一阶段维护清单，偏工程执行口径。',
             'your-name': '健健',
             'powered-by': 'Powered by Passion & Data'
         },
@@ -60,6 +73,12 @@
             'live-visitors': 'Live Visitor Trend',
             'today-visitors': "Today's Visitors",
             'vs-yesterday': 'vs Yesterday +12%',
+            'update-frequency': 'Last 30 Days Update Frequency',
+            'real-data': 'REAL DATA',
+            'image-storage': 'Image Inventory',
+            'image-files': 'image files',
+            'image-storage-note': 'Static snapshot from the current images directory, counted recursively.',
+            'tag-heatmap': 'Top-9 Tag Heatmap',
             'visitor-sources': 'Visitor Sources',
             'mi-browser': 'MI Browser',
             'top-regions': 'Top Regions',
@@ -87,17 +106,66 @@
             'stat-posts': 'Blog Posts',
             'stat-visitors': 'Total Visitors',
             'stat-speed': 'Avg Load',
+            'category-jump-title': 'Categories & Knowledge Map',
+            'category-jump-desc': 'Open author data, archive, and productivity K-line',
+            'changelog-archive': 'Changelog Archive',
+            'changelog-archive-note': 'Extracted from the changelog page for direct professional review.',
+            'open-changelog': 'Open Full Changelog',
+            'update-plan': 'Update Plan',
+            'update-plan-note': 'Next-stage maintenance list, written in an engineering execution format.',
             'your-name': 'Jianjian',
             'powered-by': 'Powered by Passion & Data'
         }
     };
 
     /* ===== State ===== */
+    const SITE_PAGE_COUNT = 115;
+    const FALLBACK_POST_COUNT = 68;
+    const IMAGE_INVENTORY = {
+        total: 181,
+        updatedAt: '2026-06-22',
+        byExt: [
+            { ext: 'png', count: 76 },
+            { ext: 'avif', count: 66 },
+            { ext: 'jpg', count: 34 },
+            { ext: 'webp', count: 3 },
+            { ext: 'gif', count: 1 },
+            { ext: 'jpeg', count: 1 }
+        ]
+    };
+    const UPDATE_PLAN_ITEMS = [
+        {
+            status: 'P0',
+            date: '2026 Q2-Q3',
+            zh: '数据源治理：将日志、文章、图集等高频内容逐步迁移到结构化数据源，减少从 HTML 反向解析的维护成本。',
+            en: 'Data source governance: move high-frequency content such as logs, posts, and gallery records into structured data sources.'
+        },
+        {
+            status: 'P1',
+            date: '2026 Q3',
+            zh: '数据中心真实化：访客、性能、更新日志、文章产能等指标继续向可核验数据靠拢，保留静态站点的轻量部署方式。',
+            en: 'Data center realism: keep visitor, performance, changelog, and productivity metrics closer to verifiable data while preserving static deployment.'
+        },
+        {
+            status: 'P1',
+            date: '2026 Q3',
+            zh: '分类与归档增强：继续校准产能 K 线、文章归档和标签热度，提升长期复盘能力。',
+            en: 'Category and archive enhancement: continue calibrating productivity K-line, article archive, and tag heat metrics.'
+        },
+        {
+            status: 'P2',
+            date: 'Continuous',
+            zh: '工程项目补充：在个人简历和项目页持续补充真实工程项目、半导体数据分析实践与 AI Agent 探索。',
+            en: 'Engineering project updates: keep adding real engineering work, semiconductor analytics practice, and AI Agent exploration to resume and project pages.'
+        }
+    ];
     let lang = 'zh';
     let theme = localStorage.getItem('dc-theme') || 'light';
+    let changelogEntries = [];
     let visitorChart = null;
     let performanceChart = null;
     let browserChart = null;
+    let updateFrequencyChart = null;
     let amap = null;
     let amapMarkers = [];
     let amapPolylines = [];
@@ -116,10 +184,14 @@
         initEventListeners();
         initQuickStats();
         initCharts();
+        renderImageInventory();
+        renderTopTagHeatmap();
         initAMap();
         initHeatmap();
         initUptimeBars();
         initActivityFeed();
+        initChangelogArchive();
+        renderUpdatePlan();
         startLiveUpdates();
         initEasterEggs();
     }
@@ -145,6 +217,11 @@
             if (T[lang]?.[key]) el.textContent = T[lang][key];
         });
         document.title = T[lang]['title'];
+        renderChangelogArchive();
+        renderUpdateFrequencyChart();
+        renderImageInventory();
+        renderTopTagHeatmap();
+        renderUpdatePlan();
     }
 
     function toggleLang() {
@@ -172,13 +249,15 @@
 
     /* ===== Quick Stats ===== */
     function initQuickStats() {
-        animateNum('statPages', 101, 1800);
-        animateNum('statPosts', 47, 1800);
+        const blogPostCount = Array.isArray(window.BLOG_POSTS_DATA) ? window.BLOG_POSTS_DATA.length : FALLBACK_POST_COUNT;
+
+        animateNum('statPages', SITE_PAGE_COUNT, 1800);
+        animateNum('statPosts', blogPostCount, 1800);
         animateNum('statVisitors', 2847, 2200);
         animateSpeed('statSpeed', 128, 1600);
 
-        drawMiniSparkline('sparkPages', generateSparkData(12, 80, 105));
-        drawMiniSparkline('sparkPosts', generateSparkData(12, 30, 50));
+        drawMiniSparkline('sparkPages', generateSparkData(12, Math.max(1, SITE_PAGE_COUNT - 24), SITE_PAGE_COUNT + 4));
+        drawMiniSparkline('sparkPosts', generateSparkData(12, Math.max(1, blogPostCount - 18), blogPostCount + 3));
         drawMiniSparkline('sparkVisitors', generateSparkData(12, 150, 320));
         drawMiniSparkline('sparkSpeed', generateSparkData(12, 90, 160), true);
     }
@@ -402,6 +481,187 @@
         return { labels, values };
     }
 
+    /* ===== Data Cards ===== */
+    function renderUpdateFrequencyChart() {
+        const ctx = document.getElementById('updateFrequencyChart')?.getContext('2d');
+        if (!ctx) return;
+
+        const days = getLastNDays(30);
+        const counts = new Map();
+        changelogEntries.forEach(entry => {
+            counts.set(entry.date, (counts.get(entry.date) || 0) + 1);
+        });
+
+        const values = days.map(day => counts.get(day.key) || 0);
+        const total = values.reduce((sum, value) => sum + value, 0);
+        const activeDays = values.filter(Boolean).length;
+        const summary = document.getElementById('updateFrequencySummary');
+        if (summary) {
+            summary.textContent = lang === 'en'
+                ? `${total} changelog updates / ${activeDays} active days`
+                : `${total} 次日志更新 / ${activeDays} 个活跃日期`;
+        }
+
+        if (updateFrequencyChart) updateFrequencyChart.destroy();
+
+        updateFrequencyChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: days.map(day => day.label),
+                datasets: [{
+                    label: lang === 'en' ? 'Changelog Updates' : '日志更新',
+                    data: values,
+                    borderColor: css('--accent-blue'),
+                    backgroundColor: css('--accent-blue') + '16',
+                    fill: true,
+                    tension: 0.35,
+                    borderWidth: 2.2,
+                    pointRadius: values.map(value => value > 0 ? 3 : 0),
+                    pointHoverRadius: 5,
+                    pointBackgroundColor: css('--accent-green')
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: item => lang === 'en'
+                                ? `${item.parsed.y} updates`
+                                : `${item.parsed.y} 次更新`
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: {
+                            color: css('--text-secondary'),
+                            maxTicksLimit: 6,
+                            font: { size: 10 }
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0,
+                            color: css('--text-secondary'),
+                            font: { size: 10 }
+                        },
+                        grid: { color: 'rgba(108,117,125,0.12)' }
+                    }
+                },
+                interaction: { intersect: false, mode: 'index' }
+            }
+        });
+    }
+
+    function getLastNDays(count) {
+        const days = [];
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        for (let i = count - 1; i >= 0; i--) {
+            const day = new Date(today);
+            day.setDate(today.getDate() - i);
+            days.push({
+                key: formatDateKey(day),
+                label: `${day.getMonth() + 1}/${day.getDate()}`
+            });
+        }
+
+        return days;
+    }
+
+    function formatDateKey(date) {
+        const y = date.getFullYear();
+        const m = String(date.getMonth() + 1).padStart(2, '0');
+        const d = String(date.getDate()).padStart(2, '0');
+        return `${y}-${m}-${d}`;
+    }
+
+    function renderImageInventory() {
+        const total = document.getElementById('imageStorageTotal');
+        const breakdown = document.getElementById('imageStorageBreakdown');
+        if (total) total.textContent = IMAGE_INVENTORY.total.toLocaleString();
+        if (!breakdown) return;
+
+        const max = Math.max(...IMAGE_INVENTORY.byExt.map(item => item.count));
+        breakdown.innerHTML = '';
+        IMAGE_INVENTORY.byExt.forEach(item => {
+            const row = document.createElement('div');
+            row.className = 'image-ext-row';
+
+            const name = document.createElement('span');
+            name.className = 'image-ext-name';
+            name.textContent = `.${item.ext}`;
+
+            const bar = document.createElement('span');
+            bar.className = 'image-ext-bar';
+            const fill = document.createElement('span');
+            fill.style.width = `${Math.max(6, (item.count / max) * 100)}%`;
+            bar.appendChild(fill);
+
+            const count = document.createElement('span');
+            count.className = 'image-ext-count';
+            count.textContent = item.count;
+
+            row.appendChild(name);
+            row.appendChild(bar);
+            row.appendChild(count);
+            breakdown.appendChild(row);
+        });
+    }
+
+    function renderTopTagHeatmap() {
+        const grid = document.getElementById('tagHeatmapGrid');
+        if (!grid) return;
+
+        const posts = Array.isArray(window.BLOG_POSTS_DATA) ? window.BLOG_POSTS_DATA : [];
+        const counts = new Map();
+        posts.forEach(post => {
+            (post.tags || []).forEach(tag => {
+                counts.set(tag, (counts.get(tag) || 0) + 1);
+            });
+        });
+
+        const tags = Array.from(counts.entries()).sort((a, b) => b[1] - a[1]).slice(0, 9);
+        const max = Math.max(1, ...tags.map(([, count]) => count));
+        grid.innerHTML = '';
+
+        tags.forEach(([tag, count], index) => {
+            const item = document.createElement('div');
+            item.className = 'tag-heat-item';
+            item.style.background = getTagHeatColor(count, max);
+            item.title = lang === 'en' ? `${tag}: ${count} posts` : `${tag}: ${count} 篇`;
+
+            const rank = document.createElement('span');
+            rank.className = 'tag-rank';
+            rank.textContent = `#${index + 1}`;
+
+            const name = document.createElement('strong');
+            name.textContent = tag;
+
+            const value = document.createElement('span');
+            value.className = 'tag-count';
+            value.textContent = lang === 'en' ? `${count} posts` : `${count} 篇`;
+
+            item.appendChild(rank);
+            item.appendChild(name);
+            item.appendChild(value);
+            grid.appendChild(item);
+        });
+    }
+
+    function getTagHeatColor(count, max) {
+        const ratio = Math.max(0, Math.min(1, count / max));
+        const hue = Math.round(210 - ratio * 205);
+        const light = Math.round(62 - ratio * 12);
+        return `hsl(${hue}, 78%, ${light}%)`;
+    }
+
     function refreshChartColors() {
         setTimeout(() => {
             const ab = css('--accent-blue');
@@ -427,6 +687,13 @@
             if (browserChart) {
                 browserChart.data.datasets[0].borderColor = bgBorder;
                 browserChart.update('none');
+            }
+            if (updateFrequencyChart) {
+                const ds = updateFrequencyChart.data.datasets[0];
+                ds.borderColor = ab;
+                ds.backgroundColor = ab + '16';
+                ds.pointBackgroundColor = ag;
+                updateFrequencyChart.update('none');
             }
 
             refreshAMap();
@@ -696,6 +963,128 @@
         if (list.children.length > 20) {
             list.removeChild(list.lastChild);
         }
+    }
+
+    /* ===== Changelog Archive ===== */
+    async function initChangelogArchive() {
+        const list = document.getElementById('changelogArchiveList');
+        if (!list) return;
+
+        try {
+            const res = await fetch('../changelog.html', { cache: 'no-store' });
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const html = await res.text();
+            const doc = new DOMParser().parseFromString(html, 'text/html');
+            changelogEntries = Array.from(doc.querySelectorAll('.changelog-timeline .timeline-item')).map(item => {
+                const titleEl = item.querySelector('.timeline-content h2');
+                const details = Array.from(item.querySelectorAll('.timeline-content li')).map(li => ({
+                    zh: cleanLogText(li.getAttribute('data-zh') || li.textContent),
+                    en: cleanLogText(li.getAttribute('data-en') || li.textContent)
+                }));
+
+                return {
+                    date: cleanLogText(item.querySelector('.timeline-date')?.textContent || ''),
+                    title: {
+                        zh: cleanLogText(titleEl?.getAttribute('data-zh') || titleEl?.textContent || ''),
+                        en: cleanLogText(titleEl?.getAttribute('data-en') || titleEl?.textContent || '')
+                    },
+                    details
+                };
+            }).filter(entry => entry.date && (entry.title.zh || entry.title.en));
+        } catch (err) {
+            changelogEntries = [];
+            renderUpdateFrequencyChart();
+            renderChangelogArchiveError(err);
+            return;
+        }
+
+        renderChangelogArchive();
+        renderUpdateFrequencyChart();
+    }
+
+    function cleanLogText(text) {
+        return String(text || '').replace(/\s+/g, ' ').trim();
+    }
+
+    function renderChangelogArchive() {
+        const list = document.getElementById('changelogArchiveList');
+        const count = document.getElementById('changelogArchiveCount');
+        if (!list) return;
+        if (!changelogEntries.length) return;
+
+        const suffix = lang === 'en' ? 'LOGS' : '条日志';
+        if (count) count.textContent = `${changelogEntries.length} ${suffix}`;
+        list.innerHTML = '';
+
+        changelogEntries.forEach((entry, index) => {
+            const record = document.createElement('article');
+            record.className = 'raw-log-record';
+
+            const title = lang === 'en' ? (entry.title.en || entry.title.zh) : (entry.title.zh || entry.title.en);
+            const details = entry.details.map((detail, detailIndex) => {
+                const text = lang === 'en' ? (detail.en || detail.zh) : (detail.zh || detail.en);
+                return `${String(detailIndex + 1).padStart(2, '0')}. ${text}`;
+            });
+
+            const pre = document.createElement('pre');
+            pre.textContent = [
+                `#${String(index + 1).padStart(2, '0')} | ${entry.date} | ${title}`,
+                `items: ${entry.details.length}`,
+                ...details
+            ].join('\n');
+
+            record.appendChild(pre);
+            list.appendChild(record);
+        });
+    }
+
+    function renderChangelogArchiveError(err) {
+        const list = document.getElementById('changelogArchiveList');
+        const count = document.getElementById('changelogArchiveCount');
+        if (count) count.textContent = 'N/A';
+        if (!list) return;
+
+        const pre = document.createElement('pre');
+        pre.textContent = [
+            'CHANGELOG_ARCHIVE_LOAD_FAILED',
+            `source: ../changelog.html`,
+            `reason: ${err && err.message ? err.message : 'unknown error'}`,
+            'action: open the full changelog link for manual inspection.'
+        ].join('\n');
+        list.innerHTML = '';
+        list.appendChild(pre);
+    }
+
+    /* ===== Update Plan ===== */
+    function renderUpdatePlan() {
+        const list = document.getElementById('updatePlanList');
+        if (!list) return;
+
+        list.innerHTML = '';
+        UPDATE_PLAN_ITEMS.forEach(item => {
+            const row = document.createElement('div');
+            row.className = 'plan-item';
+
+            const meta = document.createElement('div');
+            meta.className = 'plan-meta';
+
+            const status = document.createElement('span');
+            status.className = 'plan-status';
+            status.textContent = item.status;
+
+            const date = document.createElement('span');
+            date.className = 'plan-date';
+            date.textContent = item.date;
+
+            const text = document.createElement('p');
+            text.textContent = lang === 'en' ? item.en : item.zh;
+
+            meta.appendChild(status);
+            meta.appendChild(date);
+            row.appendChild(meta);
+            row.appendChild(text);
+            list.appendChild(row);
+        });
     }
 
     /* ===== Live Updates ===== */
