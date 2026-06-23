@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="zh" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeCost & Wealth Engine (Beta)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['Fira Code', 'Consolas', 'Courier New', 'monospace'],
+                    },
+                    colors: {
+                        geek: {
+                            bg: '#0b1120',
+                            panel: '#172033',
+                            primary: '#14b8a6',
+                            accent: '#7c3aed',
+                            danger: '#e11d48',
+                            success: '#16a34a',
+                            warn: '#d97706'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --app-bg: #f4f7fb;
+            --app-text: #172033;
+            --panel-bg: rgba(255, 255, 255, 0.94);
+            --panel-border: rgba(125, 138, 157, 0.34);
+            --muted: #64748b;
+            --input-bg: #ffffff;
+            --input-text: #111827;
+            --input-border: #b9c4d4;
+            --soft-bg: #edf2f7;
+            --table-head: #dbeafe;
+            --shadow: 0 18px 42px rgba(15, 23, 42, 0.09);
+        }
+
+        .dark {
+            --app-bg: #0b1120;
+            --app-text: #e5edf7;
+            --panel-bg: rgba(23, 32, 51, 0.92);
+            --panel-border: rgba(148, 163, 184, 0.22);
+            --muted: #94a3b8;
+            --input-bg: #111a2d;
+            --input-text: #f8fafc;
+            --input-border: #41516d;
+            --soft-bg: #111827;
+            --table-head: #172554;
+            --shadow: 0 18px 42px rgba(0, 0, 0, 0.22);
+        }
+
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #64748b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        body {
+            background: var(--app-bg);
+            color: var(--app-text);
+            transition: background-color 0.25s ease, color 0.25s ease;
+        }
+
+        .glass-panel {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+        }
+
+        .soft-panel {
+            background: var(--soft-bg);
+            border: 1px solid var(--panel-border);
+        }
+
+        .field,
+        input,
+        select,
+        textarea {
+            background: var(--input-bg) !important;
+            color: var(--input-text) !important;
+            border-color: var(--input-border) !important;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+        }
+
+        input::placeholder,
+        textarea::placeholder { color: var(--muted); }
+
+        select option {
+            background: var(--input-bg);
+            color: var(--input-text);
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #14b8a6 !important;
+            box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.24);
+        }
+
+        label,
+        .muted { color: var(--muted); }
+
+        .help-btn {
+            display: inline-flex;
+            width: 1.35rem;
+            height: 1.35rem;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            border: 1px solid var(--panel-border);
+            color: var(--muted);
+            font-size: 0.75rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .help-btn:hover {
+            color: #14b8a6;
+            border-color: #14b8a6;
+        }
+
+        .matrix-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            border: 1px solid var(--panel-border);
+        }
+
+        .matrix-table th {
+            background: var(--table-head);
+            color: var(--app-text);
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 0.55rem;
+            text-align: center;
+        }
+
+        .matrix-table td {
+            padding: 0.45rem;
+            border-top: 1px solid var(--panel-border);
+            text-align: center;
+        }
+
+        .matrix-table input {
+            width: 100%;
+            min-width: 3.4rem;
+            border-width: 1px;
+            border-radius: 6px;
+            padding: 0.35rem 0.4rem;
+            text-align: center;
+            font-family: Consolas, monospace;
+            font-size: 0.78rem;
+        }
+
+        .asset-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 7rem 7rem;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .help-dialog {
+            width: min(44rem, calc(100vw - 2rem));
+            max-height: min(42rem, calc(100vh - 2rem));
+            display: flex;
+            flex-direction: column;
+        }
+
+        .help-dialog-body {
+            overflow-y: auto;
+            padding-right: 0.25rem;
+        }
+
+        @media (max-width: 640px) {
+            .asset-row {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 0.25rem;
+            }
+
+            .help-dialog {
+                width: calc(100vw - 1rem);
+                max-height: calc(100dvh - 1rem);
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="font-sans min-h-screen">
+    <nav class="sticky top-0 z-50 glass-panel px-4 lg:px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-3 min-w-0">
+            <i data-lucide="cpu" class="text-geek-primary w-8 h-8 shrink-0"></i>
+            <div class="min-w-0">
+                <h1 class="text-lg lg:text-xl font-bold tracking-tight">
+                    <span data-i18n="title">生活成本-总包资产计算器</span>
+                    <span class="text-xs align-top text-geek-accent">BETA</span>
+                </h1>
+                <p class="text-xs muted font-mono" data-i18n="subtitle">收入、福利、五险一金与生活开销的估算工作台</p>
+            </div>
+        </div>
+        <div class="flex space-x-3">
+            <button id="langToggle" class="help-btn !w-9 !h-9" title="Switch language" aria-label="Switch language">
+                <i data-lucide="languages" class="w-5 h-5"></i>
+            </button>
+            <button id="themeToggle" class="help-btn !w-9 !h-9" title="Switch theme" aria-label="Switch theme">
+                <i data-lucide="moon" class="w-5 h-5 dark:hidden"></i>
+                <i data-lucide="sun" class="w-5 h-5 hidden dark:block text-amber-300"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main class="container mx-auto p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-5 space-y-6 lg:max-h-[calc(100vh-100px)] overflow-y-auto pr-1 lg:pr-2 pb-10">
+            <section class="glass-panel rounded-lg p-5">
+                <div class="flex items-center justify-between mb-4 border-b border-slate-300/40 dark:border-slate-600/40 pb-2">
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="banknote" class="text-geek-success w-5 h-5"></i>
+                        <h2 class="text-lg font-semibold" data-i18n="mod_income">1. 收入向量</h2>
+                    </div>
+                    <button class="help-btn" data-help="income" aria-label="收入说明">?</button>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="base_salary">基础薪资</label>
+                        <div class="relative">
+                            <input type="text" id="in_salary" value="15k" class="w-full border rounded-md py-2 px-3 pr-24 font-mono text-sm">
+                            <span id="salaryHint" class="absolute right-3 top-2.5 text-xs muted">≈ ¥15,000</span>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="salary_type">薪资频率</label>
+                        <select id="in_salary_type" class="w-full border rounded-md py-2 px-3 text-sm">
+                            <option value="monthly" data-i18n="monthly">月薪</option>
+                            <option value="daily" data-i18n="daily">日薪 (按21.75天/月计)</option>
+                            <option value="weekly" data-i18n="weekly">周薪 (按4.33周/月计)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="bonus_ratio">年终奖比例 (月数)</label>
+                        <input type="number" id="in_bonus_months" value="3" step="0.1" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="growth_rate">预期年薪资增长率 (%)</label>
+                        <input type="number" id="in_growth" value="5" step="0.1" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                    </div>
+                </div>
+            </section>
+
+            <section class="glass-panel rounded-lg p-5">
+                <div class="flex items-center justify-between mb-4 border-b border-slate-300/40 dark:border-slate-600/40 pb-2">
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="gift" class="text-geek-warn w-5 h-5"></i>
+                        <h2 class="text-lg font-semibold" data-i18n="mod_bonus">2. 假日奖金与福利</h2>
+                    </div>
+                    <button class="help-btn" data-help="benefits" aria-label="福利说明">?</button>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="holiday_bonus">节日慰问金/年</label>
+                        <input type="text" id="in_holiday_bonus" value="600" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="project_bonus">绩效/项目奖金/年</label>
+                        <input type="text" id="in_project_bonus" value="0" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="meal_allowance">工作餐补贴/工作日</label>
+                        <input type="text" id="in_meal" value="0" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="health_check">体检与商业保险/年</label>
+                        <input type="text" id="in_welfare_value" value="1000" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="paid_leave">补充年假折算 (天)</label>
+                        <input type="number" id="in_extra_leave" value="0" step="0.5" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="workdays">年工作日</label>
+                        <input type="number" id="in_workdays" value="250" step="1" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                    </div>
+                </div>
+            </section>
+
+            <section class="glass-panel rounded-lg p-5">
+                <div class="flex items-center justify-between mb-4 border-b border-slate-300/40 dark:border-slate-600/40 pb-2">
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="shield" class="text-geek-primary w-5 h-5"></i>
+                        <h2 class="text-lg font-semibold" data-i18n="mod_insurance">3. 税务与五险二金矩阵</h2>
+                    </div>
+                    <button class="help-btn" data-help="insurance" aria-label="五险一金说明">?</button>
+                </div>
+
+                <div class="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="custom_base">社保基数 (不填默认薪资)</label>
+                        <input type="text" id="in_base" placeholder="Auto" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                    </div>
+                    <div class="flex items-end pb-2">
+                        <label class="flex items-center space-x-2 text-sm cursor-pointer">
+                            <input type="checkbox" id="in_calc_tax" checked class="rounded border">
+                            <span data-i18n="apply_cn_tax">应用中国个税阶梯算法</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto mb-4">
+                    <table class="matrix-table">
+                        <thead>
+                            <tr>
+                                <th data-i18n="matrix_item">项目</th>
+                                <th data-i18n="matrix_personal">个人比例 %</th>
+                                <th data-i18n="matrix_company">企业比例 %</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td data-i18n="ins_pension">养老保险</td>
+                                <td><input type="number" id="ins_pension" value="8" step="0.1"></td>
+                                <td><input type="number" id="co_pension" value="16" step="0.1"></td>
+                            </tr>
+                            <tr>
+                                <td data-i18n="ins_medical">医疗保险</td>
+                                <td><input type="number" id="ins_medical" value="2" step="0.1"></td>
+                                <td><input type="number" id="co_medical" value="7.2" step="0.1"></td>
+                            </tr>
+                            <tr>
+                                <td data-i18n="ins_unemp">失业保险</td>
+                                <td><input type="number" id="ins_unemp" value="0.5" step="0.1"></td>
+                                <td><input type="number" id="co_unemp" value="0.5" step="0.1"></td>
+                            </tr>
+                            <tr>
+                                <td data-i18n="ins_injury">工伤保险</td>
+                                <td><input type="number" id="ins_injury" value="0" step="0.1"></td>
+                                <td><input type="number" id="co_injury" value="0.7" step="0.1"></td>
+                            </tr>
+                            <tr>
+                                <td data-i18n="ins_maternity">生育保险</td>
+                                <td><input type="number" id="ins_maternity" value="0" step="0.1"></td>
+                                <td><input type="number" id="co_maternity" value="0.8" step="0.1"></td>
+                            </tr>
+                            <tr>
+                                <td data-i18n="ins_housing">住房公积金</td>
+                                <td><input type="number" id="ins_housing" value="10" step="0.1"></td>
+                                <td><input type="number" id="co_housing" value="10" step="0.1"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="soft-panel p-3 rounded-lg grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="medical_card_rate">医保卡入账比例 %</label>
+                        <input type="number" id="medical_card_rate" value="2" step="0.1" class="w-full border rounded-md py-1.5 px-2 font-mono text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="annuity_type">企业年金类型</label>
+                        <select id="annuity_type" class="w-full border rounded-md py-1.5 px-2 text-sm">
+                            <option value="fixed" data-i18n="fixed_amount">固定金额</option>
+                            <option value="ratio" data-i18n="ratio_base">按基数比例</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="annuity_frequency">年金发放/缴纳频率</label>
+                        <select id="annuity_frequency" class="w-full border rounded-md py-1.5 px-2 text-sm">
+                            <option value="monthly" data-i18n="freq_monthly">每月</option>
+                            <option value="quarterly" data-i18n="freq_quarterly">每季度</option>
+                            <option value="yearly" data-i18n="freq_yearly">每年</option>
+                            <option value="times" data-i18n="freq_times">按年次数</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="annuity_emp">个人年金值</label>
+                        <input type="text" id="annuity_emp_val" value="0" class="w-full border rounded-md py-1.5 px-2 font-mono text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="annuity_company">企业年金值</label>
+                        <input type="text" id="annuity_company_val" value="0" class="w-full border rounded-md py-1.5 px-2 font-mono text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="annuity_times">每年次数</label>
+                        <input type="number" id="annuity_times" value="4" step="1" min="0" class="w-full border rounded-md py-1.5 px-2 font-mono text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="birth_year">出生年份</label>
+                        <input type="number" id="in_birth" value="1995" class="w-full border rounded-md py-1.5 px-2 font-mono text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="retire_age">预计退休年龄</label>
+                        <input type="number" id="in_retire_age" value="63" step="1" class="w-full border rounded-md py-1.5 px-2 font-mono text-sm">
+                    </div>
+                </div>
+            </section>
+
+            <section class="glass-panel rounded-lg p-5">
+                <div class="flex justify-between items-center mb-4 border-b border-slate-300/40 dark:border-slate-600/40 pb-2">
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="activity" class="text-geek-accent w-5 h-5"></i>
+                        <h2 class="text-lg font-semibold" data-i18n="mod_expenses">4. 随机生活开销</h2>
+                        <button class="help-btn" data-help="expenses" aria-label="开销说明">?</button>
+                    </div>
+                    <button id="addExpenseBtn" class="text-xs bg-geek-primary hover:bg-teal-600 text-white px-2 py-1 rounded flex items-center">
+                        <i data-lucide="plus" class="w-3 h-3 mr-1"></i>
+                        <span data-i18n="add">添加</span>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-12 gap-2 text-xs font-medium muted mb-2 px-1">
+                    <div class="col-span-3" data-i18n="exp_item">项目</div>
+                    <div class="col-span-3" data-i18n="exp_cost">金额</div>
+                    <div class="col-span-3" data-i18n="exp_freq">频率</div>
+                    <div class="col-span-2" data-i18n="exp_vol">波动</div>
+                    <div class="col-span-1"></div>
+                </div>
+
+                <div id="expenseContainer" class="space-y-2 max-h-60 overflow-y-auto"></div>
+            </section>
+
+            <button id="calcBtn" class="w-full bg-gradient-to-r from-geek-primary to-geek-accent hover:from-teal-500 hover:to-violet-500 text-white font-bold py-3 px-4 rounded-lg shadow-lg transition flex justify-center items-center space-x-2">
+                <i data-lucide="terminal" class="w-5 h-5"></i>
+                <span data-i18n="execute">执行计算引擎</span>
+            </button>
+            <p class="text-center text-xs muted mt-2" data-i18n="disclaimer">* 本计算结果基于估算模型，仅供个人规划参考。</p>
+        </div>
+
+        <div class="lg:col-span-7 space-y-6">
+            <div class="grid grid-cols-2 xl:grid-cols-6 gap-4">
+                <div class="glass-panel p-4 rounded-lg border-l-4 border-geek-success">
+                    <h3 class="text-xs muted font-medium mb-1" data-i18n="out_cash_gross">现金年收入</h3>
+                    <div class="text-lg font-mono font-bold" id="out_gross">¥0</div>
+                </div>
+                <div class="glass-panel p-4 rounded-lg border-l-4 border-geek-primary">
+                    <h3 class="text-xs muted font-medium mb-1" data-i18n="out_net_annual">可支配收入</h3>
+                    <div class="text-lg font-mono font-bold text-geek-primary" id="out_net">¥0</div>
+                </div>
+                <div class="glass-panel p-4 rounded-lg border-l-4 border-geek-danger">
+                    <h3 class="text-xs muted font-medium mb-1" data-i18n="out_exp_annual">预计年支出</h3>
+                    <div class="text-lg font-mono font-bold text-geek-danger" id="out_exp">¥0</div>
+                </div>
+                <div class="glass-panel p-4 rounded-lg border-l-4 border-geek-accent">
+                    <h3 class="text-xs muted font-medium mb-1" data-i18n="out_save_annual">预计年结余</h3>
+                    <div class="text-lg font-mono font-bold text-geek-accent" id="out_save">¥0</div>
+                </div>
+                <div class="glass-panel p-4 rounded-lg border-l-4 border-amber-500">
+                    <h3 class="text-xs muted font-medium mb-1" data-i18n="out_total_package">总包估值</h3>
+                    <div class="text-lg font-mono font-bold text-amber-500" id="out_package">¥0</div>
+                </div>
+                <div class="glass-panel p-4 rounded-lg border-l-4 border-cyan-500">
+                    <h3 class="text-xs muted font-medium mb-1" data-i18n="out_company_pay">企业缴纳</h3>
+                    <div class="text-lg font-mono font-bold text-cyan-500" id="out_company">¥0</div>
+                </div>
+            </div>
+
+            <div class="glass-panel p-5 rounded-lg">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-sm font-semibold flex items-center">
+                        <i data-lucide="wallet-cards" class="w-4 h-4 mr-2"></i>
+                        <span data-i18n="asset_ledger">综合结算与账户资产</span>
+                    </h3>
+                    <button class="help-btn" data-help="assets" aria-label="账户资产说明">?</button>
+                </div>
+                <div class="space-y-3 text-sm">
+                    <div class="asset-row muted text-xs font-semibold">
+                        <span data-i18n="asset_name">项目</span>
+                        <span data-i18n="asset_monthly">月估算</span>
+                        <span data-i18n="asset_annual">年估算</span>
+                    </div>
+                    <div class="asset-row">
+                        <span data-i18n="asset_medical_card">医保卡入账</span>
+                        <strong class="font-mono" id="asset_medical_month">¥0</strong>
+                        <strong class="font-mono" id="asset_medical_year">¥0</strong>
+                    </div>
+                    <div class="asset-row">
+                        <span data-i18n="asset_pension">养老金个人账户</span>
+                        <strong class="font-mono" id="asset_pension_month">¥0</strong>
+                        <strong class="font-mono" id="asset_pension_year">¥0</strong>
+                    </div>
+                    <div class="asset-row">
+                        <span data-i18n="asset_housing">公积金账户合计</span>
+                        <strong class="font-mono" id="asset_housing_month">¥0</strong>
+                        <strong class="font-mono" id="asset_housing_year">¥0</strong>
+                    </div>
+                    <div class="asset-row">
+                        <span data-i18n="asset_annuity">企业年金合计</span>
+                        <strong class="font-mono" id="asset_annuity_month">¥0</strong>
+                        <strong class="font-mono" id="asset_annuity_year">¥0</strong>
+                    </div>
+                    <div class="asset-row">
+                        <span data-i18n="asset_welfare">福利折算</span>
+                        <strong class="font-mono" id="asset_welfare_month">¥0</strong>
+                        <strong class="font-mono" id="asset_welfare_year">¥0</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-panel p-5 rounded-lg">
+                <h3 class="text-sm font-semibold mb-4 flex items-center">
+                    <i data-lucide="microscope" class="w-4 h-4 mr-2"></i>
+                    <span data-i18n="stat_analysis">统计学深度分析</span>
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <div class="text-sm muted mb-1" data-i18n="confidence_interval">95% 支出置信区间</div>
+                        <div class="font-mono soft-panel p-2 rounded text-center text-sm">
+                            [ <span id="out_ci_low" class="text-green-600 dark:text-green-400">¥0</span> ,
+                            <span id="out_ci_high" class="text-red-600 dark:text-red-400">¥0</span> ]
+                        </div>
+                        <p class="text-xs muted mt-1 leading-tight" data-i18n="ci_desc">基于正态分布估算。上限代表潜在超支警告阈值。</p>
+                    </div>
+                    <div>
+                        <div class="text-sm muted mb-1" data-i18n="retire_proj">退休年金推算</div>
+                        <div class="font-mono soft-panel p-2 rounded text-center text-sm">
+                            <span id="out_retire_age" class="font-bold">0</span>
+                            <span data-i18n="years_label">年</span>:
+                            <span id="out_retire_fund" class="text-geek-accent font-bold">¥0</span>
+                        </div>
+                        <p class="text-xs muted mt-1 leading-tight" data-i18n="retire_desc">剩余工作年限内的企业年金累计，Beta版未计复利。</p>
+                    </div>
+                    <div>
+                        <div class="text-sm muted mb-1" data-i18n="growth_proj">5年收入投影</div>
+                        <div class="font-mono soft-panel p-2 rounded text-center text-sm">
+                            <span id="out_growth_projection" class="text-geek-success font-bold">¥0</span>
+                        </div>
+                        <p class="text-xs muted mt-1 leading-tight" data-i18n="growth_desc">按当前增长率估算第5年的现金收入。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass-panel p-4 rounded-lg min-h-[280px] flex flex-col">
+                    <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_income_trend">现金年收入趋势</h3>
+                    <div class="flex-grow relative">
+                        <canvas id="incomeTrendChart"></canvas>
+                    </div>
+                </div>
+                <div class="glass-panel p-4 rounded-lg min-h-[280px] flex flex-col">
+                    <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_salary_trend">月薪趋势</h3>
+                    <div class="flex-grow relative">
+                        <canvas id="salaryTrendChart"></canvas>
+                    </div>
+                </div>
+                <div class="glass-panel p-4 rounded-lg min-h-[260px] flex flex-col">
+                    <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_cashflow">年度现金流</h3>
+                    <div class="flex-grow relative">
+                        <canvas id="cashflowChart"></canvas>
+                    </div>
+                </div>
+                <div class="glass-panel p-4 rounded-lg min-h-[260px] flex flex-col">
+                    <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_deductions">扣除与企业缴纳</h3>
+                    <div class="flex-grow relative">
+                        <canvas id="deductionsChart"></canvas>
+                    </div>
+                </div>
+                <div class="glass-panel p-4 rounded-lg min-h-[300px] flex flex-col md:col-span-2">
+                    <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_expense">开销拓扑雷达图</h3>
+                    <div class="flex-grow relative w-full h-full" style="max-height: 300px;">
+                        <canvas id="expenseChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="helpModal" class="fixed inset-0 z-[80] hidden items-center justify-center bg-slate-950/70 p-2 sm:p-4">
+        <div class="glass-panel help-dialog rounded-lg p-5">
+            <div class="flex items-start justify-between gap-4 mb-4 shrink-0">
+                <div>
+                    <h3 id="helpTitle" class="text-lg font-bold">说明</h3>
+                    <p id="helpBody" class="text-sm muted mt-2 leading-relaxed"></p>
+                </div>
+                <button id="helpClose" class="help-btn !w-8 !h-8" aria-label="Close">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <div class="help-dialog-body">
+                <div id="helpDetails" class="space-y-3 text-sm mb-4"></div>
+                <label class="block text-xs font-medium mb-2" data-i18n="feedback_label">对这个指标/算法的反馈</label>
+                <textarea id="helpFeedback" rows="4" class="w-full border rounded-md p-3 text-sm" placeholder="这里会暂存在你的浏览器本地，便于后续继续优化。"></textarea>
+                <p class="text-xs muted mt-2" data-i18n="privacy_note">为保护隐私，表单输入刷新后会回到默认值；只有这里主动填写的反馈会保存在本地浏览器。</p>
+            </div>
+            <div class="flex justify-end mt-4 gap-3 shrink-0">
+                <button id="helpSave" class="px-4 py-2 rounded-md bg-geek-primary text-white text-sm font-semibold" data-i18n="save_feedback">保存反馈</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const i18n = {
+            en: {
+                title: "LifeCost & Wealth Engine",
+                subtitle: "An estimation bench for income, benefits, social security, assets, and living costs",
+                mod_income: "1. Income Vector",
+                base_salary: "Base Salary",
+                salary_type: "Salary Frequency",
+                monthly: "Monthly",
+                daily: "Daily (x21.75/month)",
+                weekly: "Weekly (x4.33/month)",
+                bonus_ratio: "Year-end Bonus (Months)",
+                growth_rate: "Annual Growth % (CAGR)",
+                mod_bonus: "2. Holiday Bonus & Benefits",
+                holiday_bonus: "Holiday Bonus / Year",
+                project_bonus: "Performance Bonus / Year",
+                meal_allowance: "Meal Allowance / Workday",
+                health_check: "Health Check & Insurance / Year",
+                paid_leave: "Extra Paid Leave Value (Days)",
+                workdays: "Workdays / Year",
+                mod_insurance: "3. Tax & Security Matrix",
+                custom_base: "Security Base (Blank = Salary)",
+                apply_cn_tax: "Apply CN Tax Brackets",
+                matrix_item: "Item",
+                matrix_personal: "Personal %",
+                matrix_company: "Company %",
+                ins_pension: "Pension",
+                ins_medical: "Medical",
+                ins_unemp: "Unemployment",
+                ins_injury: "Work Injury",
+                ins_maternity: "Maternity",
+                ins_housing: "Housing Fund",
+                medical_card_rate: "Medical Card Credit %",
+                annuity_type: "Annuity Type",
+                fixed_amount: "Fixed Amount",
+                ratio_base: "Base Ratio",
+                annuity_frequency: "Annuity Frequency",
+                freq_monthly: "Monthly",
+                freq_quarterly: "Quarterly",
+                freq_yearly: "Yearly",
+                freq_times: "Times / Year",
+                annuity_emp: "Personal Annuity Value",
+                annuity_company: "Company Annuity Value",
+                annuity_times: "Times / Year",
+                birth_year: "Birth Year",
+                retire_age: "Estimated Retirement Age",
+                mod_expenses: "4. Stochastic Expenses",
+                add: "Add",
+                exp_item: "Item",
+                exp_cost: "Cost",
+                exp_freq: "Freq.",
+                exp_vol: "Vol.",
+                execute: "Execute Simulation",
+                disclaimer: "* Calculations are estimates for planning only.",
+                out_cash_gross: "Cash Gross",
+                out_net_annual: "Spendable Income",
+                out_exp_annual: "Annual Expenses",
+                out_save_annual: "Annual Savings",
+                out_total_package: "Total Package",
+                out_company_pay: "Company Paid",
+                asset_ledger: "Settlement & Account Assets",
+                asset_name: "Item",
+                asset_monthly: "Monthly",
+                asset_annual: "Annual",
+                asset_medical_card: "Medical Card Credit",
+                asset_pension: "Personal Pension Account",
+                asset_housing: "Housing Fund Account",
+                asset_annuity: "Enterprise Annuity",
+                asset_welfare: "Benefit Valuation",
+                stat_analysis: "Statistical Analysis",
+                confidence_interval: "95% Expense Confidence Interval",
+                ci_desc: "Estimated with normal distribution. Upper bound is overspending risk.",
+                retire_proj: "Retirement Annuity Projection",
+                retire_desc: "Projected annuity until retirement. Beta excludes compound returns.",
+                growth_proj: "5-Year Income Projection",
+                growth_desc: "Estimated cash income in year 5 by current growth rate.",
+                years_label: "years",
+                chart_income_trend: "Cash Income Trend",
+                chart_salary_trend: "Monthly Salary Trend",
+                chart_cashflow: "Annual Cashflow",
+                chart_deductions: "Deductions & Company Contributions",
+                chart_expense: "Expense Radar",
+                feedback_label: "Feedback for this metric or method",
+                privacy_note: "For privacy, form inputs reset after refresh. Only feedback typed here is saved in this browser.",
+                save_feedback: "Save Feedback"
+            },
+            zh: {
+                title: "生活成本-总包资产计算器",
+                subtitle: "收入、福利、五险一金与生活开销的估算工作台",
+                mod_income: "1. 收入向量",
+                base_salary: "基础薪资 (支持10k, 1w, 10,000)",
+                salary_type: "薪资频率",
+                monthly: "月薪",
+                daily: "日薪 (按21.75天/月计)",
+                weekly: "周薪 (按4.33周/月计)",
+                bonus_ratio: "年终奖比例 (月数)",
+                growth_rate: "预期年薪资增长率 (%)",
+                mod_bonus: "2. 假日奖金与福利",
+                holiday_bonus: "节日慰问金/年",
+                project_bonus: "绩效/项目奖金/年",
+                meal_allowance: "工作餐补贴/工作日",
+                health_check: "体检与商业保险/年",
+                paid_leave: "补充年假折算 (天)",
+                workdays: "年工作日",
+                mod_insurance: "3. 税务与五险二金矩阵",
+                custom_base: "社保基数 (不填默认薪资)",
+                apply_cn_tax: "应用中国个税阶梯算法",
+                matrix_item: "项目",
+                matrix_personal: "个人比例 %",
+                matrix_company: "企业比例 %",
+                ins_pension: "养老保险",
+                ins_medical: "医疗保险",
+                ins_unemp: "失业保险",
+                ins_injury: "工伤保险",
+                ins_maternity: "生育保险",
+                ins_housing: "住房公积金",
+                medical_card_rate: "医保卡入账比例 %",
+                annuity_type: "企业年金类型",
+                fixed_amount: "固定金额",
+                ratio_base: "按基数比例",
+                annuity_frequency: "年金发放/缴纳频率",
+                freq_monthly: "每月",
+                freq_quarterly: "每季度",
+                freq_yearly: "每年",
+                freq_times: "按年次数",
+                annuity_emp: "个人年金值",
+                annuity_company: "企业年金值",
+                annuity_times: "每年次数",
+                birth_year: "出生年份",
+                retire_age: "预计退休年龄",
+                mod_expenses: "4. 随机生活开销",
+                add: "添加",
+                exp_item: "项目",
+                exp_cost: "金额",
+                exp_freq: "频率",
+                exp_vol: "波动",
+                execute: "执行计算引擎",
+                disclaimer: "* 本计算结果基于估算模型，仅供个人规划参考。",
+                out_cash_gross: "现金年收入",
+                out_net_annual: "可支配收入",
+                out_exp_annual: "预计年支出",
+                out_save_annual: "预计年结余",
+                out_total_package: "总包估值",
+                out_company_pay: "企业缴纳",
+                asset_ledger: "综合结算与账户资产",
+                asset_name: "项目",
+                asset_monthly: "月估算",
+                asset_annual: "年估算",
+                asset_medical_card: "医保卡入账",
+                asset_pension: "养老金个人账户",
+                asset_housing: "公积金账户合计",
+                asset_annuity: "企业年金合计",
+                asset_welfare: "福利折算",
+                stat_analysis: "统计学深度分析",
+                confidence_interval: "95% 支出置信区间",
+                ci_desc: "基于正态分布估算。上限代表潜在超支警告阈值。",
+                retire_proj: "退休年金推算",
+                retire_desc: "剩余工作年限内的企业年金累计，Beta版未计复利。",
+                growth_proj: "5年收入投影",
+                growth_desc: "按当前增长率估算第5年的现金收入。",
+                years_label: "年",
+                chart_income_trend: "现金年收入趋势",
+                chart_salary_trend: "月薪趋势",
+                chart_cashflow: "年度现金流",
+                chart_deductions: "扣除与企业缴纳",
+                chart_expense: "开销拓扑雷达图",
+                feedback_label: "对这个指标/算法的反馈",
+                privacy_note: "为保护隐私，表单输入刷新后会回到默认值；只有这里主动填写的反馈会保存在本地浏览器。",
+                save_feedback: "保存反馈"
+            }
+        };
+
+        const helpDocs = {
+            income: {
+                zh: {
+                    title: "收入向量",
+                    body: "本模块负责把不同口径的薪资统一折算成现金收入，并为后续税费、结余和趋势图提供基础值。",
+                    details: [
+                        ["基础薪资", "支持 15k、1.5w、10,000 等写法。先按薪资频率折算为月薪，是社保默认基数、年终奖和趋势图的基础。"],
+                        ["薪资频率", "月薪直接使用；日薪按 21.75 天/月折算；周薪按 4.33 周/月折算。"],
+                        ["年终奖比例", "按“月薪 x 月数”计入现金年收入，并参与当年个税估算。暂未区分全年一次性奖金单独计税。"],
+                        ["预期年薪资增长率", "只影响右侧“现金年收入趋势”和“月薪趋势”图，以及 5 年收入投影；不倒推改变本年度税费。"]
+                    ]
+                },
+                en: {
+                    title: "Income Vector",
+                    body: "This module normalizes salary inputs into cash income and feeds tax, savings, package value, and trend charts.",
+                    details: [
+                        ["Base Salary", "Supports 15k, 1.5w, and 10,000. It is normalized to monthly salary and used as the default security base."],
+                        ["Salary Frequency", "Monthly is used directly. Daily uses 21.75 days/month. Weekly uses 4.33 weeks/month."],
+                        ["Year-end Bonus", "Calculated as monthly salary x bonus months. It is included in cash income and tax estimation."],
+                        ["Annual Growth", "Drives the income and salary trend charts plus the 5-year projection. It does not change current-year tax."]
+                    ]
+                }
+            },
+            benefits: {
+                zh: {
+                    title: "假日奖金与福利",
+                    body: "本模块区分“现金奖金”和“福利折算”。前者进入现金收入，后者只进入总包估值。",
+                    details: [
+                        ["节日慰问金/年", "端午、中秋、春节、开门红等现金或等价现金补贴。计入现金年收入，并参与个税估算。"],
+                        ["绩效/项目奖金/年", "项目奖、季度奖、绩效奖等额外现金收入。计入现金年收入，并参与个税估算。"],
+                        ["工作餐补贴/工作日", "按“每日金额 x 年工作日”估算福利价值。默认只计入总包估值，不增加可支配现金。"],
+                        ["体检与商业保险/年", "体检、团体商业保险等公司福利，按年价值计入总包估值。"],
+                        ["补充年假折算", "按“天数 x 月薪/21.75”估算时间价值，只进入总包估值。"],
+                        ["年工作日", "用于工作餐补贴总额估算。若公司按实际出勤发放，可手动调整。"]
+                    ]
+                },
+                en: {
+                    title: "Holiday Bonus & Benefits",
+                    body: "This module separates cash bonuses from benefit valuation. Cash enters income; benefits enter package value.",
+                    details: [
+                        ["Holiday Bonus", "Holiday cash or equivalent subsidies. Included in cash income and tax estimation."],
+                        ["Performance Bonus", "Project, quarterly, or performance bonuses. Included in cash income and tax estimation."],
+                        ["Meal Allowance", "Daily value x workdays. Included in package value, not spendable cash by default."],
+                        ["Health & Insurance", "Annual valuation of health checks and commercial insurance. Included in package value."],
+                        ["Extra Paid Leave", "Days x monthly salary / 21.75. Treated as time value in package valuation."],
+                        ["Workdays", "Controls meal allowance valuation. Adjust it if your company pays by actual attendance."]
+                    ]
+                }
+            },
+            insurance: {
+                zh: {
+                    title: "五险二金矩阵",
+                    body: "本模块把个人缴纳、企业缴纳、账户资产和个税前扣除拆开，便于看清到手现金与总包差异。",
+                    details: [
+                        ["社保基数", "不填时默认使用折算后的月薪。所有五险一金比例都以该基数计算。"],
+                        ["个人比例", "养老、医疗、失业、工伤、生育、公积金的个人部分。会减少可支配现金；其中养老、公积金、医保卡会进入账户资产展示。"],
+                        ["企业比例", "企业承担的五险一金。不会进入到手工资，但会进入总包估值和企业缴纳图表。"],
+                        ["医保卡入账比例", "按“社保基数 x 比例 x 12”估算进入医保个人账户的金额。不同城市规则差异较大。"],
+                        ["企业年金类型", "固定金额表示每次缴纳固定金额；按基数比例表示每次金额 = 社保基数 x 输入比例。"],
+                        ["年金频率", "每月 x12、每季度 x4、每年 x1、按年次数 x 填写次数。个人年金会从可支配现金中扣除，企业年金进入总包。"],
+                        ["出生年份/退休年龄", "用于估算剩余工作年限：退休年龄 - 当前年龄。退休年金推算 = 年度年金合计 x 剩余年限，暂不计投资收益。"],
+                        ["个税", "简化为综合所得年度口径：应税收入 = 现金年收入 - 个人五险一金 - 个人年金 - 60000；再套用年度税率表。"]
+                    ]
+                },
+                en: {
+                    title: "Security Matrix",
+                    body: "This module separates personal deductions, company contributions, account assets, and tax deductions.",
+                    details: [
+                        ["Security Base", "Blank defaults to normalized monthly salary. All security rates use this base."],
+                        ["Personal Rates", "Personal pension, medical, unemployment, injury, maternity, and housing fund. They reduce spendable cash."],
+                        ["Company Rates", "Company-paid security contributions. They do not enter take-home pay but are counted in package value."],
+                        ["Medical Card Credit", "Estimated as security base x rate x 12. Local rules vary."],
+                        ["Annuity Type", "Fixed means fixed amount per payment. Base ratio means amount per payment = security base x input ratio."],
+                        ["Annuity Frequency", "Monthly x12, quarterly x4, yearly x1, or custom times/year. Personal annuity reduces spendable cash; company annuity adds package value."],
+                        ["Birth & Retirement", "Years to retire = retirement age - current age. Projected annuity = annual annuity total x years to retire."],
+                        ["Income Tax", "Simplified annual comprehensive tax: taxable = cash income - personal security - personal annuity - 60,000."]
+                    ]
+                }
+            },
+            expenses: {
+                zh: {
+                    title: "随机生活开销",
+                    body: "本模块估算年度生活成本，并用波动参数给出粗略风险区间。",
+                    details: [
+                        ["项目", "开销名称，会作为雷达图标签。语言切换时保留当前编辑内容。"],
+                        ["金额", "支持 3000、3k、0.3w 等写法。"],
+                        ["频率", "日支出 x365，月支出 x12，年支出直接使用。"],
+                        ["波动", "解释为该项目 95% 区间的大致上下浮动。例如 20% 表示该项年支出可能围绕均值上下约 20%。"],
+                        ["总支出区间", "先把每项波动换算为标准差，再合并方差，得到总支出的 95% 置信区间。"]
+                    ]
+                },
+                en: {
+                    title: "Stochastic Expenses",
+                    body: "This module estimates annual living costs and uses volatility to create a rough risk interval.",
+                    details: [
+                        ["Item", "Expense name and radar chart label."],
+                        ["Amount", "Supports 3000, 3k, and 0.3w."],
+                        ["Frequency", "Daily x365, monthly x12, yearly direct."],
+                        ["Volatility", "Interpreted as approximate 95% fluctuation around the mean."],
+                        ["Total Interval", "Each item volatility is converted to standard deviation, then variances are combined."]
+                    ]
+                }
+            },
+            assets: {
+                zh: {
+                    title: "综合结算与账户资产",
+                    body: "本模块展示“不完全等于到手工资，但仍可能构成收入/财产”的项目。",
+                    details: [
+                        ["医保卡入账", "社保基数 x 医保卡入账比例。代表可能进入医保个人账户的金额。"],
+                        ["养老金个人账户", "社保基数 x 个人养老比例。这里只展示个人缴纳部分。"],
+                        ["公积金账户合计", "社保基数 x（个人公积金比例 + 企业公积金比例）。通常可在特定条件下提取。"],
+                        ["企业年金合计", "个人年金 + 企业年金。按当前年金类型和频率折算成年值。"],
+                        ["福利折算", "工作餐、体检商业保险、补充年假等非现金福利的估值。"],
+                        ["总包估值", "现金年收入 + 企业五险一金 + 企业年金 + 福利折算。它不等同于可支配现金。"]
+                    ]
+                },
+                en: {
+                    title: "Settlement & Account Assets",
+                    body: "This module shows compensation items that are not the same as take-home pay but can still form income or assets.",
+                    details: [
+                        ["Medical Card", "Security base x medical card credit rate."],
+                        ["Pension Account", "Security base x personal pension rate. Personal contribution only."],
+                        ["Housing Fund", "Security base x personal + company housing fund rates."],
+                        ["Enterprise Annuity", "Personal annuity + company annuity, annualized by type and frequency."],
+                        ["Benefit Valuation", "Meal allowance, health checks, insurance, and paid leave valuation."],
+                        ["Total Package", "Cash income + company security + company annuity + benefits. It is not spendable cash."]
+                    ]
+                }
+            }
+        };
+
+        let currentLang = 'zh';
+        let charts = { cashflow: null, deductions: null, expense: null, incomeTrend: null, salaryTrend: null };
+        let currentHelpKey = 'income';
+        const defaultExpenses = [
+            { name: 'Water & Elec', nameZh: '水电费', amount: 300, freq: 'monthly', vol: 15 },
+            { name: 'Food/Diet', nameZh: '伙食/健身餐', amount: 3000, freq: 'monthly', vol: 10 },
+            { name: 'Phone Bill', nameZh: '话费/网费', amount: 150, freq: 'monthly', vol: 5 },
+            { name: 'Transport', nameZh: '交通出行', amount: 20, freq: 'daily', vol: 20 }
+        ];
+        let expenses = defaultExpenses.map((item, index) => ({ ...item, id: index + 1 }));
+
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.font.family = "'Fira Code', Consolas, monospace";
+
+        function $(id) {
+            return document.getElementById(id);
+        }
+
+        function parseMoney(val) {
+            if (val === null || val === undefined || val === '') return 0;
+            let str = String(val).replace(/,/g, '').replace(/\s/g, '').toLowerCase();
+            let multiplier = 1;
+            if (str.includes('k')) {
+                multiplier = 1000;
+                str = str.replace(/k/g, '');
+            } else if (str.includes('w')) {
+                multiplier = 10000;
+                str = str.replace(/w/g, '');
+            }
+            const num = parseFloat(str);
+            return Number.isFinite(num) ? num * multiplier : 0;
+        }
+
+        function numberVal(id) {
+            const value = parseFloat($(id).value);
+            return Number.isFinite(value) ? value : 0;
+        }
+
+        function pct(id) {
+            return numberVal(id) / 100;
+        }
+
+        function yuan(value) {
+            const sign = value < 0 ? '-' : '';
+            return `${sign}¥${Math.abs(value).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
+        }
+
+        function escapeAttr(value) {
+            return String(value)
+                .replace(/&/g, '&amp;')
+                .replace(/"/g, '&quot;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+        }
+
+        function calculateChinaTax(taxableIncomeAnnual) {
+            if (taxableIncomeAnnual <= 0) return 0;
+            const brackets = [
+                { limit: 36000, rate: 0.03, deduct: 0 },
+                { limit: 144000, rate: 0.10, deduct: 2520 },
+                { limit: 300000, rate: 0.20, deduct: 16920 },
+                { limit: 420000, rate: 0.25, deduct: 31920 },
+                { limit: 660000, rate: 0.30, deduct: 52920 },
+                { limit: 960000, rate: 0.35, deduct: 85920 },
+                { limit: Infinity, rate: 0.45, deduct: 181920 }
+            ];
+            const bracket = brackets.find(item => taxableIncomeAnnual <= item.limit);
+            return Math.max(0, taxableIncomeAnnual * bracket.rate - bracket.deduct);
+        }
+
+        function normalizeMonthlySalary() {
+            const rawSalary = parseMoney($('in_salary').value);
+            const freq = $('in_salary_type').value;
+            if (freq === 'daily') return rawSalary * 21.75;
+            if (freq === 'weekly') return rawSalary * 4.33;
+            return rawSalary;
+        }
+
+        function annuityAnnual(type, value, insBase) {
+            const parsed = parseMoney(value);
+            const frequency = $('annuity_frequency').value;
+            const timesByFrequency = {
+                monthly: 12,
+                quarterly: 4,
+                yearly: 1,
+                times: Math.max(0, numberVal('annuity_times'))
+            };
+            const times = timesByFrequency[frequency] ?? 12;
+            return type === 'fixed' ? parsed * times : insBase * (parsed / 100) * times;
+        }
+
+        function renderExpenses() {
+            const container = $('expenseContainer');
+            container.innerHTML = '';
+            expenses.forEach((exp, index) => {
+                const displayName = currentLang === 'zh' ? (exp.nameZh || exp.name) : exp.name;
+                const row = document.createElement('div');
+                row.className = 'expense-row grid grid-cols-12 gap-2 items-center soft-panel p-2 rounded-lg';
+                row.dataset.index = index;
+                row.innerHTML = `
+                    <div class="col-span-3"><input type="text" value="${escapeAttr(displayName)}" class="exp-name w-full border rounded px-2 py-1 text-xs"></div>
+                    <div class="col-span-3"><input type="text" value="${escapeAttr(exp.amount)}" class="exp-amt w-full border rounded px-2 py-1 text-xs font-mono"></div>
+                    <div class="col-span-3">
+                        <select class="exp-freq w-full border rounded px-1 py-1 text-xs">
+                            <option value="daily" ${exp.freq === 'daily' ? 'selected' : ''}>${currentLang === 'zh' ? '日' : 'Daily'}</option>
+                            <option value="monthly" ${exp.freq === 'monthly' ? 'selected' : ''}>${currentLang === 'zh' ? '月' : 'Monthly'}</option>
+                            <option value="yearly" ${exp.freq === 'yearly' ? 'selected' : ''}>${currentLang === 'zh' ? '年' : 'Yearly'}</option>
+                        </select>
+                    </div>
+                    <div class="col-span-2"><input type="number" value="${escapeAttr(exp.vol)}" class="exp-vol w-full border rounded px-1 py-1 text-xs font-mono"></div>
+                    <div class="col-span-1 text-right">
+                        <button class="remove-exp text-slate-400 hover:text-geek-danger transition" type="button" aria-label="Remove expense">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+            lucide.createIcons();
+        }
+
+        function updateExpenseStateFromRow(row) {
+            const index = Number(row.dataset.index);
+            const exp = expenses[index];
+            if (!exp) return;
+            const name = row.querySelector('.exp-name').value;
+            if (currentLang === 'zh') exp.nameZh = name;
+            else exp.name = name;
+            exp.amount = row.querySelector('.exp-amt').value;
+            exp.freq = row.querySelector('.exp-freq').value;
+            exp.vol = parseFloat(row.querySelector('.exp-vol').value) || 0;
+        }
+
+        function getColors() {
+            const isDark = document.documentElement.classList.contains('dark');
+            return {
+                text: isDark ? '#dbeafe' : '#334155',
+                grid: isDark ? '#334155' : '#cbd5e1',
+                primary: '#14b8a6',
+                accent: '#7c3aed',
+                danger: '#e11d48',
+                success: '#16a34a',
+                warn: '#d97706',
+                cyan: '#0891b2'
+            };
+        }
+
+        function makeTrendData(monthlySalary, annualBonusMonths, holidayBonus, projectBonus, growthRate) {
+            const years = Array.from({ length: 6 }, (_, index) => currentLang === 'zh' ? `第${index + 1}年` : `Y${index + 1}`);
+            const monthlyTrend = [];
+            const annualTrend = [];
+            for (let index = 0; index < years.length; index += 1) {
+                const factor = Math.pow(1 + growthRate, index);
+                const projectedMonthly = monthlySalary * factor;
+                monthlyTrend.push(projectedMonthly);
+                annualTrend.push(projectedMonthly * 12 + projectedMonthly * annualBonusMonths + holidayBonus + projectBonus);
+            }
+            return { years, monthlyTrend, annualTrend };
+        }
+
+        function runEngine() {
+            const monthlySalary = normalizeMonthlySalary();
+            const annualBaseGross = monthlySalary * 12;
+            const annualBonus = monthlySalary * numberVal('in_bonus_months');
+            const bonusMonths = numberVal('in_bonus_months');
+            const holidayBonus = parseMoney($('in_holiday_bonus').value);
+            const projectBonus = parseMoney($('in_project_bonus').value);
+            const annualCashGross = annualBaseGross + annualBonus + holidayBonus + projectBonus;
+            const growthRate = numberVal('in_growth') / 100;
+            const fifthYearCash = annualCashGross * Math.pow(1 + growthRate, 4);
+            const trendData = makeTrendData(monthlySalary, bonusMonths, holidayBonus, projectBonus, growthRate);
+
+            const workdays = Math.max(0, numberVal('in_workdays'));
+            const mealValue = parseMoney($('in_meal').value) * workdays;
+            const welfareValue = parseMoney($('in_welfare_value').value);
+            const paidLeaveValue = Math.max(0, numberVal('in_extra_leave')) * (monthlySalary / 21.75);
+            const annualBenefitValue = mealValue + welfareValue + paidLeaveValue;
+
+            const customBase = parseMoney($('in_base').value);
+            const insBase = customBase > 0 ? customBase : monthlySalary;
+            const personalRates = {
+                pension: pct('ins_pension'),
+                medical: pct('ins_medical'),
+                unemp: pct('ins_unemp'),
+                injury: pct('ins_injury'),
+                maternity: pct('ins_maternity'),
+                housing: pct('ins_housing')
+            };
+            const companyRates = {
+                pension: pct('co_pension'),
+                medical: pct('co_medical'),
+                unemp: pct('co_unemp'),
+                injury: pct('co_injury'),
+                maternity: pct('co_maternity'),
+                housing: pct('co_housing')
+            };
+            const personalRateSum = Object.values(personalRates).reduce((sum, item) => sum + item, 0);
+            const companyRateSum = Object.values(companyRates).reduce((sum, item) => sum + item, 0);
+            const annualPersonalSecurity = insBase * personalRateSum * 12;
+            const annualCompanySecurity = insBase * companyRateSum * 12;
+            const annualPersonalHousing = insBase * personalRates.housing * 12;
+            const annualCompanyHousing = insBase * companyRates.housing * 12;
+            const annualPersonalPension = insBase * personalRates.pension * 12;
+            const annualMedicalCard = insBase * pct('medical_card_rate') * 12;
+
+            const annType = $('annuity_type').value;
+            const annualEmpAnnuity = annuityAnnual(annType, $('annuity_emp_val').value, insBase);
+            const annualCompanyAnnuity = annuityAnnual(annType, $('annuity_company_val').value, insBase);
+            const annualAnnuityTotal = annualEmpAnnuity + annualCompanyAnnuity;
+
+            const applyTax = $('in_calc_tax').checked;
+            const taxableIncome = annualCashGross - annualPersonalSecurity - annualEmpAnnuity - 60000;
+            const annualTax = applyTax ? calculateChinaTax(taxableIncome) : 0;
+            const annualNet = annualCashGross - annualPersonalSecurity - annualEmpAnnuity - annualTax;
+
+            let totalAnnualMeanExp = 0;
+            let totalAnnualVariance = 0;
+            const expLabels = [];
+            const expData = [];
+            document.querySelectorAll('#expenseContainer .expense-row').forEach(row => {
+                updateExpenseStateFromRow(row);
+            });
+            expenses.forEach(exp => {
+                const name = currentLang === 'zh' ? (exp.nameZh || exp.name) : exp.name;
+                const amt = parseMoney(exp.amount);
+                const type = exp.freq;
+                const volPct = (parseFloat(exp.vol) || 0) / 100;
+                let annualAmt = amt;
+                if (type === 'daily') annualAmt = amt * 365;
+                if (type === 'monthly') annualAmt = amt * 12;
+                totalAnnualMeanExp += annualAmt;
+                const sigma = (volPct * annualAmt) / 1.96;
+                totalAnnualVariance += sigma * sigma;
+                expLabels.push(name || '-');
+                expData.push(annualAmt);
+            });
+
+            const totalAnnualStdDev = Math.sqrt(totalAnnualVariance);
+            const ciLower = Math.max(0, totalAnnualMeanExp - 1.96 * totalAnnualStdDev);
+            const ciUpper = totalAnnualMeanExp + 1.96 * totalAnnualStdDev;
+            const annualSavings = annualNet - totalAnnualMeanExp;
+
+            const birthYear = parseInt($('in_birth').value, 10) || 1990;
+            const currentYear = new Date().getFullYear();
+            const retireAge = Math.max(0, numberVal('in_retire_age'));
+            const yearsToRetire = Math.max(0, retireAge - (currentYear - birthYear));
+            const projectedAnnuity = annualAnnuityTotal * yearsToRetire;
+
+            const annualTotalPackage = annualCashGross + annualCompanySecurity + annualCompanyAnnuity + annualBenefitValue;
+            const annualCompanyPaid = annualCompanySecurity + annualCompanyAnnuity;
+            const annualHousingTotal = annualPersonalHousing + annualCompanyHousing;
+
+            $('salaryHint').innerText = monthlySalary > 0 ? `≈ ${yuan(monthlySalary)}` : '';
+            $('out_gross').innerText = yuan(annualCashGross);
+            $('out_net').innerText = yuan(annualNet);
+            $('out_exp').innerText = yuan(totalAnnualMeanExp);
+            $('out_save').innerText = yuan(annualSavings);
+            $('out_package').innerText = yuan(annualTotalPackage);
+            $('out_company').innerText = yuan(annualCompanyPaid);
+            $('out_ci_low').innerText = yuan(ciLower);
+            $('out_ci_high').innerText = yuan(ciUpper);
+            $('out_retire_age').innerText = yearsToRetire;
+            $('out_retire_fund').innerText = yuan(projectedAnnuity);
+            $('out_growth_projection').innerText = yuan(fifthYearCash);
+
+            $('asset_medical_month').innerText = yuan(annualMedicalCard / 12);
+            $('asset_medical_year').innerText = yuan(annualMedicalCard);
+            $('asset_pension_month').innerText = yuan(annualPersonalPension / 12);
+            $('asset_pension_year').innerText = yuan(annualPersonalPension);
+            $('asset_housing_month').innerText = yuan(annualHousingTotal / 12);
+            $('asset_housing_year').innerText = yuan(annualHousingTotal);
+            $('asset_annuity_month').innerText = yuan(annualAnnuityTotal / 12);
+            $('asset_annuity_year').innerText = yuan(annualAnnuityTotal);
+            $('asset_welfare_month').innerText = yuan(annualBenefitValue / 12);
+            $('asset_welfare_year').innerText = yuan(annualBenefitValue);
+
+            updateCharts({
+                annualTax,
+                annualPersonalSecurity,
+                annualEmpAnnuity,
+                annualCompanySecurity,
+                annualCompanyAnnuity,
+                totalAnnualMeanExp,
+                annualSavings,
+                annualBenefitValue,
+                personalRates,
+                companyRates,
+                insBase,
+                expLabels,
+                expData,
+                trendData
+            });
+        }
+
+        function updateCharts(data) {
+            const c = getColors();
+            Chart.defaults.color = c.text;
+            Chart.defaults.borderColor = c.grid;
+
+            const trendOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: context => `${context.dataset.label}: ${yuan(context.parsed.y)}`
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: c.grid },
+                        ticks: { callback: value => yuan(value) }
+                    },
+                    x: { grid: { display: false } }
+                },
+                elements: {
+                    line: { tension: 0.36 },
+                    point: { radius: 3, hoverRadius: 5 }
+                }
+            };
+
+            if (charts.incomeTrend) charts.incomeTrend.destroy();
+            const incomeCtx = $('incomeTrendChart').getContext('2d');
+            const incomeGradient = incomeCtx.createLinearGradient(0, 0, 0, 260);
+            incomeGradient.addColorStop(0, 'rgba(20, 184, 166, 0.42)');
+            incomeGradient.addColorStop(1, 'rgba(20, 184, 166, 0.02)');
+            charts.incomeTrend = new Chart(incomeCtx, {
+                type: 'line',
+                data: {
+                    labels: data.trendData.years,
+                    datasets: [{
+                        label: currentLang === 'zh' ? '现金年收入' : 'Cash Income',
+                        data: data.trendData.annualTrend,
+                        borderColor: c.primary,
+                        backgroundColor: incomeGradient,
+                        fill: true,
+                        borderWidth: 2.5
+                    }]
+                },
+                options: trendOptions
+            });
+
+            if (charts.salaryTrend) charts.salaryTrend.destroy();
+            const salaryCtx = $('salaryTrendChart').getContext('2d');
+            const salaryGradient = salaryCtx.createLinearGradient(0, 0, 0, 260);
+            salaryGradient.addColorStop(0, 'rgba(124, 58, 237, 0.4)');
+            salaryGradient.addColorStop(1, 'rgba(124, 58, 237, 0.02)');
+            charts.salaryTrend = new Chart(salaryCtx, {
+                type: 'line',
+                data: {
+                    labels: data.trendData.years,
+                    datasets: [{
+                        label: currentLang === 'zh' ? '月薪' : 'Monthly Salary',
+                        data: data.trendData.monthlyTrend,
+                        borderColor: c.accent,
+                        backgroundColor: salaryGradient,
+                        fill: true,
+                        borderWidth: 2.5
+                    }]
+                },
+                options: trendOptions
+            });
+
+            if (charts.cashflow) charts.cashflow.destroy();
+            charts.cashflow = new Chart($('cashflowChart').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: [
+                        currentLang === 'zh' ? '个税' : 'Tax',
+                        currentLang === 'zh' ? '个人缴纳' : 'Personal Paid',
+                        currentLang === 'zh' ? '预计开支' : 'Expenses',
+                        data.annualSavings >= 0
+                            ? (currentLang === 'zh' ? '预计结余' : 'Savings')
+                            : (currentLang === 'zh' ? '现金缺口' : 'Shortfall')
+                    ],
+                    datasets: [{
+                        data: [
+                            data.annualTax,
+                            data.annualPersonalSecurity + data.annualEmpAnnuity,
+                            data.totalAnnualMeanExp,
+                            Math.abs(data.annualSavings)
+                        ],
+                        backgroundColor: [c.danger, c.primary, c.warn, data.annualSavings >= 0 ? c.success : '#be123c'],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' } },
+                    cutout: '68%'
+                }
+            });
+
+            if (charts.deductions) charts.deductions.destroy();
+            charts.deductions = new Chart($('deductionsChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: [
+                        currentLang === 'zh' ? '个税' : 'Tax',
+                        currentLang === 'zh' ? '个人五险一金' : 'Personal Security',
+                        currentLang === 'zh' ? '企业五险一金' : 'Company Security',
+                        currentLang === 'zh' ? '企业年金' : 'Company Annuity',
+                        currentLang === 'zh' ? '福利折算' : 'Benefits'
+                    ],
+                    datasets: [{
+                        label: currentLang === 'zh' ? '年金额 (¥)' : 'Annual Amount (¥)',
+                        data: [
+                            data.annualTax,
+                            data.annualPersonalSecurity,
+                            data.annualCompanySecurity,
+                            data.annualCompanyAnnuity,
+                            data.annualBenefitValue
+                        ],
+                        backgroundColor: [c.danger, c.primary, c.cyan, c.accent, c.warn],
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, grid: { color: c.grid } }, x: { grid: { display: false } } }
+                }
+            });
+
+            if (charts.expense) charts.expense.destroy();
+            charts.expense = new Chart($('expenseChart').getContext('2d'), {
+                type: 'radar',
+                data: {
+                    labels: data.expLabels.length > 0 ? data.expLabels : ['None'],
+                    datasets: [{
+                        label: currentLang === 'zh' ? '年预估开销 (¥)' : 'Annual Est. (¥)',
+                        data: data.expData.length > 0 ? data.expData : [0],
+                        backgroundColor: 'rgba(124, 58, 237, 0.18)',
+                        borderColor: c.accent,
+                        pointBackgroundColor: c.accent,
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: c.grid },
+                            grid: { color: c.grid },
+                            pointLabels: { color: c.text, font: { size: 10 } }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateI18n() {
+            document.documentElement.lang = currentLang;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[currentLang][key]) el.textContent = i18n[currentLang][key];
+            });
+            renderExpenses();
+            runEngine();
+        }
+
+        function openHelp(key) {
+            currentHelpKey = key;
+            const doc = helpDocs[key][currentLang];
+            $('helpTitle').textContent = doc.title;
+            $('helpBody').textContent = doc.body;
+            $('helpDetails').innerHTML = doc.details.map(([label, desc]) => `
+                <div class="soft-panel rounded-lg p-3">
+                    <div class="font-semibold text-sm">${escapeAttr(label)}</div>
+                    <div class="text-xs muted leading-relaxed mt-1">${escapeAttr(desc)}</div>
+                </div>
+            `).join('');
+            $('helpFeedback').value = localStorage.getItem(`lifecost_feedback_${key}`) || '';
+            $('helpModal').classList.remove('hidden');
+            $('helpModal').classList.add('flex');
+            $('helpFeedback').focus();
+        }
+
+        function closeHelp() {
+            $('helpModal').classList.add('hidden');
+            $('helpModal').classList.remove('flex');
+        }
+
+        document.addEventListener('click', event => {
+            const helpButton = event.target.closest('[data-help]');
+            if (helpButton) openHelp(helpButton.dataset.help);
+        });
+
+        $('helpClose').addEventListener('click', closeHelp);
+        $('helpModal').addEventListener('click', event => {
+            if (event.target === $('helpModal')) closeHelp();
+        });
+        $('helpSave').addEventListener('click', () => {
+            localStorage.setItem(`lifecost_feedback_${currentHelpKey}`, $('helpFeedback').value.trim());
+            closeHelp();
+        });
+
+        $('themeToggle').addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            runEngine();
+        });
+
+        $('langToggle').addEventListener('click', () => {
+            document.querySelectorAll('#expenseContainer .expense-row').forEach(updateExpenseStateFromRow);
+            currentLang = currentLang === 'zh' ? 'en' : 'zh';
+            updateI18n();
+        });
+
+        $('addExpenseBtn').addEventListener('click', () => {
+            expenses.push({
+                id: Date.now(),
+                name: 'New Item',
+                nameZh: '新项目',
+                amount: 0,
+                freq: 'monthly',
+                vol: 0
+            });
+            renderExpenses();
+            runEngine();
+        });
+
+        $('expenseContainer').addEventListener('input', event => {
+            const row = event.target.closest('.expense-row');
+            if (row) {
+                updateExpenseStateFromRow(row);
+                runEngine();
+            }
+        });
+        $('expenseContainer').addEventListener('change', event => {
+            const row = event.target.closest('.expense-row');
+            if (row) {
+                updateExpenseStateFromRow(row);
+                runEngine();
+            }
+        });
+        $('expenseContainer').addEventListener('click', event => {
+            const removeButton = event.target.closest('.remove-exp');
+            if (!removeButton) return;
+            const row = removeButton.closest('.expense-row');
+            expenses.splice(Number(row.dataset.index), 1);
+            renderExpenses();
+            runEngine();
+        });
+
+        document.querySelectorAll('input, select').forEach(el => {
+            el.addEventListener('input', runEngine);
+            el.addEventListener('change', runEngine);
+        });
+
+        $('calcBtn').addEventListener('click', runEngine);
+
+        lucide.createIcons();
+        renderExpenses();
+        updateI18n();
+        setTimeout(runEngine, 100);
+    </script>
+</body>
+</html>
