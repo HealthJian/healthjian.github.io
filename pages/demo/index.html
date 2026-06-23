@@ -38,7 +38,7 @@
             
             <!-- 面包屑导航 -->
             <div class="demo-breadcrumb">
-                <a href="../../index.html" class="breadcrumb-item" data-zh="首页" data-en="Home">
+                <a href="../../index.html" class="breadcrumb-item">
                     <i class="fas fa-home"></i>
                     <span data-zh="首页" data-en="Home">首页</span>
                 </a>
@@ -48,19 +48,19 @@
             
             <!-- 导航菜单 -->
             <div class="demo-nav-menu">
-                <a href="../../index.html" class="demo-nav-link" data-zh="首页" data-en="Home">
+                <a href="../../index.html" class="demo-nav-link">
                     <i class="fas fa-home"></i>
                     <span data-zh="首页" data-en="Home">首页</span>
                 </a>
-                <a href="../blog.html" class="demo-nav-link" data-zh="博客" data-en="Blog">
+                <a href="../blog.html" class="demo-nav-link">
                     <i class="fas fa-blog"></i>
                     <span data-zh="博客" data-en="Blog">博客</span>
                 </a>
-                <a href="../project/project.html" class="demo-nav-link" data-zh="项目" data-en="Projects">
+                <a href="../project/project.html" class="demo-nav-link">
                     <i class="fas fa-folder"></i>
                     <span data-zh="项目" data-en="Projects">项目</span>
                 </a>
-                <a href="index.html" class="demo-nav-link active" data-zh="Demo" data-en="Demo">
+                <a href="index.html" class="demo-nav-link active">
                     <i class="fas fa-flask"></i>
                     <span data-zh="Demo" data-en="Demo">Demo</span>
                 </a>
@@ -95,22 +95,46 @@
         <!-- 页面标题区域 -->
         <section class="page-header">
             <div class="header-content">
+                <div class="hero-eyebrow">
+                    <span class="repo-pill"><i class="fab fa-github"></i> HealthJian / demo-space</span>
+                    <span class="space-pill"><i class="fas fa-cube"></i> Spaces</span>
+                </div>
                 <h1 class="page-title">
                     <i class="fas fa-flask"></i>
                     <span data-zh="Demo工作学习空间" data-en="Demo Work Study Space">Demo工作学习空间</span>
                     <span class="beta-tag" data-zh="Beta版本" data-en="Beta Version">Beta版本</span>
                 </h1>
-                <p class="page-subtitle" data-zh="探索学习，实践创新" data-en="Explore Learning, Practice Innovation">探索学习，实践创新</p>
+                <p class="page-subtitle" data-zh="一个用于沉淀算法可视化、AI 产品原型与学习实验的轻量工作台。" data-en="A lightweight workspace for algorithm visualization, AI product prototypes, and learning experiments.">一个用于沉淀算法可视化、AI 产品原型与学习实验的轻量工作台。</p>
+                <div class="hero-stats" aria-label="Demo workspace stats">
+                    <div class="hero-stat">
+                        <strong>4</strong>
+                        <span data-zh="可用模块" data-en="Active modules">可用模块</span>
+                    </div>
+                    <div class="hero-stat">
+                        <strong>Beta</strong>
+                        <span data-zh="迭代状态" data-en="Release channel">迭代状态</span>
+                    </div>
+                    <div class="hero-stat">
+                        <strong>CN / EN</strong>
+                        <span data-zh="双语支持" data-en="Bilingual">双语支持</span>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- 内容分割线 -->
-        <div class="section-divider"></div>
-
         <!-- Demo菜单区域 -->
-        <section class="demo-menu-section">
+        <section class="demo-menu-section" id="demo-modules">
             <div class="demo-container">
-                <h2 class="section-title" data-zh="学习模块" data-en="Learning Modules">学习模块</h2>
+                <div class="section-heading">
+                    <div>
+                        <p class="section-kicker" data-zh="Repository index" data-en="Repository index">Repository index</p>
+                        <h2 class="section-title" data-zh="学习模块" data-en="Learning Modules">学习模块</h2>
+                    </div>
+                    <div class="module-filter-note">
+                        <i class="fas fa-code-branch"></i>
+                        <span data-zh="功能链接保持原样" data-en="Original links preserved">功能链接保持原样</span>
+                    </div>
+                </div>
                 
                 <!-- Demo卡片网格 -->
                 <div class="demo-grid">
@@ -120,8 +144,11 @@
                             <div class="card-icon">
                                 <i class="fas fa-sort"></i>
                             </div>
-                            <h3 class="card-title" data-zh="八大排序算法" data-en="Eight Sorting Algorithms">八大排序算法</h3>
-                            <span class="beta-badge" data-zh="Beta" data-en="Beta">Beta</span>
+                            <div class="card-title-group">
+                                <h3 class="card-title" data-zh="八大排序算法" data-en="Eight Sorting Algorithms">八大排序算法</h3>
+                                <p class="card-meta">demo / sort-visualizer</p>
+                            </div>
+                            <span class="beta-badge live" data-zh="Beta" data-en="Beta">Beta</span>
                         </div>
                         
                         <div class="card-content">
@@ -139,10 +166,14 @@
                             </div>
                         </div>
                         
-                        <div class="card-footer">
-                            <a href="sort-visualizer.html" class="demo-btn" data-zh="开始学习" data-en="Start Learning">
+                        <div class="card-footer card-actions">
+                            <a href="sort-visualizer.html" class="demo-btn">
                                 <i class="fas fa-arrow-right"></i>
                                 <span data-zh="开始学习" data-en="Start Learning">开始学习</span>
+                            </a>
+                            <a href="../project/404notfound.html" class="demo-btn secondary">
+                                <i class="fas fa-book-open"></i>
+                                <span data-zh="关联博客" data-en="Related Blog">关联博客</span>
                             </a>
                         </div>
                     </div>
@@ -153,27 +184,34 @@
                             <div class="card-icon">
                                 <i class="fas fa-comments"></i>
                             </div>
-                            <h3 class="card-title">亦心的沟通宝典beta</h3>
-                            <span class="beta-badge" data-zh="Beta" data-en="Beta">Beta</span>
+                            <div class="card-title-group">
+                                <h3 class="card-title" data-zh="亦心的沟通宝典" data-en="Yixin Communication Guide">亦心的沟通宝典</h3>
+                                <p class="card-meta">project / yixin</p>
+                            </div>
+                            <span class="beta-badge live" data-zh="Beta" data-en="Beta">Beta</span>
                         </div>
                         
                         <div class="card-content">
-                            <p class="card-description">基于大模型的聊天助手，是个朝懂聊天技巧、雷区规避与场景应对的沟通大师~</p>
+                            <p class="card-description" data-zh="基于大模型的聊天助手，聚焦聊天技巧、雷区规避与场景应对。" data-en="A large-model chat assistant focused on communication skills, risk avoidance, and scenario handling.">基于大模型的聊天助手，聚焦聊天技巧、雷区规避与场景应对。</p>
                             
                             <div class="algorithm-list">
                                 <span class="algorithm-tag">Coze</span>
                                 <span class="algorithm-tag">DouBao1.5Pro</span>
-                                <span class="algorithm-tag">condition_1_339工作流</span>
-                                <span class="algorithm-tag">基于文本数据库</span>
-                                <span class="algorithm-tag">插件+</span>
-                                <span class="algorithm-tag">测试版</span>
+                                <span class="algorithm-tag" data-zh="工作流" data-en="Workflow">工作流</span>
+                                <span class="algorithm-tag" data-zh="文本数据库" data-en="Text DB">文本数据库</span>
+                                <span class="algorithm-tag" data-zh="插件" data-en="Plugins">插件</span>
+                                <span class="algorithm-tag" data-zh="测试版" data-en="Beta">测试版</span>
                             </div>
                         </div>
                         
-                        <div class="card-footer">
-                            <a href="../project/yixin/index.html" class="demo-btn" data-zh="立即体验" data-en="Try Now">
+                        <div class="card-footer card-actions">
+                            <a href="../project/yixin/index.html" class="demo-btn">
                                 <i class="fas fa-arrow-right"></i>
                                 <span data-zh="立即体验" data-en="Try Now">立即体验</span>
+                            </a>
+                            <a href="../project/404notfound.html" class="demo-btn secondary">
+                                <i class="fas fa-book-open"></i>
+                                <span data-zh="关联博客" data-en="Related Blog">关联博客</span>
                             </a>
                         </div>
                     </div>
@@ -184,8 +222,11 @@
                             <div class="card-icon">
                                 <i class="fas fa-tree"></i>
                             </div>
-                            <h3 class="card-title" data-zh="树与图可视化" data-en="Tree &amp; Graph Visualizer">树与图可视化</h3>
-                            <span class="beta-badge" data-zh="Beta" data-en="Beta">Beta</span>
+                            <div class="card-title-group">
+                                <h3 class="card-title" data-zh="树与图可视化" data-en="Tree &amp; Graph Visualizer">树与图可视化</h3>
+                                <p class="card-meta">demo / tree-visualizer</p>
+                            </div>
+                            <span class="beta-badge live" data-zh="Beta" data-en="Beta">Beta</span>
                         </div>
                         
                         <div class="card-content">
@@ -200,10 +241,14 @@
                             </div>
                         </div>
                         
-                        <div class="card-footer">
-                            <a href="tree-visualizer.html" class="demo-btn" data-zh="开始学习" data-en="Start Learning">
+                        <div class="card-footer card-actions">
+                            <a href="tree-visualizer.html" class="demo-btn">
                                 <i class="fas fa-arrow-right"></i>
                                 <span data-zh="开始学习" data-en="Start Learning">开始学习</span>
+                            </a>
+                            <a href="../project/404notfound.html" class="demo-btn secondary">
+                                <i class="fas fa-book-open"></i>
+                                <span data-zh="关联博客" data-en="Related Blog">关联博客</span>
                             </a>
                         </div>
                     </div>
@@ -214,8 +259,11 @@
                             <div class="card-icon">
                                 <i class="fas fa-store"></i>
                             </div>
-                            <h3 class="card-title" data-zh="电商运营中枢" data-en="E-Commerce Agent Hub">电商运营中枢</h3>
-                            <span class="beta-badge" data-zh="Beta" data-en="Beta">Beta</span>
+                            <div class="card-title-group">
+                                <h3 class="card-title" data-zh="电商运营中枢" data-en="E-Commerce Agent Hub">电商运营中枢</h3>
+                                <p class="card-meta">demo / product-intro</p>
+                            </div>
+                            <span class="beta-badge live" data-zh="Beta" data-en="Beta">Beta</span>
                         </div>
                         
                         <div class="card-content">
@@ -230,10 +278,14 @@
                             </div>
                         </div>
                         
-                        <div class="card-footer">
-                            <a href="product-intro.html" class="demo-btn" data-zh="查看介绍" data-en="View Intro">
+                        <div class="card-footer card-actions">
+                            <a href="product-intro.html" class="demo-btn">
                                 <i class="fas fa-arrow-right"></i>
                                 <span data-zh="查看介绍" data-en="View Intro">查看介绍</span>
+                            </a>
+                            <a href="../project/404notfound.html" class="demo-btn secondary">
+                                <i class="fas fa-book-open"></i>
+                                <span data-zh="关联博客" data-en="Related Blog">关联博客</span>
                             </a>
                         </div>
                     </div>
@@ -244,7 +296,11 @@
                             <div class="card-icon placeholder-icon">
                                 <i class="fas fa-plus"></i>
                             </div>
-                            <h3 class="card-title" data-zh="更多内容" data-en="More Content">更多内容</h3>
+                            <div class="card-title-group">
+                                <h3 class="card-title" data-zh="更多内容" data-en="More Content">更多内容</h3>
+                                <p class="card-meta">demo / roadmap</p>
+                            </div>
+                            <span class="beta-badge muted" data-zh="Queued" data-en="Queued">Queued</span>
                         </div>
                         
                         <div class="card-content">
@@ -277,7 +333,23 @@
                     <li><a href="../../index.html" data-zh="首页" data-en="Home">首页</a></li>
                     <li><a href="../blog.html" data-zh="博客" data-en="Blog">博客</a></li>
                     <li><a href="../project/project.html" data-zh="项目" data-en="Projects">项目</a></li>
+                    <li><a href="#demo-modules" data-zh="学习模块" data-en="Learning Modules">学习模块</a></li>
+                    <li><a href="changelog.html" data-zh="Demo更新日志" data-en="Demo Changelog">Demo更新日志</a></li>
+                    <li><a href="../project/404notfound.html" data-zh="文档（待开发）" data-en="Docs (TBD)">文档（待开发）</a></li>
+                    <li><a href="../project/404notfound.html" data-zh="相关研究（待开发）" data-en="Related Research (TBD)">相关研究（待开发）</a></li>
                 </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4 data-zh="技术栈" data-en="Tech Stack">技术栈</h4>
+                <div class="footer-tech-stack" aria-label="Demo tech stack">
+                    <span>HTML5</span>
+                    <span>CSS3</span>
+                    <span>JavaScript</span>
+                    <span>Font Awesome</span>
+                    <span data-zh="响应式布局" data-en="Responsive UI">响应式布局</span>
+                    <span data-zh="双语切换" data-en="Bilingual">双语切换</span>
+                </div>
             </div>
             
             <div class="footer-section">
@@ -290,7 +362,7 @@
         </div>
         
         <div class="footer-bottom">
-            <p>&copy; 2025 <span data-zh="Demo工作学习空间" data-en="Demo Work Study Space">Demo工作学习空间</span>. <span data-zh="保留所有权利" data-en="All rights reserved">保留所有权利</span>.</p>
+            <p>&copy; 2025-2026 <span data-zh="Demo工作学习空间" data-en="Demo Work Study Space">Demo工作学习空间</span>. <span data-zh="保留所有权利" data-en="All rights reserved">保留所有权利</span>.</p>
         </div>
     </footer>
 

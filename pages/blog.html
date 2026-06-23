@@ -126,6 +126,124 @@
             color: #ffffff;
             border-color: rgba(90,200,250,.24);
         }
+
+        .blog-whats-news {
+            position: fixed;
+            left: 20px;
+            bottom: 22px;
+            z-index: 880;
+            width: min(320px, calc(100vw - 32px));
+            border: 1px solid rgba(0,0,0,.16);
+            border-radius: 12px;
+            background: rgba(255,255,255,.92);
+            color: #111827;
+            box-shadow: 0 16px 36px rgba(15,23,42,.14);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(10px);
+            transition: opacity .24s ease, transform .24s ease;
+        }
+        .blog-whats-news.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+        .blog-whats-news-inner {
+            padding: 14px 38px 14px 15px;
+        }
+        .blog-whats-news-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #007AFF;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: .72rem;
+            font-weight: 800;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+        }
+        .blog-whats-news-kicker::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: #34c759;
+            box-shadow: 0 0 0 4px rgba(52,199,89,.16);
+        }
+        .blog-whats-news-title {
+            margin-top: 8px;
+            color: inherit;
+            font-size: .96rem;
+            font-weight: 800;
+            line-height: 1.35;
+        }
+        .blog-whats-news-meta {
+            margin-top: 6px;
+            color: #6b7280;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: .72rem;
+        }
+        .blog-whats-news-link {
+            display: inline-flex;
+            align-items: center;
+            margin-top: 10px;
+            color: #0066cc;
+            font-size: .82rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        .blog-whats-news-link:hover { text-decoration: underline; }
+        .blog-whats-news-close {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 24px;
+            height: 24px;
+            border: 0;
+            border-radius: 50%;
+            background: rgba(17,24,39,.06);
+            color: #4b5563;
+            cursor: pointer;
+            font-size: 18px;
+            line-height: 1;
+            transition: background-color .2s ease, color .2s ease;
+        }
+        .blog-whats-news-close:hover {
+            background: rgba(17,24,39,.12);
+            color: #111827;
+        }
+        body.dark-mode .blog-whats-news {
+            border-color: rgba(255,255,255,.18);
+            background: rgba(17,74,128,.92);
+            color: #f8fafc;
+            box-shadow: 0 16px 36px rgba(0,0,0,.28);
+        }
+        body.dark-mode .blog-whats-news-meta { color: rgba(226,232,240,.76); }
+        body.dark-mode .blog-whats-news-link { color: #93c5fd; }
+        body.dark-mode .blog-whats-news-close {
+            background: rgba(255,255,255,.1);
+            color: rgba(248,250,252,.82);
+        }
+        body.dark-mode .blog-whats-news-close:hover {
+            background: rgba(255,255,255,.18);
+            color: #ffffff;
+        }
+        @media (max-width: 640px) {
+            .blog-whats-news {
+                left: 12px;
+                right: 12px;
+                bottom: 14px;
+                width: auto;
+            }
+            .blog-whats-news-inner {
+                padding: 12px 36px 12px 13px;
+            }
+            .blog-whats-news-title {
+                font-size: .9rem;
+            }
+        }
     </style>
     <!-- ========== LOTTIE space_plant 样式 END ========== -->
 </head>
@@ -239,6 +357,16 @@
     <button id="blogBackToTop" class="blog-back-to-top" type="button" title="回到顶部" aria-label="Back to top">
         <i data-lucide="chevron-up" class="w-5 h-5 mx-auto"></i>
     </button>
+
+    <aside id="blogWhatsNews" class="blog-whats-news" aria-live="polite" hidden>
+        <button id="blogWhatsNewsClose" class="blog-whats-news-close" type="button" aria-label="Close">×</button>
+        <div class="blog-whats-news-inner">
+            <div class="blog-whats-news-kicker" data-en="What news!" data-zh="最新动态">最新动态</div>
+            <div id="blogWhatsNewsTitle" class="blog-whats-news-title"></div>
+            <div id="blogWhatsNewsMeta" class="blog-whats-news-meta"></div>
+            <a id="blogWhatsNewsLink" class="blog-whats-news-link" href="changelog.html" data-en="View changelog" data-zh="查看更新日志">查看更新日志</a>
+        </div>
+    </aside>
 
     <!-- 页脚 -->
     <footer>
@@ -601,6 +729,108 @@
                 syncBackToTop();
             }
         });
+    </script>
+
+    <script>
+    (function(){
+        const DISMISS_KEY = 'blog-whats-news-dismissed';
+        let latestLog = null;
+
+        function getLang(){
+            return document.body.classList.contains('en') ? 'en' : 'zh';
+        }
+
+        function cleanText(text){
+            return String(text || '').replace(/\s+/g, ' ').trim();
+        }
+
+        function pickText(pair){
+            const lang = getLang();
+            return lang === 'en' ? (pair.en || pair.zh) : (pair.zh || pair.en);
+        }
+
+        function syncWhatsNewsText(){
+            if(!latestLog) return;
+            const title = document.getElementById('blogWhatsNewsTitle');
+            const meta = document.getElementById('blogWhatsNewsMeta');
+            const link = document.getElementById('blogWhatsNewsLink');
+            if(title) title.textContent = pickText(latestLog.title);
+            if(meta) {
+                meta.textContent = getLang() === 'en'
+                    ? `${latestLog.date} · latest changelog`
+                    : `${latestLog.date} · 最新更新日志`;
+            }
+            if(link) link.textContent = getLang() === 'en' ? 'View changelog' : '查看更新日志';
+        }
+
+        function showWhatsNews(){
+            const box = document.getElementById('blogWhatsNews');
+            if(!box) return;
+            box.hidden = false;
+            requestAnimationFrame(() => box.classList.add('visible'));
+        }
+
+        function hideWhatsNews(){
+            const box = document.getElementById('blogWhatsNews');
+            if(!box) return;
+            box.classList.remove('visible');
+            window.setTimeout(() => { box.hidden = true; }, 240);
+        }
+
+        async function initWhatsNews(){
+            const box = document.getElementById('blogWhatsNews');
+            const closeBtn = document.getElementById('blogWhatsNewsClose');
+            if(!box || !closeBtn) return;
+
+            try {
+                const res = await fetch('changelog.html', { cache: 'no-store' });
+                if(!res.ok) return;
+                const html = await res.text();
+                const doc = new DOMParser().parseFromString(html, 'text/html');
+                const item = doc.querySelector('.changelog-timeline .timeline-item');
+                if(!item) return;
+
+                const titleEl = item.querySelector('.timeline-content h2');
+                const date = cleanText(item.querySelector('.timeline-date')?.textContent);
+                const title = {
+                    zh: cleanText(titleEl?.getAttribute('data-zh') || titleEl?.textContent),
+                    en: cleanText(titleEl?.getAttribute('data-en') || titleEl?.textContent)
+                };
+                if(!date || (!title.zh && !title.en)) return;
+
+                latestLog = {
+                    key: `${date}|${title.zh || title.en}`,
+                    date,
+                    title
+                };
+
+                syncWhatsNewsText();
+
+                if(localStorage.getItem(DISMISS_KEY) !== latestLog.key) {
+                    showWhatsNews();
+                }
+
+                closeBtn.addEventListener('click', () => {
+                    if(latestLog) localStorage.setItem(DISMISS_KEY, latestLog.key);
+                    hideWhatsNews();
+                });
+            } catch (_) {
+                // Keep the blog page quiet if changelog cannot be fetched locally.
+            }
+        }
+
+        window.addEventListener('sitewide-language-change', syncWhatsNewsText);
+        const langToggle = document.getElementById('lang-toggle');
+        if(langToggle) {
+            langToggle.addEventListener('click', () => window.setTimeout(syncWhatsNewsText, 80));
+        }
+
+        if(document.readyState === 'loading'){
+            document.addEventListener('DOMContentLoaded', initWhatsNews);
+        } else {
+            initWhatsNews();
+        }
+    })();
     </script>
 
     <!-- ========== LOTTIE space_plant 脚本 START（删除至 END 可回档）========== -->

@@ -495,31 +495,76 @@
         const values = days.map(day => counts.get(day.key) || 0);
         const total = values.reduce((sum, value) => sum + value, 0);
         const activeDays = values.filter(Boolean).length;
+        const maxValue = Math.max(1, ...values);
+        const activeRate = Math.round((activeDays / days.length) * 100);
+        const longestStreak = getLongestPositiveStreak(values);
+        const trend = values.map((_, index) => getMovingAverage(values, index, 7));
+        const overview = document.getElementById('updateFrequencyOverview');
+        if (overview) {
+            overview.innerHTML = [
+                {
+                    value: total,
+                    label: lang === 'en' ? 'updates' : '总更新'
+                },
+                {
+                    value: activeDays,
+                    label: lang === 'en' ? 'active days' : '活跃日'
+                },
+                {
+                    value: longestStreak,
+                    label: lang === 'en' ? 'best streak' : '最长连续'
+                },
+                {
+                    value: `${activeRate}%`,
+                    label: lang === 'en' ? 'activity rate' : '活跃率'
+                }
+            ].map(item => `
+                <div class="frequency-metric">
+                    <strong>${item.value}</strong>
+                    <span>${item.label}</span>
+                </div>
+            `).join('');
+        }
+
         const summary = document.getElementById('updateFrequencySummary');
         if (summary) {
             summary.textContent = lang === 'en'
-                ? `${total} changelog updates / ${activeDays} active days`
-                : `${total} 次日志更新 / ${activeDays} 个活跃日期`;
+                ? `Real changelog data from the latest 30 days · peak ${maxValue} update(s) in one day`
+                : `读取最近 30 天真实日志数据 · 单日峰值 ${maxValue} 次更新`;
         }
 
         if (updateFrequencyChart) updateFrequencyChart.destroy();
 
         updateFrequencyChart = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             data: {
                 labels: days.map(day => day.label),
-                datasets: [{
-                    label: lang === 'en' ? 'Changelog Updates' : '日志更新',
-                    data: values,
-                    borderColor: css('--accent-blue'),
-                    backgroundColor: css('--accent-blue') + '16',
-                    fill: true,
-                    tension: 0.35,
-                    borderWidth: 2.2,
-                    pointRadius: values.map(value => value > 0 ? 3 : 0),
-                    pointHoverRadius: 5,
-                    pointBackgroundColor: css('--accent-green')
-                }]
+                datasets: [
+                    {
+                        label: lang === 'en' ? 'Daily Updates' : '每日更新',
+                        data: values,
+                        borderColor: values.map(value => value > 0 ? css('--accent-blue') : 'rgba(108,117,125,0.14)'),
+                        backgroundColor: values.map(value => value > 0 ? css('--accent-blue') + '88' : 'rgba(108,117,125,0.10)'),
+                        borderWidth: 1,
+                        borderRadius: 6,
+                        borderSkipped: false,
+                        maxBarThickness: 13,
+                        order: 2
+                    },
+                    {
+                        type: 'line',
+                        label: lang === 'en' ? '7-day Trend' : '7日趋势',
+                        data: trend,
+                        borderColor: css('--accent-green'),
+                        backgroundColor: 'transparent',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        pointHoverRadius: 4,
+                        pointBackgroundColor: css('--accent-green'),
+                        tension: 0.35,
+                        order: 1
+                    }
+                ]
             },
             options: {
                 responsive: true,
@@ -528,9 +573,20 @@
                     legend: { display: false },
                     tooltip: {
                         callbacks: {
-                            label: item => lang === 'en'
-                                ? `${item.parsed.y} updates`
-                                : `${item.parsed.y} 次更新`
+                            title: items => {
+                                const index = items[0]?.dataIndex || 0;
+                                return days[index]?.key || '';
+                            },
+                            label: item => {
+                                if (item.dataset.type === 'line') {
+                                    return lang === 'en'
+                                        ? `7-day trend: ${item.parsed.y.toFixed(2)}`
+                                        : `7日趋势：${item.parsed.y.toFixed(2)}`;
+                                }
+                                return lang === 'en'
+                                    ? `Daily updates: ${item.parsed.y}`
+                                    : `每日更新：${item.parsed.y}`;
+                            }
                         }
                     }
                 },
@@ -539,23 +595,46 @@
                         grid: { display: false },
                         ticks: {
                             color: css('--text-secondary'),
-                            maxTicksLimit: 6,
+                            maxTicksLimit: 7,
                             font: { size: 10 }
                         }
                     },
                     y: {
                         beginAtZero: true,
+                        suggestedMax: Math.max(2, maxValue + 1),
                         ticks: {
                             precision: 0,
                             color: css('--text-secondary'),
+                            stepSize: 1,
                             font: { size: 10 }
                         },
-                        grid: { color: 'rgba(108,117,125,0.12)' }
+                        grid: { color: 'rgba(108,117,125,0.10)', drawBorder: false }
                     }
                 },
                 interaction: { intersect: false, mode: 'index' }
             }
         });
+    }
+
+    function getMovingAverage(values, index, windowSize) {
+        const start = Math.max(0, index - windowSize + 1);
+        const slice = values.slice(start, index + 1);
+        const sum = slice.reduce((acc, value) => acc + value, 0);
+        return Number((sum / slice.length).toFixed(2));
+    }
+
+    function getLongestPositiveStreak(values) {
+        let best = 0;
+        let current = 0;
+        values.forEach(value => {
+            if (value > 0) {
+                current += 1;
+                best = Math.max(best, current);
+            } else {
+                current = 0;
+            }
+        });
+        return best;
     }
 
     function getLastNDays(count) {
@@ -689,10 +768,12 @@
                 browserChart.update('none');
             }
             if (updateFrequencyChart) {
-                const ds = updateFrequencyChart.data.datasets[0];
-                ds.borderColor = ab;
-                ds.backgroundColor = ab + '16';
-                ds.pointBackgroundColor = ag;
+                const bar = updateFrequencyChart.data.datasets[0];
+                const trend = updateFrequencyChart.data.datasets[1];
+                bar.borderColor = bar.data.map(value => value > 0 ? ab : 'rgba(108,117,125,0.14)');
+                bar.backgroundColor = bar.data.map(value => value > 0 ? ab + '88' : 'rgba(108,117,125,0.10)');
+                trend.borderColor = ag;
+                trend.pointBackgroundColor = ag;
                 updateFrequencyChart.update('none');
             }
 

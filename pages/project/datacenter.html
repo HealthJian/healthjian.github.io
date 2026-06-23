@@ -120,7 +120,32 @@
                         <span data-i18n="uptime">运行时间 99.97%</span>
                         <span class="uptime-badge" data-i18n="uptime-24h">近 30 天</span>
                     </div>
-                    <div class="world-map" id="worldMap"></div>
+                    <div class="global-status-body">
+                        <div class="status-score">
+                            <div class="score-ring" aria-label="99.97 percent uptime">
+                                <span>99.97%</span>
+                            </div>
+                            <div class="score-copy">
+                                <strong data-i18n="system-online">系统在线</strong>
+                                <span data-i18n="uptime-24h">近 30 天</span>
+                            </div>
+                        </div>
+                        <div class="status-grid">
+                            <div class="status-tile">
+                                <span>API</span>
+                                <strong>99.99%</strong>
+                            </div>
+                            <div class="status-tile">
+                                <span>CDN</span>
+                                <strong>99.96%</strong>
+                            </div>
+                            <div class="status-tile">
+                                <span>DB</span>
+                                <strong>99.98%</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="world-map" id="worldMap" aria-hidden="true"></div>
                 </div>
 
                 <!-- 2. Real-time Visitor Trend -->
@@ -148,6 +173,7 @@
                         <h2 data-i18n="update-frequency">近一个月更新频率</h2>
                         <span class="card-badge data-badge" data-i18n="real-data">REAL DATA</span>
                     </div>
+                    <div class="frequency-overview" id="updateFrequencyOverview"></div>
                     <canvas id="updateFrequencyChart"></canvas>
                     <div class="frequency-summary" id="updateFrequencySummary">--</div>
                 </div>

@@ -7,15 +7,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // 初始化Demo页面
 function initializeDemoPage() {
-    // 添加页面入场动画
-    addPageAnimations();
-    
     // 初始化卡片交互
     initializeCardInteractions();
-    
-    // 添加滚动效果
-    addScrollEffects();
-    
+
     // 初始化工具提示
     initializeTooltips();
     
@@ -92,7 +86,7 @@ function initializeCardInteractions() {
         });
         
         // 点击效果（即使按钮禁用也有反馈）
-        card.addEventListener('click', function() {
+        card.addEventListener('click', function(event) {
             // 添加点击波纹效果
             createRippleEffect(this, event);
             

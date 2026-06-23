@@ -56,6 +56,10 @@
                 <i class="fas fa-list-ul" aria-hidden="true"></i>
                 <span data-en="ChangeLog" data-zh="更新日志">更新日志</span>
             </button>
+            <button type="button" class="changelog-view-tab" data-changelog-view="calendar" role="tab" aria-selected="false">
+                <i class="fab fa-github" aria-hidden="true"></i>
+                <span data-en="GitHub Calendar" data-zh="GitHub 贡献日历">GitHub 贡献日历</span>
+            </button>
             <button type="button" class="changelog-view-tab" data-changelog-view="journey" role="tab" aria-selected="false">
                 <i class="fas fa-route" aria-hidden="true"></i>
                 <span data-en="Journey" data-zh="时光之旅">时光之旅</span>
@@ -67,7 +71,7 @@
         </nav>
 
         <!-- GitHub 贡献日历 -->
-        <section class="github-calendar-container" data-changelog-view-panel="logs">
+        <section class="github-calendar-container" data-changelog-view-panel="calendar" hidden>
             <div class="github-calendar-header">
                 <h2 data-en="GitHub Contribution Calendar" data-zh="GitHub 贡献日历">GitHub 贡献日历</h2>
                 <a href="https://github.com/CaiNiaojian" target="_blank" class="github-username">
@@ -116,6 +120,26 @@
         </section>
 
         <section class="changelog-timeline" data-changelog-view-panel="logs">
+            <div class="timeline-item">
+                <div class="timeline-date">2026-06-23</div>
+                <div class="timeline-content">
+                    <h2 data-en="What News Tip, Changelog Views, Demo Workspace, and Project Page Refresh" data-zh="What News 提示、日志视图拆分、Demo 工作空间与项目页重构">What News 提示、日志视图拆分、Demo 工作空间与项目页重构</h2>
+                    <ul>
+                        <li data-en="Blog What News panel: added a small dismissible What News window to pages/blog.html. It reads the latest entry from pages/changelog.html, supports light/dark mode, Chinese/English text, responsive screens, and stores the dismissed changelog version so it reappears only after a newer log is published." data-zh="博客 What News 窗口：在 pages/blog.html 左下角新增可关闭的 What News 小窗口，读取 pages/changelog.html 最新日志，兼容日夜间、中英文与不同屏幕尺寸；关闭后会记录当前日志版本，只有新日志发布后再次出现。"><strong>博客 What News 窗口</strong>：在 pages/blog.html 左下角新增可关闭的 What News 小窗口，读取 pages/changelog.html 最新日志，兼容日夜间、中英文与不同屏幕尺寸；关闭后会记录当前日志版本，只有新日志发布后再次出现。</li>
+                        <li data-en="Changelog view split: reorganized pages/changelog.html so GitHub Contribution Calendar, ChangeLog, Journey, and Questions &amp; Feedback are separated into switchable views instead of being stacked together." data-zh="更新日志视图拆分：重组 pages/changelog.html，将 GitHub 贡献日历、更新日志、时光之旅、提问与反馈拆分为可切换视图，避免所有内容堆叠在同一屏。"><strong>更新日志视图拆分</strong>：重组 pages/changelog.html，将 GitHub 贡献日历、更新日志、时光之旅、提问与反馈拆分为可切换视图，避免所有内容堆叠在同一屏。</li>
+                        <li data-en="Demo workspace UI rebuild: redesigned pages/demo/index.html with a Hugging Face Spaces and GitHub-inspired layout while preserving theme color, bilingual switching, original module links, and responsive behavior." data-zh="Demo 工作空间 UI 重构：以 Hugging Face Spaces 与 GitHub 仓库页为参考重构 pages/demo/index.html，保留主题颜色、中英文切换、原有模块入口与响应式能力。"><strong>Demo 工作空间 UI 重构</strong>：以 Hugging Face Spaces 与 GitHub 仓库页为参考重构 pages/demo/index.html，保留主题颜色、中英文切换、原有模块入口与响应式能力。</li>
+                        <li data-en="Demo-specific changelog: added pages/demo/changelog.html as a standalone log and update-plan page for Demo work only, linked from Demo quick links without mixing it with the site-wide changelog." data-zh="Demo 独立更新日志：新增 pages/demo/changelog.html，作为只记录 Demo 工作学习空间的日志与更新计划页面，并从 Demo 快速链接接入，不与全站 changelog 混用。"><strong>Demo 独立更新日志</strong>：新增 pages/demo/changelog.html，作为只记录 Demo 工作学习空间的日志与更新计划页面，并从 Demo 快速链接接入，不与全站 changelog 混用。</li>
+                        <li data-en="Demo interaction cleanup: removed the Demo hero entrance and scroll-floating effects, deleted the two hero buttons, added related-blog placeholders for every learning module, added Quick Links for Demo Changelog, Docs, and Related Research, and updated the footer copyright to 2025-2026." data-zh="Demo 交互收敛：取消 Demo 首页 Hero 开屏入场与滚动浮动效果，删除两个 Hero 按钮，为每个学习模块增加关联博客占位入口，快速链接新增 Demo 更新日志、文档、相关研究，并将页脚版权更新为 2025-2026。"><strong>Demo 交互收敛</strong>：取消 Demo 首页 Hero 开屏入场与滚动浮动效果，删除两个 Hero 按钮，为每个学习模块增加关联博客占位入口，快速链接新增 Demo 更新日志、文档、相关研究，并将页脚版权更新为 2025-2026。</li>
+                        <li data-en="Project page redesign: rebuilt pages/project/project.html into a modern repository-index style using a final override stylesheet css/project-modern.css. The page keeps filters, bilingual switching, theme toggling, original project links, and responsive card layouts." data-zh="项目页重构：将 pages/project/project.html 重构为现代 repository index 风格，并新增 css/project-modern.css 作为最终覆盖样式；保留筛选、中英文切换、主题切换、原项目链接与响应式卡片布局。"><strong>项目页重构</strong>：将 pages/project/project.html 重构为现代 repository index 风格，并新增 css/project-modern.css 作为最终覆盖样式；保留筛选、中英文切换、主题切换、原项目链接与响应式卡片布局。</li>
+                        <li data-en="Project maintenance and navigation fix: restored the project-page maintenance overlay because the page is not finished yet, fixed the top navigation gap caused by the global body padding, and corrected the Demo navigation path to ../demo/index.html." data-zh="项目页维护与导航修复：由于项目页尚未最终完成，恢复本页面维护中遮罩；同时修复全站 body 顶部 padding 导致导航栏未贴顶的问题，并修正 Demo 导航路径为 ../demo/index.html。"><strong>项目页维护与导航修复</strong>：由于项目页尚未最终完成，恢复本页面维护中遮罩；同时修复全站 body 顶部 padding 导致导航栏未贴顶的问题，并修正 Demo 导航路径为 ../demo/index.html。</li>
+                        <li data-en="Data Center update-frequency chart polish: rebuilt the last-30-days update frequency visualization in pages/project/datacenter.html from a sparse area line into a daily bar chart with a 7-day trend line, compact summary metrics, clearer tooltip wording, and mobile-friendly metric layout." data-zh="数据中心更新频率图表优化：将 pages/project/datacenter.html 的近 30 天更新频率图从稀疏面积折线改为每日更新柱状图 + 7 日趋势线，新增紧凑指标摘要、清晰 tooltip 与移动端友好的指标布局。"><strong>数据中心更新频率图表优化</strong>：将 pages/project/datacenter.html 的近 30 天更新频率图从稀疏面积折线改为每日更新柱状图 + 7 日趋势线，新增紧凑指标摘要、清晰 tooltip 与移动端友好的指标布局。</li>
+                        <li data-en="Data Center global-status card rebuild: independently redesigned the Global Status module by replacing the empty map-heavy layout with an uptime score ring, compact online badge, and API/CDN/DB availability tiles while keeping the rest of the dashboard untouched." data-zh="数据中心全局状态卡片重构：单独重构 Global Status 模块，将原本空白感较重的地图布局替换为 uptime 圆环评分、紧凑在线状态胶囊与 API/CDN/DB 可用率小卡片，并保持其它仪表盘模块不受影响。"><strong>数据中心全局状态卡片重构</strong>：单独重构 Global Status 模块，将原本空白感较重的地图布局替换为 uptime 圆环评分、紧凑在线状态胶囊与 API/CDN/DB 可用率小卡片，并保持其它仪表盘模块不受影响。</li>
+                        <li data-en="Validation: checked JavaScript syntax for project.js and demo.js, verified key links and changelog entries, confirmed local HTTP access for the changed pages, and noted that Playwright was unavailable in the local project environment." data-zh="验证：完成 project.js 与 demo.js 语法检查，核验关键链接与 changelog 写入结果，并通过本地 HTTP 服务确认相关页面可访问；本地项目环境未安装 Playwright，未进行截图级自动化验证。"><strong>验证</strong>：完成 project.js 与 demo.js 语法检查，核验关键链接与 changelog 写入结果，并通过本地 HTTP 服务确认相关页面可访问；本地项目环境未安装 Playwright，未进行截图级自动化验证。</li>
+                        <li data-en="Changed Files: pages/blog.html, css/blog.css, js/blog.js, pages/changelog.html, css/changelog.css, js/changelog.js, pages/demo/index.html, pages/demo/changelog.html, pages/demo/democss/demo.css, pages/demo/demojs/demo.js, pages/project/project.html, css/project-modern.css, js/project.js, pages/project/datacenter.html, css/datacenter.css, js/datacenter.js." data-zh="改动文件：pages/blog.html、css/blog.css、js/blog.js、pages/changelog.html、css/changelog.css、js/changelog.js、pages/demo/index.html、pages/demo/changelog.html、pages/demo/democss/demo.css、pages/demo/demojs/demo.js、pages/project/project.html、css/project-modern.css、js/project.js、pages/project/datacenter.html、css/datacenter.css、js/datacenter.js。"><strong>改动文件</strong>：pages/blog.html、css/blog.css、js/blog.js、pages/changelog.html、css/changelog.css、js/changelog.js、pages/demo/index.html、pages/demo/changelog.html、pages/demo/democss/demo.css、pages/demo/demojs/demo.js、pages/project/project.html、css/project-modern.css、js/project.js、pages/project/datacenter.html、css/datacenter.css、js/datacenter.js。</li>
+                    </ul>
+                </div>
+            </div>
+
             <div class="timeline-item">
                 <div class="timeline-date">2026-06-22</div>
                 <div class="timeline-content">

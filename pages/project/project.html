@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="../../css/project-enhanced-animations.css">
     <link rel="stylesheet" href="../../css/project-enhanced-interactions.css">
     <link rel="stylesheet" href="../../css/project-enhanced-final.css">
+    <link rel="stylesheet" href="../../css/project-modern.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <!-- 苹果风格字体 -->
@@ -104,7 +105,7 @@
                 <li><a href="../../index.html" data-en="Home" data-zh="首页">首页</a></li>
                 <li><a href="../blog.html" data-en="Blog" data-zh="博客">博客</a></li>
                 <li><a href="project.html" data-en="Projects" data-zh="项目">项目</a></li>
-                <li><a href="pages/demo/index.html" data-en="Demo" data-zh="Demo">Demo</a></li>
+                <li><a href="../demo/index.html" data-en="Demo" data-zh="Demo">Demo</a></li>
                 <li><a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a></li>
                 <li><a href="../links.html" data-en="Links" data-zh="链接">链接</a></li>
                 <li><a href="../about.html" data-en="About" data-zh="关于">关于</a></li>
@@ -131,17 +132,49 @@
         
         <!-- 项目页面头部 -->
         <section class="project-header">
-            <h1 data-en="My Projects" data-zh="我的项目">我的项目</h1>
-            <p data-en="A showcase of my work, personal projects, and contributions to the tech community. Each project represents a milestone in my journey as a developer." data-zh="这里展示了我的作品、个人项目以及对技术社区的贡献。每个项目都代表了我作为开发者旅程中的一个里程碑。">这里展示了我的作品、个人项目以及对技术社区的贡献。每个项目都代表了我作为开发者旅程中的一个里程碑。</p>
+            <div class="project-hero-meta">
+                <span class="repo-chip"><i class="fab fa-github"></i> HealthJian / projects</span>
+                <span class="repo-chip repo-chip-blue"><i class="fas fa-code-branch"></i> Portfolio</span>
+            </div>
+            <h1 data-en="Project Workspace" data-zh="项目工作空间">项目工作空间</h1>
+            <p data-en="A compact index of engineering practice, data visualization, AI exploration, and product prototypes. Each entry keeps the original project links and category filters." data-zh="这里集中展示工程实践、数据可视化、AI 探索与产品原型。每个条目保留原有项目链接与分类筛选能力。">这里集中展示工程实践、数据可视化、AI 探索与产品原型。每个条目保留原有项目链接与分类筛选能力。</p>
+            <div class="project-hero-actions">
+                <a href="https://github.com/CaiNiaojian" target="_blank" class="project-hero-btn primary">
+                    <i class="fab fa-github"></i>
+                    <span data-en="Open GitHub" data-zh="打开 GitHub">打开 GitHub</span>
+                </a>
+                <a href="datacenter.html" class="project-hero-btn secondary">
+                    <i class="fas fa-chart-line"></i>
+                    <span data-en="Data Center" data-zh="数据中心">数据中心</span>
+                </a>
+            </div>
+            <div class="project-hero-stats" aria-label="Project summary">
+                <div class="project-stat">
+                    <strong>6</strong>
+                    <span data-en="Projects" data-zh="项目条目">项目条目</span>
+                </div>
+                <div class="project-stat">
+                    <strong>5</strong>
+                    <span data-en="Categories" data-zh="分类方向">分类方向</span>
+                </div>
+                <div class="project-stat">
+                    <strong>CN / EN</strong>
+                    <span data-en="Bilingual" data-zh="双语支持">双语支持</span>
+                </div>
+            </div>
         </section>
 
         <!-- 项目声明 -->
         <div class="disclaimer">
-            <p data-en="Disclaimer: I'm still a novice learner without impressive achievements. The following projects are just modest experiences that might not be significant for experts, but they help me build some basic skills! /(ㄒoㄒ)/~~" data-zh="免责声明：本人太菜，没有什么可写的，只能拿这些大佬都看不上的东西勉强装一下门面！/(ㄒoㄒ)/~~">免责声明：本人太菜，没有什么可写的，只能拿这些大佬都看不上的东西勉强装一下门面！/(ㄒoㄒ)/~~</p>
+            <p data-en="Note: This page records learning projects and practical prototypes from different stages. The portfolio will continue to absorb engineering work and production-side practice." data-zh="说明：本页记录不同阶段的学习项目与实践原型，后续会持续补充工程项目与生产侧实践内容。">说明：本页记录不同阶段的学习项目与实践原型，后续会持续补充工程项目与生产侧实践内容。</p>
         </div>
 
         <!-- 项目过滤器 -->
         <section class="project-filters">
+            <div class="filter-heading">
+                <span data-en="Repository index" data-zh="项目索引">项目索引</span>
+                <strong data-en="Filter by topic" data-zh="按主题筛选">按主题筛选</strong>
+            </div>
             <div class="filter-group">
                 <button class="filter-button active" data-filter="all" data-en="All" data-zh="全部">全部</button>
                 <button class="filter-button" data-filter="web" data-en="Web" data-zh="网页开发">网页开发</button>
@@ -149,7 +182,7 @@
                 <button class="filter-button" data-filter="ai" data-en="AI" data-zh="人工智能">人工智能</button>
                 <button class="filter-button" data-filter="design" data-en="Design" data-zh="设计">设计</button>
                 <button class="filter-button" data-filter="research" data-en="Research" data-zh="研究">研究</button>
-                <a href="https://github.com/CaiNiaojian" target="_blank" class="github-button" title="GitHub" data-en="GitHub" data-zh="GitHub">
+                <a href="https://github.com/CaiNiaojian" target="_blank" class="github-button" title="GitHub" aria-label="GitHub">
                     <i class="fab fa-github"></i>
                 </a>
             </div>
@@ -171,13 +204,13 @@
                         <span class="project-tag" data-en="Cloud Deployment" data-zh="云部署">云部署</span>
                     </div>
                     <div class="project-links">
-                        <a href="https://github.com/CaiNiaojian" class="project-link primary" data-en="View Project" data-zh="查看项目">
+                        <a href="https://github.com/CaiNiaojian" class="project-link primary">
                             <i class="fas fa-external-link-alt"></i>
-                            <span>查看项目</span>
+                            <span data-en="View Project" data-zh="查看项目">查看项目</span>
                         </a>
-                        <a href="https://github.com/CaiNiaojian" class="project-link secondary" data-en="Source Code" data-zh="源代码">
+                        <a href="https://github.com/CaiNiaojian" class="project-link secondary">
                             <i class="fab fa-github"></i>
-                            <span>源代码</span>
+                            <span data-en="Source Code" data-zh="源代码">源代码</span>
                         </a>
                     </div>
                 </div>
@@ -196,13 +229,13 @@
                         <span class="project-tag" data-en="Python" data-zh="Python">Python</span>
                     </div>
                     <div class="project-links">
-                        <a href="https://github.com/CaiNiaojian" class="project-link primary" data-en="View Demo" data-zh="查看演示">
+                        <a href="https://github.com/CaiNiaojian" class="project-link primary">
                             <i class="fas fa-desktop"></i>
-                            <span>查看演示</span>
+                            <span data-en="View Demo" data-zh="查看演示">查看演示</span>
                         </a>
-                        <a href="https://github.com/CaiNiaojian" class="project-link secondary" data-en="Documentation" data-zh="文档">
+                        <a href="https://github.com/CaiNiaojian" class="project-link secondary">
                             <i class="fas fa-book"></i>
-                            <span>文档</span>
+                            <span data-en="Documentation" data-zh="文档">文档</span>
                         </a>
                     </div>
                 </div>
@@ -221,13 +254,13 @@
                         <span class="project-tag" data-en="GIS" data-zh="GIS">GIS</span>
                     </div>
                     <div class="project-links">
-                        <a href="https://github.com/CaiNiaojian" class="project-link primary" data-en="View Project" data-zh="查看项目">
+                        <a href="https://github.com/CaiNiaojian" class="project-link primary">
                             <i class="fas fa-external-link-alt"></i>
-                            <span>查看项目</span>
+                            <span data-en="View Project" data-zh="查看项目">查看项目</span>
                         </a>
-                        <a href="https://github.com/CaiNiaojian" class="project-link secondary" data-en="Case Study" data-zh="案例研究">
+                        <a href="https://github.com/CaiNiaojian" class="project-link secondary">
                             <i class="fas fa-clipboard-list"></i>
-                            <span>案例研究</span>
+                            <span data-en="Case Study" data-zh="案例研究">案例研究</span>
                         </a>
                     </div>
                 </div>
@@ -246,13 +279,13 @@
                         <span class="project-tag" data-en="Research" data-zh="研究">研究</span>
                     </div>
                     <div class="project-links">
-                        <a href="https://github.com/CaiNiaojian" class="project-link primary" data-en="Research Paper" data-zh="研究论文">
+                        <a href="https://github.com/CaiNiaojian" class="project-link primary">
                             <i class="fas fa-file-alt"></i>
-                            <span>研究论文</span>
+                            <span data-en="Research Paper" data-zh="研究论文">研究论文</span>
                         </a>
-                        <a href="https://github.com/CaiNiaojian" class="project-link secondary" data-en="Implementation" data-zh="实现代码">
+                        <a href="https://github.com/CaiNiaojian" class="project-link secondary">
                             <i class="fas fa-code"></i>
-                            <span>实现代码</span>
+                            <span data-en="Implementation" data-zh="实现代码">实现代码</span>
                         </a>
                     </div>
                 </div>
@@ -271,13 +304,13 @@
                         <span class="project-tag" data-en="Data Analysis" data-zh="数据分析">数据分析</span>
                     </div>
                     <div class="project-links">
-                        <a href="https://github.com/CaiNiaojian" class="project-link primary" data-en="View Demo" data-zh="查看演示">
+                        <a href="https://github.com/CaiNiaojian" class="project-link primary">
                             <i class="fas fa-play-circle"></i>
-                            <span>查看演示</span>
+                            <span data-en="View Demo" data-zh="查看演示">查看演示</span>
                         </a>
-                        <a href="https://github.com/CaiNiaojian" class="project-link secondary" data-en="GitHub Repo" data-zh="GitHub仓库">
+                        <a href="https://github.com/CaiNiaojian" class="project-link secondary">
                             <i class="fab fa-github"></i>
-                            <span>GitHub仓库</span>
+                            <span data-en="GitHub Repo" data-zh="GitHub仓库">GitHub仓库</span>
                         </a>
                     </div>
                 </div>
@@ -295,13 +328,13 @@
                         <span class="project-tag" data-en="OOP" data-zh="面向对象编程">面向对象编程</span>
                     </div>
                     <div class="project-links">
-                        <a href="https://github.com/CaiNiaojian" class="project-link primary" data-en="Play Game" data-zh="体验游戏">
+                        <a href="https://github.com/CaiNiaojian" class="project-link primary">
                             <i class="fas fa-gamepad"></i>
-                            <span>体验游戏</span>
+                            <span data-en="Play Game" data-zh="体验游戏">体验游戏</span>
                         </a>
-                        <a href="https://github.com/CaiNiaojian" class="project-link secondary" data-en="Source Code" data-zh="源代码">
+                        <a href="https://github.com/CaiNiaojian" class="project-link secondary">
                             <i class="fab fa-github"></i>
-                            <span>源代码</span>
+                            <span data-en="Source Code" data-zh="源代码">源代码</span>
                         </a>
                     </div>
                 </div>
@@ -319,8 +352,8 @@
         <div class="footer-content">
             <div class="footer-info">
                 <p>&copy; 2025 <strong>CaiNiaojian&HealthJian</strong> all followed.</p>
-                <p data-en="Contact: gaojian1573@foxmail.com" data-zh="联系方式：gaojian1573@foxmail.com">联系方式：<a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
-                <p data-en="Location: " data-zh="地址：">地址：中国，江苏</p>
+                <p><span data-en="Contact:" data-zh="联系方式：">联系方式：</span><a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
+                <p><span data-en="Location:" data-zh="地址：">地址：</span><span data-en="China, Jiangsu" data-zh="中国，江苏">中国，江苏</span></p>
             </div>
             
             <div class="footer-links">
@@ -355,29 +388,6 @@
             });
         });
         
-        // 卡片鼠标跟随效果
-        const cards = document.querySelectorAll('.project-card');
-        cards.forEach(card => {
-            card.addEventListener('mousemove', function(e) {
-                const rect = this.getBoundingClientRect();
-                const x = ((e.clientX - rect.left) / this.offsetWidth) * 100;
-                const y = ((e.clientY - rect.top) / this.offsetHeight) * 100;
-                this.style.setProperty('--mouse-x', x + '%');
-                this.style.setProperty('--mouse-y', y + '%');
-                
-                // 倾斜效果
-                const rotateX = ((y - 50) / 50) * -5; // -5 to 5 degrees
-                const rotateY = ((x - 50) / 50) * 5; // -5 to 5 degrees
-                this.style.setProperty('--rotate-x', rotateX + 'deg');
-                this.style.setProperty('--rotate-y', rotateY + 'deg');
-                this.classList.add('tilt-effect');
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.classList.remove('tilt-effect');
-            });
-        });
-        
         // 链接按钮波纹效果
         const links = document.querySelectorAll('.project-link');
         links.forEach(link => {
@@ -396,26 +406,6 @@
                 setTimeout(() => ripple.remove(), 600);
             });
         });
-        
-        // 滚动显示动画
-        const scrollElements = document.querySelectorAll('.project-card, .disclaimer, .project-filters');
-        
-        function checkScroll() {
-            scrollElements.forEach(element => {
-                const elementTop = element.getBoundingClientRect().top;
-                const elementVisible = 150;
-                
-                if (elementTop < window.innerHeight - elementVisible) {
-                    element.classList.add('scroll-reveal');
-                    element.classList.add('revealed');
-                }
-            });
-        }
-        
-        // 初始检查
-        window.addEventListener('load', checkScroll);
-        // 滚动时检查
-        window.addEventListener('scroll', checkScroll);
     </script>
 </body>
 </html>

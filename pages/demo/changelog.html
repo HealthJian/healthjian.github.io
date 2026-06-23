@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-zh="Demo更新日志 - Demo工作学习空间" data-en="Demo Changelog - Demo Work Study Space">Demo更新日志 - Demo工作学习空间</title>
+
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/dark-mode.css">
+    <link rel="stylesheet" href="democss/demo.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <meta name="description" content="Demo工作学习空间的独立更新日志与更新计划">
+    <meta name="keywords" content="demo,changelog,学习空间,更新日志,roadmap">
+</head>
+<body class="zh">
+    <nav class="demo-navbar">
+        <div class="demo-nav-container">
+            <div class="demo-nav-logo">
+                <a href="../../index.html" class="demo-logo-link">
+                    <div class="logo-icon">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <div class="logo-text">
+                        <span class="logo-main" data-zh="Demo空间" data-en="Demo Space">Demo空间</span>
+                        <span class="logo-sub" data-zh="Changelog" data-en="Changelog">Changelog</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="demo-breadcrumb">
+                <a href="../../index.html" class="breadcrumb-item">
+                    <i class="fas fa-home"></i>
+                    <span data-zh="首页" data-en="Home">首页</span>
+                </a>
+                <i class="fas fa-chevron-right breadcrumb-separator"></i>
+                <a href="index.html" class="breadcrumb-item">
+                    <i class="fas fa-flask"></i>
+                    <span data-zh="Demo空间" data-en="Demo Space">Demo空间</span>
+                </a>
+                <i class="fas fa-chevron-right breadcrumb-separator"></i>
+                <span class="breadcrumb-item current" data-zh="更新日志" data-en="Changelog">更新日志</span>
+            </div>
+
+            <div class="demo-nav-menu">
+                <a href="../../index.html" class="demo-nav-link">
+                    <i class="fas fa-home"></i>
+                    <span data-zh="首页" data-en="Home">首页</span>
+                </a>
+                <a href="../blog.html" class="demo-nav-link">
+                    <i class="fas fa-blog"></i>
+                    <span data-zh="博客" data-en="Blog">博客</span>
+                </a>
+                <a href="../project/project.html" class="demo-nav-link">
+                    <i class="fas fa-folder"></i>
+                    <span data-zh="项目" data-en="Projects">项目</span>
+                </a>
+                <a href="index.html" class="demo-nav-link">
+                    <i class="fas fa-flask"></i>
+                    <span data-zh="Demo" data-en="Demo">Demo</span>
+                </a>
+                <a href="changelog.html" class="demo-nav-link active">
+                    <i class="fas fa-clock-rotate-left"></i>
+                    <span data-zh="日志" data-en="Log">日志</span>
+                </a>
+            </div>
+
+            <button class="demo-mobile-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <div class="demo-nav-controls">
+                <button id="lang-toggle" class="demo-control-btn" title="切换语言 / Switch Language">
+                    <i class="fas fa-globe"></i>
+                    <span class="control-text" data-zh="EN" data-en="中文">EN</span>
+                </button>
+                <button id="theme-toggle" class="demo-control-btn theme-toggle" title="切换主题 / Switch Theme">
+                    <i class="fas fa-moon"></i>
+                    <i class="fas fa-sun" style="display: none;"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section class="page-header">
+            <div class="header-content">
+                <div class="hero-eyebrow">
+                    <span class="repo-pill"><i class="fab fa-github"></i> HealthJian / demo-space</span>
+                    <span class="space-pill"><i class="fas fa-clock-rotate-left"></i> Changelog</span>
+                </div>
+                <h1 class="page-title">
+                    <i class="fas fa-list-check"></i>
+                    <span data-zh="Demo更新日志" data-en="Demo Changelog">Demo更新日志</span>
+                    <span class="beta-tag" data-zh="独立维护" data-en="Standalone">独立维护</span>
+                </h1>
+                <p class="page-subtitle" data-zh="这里仅记录 Demo 工作学习空间的界面、模块、学习实验与后续计划，不与全站更新日志混用。" data-en="This page only tracks interface updates, modules, learning experiments, and plans for the Demo workspace.">这里仅记录 Demo 工作学习空间的界面、模块、学习实验与后续计划，不与全站更新日志混用。</p>
+                <div class="hero-stats" aria-label="Demo changelog stats">
+                    <div class="hero-stat">
+                        <strong>2026.06</strong>
+                        <span data-zh="当前记录周期" data-en="Current cycle">当前记录周期</span>
+                    </div>
+                    <div class="hero-stat">
+                        <strong>4</strong>
+                        <span data-zh="跟踪模块" data-en="Tracked modules">跟踪模块</span>
+                    </div>
+                    <div class="hero-stat">
+                        <strong>Plan</strong>
+                        <span data-zh="持续更新" data-en="Ongoing">持续更新</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="demo-log-main">
+            <div class="demo-log-shell">
+                <article class="demo-log-panel">
+                    <div class="log-panel-header">
+                        <h2 data-zh="更新日志" data-en="Changelog">更新日志</h2>
+                        <p data-zh="面向 Demo 页面与学习模块的简明记录。" data-en="Concise records for the Demo page and learning modules.">面向 Demo 页面与学习模块的简明记录。</p>
+                    </div>
+                    <ul class="demo-log-list">
+                        <li class="demo-log-item">
+                            <time class="log-date" datetime="2026-06-23">2026.06.23</time>
+                            <div class="log-body">
+                                <h3 data-zh="Demo 首页 UI 重构" data-en="Demo Home UI Refresh">Demo 首页 UI 重构</h3>
+                                <p data-zh="参考 Hugging Face Spaces 与 GitHub 仓库页的信息架构，升级模块卡片、导航、响应式布局、深色模式适配与页脚技术栈标签。" data-en="Refreshed the module cards, navigation, responsive layout, dark mode, and footer tech stack with a Hugging Face Spaces and GitHub-inspired structure.">参考 Hugging Face Spaces 与 GitHub 仓库页的信息架构，升级模块卡片、导航、响应式布局、深色模式适配与页脚技术栈标签。</p>
+                            </div>
+                        </li>
+                        <li class="demo-log-item">
+                            <time class="log-date" datetime="2026-06-23">2026.06.23</time>
+                            <div class="log-body">
+                                <h3 data-zh="移除首页开屏与滚动浮动效果" data-en="Removed Hero Entrance and Scroll Floating">移除首页开屏与滚动浮动效果</h3>
+                                <p data-zh="取消 Demo 首页头部区域的入场位移与滚动视差，降低视觉干扰，保持页面稳定扫描。" data-en="Removed entrance displacement and scroll parallax from the Demo hero so the page stays stable and easier to scan.">取消 Demo 首页头部区域的入场位移与滚动视差，降低视觉干扰，保持页面稳定扫描。</p>
+                            </div>
+                        </li>
+                        <li class="demo-log-item">
+                            <time class="log-date" datetime="2026-06-23">2026.06.23</time>
+                            <div class="log-body">
+                                <h3 data-zh="补充模块关联博客入口" data-en="Added Related Blog Entrypoints">补充模块关联博客入口</h3>
+                                <p data-zh="为每个已上线学习模块预留关联博客按钮，当前统一指向 404 占位页，等待后续文章接入。" data-en="Added a reserved related-blog button for each active learning module, currently routed to the 404 placeholder until articles are connected.">为每个已上线学习模块预留关联博客按钮，当前统一指向 404 占位页，等待后续文章接入。</p>
+                            </div>
+                        </li>
+                    </ul>
+                </article>
+
+                <aside class="demo-log-side">
+                    <section class="demo-plan-panel">
+                        <div class="plan-panel-header">
+                            <h2 data-zh="更新计划" data-en="Update Plan">更新计划</h2>
+                            <p data-zh="保持轻量，但逐步把学习实验沉淀成可复用模块。" data-en="Keep it lightweight while turning learning experiments into reusable modules.">保持轻量，但逐步把学习实验沉淀成可复用模块。</p>
+                        </div>
+                        <ul class="demo-plan-list">
+                            <li><i class="fas fa-check-circle"></i><span data-zh="为排序、树图、AI 产品原型补充对应博客文章。" data-en="Add related blog posts for sorting, tree/graph, and AI prototype modules.">为排序、树图、AI 产品原型补充对应博客文章。</span></li>
+                            <li><i class="fas fa-check-circle"></i><span data-zh="继续完善相关研究入口，沉淀论文、资料和实验记录。" data-en="Build the related research entry with papers, resources, and experiment notes.">继续完善相关研究入口，沉淀论文、资料和实验记录。</span></li>
+                            <li><i class="fas fa-check-circle"></i><span data-zh="为重点 Demo 增加更明确的版本状态、测试说明与使用边界。" data-en="Add clearer version status, test notes, and usage boundaries for key demos.">为重点 Demo 增加更明确的版本状态、测试说明与使用边界。</span></li>
+                        </ul>
+                    </section>
+
+                    <section class="demo-quick-panel">
+                        <h2 data-zh="快速链接" data-en="Quick Links">快速链接</h2>
+                        <div class="quick-link-grid">
+                            <a href="index.html" class="quick-link-card">
+                                <i class="fas fa-flask"></i>
+                                <span data-zh="Demo首页" data-en="Demo Home">Demo首页</span>
+                            </a>
+                            <a href="index.html#demo-modules" class="quick-link-card">
+                                <i class="fas fa-layer-group"></i>
+                                <span data-zh="学习模块" data-en="Learning Modules">学习模块</span>
+                            </a>
+                            <a href="../project/404notfound.html" class="quick-link-card">
+                                <i class="fas fa-microscope"></i>
+                                <span data-zh="相关研究（待开发）" data-en="Related Research (TBD)">相关研究（待开发）</span>
+                            </a>
+                        </div>
+                    </section>
+                </aside>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3 data-zh="Demo空间" data-en="Demo Space">Demo空间</h3>
+                <p data-zh="学习实践，探索创新" data-en="Learn Practice, Explore Innovation">学习实践，探索创新</p>
+            </div>
+
+            <div class="footer-section">
+                <h4 data-zh="快速链接" data-en="Quick Links">快速链接</h4>
+                <ul>
+                    <li><a href="../../index.html" data-zh="首页" data-en="Home">首页</a></li>
+                    <li><a href="../blog.html" data-zh="博客" data-en="Blog">博客</a></li>
+                    <li><a href="../project/project.html" data-zh="项目" data-en="Projects">项目</a></li>
+                    <li><a href="index.html" data-zh="Demo首页" data-en="Demo Home">Demo首页</a></li>
+                    <li><a href="../project/404notfound.html" data-zh="文档（待开发）" data-en="Docs (TBD)">文档（待开发）</a></li>
+                    <li><a href="../project/404notfound.html" data-zh="相关研究（待开发）" data-en="Related Research (TBD)">相关研究（待开发）</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4 data-zh="技术栈" data-en="Tech Stack">技术栈</h4>
+                <div class="footer-tech-stack" aria-label="Demo tech stack">
+                    <span>HTML5</span>
+                    <span>CSS3</span>
+                    <span>JavaScript</span>
+                    <span>Font Awesome</span>
+                    <span data-zh="响应式布局" data-en="Responsive UI">响应式布局</span>
+                    <span data-zh="双语切换" data-en="Bilingual">双语切换</span>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4 data-zh="联系方式" data-en="Contact">联系方式</h4>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                    <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025-2026 <span data-zh="Demo工作学习空间" data-en="Demo Work Study Space">Demo工作学习空间</span>. <span data-zh="保留所有权利" data-en="All rights reserved">保留所有权利</span>.</p>
+        </div>
+    </footer>
+
+    <script src="../../js/theme.js"></script>
+    <script src="../../js/language.js"></script>
+    <script src="demojs/demo.js"></script>
+</body>
+</html>

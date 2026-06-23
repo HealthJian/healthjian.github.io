@@ -7,8 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 项目卡片悬停效果
     initProjectCards();
     
-    // 页面动画效果
-    initPageAnimations();
+    // 页面入场动画已由现代化样式收敛处理
 });
 
 /**
@@ -129,4 +128,4 @@ function initPageAnimations() {
             card.style.transform = 'translateY(0)';
         }, 200 + (index * 100)); // 延迟增加，实现逐个显示的效果
     });
-} 
+}
