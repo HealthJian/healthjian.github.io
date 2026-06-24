@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh" class="dark">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -180,9 +180,9 @@
             gap: 0.75rem;
         }
 
-        .metric-strip.cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-        .metric-strip.cols-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
-        .metric-strip.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .metric-strip.cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); --metric-color: #14b8a6; }
+        .metric-strip.cols-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); --metric-color: #2563eb; }
+        .metric-strip.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); --metric-color: #d97706; }
 
         .mini-metric {
             min-width: 0;
@@ -253,6 +253,182 @@
             padding-right: 0.25rem;
         }
 
+        .analytics-section {
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            padding: 1rem;
+            background: color-mix(in srgb, var(--panel-bg) 72%, var(--soft-bg));
+        }
+
+        .stat-card-grid {
+            display: grid;
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+            gap: 0.75rem;
+        }
+
+        .stat-card,
+        .scenario-card {
+            min-width: 0;
+            border-radius: 8px;
+            border: 1px solid var(--panel-border);
+            background: var(--panel-bg);
+            padding: 0.75rem;
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+        }
+
+        .stat-card span,
+        .scenario-card span {
+            display: block;
+            color: var(--muted);
+            font-size: 0.72rem;
+            font-weight: 700;
+            margin-bottom: 0.35rem;
+        }
+
+        .stat-card strong,
+        .scenario-card strong {
+            display: block;
+            font-family: Consolas, monospace;
+            font-size: 0.92rem;
+            line-height: 1.35;
+            overflow-wrap: anywhere;
+        }
+
+        .stat-card small {
+            display: block;
+            margin-top: 0.35rem;
+        }
+
+        .legacy-card {
+            display: flex;
+            min-height: 11.6rem;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+
+        .legacy-value {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+            align-items: stretch;
+        }
+
+        .legacy-chip {
+            min-width: 0;
+            flex: 1 1 6.4rem;
+            border-radius: 7px;
+            border: 1px solid var(--panel-border);
+            background: var(--soft-bg);
+            padding: 0.5rem 0.6rem;
+        }
+
+        .legacy-chip span {
+            margin: 0 0 0.2rem;
+            font-size: 0.68rem;
+            line-height: 1.15;
+        }
+
+        .legacy-chip strong {
+            font-size: 0.86rem;
+            line-height: 1.2;
+            white-space: nowrap;
+        }
+
+        .legacy-main-value {
+            display: block;
+            font-family: Consolas, monospace;
+            font-size: 1.02rem;
+            font-weight: 800;
+            line-height: 1.25;
+            overflow-wrap: anywhere;
+        }
+
+        .legacy-desc {
+            margin-top: auto;
+            color: var(--muted);
+            font-size: 0.74rem;
+            line-height: 1.45;
+        }
+
+        .scenario-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scenario-card::before {
+            content: "";
+            position: absolute;
+            inset: 0 auto 0 0;
+            width: 4px;
+        }
+
+        .scenario-card.optimistic::before { background: #16a34a; }
+        .scenario-card.baseline::before { background: #2563eb; }
+        .scenario-card.pessimistic::before { background: #d97706; }
+        .scenario-card.warning::before { background: #e11d48; }
+
+        .scenario-card small {
+            display: block;
+            color: var(--muted);
+            font-size: 0.7rem;
+            margin-top: 0.35rem;
+            line-height: 1.35;
+        }
+
+        .scenario-card.warning small,
+        .scenario-card.warning strong {
+            color: #e11d48;
+        }
+
+        .risk-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            border: 1px solid currentColor;
+            padding: 0.2rem 0.55rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .risk-badge.ok { color: #16a34a; }
+        .risk-badge.warn { color: #d97706; }
+        .risk-badge.danger { color: #e11d48; }
+
+        .chart-frame {
+            position: relative;
+            height: 260px;
+            min-height: 260px;
+            width: 100%;
+        }
+
+        .chart-frame.tall {
+            height: 300px;
+            min-height: 300px;
+        }
+
+        .chart-frame.radar {
+            height: 280px;
+            min-height: 280px;
+        }
+
+        .chart-frame canvas {
+            display: block;
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        @supports not (color: color-mix(in srgb, #fff 50%, #000)) {
+            .analytics-section { background: var(--panel-bg); }
+        }
+
+        @media (min-width: 768px) {
+            .stat-card-grid {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+            }
+        }
+
         @media (max-width: 640px) {
             .asset-row {
                 grid-template-columns: minmax(0, 1fr);
@@ -301,7 +477,7 @@
     </nav>
 
     <main class="container mx-auto p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <div class="lg:col-span-5 space-y-6 lg:max-h-[calc(100vh-100px)] overflow-y-auto pr-1 lg:pr-2 pb-10">
+        <div class="lg:col-span-5 space-y-6 pr-1 lg:pr-2 pb-10">
             <section class="glass-panel rounded-lg p-5">
                 <div class="flex items-center justify-between mb-4 border-b border-slate-300/40 dark:border-slate-600/40 pb-2">
                     <div class="flex items-center space-x-2">
@@ -566,12 +742,64 @@
                     <div class="col-span-1"></div>
                 </div>
 
-                <div id="expenseContainer" class="space-y-2 max-h-60 overflow-y-auto"></div>
+                <div id="expenseContainer" class="space-y-2"></div>
+            </section>
+
+            <section class="glass-panel rounded-lg p-5">
+                <div class="flex items-center justify-between mb-4 border-b border-slate-300/40 dark:border-slate-600/40 pb-2">
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="landmark" class="text-geek-warn w-5 h-5"></i>
+                        <h2 class="text-lg font-semibold" data-i18n="mod_planning">6. 现金资产与债务</h2>
+                    </div>
+                    <button class="help-btn" data-help="planning" aria-label="现金资产与债务说明">?</button>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="current_savings">当前存款</label>
+                        <input type="text" id="in_current_savings" value="0" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="large_expense_pool">一次性大额支出池/年</label>
+                        <input type="text" id="in_large_expense_pool" value="0" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="debt_principal">剩余本金</label>
+                        <input type="text" id="in_debt_principal" value="0" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="debt_monthly_payment">月还款/分期</label>
+                        <input type="text" id="in_debt_monthly_payment" value="0" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="debt_months">剩余期数（月）</label>
+                        <input type="number" id="in_debt_months" value="0" min="0" step="1" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="debt_apr">名义年化利率 %</label>
+                        <input type="number" id="in_debt_apr" value="0" step="0.1" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
+                    <div class="stat-card">
+                        <span data-i18n="large_expense_monthly">大额支出月摊销</span>
+                        <strong id="out_large_expense_monthly">¥0</strong>
+                    </div>
+                    <div class="stat-card">
+                        <span data-i18n="debt_annual_payment">债务年现金流</span>
+                        <strong id="out_debt_annual_payment">¥0</strong>
+                    </div>
+                    <div class="stat-card">
+                        <span data-i18n="debt_true_irr">真实年化 IRR</span>
+                        <strong id="out_debt_irr">0%</strong>
+                    </div>
+                </div>
+                <p class="text-xs muted mt-3" data-i18n="planning_notice">大额支出和债务月供会计入支出与结余；当前存款只用于12个月净资产趋势。</p>
             </section>
 
             <button id="calcBtn" class="w-full bg-gradient-to-r from-geek-primary to-geek-accent hover:from-teal-500 hover:to-violet-500 text-white font-bold py-3 px-4 rounded-lg shadow-lg transition flex justify-center items-center space-x-2">
                 <i data-lucide="terminal" class="w-5 h-5"></i>
-                <span data-i18n="execute">执行计算引擎</span>
+                <span data-i18n="execute">一键刷新</span>
             </button>
             <p class="text-center text-xs muted mt-2" data-i18n="disclaimer">* 本计算结果基于估算模型，仅供个人规划参考。</p>
         </div>
@@ -605,26 +833,26 @@
             </div>
 
             <div class="metric-strip cols-5">
-                <div class="mini-metric metric-green"><h4 data-i18n="actual_cash_income">实际现金年收入</h4><strong id="actual_cash_income">¥0</strong></div>
-                <div class="mini-metric metric-teal"><h4 data-i18n="actual_net_income">实际可支配收入</h4><strong id="actual_net_income">¥0</strong></div>
-                <div class="mini-metric metric-violet"><h4 data-i18n="actual_savings">实际预计年结余</h4><strong id="actual_savings">¥0</strong></div>
-                <div class="mini-metric metric-rose"><h4 data-i18n="overtime_total_value">加班价值总值</h4><strong id="overtime_total_value">¥0</strong></div>
-                <div class="mini-metric metric-amber"><h4 data-i18n="actual_total_package">实际总包价值</h4><strong id="actual_total_package">¥0</strong></div>
+                <div class="mini-metric"><h4 data-i18n="actual_cash_income">实际现金年收入</h4><strong id="actual_cash_income">¥0</strong></div>
+                <div class="mini-metric"><h4 data-i18n="actual_net_income">实际可支配收入</h4><strong id="actual_net_income">¥0</strong></div>
+                <div class="mini-metric"><h4 data-i18n="actual_savings">实际预计年结余</h4><strong id="actual_savings">¥0</strong></div>
+                <div class="mini-metric"><h4 data-i18n="overtime_total_value">加班价值总值</h4><strong id="overtime_total_value">¥0</strong></div>
+                <div class="mini-metric"><h4 data-i18n="actual_total_package">实际总包价值</h4><strong id="actual_total_package">¥0</strong></div>
             </div>
 
             <div class="metric-strip cols-6">
-                <div class="mini-metric metric-green"><h4 data-i18n="monthly_cash_income">现金月收入</h4><strong id="monthly_cash_income">¥0</strong></div>
-                <div class="mini-metric metric-teal"><h4 data-i18n="monthly_net_income">月可支配收入</h4><strong id="monthly_net_income">¥0</strong></div>
-                <div class="mini-metric metric-rose"><h4 data-i18n="monthly_expense">预计月支出</h4><strong id="monthly_expense">¥0</strong></div>
-                <div class="mini-metric metric-violet"><h4 data-i18n="monthly_savings">预计月结余</h4><strong id="monthly_savings">¥0</strong></div>
-                <div class="mini-metric metric-cyan"><h4 data-i18n="monthly_company_paid">企业月缴纳</h4><strong id="monthly_company_paid">¥0</strong></div>
-                <div class="mini-metric metric-blue"><h4 data-i18n="income_loss_ratio">月收入损失比例</h4><strong id="income_loss_ratio">0%</strong></div>
+                <div class="mini-metric"><h4 data-i18n="monthly_cash_income">现金月收入</h4><strong id="monthly_cash_income">¥0</strong></div>
+                <div class="mini-metric"><h4 data-i18n="monthly_net_income">月可支配收入</h4><strong id="monthly_net_income">¥0</strong></div>
+                <div class="mini-metric"><h4 data-i18n="monthly_expense">预计月支出</h4><strong id="monthly_expense">¥0</strong></div>
+                <div class="mini-metric"><h4 data-i18n="monthly_savings">预计月结余</h4><strong id="monthly_savings">¥0</strong></div>
+                <div class="mini-metric"><h4 data-i18n="monthly_company_paid">企业月缴纳</h4><strong id="monthly_company_paid">¥0</strong></div>
+                <div class="mini-metric"><h4 data-i18n="income_loss_ratio">月收入损失比例</h4><strong id="income_loss_ratio">0%</strong></div>
             </div>
 
             <div class="metric-strip cols-3">
-                <div class="mini-metric metric-cyan"><h4 data-i18n="annual_rest_days">年休息天</h4><strong id="annual_rest_days">0</strong></div>
-                <div class="mini-metric metric-amber"><h4 data-i18n="overtime_total_hours">加班总小时</h4><strong id="overtime_total_hours">0</strong></div>
-                <div class="mini-metric metric-blue"><h4 data-i18n="labor_ratio">劳动比</h4><strong id="labor_ratio">0%</strong></div>
+                <div class="mini-metric"><h4 data-i18n="annual_rest_days">年休息天</h4><strong id="annual_rest_days">0</strong></div>
+                <div class="mini-metric"><h4 data-i18n="overtime_total_hours">加班总小时</h4><strong id="overtime_total_hours">0</strong></div>
+                <div class="mini-metric"><h4 data-i18n="labor_ratio">劳动比</h4><strong id="labor_ratio">0%</strong></div>
             </div>
 
             <div class="glass-panel p-5 rounded-lg">
@@ -680,41 +908,170 @@
             </div>
 
             <div class="glass-panel p-5 rounded-lg">
-                <h3 class="text-sm font-semibold mb-4 flex items-center">
-                    <i data-lucide="microscope" class="w-4 h-4 mr-2"></i>
-                    <span data-i18n="stat_analysis">统计学深度分析</span>
-                </h3>
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                    <div>
-                        <div class="text-sm muted mb-1" data-i18n="confidence_interval">95% 支出置信区间</div>
-                        <div class="font-mono soft-panel p-2 rounded text-center text-sm">
-                            [ <span id="out_ci_low" class="text-green-600 dark:text-green-400">¥0</span> ,
-                            <span id="out_ci_high" class="text-red-600 dark:text-red-400">¥0</span> ]
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-sm font-semibold flex items-center">
+                        <i data-lucide="microscope" class="w-4 h-4 mr-2"></i>
+                        <span data-i18n="stat_analysis">统计学深度分析</span>
+                    </h3>
+                    <button class="help-btn" data-help="advanced_stats" aria-label="统计分析说明">?</button>
+                </div>
+
+                <div class="analytics-section mb-5">
+                    <h4 class="text-sm font-bold mb-3" data-i18n="legacy_stats">核心估算摘要</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">
+                        <div class="stat-card legacy-card">
+                            <span data-i18n="confidence_interval">95% 支出置信区间</span>
+                            <div class="legacy-value">
+                                <div class="legacy-chip">
+                                    <span data-i18n="ci_low_label">下限</span>
+                                    <strong id="out_ci_low">¥0</strong>
+                                </div>
+                                <div class="legacy-chip">
+                                    <span data-i18n="ci_high_label">上限</span>
+                                    <strong id="out_ci_high">¥0</strong>
+                                </div>
+                            </div>
+                            <small class="legacy-desc" data-i18n="ci_desc">基于正态分布估算。上限代表潜在超支警告阈值。</small>
                         </div>
-                        <p class="text-xs muted mt-1 leading-tight" data-i18n="ci_desc">基于正态分布估算。上限代表潜在超支警告阈值。</p>
+                        <div class="stat-card legacy-card">
+                            <span data-i18n="retire_proj">退休年金推算</span>
+                            <div class="legacy-value">
+                                <div class="legacy-chip">
+                                    <span data-i18n="retire_years_label">剩余年限</span>
+                                    <strong><span id="out_retire_age">0</span><span data-i18n="years_label">年</span></strong>
+                                </div>
+                                <div class="legacy-chip">
+                                    <span data-i18n="retire_fund_label">累计年金</span>
+                                    <strong id="out_retire_fund">¥0</strong>
+                                </div>
+                            </div>
+                            <small class="legacy-desc" data-i18n="retire_desc">剩余工作年限内的企业年金累计，Beta版未计复利。</small>
+                        </div>
+                        <div class="stat-card legacy-card">
+                            <span data-i18n="growth_proj">5年收入投影</span>
+                            <strong class="legacy-main-value" id="out_growth_projection">¥0</strong>
+                            <small class="legacy-desc" data-i18n="growth_desc">按当前增长率估算第5年的现金收入。</small>
+                        </div>
+                        <div class="stat-card legacy-card">
+                            <span data-i18n="monthly_data">月度数据</span>
+                            <div class="legacy-value">
+                                <div class="legacy-chip">
+                                    <span data-i18n="monthly_net_short">可支配</span>
+                                    <strong id="out_monthly_net">¥0</strong>
+                                </div>
+                                <div class="legacy-chip">
+                                    <span data-i18n="monthly_exp_short">支出</span>
+                                    <strong id="out_monthly_exp">¥0</strong>
+                                </div>
+                                <div class="legacy-chip">
+                                    <span data-i18n="monthly_save_short">结余</span>
+                                    <strong id="out_monthly_save">¥0</strong>
+                                </div>
+                            </div>
+                            <small class="legacy-desc" data-i18n="monthly_data_desc">展示月可支配、月支出、月结余。</small>
+                        </div>
                     </div>
-                    <div>
-                        <div class="text-sm muted mb-1" data-i18n="retire_proj">退休年金推算</div>
-                        <div class="font-mono soft-panel p-2 rounded text-center text-sm">
-                            <span id="out_retire_age" class="font-bold">0</span>
-                            <span data-i18n="years_label">年</span>:
-                            <span id="out_retire_fund" class="text-geek-accent font-bold">¥0</span>
-                        </div>
-                        <p class="text-xs muted mt-1 leading-tight" data-i18n="retire_desc">剩余工作年限内的企业年金累计，Beta版未计复利。</p>
+                </div>
+
+                <div class="analytics-section mb-5">
+                    <div class="flex items-center justify-between gap-3 mb-3">
+                        <h4 class="text-sm font-bold" data-i18n="desc_stats_dashboard">描述性统计仪表盘</h4>
+                        <span id="stat_risk_badge" class="risk-badge ok" data-i18n="risk_normal">波动正常</span>
                     </div>
-                    <div>
-                        <div class="text-sm muted mb-1" data-i18n="growth_proj">5年收入投影</div>
-                        <div class="font-mono soft-panel p-2 rounded text-center text-sm">
-                            <span id="out_growth_projection" class="text-geek-success font-bold">¥0</span>
+                    <div class="stat-card-grid">
+                        <div class="stat-card">
+                            <span data-i18n="stat_percentiles">百分位点</span>
+                            <strong id="stat_percentiles">P5 ¥0 / P25 ¥0 / P50 ¥0 / P75 ¥0 / P95 ¥0</strong>
                         </div>
-                        <p class="text-xs muted mt-1 leading-tight" data-i18n="growth_desc">按当前增长率估算第5年的现金收入。</p>
+                        <div class="stat-card">
+                            <span data-i18n="stat_mean">均值</span>
+                            <strong id="stat_mean">¥0</strong>
+                        </div>
+                        <div class="stat-card">
+                            <span data-i18n="stat_median">中位数</span>
+                            <strong id="stat_median">¥0</strong>
+                        </div>
+                        <div class="stat-card">
+                            <span data-i18n="stat_mode">众数</span>
+                            <strong id="stat_mode">无</strong>
+                        </div>
+                        <div class="stat-card">
+                            <span data-i18n="stat_std">标准差</span>
+                            <strong id="stat_std">¥0</strong>
+                        </div>
+                        <div class="stat-card">
+                            <span data-i18n="stat_variance">方差</span>
+                            <strong id="stat_variance">0</strong>
+                        </div>
+                        <div class="stat-card">
+                            <span data-i18n="stat_iqr">四分位距 IQR</span>
+                            <strong id="stat_iqr">¥0</strong>
+                        </div>
+                        <div class="stat-card">
+                            <span data-i18n="stat_cv">变异系数 CV</span>
+                            <strong id="stat_cv">0%</strong>
+                        </div>
+                        <div class="stat-card">
+                            <span data-i18n="stat_skew">偏度</span>
+                            <strong id="stat_skew">0</strong>
+                        </div>
+                        <div class="stat-card">
+                            <span data-i18n="stat_kurtosis">峰度</span>
+                            <strong id="stat_kurtosis">0</strong>
+                        </div>
+                        <div class="stat-card md:col-span-2">
+                            <span data-i18n="stat_high_vol">高波动项目</span>
+                            <strong id="stat_high_vol">无</strong>
+                        </div>
                     </div>
-                    <div>
-                        <div class="text-sm muted mb-1" data-i18n="monthly_data">月度数据</div>
-                        <div class="font-mono soft-panel p-2 rounded text-center text-sm">
-                            <span id="out_monthly_data" class="text-geek-primary font-bold">¥0 / ¥0 / ¥0</span>
+                </div>
+
+                <div class="analytics-section mb-5">
+                    <h4 class="text-sm font-bold mb-3" data-i18n="stress_tests">三项压力测试：五年净资产终值</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div class="scenario-card optimistic">
+                            <span data-i18n="stress_optimistic">乐观 +15%</span>
+                            <strong id="stress_optimistic_value">¥0</strong>
+                            <small data-i18n="stress_optimistic_desc">收入+10%，支出-5%，收益率+2%</small>
                         </div>
-                        <p class="text-xs muted mt-1 leading-tight" data-i18n="monthly_data_desc">展示月可支配、月支出、月结余。</p>
+                        <div class="scenario-card baseline">
+                            <span data-i18n="stress_base">基准 0%</span>
+                            <strong id="stress_base_value">¥0</strong>
+                            <small data-i18n="stress_base_desc">沿用当前参数</small>
+                        </div>
+                        <div class="scenario-card pessimistic" id="stress_pessimistic_card">
+                            <span data-i18n="stress_pessimistic">悲观 -20%</span>
+                            <strong id="stress_pessimistic_value">¥0</strong>
+                            <small id="stress_warning" data-i18n="stress_pessimistic_desc">收入-10%，支出+10%，收益率-3%</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analytics-section">
+                    <div class="flex items-center justify-between gap-3 mb-3">
+                        <h4 class="text-sm font-bold" data-i18n="monte_carlo">蒙特卡洛概率预测</h4>
+                        <span id="mc_progress_text" class="text-xs muted font-mono">0 / 10,000</span>
+                    </div>
+                    <div class="h-2 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden mb-3">
+                        <div id="mc_progress_bar" class="h-full w-0 bg-geek-primary transition-all duration-300"></div>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <div class="stat-card">
+                            <span data-i18n="mc_prob_100k">资产 > 10万</span>
+                            <strong id="mc_prob_100k">0%</strong>
+                        </div>
+                        <div class="stat-card">
+                            <span data-i18n="mc_prob_500k">资产 > 50万</span>
+                            <strong id="mc_prob_500k">0%</strong>
+                        </div>
+                        <div class="stat-card">
+                            <span data-i18n="mc_prob_1000k">资产 > 100万</span>
+                            <strong id="mc_prob_1000k">0%</strong>
+                        </div>
+                        <div class="stat-card">
+                            <span data-i18n="mc_bankruptcy">现金流为负概率</span>
+                            <strong id="mc_bankruptcy">0%</strong>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -722,44 +1079,88 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="glass-panel p-4 rounded-lg min-h-[280px] flex flex-col">
                     <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_income_trend">现金年收入趋势</h3>
-                    <div class="flex-grow relative">
+                    <div class="chart-frame">
                         <canvas id="incomeTrendChart"></canvas>
                     </div>
                 </div>
                 <div class="glass-panel p-4 rounded-lg min-h-[280px] flex flex-col">
                     <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_salary_trend">月薪趋势</h3>
-                    <div class="flex-grow relative">
+                    <div class="chart-frame">
                         <canvas id="salaryTrendChart"></canvas>
                     </div>
                 </div>
                 <div class="glass-panel p-4 rounded-lg min-h-[280px] flex flex-col md:col-span-2">
                     <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_asset_trend">资产积累进展</h3>
-                    <div class="flex-grow relative">
+                    <div class="chart-frame">
                         <canvas id="assetAccumulationChart"></canvas>
                     </div>
                 </div>
                 <div class="glass-panel p-4 rounded-lg min-h-[260px] flex flex-col">
                     <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_cashflow">年度现金流</h3>
-                    <div class="flex-grow relative">
+                    <div class="chart-frame">
                         <canvas id="cashflowChart"></canvas>
                     </div>
                 </div>
                 <div class="glass-panel p-4 rounded-lg min-h-[260px] flex flex-col">
                     <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_deductions">扣除与企业缴纳</h3>
-                    <div class="flex-grow relative">
+                    <div class="chart-frame">
                         <canvas id="deductionsChart"></canvas>
                     </div>
                 </div>
-                <div class="glass-panel p-4 rounded-lg min-h-[300px] flex flex-col md:col-span-2">
-                    <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_expense">开销拓扑雷达图</h3>
-                    <div class="flex-grow relative w-full h-full" style="max-height: 300px;">
-                        <canvas id="expenseChart"></canvas>
+                <div class="glass-panel p-4 rounded-lg min-h-[340px] flex flex-col md:col-span-2">
+                    <h3 class="text-sm font-semibold mb-3 text-center" data-i18n="chart_expense_radar_combo">开销雷达图组</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 flex-grow">
+                        <div>
+                            <h4 class="text-xs muted text-center mb-2" data-i18n="chart_expense">开销拓扑雷达图</h4>
+                            <div class="chart-frame radar">
+                                <canvas id="expenseChart"></canvas>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-xs muted text-center mb-2" data-i18n="chart_monthly_expense">月预计开销雷达图</h4>
+                            <div class="chart-frame radar">
+                                <canvas id="monthlyExpenseChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-panel p-4 rounded-lg min-h-[300px] flex flex-col">
+                    <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_boxplot">月开销箱线图</h3>
+                    <div class="chart-frame">
+                        <canvas id="boxplotChart"></canvas>
+                    </div>
+                </div>
+                <div class="glass-panel p-4 rounded-lg min-h-[300px] flex flex-col">
+                    <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_waterfall">三情景瀑布图</h3>
+                    <div class="chart-frame">
+                        <canvas id="waterfallChart"></canvas>
+                    </div>
+                </div>
+                <div class="glass-panel p-4 rounded-lg min-h-[320px] flex flex-col">
+                    <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_density">资产概率密度/累计分布</h3>
+                    <div class="chart-frame tall">
+                        <canvas id="densityChart"></canvas>
+                    </div>
+                </div>
+                <div class="glass-panel p-4 rounded-lg min-h-[320px] flex flex-col">
+                    <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_tornado">单变量敏感性龙卷风图</h3>
+                    <div class="chart-frame tall">
+                        <canvas id="tornadoChart"></canvas>
+                    </div>
+                </div>
+                <div class="glass-panel p-4 rounded-lg min-h-[360px] flex flex-col md:col-span-2">
+                    <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_sankey">资金流向桑基图</h3>
+                    <div class="chart-frame tall">
+                        <canvas id="sankeyCanvas"></canvas>
                     </div>
                 </div>
                 <div class="glass-panel p-4 rounded-lg min-h-[300px] flex flex-col md:col-span-2">
-                    <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_monthly_expense">月预计开销雷达图</h3>
-                    <div class="flex-grow relative w-full h-full" style="max-height: 300px;">
-                        <canvas id="monthlyExpenseChart"></canvas>
+                    <div class="flex items-center justify-between gap-3 mb-2">
+                        <h3 class="text-sm font-semibold" data-i18n="chart_networth_12m">12个月净资产趋势</h3>
+                        <span id="networth_target_hint" class="risk-badge ok">--</span>
+                    </div>
+                    <div class="chart-frame">
+                        <canvas id="netWorthChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -849,12 +1250,23 @@
                 equity_return_rate: "Expected Annual Return %",
                 equity_notice: "Financial asset valuation is not guaranteed. Blank/default values do not affect other calculations.",
                 mod_expenses: "5. Stochastic Expenses",
+                mod_planning: "6. Cash Assets & Debt",
+                current_savings: "Current Savings",
+                large_expense_pool: "One-off Expense Pool / Year",
+                debt_principal: "Remaining Principal",
+                debt_monthly_payment: "Monthly Debt Payment",
+                debt_months: "Remaining Terms (Months)",
+                debt_apr: "Nominal APR %",
+                large_expense_monthly: "Monthly Amortized Pool",
+                debt_annual_payment: "Annual Debt Cashflow",
+                debt_true_irr: "True Annualized IRR",
+                planning_notice: "One-off expenses and debt payments are counted in expenses and savings. Current savings only drives the 12-month net-worth trend.",
                 add: "Add",
                 exp_item: "Item",
                 exp_cost: "Cost",
                 exp_freq: "Freq.",
                 exp_vol: "Vol.",
-                execute: "Execute Simulation",
+                execute: "Refresh",
                 disclaimer: "* Calculations are estimates for planning only.",
                 out_cash_gross: "Theoretical Cash Gross",
                 out_net_annual: "Theoretical Spendable Income",
@@ -889,21 +1301,65 @@
                 asset_equity: "Funds & Stocks Vesting",
                 stat_analysis: "Statistical Analysis",
                 confidence_interval: "95% Expense Confidence Interval",
+                ci_low_label: "Lower",
+                ci_high_label: "Upper",
                 ci_desc: "Estimated with normal distribution. Upper bound is overspending risk.",
                 retire_proj: "Retirement Annuity Projection",
+                retire_years_label: "Years Left",
+                retire_fund_label: "Projected Fund",
                 retire_desc: "Projected annuity until retirement. Beta excludes compound returns.",
                 growth_proj: "5-Year Income Projection",
                 growth_desc: "Estimated cash income in year 5 by current growth rate.",
                 monthly_data: "Monthly Data",
+                monthly_net_short: "Net",
+                monthly_exp_short: "Expense",
+                monthly_save_short: "Savings",
                 monthly_data_desc: "Shows monthly spendable income, expense, and savings.",
+                legacy_stats: "Core Estimate Summary",
+                desc_stats_dashboard: "Descriptive Statistics Dashboard",
+                risk_normal: "Normal Volatility",
+                risk_high: "High Volatility Risk",
+                stat_percentiles: "Percentiles",
+                stat_mean: "Mean",
+                stat_median: "Median",
+                stat_mode: "Mode",
+                stat_std: "Std. Dev.",
+                stat_variance: "Variance",
+                stat_iqr: "IQR",
+                stat_cv: "CV",
+                stat_skew: "Skewness",
+                stat_kurtosis: "Kurtosis",
+                stat_high_vol: "High-volatility Items",
+                stress_tests: "Three-scenario Stress Test: 5Y Net Worth",
+                stress_optimistic: "Optimistic +15%",
+                stress_base: "Baseline 0%",
+                stress_pessimistic: "Pessimistic -20%",
+                stress_optimistic_desc: "Income +10%, expense -5%, return +2%",
+                stress_base_desc: "Uses current parameters",
+                stress_pessimistic_desc: "Income -10%, expense +10%, return -3%",
+                stress_warning_text: "Financial Safety Warning",
+                monte_carlo: "Monte Carlo Probability Forecast",
+                mc_prob_100k: "Assets > 100k",
+                mc_prob_500k: "Assets > 500k",
+                mc_prob_1000k: "Assets > 1m",
+                mc_bankruptcy: "Negative Cashflow Probability",
                 years_label: "years",
                 chart_income_trend: "Cash Income Trend",
                 chart_salary_trend: "Monthly Salary Trend",
                 chart_asset_trend: "Asset Accumulation Progress",
                 chart_cashflow: "Annual Cashflow",
                 chart_deductions: "Deductions & Company Contributions",
+                chart_expense_radar_combo: "Expense Radar Charts",
                 chart_expense: "Expense Radar",
                 chart_monthly_expense: "Monthly Expense Radar",
+                chart_boxplot: "Monthly Expense Boxplot",
+                chart_waterfall: "Three-scenario Waterfall",
+                chart_density: "Asset Density / CDF",
+                chart_tornado: "Single-variable Tornado Chart",
+                chart_sankey: "Fund Flow Sankey",
+                chart_networth_12m: "12-Month Net Worth Trend",
+                target_reached: "100k reached in M{month}",
+                target_not_reached: "100k not reached in 12m",
                 feedback_label: "Feedback for this metric or method",
                 privacy_note: "For privacy, form inputs reset after refresh. Only feedback typed here is saved in this browser.",
                 save_feedback: "Save Feedback"
@@ -966,12 +1422,23 @@
                 equity_return_rate: "预期年化收益 %",
                 equity_notice: "金融资产估值默认不保证收益；未填写时不影响其它计算。",
                 mod_expenses: "5. 随机生活开销",
+                mod_planning: "6. 现金资产与债务",
+                current_savings: "当前存款",
+                large_expense_pool: "一次性大额支出池/年",
+                debt_principal: "剩余本金",
+                debt_monthly_payment: "月还款/分期",
+                debt_months: "剩余期数（月）",
+                debt_apr: "名义年化利率 %",
+                large_expense_monthly: "大额支出月摊销",
+                debt_annual_payment: "债务年现金流",
+                debt_true_irr: "真实年化 IRR",
+                planning_notice: "大额支出和债务月供会计入支出与结余；当前存款只用于12个月净资产趋势。",
                 add: "添加",
                 exp_item: "项目",
                 exp_cost: "金额",
                 exp_freq: "频率",
                 exp_vol: "波动",
-                execute: "执行计算引擎",
+                execute: "一键刷新",
                 disclaimer: "* 本计算结果基于估算模型，仅供个人规划参考。",
                 out_cash_gross: "理论现金年收入",
                 out_net_annual: "理论可支配收入",
@@ -1006,21 +1473,65 @@
                 asset_equity: "基金&股票归属",
                 stat_analysis: "统计学深度分析",
                 confidence_interval: "95% 支出置信区间",
+                ci_low_label: "下限",
+                ci_high_label: "上限",
                 ci_desc: "基于正态分布估算。上限代表潜在超支警告阈值。",
                 retire_proj: "退休年金推算",
+                retire_years_label: "剩余年限",
+                retire_fund_label: "累计年金",
                 retire_desc: "剩余工作年限内的企业年金累计，Beta版未计复利。",
                 growth_proj: "5年收入投影",
                 growth_desc: "按当前增长率估算第5年的现金收入。",
                 monthly_data: "月度数据",
+                monthly_net_short: "可支配",
+                monthly_exp_short: "支出",
+                monthly_save_short: "结余",
                 monthly_data_desc: "展示月可支配、月支出、月结余。",
+                legacy_stats: "核心估算摘要",
+                desc_stats_dashboard: "描述性统计仪表盘",
+                risk_normal: "波动正常",
+                risk_high: "高波动风险",
+                stat_percentiles: "百分位点",
+                stat_mean: "均值",
+                stat_median: "中位数",
+                stat_mode: "众数",
+                stat_std: "标准差",
+                stat_variance: "方差",
+                stat_iqr: "四分位距 IQR",
+                stat_cv: "变异系数 CV",
+                stat_skew: "偏度",
+                stat_kurtosis: "峰度",
+                stat_high_vol: "高波动项目",
+                stress_tests: "三项压力测试：五年净资产终值",
+                stress_optimistic: "乐观 +15%",
+                stress_base: "基准 0%",
+                stress_pessimistic: "悲观 -20%",
+                stress_optimistic_desc: "收入+10%，支出-5%，收益率+2%",
+                stress_base_desc: "沿用当前参数",
+                stress_pessimistic_desc: "收入-10%，支出+10%，收益率-3%",
+                stress_warning_text: "财务安全预警",
+                monte_carlo: "蒙特卡洛概率预测",
+                mc_prob_100k: "资产 > 10万",
+                mc_prob_500k: "资产 > 50万",
+                mc_prob_1000k: "资产 > 100万",
+                mc_bankruptcy: "现金流为负概率",
                 years_label: "年",
                 chart_income_trend: "现金年收入趋势",
                 chart_salary_trend: "月薪趋势",
                 chart_asset_trend: "资产积累进展",
                 chart_cashflow: "年度现金流",
                 chart_deductions: "扣除与企业缴纳",
+                chart_expense_radar_combo: "开销雷达图组",
                 chart_expense: "开销拓扑雷达图",
                 chart_monthly_expense: "月预计开销雷达图",
+                chart_boxplot: "月开销箱线图",
+                chart_waterfall: "三情景瀑布图",
+                chart_density: "资产概率密度/累计分布",
+                chart_tornado: "单变量敏感性龙卷风图",
+                chart_sankey: "资金流向桑基图",
+                chart_networth_12m: "12个月净资产趋势",
+                target_reached: "第{month}个月到达10万",
+                target_not_reached: "12个月内未到达10万",
                 feedback_label: "对这个指标/算法的反馈",
                 privacy_note: "为保护隐私，表单输入刷新后会回到默认值；只有这里主动填写的反馈会保存在本地浏览器。",
                 save_feedback: "保存反馈"
@@ -1079,6 +1590,38 @@
                         ["Annual Rest Days", "Weekend rest days + annual leave, excluding public holidays."],
                         ["Total OT Hours", "Weekday monthly overtime x 12 + holiday overtime days x standard hours."],
                         ["Labor Ratio", "Actual work hours / total yearly hours."]
+                    ]
+                }
+            },
+            advanced_stats: {
+                zh: {
+                    title: "统计学深度分析",
+                    body: "本板块基于用户填写的月度开销明细、当前收入、支出、五险二金和基金股票参数，生成描述统计、情景压力测试、蒙特卡洛概率预测和敏感性分析。所有结果会随输入实时刷新。",
+                    details: [
+                        ["多维百分位点", "对各开销项目折算后的月支出金额排序，分别取 5%、25%、50%、75%、95% 分位，用于观察常态开销和尾部开销。"],
+                        ["均值/中位数/众数", "均值为月开销项目平均值；中位数为排序后的中间值；众数仅在多个项目金额重复时展示，否则显示无。"],
+                        ["标准差/方差/IQR/CV", "标准差和方差衡量离散程度；IQR = P75 - P25；CV = 标准差 / 均值。CV 超过 0.3 时标记为高波动风险。"],
+                        ["偏度/峰度", "偏度大于 0 表示右偏，少数高开销项目更突出；偏度小于 0 表示左偏。峰度为超额峰度，大于 1 时提示肥尾风险。"],
+                        ["高波动项目", "每个支出项的波动参数会换算为近似 CV；CV > 0.3 的项目自动列入风险清单。"],
+                        ["三项压力测试", "五年净资产终值用实际可支配收入、生活支出、账户资产、基金股票归属和预期收益率推演。乐观为收入+10%、支出-5%、收益率+2%；基准沿用当前参数；悲观为收入-10%、支出+10%、收益率-3%。"],
+                        ["蒙特卡洛模拟", "运行 10,000 次、每次 60 个月。收入增长率服从 N(5%,3%)，支出波动率服从 N(8%,4%)，投资收益率服从 N(4%,2%)。输出最终资产分布、达标概率和任意月份现金流为负的概率。"],
+                        ["龙卷风敏感性", "逐一调整月薪、房租/房贷、餐饮、通勤、投资收益率、税率的 ±10% 和 ±20%，记录对年度结余的影响，并按影响幅度排序。"],
+                        ["图表口径", "箱线图展示月开销分布；瀑布图展示收入到结余的流量变化；密度/累计分布展示蒙特卡洛终值；龙卷风图展示单变量冲击；桑基图展示税前总包到扣除、支出和结余的资金流向；12个月净资产趋势使用当前存款和月结余推演。"]
+                    ]
+                },
+                en: {
+                    title: "Advanced Statistical Analysis",
+                    body: "This panel uses monthly expense details plus current income, deductions, account assets, and funds/stocks parameters to produce descriptive statistics, stress tests, Monte Carlo forecasts, and sensitivity analysis.",
+                    details: [
+                        ["Percentiles", "Expense rows are annualized and converted to monthly values, then sorted to calculate P5, P25, P50, P75, and P95."],
+                        ["Mean / Median / Mode", "Mean is the average monthly expense item. Median is the center value. Mode is shown only when repeated amounts exist."],
+                        ["Std / Variance / IQR / CV", "Std and variance measure dispersion. IQR = P75 - P25. CV = std / mean; CV above 0.3 is flagged as high volatility risk."],
+                        ["Skewness / Kurtosis", "Positive skew means a right-skewed expense profile. Negative skew means left-skewed. Excess kurtosis above 1 indicates fat-tail risk."],
+                        ["High-volatility Items", "Each row's volatility is converted to approximate CV. Items above 0.3 are listed as risk items."],
+                        ["Stress Test", "The 5-year net-worth estimate uses actual spendable income, expenses, account assets, vested funds/stocks, and expected return. Optimistic: income +10%, expense -5%, return +2%; baseline uses current parameters; pessimistic: income -10%, expense +10%, return -3%."],
+                        ["Monte Carlo", "Runs 10,000 simulations over 60 months. Income growth follows N(5%,3%), expense volatility follows N(8%,4%), investment return follows N(4%,2%). It outputs final asset distribution, target probabilities, and negative-cashflow probability."],
+                        ["Tornado Sensitivity", "Monthly salary, rent/mortgage, food, commuting, investment return, and tax are adjusted one at a time by ±10% and ±20% to measure impact on annual savings."],
+                        ["Charts", "Boxplot shows monthly expense distribution. Waterfall shows income-to-savings flow. Density/CDF shows Monte Carlo final assets. Tornado ranks single-variable shocks. Sankey shows package-to-deduction-to-expense flows. The 12-month net-worth trend uses current savings and monthly savings."]
                     ]
                 }
             },
@@ -1216,6 +1759,32 @@
                     ]
                 }
             },
+            planning: {
+                zh: {
+                    title: "现金资产与债务",
+                    body: "本模块补足随机开销无法覆盖的一次性大额支出、当前存款和分期/债务现金流。它们影响支出、结余和净资产趋势，但不改变税前总包和税费口径。",
+                    details: [
+                        ["当前存款", "作为12个月净资产趋势的起点。刷新后恢复默认值，避免长期保存隐私数据。"],
+                        ["一次性大额支出池", "把换手机、旅游、保险、随份子等不稳定年度费用放入池子，并按 12 个月均摊进预计支出。"],
+                        ["债务/分期本金", "剩余本金用于计算真实年化 IRR。它不直接作为当年支出，真正影响现金流的是月还款。"],
+                        ["月还款/分期", "按剩余期数折算未来12个月内的债务现金流，并计入预计年支出和月结余。"],
+                        ["名义年化利率", "作为用户填报参考。若本金、月供、剩余期数足够，系统会优先用现金流求解真实年化 IRR。"],
+                        ["真实年化 IRR", "用现金流 +本金、-每月还款 求解月度内部收益率，再折算成年化。分期手续费导致 IRR 往往高于名义利率。"]
+                    ]
+                },
+                en: {
+                    title: "Cash Assets & Debt",
+                    body: "This module covers one-off expenses, current savings, and debt/installment cashflow. They affect expenses, savings, and net-worth trend, but do not change gross package or tax logic.",
+                    details: [
+                        ["Current Savings", "Starting point for the 12-month net-worth trend. It resets on refresh for privacy."],
+                        ["One-off Expense Pool", "Use it for phone replacement, travel, insurance, gifts, and similar annual irregular costs. It is amortized over 12 months."],
+                        ["Debt Principal", "Used for true annualized IRR. It is not itself treated as current-year expense."],
+                        ["Monthly Payment", "Converted into next-12-month debt cashflow by remaining terms, then included in expenses and monthly savings."],
+                        ["Nominal APR", "Reference input. When principal, payment, and terms are valid, true IRR is calculated from actual cashflow first."],
+                        ["True IRR", "Solves +principal and -monthly payments for monthly IRR, then annualizes it. Installment fees can make it much higher than nominal APR."]
+                    ]
+                }
+            },
             assets: {
                 zh: {
                     title: "综合结算与账户资产",
@@ -1251,7 +1820,22 @@
         };
 
         let currentLang = 'zh';
-        let charts = { cashflow: null, deductions: null, expense: null, monthlyExpense: null, incomeTrend: null, salaryTrend: null, assetAccumulation: null };
+        let renderTimer = null;
+        let lastRenderData = null;
+        let charts = {
+            cashflow: null,
+            deductions: null,
+            expense: null,
+            monthlyExpense: null,
+            incomeTrend: null,
+            salaryTrend: null,
+            assetAccumulation: null,
+            boxplot: null,
+            waterfall: null,
+            density: null,
+            tornado: null,
+            netWorth: null
+        };
         let currentHelpKey = 'income';
         const defaultExpenses = [
             { name: 'Water & Elec', nameZh: '水电费', amount: 300, freq: 'monthly', vol: 15 },
@@ -1266,6 +1850,16 @@
 
         function $(id) {
             return document.getElementById(id);
+        }
+
+        function setText(id, value) {
+            const el = $(id);
+            if (el) el.innerText = value;
+        }
+
+        function scheduleRunEngine(delay = 160) {
+            window.clearTimeout(renderTimer);
+            renderTimer = window.setTimeout(runEngine, delay);
         }
 
         function parseMoney(val) {
@@ -1431,6 +2025,459 @@
             return values;
         }
 
+        function makeLiquidNetWorthTrend(currentSavings, monthlySavings) {
+            const labels = Array.from({ length: 12 }, (_, index) => currentLang === 'zh' ? `${index + 1}月` : `M${index + 1}`);
+            const values = labels.map((_, index) => currentSavings + monthlySavings * (index + 1));
+            const targetMonth = values.findIndex(value => value >= 100000) + 1;
+            return { labels, values, targetMonth };
+        }
+
+        function solveAnnualizedIrr(principal, monthlyPayment, months) {
+            if (principal <= 0 || monthlyPayment <= 0 || months <= 0) return null;
+            const npv = rate => {
+                let value = principal;
+                for (let month = 1; month <= months; month += 1) {
+                    value -= monthlyPayment / Math.pow(1 + rate, month);
+                }
+                return value;
+            };
+            let low = -0.95;
+            let high = 1;
+            for (let index = 0; index < 80; index += 1) {
+                const mid = (low + high) / 2;
+                if (npv(mid) > 0) high = mid;
+                else low = mid;
+            }
+            const monthlyRate = (low + high) / 2;
+            if (!Number.isFinite(monthlyRate)) return null;
+            return Math.pow(1 + monthlyRate, 12) - 1;
+        }
+
+        function categorizeExpense(name) {
+            const text = String(name || '').toLowerCase();
+            if (/衣|服|鞋|穿|clothes|wear|apparel|shopping/.test(text)) return 'clothing';
+            if (/食|餐|饭|菜|饮|food|diet|meal|coffee|drink/.test(text)) return 'food';
+            if (/住|房|租|水电|电费|物业|home|rent|mortgage|utility|utilities/.test(text)) return 'housing';
+            if (/行|交通|通勤|车|油|地铁|transport|commute|metro|taxi|car/.test(text)) return 'transport';
+            return 'other';
+        }
+
+        function getExpenseCategoryTotals(expDetails) {
+            const totals = { clothing: 0, food: 0, housing: 0, transport: 0, other: 0 };
+            expDetails.forEach(item => {
+                totals[categorizeExpense(item.name)] += item.annual;
+            });
+            return totals;
+        }
+
+        function safeDivide(num, den) {
+            return den === 0 ? 0 : num / den;
+        }
+
+        function average(values) {
+            return values.length ? values.reduce((sum, item) => sum + item, 0) / values.length : 0;
+        }
+
+        function percentile(values, p) {
+            if (!values.length) return 0;
+            const sorted = [...values].sort((a, b) => a - b);
+            const index = (sorted.length - 1) * p;
+            const lower = Math.floor(index);
+            const upper = Math.ceil(index);
+            if (lower === upper) return sorted[lower];
+            return sorted[lower] + (sorted[upper] - sorted[lower]) * (index - lower);
+        }
+
+        function modeValue(values) {
+            if (!values.length) return null;
+            const counts = new Map();
+            values.forEach(value => {
+                const key = Math.round(value * 100) / 100;
+                counts.set(key, (counts.get(key) || 0) + 1);
+            });
+            let best = null;
+            let bestCount = 1;
+            counts.forEach((count, value) => {
+                if (count > bestCount) {
+                    best = value;
+                    bestCount = count;
+                }
+            });
+            return best;
+        }
+
+        function describeDistribution(values) {
+            const n = values.length;
+            const mean = average(values);
+            const variance = n ? values.reduce((sum, item) => sum + Math.pow(item - mean, 2), 0) / n : 0;
+            const std = Math.sqrt(variance);
+            const p5 = percentile(values, 0.05);
+            const p25 = percentile(values, 0.25);
+            const p50 = percentile(values, 0.5);
+            const p75 = percentile(values, 0.75);
+            const p95 = percentile(values, 0.95);
+            const skew = std > 0 ? values.reduce((sum, item) => sum + Math.pow((item - mean) / std, 3), 0) / n : 0;
+            const kurtosis = std > 0 ? values.reduce((sum, item) => sum + Math.pow((item - mean) / std, 4), 0) / n - 3 : 0;
+            return {
+                mean,
+                median: p50,
+                mode: modeValue(values),
+                variance,
+                std,
+                p5,
+                p25,
+                p50,
+                p75,
+                p95,
+                iqr: p75 - p25,
+                cv: safeDivide(std, mean),
+                skew,
+                kurtosis
+            };
+        }
+
+        function normalRandom(mean = 0, std = 1) {
+            let u = 0;
+            let v = 0;
+            while (u === 0) u = Math.random();
+            while (v === 0) v = Math.random();
+            return mean + std * Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+        }
+
+        function clamp(value, min, max) {
+            return Math.min(max, Math.max(min, value));
+        }
+
+        function formatCompactCurrency(value) {
+            const abs = Math.abs(value);
+            if (currentLang === 'zh' && abs >= 10000) return `${value < 0 ? '-' : ''}${(abs / 10000).toFixed(1)}万`;
+            if (currentLang === 'en' && abs >= 1000000) return `${value < 0 ? '-' : ''}${(abs / 1000000).toFixed(1)}m`;
+            if (currentLang === 'en' && abs >= 1000) return `${value < 0 ? '-' : ''}${(abs / 1000).toFixed(1)}k`;
+            return yuan(value);
+        }
+
+        function expenseAnnualAmount(exp) {
+            const amt = parseMoney(exp.amount);
+            if (exp.freq === 'daily') return amt * 365;
+            if (exp.freq === 'monthly') return amt * 12;
+            return amt;
+        }
+
+        function findExpenseAnnualByPattern(patterns) {
+            let total = 0;
+            expenses.forEach(exp => {
+                const label = `${exp.name || ''} ${exp.nameZh || ''}`.toLowerCase();
+                if (patterns.some(pattern => pattern.test(label))) total += expenseAnnualAmount(exp);
+            });
+            return total;
+        }
+
+        function projectFiveYearNetWorth(data, scenario) {
+            let asset = data.equityCurrentValue;
+            const annualIncome = data.actualAnnualNet * scenario.incomeMultiplier;
+            const annualExpense = data.totalAnnualMeanExp * scenario.expenseMultiplier;
+            const annualLockedAssets = data.annualHousingTotal + data.annualAnnuityTotal + data.annualEquityVested;
+            const returnRate = data.equityReturnRate + scenario.returnDelta;
+            for (let year = 0; year < 5; year += 1) {
+                asset = (asset + annualIncome - annualExpense + annualLockedAssets) * (1 + returnRate);
+            }
+            return asset;
+        }
+
+        function runMonteCarlo(data) {
+            const iterations = 10000;
+            const months = 60;
+            const finalAssets = new Array(iterations);
+            let negativeCashflowCount = 0;
+            const monthlyBaseIncome = data.actualAnnualNet / 12;
+            const monthlyBaseExpense = data.totalAnnualMeanExp / 12;
+            const monthlyLockedAssets = (data.annualHousingTotal + data.annualAnnuityTotal + data.annualEquityVested) / 12;
+
+            if ($('mc_progress_bar')) {
+                $('mc_progress_bar').style.width = '28%';
+                $('mc_progress_text').textContent = currentLang === 'zh' ? '模拟中...' : 'Running...';
+            }
+
+            for (let i = 0; i < iterations; i += 1) {
+                const growth = clamp(normalRandom(0.05, 0.03), -0.2, 0.25);
+                const expenseInflation = clamp(normalRandom(0.08, 0.04), -0.08, 0.28);
+                const returnRate = clamp(normalRandom(0.04, 0.02), -0.18, 0.22);
+                let asset = data.equityCurrentValue;
+                let hasNegativeCashflow = false;
+                for (let month = 1; month <= months; month += 1) {
+                    const t = month / 12;
+                    const monthlyIncome = monthlyBaseIncome * Math.pow(1 + growth, t);
+                    const monthlyExpense = monthlyBaseExpense * Math.pow(1 + expenseInflation, t);
+                    const cashflow = monthlyIncome - monthlyExpense;
+                    if (cashflow < 0) hasNegativeCashflow = true;
+                    asset = asset * (1 + returnRate / 12) + cashflow + monthlyLockedAssets;
+                }
+                finalAssets[i] = asset;
+                if (hasNegativeCashflow) negativeCashflowCount += 1;
+            }
+
+            finalAssets.sort((a, b) => a - b);
+            if ($('mc_progress_bar')) {
+                $('mc_progress_bar').style.width = '100%';
+                $('mc_progress_text').textContent = `${iterations.toLocaleString()} / ${iterations.toLocaleString()}`;
+            }
+            return {
+                finalAssets,
+                prob100k: finalAssets.filter(value => value > 100000).length / iterations,
+                prob500k: finalAssets.filter(value => value > 500000).length / iterations,
+                prob1000k: finalAssets.filter(value => value > 1000000).length / iterations,
+                bankruptcyProb: negativeCashflowCount / iterations
+            };
+        }
+
+        function buildDensitySeries(values) {
+            if (!values.length) return { labels: ['0'], density: [0], cdf: [0] };
+            const min = values[0];
+            const max = values[values.length - 1];
+            const bins = 32;
+            const width = Math.max(1, (max - min) / bins);
+            const counts = Array.from({ length: bins }, () => 0);
+            values.forEach(value => {
+                const index = Math.min(bins - 1, Math.floor((value - min) / width));
+                counts[index] += 1;
+            });
+            let cumulative = 0;
+            const labels = [];
+            const density = [];
+            const cdf = [];
+            counts.forEach((count, index) => {
+                const midpoint = min + width * (index + 0.5);
+                cumulative += count;
+                labels.push(formatCompactCurrency(midpoint));
+                density.push(count / values.length);
+                cdf.push(cumulative / values.length);
+            });
+            return { labels, density, cdf };
+        }
+
+        function buildTornadoData(data) {
+            const annualTaxBase = Math.max(0, data.annualTax);
+            const monthlySalaryImpact = data.monthlySalary * 12;
+            const rentAnnual = findExpenseAnnualByPattern([/租/, /房贷/, /rent/, /mortgage/]);
+            const foodAnnual = findExpenseAnnualByPattern([/餐/, /食/, /food/, /diet/]);
+            const commuteAnnual = findExpenseAnnualByPattern([/交通/, /通勤/, /transport/, /commute/]);
+            const returnAssetBase = data.equityCurrentValue + data.annualEquityVested;
+            const variables = [
+                {
+                    label: currentLang === 'zh' ? '月薪' : 'Monthly Salary',
+                    base: monthlySalaryImpact,
+                    positiveHelps: true,
+                    unit: currentLang === 'zh' ? '月薪' : 'salary'
+                },
+                {
+                    label: currentLang === 'zh' ? '房租/房贷' : 'Rent/Mortgage',
+                    base: rentAnnual,
+                    positiveHelps: false,
+                    unit: currentLang === 'zh' ? '房租' : 'rent'
+                },
+                {
+                    label: currentLang === 'zh' ? '餐饮支出' : 'Food Expense',
+                    base: foodAnnual,
+                    positiveHelps: false,
+                    unit: currentLang === 'zh' ? '餐饮' : 'food'
+                },
+                {
+                    label: currentLang === 'zh' ? '通勤费' : 'Commuting',
+                    base: commuteAnnual,
+                    positiveHelps: false,
+                    unit: currentLang === 'zh' ? '通勤' : 'commuting'
+                },
+                {
+                    label: currentLang === 'zh' ? '投资收益率' : 'Investment Return',
+                    base: returnAssetBase,
+                    positiveHelps: true,
+                    unit: currentLang === 'zh' ? '收益率' : 'return'
+                },
+                {
+                    label: currentLang === 'zh' ? '税率/税额' : 'Tax Rate',
+                    base: annualTaxBase,
+                    positiveHelps: false,
+                    unit: currentLang === 'zh' ? '税负' : 'tax'
+                }
+            ].map(item => {
+                const up20 = item.base * 0.2 * (item.positiveHelps ? 1 : -1);
+                const down20 = item.base * -0.2 * (item.positiveHelps ? 1 : -1);
+                return {
+                    ...item,
+                    up20,
+                    down20,
+                    impact: Math.max(Math.abs(up20), Math.abs(down20))
+                };
+            }).sort((a, b) => b.impact - a.impact);
+            return variables;
+        }
+
+        function drawSankey(data, c) {
+            const canvas = $('sankeyCanvas');
+            if (!canvas) return;
+            const parent = canvas.parentElement;
+            const width = Math.max(320, parent.clientWidth);
+            const height = Math.max(300, parent.clientHeight);
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            canvas.style.width = `${width}px`;
+            canvas.style.height = `${height}px`;
+            const ctx = canvas.getContext('2d');
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            ctx.clearRect(0, 0, width, height);
+            ctx.font = '12px Consolas, monospace';
+            ctx.textBaseline = 'middle';
+
+            const categories = data.expenseCategories;
+            const expenseNodes = [
+                { key: 'clothing', label: currentLang === 'zh' ? '衣' : 'Clothing', value: categories.clothing, color: '#a855f7' },
+                { key: 'food', label: currentLang === 'zh' ? '食' : 'Food', value: categories.food, color: '#f97316' },
+                { key: 'housing', label: currentLang === 'zh' ? '住' : 'Housing', value: categories.housing, color: '#0ea5e9' },
+                { key: 'transport', label: currentLang === 'zh' ? '行' : 'Transport', value: categories.transport, color: '#22c55e' },
+                { key: 'other', label: currentLang === 'zh' ? '其他' : 'Other', value: categories.other, color: '#64748b' },
+                { key: 'savings', label: currentLang === 'zh' ? '最终净结余' : 'Net Savings', value: Math.max(0, data.actualAnnualSavings), color: c.success }
+            ].filter(item => item.value > 0);
+            const middleNodes = [
+                { key: 'tax', label: currentLang === 'zh' ? '个税' : 'Tax', value: data.annualTax, color: c.danger },
+                { key: 'personal', label: currentLang === 'zh' ? '个人五险二金' : 'Personal Deductions', value: data.annualPersonalSecurity + data.annualEmpAnnuity, color: c.primary },
+                { key: 'company', label: currentLang === 'zh' ? '企业缴纳' : 'Company Paid', value: data.annualCompanySecurity + data.annualCompanyAnnuity, color: c.cyan },
+                { key: 'cash', label: currentLang === 'zh' ? '可支配现金' : 'Spendable Cash', value: data.actualAnnualNet, color: c.accent }
+            ].filter(item => item.value > 0);
+            const source = {
+                label: currentLang === 'zh' ? '税前总包' : 'Gross Package',
+                value: Math.max(data.actualTotalPackage, data.actualAnnualCashGross),
+                color: '#334155'
+            };
+            const maxFlow = Math.max(source.value, ...middleNodes.map(item => item.value), ...expenseNodes.map(item => item.value), 1);
+            const scale = value => Math.max(4, (value / maxFlow) * 58);
+            const leftX = 24;
+            const midX = width * 0.42;
+            const rightX = width - 148;
+            const sourceY = height / 2;
+
+            function nodeRect(x, y, item) {
+                const h = scale(item.value);
+                ctx.fillStyle = item.color;
+                ctx.globalAlpha = 0.94;
+                ctx.fillRect(x, y - h / 2, 12, h);
+                ctx.globalAlpha = 1;
+                ctx.fillStyle = c.text;
+                ctx.textAlign = 'left';
+                ctx.fillText(`${item.label} ${formatCompactCurrency(item.value)}`, x + 18, y);
+                return { x, y, h };
+            }
+
+            function flow(from, to, value, color) {
+                const lineWidth = scale(value);
+                ctx.beginPath();
+                ctx.moveTo(from.x + 12, from.y);
+                ctx.bezierCurveTo(from.x + 95, from.y, to.x - 95, to.y, to.x, to.y);
+                ctx.strokeStyle = color;
+                ctx.globalAlpha = 0.22;
+                ctx.lineWidth = lineWidth;
+                ctx.stroke();
+                ctx.globalAlpha = 1;
+            }
+
+            const sourceNode = nodeRect(leftX, sourceY, source);
+            const midGap = height / (middleNodes.length + 1);
+            const middlePositions = middleNodes.map((item, index) => ({
+                item,
+                ...nodeRect(midX, midGap * (index + 1), item)
+            }));
+            const rightGap = height / (expenseNodes.length + 1);
+            const rightPositions = expenseNodes.map((item, index) => ({
+                item,
+                ...nodeRect(rightX, rightGap * (index + 1), item)
+            }));
+
+            middlePositions.forEach(pos => flow(sourceNode, pos, pos.item.value, pos.item.color));
+            const cashNode = middlePositions.find(pos => pos.item.key === 'cash');
+            if (cashNode) {
+                rightPositions.forEach(pos => flow(cashNode, pos, pos.item.value, pos.item.color));
+            }
+        }
+
+        const doughnutPercentPlugin = {
+            id: 'doughnutPercentLabels',
+            afterDatasetsDraw(chart) {
+                const { ctx } = chart;
+                const dataset = chart.data.datasets[0];
+                const total = dataset.data.reduce((sum, value) => sum + Math.abs(value), 0);
+                if (!total) return;
+                ctx.save();
+                ctx.font = '700 11px Consolas, monospace';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                chart.getDatasetMeta(0).data.forEach((arc, index) => {
+                    const value = dataset.data[index];
+                    if (!value) return;
+                    const pctValue = value / total;
+                    if (pctValue < 0.045) return;
+                    const pos = arc.tooltipPosition();
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillText(percent(pctValue), pos.x, pos.y);
+                });
+                ctx.restore();
+            }
+        };
+
+        function updateAdvancedAnalytics(data) {
+            const monthlyValues = data.expMonthlyData.filter(value => Number.isFinite(value) && value >= 0);
+            const stats = describeDistribution(monthlyValues);
+            const highVolItems = data.expDetails
+                .filter(item => item.cv > 0.3)
+                .map(item => item.name);
+            const riskText = highVolItems.length
+                ? `${i18n[currentLang].risk_high}: ${highVolItems.join(', ')}`
+                : i18n[currentLang].risk_normal;
+            const riskBadge = $('stat_risk_badge');
+            riskBadge.textContent = riskText;
+            riskBadge.classList.toggle('ok', highVolItems.length === 0);
+            riskBadge.classList.toggle('danger', highVolItems.length > 0);
+
+            $('stat_percentiles').textContent = `P5 ${yuan(stats.p5)} / P25 ${yuan(stats.p25)} / P50 ${yuan(stats.p50)} / P75 ${yuan(stats.p75)} / P95 ${yuan(stats.p95)}`;
+            $('stat_mean').textContent = yuan(stats.mean);
+            $('stat_median').textContent = yuan(stats.median);
+            $('stat_mode').textContent = stats.mode === null ? (currentLang === 'zh' ? '无' : 'None') : yuan(stats.mode);
+            $('stat_std').textContent = yuan(stats.std);
+            $('stat_variance').textContent = stats.variance.toLocaleString(undefined, { maximumFractionDigits: 0 });
+            $('stat_iqr').textContent = yuan(stats.iqr);
+            $('stat_cv').textContent = percent(stats.cv);
+            const skewDesc = stats.skew > 0.5 ? (currentLang === 'zh' ? '右偏' : 'Right-skewed') : (stats.skew < -0.5 ? (currentLang === 'zh' ? '左偏' : 'Left-skewed') : (currentLang === 'zh' ? '近似对称' : 'Near symmetric'));
+            const kurtosisDesc = stats.kurtosis > 1 ? (currentLang === 'zh' ? '肥尾风险' : 'Fat-tail risk') : (currentLang === 'zh' ? '常态' : 'Normal-ish');
+            $('stat_skew').textContent = `${stats.skew.toFixed(2)} · ${skewDesc}`;
+            $('stat_kurtosis').textContent = `${stats.kurtosis.toFixed(2)} · ${kurtosisDesc}`;
+            $('stat_high_vol').textContent = highVolItems.length ? highVolItems.join(', ') : (currentLang === 'zh' ? '无' : 'None');
+
+            const scenarios = {
+                optimistic: projectFiveYearNetWorth(data, { incomeMultiplier: 1.1, expenseMultiplier: 0.95, returnDelta: 0.02 }),
+                base: projectFiveYearNetWorth(data, { incomeMultiplier: 1, expenseMultiplier: 1, returnDelta: 0 }),
+                pessimistic: projectFiveYearNetWorth(data, { incomeMultiplier: 0.9, expenseMultiplier: 1.1, returnDelta: -0.03 })
+            };
+            $('stress_optimistic_value').textContent = yuan(scenarios.optimistic);
+            $('stress_base_value').textContent = yuan(scenarios.base);
+            $('stress_pessimistic_value').textContent = yuan(scenarios.pessimistic);
+            const pessCard = $('stress_pessimistic_card');
+            pessCard.classList.toggle('warning', scenarios.pessimistic < 0);
+            $('stress_warning').textContent = scenarios.pessimistic < 0 ? i18n[currentLang].stress_warning_text : i18n[currentLang].stress_pessimistic_desc;
+
+            const monteCarlo = runMonteCarlo(data);
+            $('mc_prob_100k').textContent = percent(monteCarlo.prob100k);
+            $('mc_prob_500k').textContent = percent(monteCarlo.prob500k);
+            $('mc_prob_1000k').textContent = percent(monteCarlo.prob1000k);
+            $('mc_bankruptcy').textContent = percent(monteCarlo.bankruptcyProb);
+
+            return {
+                stats,
+                scenarios,
+                monteCarlo,
+                density: buildDensitySeries(monteCarlo.finalAssets),
+                tornado: buildTornadoData(data)
+            };
+        }
+
         function runEngine() {
             const monthlySalary = normalizeMonthlySalary();
             const annualBaseGross = monthlySalary * 12;
@@ -1471,6 +2518,14 @@
             const annualEquityVested = equityGrantValue * equityVestingRate;
             const equityCurrentValue = parseMoney($('in_equity_current_value').value);
             const equityReturnRate = numberVal('in_equity_return_rate') / 100;
+            const currentSavings = parseMoney($('in_current_savings').value);
+            const annualLargeExpensePool = Math.max(0, parseMoney($('in_large_expense_pool').value));
+            const debtPrincipal = Math.max(0, parseMoney($('in_debt_principal').value));
+            const debtMonthlyPayment = Math.max(0, parseMoney($('in_debt_monthly_payment').value));
+            const debtMonths = Math.max(0, Math.floor(numberVal('in_debt_months')));
+            const nominalDebtApr = Math.max(0, numberVal('in_debt_apr')) / 100;
+            const debtAnnualPayment = debtMonthlyPayment * Math.min(12, debtMonths || 0);
+            const debtIrr = solveAnnualizedIrr(debtPrincipal, debtMonthlyPayment, debtMonths);
 
             const customBase = parseMoney($('in_base').value);
             const insBase = customBase > 0 ? customBase : monthlySalary;
@@ -1518,6 +2573,7 @@
             const expLabels = [];
             const expData = [];
             const expMonthlyData = [];
+            const expDetails = [];
             document.querySelectorAll('#expenseContainer .expense-row').forEach(row => {
                 updateExpenseStateFromRow(row);
             });
@@ -1535,7 +2591,42 @@
                 expLabels.push(name || '-');
                 expData.push(annualAmt);
                 expMonthlyData.push(annualAmt / 12);
+                expDetails.push({
+                    name: name || '-',
+                    annual: annualAmt,
+                    monthly: annualAmt / 12,
+                    cv: annualAmt > 0 ? sigma / annualAmt : 0,
+                    volatility: volPct
+                });
             });
+            if (annualLargeExpensePool > 0) {
+                const name = currentLang === 'zh' ? '一次性大额支出池' : 'One-off Expense Pool';
+                totalAnnualMeanExp += annualLargeExpensePool;
+                expLabels.push(name);
+                expData.push(annualLargeExpensePool);
+                expMonthlyData.push(annualLargeExpensePool / 12);
+                expDetails.push({
+                    name,
+                    annual: annualLargeExpensePool,
+                    monthly: annualLargeExpensePool / 12,
+                    cv: 0,
+                    volatility: 0
+                });
+            }
+            if (debtAnnualPayment > 0) {
+                const name = currentLang === 'zh' ? '债务/分期还款' : 'Debt Payments';
+                totalAnnualMeanExp += debtAnnualPayment;
+                expLabels.push(name);
+                expData.push(debtAnnualPayment);
+                expMonthlyData.push(debtAnnualPayment / 12);
+                expDetails.push({
+                    name,
+                    annual: debtAnnualPayment,
+                    monthly: debtAnnualPayment / 12,
+                    cv: 0,
+                    volatility: 0
+                });
+            }
 
             const totalAnnualStdDev = Math.sqrt(totalAnnualVariance);
             const ciLower = Math.max(0, totalAnnualMeanExp - 1.96 * totalAnnualStdDev);
@@ -1570,6 +2661,7 @@
                 equityCurrentValue,
                 equityReturnRate
             );
+            const liquidNetWorthTrend = makeLiquidNetWorthTrend(currentSavings, monthlySavings);
 
             $('salaryHint').innerText = monthlySalary > 0 ? `≈ ${yuan(monthlySalary)}` : '';
             $('out_gross').innerText = yuan(annualCashGross);
@@ -1578,11 +2670,11 @@
             $('out_save').innerText = yuan(annualSavings);
             $('out_package').innerText = yuan(annualTotalPackage);
             $('out_company').innerText = yuan(annualCompanyPaid);
-            $('out_ci_low').innerText = yuan(ciLower);
-            $('out_ci_high').innerText = yuan(ciUpper);
-            $('out_retire_age').innerText = yearsToRetire;
-            $('out_retire_fund').innerText = yuan(projectedAnnuity);
-            $('out_growth_projection').innerText = yuan(fifthYearCash);
+            setText('out_ci_low', yuan(ciLower));
+            setText('out_ci_high', yuan(ciUpper));
+            setText('out_retire_age', yearsToRetire);
+            setText('out_retire_fund', yuan(projectedAnnuity));
+            setText('out_growth_projection', yuan(fifthYearCash));
             $('actual_cash_income').innerText = yuan(actualAnnualCashGross);
             $('actual_net_income').innerText = yuan(actualAnnualNet);
             $('actual_savings').innerText = yuan(actualAnnualSavings);
@@ -1597,7 +2689,9 @@
             $('annual_rest_days').innerText = restDays.toLocaleString(undefined, { maximumFractionDigits: 1 });
             $('overtime_total_hours').innerText = overtimeHours.toLocaleString(undefined, { maximumFractionDigits: 1 });
             $('labor_ratio').innerText = percent(laborRatio);
-            $('out_monthly_data').innerText = `${yuan(monthlyNetIncome)} / ${yuan(monthlyExpense)} / ${yuan(monthlySavings)}`;
+            setText('out_monthly_net', yuan(monthlyNetIncome));
+            setText('out_monthly_exp', yuan(monthlyExpense));
+            setText('out_monthly_save', yuan(monthlySavings));
 
             $('asset_medical_month').innerText = yuan(annualMedicalCard / 12);
             $('asset_medical_year').innerText = yuan(annualMedicalCard);
@@ -1613,28 +2707,51 @@
             $('asset_liquid_year').innerText = yuan(liquidAnnualSavings);
             $('asset_equity_month').innerText = yuan(annualEquityVested / 12);
             $('asset_equity_year').innerText = yuan(annualEquityVested);
+            $('out_large_expense_monthly').innerText = yuan(annualLargeExpensePool / 12);
+            $('out_debt_annual_payment').innerText = yuan(debtAnnualPayment);
+            $('out_debt_irr').innerText = percent(debtIrr ?? nominalDebtApr);
 
-            updateCharts({
+            const analyticsData = {
                 annualTax,
+                actualAnnualCashGross,
+                actualTotalPackage,
+                actualAnnualNet,
                 annualPersonalSecurity,
                 annualEmpAnnuity,
                 annualCompanySecurity,
                 annualCompanyAnnuity,
                 totalAnnualMeanExp,
                 annualSavings,
+                actualAnnualSavings,
                 annualBenefitValue,
+                annualHousingTotal,
+                annualAnnuityTotal,
+                annualEquityVested,
+                equityCurrentValue,
+                equityReturnRate,
+                currentSavings,
+                annualLargeExpensePool,
+                debtAnnualPayment,
+                debtIrr: debtIrr ?? nominalDebtApr,
+                liquidNetWorthTrend,
+                expenseCategories: getExpenseCategoryTotals(expDetails),
+                monthlySalary,
                 personalRates,
                 companyRates,
                 insBase,
                 expLabels,
                 expData,
                 expMonthlyData,
+                expDetails,
                 trendData,
                 assetTrendData
-            });
+            };
+            analyticsData.advancedAnalytics = updateAdvancedAnalytics(analyticsData);
+            updateCharts(analyticsData);
         }
 
         function updateCharts(data) {
+            lastRenderData = data;
             const c = getColors();
             Chart.defaults.color = c.text;
             Chart.defaults.borderColor = c.grid;
@@ -1753,10 +2870,23 @@
                         hoverOffset: 4
                     }]
                 },
+                plugins: [doughnutPercentPlugin],
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { position: 'bottom' } },
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: context => {
+                                    const values = context.dataset.data;
+                                    const total = values.reduce((sum, value) => sum + Math.abs(value), 0);
+                                    const ratio = total ? context.parsed / total : 0;
+                                    return `${context.label}: ${yuan(context.parsed)} (${percent(ratio)})`;
+                                }
+                            }
+                        }
+                    },
                     cutout: '68%'
                 }
             });
@@ -1846,6 +2976,298 @@
                     }
                 }
             });
+
+            const advanced = data.advancedAnalytics;
+
+            if (charts.boxplot) charts.boxplot.destroy();
+            charts.boxplot = new Chart($('boxplotChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: [currentLang === 'zh' ? '月开销分布' : 'Monthly Expense Distribution'],
+                    datasets: [
+                        {
+                            label: currentLang === 'zh' ? 'P5-P95' : 'P5-P95',
+                            data: [[advanced.stats.p5, advanced.stats.p95]],
+                            backgroundColor: 'rgba(20, 184, 166, 0.16)',
+                            borderColor: c.primary,
+                            borderWidth: 1,
+                            borderRadius: 4,
+                            barPercentage: 0.34
+                        },
+                        {
+                            label: currentLang === 'zh' ? 'IQR(P25-P75)' : 'IQR(P25-P75)',
+                            data: [[advanced.stats.p25, advanced.stats.p75]],
+                            backgroundColor: 'rgba(124, 58, 237, 0.46)',
+                            borderColor: c.accent,
+                            borderWidth: 1,
+                            borderRadius: 4,
+                            barPercentage: 0.72
+                        },
+                        {
+                            type: 'line',
+                            label: currentLang === 'zh' ? '中位数' : 'Median',
+                            data: [advanced.stats.p50],
+                            borderColor: c.danger,
+                            backgroundColor: c.danger,
+                            pointRadius: 6,
+                            pointHoverRadius: 7,
+                            showLine: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: context => {
+                                    const raw = context.raw;
+                                    if (Array.isArray(raw)) return `${context.dataset.label}: ${yuan(raw[0])} - ${yuan(raw[1])}`;
+                                    return `${context.dataset.label}: ${yuan(raw)}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: c.grid }, ticks: { callback: value => yuan(value) } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            if (charts.waterfall) charts.waterfall.destroy();
+            const accountAssets = data.annualHousingTotal + data.annualAnnuityTotal + data.annualEquityVested;
+            const waterfallLabels = [
+                currentLang === 'zh' ? '收入' : 'Income',
+                currentLang === 'zh' ? '支出' : 'Expenses',
+                currentLang === 'zh' ? '账户资产' : 'Account Assets',
+                currentLang === 'zh' ? '最终结余' : 'Final Balance'
+            ];
+            const waterfallScenarioDefs = [
+                {
+                    label: currentLang === 'zh' ? '乐观' : 'Optimistic',
+                    incomeMultiplier: 1.1,
+                    expenseMultiplier: 0.95,
+                    color: 'rgba(22, 163, 74, 0.72)'
+                },
+                {
+                    label: currentLang === 'zh' ? '基准' : 'Baseline',
+                    incomeMultiplier: 1,
+                    expenseMultiplier: 1,
+                    color: 'rgba(37, 99, 235, 0.72)'
+                },
+                {
+                    label: currentLang === 'zh' ? '悲观' : 'Pessimistic',
+                    incomeMultiplier: 0.9,
+                    expenseMultiplier: 1.1,
+                    color: 'rgba(225, 29, 72, 0.72)'
+                }
+            ];
+            const waterfallDatasets = waterfallScenarioDefs.map(def => {
+                const income = data.actualAnnualNet * def.incomeMultiplier;
+                const expense = data.totalAnnualMeanExp * def.expenseMultiplier;
+                const steps = [income, -expense, accountAssets];
+                let running = 0;
+                const floating = steps.map(change => {
+                    const start = running;
+                    running += change;
+                    return [start, running];
+                });
+                floating.push([0, running]);
+                return {
+                    label: def.label,
+                    data: floating,
+                    backgroundColor: def.color,
+                    borderRadius: 5,
+                    metaValues: [income, -expense, accountAssets, running]
+                };
+            });
+            charts.waterfall = new Chart($('waterfallChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: waterfallLabels,
+                    datasets: waterfallDatasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: context => {
+                                    const value = context.dataset.metaValues[context.dataIndex];
+                                    return `${context.dataset.label} · ${waterfallLabels[context.dataIndex]}: ${yuan(value)}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { grid: { color: c.grid }, ticks: { callback: value => yuan(value) } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            if (charts.density) charts.density.destroy();
+            const densityCtx = $('densityChart').getContext('2d');
+            const densityGradient = densityCtx.createLinearGradient(0, 0, 0, 260);
+            densityGradient.addColorStop(0, 'rgba(20, 184, 166, 0.36)');
+            densityGradient.addColorStop(1, 'rgba(20, 184, 166, 0.02)');
+            charts.density = new Chart(densityCtx, {
+                type: 'line',
+                data: {
+                    labels: advanced.density.labels,
+                    datasets: [
+                        {
+                            label: currentLang === 'zh' ? '概率密度' : 'Probability Density',
+                            data: advanced.density.density,
+                            borderColor: c.primary,
+                            backgroundColor: densityGradient,
+                            fill: true,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: currentLang === 'zh' ? '累计概率' : 'Cumulative Probability',
+                            data: advanced.density.cdf,
+                            borderColor: c.accent,
+                            backgroundColor: 'transparent',
+                            fill: false,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: context => `${context.dataset.label}: ${percent(context.parsed.y)}`
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: c.grid }, ticks: { callback: value => percent(value) } },
+                        y1: { beginAtZero: true, max: 1, position: 'right', grid: { display: false }, ticks: { callback: value => percent(value) } },
+                        x: { grid: { display: false }, ticks: { maxRotation: 0, autoSkip: true, maxTicksLimit: 6 } }
+                    },
+                    elements: { line: { tension: 0.35 }, point: { radius: 0, hoverRadius: 4 } }
+                }
+            });
+
+            if (charts.tornado) charts.tornado.destroy();
+            charts.tornado = new Chart($('tornadoChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: advanced.tornado.map(item => item.label),
+                    datasets: [
+                        {
+                            label: '-20%',
+                            data: advanced.tornado.map(item => item.down20),
+                            backgroundColor: 'rgba(225, 29, 72, 0.72)',
+                            borderRadius: 5
+                        },
+                        {
+                            label: '+20%',
+                            data: advanced.tornado.map(item => item.up20),
+                            backgroundColor: 'rgba(22, 163, 74, 0.72)',
+                            borderRadius: 5
+                        }
+                    ]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: context => {
+                                    const item = advanced.tornado[context.dataIndex];
+                                    const direction = context.dataset.label === '+20%'
+                                        ? (currentLang === 'zh' ? '上涨20%' : 'up 20%')
+                                        : (currentLang === 'zh' ? '下降20%' : 'down 20%');
+                                    const value = context.parsed.x;
+                                    if (currentLang === 'zh') {
+                                        return `${item.label}${direction}，年结余${value >= 0 ? '增加' : '减少'}${formatCompactCurrency(Math.abs(value))}`;
+                                    }
+                                    return `${item.label} ${direction}: annual savings ${value >= 0 ? 'increase' : 'decrease'} by ${formatCompactCurrency(Math.abs(value))}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { grid: { color: c.grid }, ticks: { callback: value => formatCompactCurrency(value) } },
+                        y: { grid: { display: false } }
+                    }
+                }
+            });
+
+            drawSankey(data, c);
+
+            if (charts.netWorth) charts.netWorth.destroy();
+            const netWorthCtx = $('netWorthChart').getContext('2d');
+            const netWorthGradient = netWorthCtx.createLinearGradient(0, 0, 0, 260);
+            netWorthGradient.addColorStop(0, 'rgba(22, 163, 74, 0.35)');
+            netWorthGradient.addColorStop(1, 'rgba(22, 163, 74, 0.02)');
+            const targetHint = $('networth_target_hint');
+            if (data.liquidNetWorthTrend.targetMonth > 0) {
+                targetHint.textContent = i18n[currentLang].target_reached.replace('{month}', data.liquidNetWorthTrend.targetMonth);
+                targetHint.classList.remove('danger');
+                targetHint.classList.add('ok');
+            } else {
+                targetHint.textContent = i18n[currentLang].target_not_reached;
+                targetHint.classList.remove('ok');
+                targetHint.classList.add('danger');
+            }
+            charts.netWorth = new Chart(netWorthCtx, {
+                type: 'line',
+                data: {
+                    labels: data.liquidNetWorthTrend.labels,
+                    datasets: [
+                        {
+                            label: currentLang === 'zh' ? '流动净资产' : 'Liquid Net Worth',
+                            data: data.liquidNetWorthTrend.values,
+                            borderColor: c.success,
+                            backgroundColor: netWorthGradient,
+                            fill: true,
+                            borderWidth: 2.5
+                        },
+                        {
+                            label: currentLang === 'zh' ? '10万目标线' : '100k Target',
+                            data: data.liquidNetWorthTrend.labels.map(() => 100000),
+                            borderColor: c.warn,
+                            borderDash: [6, 5],
+                            pointRadius: 0,
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: context => `${context.dataset.label}: ${yuan(context.parsed.y)}`
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { grid: { color: c.grid }, ticks: { callback: value => yuan(value) } },
+                        x: { grid: { display: false } }
+                    },
+                    elements: { line: { tension: 0.35 }, point: { radius: 3, hoverRadius: 5 } }
+                }
+            });
         }
 
         function updateI18n() {
@@ -1922,14 +3344,14 @@
             const row = event.target.closest('.expense-row');
             if (row) {
                 updateExpenseStateFromRow(row);
-                runEngine();
+                scheduleRunEngine();
             }
         });
         $('expenseContainer').addEventListener('change', event => {
             const row = event.target.closest('.expense-row');
             if (row) {
                 updateExpenseStateFromRow(row);
-                runEngine();
+                scheduleRunEngine(80);
             }
         });
         $('expenseContainer').addEventListener('click', event => {
@@ -1942,11 +3364,17 @@
         });
 
         document.querySelectorAll('input, select').forEach(el => {
-            el.addEventListener('input', runEngine);
-            el.addEventListener('change', runEngine);
+            el.addEventListener('input', () => scheduleRunEngine());
+            el.addEventListener('change', () => scheduleRunEngine(80));
         });
 
         $('calcBtn').addEventListener('click', runEngine);
+        window.addEventListener('resize', () => {
+            window.clearTimeout(window.__lifecostResizeTimer);
+            window.__lifecostResizeTimer = window.setTimeout(() => {
+                if (lastRenderData) drawSankey(lastRenderData, getColors());
+            }, 120);
+        });
 
         lucide.createIcons();
         renderExpenses();
