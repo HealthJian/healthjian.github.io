@@ -175,6 +175,72 @@
             align-items: center;
         }
 
+        .metric-strip {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .metric-strip.cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+        .metric-strip.cols-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+        .metric-strip.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+        .mini-metric {
+            min-width: 0;
+            padding: 0.85rem;
+            border-radius: 8px;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
+        }
+
+        .mini-metric::before {
+            content: "";
+            position: absolute;
+            inset: 0 auto 0 0;
+            width: 3px;
+            background: var(--metric-color, #14b8a6);
+        }
+
+        .mini-metric::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            border: 1px solid color-mix(in srgb, var(--metric-color, #14b8a6) 62%, transparent);
+            pointer-events: none;
+        }
+
+        .mini-metric h4 {
+            font-size: 0.72rem;
+            color: var(--muted);
+            margin-bottom: 0.35rem;
+            font-weight: 700;
+        }
+
+        .mini-metric strong {
+            display: block;
+            font-family: Consolas, monospace;
+            font-size: 0.98rem;
+            overflow-wrap: anywhere;
+            color: color-mix(in srgb, var(--metric-color, #14b8a6) 72%, var(--app-text));
+        }
+
+        .metric-green { --metric-color: #16a34a; }
+        .metric-teal { --metric-color: #14b8a6; }
+        .metric-rose { --metric-color: #e11d48; }
+        .metric-violet { --metric-color: #7c3aed; }
+        .metric-amber { --metric-color: #d97706; }
+        .metric-cyan { --metric-color: #0891b2; }
+        .metric-blue { --metric-color: #2563eb; }
+        .metric-slate { --metric-color: #64748b; }
+
+        @supports not (color: color-mix(in srgb, #fff 50%, #000)) {
+            .mini-metric::after { border-color: var(--metric-color, #14b8a6); opacity: 0.45; }
+            .mini-metric strong { color: var(--metric-color, #14b8a6); }
+        }
+
         .help-dialog {
             width: min(44rem, calc(100vw - 2rem));
             max-height: min(42rem, calc(100vh - 2rem));
@@ -191,6 +257,12 @@
             .asset-row {
                 grid-template-columns: minmax(0, 1fr);
                 gap: 0.25rem;
+            }
+
+            .metric-strip.cols-5,
+            .metric-strip.cols-6,
+            .metric-strip.cols-3 {
+                grid-template-columns: minmax(0, 1fr);
             }
 
             .help-dialog {
@@ -215,6 +287,9 @@
             </div>
         </div>
         <div class="flex space-x-3">
+            <button class="help-btn !w-9 !h-9" data-help="summary" title="Output guide" aria-label="Output guide">
+                ?
+            </button>
             <button id="langToggle" class="help-btn !w-9 !h-9" title="Switch language" aria-label="Switch language">
                 <i data-lucide="languages" class="w-5 h-5"></i>
             </button>
@@ -296,6 +371,36 @@
                     <div>
                         <label class="block text-xs font-medium mb-1" data-i18n="workdays">年工作日</label>
                         <input type="number" id="in_workdays" value="250" step="1" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                    </div>
+                    <div class="flex items-end pb-2">
+                        <label class="flex items-center space-x-2 text-sm cursor-pointer">
+                            <input type="checkbox" id="in_double_weekend" checked class="rounded border">
+                            <span data-i18n="double_weekend">双休</span>
+                        </label>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="annual_leave_days">年假天数</label>
+                        <input type="number" id="in_annual_leave_days" value="0" step="0.5" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="standard_hours">标准工作时长/天</label>
+                        <input type="number" id="in_standard_hours" value="8" step="0.5" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="workday_ot_hours">工作日加班小时/月</label>
+                        <input type="number" id="in_workday_ot_hours" value="0" step="0.5" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="workday_ot_multiplier">工作日加班倍率</label>
+                        <input type="number" id="in_workday_ot_multiplier" value="1.5" step="0.1" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="holiday_ot_days">节假日加班天数/年</label>
+                        <input type="number" id="in_holiday_ot_days" value="0" step="0.5" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="holiday_ot_multiplier">节假日加班倍率</label>
+                        <input type="number" id="in_holiday_ot_multiplier" value="3" step="0.1" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
                     </div>
                 </div>
             </section>
@@ -411,10 +516,40 @@
             </section>
 
             <section class="glass-panel rounded-lg p-5">
+                <div class="flex items-center justify-between mb-4 border-b border-slate-300/40 dark:border-slate-600/40 pb-2">
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="candlestick-chart" class="text-geek-success w-5 h-5"></i>
+                        <h2 class="text-lg font-semibold" data-i18n="mod_equity">4. 基金&股票</h2>
+                    </div>
+                    <button class="help-btn" data-help="equity" aria-label="基金股票说明">?</button>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="equity_grant">年度授予估值</label>
+                        <input type="text" id="in_equity_grant" value="0" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="equity_vesting_rate">本年归属比例 %</label>
+                        <input type="number" id="in_equity_vesting_rate" value="25" step="1" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="equity_current_value">当前已归属资产</label>
+                        <input type="text" id="in_equity_current_value" value="0" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="equity_return_rate">预期年化收益 %</label>
+                        <input type="number" id="in_equity_return_rate" value="0" step="0.1" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                    </div>
+                </div>
+                <p class="text-xs muted mt-3" data-i18n="equity_notice">金融资产估值默认不保证收益；未填写时不影响其它计算。</p>
+            </section>
+
+            <section class="glass-panel rounded-lg p-5">
                 <div class="flex justify-between items-center mb-4 border-b border-slate-300/40 dark:border-slate-600/40 pb-2">
                     <div class="flex items-center space-x-2">
                         <i data-lucide="activity" class="text-geek-accent w-5 h-5"></i>
-                        <h2 class="text-lg font-semibold" data-i18n="mod_expenses">4. 随机生活开销</h2>
+                        <h2 class="text-lg font-semibold" data-i18n="mod_expenses">5. 随机生活开销</h2>
                         <button class="help-btn" data-help="expenses" aria-label="开销说明">?</button>
                     </div>
                     <button id="addExpenseBtn" class="text-xs bg-geek-primary hover:bg-teal-600 text-white px-2 py-1 rounded flex items-center">
@@ -444,11 +579,11 @@
         <div class="lg:col-span-7 space-y-6">
             <div class="grid grid-cols-2 xl:grid-cols-6 gap-4">
                 <div class="glass-panel p-4 rounded-lg border-l-4 border-geek-success">
-                    <h3 class="text-xs muted font-medium mb-1" data-i18n="out_cash_gross">现金年收入</h3>
+                    <h3 class="text-xs muted font-medium mb-1" data-i18n="out_cash_gross">理论现金年收入</h3>
                     <div class="text-lg font-mono font-bold" id="out_gross">¥0</div>
                 </div>
                 <div class="glass-panel p-4 rounded-lg border-l-4 border-geek-primary">
-                    <h3 class="text-xs muted font-medium mb-1" data-i18n="out_net_annual">可支配收入</h3>
+                    <h3 class="text-xs muted font-medium mb-1" data-i18n="out_net_annual">理论可支配收入</h3>
                     <div class="text-lg font-mono font-bold text-geek-primary" id="out_net">¥0</div>
                 </div>
                 <div class="glass-panel p-4 rounded-lg border-l-4 border-geek-danger">
@@ -456,17 +591,40 @@
                     <div class="text-lg font-mono font-bold text-geek-danger" id="out_exp">¥0</div>
                 </div>
                 <div class="glass-panel p-4 rounded-lg border-l-4 border-geek-accent">
-                    <h3 class="text-xs muted font-medium mb-1" data-i18n="out_save_annual">预计年结余</h3>
+                    <h3 class="text-xs muted font-medium mb-1" data-i18n="out_save_annual">理论预计年结余</h3>
                     <div class="text-lg font-mono font-bold text-geek-accent" id="out_save">¥0</div>
                 </div>
                 <div class="glass-panel p-4 rounded-lg border-l-4 border-amber-500">
-                    <h3 class="text-xs muted font-medium mb-1" data-i18n="out_total_package">总包估值</h3>
+                    <h3 class="text-xs muted font-medium mb-1" data-i18n="out_total_package">理论总包估值</h3>
                     <div class="text-lg font-mono font-bold text-amber-500" id="out_package">¥0</div>
                 </div>
                 <div class="glass-panel p-4 rounded-lg border-l-4 border-cyan-500">
                     <h3 class="text-xs muted font-medium mb-1" data-i18n="out_company_pay">企业缴纳</h3>
                     <div class="text-lg font-mono font-bold text-cyan-500" id="out_company">¥0</div>
                 </div>
+            </div>
+
+            <div class="metric-strip cols-5">
+                <div class="mini-metric metric-green"><h4 data-i18n="actual_cash_income">实际现金年收入</h4><strong id="actual_cash_income">¥0</strong></div>
+                <div class="mini-metric metric-teal"><h4 data-i18n="actual_net_income">实际可支配收入</h4><strong id="actual_net_income">¥0</strong></div>
+                <div class="mini-metric metric-violet"><h4 data-i18n="actual_savings">实际预计年结余</h4><strong id="actual_savings">¥0</strong></div>
+                <div class="mini-metric metric-rose"><h4 data-i18n="overtime_total_value">加班价值总值</h4><strong id="overtime_total_value">¥0</strong></div>
+                <div class="mini-metric metric-amber"><h4 data-i18n="actual_total_package">实际总包价值</h4><strong id="actual_total_package">¥0</strong></div>
+            </div>
+
+            <div class="metric-strip cols-6">
+                <div class="mini-metric metric-green"><h4 data-i18n="monthly_cash_income">现金月收入</h4><strong id="monthly_cash_income">¥0</strong></div>
+                <div class="mini-metric metric-teal"><h4 data-i18n="monthly_net_income">月可支配收入</h4><strong id="monthly_net_income">¥0</strong></div>
+                <div class="mini-metric metric-rose"><h4 data-i18n="monthly_expense">预计月支出</h4><strong id="monthly_expense">¥0</strong></div>
+                <div class="mini-metric metric-violet"><h4 data-i18n="monthly_savings">预计月结余</h4><strong id="monthly_savings">¥0</strong></div>
+                <div class="mini-metric metric-cyan"><h4 data-i18n="monthly_company_paid">企业月缴纳</h4><strong id="monthly_company_paid">¥0</strong></div>
+                <div class="mini-metric metric-blue"><h4 data-i18n="income_loss_ratio">月收入损失比例</h4><strong id="income_loss_ratio">0%</strong></div>
+            </div>
+
+            <div class="metric-strip cols-3">
+                <div class="mini-metric metric-cyan"><h4 data-i18n="annual_rest_days">年休息天</h4><strong id="annual_rest_days">0</strong></div>
+                <div class="mini-metric metric-amber"><h4 data-i18n="overtime_total_hours">加班总小时</h4><strong id="overtime_total_hours">0</strong></div>
+                <div class="mini-metric metric-blue"><h4 data-i18n="labor_ratio">劳动比</h4><strong id="labor_ratio">0%</strong></div>
             </div>
 
             <div class="glass-panel p-5 rounded-lg">
@@ -508,6 +666,16 @@
                         <strong class="font-mono" id="asset_welfare_month">¥0</strong>
                         <strong class="font-mono" id="asset_welfare_year">¥0</strong>
                     </div>
+                    <div class="asset-row">
+                        <span data-i18n="asset_liquid_savings">实际流动积累</span>
+                        <strong class="font-mono" id="asset_liquid_month">¥0</strong>
+                        <strong class="font-mono" id="asset_liquid_year">¥0</strong>
+                    </div>
+                    <div class="asset-row">
+                        <span data-i18n="asset_equity">基金&股票归属</span>
+                        <strong class="font-mono" id="asset_equity_month">¥0</strong>
+                        <strong class="font-mono" id="asset_equity_year">¥0</strong>
+                    </div>
                 </div>
             </div>
 
@@ -516,7 +684,7 @@
                     <i data-lucide="microscope" class="w-4 h-4 mr-2"></i>
                     <span data-i18n="stat_analysis">统计学深度分析</span>
                 </h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                     <div>
                         <div class="text-sm muted mb-1" data-i18n="confidence_interval">95% 支出置信区间</div>
                         <div class="font-mono soft-panel p-2 rounded text-center text-sm">
@@ -541,6 +709,13 @@
                         </div>
                         <p class="text-xs muted mt-1 leading-tight" data-i18n="growth_desc">按当前增长率估算第5年的现金收入。</p>
                     </div>
+                    <div>
+                        <div class="text-sm muted mb-1" data-i18n="monthly_data">月度数据</div>
+                        <div class="font-mono soft-panel p-2 rounded text-center text-sm">
+                            <span id="out_monthly_data" class="text-geek-primary font-bold">¥0 / ¥0 / ¥0</span>
+                        </div>
+                        <p class="text-xs muted mt-1 leading-tight" data-i18n="monthly_data_desc">展示月可支配、月支出、月结余。</p>
+                    </div>
                 </div>
             </div>
 
@@ -555,6 +730,12 @@
                     <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_salary_trend">月薪趋势</h3>
                     <div class="flex-grow relative">
                         <canvas id="salaryTrendChart"></canvas>
+                    </div>
+                </div>
+                <div class="glass-panel p-4 rounded-lg min-h-[280px] flex flex-col md:col-span-2">
+                    <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_asset_trend">资产积累进展</h3>
+                    <div class="flex-grow relative">
+                        <canvas id="assetAccumulationChart"></canvas>
                     </div>
                 </div>
                 <div class="glass-panel p-4 rounded-lg min-h-[260px] flex flex-col">
@@ -573,6 +754,12 @@
                     <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_expense">开销拓扑雷达图</h3>
                     <div class="flex-grow relative w-full h-full" style="max-height: 300px;">
                         <canvas id="expenseChart"></canvas>
+                    </div>
+                </div>
+                <div class="glass-panel p-4 rounded-lg min-h-[300px] flex flex-col md:col-span-2">
+                    <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_monthly_expense">月预计开销雷达图</h3>
+                    <div class="flex-grow relative w-full h-full" style="max-height: 300px;">
+                        <canvas id="monthlyExpenseChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -622,6 +809,13 @@
                 health_check: "Health Check & Insurance / Year",
                 paid_leave: "Extra Paid Leave Value (Days)",
                 workdays: "Workdays / Year",
+                double_weekend: "Two-day Weekend",
+                annual_leave_days: "Annual Leave Days",
+                standard_hours: "Standard Hours / Day",
+                workday_ot_hours: "Weekday OT Hours / Month",
+                workday_ot_multiplier: "Weekday OT Multiplier",
+                holiday_ot_days: "Holiday OT Days / Year",
+                holiday_ot_multiplier: "Holiday OT Multiplier",
                 mod_insurance: "3. Tax & Security Matrix",
                 custom_base: "Security Base (Blank = Salary)",
                 apply_cn_tax: "Apply CN Tax Brackets",
@@ -648,7 +842,13 @@
                 annuity_times: "Times / Year",
                 birth_year: "Birth Year",
                 retire_age: "Estimated Retirement Age",
-                mod_expenses: "4. Stochastic Expenses",
+                mod_equity: "4. Funds & Stocks",
+                equity_grant: "Annual Grant Value",
+                equity_vesting_rate: "Current-year Vesting %",
+                equity_current_value: "Current Vested Assets",
+                equity_return_rate: "Expected Annual Return %",
+                equity_notice: "Financial asset valuation is not guaranteed. Blank/default values do not affect other calculations.",
+                mod_expenses: "5. Stochastic Expenses",
                 add: "Add",
                 exp_item: "Item",
                 exp_cost: "Cost",
@@ -656,12 +856,26 @@
                 exp_vol: "Vol.",
                 execute: "Execute Simulation",
                 disclaimer: "* Calculations are estimates for planning only.",
-                out_cash_gross: "Cash Gross",
-                out_net_annual: "Spendable Income",
+                out_cash_gross: "Theoretical Cash Gross",
+                out_net_annual: "Theoretical Spendable Income",
                 out_exp_annual: "Annual Expenses",
-                out_save_annual: "Annual Savings",
-                out_total_package: "Total Package",
+                out_save_annual: "Theoretical Annual Savings",
+                out_total_package: "Theoretical Total Package",
                 out_company_pay: "Company Paid",
+                actual_cash_income: "Actual Cash Income",
+                actual_net_income: "Actual Spendable Income",
+                actual_savings: "Actual Annual Savings",
+                overtime_total_value: "Overtime Value",
+                actual_total_package: "Actual Total Package",
+                monthly_cash_income: "Monthly Cash Income",
+                monthly_net_income: "Monthly Spendable Income",
+                monthly_expense: "Monthly Expense",
+                monthly_savings: "Monthly Savings",
+                monthly_company_paid: "Monthly Company Paid",
+                income_loss_ratio: "Monthly Income Loss Ratio",
+                annual_rest_days: "Annual Rest Days",
+                overtime_total_hours: "Total OT Hours",
+                labor_ratio: "Labor Ratio",
                 asset_ledger: "Settlement & Account Assets",
                 asset_name: "Item",
                 asset_monthly: "Monthly",
@@ -671,6 +885,8 @@
                 asset_housing: "Housing Fund Account",
                 asset_annuity: "Enterprise Annuity",
                 asset_welfare: "Benefit Valuation",
+                asset_liquid_savings: "Actual Liquid Savings",
+                asset_equity: "Funds & Stocks Vesting",
                 stat_analysis: "Statistical Analysis",
                 confidence_interval: "95% Expense Confidence Interval",
                 ci_desc: "Estimated with normal distribution. Upper bound is overspending risk.",
@@ -678,12 +894,16 @@
                 retire_desc: "Projected annuity until retirement. Beta excludes compound returns.",
                 growth_proj: "5-Year Income Projection",
                 growth_desc: "Estimated cash income in year 5 by current growth rate.",
+                monthly_data: "Monthly Data",
+                monthly_data_desc: "Shows monthly spendable income, expense, and savings.",
                 years_label: "years",
                 chart_income_trend: "Cash Income Trend",
                 chart_salary_trend: "Monthly Salary Trend",
+                chart_asset_trend: "Asset Accumulation Progress",
                 chart_cashflow: "Annual Cashflow",
                 chart_deductions: "Deductions & Company Contributions",
                 chart_expense: "Expense Radar",
+                chart_monthly_expense: "Monthly Expense Radar",
                 feedback_label: "Feedback for this metric or method",
                 privacy_note: "For privacy, form inputs reset after refresh. Only feedback typed here is saved in this browser.",
                 save_feedback: "Save Feedback"
@@ -706,6 +926,13 @@
                 health_check: "体检与商业保险/年",
                 paid_leave: "补充年假折算 (天)",
                 workdays: "年工作日",
+                double_weekend: "双休",
+                annual_leave_days: "年假天数",
+                standard_hours: "标准工作时长/天",
+                workday_ot_hours: "工作日加班小时/月",
+                workday_ot_multiplier: "工作日加班倍率",
+                holiday_ot_days: "节假日加班天数/年",
+                holiday_ot_multiplier: "节假日加班倍率",
                 mod_insurance: "3. 税务与五险二金矩阵",
                 custom_base: "社保基数 (不填默认薪资)",
                 apply_cn_tax: "应用中国个税阶梯算法",
@@ -732,7 +959,13 @@
                 annuity_times: "每年次数",
                 birth_year: "出生年份",
                 retire_age: "预计退休年龄",
-                mod_expenses: "4. 随机生活开销",
+                mod_equity: "4. 基金&股票",
+                equity_grant: "年度授予估值",
+                equity_vesting_rate: "本年归属比例 %",
+                equity_current_value: "当前已归属资产",
+                equity_return_rate: "预期年化收益 %",
+                equity_notice: "金融资产估值默认不保证收益；未填写时不影响其它计算。",
+                mod_expenses: "5. 随机生活开销",
                 add: "添加",
                 exp_item: "项目",
                 exp_cost: "金额",
@@ -740,12 +973,26 @@
                 exp_vol: "波动",
                 execute: "执行计算引擎",
                 disclaimer: "* 本计算结果基于估算模型，仅供个人规划参考。",
-                out_cash_gross: "现金年收入",
-                out_net_annual: "可支配收入",
+                out_cash_gross: "理论现金年收入",
+                out_net_annual: "理论可支配收入",
                 out_exp_annual: "预计年支出",
-                out_save_annual: "预计年结余",
-                out_total_package: "总包估值",
+                out_save_annual: "理论预计年结余",
+                out_total_package: "理论总包估值",
                 out_company_pay: "企业缴纳",
+                actual_cash_income: "实际现金年收入",
+                actual_net_income: "实际可支配收入",
+                actual_savings: "实际预计年结余",
+                overtime_total_value: "加班价值总值",
+                actual_total_package: "实际总包价值",
+                monthly_cash_income: "现金月收入",
+                monthly_net_income: "月可支配收入",
+                monthly_expense: "预计月支出",
+                monthly_savings: "预计月结余",
+                monthly_company_paid: "企业月缴纳",
+                income_loss_ratio: "月收入损失比例",
+                annual_rest_days: "年休息天",
+                overtime_total_hours: "加班总小时",
+                labor_ratio: "劳动比",
                 asset_ledger: "综合结算与账户资产",
                 asset_name: "项目",
                 asset_monthly: "月估算",
@@ -755,6 +1002,8 @@
                 asset_housing: "公积金账户合计",
                 asset_annuity: "企业年金合计",
                 asset_welfare: "福利折算",
+                asset_liquid_savings: "实际流动积累",
+                asset_equity: "基金&股票归属",
                 stat_analysis: "统计学深度分析",
                 confidence_interval: "95% 支出置信区间",
                 ci_desc: "基于正态分布估算。上限代表潜在超支警告阈值。",
@@ -762,12 +1011,16 @@
                 retire_desc: "剩余工作年限内的企业年金累计，Beta版未计复利。",
                 growth_proj: "5年收入投影",
                 growth_desc: "按当前增长率估算第5年的现金收入。",
+                monthly_data: "月度数据",
+                monthly_data_desc: "展示月可支配、月支出、月结余。",
                 years_label: "年",
                 chart_income_trend: "现金年收入趋势",
                 chart_salary_trend: "月薪趋势",
+                chart_asset_trend: "资产积累进展",
                 chart_cashflow: "年度现金流",
                 chart_deductions: "扣除与企业缴纳",
                 chart_expense: "开销拓扑雷达图",
+                chart_monthly_expense: "月预计开销雷达图",
                 feedback_label: "对这个指标/算法的反馈",
                 privacy_note: "为保护隐私，表单输入刷新后会回到默认值；只有这里主动填写的反馈会保存在本地浏览器。",
                 save_feedback: "保存反馈"
@@ -775,6 +1028,60 @@
         };
 
         const helpDocs = {
+            summary: {
+                zh: {
+                    title: "输出指标计算说明",
+                    body: "这里解释右侧核心输出区的理论口径、实际口径、月度口径和劳动时间口径。理论口径不含加班费；实际口径含加班费；基金股票不算流动现金。",
+                    details: [
+                        ["理论现金年收入", "月薪 x 12 + 年终奖 + 节日慰问金 + 绩效/项目奖金。不含加班费，不含基金股票。"],
+                        ["理论可支配收入", "理论现金年收入 - 个人五险一金 - 个人企业年金 - 个税。表示理论到手现金。"],
+                        ["预计年支出", "所有生活开销按日/月/年折算后的年度均值。"],
+                        ["理论预计年结余", "理论可支配收入 - 预计年支出。"],
+                        ["理论总包估值", "理论现金年收入 + 企业五险一金 + 企业年金 + 福利折算 + 基金股票本年归属。"],
+                        ["企业缴纳", "企业五险一金 + 企业年金。它不是到手现金。"],
+                        ["实际现金年收入", "理论现金年收入 + 加班价值。"],
+                        ["实际可支配收入", "实际现金年收入 - 个人五险一金 - 个人企业年金 - 按实际现金重新估算的个税。"],
+                        ["实际预计年结余", "实际可支配收入 - 预计年支出。"],
+                        ["加班价值总值", "工作日加班收入 + 节假日加班收入。默认加班小时/天数为 0。"],
+                        ["实际总包价值", "理论总包估值 + 加班价值。"],
+                        ["现金月收入", "实际现金年收入 / 12。"],
+                        ["月可支配收入", "实际可支配收入 / 12。"],
+                        ["预计月支出", "预计年支出 / 12。"],
+                        ["预计月结余", "实际预计年结余 / 12，也就是可积攒的流动资金月值。"],
+                        ["企业月缴纳", "企业缴纳 / 12。"],
+                        ["月收入损失比例", "1 - 月可支配收入 / 月薪资。值越高，说明扣除和税费对到手现金影响越大。"],
+                        ["年休息天", "双休周末天数 + 年假天数，暂不含法定节假日。"],
+                        ["加班总小时", "工作日月加班小时 x 12 + 节假日加班天数 x 标准工作时长。"],
+                        ["劳动比", "实际工作时长 / 全年总小时数。用于粗略感知时间占用。"]
+                    ]
+                },
+                en: {
+                    title: "Output Metric Guide",
+                    body: "This explains the theoretical, actual, monthly, and labor-time metrics. Theoretical values exclude overtime; actual values include overtime; funds/stocks are not liquid cash.",
+                    details: [
+                        ["Theoretical Cash Gross", "Monthly salary x 12 + year-end bonus + holiday bonus + performance bonus. Excludes overtime and funds/stocks."],
+                        ["Theoretical Spendable Income", "Theoretical cash gross - personal security - personal annuity - income tax."],
+                        ["Annual Expenses", "Annualized mean of all expense rows."],
+                        ["Theoretical Annual Savings", "Theoretical spendable income - annual expenses."],
+                        ["Theoretical Total Package", "Theoretical cash gross + company security + company annuity + benefit valuation + vested funds/stocks."],
+                        ["Company Paid", "Company security + company annuity. Not take-home cash."],
+                        ["Actual Cash Income", "Theoretical cash gross + overtime value."],
+                        ["Actual Spendable Income", "Actual cash income - personal security - personal annuity - tax estimated from actual cash."],
+                        ["Actual Annual Savings", "Actual spendable income - annual expenses."],
+                        ["Overtime Value", "Weekday overtime income + holiday overtime income. Defaults to zero."],
+                        ["Actual Total Package", "Theoretical total package + overtime value."],
+                        ["Monthly Cash Income", "Actual cash income / 12."],
+                        ["Monthly Spendable Income", "Actual spendable income / 12."],
+                        ["Monthly Expense", "Annual expenses / 12."],
+                        ["Monthly Savings", "Actual annual savings / 12, the liquid cash you can accumulate."],
+                        ["Monthly Company Paid", "Company paid / 12."],
+                        ["Monthly Income Loss Ratio", "1 - monthly spendable income / monthly salary. Higher means more salary is lost to deductions and tax."],
+                        ["Annual Rest Days", "Weekend rest days + annual leave, excluding public holidays."],
+                        ["Total OT Hours", "Weekday monthly overtime x 12 + holiday overtime days x standard hours."],
+                        ["Labor Ratio", "Actual work hours / total yearly hours."]
+                    ]
+                }
+            },
             income: {
                 zh: {
                     title: "收入向量",
@@ -807,7 +1114,11 @@
                         ["工作餐补贴/工作日", "按“每日金额 x 年工作日”估算福利价值。默认只计入总包估值，不增加可支配现金。"],
                         ["体检与商业保险/年", "体检、团体商业保险等公司福利，按年价值计入总包估值。"],
                         ["补充年假折算", "按“天数 x 月薪/21.75”估算时间价值，只进入总包估值。"],
-                        ["年工作日", "用于工作餐补贴总额估算。若公司按实际出勤发放，可手动调整。"]
+                        ["年工作日", "用于工作餐补贴总额估算。若公司按实际出勤发放，可手动调整。"],
+                        ["双休与年假", "年休息天 = 双休则 104 天，否则 52 天，再加年假天数。暂不纳入法定节假日，避免重复口径。"],
+                        ["标准工作时长", "默认 8 小时/天，用于估算时薪、加班收入和劳动比。"],
+                        ["工作日加班", "按“月加班小时 x 12 x 时薪 x 倍率”估算。默认加班小时为 0，不参与计算。"],
+                        ["节假日加班", "按“节假日加班天数 x 日薪 x 倍率”估算。加班收入不进入理论现金收入，只进入实际现金/实际可支配/实际总包。"]
                     ]
                 },
                 en: {
@@ -819,7 +1130,35 @@
                         ["Meal Allowance", "Daily value x workdays. Included in package value, not spendable cash by default."],
                         ["Health & Insurance", "Annual valuation of health checks and commercial insurance. Included in package value."],
                         ["Extra Paid Leave", "Days x monthly salary / 21.75. Treated as time value in package valuation."],
-                        ["Workdays", "Controls meal allowance valuation. Adjust it if your company pays by actual attendance."]
+                        ["Workdays", "Controls meal allowance valuation. Adjust it if your company pays by actual attendance."],
+                        ["Weekend & Leave", "Annual rest days = 104 for two-day weekends, otherwise 52, plus annual leave days. Public holidays are excluded."],
+                        ["Standard Hours", "Defaults to 8 hours/day. Used for hourly wage, overtime value, and labor ratio."],
+                        ["Weekday Overtime", "Estimated as monthly overtime hours x 12 x hourly wage x multiplier. Defaults to zero."],
+                        ["Holiday Overtime", "Estimated as holiday overtime days x daily wage x multiplier. It affects actual, not theoretical, income."]
+                    ]
+                }
+            },
+            equity: {
+                zh: {
+                    title: "基金&股票",
+                    body: "本模块用于记录公司以基金、股票、RSU、期权等形式给出的总包部分。默认值为 0，因此不填写时不会影响任何已有计算。",
+                    details: [
+                        ["年度授予估值", "公司一年授予的金融资产名义价值。它不等于可立即提现的现金。"],
+                        ["本年归属比例", "本年可归属部分 = 年度授予估值 x 归属比例。该值进入理论总包和资产趋势。"],
+                        ["当前已归属资产", "已经归属但仍持有的基金/股票资产，用作资产积累趋势图的起点。"],
+                        ["预期年化收益", "只用于资产积累趋势图的情景模拟，不作为确定收益，也不进入现金收入或可支配收入。"],
+                        ["谨慎口径", "基金/股票不参与个税和现金结余估算；如需严谨税务计算，后续应单独增加归属时点、卖出价格和税费口径。"]
+                    ]
+                },
+                en: {
+                    title: "Funds & Stocks",
+                    body: "This module records compensation delivered as funds, stocks, RSUs, options, or similar financial assets. Defaults are zero, so blank inputs do not affect existing calculations.",
+                    details: [
+                        ["Annual Grant Value", "Nominal annual value granted by the company. It is not immediate cash."],
+                        ["Current-year Vesting", "Vested value = annual grant value x vesting rate. It enters theoretical package value and asset trend."],
+                        ["Current Vested Assets", "Already vested financial assets still held. Used as the starting point of the asset trend chart."],
+                        ["Expected Return", "Used only for asset trend scenarios. It is not guaranteed return and does not enter cash income."],
+                        ["Conservative Scope", "Funds/stocks are excluded from cash, disposable income, and tax estimation for now."]
                     ]
                 }
             },
@@ -887,7 +1226,10 @@
                         ["公积金账户合计", "社保基数 x（个人公积金比例 + 企业公积金比例）。通常可在特定条件下提取。"],
                         ["企业年金合计", "个人年金 + 企业年金。按当前年金类型和频率折算成年值。"],
                         ["福利折算", "工作餐、体检商业保险、补充年假等非现金福利的估值。"],
-                        ["总包估值", "现金年收入 + 企业五险一金 + 企业年金 + 福利折算。它不等同于可支配现金。"]
+                        ["实际流动积累", "实际可支配收入扣除生活成本后的可积攒现金，不包含五险一金账户、基金股票和其它锁定资产。"],
+                        ["基金&股票归属", "年度授予估值 x 本年归属比例，进入理论总包和资产趋势，但不进入现金收入。"],
+                        ["理论总包估值", "理论现金年收入 + 企业五险一金 + 企业年金 + 福利折算 + 基金股票归属。"],
+                        ["实际总包价值", "理论总包估值 + 加班价值。用于观察加班后的真实劳动换取回报。"]
                     ]
                 },
                 en: {
@@ -899,14 +1241,17 @@
                         ["Housing Fund", "Security base x personal + company housing fund rates."],
                         ["Enterprise Annuity", "Personal annuity + company annuity, annualized by type and frequency."],
                         ["Benefit Valuation", "Meal allowance, health checks, insurance, and paid leave valuation."],
-                        ["Total Package", "Cash income + company security + company annuity + benefits. It is not spendable cash."]
+                        ["Actual Liquid Savings", "Actual spendable income minus living costs. It excludes security accounts, funds/stocks, and locked assets."],
+                        ["Funds & Stocks", "Annual grant value x vesting rate. Included in package value and asset trend, not cash income."],
+                        ["Theoretical Package", "Theoretical cash income + company security + company annuity + benefits + vested funds/stocks."],
+                        ["Actual Package", "Theoretical package + overtime value."]
                     ]
                 }
             }
         };
 
         let currentLang = 'zh';
-        let charts = { cashflow: null, deductions: null, expense: null, incomeTrend: null, salaryTrend: null };
+        let charts = { cashflow: null, deductions: null, expense: null, monthlyExpense: null, incomeTrend: null, salaryTrend: null, assetAccumulation: null };
         let currentHelpKey = 'income';
         const defaultExpenses = [
             { name: 'Water & Elec', nameZh: '水电费', amount: 300, freq: 'monthly', vol: 15 },
@@ -950,6 +1295,11 @@
         function yuan(value) {
             const sign = value < 0 ? '-' : '';
             return `${sign}¥${Math.abs(value).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
+        }
+
+        function percent(value) {
+            if (!Number.isFinite(value)) return '0%';
+            return `${(value * 100).toLocaleString(undefined, { maximumFractionDigits: 1 })}%`;
         }
 
         function escapeAttr(value) {
@@ -1065,6 +1415,22 @@
             return { years, monthlyTrend, annualTrend };
         }
 
+        function makeAssetTrendData(years, annualSavings, annualHousingTotal, annualAnnuityTotal, annualEquityVested, equityCurrentValue, equityReturnRate) {
+            const values = [];
+            let savedCash = 0;
+            let housing = 0;
+            let annuity = 0;
+            let equity = equityCurrentValue;
+            for (let index = 0; index < years.length; index += 1) {
+                savedCash += Math.max(0, annualSavings);
+                housing += annualHousingTotal;
+                annuity += annualAnnuityTotal;
+                equity = (equity + annualEquityVested) * (1 + equityReturnRate);
+                values.push(savedCash + housing + annuity + equity);
+            }
+            return values;
+        }
+
         function runEngine() {
             const monthlySalary = normalizeMonthlySalary();
             const annualBaseGross = monthlySalary * 12;
@@ -1082,6 +1448,29 @@
             const welfareValue = parseMoney($('in_welfare_value').value);
             const paidLeaveValue = Math.max(0, numberVal('in_extra_leave')) * (monthlySalary / 21.75);
             const annualBenefitValue = mealValue + welfareValue + paidLeaveValue;
+
+            const hasDoubleWeekend = $('in_double_weekend').checked;
+            const annualLeaveDays = Math.max(0, numberVal('in_annual_leave_days'));
+            const standardHours = Math.max(1, numberVal('in_standard_hours') || 8);
+            const restDays = (hasDoubleWeekend ? 104 : 52) + annualLeaveDays;
+            const scheduledWorkDays = Math.max(0, 365 - restDays);
+            const dailyRate = monthlySalary / 21.75;
+            const hourlyRate = dailyRate / standardHours;
+            const workdayOvertimeHours = Math.max(0, numberVal('in_workday_ot_hours')) * 12;
+            const holidayOvertimeDays = Math.max(0, numberVal('in_holiday_ot_days'));
+            const holidayOvertimeHours = holidayOvertimeDays * standardHours;
+            const overtimeHours = workdayOvertimeHours + holidayOvertimeHours;
+            const workdayOvertimeValue = workdayOvertimeHours * hourlyRate * Math.max(0, numberVal('in_workday_ot_multiplier'));
+            const holidayOvertimeValue = holidayOvertimeDays * dailyRate * Math.max(0, numberVal('in_holiday_ot_multiplier'));
+            const overtimeValue = workdayOvertimeValue + holidayOvertimeValue;
+            const actualWorkHours = scheduledWorkDays * standardHours + overtimeHours;
+            const laborRatio = actualWorkHours / (365 * 24);
+
+            const equityGrantValue = parseMoney($('in_equity_grant').value);
+            const equityVestingRate = Math.max(0, numberVal('in_equity_vesting_rate')) / 100;
+            const annualEquityVested = equityGrantValue * equityVestingRate;
+            const equityCurrentValue = parseMoney($('in_equity_current_value').value);
+            const equityReturnRate = numberVal('in_equity_return_rate') / 100;
 
             const customBase = parseMoney($('in_base').value);
             const insBase = customBase > 0 ? customBase : monthlySalary;
@@ -1119,11 +1508,16 @@
             const taxableIncome = annualCashGross - annualPersonalSecurity - annualEmpAnnuity - 60000;
             const annualTax = applyTax ? calculateChinaTax(taxableIncome) : 0;
             const annualNet = annualCashGross - annualPersonalSecurity - annualEmpAnnuity - annualTax;
+            const actualAnnualCashGross = annualCashGross + overtimeValue;
+            const actualTaxableIncome = taxableIncome + overtimeValue;
+            const actualAnnualTax = applyTax ? calculateChinaTax(actualTaxableIncome) : 0;
+            const actualAnnualNet = actualAnnualCashGross - annualPersonalSecurity - annualEmpAnnuity - actualAnnualTax;
 
             let totalAnnualMeanExp = 0;
             let totalAnnualVariance = 0;
             const expLabels = [];
             const expData = [];
+            const expMonthlyData = [];
             document.querySelectorAll('#expenseContainer .expense-row').forEach(row => {
                 updateExpenseStateFromRow(row);
             });
@@ -1140,12 +1534,14 @@
                 totalAnnualVariance += sigma * sigma;
                 expLabels.push(name || '-');
                 expData.push(annualAmt);
+                expMonthlyData.push(annualAmt / 12);
             });
 
             const totalAnnualStdDev = Math.sqrt(totalAnnualVariance);
             const ciLower = Math.max(0, totalAnnualMeanExp - 1.96 * totalAnnualStdDev);
             const ciUpper = totalAnnualMeanExp + 1.96 * totalAnnualStdDev;
             const annualSavings = annualNet - totalAnnualMeanExp;
+            const actualAnnualSavings = actualAnnualNet - totalAnnualMeanExp;
 
             const birthYear = parseInt($('in_birth').value, 10) || 1990;
             const currentYear = new Date().getFullYear();
@@ -1153,9 +1549,27 @@
             const yearsToRetire = Math.max(0, retireAge - (currentYear - birthYear));
             const projectedAnnuity = annualAnnuityTotal * yearsToRetire;
 
-            const annualTotalPackage = annualCashGross + annualCompanySecurity + annualCompanyAnnuity + annualBenefitValue;
+            const annualTotalPackage = annualCashGross + annualCompanySecurity + annualCompanyAnnuity + annualBenefitValue + annualEquityVested;
+            const actualTotalPackage = annualTotalPackage + overtimeValue;
             const annualCompanyPaid = annualCompanySecurity + annualCompanyAnnuity;
             const annualHousingTotal = annualPersonalHousing + annualCompanyHousing;
+            const monthlyCashIncome = actualAnnualCashGross / 12;
+            const monthlyNetIncome = actualAnnualNet / 12;
+            const monthlyExpense = totalAnnualMeanExp / 12;
+            const monthlySavings = actualAnnualSavings / 12;
+            const monthlyCompanyPaid = annualCompanyPaid / 12;
+            const liquidAnnualSavings = actualAnnualSavings;
+            const liquidMonthlySavings = monthlySavings;
+            const incomeLossRatio = monthlySalary > 0 ? Math.max(0, 1 - (monthlyNetIncome / monthlySalary)) : 0;
+            const assetTrendData = makeAssetTrendData(
+                trendData.years,
+                actualAnnualSavings,
+                annualHousingTotal,
+                annualAnnuityTotal,
+                annualEquityVested,
+                equityCurrentValue,
+                equityReturnRate
+            );
 
             $('salaryHint').innerText = monthlySalary > 0 ? `≈ ${yuan(monthlySalary)}` : '';
             $('out_gross').innerText = yuan(annualCashGross);
@@ -1169,6 +1583,21 @@
             $('out_retire_age').innerText = yearsToRetire;
             $('out_retire_fund').innerText = yuan(projectedAnnuity);
             $('out_growth_projection').innerText = yuan(fifthYearCash);
+            $('actual_cash_income').innerText = yuan(actualAnnualCashGross);
+            $('actual_net_income').innerText = yuan(actualAnnualNet);
+            $('actual_savings').innerText = yuan(actualAnnualSavings);
+            $('overtime_total_value').innerText = yuan(overtimeValue);
+            $('actual_total_package').innerText = yuan(actualTotalPackage);
+            $('monthly_cash_income').innerText = yuan(monthlyCashIncome);
+            $('monthly_net_income').innerText = yuan(monthlyNetIncome);
+            $('monthly_expense').innerText = yuan(monthlyExpense);
+            $('monthly_savings').innerText = yuan(monthlySavings);
+            $('monthly_company_paid').innerText = yuan(monthlyCompanyPaid);
+            $('income_loss_ratio').innerText = percent(incomeLossRatio);
+            $('annual_rest_days').innerText = restDays.toLocaleString(undefined, { maximumFractionDigits: 1 });
+            $('overtime_total_hours').innerText = overtimeHours.toLocaleString(undefined, { maximumFractionDigits: 1 });
+            $('labor_ratio').innerText = percent(laborRatio);
+            $('out_monthly_data').innerText = `${yuan(monthlyNetIncome)} / ${yuan(monthlyExpense)} / ${yuan(monthlySavings)}`;
 
             $('asset_medical_month').innerText = yuan(annualMedicalCard / 12);
             $('asset_medical_year').innerText = yuan(annualMedicalCard);
@@ -1180,6 +1609,10 @@
             $('asset_annuity_year').innerText = yuan(annualAnnuityTotal);
             $('asset_welfare_month').innerText = yuan(annualBenefitValue / 12);
             $('asset_welfare_year').innerText = yuan(annualBenefitValue);
+            $('asset_liquid_month').innerText = yuan(liquidMonthlySavings);
+            $('asset_liquid_year').innerText = yuan(liquidAnnualSavings);
+            $('asset_equity_month').innerText = yuan(annualEquityVested / 12);
+            $('asset_equity_year').innerText = yuan(annualEquityVested);
 
             updateCharts({
                 annualTax,
@@ -1195,7 +1628,9 @@
                 insBase,
                 expLabels,
                 expData,
-                trendData
+                expMonthlyData,
+                trendData,
+                assetTrendData
             });
         }
 
@@ -1265,6 +1700,28 @@
                         data: data.trendData.monthlyTrend,
                         borderColor: c.accent,
                         backgroundColor: salaryGradient,
+                        fill: true,
+                        borderWidth: 2.5
+                    }]
+                },
+                options: trendOptions
+            });
+
+            if (charts.assetAccumulation) charts.assetAccumulation.destroy();
+            const assetCtx = $('assetAccumulationChart').getContext('2d');
+            const assetGradient = assetCtx.createLinearGradient(0, 0, 0, 260);
+            assetGradient.addColorStop(0, 'rgba(8, 145, 178, 0.42)');
+            assetGradient.addColorStop(0.55, 'rgba(20, 184, 166, 0.18)');
+            assetGradient.addColorStop(1, 'rgba(8, 145, 178, 0.02)');
+            charts.assetAccumulation = new Chart(assetCtx, {
+                type: 'line',
+                data: {
+                    labels: data.trendData.years,
+                    datasets: [{
+                        label: currentLang === 'zh' ? '资产积累' : 'Asset Accumulation',
+                        data: data.assetTrendData,
+                        borderColor: c.cyan,
+                        backgroundColor: assetGradient,
                         fill: true,
                         borderWidth: 2.5
                     }]
@@ -1347,6 +1804,33 @@
                         backgroundColor: 'rgba(124, 58, 237, 0.18)',
                         borderColor: c.accent,
                         pointBackgroundColor: c.accent,
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: c.grid },
+                            grid: { color: c.grid },
+                            pointLabels: { color: c.text, font: { size: 10 } }
+                        }
+                    }
+                }
+            });
+
+            if (charts.monthlyExpense) charts.monthlyExpense.destroy();
+            charts.monthlyExpense = new Chart($('monthlyExpenseChart').getContext('2d'), {
+                type: 'radar',
+                data: {
+                    labels: data.expLabels.length > 0 ? data.expLabels : ['None'],
+                    datasets: [{
+                        label: currentLang === 'zh' ? '月预估开销 (¥)' : 'Monthly Est. (¥)',
+                        data: data.expMonthlyData.length > 0 ? data.expMonthlyData : [0],
+                        backgroundColor: 'rgba(20, 184, 166, 0.18)',
+                        borderColor: c.primary,
+                        pointBackgroundColor: c.primary,
                         borderWidth: 2
                     }]
                 },

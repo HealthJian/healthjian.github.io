@@ -121,6 +121,23 @@
 
         <section class="changelog-timeline" data-changelog-view-panel="logs">
             <div class="timeline-item">
+                <div class="timeline-date">2026-06-24</div>
+                <div class="timeline-content">
+                    <h2 data-en="LifeCost Calculator — Actual Metrics, Financial Assets, and Work-Time Model Upgrade" data-zh="生活成本计算器 — 实际口径、金融资产与劳动时间模型升级">生活成本计算器 — 实际口径、金融资产与劳动时间模型升级</h2>
+                    <ul>
+                        <li data-en="Funds and stocks module: added a financial-asset section for annual grant value, current-year vesting rate, current vested assets, and expected annual return. The values are excluded from liquid cash and tax calculations by default, but included in total package valuation and asset accumulation scenarios." data-zh="基金&股票模块：新增年度授予估值、本年归属比例、当前已归属资产、预期年化收益等金融资产参数；默认不进入流动现金与个税计算，但进入总包估值和资产积累情景。"><strong>基金&股票模块</strong>：新增年度授予估值、本年归属比例、当前已归属资产、预期年化收益等金融资产参数；默认不进入流动现金与个税计算，但进入总包估值和资产积累情景。</li>
+                        <li data-en="Leave and overtime model: expanded the benefits section with two-day weekend, annual leave days, standard hours, weekday overtime hours and multiplier, holiday overtime days and multiplier. Overtime defaults to zero and only affects actual income/package metrics, not theoretical cash or spendable income." data-zh="休假与加班模型：在福利板块新增双休、年假天数、标准工时、工作日加班小时与倍率、节假日加班天数与倍率；加班默认 0，仅影响实际收入和实际总包，不污染理论现金与理论到手口径。"><strong>休假与加班模型</strong>：在福利板块新增双休、年假天数、标准工时、工作日加班小时与倍率、节假日加班天数与倍率；加班默认 0，仅影响实际收入和实际总包，不污染理论现金与理论到手口径。</li>
+                        <li data-en="Output model redesign: renamed the six headline cards to theoretical metrics, added actual annual metrics, monthly cash/spendable/expense/savings/company-paid metrics, rest days, overtime hours, and labor ratio, with color-accented cards matching the dashboard style." data-zh="输出模型重构：将顶部六个核心卡片改为理论口径，并新增实际年度指标、月现金/月到手/月支出/月结余/企业月缴纳、年休息天、加班总小时、劳动比等输出，附带彩色边框卡片修饰。"><strong>输出模型重构</strong>：将顶部六个核心卡片改为理论口径，并新增实际年度指标、月现金/月到手/月支出/月结余/企业月缴纳、年休息天、加班总小时、劳动比等输出，附带彩色边框卡片修饰。</li>
+                        <li data-en="Liquidity and ratio correction: added actual liquid savings to the settlement panel as pure cash accumulation after spendable income minus living costs, excluding social-security accounts, funds/stocks, and locked assets; corrected monthly income loss ratio to 1 - monthly spendable income / monthly salary." data-zh="流动资金与比例修正：综合结算板块新增实际流动积累，表示实际可支配收入扣除生活成本后的纯现金积累，不包含五险一金账户、基金股票与锁定资产；修正月收入损失比例为 1 - 月可支配收入 / 月薪资。"><strong>流动资金与比例修正</strong>：综合结算板块新增实际流动积累，表示实际可支配收入扣除生活成本后的纯现金积累，不包含五险一金账户、基金股票与锁定资产；修正月收入损失比例为 1 - 月可支配收入 / 月薪资。</li>
+                        <li data-en="New visual reports: added an asset accumulation area trend chart and monthly expense radar chart, while extending the statistical analysis section with monthly data." data-zh="新增可视化报告：新增资产积累进展面积趋势图与月预计开销雷达图，并在统计学分析区补充月度数据展示。"><strong>新增可视化报告</strong>：新增资产积累进展面积趋势图与月预计开销雷达图，并在统计学分析区补充月度数据展示。</li>
+                        <li data-en="Output guide dialog: added a navbar help button before the language switcher to explain all headline, actual, monthly, and labor-time output metrics. The dialog reuses the responsive help system and supports bilingual and light/dark modes." data-zh="输出说明弹窗：在导航栏语言切换按钮左侧新增问号入口，解释所有顶部、实际、月度和劳动时间输出指标；弹窗复用响应式说明系统，兼容中英文与日夜间模式。"><strong>输出说明弹窗</strong>：在导航栏语言切换按钮左侧新增问号入口，解释所有顶部、实际、月度和劳动时间输出指标；弹窗复用响应式说明系统，兼容中英文与日夜间模式。</li>
+                        <li data-en="Validation: checked inline JavaScript syntax and verified static consistency for referenced IDs, i18n keys, and help mappings." data-zh="验证：完成内联 JavaScript 语法检查，并核验脚本引用 ID、i18n key 与帮助入口映射的一致性。"><strong>验证</strong>：完成内联 JavaScript 语法检查，并核验脚本引用 ID、i18n key 与帮助入口映射的一致性。</li>
+                        <li data-en="Changed Files: pages/demo/cost_of_living_calculator.html, pages/demo/changelog.html, pages/changelog.html." data-zh="改动文件：pages/demo/cost_of_living_calculator.html、pages/demo/changelog.html、pages/changelog.html。"><strong>改动文件</strong>：pages/demo/cost_of_living_calculator.html、pages/demo/changelog.html、pages/changelog.html。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
                 <div class="timeline-date">2026-06-23</div>
                 <div class="timeline-content">
                     <h2 data-en="LifeCost Total Package Calculator Beta" data-zh="生活成本-总包资产计算器 Beta">生活成本-总包资产计算器 Beta</h2>
