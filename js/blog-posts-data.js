@@ -1,6 +1,54 @@
 // 博客文章数据源：供 blog.js、博客页、分类页与首页最新文章复用
 window.BLOG_POSTS_DATA = [
         {
+            "id": "rust-borrowing-lifetimes-memory-safety-20260625",
+            "title": "Rust 第二篇：借用与生命周期 —— 内存安全的“司法解释”",
+            "title_en": "Rust Article 2: Borrowing and Lifetimes — The Judicial Interpretation of Memory Safety",
+            "excerpt": "Rust 系列第二篇，围绕借用、不可变引用、可变引用、字符串切片与生命周期展开，结合上一讲思考题解释借用检查器如何在编译期阻止悬垂引用与非法移动。",
+            "excerpt_en": "The second article in the Rust series, covering borrowing, immutable and mutable references, string slices, and lifetimes, while explaining how the borrow checker prevents dangling references and invalid moves at compile time.",
+            "date": "2026-06-25",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260625_zh_2.md",
+            "category": "tech",
+            "tags": ["Rust", "借用", "生命周期", "内存安全", "系统编程"],
+            "tags_en": ["Rust", "Borrowing", "Lifetimes", "Memory Safety", "Systems Programming"]
+        },
+        {
+            "id": "rust-zero-to-one-ownership-setup-20260625",
+            "title": "Rust 从零到一：为什么是 Rust？环境搭建与所有权初探",
+            "title_en": "Rust from Zero to One: Why Rust? Environment Setup and First Look at Ownership",
+            "excerpt": "Rust 系列第一篇，从为什么学习 Rust、Rustup 与 Cargo 环境搭建、第一个 Hello World 项目，到所有权三大规则与移动、克隆、栈堆内存模型，建立 Rust 入门基础。",
+            "excerpt_en": "The first article in the Rust series, introducing why Rust matters, Rustup and Cargo setup, the first Hello World project, ownership rules, move and clone semantics, and the stack/heap memory model.",
+            "date": "2026-06-25",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260625_zh_1.md",
+            "category": "tech",
+            "tags": ["Rust", "所有权", "Cargo", "内存管理", "系统编程"],
+            "tags_en": ["Rust", "Ownership", "Cargo", "Memory Management", "Systems Programming"]
+        },
+        {
+            "id": "agentic-tool-use-llm-evolution-survey-20260624",
+            "title": "大语言模型的智能工具调用：从“即插即用”到“自主优化”的进化之路",
+            "title_en": "Agentic Tool Use in Large Language Models: From Plug-and-Play to Autonomous Optimization",
+            "excerpt": "围绕 Agentic Tool Use 综述论文展开精读，以进化视角梳理 LLM 工具调用的三大范式：即插即用提示、监督式工具学习、自主反馈优化，并讨论工具调用系统的工程落地路径。",
+            "excerpt_en": "An in-depth read of a survey on agentic tool use in LLMs, organizing tool-calling methods into three evolutionary paradigms: plug-and-play prompting, supervised tool learning, and autonomous feedback optimization.",
+            "date": "2026-06-24",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260624_zh_2.md",
+            "category": "paper",
+            "tags": ["论文精读", "大语言模型", "工具调用", "AI Agent", "Tool Learning"],
+            "tags_en": ["Paper Review", "LLM", "Tool Calling", "AI Agent", "Tool Learning"]
+        },
+        {
+            "id": "semiconductor-ft-yield-prediction-framework-20260624",
+            "title": "半导体制造良率预测新框架：用机器学习提前两个月揪出低良率芯片",
+            "title_en": "A Novel Framework for Semiconductor Yield Prediction: Catching Low-Yield Chips Two Months in Advance",
+            "excerpt": "围绕 IEEE Access 半导体良率预测论文展开精读，讲解如何在晶圆制造阶段利用 WAT、类别型制造数据、GMM 离散化与机器学习模型提前预测 Final Test 良率。",
+            "excerpt_en": "An in-depth read of an IEEE Access paper on semiconductor yield prediction, explaining how WAT data, categorical manufacturing data, GMM discretization, and machine learning can predict Final Test yield at the wafer fabrication stage.",
+            "date": "2026-06-24",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260624_zh_1.md",
+            "category": "paper",
+            "tags": ["论文精读", "半导体", "良率预测", "机器学习", "Final Test"],
+            "tags_en": ["Paper Review", "Semiconductor", "Yield Prediction", "Machine Learning", "Final Test"]
+        },
+        {
             "id": "eco-aquarium-scientific-keeping-aquascaping-20260622",
             "title": "从零打造你的水下世界：生态鱼缸科学养殖与造景全指南",
             "title_en": "Build Your Underwater World from Scratch: A Complete Guide to Scientific Eco-Aquarium Keeping and Aquascaping",
