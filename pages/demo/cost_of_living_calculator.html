@@ -114,6 +114,27 @@
         label,
         .muted { color: var(--muted); }
 
+        .app-shell {
+            width: min(calc(100% - 1rem), 1180px);
+            margin-inline: auto;
+            padding: 1rem 0 1.5rem;
+        }
+
+        .app-shell.results-wide {
+            width: min(calc(100% - 1rem), 1360px);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .form-grid.compact {
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+        }
+
         .help-btn {
             display: inline-flex;
             width: 1.35rem;
@@ -421,11 +442,32 @@
 
         .view-switch {
             display: flex;
+            width: min(100%, 34rem);
+            margin-inline: auto;
             align-items: center;
             justify-content: center;
             gap: 0.6rem;
             padding: 0.5rem;
             border-radius: 12px;
+        }
+
+        .output-view {
+            width: min(100%, 1280px);
+            margin-inline: auto;
+        }
+
+        .chart-title-row,
+        .analytics-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .chart-title-row h3,
+        .analytics-title-row h4 {
+            min-width: 0;
         }
 
         .view-tab {
@@ -467,7 +509,23 @@
             }
         }
 
+        @media (min-width: 1024px) {
+            .app-shell {
+                width: min(calc(100% - 3rem), 1180px);
+                padding: 1.5rem 0 2rem;
+            }
+
+            .app-shell.results-wide {
+                width: min(calc(100% - 3rem), 1360px);
+            }
+        }
+
         @media (max-width: 640px) {
+            .app-shell,
+            .app-shell.results-wide {
+                width: min(calc(100% - 1rem), 100%);
+            }
+
             .asset-row {
                 grid-template-columns: minmax(0, 1fr);
                 gap: 0.25rem;
@@ -488,6 +546,7 @@
             .view-switch {
                 flex-direction: column;
                 align-items: stretch;
+                width: 100%;
             }
 
             .view-tab {
@@ -524,7 +583,7 @@
         </div>
     </nav>
 
-    <main class="container mx-auto p-4 lg:p-6 space-y-6">
+    <main id="appShell" class="app-shell space-y-6">
         <div class="view-switch glass-panel" role="tablist" aria-label="Calculator views">
             <button type="button" id="inputViewBtn" class="view-tab active" data-view="input" role="tab" aria-selected="true" aria-controls="inputView">
                 <i data-lucide="clipboard-list" class="w-4 h-4"></i>
@@ -546,7 +605,7 @@
                     <button class="help-btn" data-help="income" aria-label="收入说明">?</button>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="form-grid">
                     <div>
                         <label class="block text-xs font-medium mb-1" data-i18n="base_salary">基础薪资</label>
                         <div class="relative">
@@ -582,7 +641,7 @@
                     <button class="help-btn" data-help="benefits" aria-label="福利说明">?</button>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="form-grid">
                     <div>
                         <label class="block text-xs font-medium mb-1" data-i18n="holiday_bonus">节日慰问金/年</label>
                         <input type="text" id="in_holiday_bonus" value="600" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
@@ -649,7 +708,7 @@
                     <button class="help-btn" data-help="insurance" aria-label="五险一金说明">?</button>
                 </div>
 
-                <div class="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="mb-4 form-grid compact">
                     <div>
                         <label class="block text-xs font-medium mb-1" data-i18n="custom_base">社保基数 (不填默认薪资)</label>
                         <input type="text" id="in_base" placeholder="Auto" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
@@ -706,7 +765,7 @@
                     </table>
                 </div>
 
-                <div class="soft-panel p-3 rounded-lg grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="soft-panel p-3 rounded-lg form-grid compact">
                     <div>
                         <label class="block text-xs font-medium mb-1" data-i18n="medical_card_rate">医保卡入账比例 %</label>
                         <input type="number" id="medical_card_rate" value="2" step="0.1" class="w-full border rounded-md py-1.5 px-2 font-mono text-sm">
@@ -759,7 +818,7 @@
                     <button class="help-btn" data-help="equity" aria-label="基金股票说明">?</button>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="form-grid">
                     <div>
                         <label class="block text-xs font-medium mb-1" data-i18n="equity_grant">年度授予估值</label>
                         <input type="text" id="in_equity_grant" value="0" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
@@ -813,7 +872,7 @@
                     <button class="help-btn" data-help="planning" aria-label="现金资产与债务说明">?</button>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="form-grid">
                     <div>
                         <label class="block text-xs font-medium mb-1" data-i18n="current_savings">当前存款</label>
                         <input type="text" id="in_current_savings" value="0" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
@@ -853,7 +912,7 @@
                         <strong id="out_debt_irr">0%</strong>
                     </div>
                 </div>
-                <p class="text-xs muted mt-3" data-i18n="planning_notice">大额支出和债务月供会计入支出与结余；当前存款只用于12个月净资产趋势。</p>
+                <p class="text-xs muted mt-3" data-i18n="planning_notice">大额支出和债务月供会计入支出与结余；当前存款会作为净资产趋势和资产投影的起点。</p>
             </section>
 
             <button id="calcBtn" class="w-full bg-gradient-to-r from-geek-primary to-geek-accent hover:from-teal-500 hover:to-violet-500 text-white font-bold py-3 px-4 rounded-lg shadow-lg transition flex justify-center items-center space-x-2">
@@ -863,7 +922,7 @@
             <p class="text-center text-xs muted mt-2" data-i18n="disclaimer">* 本计算结果基于估算模型，仅供个人规划参考。</p>
         </div>
 
-        <div id="outputView" class="view-panel is-hidden space-y-6" role="tabpanel" aria-labelledby="outputViewBtn" aria-hidden="true">
+        <div id="outputView" class="view-panel output-view is-hidden space-y-6" role="tabpanel" aria-labelledby="outputViewBtn" aria-hidden="true">
             <div class="grid grid-cols-2 xl:grid-cols-6 gap-4">
                 <div class="glass-panel p-4 rounded-lg border-l-4 border-geek-success">
                     <h3 class="text-xs muted font-medium mb-1" data-i18n="out_cash_gross">理论现金年收入</h3>
@@ -976,7 +1035,10 @@
                 </div>
 
                 <div class="analytics-section mb-5">
-                    <h4 class="text-sm font-bold mb-3" data-i18n="legacy_stats">核心估算摘要</h4>
+                    <div class="analytics-title-row">
+                        <h4 class="text-sm font-bold" data-i18n="legacy_stats">核心估算摘要</h4>
+                        <button class="help-btn" data-help="core_summary" aria-label="核心估算摘要说明">?</button>
+                    </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">
                         <div class="stat-card legacy-card">
                             <span data-i18n="confidence_interval">95% 支出置信区间</span>
@@ -1035,7 +1097,10 @@
                 <div class="analytics-section mb-5">
                     <div class="flex items-center justify-between gap-3 mb-3">
                         <h4 class="text-sm font-bold" data-i18n="desc_stats_dashboard">描述性统计仪表盘</h4>
-                        <span id="stat_risk_badge" class="risk-badge ok" data-i18n="risk_normal">波动正常</span>
+                        <div class="flex items-center gap-2">
+                            <span id="stat_risk_badge" class="risk-badge ok" data-i18n="risk_normal">波动正常</span>
+                            <button class="help-btn" data-help="descriptive_dashboard" aria-label="描述性统计仪表盘说明">?</button>
+                        </div>
                     </div>
                     <div class="stat-card-grid">
                         <div class="stat-card">
@@ -1086,7 +1151,10 @@
                 </div>
 
                 <div class="analytics-section mb-5">
-                    <h4 class="text-sm font-bold mb-3" data-i18n="stress_tests">三项压力测试：五年净资产终值</h4>
+                    <div class="analytics-title-row">
+                        <h4 class="text-sm font-bold" data-i18n="stress_tests">三项压力测试：五年净资产终值</h4>
+                        <button class="help-btn" data-help="stress_test_panel" aria-label="压力测试说明">?</button>
+                    </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                         <div class="scenario-card optimistic">
                             <span data-i18n="stress_optimistic">乐观 +15%</span>
@@ -1109,7 +1177,10 @@
                 <div class="analytics-section">
                     <div class="flex items-center justify-between gap-3 mb-3">
                         <h4 class="text-sm font-bold" data-i18n="monte_carlo">蒙特卡洛概率预测</h4>
-                        <span id="mc_progress_text" class="text-xs muted font-mono">0 / 10,000</span>
+                        <div class="flex items-center gap-2">
+                            <span id="mc_progress_text" class="text-xs muted font-mono">0 / 10,000</span>
+                            <button class="help-btn" data-help="monte_carlo_panel" aria-label="蒙特卡洛说明">?</button>
+                        </div>
                     </div>
                     <div class="h-2 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden mb-3">
                         <div id="mc_progress_bar" class="h-full w-0 bg-geek-primary transition-all duration-300"></div>
@@ -1137,37 +1208,55 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="glass-panel p-4 rounded-lg min-h-[280px] flex flex-col">
-                    <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_income_trend">现金年收入趋势</h3>
+                    <div class="chart-title-row">
+                        <h3 class="text-sm font-semibold" data-i18n="chart_income_trend">现金年收入趋势</h3>
+                        <button class="help-btn" data-help="chart_income_trend_help" aria-label="现金年收入趋势图说明">?</button>
+                    </div>
                     <div class="chart-frame">
                         <canvas id="incomeTrendChart"></canvas>
                     </div>
                 </div>
                 <div class="glass-panel p-4 rounded-lg min-h-[280px] flex flex-col">
-                    <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_salary_trend">月薪趋势</h3>
+                    <div class="chart-title-row">
+                        <h3 class="text-sm font-semibold" data-i18n="chart_salary_trend">月薪趋势</h3>
+                        <button class="help-btn" data-help="chart_salary_trend_help" aria-label="月薪趋势图说明">?</button>
+                    </div>
                     <div class="chart-frame">
                         <canvas id="salaryTrendChart"></canvas>
                     </div>
                 </div>
                 <div class="glass-panel p-4 rounded-lg min-h-[280px] flex flex-col md:col-span-2">
-                    <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_asset_trend">资产积累进展</h3>
+                    <div class="chart-title-row">
+                        <h3 class="text-sm font-semibold" data-i18n="chart_asset_trend">资产积累进展</h3>
+                        <button class="help-btn" data-help="chart_asset_trend_help" aria-label="资产积累进展图说明">?</button>
+                    </div>
                     <div class="chart-frame">
                         <canvas id="assetAccumulationChart"></canvas>
                     </div>
                 </div>
                 <div class="glass-panel p-4 rounded-lg min-h-[260px] flex flex-col">
-                    <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_cashflow">年度现金流</h3>
+                    <div class="chart-title-row">
+                        <h3 class="text-sm font-semibold" data-i18n="chart_cashflow">年度现金流</h3>
+                        <button class="help-btn" data-help="chart_cashflow_help" aria-label="年度现金流图说明">?</button>
+                    </div>
                     <div class="chart-frame">
                         <canvas id="cashflowChart"></canvas>
                     </div>
                 </div>
                 <div class="glass-panel p-4 rounded-lg min-h-[260px] flex flex-col">
-                    <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_deductions">扣除与企业缴纳</h3>
+                    <div class="chart-title-row">
+                        <h3 class="text-sm font-semibold" data-i18n="chart_deductions">扣除与企业缴纳</h3>
+                        <button class="help-btn" data-help="chart_deductions_help" aria-label="扣除与企业缴纳图说明">?</button>
+                    </div>
                     <div class="chart-frame">
                         <canvas id="deductionsChart"></canvas>
                     </div>
                 </div>
                 <div class="glass-panel p-4 rounded-lg min-h-[340px] flex flex-col md:col-span-2">
-                    <h3 class="text-sm font-semibold mb-3 text-center" data-i18n="chart_expense_radar_combo">开销雷达图组</h3>
+                    <div class="chart-title-row">
+                        <h3 class="text-sm font-semibold" data-i18n="chart_expense_radar_combo">开销雷达图组</h3>
+                        <button class="help-btn" data-help="chart_expense_radar_help" aria-label="开销雷达图组说明">?</button>
+                    </div>
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 flex-grow">
                         <div>
                             <h4 class="text-xs muted text-center mb-2" data-i18n="chart_expense">开销拓扑雷达图</h4>
@@ -1184,31 +1273,46 @@
                     </div>
                 </div>
                 <div class="glass-panel p-4 rounded-lg min-h-[300px] flex flex-col">
-                    <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_boxplot">月开销箱线图</h3>
+                    <div class="chart-title-row">
+                        <h3 class="text-sm font-semibold" data-i18n="chart_boxplot">月开销箱线图</h3>
+                        <button class="help-btn" data-help="chart_boxplot_help" aria-label="月开销箱线图说明">?</button>
+                    </div>
                     <div class="chart-frame">
                         <canvas id="boxplotChart"></canvas>
                     </div>
                 </div>
                 <div class="glass-panel p-4 rounded-lg min-h-[300px] flex flex-col">
-                    <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_waterfall">三情景瀑布图</h3>
+                    <div class="chart-title-row">
+                        <h3 class="text-sm font-semibold" data-i18n="chart_waterfall">三情景瀑布图</h3>
+                        <button class="help-btn" data-help="chart_waterfall_help" aria-label="三情景瀑布图说明">?</button>
+                    </div>
                     <div class="chart-frame">
                         <canvas id="waterfallChart"></canvas>
                     </div>
                 </div>
                 <div class="glass-panel p-4 rounded-lg min-h-[320px] flex flex-col">
-                    <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_density">资产概率密度/累计分布</h3>
+                    <div class="chart-title-row">
+                        <h3 class="text-sm font-semibold" data-i18n="chart_density">资产概率密度/累计分布</h3>
+                        <button class="help-btn" data-help="chart_density_help" aria-label="资产概率密度图说明">?</button>
+                    </div>
                     <div class="chart-frame tall">
                         <canvas id="densityChart"></canvas>
                     </div>
                 </div>
                 <div class="glass-panel p-4 rounded-lg min-h-[320px] flex flex-col">
-                    <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_tornado">单变量敏感性龙卷风图</h3>
+                    <div class="chart-title-row">
+                        <h3 class="text-sm font-semibold" data-i18n="chart_tornado">单变量敏感性龙卷风图</h3>
+                        <button class="help-btn" data-help="chart_tornado_help" aria-label="龙卷风图说明">?</button>
+                    </div>
                     <div class="chart-frame tall">
                         <canvas id="tornadoChart"></canvas>
                     </div>
                 </div>
                 <div class="glass-panel p-4 rounded-lg min-h-[360px] flex flex-col md:col-span-2">
-                    <h3 class="text-sm font-semibold mb-2 text-center" data-i18n="chart_sankey">资金流向桑基图</h3>
+                    <div class="chart-title-row">
+                        <h3 class="text-sm font-semibold" data-i18n="chart_sankey">资金流向桑基图</h3>
+                        <button class="help-btn" data-help="chart_sankey_help" aria-label="资金流向桑基图说明">?</button>
+                    </div>
                     <div class="chart-frame tall">
                         <canvas id="sankeyCanvas"></canvas>
                     </div>
@@ -1216,7 +1320,10 @@
                 <div class="glass-panel p-4 rounded-lg min-h-[300px] flex flex-col md:col-span-2">
                     <div class="flex items-center justify-between gap-3 mb-2">
                         <h3 class="text-sm font-semibold" data-i18n="chart_networth_12m">12个月净资产趋势</h3>
-                        <span id="networth_target_hint" class="risk-badge ok">--</span>
+                        <div class="flex items-center gap-2">
+                            <span id="networth_target_hint" class="risk-badge ok">--</span>
+                            <button class="help-btn" data-help="chart_networth_help" aria-label="12个月净资产趋势图说明">?</button>
+                        </div>
                     </div>
                     <div class="chart-frame">
                         <canvas id="netWorthChart"></canvas>
@@ -1321,7 +1428,7 @@
                 large_expense_monthly: "Monthly Amortized Pool",
                 debt_annual_payment: "Annual Debt Cashflow",
                 debt_true_irr: "True Annualized IRR",
-                planning_notice: "One-off expenses and debt payments are counted in expenses and savings. Current savings only drives the 12-month net-worth trend.",
+                planning_notice: "One-off expenses and debt payments are counted in expenses and savings. Current savings starts both net-worth trend and asset projections.",
                 add: "Add",
                 exp_item: "Item",
                 exp_cost: "Cost",
@@ -1495,7 +1602,7 @@
                 large_expense_monthly: "大额支出月摊销",
                 debt_annual_payment: "债务年现金流",
                 debt_true_irr: "真实年化 IRR",
-                planning_notice: "大额支出和债务月供会计入支出与结余；当前存款只用于12个月净资产趋势。",
+                planning_notice: "大额支出和债务月供会计入支出与结余；当前存款会作为净资产趋势和资产投影的起点。",
                 add: "添加",
                 exp_item: "项目",
                 exp_cost: "金额",
@@ -1667,7 +1774,7 @@
                         ["偏度/峰度", "偏度大于 0 表示右偏，少数高开销项目更突出；偏度小于 0 表示左偏。峰度为超额峰度，大于 1 时提示肥尾风险。"],
                         ["高波动项目", "每个支出项的波动参数会换算为近似 CV；CV > 0.3 的项目自动列入风险清单。"],
                         ["三项压力测试", "五年净资产终值用实际可支配收入、生活支出、账户资产、基金股票归属和预期收益率推演。乐观为收入+10%、支出-5%、收益率+2%；基准沿用当前参数；悲观为收入-10%、支出+10%、收益率-3%。"],
-                        ["蒙特卡洛模拟", "运行 10,000 次、每次 60 个月。收入增长率服从 N(5%,3%)，支出波动率服从 N(8%,4%)，投资收益率服从 N(4%,2%)。输出最终资产分布、达标概率和任意月份现金流为负的概率。"],
+                        ["蒙特卡洛模拟", "运行 10,000 次、每次 60 个月。收入增长率来自用户填写的年增长率，投资收益率来自基金股票模块，支出不确定性来自各项开销波动。输出最终资产分布、达标概率和任意月份现金流为负的概率。"],
                         ["龙卷风敏感性", "逐一调整月薪、房租/房贷、餐饮、通勤、投资收益率、税率的 ±10% 和 ±20%，记录对年度结余的影响，并按影响幅度排序。"],
                         ["图表口径", "箱线图展示月开销分布；瀑布图展示收入到结余的流量变化；密度/累计分布展示蒙特卡洛终值；龙卷风图展示单变量冲击；桑基图展示税前总包到扣除、支出和结余的资金流向；12个月净资产趋势使用当前存款和月结余推演。"]
                     ]
@@ -1682,11 +1789,147 @@
                         ["Skewness / Kurtosis", "Positive skew means a right-skewed expense profile. Negative skew means left-skewed. Excess kurtosis above 1 indicates fat-tail risk."],
                         ["High-volatility Items", "Each row's volatility is converted to approximate CV. Items above 0.3 are listed as risk items."],
                         ["Stress Test", "The 5-year net-worth estimate uses actual spendable income, expenses, account assets, vested funds/stocks, and expected return. Optimistic: income +10%, expense -5%, return +2%; baseline uses current parameters; pessimistic: income -10%, expense +10%, return -3%."],
-                        ["Monte Carlo", "Runs 10,000 simulations over 60 months. Income growth follows N(5%,3%), expense volatility follows N(8%,4%), investment return follows N(4%,2%). It outputs final asset distribution, target probabilities, and negative-cashflow probability."],
+                        ["Monte Carlo", "Runs 10,000 simulations over 60 months. Income growth uses the entered annual growth rate, investment return uses the funds/stocks return, and expense uncertainty uses each expense row's volatility. It outputs final asset distribution, target probabilities, and negative-cashflow probability."],
                         ["Tornado Sensitivity", "Monthly salary, rent/mortgage, food, commuting, investment return, and tax are adjusted one at a time by ±10% and ±20% to measure impact on annual savings."],
                         ["Charts", "Boxplot shows monthly expense distribution. Waterfall shows income-to-savings flow. Density/CDF shows Monte Carlo final assets. Tornado ranks single-variable shocks. Sankey shows package-to-deduction-to-expense flows. The 12-month net-worth trend uses current savings and monthly savings."]
                     ]
                 }
+            },
+            core_summary: {
+                zh: {
+                    title: "核心估算摘要",
+                    body: "这里把年度模型压缩成四个常用判断口径，适合快速确认支出风险、退休年金、未来收入和月度现金流。",
+                    details: [
+                        ["95% 支出区间", "下限和上限来自各开销项波动的合并估算。上限不是预测必然发生，而是提醒你在高支出年份可能需要预留的缓冲。"],
+                        ["退休年金", "用当前年度个人+企业年金乘以剩余工作年限，暂不计复利、缴费中断和政策变化。"],
+                        ["5年收入投影", "按当前薪资增长率推到第5年的现金年收入，用来看增长假设是否过于乐观。"],
+                        ["月度数据", "把年度可支配收入、支出和结余拆成月值，便于和真实账单、预算做对照。"]
+                    ]
+                },
+                en: {
+                    title: "Core Estimate Summary",
+                    body: "This area compresses the annual model into four quick checks for expense risk, annuity projection, future income, and monthly cashflow.",
+                    details: [
+                        ["95% Expense Range", "The lower and upper bounds combine each expense row's volatility. The upper bound is a buffer signal, not a guaranteed forecast."],
+                        ["Retirement Annuity", "Current annual personal + company annuity multiplied by years left. Compounding, contribution breaks, and policy changes are excluded."],
+                        ["5Y Income Projection", "Projects year-five cash income using the entered salary growth rate. Use it to sanity-check the growth assumption."],
+                        ["Monthly Data", "Annual spendable income, expenses, and savings converted into monthly values for budget comparison."]
+                    ]
+                }
+            },
+            descriptive_dashboard: {
+                zh: {
+                    title: "描述性统计仪表盘",
+                    body: "这个仪表盘不是在预测未来，而是在描述你当前开销结构的形状：集中在哪里、是否离散、有没有少数大额项目拉高风险。",
+                    details: [
+                        ["百分位点", "P50 是中位项目月支出；P95 接近高开销项目端。P95 和 P50 差距越大，说明支出结构越不均衡。"],
+                        ["均值/中位数/众数", "均值容易被大额项目拉高；中位数更像普通项目水平；众数只有重复金额时才有解释价值。"],
+                        ["标准差/IQR/CV", "标准差和 IQR 看金额分散程度；CV 把分散程度除以均值，方便比较不同量级项目。"],
+                        ["偏度/峰度", "右偏通常代表少数高支出项突出；肥尾提示极端支出项需要额外预算或单独管理。"]
+                    ]
+                },
+                en: {
+                    title: "Descriptive Statistics Dashboard",
+                    body: "This dashboard describes the shape of your current expense profile: where it clusters, how dispersed it is, and whether a few large items dominate risk.",
+                    details: [
+                        ["Percentiles", "P50 is the median monthly item; P95 is near the high-expense end. A wide P95-P50 gap means uneven spending."],
+                        ["Mean / Median / Mode", "Mean is pulled by large items; median reflects a typical item; mode is useful only when amounts repeat."],
+                        ["Std / IQR / CV", "Std and IQR show dispersion. CV normalizes dispersion by the mean so different scales are easier to compare."],
+                        ["Skew / Kurtosis", "Right skew usually means a few high-cost items stand out. Fat tails suggest extreme expenses need separate buffers."]
+                    ]
+                }
+            },
+            stress_test_panel: {
+                zh: {
+                    title: "三项压力测试",
+                    body: "压力测试用乐观、基准、悲观三组假设观察五年后净资产终值，重点看结果对收入、支出和收益率假设是否敏感。",
+                    details: [
+                        ["乐观情景", "收入提高、支出降低、收益率上调，适合看顺风情况下的上限空间。"],
+                        ["基准情景", "沿用当前输入值，是最接近当前假设的五年终值。"],
+                        ["悲观情景", "收入下降、支出上升、收益率下调。如果悲观值接近或低于 0，说明现金流抗压能力不足。"],
+                        ["怎么看", "不要只看最高值；更应该看悲观和基准的差距。差距越大，模型对不确定性越敏感。"]
+                    ]
+                },
+                en: {
+                    title: "Three-scenario Stress Test",
+                    body: "Stress testing compares optimistic, baseline, and pessimistic five-year net worth to reveal sensitivity to income, expenses, and returns.",
+                    details: [
+                        ["Optimistic", "Higher income, lower expenses, and higher return. Useful for upside potential."],
+                        ["Baseline", "Uses the current inputs and is closest to your current assumptions."],
+                        ["Pessimistic", "Lower income, higher expenses, and lower return. Near-zero or negative output signals weak cashflow resilience."],
+                        ["How To Read", "Do not focus only on the highest value. The gap between baseline and pessimistic shows uncertainty sensitivity."]
+                    ]
+                }
+            },
+            monte_carlo_panel: {
+                zh: {
+                    title: "蒙特卡洛概率预测",
+                    body: "蒙特卡洛会随机扰动收入增长、支出波动和投资收益，重复模拟 10,000 次，观察五年资产结果分布。",
+                    details: [
+                        ["目标概率", "资产 > 10万/50万/100万 表示五年后超过该目标的模拟占比，不是承诺收益。"],
+                        ["现金流为负概率", "只要模拟中任意月份收入小于支出，就计入一次负现金流风险。"],
+                        ["如何理解", "目标概率越高越稳；负现金流概率越高，越需要增加应急金或压低固定支出。"],
+                        ["局限", "模型假设来自当前输入，不包含失业、重大疾病、政策变化、资产价格跳跃等真实世界冲击。"]
+                    ]
+                },
+                en: {
+                    title: "Monte Carlo Forecast",
+                    body: "Monte Carlo randomly perturbs income growth, expense volatility, and investment return across 10,000 five-year simulations.",
+                    details: [
+                        ["Target Probabilities", "Asset > 100k/500k/1m is the share of simulations exceeding each target. It is not a return guarantee."],
+                        ["Negative Cashflow", "A run is counted if any simulated month has expenses above income."],
+                        ["How To Read", "Higher target probability is better. Higher negative-cashflow probability means more emergency cash or lower fixed costs may be needed."],
+                        ["Limits", "The model uses current inputs and excludes job loss, severe illness, policy changes, and asset price jumps."]
+                    ]
+                }
+            },
+            chart_income_trend_help: {
+                zh: { title: "现金年收入趋势", body: "这张图展示未来 6 年现金年收入的增长路径。", details: [["横轴", "第1年到第6年。"], ["纵轴", "现金年收入，包含月薪、年终奖、节日奖金和绩效奖金。"], ["怎么看", "曲线越陡，说明增长率假设越激进。可用它检查当前增长率是否符合行业和个人预期。"]] },
+                en: { title: "Cash Income Trend", body: "Shows the projected six-year path of annual cash income.", details: [["X Axis", "Year 1 to Year 6."], ["Y Axis", "Annual cash income including salary, year-end bonus, holiday bonus, and performance bonus."], ["How To Read", "A steeper curve means a more aggressive growth assumption. Use it to sanity-check the entered growth rate."]] }
+            },
+            chart_salary_trend_help: {
+                zh: { title: "月薪趋势", body: "这张图只看基础月薪随增长率变化的趋势。", details: [["用途", "把月薪和现金年收入拆开，避免奖金把基础薪资变化掩盖。"], ["怎么看", "如果月薪趋势平缓但现金年收入很陡，说明增长主要来自奖金假设。"], ["注意", "当前年度税费不会因未来增长率重新计算。"]] },
+                en: { title: "Monthly Salary Trend", body: "Shows only base monthly salary under the entered growth rate.", details: [["Purpose", "Separates base salary from annual cash income so bonuses do not hide salary movement."], ["How To Read", "If salary is flat but cash income rises fast, bonuses are driving the projection."], ["Note", "Current-year tax is not recalculated from future growth."]] }
+            },
+            chart_asset_trend_help: {
+                zh: { title: "资产积累进展", body: "这张图把当前存款、年度结余、公积金/年金账户和基金股票归属合并成资产路径。", details: [["组成", "现金结余 + 公积金账户 + 企业年金 + 基金股票资产。"], ["怎么看", "曲线下行代表年度结余为负或收益假设过弱；曲线上行越快，说明现金流和锁定资产贡献越强。"], ["注意", "账户资产不等于可立即支配现金。"]] },
+                en: { title: "Asset Accumulation Progress", body: "Combines current savings, annual savings, housing/annuity accounts, and vested equity into an asset path.", details: [["Components", "Cash savings + housing fund + annuity + funds/stocks."], ["How To Read", "A falling line means negative annual savings or weak returns. Faster growth means stronger cashflow and account-asset contribution."], ["Note", "Account assets are not the same as immediately liquid cash."]] }
+            },
+            chart_cashflow_help: {
+                zh: { title: "年度现金流", body: "饼图展示实际现金收入如何被税费、个人缴纳、支出和结余分配。", details: [["颜色块", "个税、个人五险二金、预计开支和预计结余/现金缺口。"], ["怎么看", "支出占比越高，生活成本压力越大；现金缺口出现时，年度现金流不可持续。"], ["注意", "企业缴纳和锁定资产不在这张现金流饼图里。"]] },
+                en: { title: "Annual Cashflow", body: "Shows how actual cash income is split across tax, personal deductions, expenses, and savings.", details: [["Slices", "Tax, personal deductions, expected expenses, and savings/shortfall."], ["How To Read", "A larger expense slice means higher cost pressure. A shortfall means annual cashflow is not sustainable."], ["Note", "Company-paid and locked account assets are excluded from this cashflow pie."]] }
+            },
+            chart_deductions_help: {
+                zh: { title: "扣除与企业缴纳", body: "柱状图比较税费、个人缴纳、企业缴纳和福利折算的年度规模。", details: [["怎么看", "柱子越高，该项对总包或到手现金的影响越大。"], ["个人 vs 企业", "个人缴纳减少到手现金；企业缴纳增加总包估值，但通常不能立即消费。"], ["用途", "适合比较不同 offer 的五险一金和福利厚度。"]] },
+                en: { title: "Deductions & Company Contributions", body: "Compares annual tax, personal deductions, company contributions, and benefit valuation.", details: [["How To Read", "Taller bars have larger impact on package value or take-home cash."], ["Personal vs Company", "Personal deductions reduce cash. Company contributions add package value but are usually not immediately spendable."], ["Use", "Helpful for comparing benefit depth across offers."]] }
+            },
+            chart_expense_radar_help: {
+                zh: { title: "开销雷达图组", body: "雷达图把开销项目放在多个方向上，观察哪些项目形成主要支出尖峰。", details: [["年度图", "展示每个项目折算后的年支出。"], ["月度图", "展示每个项目折算后的月均支出，更适合和预算对照。"], ["怎么看", "某个方向越突出，说明该项目越值得优先优化或单独预算。"]] },
+                en: { title: "Expense Radar Charts", body: "Radar charts place expense items around directions to reveal spending spikes.", details: [["Annual Chart", "Annualized expense by item."], ["Monthly Chart", "Monthly average by item, easier to compare with budgets."], ["How To Read", "A sharper spike marks an item worth prioritizing or budgeting separately."]] }
+            },
+            chart_boxplot_help: {
+                zh: { title: "月开销箱线图", body: "这张图用 P5-P95 和 P25-P75 描述月开销项目的分布区间。", details: [["宽区间", "P5-P95 越宽，说明项目之间金额差异越大。"], ["中间箱体", "P25-P75 是常见项目区间，比极端值更稳定。"], ["中位数", "红点表示中位项目，适合代表普通开销项。"]] },
+                en: { title: "Monthly Expense Boxplot", body: "Uses P5-P95 and P25-P75 to summarize monthly expense item distribution.", details: [["Wide Range", "A wider P5-P95 range means bigger differences across expense items."], ["IQR Box", "P25-P75 is the common item range and is more stable than extremes."], ["Median", "The red point is the median item, a typical expense level."]] }
+            },
+            chart_waterfall_help: {
+                zh: { title: "三情景瀑布图", body: "瀑布图展示收入、支出、账户资产如何一步步形成最终结余。", details: [["三组颜色", "分别代表乐观、基准和悲观情景。"], ["正负方向", "收入和账户资产抬高结果，支出拉低结果。"], ["怎么看", "最终结余差距越大，说明你的结果越依赖收入、支出和收益率假设。"]] },
+                en: { title: "Three-scenario Waterfall", body: "Shows how income, expenses, and account assets step into final balance.", details: [["Three Colors", "Optimistic, baseline, and pessimistic scenarios."], ["Direction", "Income and account assets raise the result; expenses lower it."], ["How To Read", "A wider final-balance gap means stronger dependence on assumptions."]] }
+            },
+            chart_density_help: {
+                zh: { title: "资产概率密度/累计分布", body: "这张图来自蒙特卡洛终值，展示五年后资产落在不同区间的概率。", details: [["概率密度", "峰值越高，说明更多模拟集中在该资产区间。"], ["累计概率", "曲线表示低于某个资产值的累计比例。"], ["怎么看", "密度越靠右越好；累计曲线越晚升高，代表达到较高资产的概率越大。"]] },
+                en: { title: "Asset Density / CDF", body: "Built from Monte Carlo final assets to show where five-year outcomes may land.", details: [["Density", "Higher peaks mean more simulations cluster in that asset range."], ["CDF", "Shows the cumulative share below each asset level."], ["How To Read", "A density shifted right is better; a CDF rising later means higher chance of larger assets."]] }
+            },
+            chart_tornado_help: {
+                zh: { title: "单变量敏感性龙卷风图", body: "龙卷风图逐个改变变量，观察每个因素对年度结余的影响。", details: [["横向长度", "条越长，说明该变量越关键。"], ["正负方向", "正值增加结余，负值减少结余。"], ["怎么看", "优先管理条最长且为负向冲击明显的因素，例如房租、餐饮或税负。"]] },
+                en: { title: "Single-variable Tornado Chart", body: "Changes one variable at a time to show impact on annual savings.", details: [["Bar Length", "Longer bars are more important variables."], ["Direction", "Positive values increase savings; negative values reduce savings."], ["How To Read", "Prioritize long negative-impact factors such as rent, food, or tax."]] }
+            },
+            chart_sankey_help: {
+                zh: { title: "资金流向桑基图", body: "桑基图展示总包、扣除、可支配现金、支出和结余之间的资金流向。", details: [["线条粗细", "越粗代表金额越大。"], ["中间节点", "税费、个人缴纳、企业缴纳和可支配现金。"], ["怎么看", "如果支出流接近或超过可支配现金，说明现金流压力较大；企业缴纳虽厚，但不能替代流动现金。"]] },
+                en: { title: "Fund Flow Sankey", body: "Shows money flow from package value into deductions, spendable cash, expenses, and savings.", details: [["Line Width", "Wider flows represent larger amounts."], ["Middle Nodes", "Tax, personal deductions, company-paid amounts, and spendable cash."], ["How To Read", "If expenses approach or exceed spendable cash, cashflow pressure is high. Company-paid benefits cannot replace liquidity."]] }
+            },
+            chart_networth_help: {
+                zh: { title: "12个月净资产趋势", body: "这张图用当前存款和预计月结余推演未来 12 个月流动净资产。", details: [["目标线", "虚线是 10 万目标线。"], ["提示标签", "右上角会提示是否能在 12 个月内达到第一个 10 万。"], ["怎么看", "曲线上行代表现金流可积累；曲线下行代表每月结余为负，需要调整收入或支出。"]] },
+                en: { title: "12-Month Net Worth Trend", body: "Projects liquid net worth over 12 months from current savings and monthly savings.", details: [["Target Line", "Dashed line marks the 100k target."], ["Hint Badge", "Top-right badge says whether the first 100k is reached within 12 months."], ["How To Read", "A rising line means cash can accumulate. A falling line means monthly savings are negative."]] }
             },
             income: {
                 zh: {
@@ -1805,7 +2048,7 @@
                     details: [
                         ["项目", "开销名称，会作为雷达图标签。语言切换时保留当前编辑内容。"],
                         ["金额", "支持 3000、3k、0.3w 等写法。"],
-                        ["频率", "日支出 x365，月支出 x12，年支出直接使用。"],
+                        ["频率", "日支出 x 年工作日，月支出 x12，年支出直接使用。年工作日来自福利模块，默认为 250。"],
                         ["波动", "解释为该项目 95% 区间的大致上下浮动。例如 20% 表示该项年支出可能围绕均值上下约 20%。"],
                         ["总支出区间", "先把每项波动换算为标准差，再合并方差，得到总支出的 95% 置信区间。"]
                     ]
@@ -1816,7 +2059,7 @@
                     details: [
                         ["Item", "Expense name and radar chart label."],
                         ["Amount", "Supports 3000, 3k, and 0.3w."],
-                        ["Frequency", "Daily x365, monthly x12, yearly direct."],
+                        ["Frequency", "Daily x annual workdays, monthly x12, yearly direct. Annual workdays come from the benefits module and default to 250."],
                         ["Volatility", "Interpreted as approximate 95% fluctuation around the mean."],
                         ["Total Interval", "Each item volatility is converted to standard deviation, then variances are combined."]
                     ]
@@ -1827,11 +2070,11 @@
                     title: "现金资产与债务",
                     body: "本模块补足随机开销无法覆盖的一次性大额支出、当前存款和分期/债务现金流。它们影响支出、结余和净资产趋势，但不改变税前总包和税费口径。",
                     details: [
-                        ["当前存款", "作为12个月净资产趋势的起点。刷新后恢复默认值，避免长期保存隐私数据。"],
+                        ["当前存款", "作为12个月净资产趋势和长期资产投影的起点。刷新后恢复默认值，避免长期保存隐私数据。"],
                         ["一次性大额支出池", "把换手机、旅游、保险、随份子等不稳定年度费用放入池子，并按 12 个月均摊进预计支出。"],
                         ["债务/分期本金", "剩余本金用于计算真实年化 IRR。它不直接作为当年支出，真正影响现金流的是月还款。"],
-                        ["月还款/分期", "按剩余期数折算未来12个月内的债务现金流，并计入预计年支出和月结余。"],
-                        ["名义年化利率", "作为用户填报参考。若本金、月供、剩余期数足够，系统会优先用现金流求解真实年化 IRR。"],
+                        ["月还款/分期", "按剩余期数折算未来12个月内的债务现金流，并计入预计年支出和月结余。不填时会用本金、名义年化利率和期数估算等额本息月供。"],
+                        ["名义年化利率", "用于在月供为空时估算月还款；若本金、月供、剩余期数足够，系统会优先用现金流求解真实年化 IRR。"],
                         ["真实年化 IRR", "用现金流 +本金、-每月还款 求解月度内部收益率，再折算成年化。分期手续费导致 IRR 往往高于名义利率。"]
                     ]
                 },
@@ -1839,11 +2082,11 @@
                     title: "Cash Assets & Debt",
                     body: "This module covers one-off expenses, current savings, and debt/installment cashflow. They affect expenses, savings, and net-worth trend, but do not change gross package or tax logic.",
                     details: [
-                        ["Current Savings", "Starting point for the 12-month net-worth trend. It resets on refresh for privacy."],
+                        ["Current Savings", "Starting point for the 12-month net-worth trend and longer asset projection. It resets on refresh for privacy."],
                         ["One-off Expense Pool", "Use it for phone replacement, travel, insurance, gifts, and similar annual irregular costs. It is amortized over 12 months."],
                         ["Debt Principal", "Used for true annualized IRR. It is not itself treated as current-year expense."],
-                        ["Monthly Payment", "Converted into next-12-month debt cashflow by remaining terms, then included in expenses and monthly savings."],
-                        ["Nominal APR", "Reference input. When principal, payment, and terms are valid, true IRR is calculated from actual cashflow first."],
+                        ["Monthly Payment", "Converted into next-12-month debt cashflow by remaining terms, then included in expenses and monthly savings. If blank, it is estimated from principal, nominal APR, and terms."],
+                        ["Nominal APR", "Used to estimate monthly payment when the payment is blank. When principal, payment, and terms are valid, true IRR is calculated from actual cashflow first."],
                         ["True IRR", "Solves +principal and -monthly payments for monthly IRR, then annualizes it. Installment fees can make it much higher than nominal APR."]
                     ]
                 }
@@ -1938,6 +2181,7 @@
             $('outputView').classList.toggle('is-hidden', !showOutput);
             $('inputViewBtn').classList.toggle('active', !showOutput);
             $('outputViewBtn').classList.toggle('active', showOutput);
+            $('appShell').classList.toggle('results-wide', showOutput);
             $('inputViewBtn').setAttribute('aria-selected', String(!showOutput));
             $('outputViewBtn').setAttribute('aria-selected', String(showOutput));
             $('inputView').setAttribute('aria-hidden', String(showOutput));
@@ -2102,14 +2346,14 @@
             return { years, monthlyTrend, annualTrend };
         }
 
-        function makeAssetTrendData(years, annualSavings, annualHousingTotal, annualAnnuityTotal, annualEquityVested, equityCurrentValue, equityReturnRate) {
+        function makeAssetTrendData(years, currentSavings, annualSavings, annualHousingTotal, annualAnnuityTotal, annualEquityVested, equityCurrentValue, equityReturnRate) {
             const values = [];
-            let savedCash = 0;
+            let savedCash = currentSavings;
             let housing = 0;
             let annuity = 0;
             let equity = equityCurrentValue;
             for (let index = 0; index < years.length; index += 1) {
-                savedCash += Math.max(0, annualSavings);
+                savedCash += annualSavings;
                 housing += annualHousingTotal;
                 annuity += annualAnnuityTotal;
                 equity = (equity + annualEquityVested) * (1 + equityReturnRate);
@@ -2144,6 +2388,13 @@
             const monthlyRate = (low + high) / 2;
             if (!Number.isFinite(monthlyRate)) return null;
             return Math.pow(1 + monthlyRate, 12) - 1;
+        }
+
+        function estimateDebtMonthlyPayment(principal, annualRate, months) {
+            if (principal <= 0 || months <= 0) return 0;
+            const monthlyRate = annualRate / 12;
+            if (monthlyRate <= 0) return principal / months;
+            return principal * monthlyRate / (1 - Math.pow(1 + monthlyRate, -months));
         }
 
         function categorizeExpense(name) {
@@ -2249,32 +2500,37 @@
             return yuan(value);
         }
 
-        function expenseAnnualAmount(exp) {
+        function expenseAnnualAmount(exp, dailyDays = 365) {
             const amt = parseMoney(exp.amount);
-            if (exp.freq === 'daily') return amt * 365;
+            if (exp.freq === 'daily') return amt * dailyDays;
             if (exp.freq === 'monthly') return amt * 12;
             return amt;
         }
 
         function findExpenseAnnualByPattern(patterns) {
             let total = 0;
+            const dailyDays = Math.max(0, numberVal('in_workdays') || 250);
             expenses.forEach(exp => {
                 const label = `${exp.name || ''} ${exp.nameZh || ''}`.toLowerCase();
-                if (patterns.some(pattern => pattern.test(label))) total += expenseAnnualAmount(exp);
+                if (patterns.some(pattern => pattern.test(label))) total += expenseAnnualAmount(exp, dailyDays);
             });
             return total;
         }
 
         function projectFiveYearNetWorth(data, scenario) {
-            let asset = data.equityCurrentValue;
+            let cash = data.currentSavings;
+            let accountAssets = 0;
+            let equity = data.equityCurrentValue;
             const annualIncome = data.actualAnnualNet * scenario.incomeMultiplier;
             const annualExpense = data.totalAnnualMeanExp * scenario.expenseMultiplier;
-            const annualLockedAssets = data.annualHousingTotal + data.annualAnnuityTotal + data.annualEquityVested;
+            const annualAccountAssets = data.annualHousingTotal + data.annualAnnuityTotal;
             const returnRate = data.equityReturnRate + scenario.returnDelta;
             for (let year = 0; year < 5; year += 1) {
-                asset = (asset + annualIncome - annualExpense + annualLockedAssets) * (1 + returnRate);
+                cash += annualIncome - annualExpense;
+                accountAssets += annualAccountAssets;
+                equity = (equity + data.annualEquityVested) * (1 + returnRate);
             }
-            return asset;
+            return cash + accountAssets + equity;
         }
 
         function runMonteCarlo(data) {
@@ -2284,7 +2540,14 @@
             let negativeCashflowCount = 0;
             const monthlyBaseIncome = data.actualAnnualNet / 12;
             const monthlyBaseExpense = data.totalAnnualMeanExp / 12;
-            const monthlyLockedAssets = (data.annualHousingTotal + data.annualAnnuityTotal + data.annualEquityVested) / 12;
+            const monthlyAccountAssets = (data.annualHousingTotal + data.annualAnnuityTotal) / 12;
+            const monthlyEquityVested = data.annualEquityVested / 12;
+            const incomeGrowthMean = data.growthRate;
+            const incomeGrowthStd = Math.max(0.012, Math.abs(incomeGrowthMean) * 0.35);
+            const expenseGrowthMean = Math.max(0, Math.min(0.08, data.weightedExpenseVolatility * 0.35));
+            const expenseGrowthStd = Math.max(0.01, data.weightedExpenseVolatility * 0.5);
+            const returnMean = data.equityReturnRate;
+            const returnStd = Math.max(0.015, Math.abs(returnMean) * 0.5);
 
             if ($('mc_progress_bar')) {
                 $('mc_progress_bar').style.width = '28%';
@@ -2292,10 +2555,12 @@
             }
 
             for (let i = 0; i < iterations; i += 1) {
-                const growth = clamp(normalRandom(0.05, 0.03), -0.2, 0.25);
-                const expenseInflation = clamp(normalRandom(0.08, 0.04), -0.08, 0.28);
-                const returnRate = clamp(normalRandom(0.04, 0.02), -0.18, 0.22);
-                let asset = data.equityCurrentValue;
+                const growth = clamp(normalRandom(incomeGrowthMean, incomeGrowthStd), -0.2, 0.3);
+                const expenseInflation = clamp(normalRandom(expenseGrowthMean, expenseGrowthStd), -0.12, 0.32);
+                const returnRate = clamp(normalRandom(returnMean, returnStd), -0.35, 0.35);
+                let cash = data.currentSavings;
+                let accountAssets = 0;
+                let equity = data.equityCurrentValue;
                 let hasNegativeCashflow = false;
                 for (let month = 1; month <= months; month += 1) {
                     const t = month / 12;
@@ -2303,9 +2568,11 @@
                     const monthlyExpense = monthlyBaseExpense * Math.pow(1 + expenseInflation, t);
                     const cashflow = monthlyIncome - monthlyExpense;
                     if (cashflow < 0) hasNegativeCashflow = true;
-                    asset = asset * (1 + returnRate / 12) + cashflow + monthlyLockedAssets;
+                    cash += cashflow;
+                    accountAssets += monthlyAccountAssets;
+                    equity = equity * (1 + returnRate / 12) + monthlyEquityVested;
                 }
-                finalAssets[i] = asset;
+                finalAssets[i] = cash + accountAssets + equity;
                 if (hasNegativeCashflow) negativeCashflowCount += 1;
             }
 
@@ -2349,7 +2616,7 @@
         }
 
         function buildTornadoData(data) {
-            const annualTaxBase = Math.max(0, data.annualTax);
+            const annualTaxBase = Math.max(0, data.actualAnnualTax ?? data.annualTax);
             const monthlySalaryImpact = data.monthlySalary * 12;
             const rentAnnual = findExpenseAnnualByPattern([/租/, /房贷/, /rent/, /mortgage/]);
             const foodAnnual = findExpenseAnnualByPattern([/餐/, /食/, /food/, /diet/]);
@@ -2432,7 +2699,7 @@
                 { key: 'savings', label: currentLang === 'zh' ? '最终净结余' : 'Net Savings', value: Math.max(0, data.actualAnnualSavings), color: c.success }
             ].filter(item => item.value > 0);
             const middleNodes = [
-                { key: 'tax', label: currentLang === 'zh' ? '个税' : 'Tax', value: data.annualTax, color: c.danger },
+                { key: 'tax', label: currentLang === 'zh' ? '个税' : 'Tax', value: data.actualAnnualTax ?? data.annualTax, color: c.danger },
                 { key: 'personal', label: currentLang === 'zh' ? '个人五险二金' : 'Personal Deductions', value: data.annualPersonalSecurity + data.annualEmpAnnuity, color: c.primary },
                 { key: 'company', label: currentLang === 'zh' ? '企业缴纳' : 'Company Paid', value: data.annualCompanySecurity + data.annualCompanyAnnuity, color: c.cyan },
                 { key: 'cash', label: currentLang === 'zh' ? '可支配现金' : 'Spendable Cash', value: data.actualAnnualNet, color: c.accent }
@@ -2614,9 +2881,10 @@
             const currentSavings = parseMoney($('in_current_savings').value);
             const annualLargeExpensePool = Math.max(0, parseMoney($('in_large_expense_pool').value));
             const debtPrincipal = Math.max(0, parseMoney($('in_debt_principal').value));
-            const debtMonthlyPayment = Math.max(0, parseMoney($('in_debt_monthly_payment').value));
+            const inputDebtMonthlyPayment = Math.max(0, parseMoney($('in_debt_monthly_payment').value));
             const debtMonths = Math.max(0, Math.floor(numberVal('in_debt_months')));
             const nominalDebtApr = Math.max(0, numberVal('in_debt_apr')) / 100;
+            const debtMonthlyPayment = inputDebtMonthlyPayment || estimateDebtMonthlyPayment(debtPrincipal, nominalDebtApr, debtMonths);
             const debtAnnualPayment = debtMonthlyPayment * Math.min(12, debtMonths || 0);
             const debtIrr = solveAnnualizedIrr(debtPrincipal, debtMonthlyPayment, debtMonths);
 
@@ -2663,6 +2931,7 @@
 
             let totalAnnualMeanExp = 0;
             let totalAnnualVariance = 0;
+            const dailyExpenseDays = workdays || 250;
             const expLabels = [];
             const expData = [];
             const expMonthlyData = [];
@@ -2676,7 +2945,7 @@
                 const type = exp.freq;
                 const volPct = (parseFloat(exp.vol) || 0) / 100;
                 let annualAmt = amt;
-                if (type === 'daily') annualAmt = amt * 365;
+                if (type === 'daily') annualAmt = amt * dailyExpenseDays;
                 if (type === 'monthly') annualAmt = amt * 12;
                 totalAnnualMeanExp += annualAmt;
                 const sigma = (volPct * annualAmt) / 1.96;
@@ -2722,6 +2991,9 @@
             }
 
             const totalAnnualStdDev = Math.sqrt(totalAnnualVariance);
+            const weightedExpenseVolatility = totalAnnualMeanExp > 0
+                ? expDetails.reduce((sum, item) => sum + item.annual * item.volatility, 0) / totalAnnualMeanExp
+                : 0;
             const ciLower = Math.max(0, totalAnnualMeanExp - 1.96 * totalAnnualStdDev);
             const ciUpper = totalAnnualMeanExp + 1.96 * totalAnnualStdDev;
             const annualSavings = annualNet - totalAnnualMeanExp;
@@ -2747,6 +3019,7 @@
             const incomeLossRatio = monthlySalary > 0 ? Math.max(0, 1 - (monthlyNetIncome / monthlySalary)) : 0;
             const assetTrendData = makeAssetTrendData(
                 trendData.years,
+                currentSavings,
                 actualAnnualSavings,
                 annualHousingTotal,
                 annualAnnuityTotal,
@@ -2806,6 +3079,7 @@
 
             const analyticsData = {
                 annualTax,
+                actualAnnualTax,
                 actualAnnualCashGross,
                 actualTotalPackage,
                 actualAnnualNet,
@@ -2822,6 +3096,8 @@
                 annualEquityVested,
                 equityCurrentValue,
                 equityReturnRate,
+                growthRate,
+                weightedExpenseVolatility,
                 currentSavings,
                 annualLargeExpensePool,
                 debtAnnualPayment,
@@ -2945,6 +3221,8 @@
             });
 
             if (charts.cashflow) charts.cashflow.destroy();
+            const cashflowTax = data.actualAnnualTax ?? data.annualTax;
+            const cashflowSavings = data.actualAnnualSavings;
             charts.cashflow = new Chart($('cashflowChart').getContext('2d'), {
                 type: 'doughnut',
                 data: {
@@ -2952,18 +3230,18 @@
                         currentLang === 'zh' ? '个税' : 'Tax',
                         currentLang === 'zh' ? '个人缴纳' : 'Personal Paid',
                         currentLang === 'zh' ? '预计开支' : 'Expenses',
-                        data.annualSavings >= 0
+                        cashflowSavings >= 0
                             ? (currentLang === 'zh' ? '预计结余' : 'Savings')
                             : (currentLang === 'zh' ? '现金缺口' : 'Shortfall')
                     ],
                     datasets: [{
                         data: [
-                            data.annualTax,
+                            cashflowTax,
                             data.annualPersonalSecurity + data.annualEmpAnnuity,
                             data.totalAnnualMeanExp,
-                            Math.abs(data.annualSavings)
+                            Math.abs(cashflowSavings)
                         ],
-                        backgroundColor: [c.danger, c.primary, c.warn, data.annualSavings >= 0 ? c.success : '#be123c'],
+                        backgroundColor: [c.danger, c.primary, c.warn, cashflowSavings >= 0 ? c.success : '#be123c'],
                         borderWidth: 0,
                         hoverOffset: 4
                     }]
@@ -3003,7 +3281,7 @@
                     datasets: [{
                         label: currentLang === 'zh' ? '年金额 (¥)' : 'Annual Amount (¥)',
                         data: [
-                            data.annualTax,
+                            data.actualAnnualTax ?? data.annualTax,
                             data.annualPersonalSecurity,
                             data.annualCompanySecurity,
                             data.annualCompanyAnnuity,

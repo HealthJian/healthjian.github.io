@@ -123,6 +123,26 @@
             <div class="timeline-item">
                 <div class="timeline-date">2026-06-28</div>
                 <div class="timeline-content">
+                    <h2 data-en="LifeCost Calculator — Layout, Calculation Model, and Help Guide Upgrade" data-zh="生活成本计算器 — 布局、计算口径与说明系统升级">生活成本计算器 — 布局、计算口径与说明系统升级</h2>
+                    <ul>
+                        <li data-en="Adjusted the calculator width system: the Inputs view is constrained to reduce horizontal emptiness, the Results view expands independently for charts, and the top Inputs / Results switcher is now a compact centered control." data-zh="调整计算器页面宽度系统：输入页收紧以减少横向空旷感，结果页独立放宽以容纳图表，顶部“信息填表 / 统计结果”切换条改为更紧凑的居中控件。"><strong>页面宽度优化</strong>：输入页收紧、结果页独立放宽，顶部分页切换条紧凑居中。</li>
+                        <li data-en="Changed form grids from wide two-column rows to adaptive multi-column layouts, improving density on large screens while keeping mobile behavior intact." data-zh="将输入区从拉满的两列布局改为自适应多列布局，提升宽屏信息密度，同时保持移动端纵向展示。"><strong>输入区密度优化</strong>：从宽屏两列改为自适应多列，减少输入框被过度拉长。</li>
+                        <li data-en="Corrected daily expense annualization from daily x365 to daily x annual workdays, following the benefits module workday setting with a default of 250." data-zh="修正日频开销年化口径：从“日支出 x365”改为“日支出 x 年工作日”，跟随福利模块年工作日设置，默认 250。"><strong>日频开销修正</strong>：日支出按年工作日折算，避免通勤等工作日支出被高估。</li>
+                        <li data-en="Enhanced debt handling so principal + APR + remaining terms can estimate an equal-payment monthly installment when the user leaves monthly payment blank." data-zh="增强债务模块：当用户不填写月供时，可用“剩余本金 + 名义年化利率 + 剩余期数”自动估算等额本息月供。"><strong>债务月供推导</strong>：支持用本金、APR 和期数自动估算月还款。</li>
+                        <li data-en="Revised asset projection logic: negative savings now reduce projected cash assets, current savings starts the long-term asset path, and Monte Carlo simulations use the user's salary growth, equity return, and expense volatility assumptions instead of fixed hard-coded distributions." data-zh="修正资产投影逻辑：负结余会扣减现金资产，当前存款进入长期资产路径；蒙特卡洛模拟改用用户填写的薪资增长率、权益收益率和开销波动，而不是固定硬编码分布。"><strong>资产与概率模型</strong>：负结余不再归零，当前存款进入投影，蒙特卡洛改用用户输入假设。</li>
+                        <li data-en="Aligned chart tax and cashflow calculations closer to actual-result metrics, reducing mismatch between output cards and charts when overtime or actual income differs from theoretical income." data-zh="统一图表税额与现金流口径，使其更贴近实际结果指标，减少加班或实际收入变化时输出卡片与图表不闭合的问题。"><strong>图表口径统一</strong>：现金流与税额图表更贴近“实际”结果。</li>
+                        <li data-en="Expanded the Results help system: Core Summary, Descriptive Statistics, Stress Test, and Monte Carlo sections now have dedicated ? dialogs explaining how to interpret each panel." data-zh="扩展统计结果帮助系统：核心估算摘要、描述性统计仪表盘、压力测试与蒙特卡洛板块均新增独立 ? 解释窗口，说明每个板块如何理解。"><strong>统计板块说明</strong>：核心摘要、描述统计、压力测试、蒙特卡洛均新增独立说明弹窗。</li>
+                        <li data-en="Added ? guide dialogs to every visualization, explaining axes, colors, ranges, probability curves, Sankey flows, sensitivity bars, and how to interpret each chart's conclusion." data-zh="为全部可视化图表新增 ? 说明窗口，解释坐标轴、颜色、区间、概率曲线、桑基流向、敏感性条形以及每张图的阅读方式。"><strong>图表阅读指南</strong>：所有图表补充“怎么看、怎么理解”的说明弹窗。</li>
+                        <li data-en="Synchronized Chinese and English help copy with the updated formulas, including workday-based daily expenses, inferred debt payments, current-savings projections, and user-driven Monte Carlo assumptions." data-zh="同步更新中英文说明文案，使其与新公式保持一致，包括工作日口径日支出、债务月供推导、当前存款投影和用户假设驱动的蒙特卡洛。"><strong>双语文案同步</strong>：中英文说明与新计算公式保持一致。</li>
+                        <li data-en="Validation passed: inline JavaScript syntax, duplicate IDs, missing DOM references, help-dialog mappings, stale formula wording, and whitespace checks all passed." data-zh="验证通过：内联 JavaScript 语法、重复 ID、DOM 引用缺失、帮助弹窗映射、旧公式文案残留与空白格式检查均通过。"><strong>验证</strong>：语法、ID、DOM 引用、帮助映射、旧文案与空白检查通过。</li>
+                        <li data-en="Changed Files: pages/demo/cost_of_living_calculator.html, pages/changelog.html." data-zh="改动文件：pages/demo/cost_of_living_calculator.html、pages/changelog.html。"><strong>改动文件</strong>：pages/demo/cost_of_living_calculator.html、pages/changelog.html。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-date">2026-06-28</div>
+                <div class="timeline-content">
                     <h2 data-en="LifeCost Calculator — Two-View Workflow Upgrade" data-zh="生活成本计算器 — 双视图工作流升级">生活成本计算器 — 双视图工作流升级</h2>
                     <ul>
                         <li data-en="Split the calculator into two top-level views: Inputs and Results. The view buttons are centered, minimal, responsive, and compatible with bilingual and light/dark modes." data-zh="计算器拆成两个顶层视图：信息填表 和 统计结果；按钮简约居中，移动端自动纵向铺开，兼容中英文和日夜间。"><strong>视图切分</strong>：拆成“信息填表 / 统计结果”两个顶层视图，按钮简约居中且自适应。</li>
