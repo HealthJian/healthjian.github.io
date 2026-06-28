@@ -1,6 +1,30 @@
 // 博客文章数据源：供 blog.js、博客页、分类页与首页最新文章复用
 window.BLOG_POSTS_DATA = [
         {
+            "id": "llm-agent-optimization-parameter-driven-free-20260628",
+            "title": "大语言模型智能体的优化之道：从参数微调到无参数进化",
+            "title_en": "The Path to Optimizing Large Language Model Agents: From Parameter Fine-Tuning to Parameter-Free Evolution",
+            "excerpt": "围绕 LLM-based Agent 优化综述论文展开精读，系统梳理参数驱动与参数无关两大优化路线，覆盖监督微调、强化学习、偏好对齐、提示工程、外部知识与多智能体协作等策略。",
+            "excerpt_en": "An in-depth read of a survey on optimizing LLM-based agents, covering parameter-driven and parameter-free optimization paths such as supervised fine-tuning, reinforcement learning, preference alignment, prompt engineering, external knowledge, and multi-agent collaboration.",
+            "date": "2026-06-28",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260626_zh_1.md",
+            "category": "paper",
+            "tags": ["论文精读", "AI Agent", "大语言模型", "模型微调", "强化学习"],
+            "tags_en": ["Paper Review", "AI Agent", "LLM", "Model Fine-Tuning", "Reinforcement Learning"]
+        },
+        {
+            "id": "prompt-domain-control-resource-constrained-agents-20260626",
+            "title": "资源受限下智能体语言模型的分层提示域控制与学习",
+            "title_en": "Hierarchical Prompt-Domain Control and Learning for Resource-Constrained Agentic Language Models",
+            "excerpt": "围绕资源受限智能体语言模型论文展开精读，解释 Prompt-Domain Drift、注意力稀释与提示域饱和问题，并梳理分层控制、Schema 蒸馏、在线语义适应和可行域投影等方法。",
+            "excerpt_en": "An in-depth read of a paper on resource-constrained agentic language models, explaining prompt-domain drift, attention dilution, prompt saturation, and methods such as hierarchical control, schema distillation, online semantic adaptation, and feasibility-domain projection.",
+            "date": "2026-06-26",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260626_zh_2.md",
+            "category": "paper",
+            "tags": ["论文精读", "AI Agent", "Prompt-Domain Drift", "小模型", "LoRA"],
+            "tags_en": ["Paper Review", "AI Agent", "Prompt-Domain Drift", "Small Models", "LoRA"]
+        },
+        {
             "id": "rust-borrowing-lifetimes-memory-safety-20260625",
             "title": "Rust 第二篇：借用与生命周期 —— 内存安全的“司法解释”",
             "title_en": "Rust Article 2: Borrowing and Lifetimes — The Judicial Interpretation of Memory Safety",
