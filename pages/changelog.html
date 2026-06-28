@@ -121,16 +121,14 @@
 
         <section class="changelog-timeline" data-changelog-view-panel="logs">
             <div class="timeline-item">
-                <div class="timeline-date">2026-06-24</div>
+                <div class="timeline-date">2026-06-28</div>
                 <div class="timeline-content">
-                    <h2 data-en="LifeCost Calculator — UI Optimization and Interaction Cleanup" data-zh="生活成本计算器 — UI 优化与交互清理">生活成本计算器 — UI 优化与交互清理</h2>
+                    <h2 data-en="LifeCost Calculator — Two-View Workflow Upgrade" data-zh="生活成本计算器 — 双视图工作流升级">生活成本计算器 — 双视图工作流升级</h2>
                     <ul>
-                        <li data-en="Default theme changed to light mode by removing &lt;html class=&quot;dark&quot;&gt;." data-zh="默认改为白天模式：移除了 &lt;html class=&quot;dark&quot;&gt;。"><strong>默认改为白天模式</strong>：移除了 &lt;html class=&quot;dark&quot;&gt;。</li>
-                        <li data-en="Removed internal scrolling from the left-side form so the form naturally expands the page." data-zh="取消左侧填表区域内部滚动：左侧内容现在自然撑开页面。"><strong>左侧填表区域</strong>：取消内部滚动，内容自然撑开页面。</li>
-                        <li data-en="Removed internal scrolling from the random expense list; clicking + Add now expands the module instead of scrolling locally." data-zh="取消“随机生活开销”列表内部滚动：点击 +添加 后模块会自动撑开，不再局部滑动。"><strong>随机生活开销</strong>：取消列表内部滚动，点击 +添加 后模块自动撑开。</li>
-                        <li data-en="Unified output metric colors by row: teal for row one, blue for row two, and orange for row three." data-zh="新增输出参数配色改为“每行统一色”：第一行青绿色、第二行蓝色、第三行橙色，布局更规整。"><strong>输出参数配色</strong>：改为每行统一色，第一行青绿色、第二行蓝色、第三行橙色。</li>
-                        <li data-en="Renamed Execute Calculation Engine to Refresh." data-zh="“执行计算引擎”已改为“一键刷新”，英文为 Refresh。"><strong>按钮文案</strong>：“执行计算引擎”改为“一键刷新”，英文为 Refresh。</li>
-                        <li data-en="Validation passed: JS syntax is normal; default dark, left internal scrolling, expense local scrolling, and old button copy have been removed." data-zh="验证通过：JS 语法正常；检查确认默认 dark、左侧内部滚动、开销局部滚动、旧按钮文案都已清除。"><strong>验证</strong>：JS 语法正常；默认 dark、左侧内部滚动、开销局部滚动、旧按钮文案均已清除。</li>
+                        <li data-en="Split the calculator into two top-level views: Inputs and Results. The view buttons are centered, minimal, responsive, and compatible with bilingual and light/dark modes." data-zh="计算器拆成两个顶层视图：信息填表 和 统计结果；按钮简约居中，移动端自动纵向铺开，兼容中英文和日夜间。"><strong>视图切分</strong>：拆成“信息填表 / 统计结果”两个顶层视图，按钮简约居中且自适应。</li>
+                        <li data-en="The Results area is hidden by default and charts refresh only after switching to Results, avoiding Chart.js measurement issues inside hidden containers." data-zh="输出区默认隐藏，切到 统计结果 时再刷新图表，避免隐藏容器里 Chart.js 测量异常。"><strong>图表初始化</strong>：输出区默认隐藏，切到结果页后再刷新图表。</li>
+                        <li data-en="The Refresh button now switches directly to Results and recalculates, so users immediately see the numbers and charts after clicking." data-zh="一键刷新 现在会直接切到 统计结果 并刷新，用户点完能立刻看到数字和图表。"><strong>刷新交互</strong>：一键刷新后自动切到统计结果并展示输出。</li>
+                        <li data-en="Added ARIA states including aria-selected, aria-controls, and aria-hidden to make the tabbed view semantics more stable." data-zh="补了 ARIA 状态：aria-selected、aria-controls、aria-hidden，分页语义更稳。"><strong>可访问性</strong>：补齐 ARIA 状态，让分页语义更稳。</li>
                     </ul>
                 </div>
             </div>
@@ -138,15 +136,26 @@
             <div class="timeline-item">
                 <div class="timeline-date">2026-06-24</div>
                 <div class="timeline-content">
-                    <h2 data-en="LifeCost Calculator — Advanced Statistical Analysis Upgrade" data-zh="生活成本计算器 — 统计学深度分析板块升级">生活成本计算器 — 统计学深度分析板块升级</h2>
+                    <h2 data-en="LifeCost Calculator — UI and View Split Optimization" data-zh="生活成本计算器 — UI 与视图切分优化">生活成本计算器 — UI 与视图切分优化</h2>
                     <ul>
-                        <li data-en="Added a descriptive statistics dashboard with percentiles, mean/median/mode, standard deviation, variance, IQR, CV, skewness, kurtosis, and high-volatility item warnings." data-zh="新增描述性统计仪表盘：百分位、均值/中位数/众数、标准差/方差/IQR/CV、偏度/峰度、高波动项目提示。"><strong>描述性统计仪表盘</strong>：新增百分位、集中趋势、离散程度、分布形态与高波动项目提示。</li>
-                        <li data-en="Added optimistic, baseline, and pessimistic stress tests for 5-year final net worth, with a financial safety warning when the pessimistic scenario turns negative." data-zh="新增三情景压力测试：乐观、基准、悲观五年净资产终值；悲观为负时触发财务安全预警。"><strong>三情景压力测试</strong>：新增乐观、基准、悲观五年净资产终值与财务安全预警。</li>
-                        <li data-en="Added a 10,000-run Monte Carlo simulation for probabilities of reaching 100k/500k/1m assets, negative cashflow probability, and progress display." data-zh="新增 10,000 次蒙特卡洛模拟：资产达 10万/50万/100万概率、现金流为负概率、进度条。"><strong>蒙特卡洛模拟</strong>：新增 10,000 次模拟、资产达标概率、现金流为负概率与进度条。</li>
-                        <li data-en="Added tornado sensitivity analysis sorted by impact for monthly salary, rent/mortgage, food, commuting, investment return, and tax burden." data-zh="新增龙卷风敏感性分析：月薪、房租/房贷、餐饮、通勤、投资收益率、税负按影响幅度排序。"><strong>龙卷风敏感性分析</strong>：按月薪、房租/房贷、餐饮、通勤、投资收益率、税负排序影响幅度。</li>
-                        <li data-en="Added four charts: monthly expense boxplot, three-scenario waterfall, asset density/CDF, and single-variable tornado chart." data-zh="新增四张图：月开销箱线图、三情景瀑布图、资产概率密度/CDF、单变量敏感性龙卷风图。"><strong>新增图表</strong>：月开销箱线图、三情景瀑布图、资产概率密度/CDF、单变量敏感性龙卷风图。</li>
-                        <li data-en="Completed bilingual switching, light/dark compatibility, and statistical-method explanations in the help dialog." data-zh="补全中英文切换、日夜间样式兼容、? 说明弹窗中的统计口径解释。"><strong>说明与兼容</strong>：补全中英文、日夜间兼容与问号弹窗中的统计口径解释。</li>
-                        <li data-en="Validation passed: JS syntax, duplicate IDs, missing i18n keys, and missing $() DOM references all checked. Monte Carlo 10,000 x 60 lightweight estimate was about 41ms, below the 2-second target. Browser screenshot verification was not run because no browser-control tool was exposed in the current environment." data-zh="验证：JS 语法检查通过；ID 重复、i18n 缺失、$() DOM 引用缺失检查通过；蒙特卡洛 10,000 x 60 轻量性能估算约 41ms，低于 2 秒目标；当前环境没有暴露浏览器截图/控制工具，所以未做真实浏览器视觉截图验证。"><strong>验证</strong>：JS、ID、i18n、DOM 引用与蒙特卡洛性能检查通过；本环境未做截图级浏览器验证。</li>
+                        <li data-en="Split the calculator into two top-level views: Inputs for information collection and Results for numerical outputs, statistical analysis, account assets, and charts. The original DOM IDs and calculation pipeline are preserved so formulas and chart data continue to work." data-zh="将计算器拆为两个顶层视图：“信息填表”用于收集参数，“统计结果”用于数字输出、统计分析、账户资产和图表展示；保留原 DOM ID 与计算链路，避免影响既有公式和图表数据。"><strong>视图切分</strong>：新增“信息填表 / 统计结果”两个顶层视图，保留原计算链路。</li>
+                        <li data-en="Defaulted to light mode, removed internal scrolling from the left form and random expense list, unified new output metric colors by row, and renamed Execute Calculation Engine to Refresh." data-zh="默认改为白天模式，取消左侧填表区域和随机生活开销列表内部滚动，新增输出参数改为每行统一配色，并将“执行计算引擎”改为“一键刷新 / Refresh”。"><strong>UI 优化</strong>：默认白天模式、取消内部滚动、统一输出配色，并改名为“一键刷新”。</li>
+                        <li data-en="Validation passed: JS syntax was normal; default dark mode, left-side internal scrolling, expense-list local scrolling, and the old button label were confirmed removed." data-zh="验证通过：JS 语法正常；检查确认默认 dark、左侧内部滚动、开销局部滚动、旧按钮文案都已清除。"><strong>验证</strong>：语法正常，默认 dark、内部滚动与旧按钮文案均已清除。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-date">2026-06-24</div>
+                <div class="timeline-content">
+                    <h2 data-en="LifeCost Calculator — Advanced Statistical Analysis Upgrade" data-zh="生活成本计算器 — 统计学深度分析升级">生活成本计算器 — 统计学深度分析升级</h2>
+                    <ul>
+                        <li data-en="Added a descriptive statistics dashboard with percentiles, mean, median, mode, standard deviation, variance, IQR, CV, skewness, kurtosis, and high-volatility spending alerts." data-zh="新增描述性统计仪表盘：百分位、均值/中位数/众数、标准差/方差/IQR/CV、偏度/峰度与高波动支出项提示。"><strong>描述性统计</strong>：新增百分位、集中趋势、离散程度、分布形态与高波动提示。</li>
+                        <li data-en="Added three-scenario stress testing for optimistic, baseline, and pessimistic five-year net-worth endings, with a red financial-safety alert when the pessimistic scenario falls below zero." data-zh="新增三情景压力测试：乐观、基准、悲观五年净资产终值；悲观为负时触发财务安全预警。"><strong>压力测试</strong>：新增乐观、基准、悲观五年净资产终值和风险预警。</li>
+                        <li data-en="Added 10,000-run Monte Carlo simulation with target-asset probabilities, negative-cashflow probability, and a progress indicator." data-zh="新增 10,000 次蒙特卡洛模拟：资产达 10万/50万/100万概率、现金流为负概率与进度条。"><strong>蒙特卡洛</strong>：新增 10,000 次模拟、目标资产概率、破产概率与进度条。</li>
+                        <li data-en="Added tornado sensitivity analysis for salary, rent/mortgage, food, commuting, investment return, and tax burden, sorted by impact." data-zh="新增龙卷风敏感性分析：月薪、房租/房贷、餐饮、通勤、投资收益率、税负按影响幅度排序。"><strong>敏感性分析</strong>：新增按影响幅度排序的龙卷风分析。</li>
+                        <li data-en="Added four charts: monthly expense boxplot, three-scenario waterfall chart, asset probability density/CDF chart, and single-variable tornado chart." data-zh="新增四张图：月开销箱线图、三情景瀑布图、资产概率密度/CDF、单变量敏感性龙卷风图。"><strong>可视化</strong>：新增箱线图、瀑布图、概率密度/CDF 和龙卷风图。</li>
+                        <li data-en="Completed bilingual text, light/dark styles, and statistical-method explanations in the help dialog. JS syntax, duplicate ID, i18n, DOM-reference, and Monte Carlo performance checks passed." data-zh="补全中英文切换、日夜间样式兼容与 ? 说明弹窗中的统计口径解释；JS 语法、重复 ID、i18n、DOM 引用与蒙特卡洛性能检查通过。"><strong>验证</strong>：补全说明与双语样式，并通过静态与性能检查。</li>
                     </ul>
                 </div>
             </div>
@@ -156,15 +165,13 @@
                 <div class="timeline-content">
                     <h2 data-en="LifeCost Calculator — Cashflow, Debt, and Net-Worth Visualization Upgrade" data-zh="生活成本计算器 — 现金流、债务与净资产可视化升级">生活成本计算器 — 现金流、债务与净资产可视化升级</h2>
                     <ul>
-                        <li data-en="Merged annual expense radar and monthly expense radar into a single two-column chart block." data-zh="合并“开销拓扑雷达图”和“月预计开销雷达图”为同一板块左右分布。"><strong>雷达图合并</strong>：年度与月度开销雷达图合并为同一板块左右分布。</li>
-                        <li data-en="Added percentage labels and tooltip percentages to the annual cashflow doughnut chart." data-zh="年度现金流饼图增加百分比标签和 tooltip 百分比。"><strong>年度现金流</strong>：饼图增加百分比标签与 tooltip 百分比。</li>
-                        <li data-en="Restored the original core statistical summary: 95% expense confidence interval, retirement annuity projection, 5-year income projection, and monthly data." data-zh="恢复统计学深度分析里原有的 95% 支出置信区间、退休年金推算、5年收入投影、月度数据。"><strong>核心摘要恢复</strong>：恢复 95% 支出置信区间、退休年金推算、5年收入投影与月度数据。</li>
-                        <li data-en="Added a Cash Assets &amp; Debt module with current savings, one-off expense pool, remaining principal, monthly payment, remaining terms, and nominal APR." data-zh="新增“现金资产与债务”模块：当前存款、一次性大额支出池、债务本金/月供/期数/名义年化。"><strong>现金资产与债务</strong>：新增当前存款、大额支出池与债务/分期参数。</li>
-                        <li data-en="One-off expense pool is amortized monthly into expected expenses; debt monthly payments are counted into the next-12-month cashflow based on remaining terms." data-zh="一次性大额支出池按月摊销计入预计支出；债务月供按剩余期数计入未来12个月现金流。"><strong>现金流口径</strong>：大额支出按月摊销，债务月供按剩余期数进入未来 12 个月现金流。</li>
-                        <li data-en="Added true annualized IRR calculation based on principal, monthly payment, and remaining terms." data-zh="新增真实年化 IRR 计算，用本金、月供、剩余期数求解。"><strong>IRR</strong>：新增基于本金、月供、剩余期数的真实年化求解。</li>
-                        <li data-en="Added a canvas Sankey chart for fund flow from gross package to tax, social-security/two-fund deductions, expenses, and final net savings." data-zh="新增资金流向桑基图，用 canvas 展示税前总包到个税/五险二金/支出/结余的流向。"><strong>桑基图</strong>：展示税前总包到个税、五险二金、支出和结余的资金流向。</li>
-                        <li data-en="Added a 12-month liquid net-worth trend chart with a hint for whether the first 100k target is reached within 12 months." data-zh="新增 12 个月流动净资产趋势图，并提示是否在 12 个月内到达第一个 10万。"><strong>净资产趋势</strong>：新增 12 个月流动净资产曲线与 10 万目标提示。</li>
-                        <li data-en="Validation passed: JS syntax, duplicate IDs, missing i18n, and missing DOM references; quick IRR test returned 0% for zero-interest installments and a reasonable positive annualized rate for a fee-like scenario." data-zh="验证已跑：JS 语法检查通过；无重复 ID、无缺失 i18n、无缺失 DOM 引用；IRR 快速数值校验通过：零利息分期返回 0%，含手续费场景能返回合理正年化。"><strong>验证</strong>：JS、ID、i18n、DOM 引用与 IRR 快速数值校验通过。</li>
+                        <li data-en="Merged the annual expense topology radar and monthly expected expense radar into one side-by-side chart section." data-zh="合并“开销拓扑雷达图”和“月预计开销雷达图”为同一板块左右分布。"><strong>雷达图合并</strong>：年度与月度开销雷达图合并为左右分布。</li>
+                        <li data-en="Added percentage labels and tooltip percentages to the annual cashflow doughnut chart." data-zh="年度现金流饼图增加百分比标签和 tooltip 百分比。"><strong>现金流饼图</strong>：新增百分比标签与 tooltip 百分比。</li>
+                        <li data-en="Restored the previous 95% expense confidence interval, retirement annuity estimate, five-year income projection, and monthly-data summary in the statistical analysis section." data-zh="恢复统计学深度分析中原有的 95% 支出置信区间、退休年金推算、5 年收入投影与月度数据。"><strong>核心摘要恢复</strong>：恢复 95% 置信区间、退休年金、5 年收入投影与月度数据。</li>
+                        <li data-en="Added a cash assets and debt module with current savings, annual one-off expense pool, debt principal, monthly payment, remaining months, nominal APR, and true annualized IRR." data-zh="新增“现金资产与债务”模块：当前存款、一次性大额支出池、债务本金/月供/期数/名义年化，并计算真实年化 IRR。"><strong>现金资产与债务</strong>：新增存款、大额支出池、债务分期与真实年化 IRR。</li>
+                        <li data-en="One-off expense pool is amortized monthly into expected spending; debt payments are included in the next 12 months of cashflow according to remaining terms." data-zh="一次性大额支出池按月摊销计入预计支出；债务月供按剩余期数计入未来 12 个月现金流。"><strong>支出模型</strong>：大额支出按月摊销，债务按期数进入现金流。</li>
+                        <li data-en="Added a canvas Sankey chart for fund flow from pretax total package to tax/social contributions, core expenses, and net savings, plus a 12-month liquid net-worth trend with first-100k timing guidance." data-zh="新增资金流向桑基图，用 canvas 展示税前总包到个税/五险二金/支出/结余的流向；新增 12 个月流动净资产趋势图并提示是否到达第一个 10 万。"><strong>资金流向与净资产</strong>：新增桑基图和 12 个月流动净资产趋势。</li>
+                        <li data-en="Validation passed: JS syntax, duplicate IDs, missing i18n keys, missing DOM references, and IRR numerical checks passed." data-zh="验证通过：JS 语法、重复 ID、i18n 缺失、DOM 引用缺失与 IRR 快速数值校验通过。"><strong>验证</strong>：语法、ID、i18n、DOM 引用与 IRR 校验通过。</li>
                     </ul>
                 </div>
             </div>
@@ -172,16 +179,15 @@
             <div class="timeline-item">
                 <div class="timeline-date">2026-06-24</div>
                 <div class="timeline-content">
-                    <h2 data-en="LifeCost Calculator — Chart Refresh Bug Fixes and Core Summary Layout Polish" data-zh="生活成本计算器 — 图表刷新 Bug 修复与核心摘要排版优化">生活成本计算器 — 图表刷新 Bug 修复与核心摘要排版优化</h2>
+                    <h2 data-en="LifeCost Calculator — Chart Refresh and Summary Layout Fixes" data-zh="生活成本计算器 — 图表刷新与摘要排版修复">生活成本计算器 — 图表刷新与摘要排版修复</h2>
                     <ul>
-                        <li data-en="Review found that resize directly called runEngine(), which destroyed and rebuilt all Chart.js charts, creating a possible resize -> rebuild -> layout change -> resize loop." data-zh="发现问题：resize 事件直接调用 runEngine()，而 runEngine() 会销毁并重建所有 Chart.js 图表，容易形成“窗口测量变化 -> 重建图表 -> 布局变化 -> resize -> 再重建”的循环。"><strong>刷新循环</strong>：修复 resize 直接触发完整重算和图表重建的问题。</li>
-                        <li data-en="Chart containers only used flex-grow relative and had no stable height; Chart.js with maintainAspectRatio:false can render blank, stretched, or unstable charts without explicit parent height." data-zh="发现问题：图表容器只有 flex-grow relative，没有稳定高度。Chart.js 在 maintainAspectRatio:false 下需要父容器有明确高度，否则会出现图表空白、拉直、撑开布局或测量异常。"><strong>图表容器</strong>：识别并修复缺少稳定高度导致的空白、拉直和布局跳动风险。</li>
-                        <li data-en="Radar chart titles and canvases were previously in the same adaptive container, so canvas measurement could include title space and flatten the radar chart." data-zh="发现问题：雷达图的小标题和 canvas 原本放在同一个自适应容器中，canvas 会把标题区域也算进绘图区，容易把雷达图拉扁。"><strong>雷达图布局</strong>：拆分标题与 canvas 容器，避免雷达图被拉扁。</li>
-                        <li data-en="High-frequency input events immediately recalculated and rebuilt all charts, making the page look like it was constantly refreshing." data-zh="发现问题：输入事件每次触发都立即重算并重建全部图表，蒙特卡洛和多图表重建会让页面显得持续刷新。"><strong>输入事件</strong>：改为防抖刷新，降低高频重建。</li>
-                        <li data-en="Added .chart-frame to stabilize chart drawing areas, force canvases to fill their parent, split radar titles from canvas containers, added scheduleRunEngine() debounce, and made resize redraw only the Sankey chart from existing data instead of full recalculation." data-zh="已修复：增加 .chart-frame 固定图表绘图区，高度稳定，canvas 强制占满容器；拆分雷达图标题和 canvas 容器；增加 scheduleRunEngine() 防抖刷新；修改 resize 逻辑，不再完整重算，只按已有数据重绘桑基图。"><strong>图表修复</strong>：新增稳定绘图区、防抖刷新和 resize 安全重绘。</li>
-                        <li data-en="Polished the core estimate summary: changed 95% confidence interval into Lower/Upper chips, retirement annuity into Years Left/Projected Fund chips, and monthly data into Net/Expense/Savings chips." data-zh="修复“核心估算摘要”的文字排版：把 95% 支出置信区间从 [ ¥x , ¥y ] 改成“下限 / 上限”两个小块；把退休年金推算改成“剩余年限 / 累计年金”；把月度数据从 ¥x / ¥y / ¥z 改成“可支配 / 支出 / 结余”三块。"><strong>核心摘要排版</strong>：区间、退休年金和月度数据改为分块 chip 展示。</li>
-                        <li data-en="Added .legacy-card and .legacy-chip styles for stable spacing and completed bilingual text for the new summary labels." data-zh="增加专用 .legacy-card / .legacy-chip 样式，卡片高度和内部间距更稳定；补齐新增文字的中英文切换。"><strong>样式与语言</strong>：新增 legacy 卡片样式并补齐中英文切换。</li>
-                        <li data-en="Validation passed: JS syntax, duplicate IDs, missing i18n, and missing DOM references." data-zh="验证通过：JS 语法检查通过；无重复 ID；无缺失 i18n；无缺失 DOM 引用。"><strong>验证</strong>：JS、ID、i18n、DOM 引用检查通过。</li>
+                        <li data-en="Reviewed and fixed a resize-driven refresh loop where runEngine rebuilt every Chart.js chart after layout measurements changed." data-zh="Review 并修复 resize 事件直接调用 runEngine 导致 Chart.js 图表销毁重建、布局变化再触发 resize 的循环刷新问题。"><strong>刷新循环修复</strong>：修复 resize 引发的图表反复重建。</li>
+                        <li data-en="Added stable chart frames so Chart.js can measure fixed parent heights under maintainAspectRatio: false, reducing blank charts, stretched radar charts, and layout jumping." data-zh="增加稳定的 .chart-frame 图表绘图区，让 Chart.js 在 maintainAspectRatio: false 下拥有明确父容器高度，缓解图表空白、雷达图拉直和页面跳动。"><strong>图表容器稳定</strong>：新增固定绘图区，减少空白、拉伸与跳动。</li>
+                        <li data-en="Separated radar chart headings from canvas frames so the canvas no longer consumes the title area as drawing space." data-zh="拆分雷达图标题和 canvas 容器，避免 canvas 把标题区域也算进绘图区。"><strong>雷达图排版</strong>：拆分标题与画布，避免雷达图被拉扁。</li>
+                        <li data-en="Added debounced scheduleRunEngine for normal inputs, so every keystroke no longer rebuilds Monte Carlo outputs and all charts immediately." data-zh="增加 scheduleRunEngine 防抖刷新，普通输入不再每个按键都立即重建蒙特卡洛结果与全部图表。"><strong>输入性能</strong>：新增防抖刷新，降低高频重绘。</li>
+                        <li data-en="Changed resize behavior to redraw only the Sankey chart from existing data instead of fully recalculating the whole calculator." data-zh="修改 resize 逻辑：不再完整重算，只按已有数据重绘桑基图。"><strong>resize 优化</strong>：只重绘桑基图，不全量重算。</li>
+                        <li data-en="Polished the core estimate summary layout by replacing bracketed compact text with labeled chips for confidence interval bounds, retirement years/pension total, and monthly spendable/expense/savings data." data-zh="修复“核心估算摘要”的文字排版：将 95% 支出置信区间、退休年金推算、月度数据从挤压文本改为字段化 chip。"><strong>摘要排版</strong>：将置信区间、退休年金和月度数据改成更稳定的字段块。</li>
+                        <li data-en="Validation passed: JS syntax, duplicate IDs, missing i18n keys, and missing DOM references were checked." data-zh="验证通过：JS 语法、重复 ID、i18n 缺失与 DOM 引用缺失检查通过。"><strong>验证</strong>：语法、ID、i18n 与 DOM 引用检查通过。</li>
                     </ul>
                 </div>
             </div>

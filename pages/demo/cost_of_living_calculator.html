@@ -419,6 +419,44 @@
             height: 100% !important;
         }
 
+        .view-switch {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 0.5rem;
+            border-radius: 12px;
+        }
+
+        .view-tab {
+            display: inline-flex;
+            min-width: 10rem;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            border-radius: 9px;
+            padding: 0.78rem 1rem;
+            color: var(--muted);
+            font-size: 0.9rem;
+            font-weight: 800;
+            transition: color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+        }
+
+        .view-tab:hover {
+            color: var(--app-text);
+            transform: translateY(-1px);
+        }
+
+        .view-tab.active {
+            color: #ffffff;
+            background: linear-gradient(135deg, #14b8a6, #2563eb);
+            box-shadow: 0 12px 24px rgba(20, 184, 166, 0.22);
+        }
+
+        .view-panel.is-hidden {
+            display: none;
+        }
+
         @supports not (color: color-mix(in srgb, #fff 50%, #000)) {
             .analytics-section { background: var(--panel-bg); }
         }
@@ -445,6 +483,16 @@
                 width: calc(100vw - 1rem);
                 max-height: calc(100dvh - 1rem);
                 padding: 1rem;
+            }
+
+            .view-switch {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .view-tab {
+                width: 100%;
+                min-width: 0;
             }
         }
     </style>
@@ -476,8 +524,19 @@
         </div>
     </nav>
 
-    <main class="container mx-auto p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <div class="lg:col-span-5 space-y-6 pr-1 lg:pr-2 pb-10">
+    <main class="container mx-auto p-4 lg:p-6 space-y-6">
+        <div class="view-switch glass-panel" role="tablist" aria-label="Calculator views">
+            <button type="button" id="inputViewBtn" class="view-tab active" data-view="input" role="tab" aria-selected="true" aria-controls="inputView">
+                <i data-lucide="clipboard-list" class="w-4 h-4"></i>
+                <span data-i18n="view_input">信息填表</span>
+            </button>
+            <button type="button" id="outputViewBtn" class="view-tab" data-view="output" role="tab" aria-selected="false" aria-controls="outputView">
+                <i data-lucide="activity" class="w-4 h-4"></i>
+                <span data-i18n="view_output">统计结果</span>
+            </button>
+        </div>
+
+        <div id="inputView" class="view-panel space-y-6 pr-1 lg:pr-2 pb-10" role="tabpanel" aria-labelledby="inputViewBtn" aria-hidden="false">
             <section class="glass-panel rounded-lg p-5">
                 <div class="flex items-center justify-between mb-4 border-b border-slate-300/40 dark:border-slate-600/40 pb-2">
                     <div class="flex items-center space-x-2">
@@ -804,7 +863,7 @@
             <p class="text-center text-xs muted mt-2" data-i18n="disclaimer">* 本计算结果基于估算模型，仅供个人规划参考。</p>
         </div>
 
-        <div class="lg:col-span-7 space-y-6">
+        <div id="outputView" class="view-panel is-hidden space-y-6" role="tabpanel" aria-labelledby="outputViewBtn" aria-hidden="true">
             <div class="grid grid-cols-2 xl:grid-cols-6 gap-4">
                 <div class="glass-panel p-4 rounded-lg border-l-4 border-geek-success">
                     <h3 class="text-xs muted font-medium mb-1" data-i18n="out_cash_gross">理论现金年收入</h3>
@@ -1195,6 +1254,8 @@
             en: {
                 title: "LifeCost & Wealth Engine",
                 subtitle: "An estimation bench for income, benefits, social security, assets, and living costs",
+                view_input: "Inputs",
+                view_output: "Results",
                 mod_income: "1. Income Vector",
                 base_salary: "Base Salary",
                 salary_type: "Salary Frequency",
@@ -1367,6 +1428,8 @@
             zh: {
                 title: "生活成本-总包资产计算器",
                 subtitle: "收入、福利、五险一金与生活开销的估算工作台",
+                view_input: "信息填表",
+                view_output: "统计结果",
                 mod_income: "1. 收入向量",
                 base_salary: "基础薪资 (支持10k, 1w, 10,000)",
                 salary_type: "薪资频率",
@@ -1822,6 +1885,8 @@
         let currentLang = 'zh';
         let renderTimer = null;
         let lastRenderData = null;
+        let activeView = 'input';
+        let pendingChartData = null;
         let charts = {
             cashflow: null,
             deductions: null,
@@ -1860,6 +1925,34 @@
         function scheduleRunEngine(delay = 160) {
             window.clearTimeout(renderTimer);
             renderTimer = window.setTimeout(runEngine, delay);
+        }
+
+        function isOutputViewVisible() {
+            return $('outputView') && !$('outputView').classList.contains('is-hidden');
+        }
+
+        function setActiveView(view) {
+            activeView = view === 'output' ? 'output' : 'input';
+            const showOutput = activeView === 'output';
+            $('inputView').classList.toggle('is-hidden', showOutput);
+            $('outputView').classList.toggle('is-hidden', !showOutput);
+            $('inputViewBtn').classList.toggle('active', !showOutput);
+            $('outputViewBtn').classList.toggle('active', showOutput);
+            $('inputViewBtn').setAttribute('aria-selected', String(!showOutput));
+            $('outputViewBtn').setAttribute('aria-selected', String(showOutput));
+            $('inputView').setAttribute('aria-hidden', String(showOutput));
+            $('outputView').setAttribute('aria-hidden', String(!showOutput));
+
+            if (showOutput) {
+                window.requestAnimationFrame(() => {
+                    runEngine();
+                    if (pendingChartData) updateCharts(pendingChartData);
+                    Object.values(charts).forEach(chart => {
+                        if (chart && typeof chart.resize === 'function') chart.resize();
+                    });
+                    if (lastRenderData) drawSankey(lastRenderData, getColors());
+                });
+            }
         }
 
         function parseMoney(val) {
@@ -2752,6 +2845,11 @@
 
         function updateCharts(data) {
             lastRenderData = data;
+            if (!isOutputViewVisible()) {
+                pendingChartData = data;
+                return;
+            }
+            pendingChartData = null;
             const c = getColors();
             Chart.defaults.color = c.text;
             Chart.defaults.borderColor = c.grid;
@@ -3368,7 +3466,9 @@
             el.addEventListener('change', () => scheduleRunEngine(80));
         });
 
-        $('calcBtn').addEventListener('click', runEngine);
+        $('calcBtn').addEventListener('click', () => setActiveView('output'));
+        $('inputViewBtn').addEventListener('click', () => setActiveView('input'));
+        $('outputViewBtn').addEventListener('click', () => setActiveView('output'));
         window.addEventListener('resize', () => {
             window.clearTimeout(window.__lifecostResizeTimer);
             window.__lifecostResizeTimer = window.setTimeout(() => {
