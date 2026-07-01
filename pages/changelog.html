@@ -121,6 +121,28 @@
 
         <section class="changelog-timeline" data-changelog-view-panel="logs">
             <div class="timeline-item">
+                <div class="timeline-date">2026-07-01</div>
+                <div class="timeline-content">
+                    <h2 data-en="LifeCost Calculator — Benefits, Debt, and Employee-Package Logic Upgrade" data-zh="生活成本计算器 — 福利、债务与员工口径总包升级">生活成本计算器 — 福利、债务与员工口径总包升级</h2>
+                    <ul>
+                        <li data-en="Reorganized the Holiday Bonus & Benefits module into Cash Bonuses & Core Benefits, Meal Subsidy & Work Meals, and Hours, Leave & Overtime groups, making the formerly wide form easier to scan." data-zh="重组“假日奖金与福利”模块：拆分为“现金奖金与基础福利”“餐补与工作餐”“工时、休假与加班”三组，改善原先横向铺开的表单阅读体验。"><strong>福利表单重组</strong>：拆分奖金福利、餐补工作餐、工时休假加班三组，提升填表清晰度。</li>
+                        <li data-en="Changed the two-day weekend control from a checkbox to a Yes/No select while preserving the default Yes setting and existing rest-day calculation behavior." data-zh="将“双休”控件从复选框改为“是 / 否”下拉框，默认仍为“是”，并保持原有休息天计算逻辑。"><strong>双休 UI 调整</strong>：从 checkbox 改为“是 / 否”下拉表，默认保持双休。</li>
+                        <li data-en="Added meal-count modeling: meal subsidy per meal, subsidized meals per workday, free work meals, paid work-meal unit cost, and paid meal count. Free meals now add benefit value, while paid work meals enter expected expenses." data-zh="新增餐补次数模型：支持每餐补贴、餐补覆盖餐次、免费工作餐次数、收费工作餐单价和收费餐次数；免费餐计入福利折算，收费工作餐计入预计支出。"><strong>餐补与工作餐</strong>：新增餐次口径，区分免费餐福利和收费工作餐支出。</li>
+                        <li data-en="Added CPC membership dues controls with excluded, automatic tiered, and custom monthly modes. Automatic mode estimates dues from after-tax monthly cash income using the 0.5% / 1% / 1.5% / 2% tiers, without changing taxable income." data-zh="新增 CPC 党员党费控件，支持不计入、按税后月现金阶梯自动估算、自定义月缴三种模式；自动估算采用 0.5% / 1% / 1.5% / 2% 阶梯，且不改变个税应税收入。"><strong>党员党费</strong>：新增自动阶梯与自定义月缴，党费减少可支配现金但不影响个税口径。</li>
+                        <li data-en="Added an enterprise-annuity cap notice for the common 8% employer and 12% employer+employee reference limits, while keeping inputs configurable for employer-specific plans." data-zh="在企业年金区新增常见上限提示：企业缴费 8%、个人加企业合计 12% 作为参考口径，同时保留可配置输入以适配不同单位方案。"><strong>企业年金提示</strong>：补充 8% / 12% 常见上限说明，并保留灵活填写。</li>
+                        <li data-en="Expanded default stochastic expenses with AI Tools, Gym, Rent & Property, separate Phone and Internet bills, Laundry, Clothing, and Online Shopping / miscellaneous items." data-zh="扩展随机生活开销默认项：新增 AI Tool、健身费用、房租/物业、话费、网费、洗衣费、衣物费、网购杂物费用，并拆分话费与网费。"><strong>默认开销扩展</strong>：新增 AI、健身、房租物业、洗衣、衣物、网购杂物等默认项。</li>
+                        <li data-en="Moved large-expense amortization, annual debt cashflow, and true annualized IRR out of the input form into the Results view, then added debt left after 12 months, current net worth, and 12-month net worth." data-zh="将“大额支出月摊销、债务年现金流、真实年化 IRR”从输入区移入统计结果页，并新增“12 个月后剩余债务、当前净资产、12 个月后净资产”。"><strong>债务摘要迁移</strong>：债务结果进入统计结果页，并补充净资产与剩余债务指标。</li>
+                        <li data-en="Updated net-worth projections, stress testing, and Monte Carlo calculations so remaining debt principal is subtracted from projected assets instead of only treating monthly payments as expenses." data-zh="修正净资产投影、压力测试与蒙特卡洛口径：剩余债务本金会从资产终值中扣除，不再只把月供当作支出处理。"><strong>净资产口径修正</strong>：资产投影、压力测试和蒙特卡洛均扣除剩余债务本金。</li>
+                        <li data-en="Corrected total-package valuation from an employer-cost style formula to an employee-facing package: cash income + company housing fund + company annuity + benefit valuation + vested funds/stocks. Employer social-pool security remains visible in Company Paid but is excluded from employee-facing package value." data-zh="修正总包估值：从“企业成本式”公式调整为员工口径总包，即现金收入 + 企业公积金 + 企业年金 + 福利折算 + 基金股票归属；企业社保统筹仍在“企业缴纳”中展示，但不计入员工口径总包。"><strong>总包口径修正</strong>：员工口径总包只纳入可识别权益，企业社保统筹不再计入总包估值。</li>
+                        <li data-en="Swapped the Results sections so Settlement & Account Assets appears before Cashflow Adjustments & Debt Summary, matching the new account-first reading order." data-zh="调整统计结果页模块顺序：“综合结算与账户资产”前置，“现金流修正与债务摘要”后置，更符合先看账户资产、再看债务修正的阅读顺序。"><strong>结果页顺序调整</strong>：账户资产模块前置，债务摘要模块后置。</li>
+                        <li data-en="Synchronized Chinese and English labels and help dialogs for meal modeling, CPC dues, annuity caps, debt net-worth scope, and employee-facing package valuation." data-zh="同步更新中英文标签与说明弹窗，覆盖餐补模型、党员党费、企业年金上限、债务净资产口径和员工口径总包估值。"><strong>双语说明同步</strong>：新增字段、公式口径和帮助文案均已同步中英文。</li>
+                        <li data-en="Validation passed: inline JavaScript syntax, DOM id references, i18n key coverage, and whitespace checks passed. Browser-level file preview remained limited by local browser/security policy." data-zh="验证通过：内联 JavaScript 语法、DOM id 引用、i18n key 覆盖与空白格式检查通过；浏览器级 file 预览仍受本地浏览器/安全策略限制。"><strong>验证</strong>：语法、DOM 引用、i18n 与空白检查通过。</li>
+                        <li data-en="Changed Files: pages/demo/cost_of_living_calculator.html, pages/changelog.html." data-zh="改动文件：pages/demo/cost_of_living_calculator.html、pages/changelog.html。"><strong>改动文件</strong>：pages/demo/cost_of_living_calculator.html、pages/changelog.html。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
                 <div class="timeline-date">2026-06-28</div>
                 <div class="timeline-content">
                     <h2 data-en="LifeCost Calculator — Layout, Calculation Model, and Help Guide Upgrade" data-zh="生活成本计算器 — 布局、计算口径与说明系统升级">生活成本计算器 — 布局、计算口径与说明系统升级</h2>

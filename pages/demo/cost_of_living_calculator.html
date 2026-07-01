@@ -135,6 +135,24 @@
             grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
         }
 
+        .form-cluster {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .cluster-title {
+            margin-bottom: 0.65rem;
+            color: var(--app-text);
+            font-size: 0.78rem;
+            font-weight: 800;
+        }
+
+        .field-note {
+            color: var(--muted);
+            font-size: 0.72rem;
+            line-height: 1.45;
+        }
+
         .help-btn {
             display: inline-flex;
             width: 1.35rem;
@@ -641,60 +659,95 @@
                     <button class="help-btn" data-help="benefits" aria-label="福利说明">?</button>
                 </div>
 
-                <div class="form-grid">
+                <div class="form-cluster">
                     <div>
-                        <label class="block text-xs font-medium mb-1" data-i18n="holiday_bonus">节日慰问金/年</label>
-                        <input type="text" id="in_holiday_bonus" value="600" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                        <h3 class="cluster-title" data-i18n="benefit_cash_group">现金奖金与基础福利</h3>
+                        <div class="form-grid">
+                            <div>
+                                <label class="block text-xs font-medium mb-1" data-i18n="holiday_bonus">节日慰问金/年</label>
+                                <input type="text" id="in_holiday_bonus" value="600" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium mb-1" data-i18n="project_bonus">绩效/项目奖金/年</label>
+                                <input type="text" id="in_project_bonus" value="0" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium mb-1" data-i18n="health_check">体检与商业保险/年</label>
+                                <input type="text" id="in_welfare_value" value="1000" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium mb-1" data-i18n="paid_leave">补充年假折算 (天)</label>
+                                <input type="number" id="in_extra_leave" value="0" step="0.5" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                            </div>
+                        </div>
                     </div>
+
                     <div>
-                        <label class="block text-xs font-medium mb-1" data-i18n="project_bonus">绩效/项目奖金/年</label>
-                        <input type="text" id="in_project_bonus" value="0" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                        <h3 class="cluster-title" data-i18n="benefit_meal_group">餐补与工作餐</h3>
+                        <div class="form-grid compact">
+                            <div>
+                                <label class="block text-xs font-medium mb-1" data-i18n="meal_allowance">工作餐补贴/餐次</label>
+                                <input type="text" id="in_meal" value="0" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium mb-1" data-i18n="meal_subsidy_meals">餐补覆盖餐次/工作日</label>
+                                <input type="number" id="in_meal_subsidy_meals" value="1" min="0" step="0.5" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium mb-1" data-i18n="free_meals">免费工作餐次数/工作日</label>
+                                <input type="number" id="in_free_meals" value="0" min="0" step="0.5" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium mb-1" data-i18n="paid_work_meal_cost">收费工作餐单价</label>
+                                <input type="text" id="in_paid_work_meal_cost" value="0" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium mb-1" data-i18n="work_meal_count">收费工作餐次数/工作日</label>
+                                <input type="number" id="in_paid_work_meals" value="0" min="0" step="0.5" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                            </div>
+                            <div class="field-note" data-i18n="meal_model_notice">免费餐计入福利估值；收费餐计入餐饮支出；餐补按覆盖餐次折算福利。</div>
+                        </div>
                     </div>
+
                     <div>
-                        <label class="block text-xs font-medium mb-1" data-i18n="meal_allowance">工作餐补贴/工作日</label>
-                        <input type="text" id="in_meal" value="0" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium mb-1" data-i18n="health_check">体检与商业保险/年</label>
-                        <input type="text" id="in_welfare_value" value="1000" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium mb-1" data-i18n="paid_leave">补充年假折算 (天)</label>
-                        <input type="number" id="in_extra_leave" value="0" step="0.5" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium mb-1" data-i18n="workdays">年工作日</label>
-                        <input type="number" id="in_workdays" value="250" step="1" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
-                    </div>
-                    <div class="flex items-end pb-2">
-                        <label class="flex items-center space-x-2 text-sm cursor-pointer">
-                            <input type="checkbox" id="in_double_weekend" checked class="rounded border">
-                            <span data-i18n="double_weekend">双休</span>
-                        </label>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium mb-1" data-i18n="annual_leave_days">年假天数</label>
-                        <input type="number" id="in_annual_leave_days" value="0" step="0.5" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium mb-1" data-i18n="standard_hours">标准工作时长/天</label>
-                        <input type="number" id="in_standard_hours" value="8" step="0.5" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium mb-1" data-i18n="workday_ot_hours">工作日加班小时/月</label>
-                        <input type="number" id="in_workday_ot_hours" value="0" step="0.5" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium mb-1" data-i18n="workday_ot_multiplier">工作日加班倍率</label>
-                        <input type="number" id="in_workday_ot_multiplier" value="1.5" step="0.1" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium mb-1" data-i18n="holiday_ot_days">节假日加班天数/年</label>
-                        <input type="number" id="in_holiday_ot_days" value="0" step="0.5" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium mb-1" data-i18n="holiday_ot_multiplier">节假日加班倍率</label>
-                        <input type="number" id="in_holiday_ot_multiplier" value="3" step="0.1" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                        <h3 class="cluster-title" data-i18n="benefit_time_group">工时、休假与加班</h3>
+                        <div class="form-grid">
+                            <div>
+                                <label class="block text-xs font-medium mb-1" data-i18n="workdays">年工作日</label>
+                                <input type="number" id="in_workdays" value="250" step="1" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium mb-1" data-i18n="double_weekend">双休</label>
+                                <select id="in_double_weekend" class="w-full border rounded-md py-2 px-3 text-sm">
+                                    <option value="yes" selected data-i18n="yes">是</option>
+                                    <option value="no" data-i18n="no">否</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium mb-1" data-i18n="annual_leave_days">年假天数</label>
+                                <input type="number" id="in_annual_leave_days" value="0" step="0.5" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium mb-1" data-i18n="standard_hours">标准工作时长/天</label>
+                                <input type="number" id="in_standard_hours" value="8" step="0.5" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium mb-1" data-i18n="workday_ot_hours">工作日加班小时/月</label>
+                                <input type="number" id="in_workday_ot_hours" value="0" step="0.5" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium mb-1" data-i18n="workday_ot_multiplier">工作日加班倍率</label>
+                                <input type="number" id="in_workday_ot_multiplier" value="1.5" step="0.1" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium mb-1" data-i18n="holiday_ot_days">节假日加班天数/年</label>
+                                <input type="number" id="in_holiday_ot_days" value="0" step="0.5" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium mb-1" data-i18n="holiday_ot_multiplier">节假日加班倍率</label>
+                                <input type="number" id="in_holiday_ot_multiplier" value="3" step="0.1" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -798,6 +851,20 @@
                         <label class="block text-xs font-medium mb-1" data-i18n="annuity_times">每年次数</label>
                         <input type="number" id="annuity_times" value="4" step="1" min="0" class="w-full border rounded-md py-1.5 px-2 font-mono text-sm">
                     </div>
+                    <div class="field-note" data-i18n="annuity_cap_notice">企业年金常见上限：企业缴费不超过工资总额 8%，个人+企业合计不超过 12%。请按本单位方案填写。</div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="party_fee_mode">CPC党员党费</label>
+                        <select id="party_fee_mode" class="w-full border rounded-md py-1.5 px-2 text-sm">
+                            <option value="none" data-i18n="party_fee_none">不计入</option>
+                            <option value="auto" data-i18n="party_fee_auto">按税后月收入阶梯</option>
+                            <option value="custom" data-i18n="party_fee_custom">自定义月缴</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="party_fee_custom_monthly">党费自定义月缴</label>
+                        <input type="text" id="party_fee_custom_val" value="0" class="w-full border rounded-md py-1.5 px-2 font-mono text-sm">
+                    </div>
+                    <div class="field-note" data-i18n="party_fee_notice">自动估算按税后月现金 0.5%/1%/1.5%/2% 阶梯，地区或单位口径请用自定义覆盖。</div>
                     <div>
                         <label class="block text-xs font-medium mb-1" data-i18n="birth_year">出生年份</label>
                         <input type="number" id="in_birth" value="1995" class="w-full border rounded-md py-1.5 px-2 font-mono text-sm">
@@ -896,20 +963,6 @@
                     <div>
                         <label class="block text-xs font-medium mb-1" data-i18n="debt_apr">名义年化利率 %</label>
                         <input type="number" id="in_debt_apr" value="0" step="0.1" class="w-full border rounded-md py-2 px-3 font-mono text-sm">
-                    </div>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
-                    <div class="stat-card">
-                        <span data-i18n="large_expense_monthly">大额支出月摊销</span>
-                        <strong id="out_large_expense_monthly">¥0</strong>
-                    </div>
-                    <div class="stat-card">
-                        <span data-i18n="debt_annual_payment">债务年现金流</span>
-                        <strong id="out_debt_annual_payment">¥0</strong>
-                    </div>
-                    <div class="stat-card">
-                        <span data-i18n="debt_true_irr">真实年化 IRR</span>
-                        <strong id="out_debt_irr">0%</strong>
                     </div>
                 </div>
                 <p class="text-xs muted mt-3" data-i18n="planning_notice">大额支出和债务月供会计入支出与结余；当前存款会作为净资产趋势和资产投影的起点。</p>
@@ -1021,6 +1074,42 @@
                         <span data-i18n="asset_equity">基金&股票归属</span>
                         <strong class="font-mono" id="asset_equity_month">¥0</strong>
                         <strong class="font-mono" id="asset_equity_year">¥0</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-panel p-5 rounded-lg">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-sm font-semibold flex items-center">
+                        <i data-lucide="receipt-text" class="w-4 h-4 mr-2"></i>
+                        <span data-i18n="cashflow_adjustments">现金流修正与债务摘要</span>
+                    </h3>
+                    <button class="help-btn" data-help="planning" aria-label="现金流修正说明">?</button>
+                </div>
+                <div class="stat-card-grid">
+                    <div class="stat-card">
+                        <span data-i18n="large_expense_monthly">大额支出月摊销</span>
+                        <strong id="out_large_expense_monthly">¥0</strong>
+                    </div>
+                    <div class="stat-card">
+                        <span data-i18n="debt_annual_payment">债务年现金流</span>
+                        <strong id="out_debt_annual_payment">¥0</strong>
+                    </div>
+                    <div class="stat-card">
+                        <span data-i18n="debt_true_irr">真实年化 IRR</span>
+                        <strong id="out_debt_irr">0%</strong>
+                    </div>
+                    <div class="stat-card">
+                        <span data-i18n="debt_remaining_after_year">12个月后剩余债务</span>
+                        <strong id="out_debt_remaining_after_year">¥0</strong>
+                    </div>
+                    <div class="stat-card">
+                        <span data-i18n="net_worth_now">当前净资产</span>
+                        <strong id="out_net_worth_now">¥0</strong>
+                    </div>
+                    <div class="stat-card">
+                        <span data-i18n="net_worth_12m">12个月后净资产</span>
+                        <strong id="out_net_worth_12m">¥0</strong>
                     </div>
                 </div>
             </div>
@@ -1372,13 +1461,23 @@
                 bonus_ratio: "Year-end Bonus (Months)",
                 growth_rate: "Annual Growth % (CAGR)",
                 mod_bonus: "2. Holiday Bonus & Benefits",
+                benefit_cash_group: "Cash Bonuses & Core Benefits",
+                benefit_meal_group: "Meal Subsidy & Work Meals",
+                benefit_time_group: "Hours, Leave & Overtime",
                 holiday_bonus: "Holiday Bonus / Year",
                 project_bonus: "Performance Bonus / Year",
-                meal_allowance: "Meal Allowance / Workday",
+                meal_allowance: "Meal Allowance / Meal",
+                meal_subsidy_meals: "Subsidized Meals / Workday",
+                free_meals: "Free Work Meals / Workday",
+                paid_work_meal_cost: "Paid Work Meal Unit Cost",
+                work_meal_count: "Paid Work Meals / Workday",
+                meal_model_notice: "Free meals add benefit value; paid meals add food expense; meal subsidy is valued by covered meal count.",
                 health_check: "Health Check & Insurance / Year",
                 paid_leave: "Extra Paid Leave Value (Days)",
                 workdays: "Workdays / Year",
                 double_weekend: "Two-day Weekend",
+                yes: "Yes",
+                no: "No",
                 annual_leave_days: "Annual Leave Days",
                 standard_hours: "Standard Hours / Day",
                 workday_ot_hours: "Weekday OT Hours / Month",
@@ -1409,6 +1508,13 @@
                 annuity_emp: "Personal Annuity Value",
                 annuity_company: "Company Annuity Value",
                 annuity_times: "Times / Year",
+                annuity_cap_notice: "Common annuity caps: employer <= 8% of payroll; personal + employer <= 12%. Use your employer plan.",
+                party_fee_mode: "CPC Membership Dues",
+                party_fee_none: "Exclude",
+                party_fee_auto: "Auto by after-tax monthly income",
+                party_fee_custom: "Custom monthly dues",
+                party_fee_custom_monthly: "Custom Monthly Dues",
+                party_fee_notice: "Auto estimate uses 0.5%/1%/1.5%/2% tiers by after-tax monthly cash income. Override if your unit differs.",
                 birth_year: "Birth Year",
                 retire_age: "Estimated Retirement Age",
                 mod_equity: "4. Funds & Stocks",
@@ -1440,7 +1546,7 @@
                 out_net_annual: "Theoretical Spendable Income",
                 out_exp_annual: "Annual Expenses",
                 out_save_annual: "Theoretical Annual Savings",
-                out_total_package: "Theoretical Total Package",
+                out_total_package: "Employee-facing Package",
                 out_company_pay: "Company Paid",
                 actual_cash_income: "Actual Cash Income",
                 actual_net_income: "Actual Spendable Income",
@@ -1456,6 +1562,10 @@
                 annual_rest_days: "Annual Rest Days",
                 overtime_total_hours: "Total OT Hours",
                 labor_ratio: "Labor Ratio",
+                cashflow_adjustments: "Cashflow Adjustments & Debt Summary",
+                debt_remaining_after_year: "Debt Left After 12 Months",
+                net_worth_now: "Current Net Worth",
+                net_worth_12m: "Net Worth After 12 Months",
                 asset_ledger: "Settlement & Account Assets",
                 asset_name: "Item",
                 asset_monthly: "Monthly",
@@ -1546,13 +1656,23 @@
                 bonus_ratio: "年终奖比例 (月数)",
                 growth_rate: "预期年薪资增长率 (%)",
                 mod_bonus: "2. 假日奖金与福利",
+                benefit_cash_group: "现金奖金与基础福利",
+                benefit_meal_group: "餐补与工作餐",
+                benefit_time_group: "工时、休假与加班",
                 holiday_bonus: "节日慰问金/年",
                 project_bonus: "绩效/项目奖金/年",
-                meal_allowance: "工作餐补贴/工作日",
+                meal_allowance: "工作餐补贴/餐次",
+                meal_subsidy_meals: "餐补覆盖餐次/工作日",
+                free_meals: "免费工作餐次数/工作日",
+                paid_work_meal_cost: "收费工作餐单价",
+                work_meal_count: "收费工作餐次数/工作日",
+                meal_model_notice: "免费餐计入福利估值；收费餐计入餐饮支出；餐补按覆盖餐次折算福利。",
                 health_check: "体检与商业保险/年",
                 paid_leave: "补充年假折算 (天)",
                 workdays: "年工作日",
                 double_weekend: "双休",
+                yes: "是",
+                no: "否",
                 annual_leave_days: "年假天数",
                 standard_hours: "标准工作时长/天",
                 workday_ot_hours: "工作日加班小时/月",
@@ -1583,6 +1703,13 @@
                 annuity_emp: "个人年金值",
                 annuity_company: "企业年金值",
                 annuity_times: "每年次数",
+                annuity_cap_notice: "企业年金常见上限：企业缴费不超过工资总额 8%，个人+企业合计不超过 12%。请按本单位方案填写。",
+                party_fee_mode: "CPC党员党费",
+                party_fee_none: "不计入",
+                party_fee_auto: "按税后月收入阶梯",
+                party_fee_custom: "自定义月缴",
+                party_fee_custom_monthly: "党费自定义月缴",
+                party_fee_notice: "自动估算按税后月现金 0.5%/1%/1.5%/2% 阶梯，地区或单位口径请用自定义覆盖。",
                 birth_year: "出生年份",
                 retire_age: "预计退休年龄",
                 mod_equity: "4. 基金&股票",
@@ -1614,7 +1741,7 @@
                 out_net_annual: "理论可支配收入",
                 out_exp_annual: "预计年支出",
                 out_save_annual: "理论预计年结余",
-                out_total_package: "理论总包估值",
+                out_total_package: "员工口径总包",
                 out_company_pay: "企业缴纳",
                 actual_cash_income: "实际现金年收入",
                 actual_net_income: "实际可支配收入",
@@ -1630,6 +1757,10 @@
                 annual_rest_days: "年休息天",
                 overtime_total_hours: "加班总小时",
                 labor_ratio: "劳动比",
+                cashflow_adjustments: "现金流修正与债务摘要",
+                debt_remaining_after_year: "12个月后剩余债务",
+                net_worth_now: "当前净资产",
+                net_worth_12m: "12个月后净资产",
                 asset_ledger: "综合结算与账户资产",
                 asset_name: "项目",
                 asset_monthly: "月估算",
@@ -1718,7 +1849,7 @@
                         ["理论可支配收入", "理论现金年收入 - 个人五险一金 - 个人企业年金 - 个税。表示理论到手现金。"],
                         ["预计年支出", "所有生活开销按日/月/年折算后的年度均值。"],
                         ["理论预计年结余", "理论可支配收入 - 预计年支出。"],
-                        ["理论总包估值", "理论现金年收入 + 企业五险一金 + 企业年金 + 福利折算 + 基金股票本年归属。"],
+                        ["理论总包估值", "员工视角口径：理论现金年收入 + 企业公积金 + 企业年金 + 福利折算 + 基金股票本年归属。企业社保统筹不再计入此项。"],
                         ["企业缴纳", "企业五险一金 + 企业年金。它不是到手现金。"],
                         ["实际现金年收入", "理论现金年收入 + 加班价值。"],
                         ["实际可支配收入", "实际现金年收入 - 个人五险一金 - 个人企业年金 - 按实际现金重新估算的个税。"],
@@ -1744,7 +1875,7 @@
                         ["Theoretical Spendable Income", "Theoretical cash gross - personal security - personal annuity - income tax."],
                         ["Annual Expenses", "Annualized mean of all expense rows."],
                         ["Theoretical Annual Savings", "Theoretical spendable income - annual expenses."],
-                        ["Theoretical Total Package", "Theoretical cash gross + company security + company annuity + benefit valuation + vested funds/stocks."],
+                        ["Theoretical Total Package", "Employee-facing scope: theoretical cash gross + company housing fund + company annuity + benefit valuation + vested funds/stocks. Employer social-pool security is excluded."],
                         ["Company Paid", "Company security + company annuity. Not take-home cash."],
                         ["Actual Cash Income", "Theoretical cash gross + overtime value."],
                         ["Actual Spendable Income", "Actual cash income - personal security - personal annuity - tax estimated from actual cash."],
@@ -1896,7 +2027,7 @@
                 en: { title: "Asset Accumulation Progress", body: "Combines current savings, annual savings, housing/annuity accounts, and vested equity into an asset path.", details: [["Components", "Cash savings + housing fund + annuity + funds/stocks."], ["How To Read", "A falling line means negative annual savings or weak returns. Faster growth means stronger cashflow and account-asset contribution."], ["Note", "Account assets are not the same as immediately liquid cash."]] }
             },
             chart_cashflow_help: {
-                zh: { title: "年度现金流", body: "饼图展示实际现金收入如何被税费、个人缴纳、支出和结余分配。", details: [["颜色块", "个税、个人五险二金、预计开支和预计结余/现金缺口。"], ["怎么看", "支出占比越高，生活成本压力越大；现金缺口出现时，年度现金流不可持续。"], ["注意", "企业缴纳和锁定资产不在这张现金流饼图里。"]] },
+                zh: { title: "年度现金流", body: "饼图展示实际现金收入如何被税费、个人扣除、支出和结余分配。", details: [["颜色块", "个税、个人扣除、预计开支和预计结余/现金缺口。个人扣除包含个人五险一金、个人年金和党费。"], ["怎么看", "支出占比越高，生活成本压力越大；现金缺口出现时，年度现金流不可持续。"], ["注意", "企业缴纳和锁定资产不在这张现金流饼图里。"]] },
                 en: { title: "Annual Cashflow", body: "Shows how actual cash income is split across tax, personal deductions, expenses, and savings.", details: [["Slices", "Tax, personal deductions, expected expenses, and savings/shortfall."], ["How To Read", "A larger expense slice means higher cost pressure. A shortfall means annual cashflow is not sustainable."], ["Note", "Company-paid and locked account assets are excluded from this cashflow pie."]] }
             },
             chart_deductions_help: {
@@ -1928,8 +2059,8 @@
                 en: { title: "Fund Flow Sankey", body: "Shows money flow from package value into deductions, spendable cash, expenses, and savings.", details: [["Line Width", "Wider flows represent larger amounts."], ["Middle Nodes", "Tax, personal deductions, company-paid amounts, and spendable cash."], ["How To Read", "If expenses approach or exceed spendable cash, cashflow pressure is high. Company-paid benefits cannot replace liquidity."]] }
             },
             chart_networth_help: {
-                zh: { title: "12个月净资产趋势", body: "这张图用当前存款和预计月结余推演未来 12 个月流动净资产。", details: [["目标线", "虚线是 10 万目标线。"], ["提示标签", "右上角会提示是否能在 12 个月内达到第一个 10 万。"], ["怎么看", "曲线上行代表现金流可积累；曲线下行代表每月结余为负，需要调整收入或支出。"]] },
-                en: { title: "12-Month Net Worth Trend", body: "Projects liquid net worth over 12 months from current savings and monthly savings.", details: [["Target Line", "Dashed line marks the 100k target."], ["Hint Badge", "Top-right badge says whether the first 100k is reached within 12 months."], ["How To Read", "A rising line means cash can accumulate. A falling line means monthly savings are negative."]] }
+                zh: { title: "12个月净资产趋势", body: "这张图用当前存款、预计月结余和剩余债务推演未来 12 个月流动净资产。", details: [["目标线", "虚线是 10 万目标线。"], ["债务处理", "月供已进入月结余，剩余本金会从净资产中扣除，并随还款逐月下降。"], ["怎么看", "曲线上行代表现金流可积累；曲线下行代表每月结余为负或债务压力较高。"]] },
+                en: { title: "12-Month Net Worth Trend", body: "Projects liquid net worth over 12 months from current savings, monthly savings, and remaining debt.", details: [["Target Line", "Dashed line marks the 100k target."], ["Debt Treatment", "Monthly payment is already in savings, while remaining principal is subtracted and declines over time."], ["How To Read", "A rising line means cash can accumulate. A falling line means negative monthly savings or heavy debt pressure."]] }
             },
             income: {
                 zh: {
@@ -1960,10 +2091,11 @@
                     details: [
                         ["节日慰问金/年", "端午、中秋、春节、开门红等现金或等价现金补贴。计入现金年收入，并参与个税估算。"],
                         ["绩效/项目奖金/年", "项目奖、季度奖、绩效奖等额外现金收入。计入现金年收入，并参与个税估算。"],
-                        ["工作餐补贴/工作日", "按“每日金额 x 年工作日”估算福利价值。默认只计入总包估值，不增加可支配现金。"],
+                        ["工作餐补贴/餐次", "按“每餐补贴 x 覆盖餐次 x 年工作日”估算福利价值。默认只计入总包估值，不增加可支配现金。"],
+                        ["免费/收费工作餐", "免费餐按参考单价计入福利折算；收费工作餐按“单价 x 次数 x 年工作日”计入预计支出。"],
                         ["体检与商业保险/年", "体检、团体商业保险等公司福利，按年价值计入总包估值。"],
                         ["补充年假折算", "按“天数 x 月薪/21.75”估算时间价值，只进入总包估值。"],
-                        ["年工作日", "用于工作餐补贴总额估算。若公司按实际出勤发放，可手动调整。"],
+                        ["年工作日", "用于工作餐补贴、免费餐和收费工作餐估算。若公司按实际出勤发放，可手动调整。"],
                         ["双休与年假", "年休息天 = 双休则 104 天，否则 52 天，再加年假天数。暂不纳入法定节假日，避免重复口径。"],
                         ["标准工作时长", "默认 8 小时/天，用于估算时薪、加班收入和劳动比。"],
                         ["工作日加班", "按“月加班小时 x 12 x 时薪 x 倍率”估算。默认加班小时为 0，不参与计算。"],
@@ -1976,10 +2108,11 @@
                     details: [
                         ["Holiday Bonus", "Holiday cash or equivalent subsidies. Included in cash income and tax estimation."],
                         ["Performance Bonus", "Project, quarterly, or performance bonuses. Included in cash income and tax estimation."],
-                        ["Meal Allowance", "Daily value x workdays. Included in package value, not spendable cash by default."],
+                        ["Meal Allowance", "Per-meal value x covered meals x workdays. Included in package value, not spendable cash by default."],
+                        ["Free/Paid Work Meals", "Free meals add benefit value by reference price. Paid work meals add expense by unit price x count x workdays."],
                         ["Health & Insurance", "Annual valuation of health checks and commercial insurance. Included in package value."],
                         ["Extra Paid Leave", "Days x monthly salary / 21.75. Treated as time value in package valuation."],
-                        ["Workdays", "Controls meal allowance valuation. Adjust it if your company pays by actual attendance."],
+                        ["Workdays", "Controls meal allowance, free meals, and paid work-meal expense. Adjust it if your company pays by actual attendance."],
                         ["Weekend & Leave", "Annual rest days = 104 for two-day weekends, otherwise 52, plus annual leave days. Public holidays are excluded."],
                         ["Standard Hours", "Defaults to 8 hours/day. Used for hourly wage, overtime value, and labor ratio."],
                         ["Weekday Overtime", "Estimated as monthly overtime hours x 12 x hourly wage x multiplier. Defaults to zero."],
@@ -2018,10 +2151,12 @@
                     details: [
                         ["社保基数", "不填时默认使用折算后的月薪。所有五险一金比例都以该基数计算。"],
                         ["个人比例", "养老、医疗、失业、工伤、生育、公积金的个人部分。会减少可支配现金；其中养老、公积金、医保卡会进入账户资产展示。"],
-                        ["企业比例", "企业承担的五险一金。不会进入到手工资，但会进入总包估值和企业缴纳图表。"],
+                        ["企业比例", "企业承担的五险一金。不会进入到手工资；企业缴纳图表会完整展示，理论总包只纳入可进入个人账户的企业公积金。"],
                         ["医保卡入账比例", "按“社保基数 x 比例 x 12”估算进入医保个人账户的金额。不同城市规则差异较大。"],
                         ["企业年金类型", "固定金额表示每次缴纳固定金额；按基数比例表示每次金额 = 社保基数 x 输入比例。"],
                         ["年金频率", "每月 x12、每季度 x4、每年 x1、按年次数 x 填写次数。个人年金会从可支配现金中扣除，企业年金进入总包。"],
+                        ["年金比例上限", "企业年金方案存在企业缴费和个人+企业合计上限，工具只提示常见 8%/12% 口径，不强制拦截，便于按本单位方案填写。"],
+                        ["CPC党员党费", "默认不计入。自动模式按税后月现金收入套用 0.5%/1%/1.5%/2% 阶梯，或用自定义月缴覆盖。党费减少可支配现金，但不改变个税应税收入。"],
                         ["出生年份/退休年龄", "用于估算剩余工作年限：退休年龄 - 当前年龄。退休年金推算 = 年度年金合计 x 剩余年限，暂不计投资收益。"],
                         ["个税", "简化为综合所得年度口径：应税收入 = 现金年收入 - 个人五险一金 - 个人年金 - 60000；再套用年度税率表。"]
                     ]
@@ -2032,10 +2167,12 @@
                     details: [
                         ["Security Base", "Blank defaults to normalized monthly salary. All security rates use this base."],
                         ["Personal Rates", "Personal pension, medical, unemployment, injury, maternity, and housing fund. They reduce spendable cash."],
-                        ["Company Rates", "Company-paid security contributions. They do not enter take-home pay but are counted in package value."],
+                        ["Company Rates", "Company-paid security contributions. They do not enter take-home pay. The chart shows them in full, while package value only includes company housing fund as an employee-facing account asset."],
                         ["Medical Card Credit", "Estimated as security base x rate x 12. Local rules vary."],
                         ["Annuity Type", "Fixed means fixed amount per payment. Base ratio means amount per payment = security base x input ratio."],
                         ["Annuity Frequency", "Monthly x12, quarterly x4, yearly x1, or custom times/year. Personal annuity reduces spendable cash; company annuity adds package value."],
+                        ["Annuity Caps", "The tool shows the common 8% employer and 12% employer+employee cap note, but does not block inputs because employer plans differ."],
+                        ["CPC Dues", "Excluded by default. Auto mode estimates 0.5%/1%/1.5%/2% by after-tax monthly cash income; custom monthly dues can override it. Dues reduce spendable cash but not taxable income."],
                         ["Birth & Retirement", "Years to retire = retirement age - current age. Projected annuity = annual annuity total x years to retire."],
                         ["Income Tax", "Simplified annual comprehensive tax: taxable = cash income - personal security - personal annuity - 60,000."]
                     ]
@@ -2075,7 +2212,8 @@
                         ["债务/分期本金", "剩余本金用于计算真实年化 IRR。它不直接作为当年支出，真正影响现金流的是月还款。"],
                         ["月还款/分期", "按剩余期数折算未来12个月内的债务现金流，并计入预计年支出和月结余。不填时会用本金、名义年化利率和期数估算等额本息月供。"],
                         ["名义年化利率", "用于在月供为空时估算月还款；若本金、月供、剩余期数足够，系统会优先用现金流求解真实年化 IRR。"],
-                        ["真实年化 IRR", "用现金流 +本金、-每月还款 求解月度内部收益率，再折算成年化。分期手续费导致 IRR 往往高于名义利率。"]
+                        ["真实年化 IRR", "用现金流 +本金、-每月还款 求解月度内部收益率，再折算成年化。分期手续费导致 IRR 往往高于名义利率。"],
+                        ["净资产口径", "当前净资产 = 当前存款 + 已归属基金股票 - 剩余债务；12个月后净资产会加入年结余、账户资产和投资资产，并扣除估算剩余债务。"]
                     ]
                 },
                 en: {
@@ -2087,7 +2225,8 @@
                         ["Debt Principal", "Used for true annualized IRR. It is not itself treated as current-year expense."],
                         ["Monthly Payment", "Converted into next-12-month debt cashflow by remaining terms, then included in expenses and monthly savings. If blank, it is estimated from principal, nominal APR, and terms."],
                         ["Nominal APR", "Used to estimate monthly payment when the payment is blank. When principal, payment, and terms are valid, true IRR is calculated from actual cashflow first."],
-                        ["True IRR", "Solves +principal and -monthly payments for monthly IRR, then annualizes it. Installment fees can make it much higher than nominal APR."]
+                        ["True IRR", "Solves +principal and -monthly payments for monthly IRR, then annualizes it. Installment fees can make it much higher than nominal APR."],
+                        ["Net Worth Scope", "Current net worth = current savings + vested funds/stocks - remaining debt. The 12-month estimate adds savings, account assets, and investment assets, then subtracts estimated remaining debt."]
                     ]
                 }
             },
@@ -2103,7 +2242,7 @@
                         ["福利折算", "工作餐、体检商业保险、补充年假等非现金福利的估值。"],
                         ["实际流动积累", "实际可支配收入扣除生活成本后的可积攒现金，不包含五险一金账户、基金股票和其它锁定资产。"],
                         ["基金&股票归属", "年度授予估值 x 本年归属比例，进入理论总包和资产趋势，但不进入现金收入。"],
-                        ["理论总包估值", "理论现金年收入 + 企业五险一金 + 企业年金 + 福利折算 + 基金股票归属。"],
+                        ["理论总包估值", "理论现金年收入 + 企业公积金 + 企业年金 + 福利折算 + 基金股票归属。企业社保统筹作为企业缴纳展示，不计入员工视角总包。"],
                         ["实际总包价值", "理论总包估值 + 加班价值。用于观察加班后的真实劳动换取回报。"]
                     ]
                 },
@@ -2118,7 +2257,7 @@
                         ["Benefit Valuation", "Meal allowance, health checks, insurance, and paid leave valuation."],
                         ["Actual Liquid Savings", "Actual spendable income minus living costs. It excludes security accounts, funds/stocks, and locked assets."],
                         ["Funds & Stocks", "Annual grant value x vesting rate. Included in package value and asset trend, not cash income."],
-                        ["Theoretical Package", "Theoretical cash income + company security + company annuity + benefits + vested funds/stocks."],
+                        ["Theoretical Package", "Theoretical cash income + company housing fund + company annuity + benefits + vested funds/stocks. Employer social-pool security is shown as company paid, not employee-facing package value."],
                         ["Actual Package", "Theoretical package + overtime value."]
                     ]
                 }
@@ -2146,9 +2285,16 @@
         };
         let currentHelpKey = 'income';
         const defaultExpenses = [
+            { name: 'Rent & Property', nameZh: '房租/物业', amount: 0, freq: 'monthly', vol: 5 },
             { name: 'Water & Elec', nameZh: '水电费', amount: 300, freq: 'monthly', vol: 15 },
-            { name: 'Food/Diet', nameZh: '伙食/健身餐', amount: 3000, freq: 'monthly', vol: 10 },
-            { name: 'Phone Bill', nameZh: '话费/网费', amount: 150, freq: 'monthly', vol: 5 },
+            { name: 'Food/Meals', nameZh: '伙食餐饮', amount: 3000, freq: 'monthly', vol: 10 },
+            { name: 'AI Tools', nameZh: 'AI Tool', amount: 150, freq: 'monthly', vol: 10 },
+            { name: 'Gym', nameZh: '健身费用', amount: 200, freq: 'monthly', vol: 10 },
+            { name: 'Phone Bill', nameZh: '话费', amount: 80, freq: 'monthly', vol: 5 },
+            { name: 'Internet', nameZh: '网费', amount: 70, freq: 'monthly', vol: 5 },
+            { name: 'Laundry', nameZh: '洗衣费', amount: 60, freq: 'monthly', vol: 10 },
+            { name: 'Clothing', nameZh: '衣物费', amount: 300, freq: 'monthly', vol: 30 },
+            { name: 'Online Shopping', nameZh: '网购杂物费用', amount: 500, freq: 'monthly', vol: 35 },
             { name: 'Transport', nameZh: '交通出行', amount: 20, freq: 'daily', vol: 20 }
         ];
         let expenses = defaultExpenses.map((item, index) => ({ ...item, id: index + 1 }));
@@ -2346,7 +2492,7 @@
             return { years, monthlyTrend, annualTrend };
         }
 
-        function makeAssetTrendData(years, currentSavings, annualSavings, annualHousingTotal, annualAnnuityTotal, annualEquityVested, equityCurrentValue, equityReturnRate) {
+        function makeAssetTrendData(years, currentSavings, annualSavings, annualHousingTotal, annualAnnuityTotal, annualEquityVested, equityCurrentValue, equityReturnRate, debtPrincipal = 0, debtMonthlyPayment = 0, nominalDebtApr = 0, debtMonths = 0) {
             const values = [];
             let savedCash = currentSavings;
             let housing = 0;
@@ -2357,14 +2503,19 @@
                 housing += annualHousingTotal;
                 annuity += annualAnnuityTotal;
                 equity = (equity + annualEquityVested) * (1 + equityReturnRate);
-                values.push(savedCash + housing + annuity + equity);
+                const remainingDebt = estimateDebtRemainingAfterPayments(debtPrincipal, nominalDebtApr, debtMonthlyPayment, (index + 1) * 12, debtMonths);
+                values.push(savedCash + housing + annuity + equity - remainingDebt);
             }
             return values;
         }
 
-        function makeLiquidNetWorthTrend(currentSavings, monthlySavings) {
+        function makeLiquidNetWorthTrend(currentSavings, monthlySavings, debtPrincipal = 0, debtMonthlyPayment = 0, nominalDebtApr = 0, debtMonths = 0) {
             const labels = Array.from({ length: 12 }, (_, index) => currentLang === 'zh' ? `${index + 1}月` : `M${index + 1}`);
-            const values = labels.map((_, index) => currentSavings + monthlySavings * (index + 1));
+            const values = labels.map((_, index) => {
+                const month = index + 1;
+                const remainingDebt = estimateDebtRemainingAfterPayments(debtPrincipal, nominalDebtApr, debtMonthlyPayment, month, debtMonths);
+                return currentSavings + monthlySavings * month - remainingDebt;
+            });
             const targetMonth = values.findIndex(value => value >= 100000) + 1;
             return { labels, values, targetMonth };
         }
@@ -2395,6 +2546,31 @@
             const monthlyRate = annualRate / 12;
             if (monthlyRate <= 0) return principal / months;
             return principal * monthlyRate / (1 - Math.pow(1 + monthlyRate, -months));
+        }
+
+        function estimateDebtRemainingAfterPayments(principal, annualRate, monthlyPayment, paidMonths, totalMonths = 0) {
+            if (principal <= 0) return 0;
+            const monthsToApply = Math.max(0, Math.floor(totalMonths > 0 ? Math.min(paidMonths, totalMonths) : paidMonths));
+            if (monthlyPayment <= 0 || monthsToApply <= 0) return principal;
+            const monthlyRate = Math.max(0, annualRate) / 12;
+            let balance = principal;
+            for (let month = 0; month < monthsToApply; month += 1) {
+                balance = balance * (1 + monthlyRate) - monthlyPayment;
+                if (balance <= 0) return 0;
+            }
+            return balance;
+        }
+
+        function calculatePartyFeeMonthly(afterTaxMonthlyCash) {
+            const mode = $('party_fee_mode')?.value || 'none';
+            if (mode === 'none') return 0;
+            if (mode === 'custom') return Math.max(0, parseMoney($('party_fee_custom_val')?.value));
+            const base = Math.max(0, afterTaxMonthlyCash);
+            if (base <= 0) return 0;
+            if (base <= 3000) return base * 0.005;
+            if (base <= 5000) return base * 0.01;
+            if (base <= 10000) return base * 0.015;
+            return base * 0.02;
         }
 
         function categorizeExpense(name) {
@@ -2530,7 +2706,8 @@
                 accountAssets += annualAccountAssets;
                 equity = (equity + data.annualEquityVested) * (1 + returnRate);
             }
-            return cash + accountAssets + equity;
+            const remainingDebt = estimateDebtRemainingAfterPayments(data.debtPrincipal, data.nominalDebtApr, data.debtMonthlyPayment, 60, data.debtMonths);
+            return cash + accountAssets + equity - remainingDebt;
         }
 
         function runMonteCarlo(data) {
@@ -2572,7 +2749,8 @@
                     accountAssets += monthlyAccountAssets;
                     equity = equity * (1 + returnRate / 12) + monthlyEquityVested;
                 }
-                finalAssets[i] = cash + accountAssets + equity;
+                const remainingDebt = estimateDebtRemainingAfterPayments(data.debtPrincipal, data.nominalDebtApr, data.debtMonthlyPayment, months, data.debtMonths);
+                finalAssets[i] = cash + accountAssets + equity - remainingDebt;
                 if (hasNegativeCashflow) negativeCashflowCount += 1;
             }
 
@@ -2700,7 +2878,7 @@
             ].filter(item => item.value > 0);
             const middleNodes = [
                 { key: 'tax', label: currentLang === 'zh' ? '个税' : 'Tax', value: data.actualAnnualTax ?? data.annualTax, color: c.danger },
-                { key: 'personal', label: currentLang === 'zh' ? '个人五险二金' : 'Personal Deductions', value: data.annualPersonalSecurity + data.annualEmpAnnuity, color: c.primary },
+                { key: 'personal', label: currentLang === 'zh' ? '个人扣除' : 'Personal Deductions', value: data.annualPersonalDeductions, color: c.primary },
                 { key: 'company', label: currentLang === 'zh' ? '企业缴纳' : 'Company Paid', value: data.annualCompanySecurity + data.annualCompanyAnnuity, color: c.cyan },
                 { key: 'cash', label: currentLang === 'zh' ? '可支配现金' : 'Spendable Cash', value: data.actualAnnualNet, color: c.accent }
             ].filter(item => item.value > 0);
@@ -2851,12 +3029,20 @@
             const trendData = makeTrendData(monthlySalary, bonusMonths, holidayBonus, projectBonus, growthRate);
 
             const workdays = Math.max(0, numberVal('in_workdays'));
-            const mealValue = parseMoney($('in_meal').value) * workdays;
+            const mealSubsidyPerMeal = parseMoney($('in_meal').value);
+            const mealSubsidyMeals = Math.max(0, numberVal('in_meal_subsidy_meals'));
+            const freeMealsPerWorkday = Math.max(0, numberVal('in_free_meals'));
+            const paidWorkMealCost = Math.max(0, parseMoney($('in_paid_work_meal_cost').value));
+            const paidWorkMeals = Math.max(0, numberVal('in_paid_work_meals'));
+            const mealValue = mealSubsidyPerMeal * mealSubsidyMeals * workdays;
+            const freeMealReferenceValue = paidWorkMealCost || mealSubsidyPerMeal;
+            const freeMealValue = freeMealReferenceValue * freeMealsPerWorkday * workdays;
+            const paidWorkMealAnnualExpense = paidWorkMealCost * paidWorkMeals * workdays;
             const welfareValue = parseMoney($('in_welfare_value').value);
             const paidLeaveValue = Math.max(0, numberVal('in_extra_leave')) * (monthlySalary / 21.75);
-            const annualBenefitValue = mealValue + welfareValue + paidLeaveValue;
+            const annualBenefitValue = mealValue + freeMealValue + welfareValue + paidLeaveValue;
 
-            const hasDoubleWeekend = $('in_double_weekend').checked;
+            const hasDoubleWeekend = $('in_double_weekend').value === 'yes';
             const annualLeaveDays = Math.max(0, numberVal('in_annual_leave_days'));
             const standardHours = Math.max(1, numberVal('in_standard_hours') || 8);
             const restDays = (hasDoubleWeekend ? 104 : 52) + annualLeaveDays;
@@ -2885,7 +3071,9 @@
             const debtMonths = Math.max(0, Math.floor(numberVal('in_debt_months')));
             const nominalDebtApr = Math.max(0, numberVal('in_debt_apr')) / 100;
             const debtMonthlyPayment = inputDebtMonthlyPayment || estimateDebtMonthlyPayment(debtPrincipal, nominalDebtApr, debtMonths);
-            const debtAnnualPayment = debtMonthlyPayment * Math.min(12, debtMonths || 0);
+            const debtPaymentMonthsThisYear = debtMonthlyPayment > 0 ? (debtMonths > 0 ? Math.min(12, debtMonths) : 12) : 0;
+            const debtAnnualPayment = debtMonthlyPayment * debtPaymentMonthsThisYear;
+            const debtRemainingAfterYear = estimateDebtRemainingAfterPayments(debtPrincipal, nominalDebtApr, debtMonthlyPayment, 12, debtMonths);
             const debtIrr = solveAnnualizedIrr(debtPrincipal, debtMonthlyPayment, debtMonths);
 
             const customBase = parseMoney($('in_base').value);
@@ -2923,11 +3111,15 @@
             const applyTax = $('in_calc_tax').checked;
             const taxableIncome = annualCashGross - annualPersonalSecurity - annualEmpAnnuity - 60000;
             const annualTax = applyTax ? calculateChinaTax(taxableIncome) : 0;
-            const annualNet = annualCashGross - annualPersonalSecurity - annualEmpAnnuity - annualTax;
+            const annualNetBeforePartyFee = annualCashGross - annualPersonalSecurity - annualEmpAnnuity - annualTax;
+            const annualPartyFee = calculatePartyFeeMonthly(annualNetBeforePartyFee / 12) * 12;
+            const annualNet = annualNetBeforePartyFee - annualPartyFee;
             const actualAnnualCashGross = annualCashGross + overtimeValue;
             const actualTaxableIncome = taxableIncome + overtimeValue;
             const actualAnnualTax = applyTax ? calculateChinaTax(actualTaxableIncome) : 0;
-            const actualAnnualNet = actualAnnualCashGross - annualPersonalSecurity - annualEmpAnnuity - actualAnnualTax;
+            const actualAnnualNetBeforePartyFee = actualAnnualCashGross - annualPersonalSecurity - annualEmpAnnuity - actualAnnualTax;
+            const actualAnnualPartyFee = calculatePartyFeeMonthly(actualAnnualNetBeforePartyFee / 12) * 12;
+            const actualAnnualNet = actualAnnualNetBeforePartyFee - actualAnnualPartyFee;
 
             let totalAnnualMeanExp = 0;
             let totalAnnualVariance = 0;
@@ -2961,6 +3153,20 @@
                     volatility: volPct
                 });
             });
+            if (paidWorkMealAnnualExpense > 0) {
+                const name = currentLang === 'zh' ? '收费工作餐' : 'Paid Work Meals';
+                totalAnnualMeanExp += paidWorkMealAnnualExpense;
+                expLabels.push(name);
+                expData.push(paidWorkMealAnnualExpense);
+                expMonthlyData.push(paidWorkMealAnnualExpense / 12);
+                expDetails.push({
+                    name,
+                    annual: paidWorkMealAnnualExpense,
+                    monthly: paidWorkMealAnnualExpense / 12,
+                    cv: 0,
+                    volatility: 0
+                });
+            }
             if (annualLargeExpensePool > 0) {
                 const name = currentLang === 'zh' ? '一次性大额支出池' : 'One-off Expense Pool';
                 totalAnnualMeanExp += annualLargeExpensePool;
@@ -3005,9 +3211,11 @@
             const yearsToRetire = Math.max(0, retireAge - (currentYear - birthYear));
             const projectedAnnuity = annualAnnuityTotal * yearsToRetire;
 
-            const annualTotalPackage = annualCashGross + annualCompanySecurity + annualCompanyAnnuity + annualBenefitValue + annualEquityVested;
+            const annualEmployeeFacingPackage = annualCashGross + annualCompanyHousing + annualCompanyAnnuity + annualBenefitValue + annualEquityVested;
+            const annualTotalPackage = annualEmployeeFacingPackage;
             const actualTotalPackage = annualTotalPackage + overtimeValue;
             const annualCompanyPaid = annualCompanySecurity + annualCompanyAnnuity;
+            const annualPersonalDeductions = annualPersonalSecurity + annualEmpAnnuity + actualAnnualPartyFee;
             const annualHousingTotal = annualPersonalHousing + annualCompanyHousing;
             const monthlyCashIncome = actualAnnualCashGross / 12;
             const monthlyNetIncome = actualAnnualNet / 12;
@@ -3017,6 +3225,8 @@
             const liquidAnnualSavings = actualAnnualSavings;
             const liquidMonthlySavings = monthlySavings;
             const incomeLossRatio = monthlySalary > 0 ? Math.max(0, 1 - (monthlyNetIncome / monthlySalary)) : 0;
+            const currentNetWorth = currentSavings + equityCurrentValue - debtPrincipal;
+            const netWorthAfter12m = currentSavings + actualAnnualSavings + annualHousingTotal + annualAnnuityTotal + ((equityCurrentValue + annualEquityVested) * (1 + equityReturnRate)) - debtRemainingAfterYear;
             const assetTrendData = makeAssetTrendData(
                 trendData.years,
                 currentSavings,
@@ -3025,9 +3235,13 @@
                 annualAnnuityTotal,
                 annualEquityVested,
                 equityCurrentValue,
-                equityReturnRate
+                equityReturnRate,
+                debtPrincipal,
+                debtMonthlyPayment,
+                nominalDebtApr,
+                debtMonths
             );
-            const liquidNetWorthTrend = makeLiquidNetWorthTrend(currentSavings, monthlySavings);
+            const liquidNetWorthTrend = makeLiquidNetWorthTrend(currentSavings, monthlySavings, debtPrincipal, debtMonthlyPayment, nominalDebtApr, debtMonths);
 
             $('salaryHint').innerText = monthlySalary > 0 ? `≈ ${yuan(monthlySalary)}` : '';
             $('out_gross').innerText = yuan(annualCashGross);
@@ -3076,10 +3290,16 @@
             $('out_large_expense_monthly').innerText = yuan(annualLargeExpensePool / 12);
             $('out_debt_annual_payment').innerText = yuan(debtAnnualPayment);
             $('out_debt_irr').innerText = percent(debtIrr ?? nominalDebtApr);
+            $('out_debt_remaining_after_year').innerText = yuan(debtRemainingAfterYear);
+            $('out_net_worth_now').innerText = yuan(currentNetWorth);
+            $('out_net_worth_12m').innerText = yuan(netWorthAfter12m);
 
             const analyticsData = {
                 annualTax,
                 actualAnnualTax,
+                annualPartyFee,
+                actualAnnualPartyFee,
+                annualPersonalDeductions,
                 actualAnnualCashGross,
                 actualTotalPackage,
                 actualAnnualNet,
@@ -3099,6 +3319,11 @@
                 growthRate,
                 weightedExpenseVolatility,
                 currentSavings,
+                debtPrincipal,
+                debtMonthlyPayment,
+                debtMonths,
+                nominalDebtApr,
+                debtRemainingAfterYear,
                 annualLargeExpensePool,
                 debtAnnualPayment,
                 debtIrr: debtIrr ?? nominalDebtApr,
@@ -3237,7 +3462,7 @@
                     datasets: [{
                         data: [
                             cashflowTax,
-                            data.annualPersonalSecurity + data.annualEmpAnnuity,
+                            data.annualPersonalDeductions,
                             data.totalAnnualMeanExp,
                             Math.abs(cashflowSavings)
                         ],
@@ -3274,6 +3499,8 @@
                     labels: [
                         currentLang === 'zh' ? '个税' : 'Tax',
                         currentLang === 'zh' ? '个人五险一金' : 'Personal Security',
+                        currentLang === 'zh' ? '个人年金' : 'Personal Annuity',
+                        currentLang === 'zh' ? '党员党费' : 'CPC Dues',
                         currentLang === 'zh' ? '企业五险一金' : 'Company Security',
                         currentLang === 'zh' ? '企业年金' : 'Company Annuity',
                         currentLang === 'zh' ? '福利折算' : 'Benefits'
@@ -3283,11 +3510,13 @@
                         data: [
                             data.actualAnnualTax ?? data.annualTax,
                             data.annualPersonalSecurity,
+                            data.annualEmpAnnuity,
+                            data.actualAnnualPartyFee,
                             data.annualCompanySecurity,
                             data.annualCompanyAnnuity,
                             data.annualBenefitValue
                         ],
-                        backgroundColor: [c.danger, c.primary, c.cyan, c.accent, c.warn],
+                        backgroundColor: [c.danger, c.primary, '#0f766e', '#dc2626', c.cyan, c.accent, c.warn],
                         borderRadius: 4
                     }]
                 },
