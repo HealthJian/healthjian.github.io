@@ -829,6 +829,264 @@ body.dark-mode .md-icon-action {
     transform: translateY(0);
 }
 
+/* moban_new_md：标题下元信息与 Notion 风格目录 */
+.md-article-layout .post-header {
+    margin-bottom: 34px;
+}
+
+.md-article-layout .post-title {
+    margin-bottom: 14px;
+}
+
+.md-article-layout .post-header-utility {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.md-article-layout .post-meta-info {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    color: color-mix(in srgb, var(--text-color) 78%, transparent);
+}
+
+.md-article-layout .post-meta-info > div,
+.md-article-layout .post-tags {
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.md-article-layout .post-meta-info i {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 0.78rem;
+    opacity: 0.82;
+}
+
+.md-article-layout .post-date,
+.md-article-layout .post-category,
+.md-article-layout .post-tags {
+    min-height: 30px;
+    padding: 5px 9px;
+    border-radius: 8px;
+    background: rgba(0, 122, 255, 0.055);
+    border: 1px solid rgba(0, 122, 255, 0.1);
+    font-size: 0.88rem;
+    line-height: 1.25;
+}
+
+.md-article-layout .post-tags #post-tags {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+    min-width: 0;
+}
+
+.md-article-layout .post-tags .tag {
+    padding: 2px 7px;
+    border-radius: 6px;
+    background: rgba(0, 122, 255, 0.09);
+    border: 0;
+    color: var(--primary-color);
+    font-size: 0.8rem;
+    line-height: 1.35;
+}
+
+body.dark-mode .md-article-layout .post-meta-info {
+    color: color-mix(in srgb, var(--text-color) 82%, transparent);
+}
+
+body.dark-mode .md-article-layout .post-date,
+body.dark-mode .md-article-layout .post-category,
+body.dark-mode .md-article-layout .post-tags {
+    background: rgba(120, 170, 255, 0.09);
+    border-color: rgba(150, 190, 255, 0.12);
+}
+
+body.dark-mode .md-article-layout .post-tags .tag {
+    background: rgba(120, 170, 255, 0.14);
+    color: #9dccff;
+}
+
+.md-article-layout .post-actions {
+    flex: 0 0 auto;
+    margin: 0;
+}
+
+.md-article-layout .md-action-bar {
+    gap: 7px;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+}
+
+.md-article-layout .md-icon-action {
+    width: 31px;
+    height: 31px;
+    border-radius: 8px;
+    font-size: 0.74rem;
+    background: rgba(0, 122, 255, 0.055);
+    border-color: rgba(0, 122, 255, 0.12);
+    box-shadow: none;
+}
+
+body.dark-mode .md-article-layout .md-icon-action {
+    background: rgba(120, 170, 255, 0.1);
+    border-color: rgba(150, 190, 255, 0.14);
+    box-shadow: none;
+}
+
+.md-article-layout .md-icon-action:hover {
+    transform: translateY(-1px) scale(1.04);
+    box-shadow: 0 8px 18px rgba(0, 122, 255, 0.14);
+}
+
+.md-article-layout .blog-sidebar {
+    width: 264px;
+    background: transparent;
+    border-radius: 0;
+    padding: 10px 8px 10px 10px;
+    box-shadow: none;
+}
+
+.md-article-layout .toc-container {
+    margin-bottom: 0;
+}
+
+.md-article-layout .toc-container h3 {
+    margin: 0 0 14px;
+    padding: 0 8px;
+    font-size: 1.15rem;
+    font-weight: 650;
+    color: var(--primary-color);
+}
+
+.md-article-layout .toc-scroll-area {
+    position: relative;
+    max-height: min(66vh, 560px);
+    padding: 2px 6px 8px 0;
+    margin-right: 0;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    mask-image: linear-gradient(to bottom, transparent 0, #000 18px, #000 calc(100% - 18px), transparent 100%);
+}
+
+.md-article-layout .toc-scroll-area::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+.md-article-layout .toc-scroll-area:hover,
+body.dark-mode .md-article-layout .toc-scroll-area:hover {
+    scrollbar-color: transparent transparent;
+}
+
+.md-article-layout .toc-tree {
+    gap: 5px;
+    padding: 4px 0;
+}
+
+.md-article-layout .toc-row,
+.md-article-layout .toc-branch {
+    min-width: 0;
+}
+
+.md-article-layout .toc-tree .toc-link {
+    min-height: 32px;
+    padding: 7px 10px;
+    border: 0;
+    border-radius: 8px;
+    color: color-mix(in srgb, var(--text-color) 84%, transparent);
+    font-size: 0.9rem;
+    line-height: 1.25;
+    transition: color 0.18s ease, background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+    transform-origin: left center;
+}
+
+.md-article-layout .toc-tree .toc-link:hover,
+.md-article-layout .toc-tree .toc-link.active {
+    color: var(--primary-color);
+    border-left-color: transparent;
+    background: rgba(0, 122, 255, 0.09);
+    box-shadow: 0 8px 20px rgba(0, 122, 255, 0.09);
+    transform: translateX(4px) scale(1.035);
+}
+
+.md-article-layout .toc-h2-head {
+    align-items: center;
+    gap: 5px;
+}
+
+.md-article-layout .toc-branch-toggle {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    border-radius: 6px;
+    background: rgba(0, 122, 255, 0.08);
+}
+
+.md-article-layout .toc-branch-toggle:hover {
+    background: rgba(0, 122, 255, 0.16);
+    transform: scale(1.08);
+}
+
+.md-article-layout .toc-branch-toggle::before {
+    border-width: 4px 0 4px 5px;
+}
+
+.md-article-layout .toc-branch .toc-h2-head .toc-link.toc-h2 {
+    padding-left: 9px;
+    font-weight: 650;
+}
+
+.md-article-layout .toc-row.toc-level-2.toc-leaf .toc-link.toc-h2 {
+    font-weight: 650;
+}
+
+.md-article-layout .toc-h3-list {
+    margin: 4px 0 7px 26px;
+    padding: 0;
+    border-left: 0;
+}
+
+body.dark-mode .md-article-layout .toc-h3-list {
+    border-left-color: transparent;
+}
+
+.md-article-layout .toc-h3-list li {
+    margin-bottom: 3px;
+}
+
+.md-article-layout .toc-h3-list .toc-link.toc-h3 {
+    min-height: 28px;
+    padding: 6px 9px;
+    font-size: 0.82rem;
+    opacity: 0.88;
+}
+
+body.dark-mode .md-article-layout .toc-tree .toc-link {
+    color: color-mix(in srgb, var(--text-color) 86%, transparent);
+}
+
+body.dark-mode .md-article-layout .toc-tree .toc-link:hover,
+body.dark-mode .md-article-layout .toc-tree .toc-link.active {
+    background: rgba(120, 170, 255, 0.13);
+    color: #9dccff;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
+}
+
 /* 移动端侧栏遮罩层（桌面端隐藏） */
 .md-sidebar-backdrop {
     display: none;
@@ -927,5 +1185,24 @@ body.dark-mode .md-icon-action {
     /* 移动端目录区域可用更大的滚动空间 */
     .md-article-layout .toc-scroll-area {
         max-height: min(55vh, 480px);
+    }
+}
+
+@media (max-width: 768px) {
+    .md-article-layout .post-header-utility {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .md-article-layout .post-meta-info {
+        width: 100%;
+    }
+
+    .md-article-layout .post-actions {
+        width: 100%;
+    }
+
+    .md-article-layout .md-action-bar {
+        justify-content: flex-start;
     }
 }

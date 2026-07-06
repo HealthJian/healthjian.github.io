@@ -429,54 +429,52 @@ class MarkdownRenderer {
             .replace(/\n/gim, '<br>');
     }
 
-    // 生成目录 HTML：h2 下挂 h3 时可折叠；h1 / h4+ 扁平展示
+    // 生成目录 HTML：侧栏只展示 h2；h3 作为所属 h2 的可折叠子项。
     generateTOCHTML() {
         if (this.tocItems.length === 0) {
             return '<p class="no-toc">本文暂无目录</p>';
         }
 
         const esc = (s) => this.escapeHtml(String(s));
-        let html = '<div class="toc-tree">';
-        const items = this.tocItems;
-        let i = 0;
+        const currentLang = document.body.classList.contains('en') ? 'en' : 'zh';
+        const emptyText = currentLang === 'en' ? 'No table of contents available' : '本文暂无目录';
+        const toggleLabel = currentLang === 'en' ? 'Collapse or expand section' : '折叠或展开小节';
+        const sections = [];
+        let currentSection = null;
 
-        while (i < items.length) {
-            const item = items[i];
-
-            if (item.level === 1) {
-                html += `<div class="toc-row toc-level-1"><a href="#${item.slug}" class="toc-link" data-level="1">${esc(item.text)}</a></div>`;
-                i++;
-            } else if (item.level === 2) {
-                const h2 = item;
-                const children = [];
-                let j = i + 1;
-                while (j < items.length && items[j].level === 3) {
-                    children.push(items[j]);
-                    j++;
-                }
-
-                if (children.length > 0) {
-                    html += `<div class="toc-branch" data-open="true">`;
-                    html += `<div class="toc-h2-head">`;
-                    html += `<button type="button" class="toc-branch-toggle" aria-expanded="true" aria-label="折叠或展开小节"></button>`;
-                    html += `<a href="#${h2.slug}" class="toc-link toc-h2" data-level="2">${esc(h2.text)}</a>`;
-                    html += `</div><ul class="toc-h3-list">`;
-                    children.forEach((ch) => {
-                        html += `<li><a href="#${ch.slug}" class="toc-link toc-h3" data-level="3">${esc(ch.text)}</a></li>`;
-                    });
-                    html += `</ul></div>`;
-                } else {
-                    html += `<div class="toc-row toc-level-2 toc-leaf"><a href="#${h2.slug}" class="toc-link toc-h2" data-level="2">${esc(h2.text)}</a></div>`;
-                }
-                i = j;
-            } else if (item.level === 3) {
-                html += `<div class="toc-row toc-level-3 toc-orphan"><a href="#${item.slug}" class="toc-link toc-h3" data-level="3">${esc(item.text)}</a></div>`;
-                i++;
-            } else {
-                html += `<div class="toc-row toc-level-low"><a href="#${item.slug}" class="toc-link" data-level="${item.level}">${esc(item.text)}</a></div>`;
-                i++;
+        this.tocItems.forEach((item) => {
+            if (item.level === 2) {
+                currentSection = {
+                    h2: item,
+                    children: []
+                };
+                sections.push(currentSection);
+            } else if (item.level === 3 && currentSection) {
+                currentSection.children.push(item);
             }
+        });
+
+        if (sections.length === 0) {
+            return `<p class="no-toc">${emptyText}</p>`;
         }
+
+        let html = '<div class="toc-tree">';
+
+        sections.forEach(({ h2, children }) => {
+            if (children.length > 0) {
+                html += `<div class="toc-branch" data-open="true">`;
+                html += `<div class="toc-h2-head">`;
+                html += `<button type="button" class="toc-branch-toggle" aria-expanded="true" aria-label="${toggleLabel}"></button>`;
+                html += `<a href="#${h2.slug}" class="toc-link toc-h2" data-level="2">${esc(h2.text)}</a>`;
+                html += `</div><ul class="toc-h3-list">`;
+                children.forEach((ch) => {
+                    html += `<li><a href="#${ch.slug}" class="toc-link toc-h3" data-level="3">${esc(ch.text)}</a></li>`;
+                });
+                html += `</ul></div>`;
+            } else {
+                html += `<div class="toc-row toc-level-2 toc-leaf"><a href="#${h2.slug}" class="toc-link toc-h2" data-level="2">${esc(h2.text)}</a></div>`;
+            }
+        });
 
         html += '</div>';
         return html;

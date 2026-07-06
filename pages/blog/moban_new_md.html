@@ -119,42 +119,6 @@
             border-color: #4a2c35;
         }
         
-        /* 文章元信息样式优化 */
-        .post-meta-info {
-            background: linear-gradient(135deg, rgba(0, 122, 255, 0.08), rgba(90, 200, 250, 0.14));
-            color: var(--text-color);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            border: 1px solid rgba(0, 122, 255, 0.16);
-        }
-        
-        .post-meta-info .post-date,
-        .post-meta-info .post-category {
-            color: var(--text-color);
-        }
-        
-        .post-meta-info .post-tags .tag {
-            background-color: rgba(0, 122, 255, 0.12);
-            color: var(--primary-color);
-            border: 1px solid rgba(0, 122, 255, 0.22);
-        }
-
-        .post-meta-info i {
-            color: var(--primary-color);
-        }
-
-        body.dark-mode .post-meta-info {
-            background: rgba(255, 255, 255, 0.06);
-            border-color: rgba(100, 180, 255, 0.22);
-        }
-
-        body.dark-mode .post-meta-info .post-tags .tag {
-            background-color: rgba(100, 180, 255, 0.14);
-            color: #9dccff;
-            border-color: rgba(100, 180, 255, 0.28);
-        }
-        
         /* Mermaid 图表容器 */
         .mermaid-container {
             position: relative;
@@ -429,55 +393,6 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- 文章元信息 -->
-            <div class="post-meta-info">
-                <div class="post-date">
-                    <i class="far fa-calendar-alt"></i>
-                    <span id="post-date">加载中...</span>
-                </div>
-                <div class="post-tags">
-                    <i class="fas fa-tags"></i>
-                    <div id="post-tags">
-                        <span class="tag" data-en="Markdown" data-zh="Markdown">Markdown</span>
-                        <span class="tag" data-en="Blog" data-zh="博客">博客</span>
-                    </div>
-                </div>
-                <div class="post-category">
-                    <i class="fas fa-folder"></i>
-                    <span id="post-category" data-en="Technology" data-zh="技术">技术</span>
-                </div>
-            </div>
-            
-            <!-- 导航按钮 -->
-            <div class="post-navigation">
-                <h3 data-en="Navigation" data-zh="导航">导航</h3>
-                <div class="nav-buttons">
-                    <a href="../blog.html" id="post-back-link" class="nav-button">
-                        <i class="fas fa-arrow-left"></i>
-                        <span id="post-back-label" data-en="Back to Blog" data-zh="返回博客列表">返回博客列表</span>
-                    </a>
-                </div>
-            </div>
-            
-            <!-- 文章操作 -->
-            <div class="post-actions">
-                <h3 data-en="Actions" data-zh="操作">操作</h3>
-                <div class="md-action-bar" role="toolbar" aria-label="Article tools">
-                    <button type="button" id="print-btn" class="md-icon-action" data-en-tooltip="Print" data-zh-tooltip="打印" title="打印">
-                        <i class="fas fa-print" aria-hidden="true"></i>
-                        <span class="visually-hidden" data-en="Print" data-zh="打印">打印</span>
-                    </button>
-                    <button type="button" id="share-btn" class="md-icon-action" data-en-tooltip="Share" data-zh-tooltip="分享" title="分享">
-                        <i class="fas fa-share-alt" aria-hidden="true"></i>
-                        <span class="visually-hidden" data-en="Share" data-zh="分享">分享</span>
-                    </button>
-                    <button type="button" id="fullscreen-btn" class="md-icon-action" data-en-tooltip="Fullscreen" data-zh-tooltip="全屏" title="全屏">
-                        <i class="fas fa-expand" aria-hidden="true"></i>
-                        <span class="visually-hidden" data-en="Fullscreen" data-zh="全屏">全屏</span>
-                    </button>
-                </div>
-            </div>
         </aside>
 
         <!-- 文章主体 -->
@@ -487,6 +402,42 @@
                     <h1 class="post-title" id="article-title">
                         <span id="article-title-text">加载中...</span>
                     </h1>
+                    <div class="post-header-utility">
+                        <div class="post-meta-info" aria-label="Article metadata">
+                            <div class="post-date">
+                                <i class="far fa-calendar-alt" aria-hidden="true"></i>
+                                <span id="post-date">加载中...</span>
+                            </div>
+                            <div class="post-category">
+                                <i class="fas fa-folder" aria-hidden="true"></i>
+                                <span id="post-category" data-en="Technology" data-zh="技术">技术</span>
+                            </div>
+                            <div class="post-tags">
+                                <i class="fas fa-tags" aria-hidden="true"></i>
+                                <div id="post-tags">
+                                    <span class="tag" data-en="Markdown" data-zh="Markdown">Markdown</span>
+                                    <span class="tag" data-en="Blog" data-zh="博客">博客</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="post-actions">
+                            <div class="md-action-bar" role="toolbar" aria-label="Article tools">
+                                <button type="button" id="print-btn" class="md-icon-action" data-en-tooltip="Print" data-zh-tooltip="打印" title="打印">
+                                    <i class="fas fa-print" aria-hidden="true"></i>
+                                    <span class="visually-hidden" data-en="Print" data-zh="打印">打印</span>
+                                </button>
+                                <button type="button" id="share-btn" class="md-icon-action" data-en-tooltip="Share" data-zh-tooltip="分享" title="分享">
+                                    <i class="fas fa-share-alt" aria-hidden="true"></i>
+                                    <span class="visually-hidden" data-en="Share" data-zh="分享">分享</span>
+                                </button>
+                                <button type="button" id="fullscreen-btn" class="md-icon-action" data-en-tooltip="Fullscreen" data-zh-tooltip="全屏" title="全屏">
+                                    <i class="fas fa-expand" aria-hidden="true"></i>
+                                    <span class="visually-hidden" data-en="Fullscreen" data-zh="全屏">全屏</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </header>
                 
                 <!-- Markdown内容容器 -->
@@ -1146,12 +1097,25 @@
             });
             
             // 更新目录活动状态
+            let activeLink = null;
             tocLinks.forEach(link => {
                 link.classList.remove('active');
                 if (activeHeading && link.getAttribute('href') === `#${activeHeading.id}`) {
                     link.classList.add('active');
+                    activeLink = link;
                 }
             });
+
+            if (activeLink) {
+                const scrollArea = document.querySelector('.toc-scroll-area');
+                if (scrollArea) {
+                    const linkRect = activeLink.getBoundingClientRect();
+                    const areaRect = scrollArea.getBoundingClientRect();
+                    if (linkRect.top < areaRect.top || linkRect.bottom > areaRect.bottom) {
+                        activeLink.scrollIntoView({ block: 'nearest' });
+                    }
+                }
+            }
             
             mdTocScrollTick = false;
         }

@@ -1,6 +1,18 @@
 // 博客文章数据源：供 blog.js、博客页、分类页与首页最新文章复用
 window.BLOG_POSTS_DATA = [
         {
+            "id": "semiconductor-virtual-metrology-lasso-rf-20260706",
+            "title": "精读《Ensemble Virtual Metrology Models of Semiconductor Processes》：用 LASSO + RF 把半导体量测搬到“实时预测”里",
+            "title_en": "Reading Ensemble Virtual Metrology Models of Semiconductor Processes: Moving Semiconductor Metrology Toward Real-Time Prediction with LASSO + RF",
+            "excerpt": "围绕 IEEE Sensors Journal 半导体虚拟量测论文展开精读，系统讲解 VM、HDP、FSG、FDC/APC/MES/SPC 背景，并拆解两级特征提取、LASSO、随机森林、SHAP 解释与 fab 工程闭环。",
+            "excerpt_en": "An in-depth reading of an IEEE Sensors Journal paper on semiconductor virtual metrology, covering VM, HDP, FSG, FDC/APC/MES/SPC, two-level feature extraction, LASSO, random forests, SHAP explanations, and fab engineering deployment.",
+            "date": "2026-07-06",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260706_zh_1.md",
+            "category": "paper",
+            "tags": ["论文精读", "半导体", "虚拟量测", "LASSO", "随机森林"],
+            "tags_en": ["Paper Review", "Semiconductor", "Virtual Metrology", "LASSO", "Random Forest"]
+        },
+        {
             "id": "llm-agent-optimization-parameter-driven-free-20260628",
             "title": "大语言模型智能体的优化之道：从参数微调到无参数进化",
             "title_en": "The Path to Optimizing Large Language Model Agents: From Parameter Fine-Tuning to Parameter-Free Evolution",

@@ -121,6 +121,22 @@
 
         <section class="changelog-timeline" data-changelog-view-panel="logs">
             <div class="timeline-item">
+                <div class="timeline-date">2026-07-06</div>
+                <div class="timeline-content">
+                    <h2 data-en="Markdown Reader Template — Sidebar, TOC, and Article Metadata UI Upgrade" data-zh="Markdown 阅读模板 — 侧边栏、目录与文章元信息 UI 升级">Markdown 阅读模板 — 侧边栏、目录与文章元信息 UI 升级</h2>
+                    <ul>
+                        <li data-en="Reworked the moban_new_md sidebar into a cleaner TOC-only panel. Article date, category, and tags were moved under the main title, while the sidebar navigation module was removed to reduce repeated controls." data-zh="重构 moban_new_md 侧边栏为更简洁的纯目录面板；文章日期、分类、标签迁移到主标题下方，并删除侧边栏导航模块，减少重复操作区。"><strong>侧边栏减负</strong>：目录独立保留，日期、分类、标签迁移到主标题下方，导航模块删除。</li>
+                        <li data-en="Updated the TOC renderer so the sidebar focuses on level-2 headings, with level-3 headings nested under their parent section as collapsible items. Level-1 and level-4+ headings no longer crowd the side TOC." data-zh="更新目录生成逻辑：侧边目录聚焦二级标题，三级标题作为所属二级标题下的可折叠子项；一级标题和四级及以下标题不再挤入侧边目录。"><strong>目录层级收敛</strong>：侧栏直观展示到二级，三级可折叠隐藏，减少长目录噪声。</li>
+                        <li data-en="Added a Notion-inspired floating label interaction for TOC links: hidden borders, local scroll with hidden scrollbar, subtle hover scaling, active-state highlighting, and automatic active-item visibility while reading." data-zh="为目录链接新增类 Notion 的灵动标签交互：隐藏边框、局部滚动且隐藏滚轮、悬停轻微放大、当前项高亮，并在阅读滚动时自动保持当前目录项可见。"><strong>目录交互升级</strong>：无边框标签、局部滚动、悬停放大与当前项自动定位。</li>
+                        <li data-en="Placed Print, Share, and Fullscreen controls on the same row as the article metadata and reduced icon-button size by about 30%, preserving the original button IDs and toolbar behavior." data-zh="将打印、分享、全屏三个操作按钮与文章元信息放在同一行，并将图标按钮尺寸缩小约 30%；保留原按钮 ID 与工具栏行为。"><strong>操作区简化</strong>：三个操作按钮与标签栏同排，图标缩小并保持原功能不变。</li>
+                        <li data-en="Scoped the new CSS to .md-article-layout so existing legacy blog article pages are not affected, and added responsive behavior for mobile drawer mode plus light/dark and Chinese/English compatibility." data-zh="新样式限定在 .md-article-layout 作用域内，避免影响旧版博客文章页；同步补充移动端抽屉、日夜间主题和中英文切换兼容。"><strong>兼容性控制</strong>：样式限定在 Markdown 模板内，兼容移动端、日夜间与双语切换。</li>
+                        <li data-en="Validation passed: markdown-renderer.js syntax check, whitespace diff check, desktop DOM inspection, TOC collapse, sidebar drawer, theme switch, language switch, and 390px mobile layout check all passed." data-zh="验证通过：markdown-renderer.js 语法检查、diff 空白检查、桌面 DOM 检查、目录折叠、侧栏抽屉、主题切换、语言切换和 390px 移动端布局检查均通过。"><strong>验证</strong>：语法、空白、桌面交互、主题/语言和移动端布局均已检查。</li>
+                        <li data-en="Changed Files: pages/blog/moban_new_md.html, pages/blog/blogjs_markdown/markdown-renderer.js, css/blog-post.css, pages/changelog.html." data-zh="改动文件：pages/blog/moban_new_md.html、pages/blog/blogjs_markdown/markdown-renderer.js、css/blog-post.css、pages/changelog.html。"><strong>改动文件</strong>：pages/blog/moban_new_md.html、pages/blog/blogjs_markdown/markdown-renderer.js、css/blog-post.css、pages/changelog.html。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
                 <div class="timeline-date">2026-07-01</div>
                 <div class="timeline-content">
                     <h2 data-en="LifeCost Calculator — Benefits, Debt, and Employee-Package Logic Upgrade" data-zh="生活成本计算器 — 福利、债务与员工口径总包升级">生活成本计算器 — 福利、债务与员工口径总包升级</h2>
