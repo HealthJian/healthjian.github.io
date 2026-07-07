@@ -85,6 +85,20 @@
             margin: 0;
             color: #d84315;
         }
+
+        body.zh .license-container .zh-content,
+        body.zh .novel-title .zh-content,
+        body.en .license-container .en-content,
+        body.en .novel-title .en-content {
+            display: revert !important;
+        }
+
+        body.zh .license-container .en-content,
+        body.zh .novel-title .en-content,
+        body.en .license-container .zh-content,
+        body.en .novel-title .zh-content {
+            display: none !important;
+        }
         
         @media (max-width: 768px) {
             .license-container {
@@ -101,7 +115,7 @@
         }
     </style>
 </head>
-<body class="light-mode novel-page">
+<body class="light-mode novel-page zh">
     <!-- 导航栏 -->
     <nav class="navbar">
         <div class="nav-left">
@@ -145,7 +159,7 @@
             <div class="novel-meta">
                 <div class="novel-meta-item">
                     <i class="far fa-calendar-alt"></i>
-                    <span>2025-04-15</span>
+                    <span>2026-07-07</span>
                 </div>
                 <div class="novel-meta-item">
                     <i class="fas fa-file-contract"></i>
@@ -163,8 +177,8 @@
             <div class="license-container">
                 <div class="license-warning">
                     <div class="bilingual-content">
-                        <p class="zh-content">请注意：继续阅读本网站上的任何小说作品，即表示您已阅读、理解并同意遵守以下许可条款和法律声明。</p>
-                        <p class="en-content" style="display: none;">Notice: By continuing to read any novel works on this website, you acknowledge that you have read, understood, and agreed to abide by the following license terms and legal notices.</p>
+                        <p class="zh-content">请注意：继续访问、阅读或使用本网站上的小说作品，即表示您已阅读、理解并同意遵守以下许可条款、注意事项和免责声明。本页面仅用于说明作品授权与网站管理规则，不构成法律意见。</p>
+                        <p class="en-content" style="display: none;">Notice: By continuing to access, read, or use any novel works on this website, you acknowledge that you have read, understood, and agreed to the following license terms, notices, and disclaimers. This page explains work licensing and site rules only and does not constitute legal advice.</p>
                     </div>
                 </div>
                 
@@ -172,12 +186,14 @@
                     <h2 data-en="1. Copyright and Ownership" data-zh="1. 版权与所有权">1. 版权与所有权</h2>
                     <div class="bilingual-content">
                         <div class="zh-content">
-                            <p>本网站（HealthJian的博客）上发布的所有小说作品，包括但不限于《梅尔罗德》及其所有章节、序言、终章等内容（以下简称"作品"），其著作权及相关知识产权均属于作者HealthJian（高健）所有。这些作品受中华人民共和国著作权法以及适用的国际版权条约和其他知识产权法律法规的保护。</p>
-                            <p>未经作者明确书面许可，任何个人或组织不得以任何形式或通过任何媒介（电子或机械，包括影印、录制或通过信息存储和检索系统）复制、修改、发布、分发、出售、出租、公开展示或创作衍生作品。</p>
+                            <p>本网站（HealthJian的博客）上发布的所有小说作品，包括但不限于《梅尔罗德》及其章节、序言、番外、终章、设定资料、角色文本和相关说明（以下简称“作品”），除另有明确标注外，其著作权及相关知识产权均归作者HealthJian（高健）所有。</p>
+                            <p>作品受中华人民共和国著作权法、民法典及其他适用的知识产权法律法规，以及适用的国际版权条约保护。作品中的虚构名称、设定、世界观、角色关系、原创表达和文本编排，均属于受保护内容的一部分。</p>
+                            <p>未经作者事先明确书面许可，任何个人或组织不得以任何形式或通过任何媒介复制、修改、改编、汇编、发布、转载、分发、出售、出租、公开展示、广播传播、信息网络传播、训练模型、制作数据集或创作衍生作品。</p>
                         </div>
                         <div class="en-content" style="display: none;">
-                            <p>All novel works published on this website (HealthJian's Blog), including but not limited to "Melrod" and all its chapters, prelude, final chapter, etc. (hereinafter referred to as the "Works"), are copyrighted and owned by the author HealthJian (Gao Jian). These works are protected by the Copyright Law of the People's Republic of China as well as applicable international copyright treaties and other intellectual property laws and regulations.</p>
-                            <p>No individual or organization may reproduce, modify, publish, distribute, sell, rent, publicly display, or create derivative works in any form or through any medium (electronic or mechanical, including photocopying, recording, or through information storage and retrieval systems) without the express written permission of the author.</p>
+                            <p>All novel works published on this website (HealthJian's Blog), including but not limited to "Melrod" and its chapters, prefaces, side stories, final chapters, setting materials, character texts, and related notes (collectively, the "Works"), are copyrighted and owned by the author HealthJian (Gao Jian) unless expressly stated otherwise.</p>
+                            <p>The Works are protected by the Copyright Law of the People's Republic of China, the Civil Code, other applicable intellectual property laws and regulations, and applicable international copyright treaties. Fictional names, settings, worldbuilding, character relationships, original expression, and textual arrangement are part of the protected content.</p>
+                            <p>No individual or organization may reproduce, modify, adapt, compile, publish, repost, distribute, sell, rent, publicly display, broadcast, communicate through information networks, train models with, create datasets from, or create derivative works from the Works without the author's prior express written permission.</p>
                         </div>
                     </div>
                 </section>
@@ -186,25 +202,29 @@
                     <h2 data-en="2. Personal Use License" data-zh="2. 个人使用许可">2. 个人使用许可</h2>
                     <div class="bilingual-content">
                         <div class="zh-content">
-                            <p>本网站授予您有限的、非排他性的、不可转让的许可，仅可出于个人、非商业目的在线阅读本网站上提供的作品。此许可明确排除以下行为：</p>
+                            <p>本网站授予访问者一项有限的、非排他性的、不可转让的、可撤销的许可，仅用于个人、非商业目的在线阅读本网站公开展示的作品。因浏览器正常访问而产生的临时缓存，不视为授权您另行保存、复制或传播作品。</p>
+                            <p>除非本网站或作者另有明确书面说明，此许可不包含以下行为：</p>
                             <ul>
-                                <li>以任何形式对作品进行复制、保存或下载（除非网站明确提供下载功能）</li>
-                                <li>修改、改编或翻译作品内容</li>
+                                <li>以任何形式复制、保存、截图、录屏、下载、镜像或批量抓取作品内容</li>
+                                <li>修改、改编、翻译、续写、汇编或重新排版作品内容</li>
                                 <li>移除或篡改作品中的版权声明或其他所有权声明</li>
                                 <li>在其他网站或平台上共享、转载或分发作品内容</li>
-                                <li>将作品用于任何商业目的，包括但不限于在其他出版物中引用</li>
-                                <li>创作基于作品的衍生作品</li>
+                                <li>将作品用于广告、营销、出版、付费阅读、课程、账号运营或其他商业目的</li>
+                                <li>将作品输入、上传或用于任何模型训练、语料库、检索增强系统、自动生成系统或数据集</li>
+                                <li>创作、发布或销售基于作品的衍生作品，除非已获得作者书面授权</li>
                             </ul>
                         </div>
                         <div class="en-content" style="display: none;">
-                            <p>This website grants you a limited, non-exclusive, non-transferable license to read the Works provided on this website online for personal, non-commercial purposes only. This license explicitly excludes the following activities:</p>
+                            <p>This website grants visitors a limited, non-exclusive, non-transferable, revocable license to read the publicly displayed Works online for personal, non-commercial purposes only. Temporary browser caching created by ordinary access does not authorize separate saving, copying, or distribution of the Works.</p>
+                            <p>Unless otherwise expressly stated in writing by this website or the author, this license excludes the following activities:</p>
                             <ul>
-                                <li>Copying, saving, or downloading the Works in any form (unless the website explicitly provides download functionality)</li>
-                                <li>Modifying, adapting, or translating the content of the Works</li>
+                                <li>Copying, saving, screenshotting, screen recording, downloading, mirroring, or bulk scraping the Works in any form</li>
+                                <li>Modifying, adapting, translating, continuing, compiling, or reformatting the Works</li>
                                 <li>Removing or tampering with copyright notices or other proprietary notices in the Works</li>
                                 <li>Sharing, reposting, or distributing the content of the Works on other websites or platforms</li>
-                                <li>Using the Works for any commercial purpose, including but not limited to citation in other publications</li>
-                                <li>Creating derivative works based on the Works</li>
+                                <li>Using the Works for advertising, marketing, publishing, paid reading, courses, account operation, or any other commercial purpose</li>
+                                <li>Inputting, uploading, or using the Works for model training, corpora, retrieval-augmented systems, automated generation systems, or datasets</li>
+                                <li>Creating, publishing, or selling derivative works based on the Works unless written authorization has been obtained from the author</li>
                             </ul>
                         </div>
                     </div>
@@ -214,24 +234,26 @@
                     <h2 data-en="3. Citation and Fair Use" data-zh="3. 引用与合理使用">3. 引用与合理使用</h2>
                     <div class="bilingual-content">
                         <div class="zh-content">
-                            <p>在学术研究、评论、新闻报道或其他符合中国著作权法规定的"合理使用"情况下，可以引用本作品的片段。任何此类引用必须：</p>
+                            <p>在学术研究、评论、新闻报道、课堂教学或其他符合适用法律规定的合理使用情形下，可以在必要范围内引用作品的少量片段。任何此类引用均不得替代作品本身的阅读价值，并应遵守以下要求：</p>
                             <ul>
-                                <li>注明原作者（HealthJian）的姓名</li>
-                                <li>明确标明引用的内容及出处（本网站的URL）</li>
+                                <li>注明原作者（HealthJian）及作品名称</li>
+                                <li>明确标明引用内容的出处，包括本网站页面 URL 或章节链接</li>
                                 <li>不得歪曲原作品的本意</li>
-                                <li>引用的范围和幅度应符合合理使用的标准</li>
+                                <li>引用范围、篇幅和目的应符合合理使用或法定许可的标准</li>
+                                <li>不得以引用名义汇编、搬运、拆分发布或规避本页面的许可限制</li>
                             </ul>
-                            <p>如需大量引用或用于商业目的，请事先联系作者获取书面许可。</p>
+                            <p>如需大量引用、转载、翻译、改编、商业使用或用于公开展示、课程、出版物、视频、音频、模型训练和数据处理，请事先联系作者获取书面许可。</p>
                         </div>
                         <div class="en-content" style="display: none;">
-                            <p>Fragments of the Works may be quoted in academic research, reviews, news reporting, or other situations that comply with the "fair use" provisions of Chinese copyright law. Any such quotation must:</p>
+                            <p>Small portions of the Works may be quoted where necessary for academic research, review, news reporting, classroom teaching, or other circumstances permitted by applicable law. Any such quotation must not substitute for the reading value of the Works and must comply with the following requirements:</p>
                             <ul>
-                                <li>Attribute the original author (HealthJian)</li>
-                                <li>Clearly indicate the quoted content and its source (the URL of this website)</li>
+                                <li>Attribute the original author (HealthJian) and the title of the work</li>
+                                <li>Clearly identify the quoted content and its source, including the page URL or chapter link on this website</li>
                                 <li>Not distort the original meaning of the work</li>
-                                <li>Be of an extent and magnitude that complies with fair use standards</li>
+                                <li>Keep the scope, length, and purpose of the quotation within fair use or statutory permission standards</li>
+                                <li>Not use quotation as a means to compile, copy, split-publish, or evade the license restrictions on this page</li>
                             </ul>
-                            <p>For substantial quotations or commercial use, please contact the author in advance for written permission.</p>
+                            <p>For substantial quotation, reposting, translation, adaptation, commercial use, public display, courses, publications, video, audio, model training, or data processing, please contact the author in advance for written permission.</p>
                         </div>
                     </div>
                 </section>
@@ -240,14 +262,16 @@
                     <h2 data-en="4. Disclaimer" data-zh="4. 免责声明">4. 免责声明</h2>
                     <div class="bilingual-content">
                         <div class="zh-content">
-                            <p>本网站上发布的所有小说作品均为虚构内容，任何与现实人物、事件、地点或组织的相似之处纯属巧合。这些作品不应被视为对任何真实人物、事件、地点或组织的描述或评论。</p>
-                            <p>作者和本网站不对因阅读、解释或使用这些作品而可能产生的任何误解、冒犯或伤害承担责任。读者应自行判断内容的适宜性，并自行承担阅读所带来的风险。</p>
-                            <p>本网站提供的作品按"原样"提供，不附带任何明示或暗示的保证，包括但不限于对适销性、特定用途适用性或非侵权性的保证。在任何情况下，作者或版权持有人均不对因使用这些作品而产生的任何索赔、损害或其他责任负责，无论是在合同诉讼、侵权诉讼或其他方面。</p>
+                            <p>本网站上发布的小说作品均为虚构创作。除特别声明外，作品中涉及的人名、地名、组织、事件、技术、制度、宗教、文化或社会现象均为文学表达或虚构设定，任何与现实人物、事件、地点或组织的相似之处纯属巧合。</p>
+                            <p>作品中的观点、对白、行为和情节不代表作者对现实行为的认可、鼓励或建议，也不应被理解为事实陈述、专业意见、法律意见、医疗意见、投资建议或安全操作指南。</p>
+                            <p>作者和本网站不对因阅读、解释、转载、误用或依赖作品内容而可能产生的误解、冒犯、损失、伤害或争议承担责任。读者应自行判断内容的适宜性，并自行承担阅读和使用相关信息的风险。</p>
+                            <p>本网站提供的作品按“原样”展示，不附带任何明示或暗示的保证，包括但不限于完整性、准确性、持续可用性、特定用途适用性或非侵权性的保证。在法律允许的最大范围内，作者或版权持有人不对因使用或无法使用作品而产生的任何索赔、损害或其他责任负责。</p>
                         </div>
                         <div class="en-content" style="display: none;">
-                            <p>All novel works published on this website are fictional content, and any resemblance to real persons, events, locations, or organizations is purely coincidental. These works should not be viewed as descriptions of or commentary on any real persons, events, locations, or organizations.</p>
-                            <p>The author and this website take no responsibility for any misunderstandings, offense, or harm that may arise from reading, interpreting, or using these works. Readers should use their own judgment regarding the appropriateness of the content and assume all risks associated with reading.</p>
-                            <p>The works provided on this website are provided "as is," without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, or non-infringement. In no event shall the author or copyright holders be liable for any claim, damages, or other liability, whether in an action of contract, tort, or otherwise, arising from, out of, or in connection with the works or the use or other dealings in the works.</p>
+                            <p>The novel works published on this website are fictional creations. Unless specifically stated otherwise, names, places, organizations, events, technologies, systems, religions, cultures, or social phenomena appearing in the Works are literary expressions or fictional settings, and any resemblance to real persons, events, locations, or organizations is purely coincidental.</p>
+                            <p>Views, dialogue, conduct, and plots appearing in the Works do not represent the author's approval, encouragement, or advice regarding real-world conduct, and should not be understood as factual statements, professional opinions, legal advice, medical advice, investment advice, or safety instructions.</p>
+                            <p>The author and this website are not responsible for misunderstandings, offense, losses, harm, or disputes that may arise from reading, interpreting, reposting, misusing, or relying on the Works. Readers should judge the suitability of the content for themselves and assume the risks associated with reading and using related information.</p>
+                            <p>The Works are provided "as is," without any express or implied warranty, including but not limited to warranties of completeness, accuracy, continued availability, fitness for a particular purpose, or non-infringement. To the fullest extent permitted by law, the author or copyright holders shall not be liable for any claim, damage, or other liability arising from use of, or inability to use, the Works.</p>
                         </div>
                     </div>
                 </section>
@@ -256,12 +280,14 @@
                     <h2 data-en="5. Sensitive Content Warning" data-zh="5. 敏感内容警告">5. 敏感内容警告</h2>
                     <div class="bilingual-content">
                         <div class="zh-content">
-                            <p>本网站上的小说作品可能包含敏感内容，包括但不限于暴力、犯罪、成人主题或其他可能引起不适的内容。这些作品主要面向成年读者，不适合未成年人阅读。</p>
-                            <p>读者应自行判断内容是否适合自己，并对自己的阅读选择负责。如果您认为某些内容可能会对您造成不适，请谨慎阅读或选择不阅读相关内容。</p>
+                            <p>本网站上的小说作品可能包含敏感、压抑或引起不适的文学内容，包括但不限于暴力、犯罪、死亡、心理压力、冲突关系、成人主题、虚构危险行为或其他不适合所有读者的情节。</p>
+                            <p>这些作品主要面向具备独立判断能力的成年读者。未成年人应在监护人指导下谨慎访问；如相关作品或章节标注不适合未成年人，请勿阅读。</p>
+                            <p>如果您认为某些内容可能造成不适、触发负面情绪或不符合您的阅读偏好，请立即停止阅读并离开相关页面。作品中的危险、违法或不当行为均不应被模仿。</p>
                         </div>
                         <div class="en-content" style="display: none;">
-                            <p>The novel works on this website may contain sensitive content, including but not limited to violence, crime, adult themes, or other potentially disturbing material. These works are primarily intended for adult readers and are not suitable for minors.</p>
-                            <p>Readers should use their own judgment regarding whether the content is suitable for them and take responsibility for their reading choices. If you believe certain content may cause you discomfort, please read with caution or choose not to read the relevant content.</p>
+                            <p>The novel works on this website may contain sensitive, heavy, or disturbing literary content, including but not limited to violence, crime, death, psychological pressure, conflicted relationships, adult themes, fictional dangerous conduct, or other material that may not be suitable for all readers.</p>
+                            <p>These works are primarily intended for adult readers with independent judgment. Minors should access them cautiously under the guidance of a guardian; if a work or chapter is marked as unsuitable for minors, minors should not read it.</p>
+                            <p>If you believe certain content may cause discomfort, trigger negative emotions, or conflict with your reading preferences, please stop reading and leave the relevant page. Dangerous, illegal, or inappropriate conduct depicted in the Works should not be imitated.</p>
                         </div>
                     </div>
                 </section>
@@ -270,24 +296,26 @@
                     <h2 data-en="6. Website Access and Security" data-zh="6. 网站访问与安全">6. 网站访问与安全</h2>
                     <div class="bilingual-content">
                         <div class="zh-content">
-                            <p>您同意不会：</p>
+                            <p>访问本网站时，您同意以合法、合理且不会影响网站运行或他人访问体验的方式使用本网站。您同意不会：</p>
                             <ul>
                                 <li>尝试破解、入侵或干扰本网站的正常运行</li>
-                                <li>使用任何自动化程序或工具（如网络爬虫或抓取工具）访问、收集或下载本网站的内容</li>
+                                <li>使用自动化程序、脚本、网络爬虫、抓取工具或批量请求方式访问、收集、下载或重发布本网站内容</li>
                                 <li>规避本网站可能采取的任何技术保护措施</li>
                                 <li>利用本网站传播恶意软件或进行任何违法活动</li>
+                                <li>冒用作者、本网站或其他读者身份，或伪造授权、来源和版权信息</li>
                             </ul>
-                            <p>违反上述规定可能导致相关法律责任，本网站保留对违规行为采取法律行动的权利。</p>
+                            <p>违反上述规定可能导致访问限制、内容下架请求、平台投诉或相关法律责任。本网站保留对违规行为采取必要措施和法律行动的权利。</p>
                         </div>
                         <div class="en-content" style="display: none;">
-                            <p>You agree not to:</p>
+                            <p>When accessing this website, you agree to use it in a lawful and reasonable manner that does not affect site operation or other visitors' access experience. You agree not to:</p>
                             <ul>
                                 <li>Attempt to crack, hack, or interfere with the normal operation of this website</li>
-                                <li>Use any automated program or tool (such as web crawlers or scraping tools) to access, collect, or download content from this website</li>
+                                <li>Use automated programs, scripts, crawlers, scraping tools, or bulk requests to access, collect, download, or republish content from this website</li>
                                 <li>Circumvent any technical protection measures that the website may employ</li>
                                 <li>Use this website to spread malware or engage in any illegal activities</li>
+                                <li>Impersonate the author, this website, or other readers, or forge authorization, source, or copyright information</li>
                             </ul>
-                            <p>Violation of the above provisions may result in legal liability, and this website reserves the right to take legal action against violations.</p>
+                            <p>Violation of the above provisions may result in access restrictions, takedown requests, platform complaints, or legal liability. This website reserves the right to take necessary measures and legal action against violations.</p>
                         </div>
                     </div>
                 </section>
@@ -296,23 +324,39 @@
                     <h2 data-en="7. Modification of Terms" data-zh="7. 条款修改">7. 条款修改</h2>
                     <div class="bilingual-content">
                         <div class="zh-content">
-                            <p>本网站保留随时更新或修改本许可条款的权利，修改后的条款将在本页面上发布。继续使用本网站和阅读其中的作品将被视为接受这些修改。建议您定期查看本页面以了解任何更改。</p>
+                            <p>本网站保留根据作品发布、网站运营、平台规则或法律法规变化随时更新、补充或修改本许可条款和注意事项的权利。修改后的内容将在本页面发布，并以页面显示的最后维护日期为准。</p>
+                            <p>在条款更新后继续访问本网站或阅读其中的作品，将被视为接受更新后的条款。建议您定期查看本页面，以了解最新的许可范围、注意事项和联系方式。</p>
                         </div>
                         <div class="en-content" style="display: none;">
-                            <p>This website reserves the right to update or modify these license terms at any time, and the modified terms will be posted on this page. Continued use of this website and reading of the works contained therein will be deemed acceptance of these modifications. It is recommended that you check this page regularly to be aware of any changes.</p>
+                            <p>This website reserves the right to update, supplement, or modify these license terms and notices at any time in response to publication activity, site operation, platform rules, or changes in applicable laws and regulations. The revised content will be posted on this page and will be governed by the last maintained date shown on the page.</p>
+                            <p>Continued access to this website or reading of the Works after an update will be deemed acceptance of the updated terms. You are encouraged to check this page periodically for the latest license scope, notices, and contact information.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="license-section">
+                    <h2 data-en="8. Third-Party Rights and Links" data-zh="8. 第三方权利与外部链接">8. 第三方权利与外部链接</h2>
+                    <div class="bilingual-content">
+                        <div class="zh-content">
+                            <p>本网站可能在页面导航、说明文字或作品相关页面中提及第三方平台、商标、作品、人物、机构或链接。除非另有明确说明，相关名称、商标和内容权利归其各自权利人所有，提及不代表本网站与其存在合作、赞助、认可或从属关系。</p>
+                            <p>外部链接仅为访问便利而提供。本网站不控制外部网站的内容、隐私政策、服务稳定性或安全性，也不对外部网站产生的任何风险或损失承担责任。</p>
+                        </div>
+                        <div class="en-content" style="display: none;">
+                            <p>This website may mention third-party platforms, trademarks, works, persons, organizations, or links in navigation, notes, or work-related pages. Unless expressly stated otherwise, the relevant names, trademarks, and content rights belong to their respective rights holders, and such references do not imply cooperation, sponsorship, endorsement, or affiliation.</p>
+                            <p>External links are provided for convenience only. This website does not control the content, privacy policies, service availability, or security of external websites and is not responsible for any risks or losses arising from external websites.</p>
                         </div>
                     </div>
                 </section>
                 
                 <section class="license-section">
-                    <h2 data-en="8. Contact Information" data-zh="8. 联系信息">8. 联系信息</h2>
+                    <h2 data-en="9. Contact Information" data-zh="9. 联系信息">9. 联系信息</h2>
                     <div class="bilingual-content">
                         <div class="zh-content">
-                            <p>如对本许可条款有任何疑问，或需要获取使用授权，请通过以下方式联系作者：</p>
+                            <p>如对本许可条款、注意事项、作品授权、疑似侵权、内容误用或更正请求有任何疑问，请通过以下方式联系作者。为便于处理授权请求，请说明拟使用的作品名称、章节或页面链接、使用方式、使用范围、平台、是否商业用途以及预计发布时间。</p>
                             <p>Email: <a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
                         </div>
                         <div class="en-content" style="display: none;">
-                            <p>If you have any questions about these license terms or need to obtain usage authorization, please contact the author through the following means:</p>
+                            <p>If you have any questions about these license terms, notices, work authorization, suspected infringement, misuse of content, or correction requests, please contact the author through the following means. For authorization requests, please describe the work title, chapter or page link, intended use, scope of use, platform, whether the use is commercial, and expected publication time.</p>
                             <p>Email: <a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
                         </div>
                     </div>
@@ -320,8 +364,8 @@
                 
                 <div class="license-date">
                     <div class="bilingual-content">
-                        <p class="zh-content">最后更新日期：2025年4月15日</p>
-                        <p class="en-content" style="display: none;">Last updated: April 15, 2025</p>
+                        <p class="zh-content">最后维护日期：2026年7月7日</p>
+                        <p class="en-content" style="display: none;">Last maintained: July 7, 2026</p>
                     </div>
                 </div>
             </div>
@@ -348,4 +392,4 @@
     <script src="../../../js/theme.js"></script>
     <script src="../../../js/language.js"></script>
 </body>
-</html> 
+</html>

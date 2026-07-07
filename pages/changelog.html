@@ -121,6 +121,23 @@
 
         <section class="changelog-timeline" data-changelog-view-panel="logs">
             <div class="timeline-item">
+                <div class="timeline-date">2026-07-07</div>
+                <div class="timeline-content">
+                    <h2 data-en="Markdown Reader Template — Font Size, TOC, Reading Chrome, and Comments Beta Upgrade" data-zh="Markdown 阅读模板 — 字号、目录、阅读环境与评论 Beta 升级">Markdown 阅读模板 — 字号、目录、阅读环境与评论 Beta 升级</h2>
+                    <ul>
+                        <li data-en="Added a Font Size action button cycling through Normal, Large, Extra Large, and Small; the preference is stored in localStorage and only scales Markdown body text, leaving titles, TOC, and comments unchanged." data-zh="在操作区新增“字号”按钮，点击循环“标准 / 较大 / 特大 / 小号”，使用 localStorage 记住选择，只缩放 Markdown 正文，不影响标题、目录和评论区。"><strong>字号调节</strong>：操作区新增“字号”按钮，支持标准、较大、特大、小号循环，并记住用户选择。</li>
+                        <li data-en="Updated TOC generation: when level-2 headings exist, only level-2 headings are shown; when none exist, level-3 headings are used as fallback, improving heading detection stability." data-zh="调整目录规则：有 ## 二级标题时只显示 ##；没有 ## 时用 ### 三级标题兜底生成目录，提升标题识别稳定性。"><strong>目录识别</strong>：优先展示二级标题，无二级标题时由三级标题兜底生成目录。</li>
+                        <li data-en="Simplified the moban_new_md reading chrome: kept the brand, Home, Blog, theme/language toggles, source-list return link, back-to-top, email, and copyright; removed unrelated entries and the quiet-reading footer note." data-zh="精简 moban_new_md 阅读页导航栏和页脚：保留站点标识、首页、博客、主题/语言切换，以及返回来源列表、回到顶部、邮箱和版权；移除无关入口和“为 Markdown 文章保留安静的阅读环境。”文案。"><strong>阅读环境精简</strong>：导航栏和页脚改为 Markdown 阅读页专属轻量结构，减少无关入口。</li>
+                        <li data-en="Refined the comments area into a Beta preview with a lighter header, Beta badge, status feedback, and preview list; removed visible Local wording, the 0 / 800 counter, maxlength, and over-length validation." data-zh="评论区 UI 收敛为 Beta 预览：新增轻量标题说明、Beta 标签、状态提示和评论预览区；删除可见的“本地 / Local”文案、0 / 800 字数显示、maxlength 与过长校验。"><strong>评论 Beta</strong>：评论区改为更轻的 Beta 预览形态，去掉本地字样和字数上限展示。</li>
+                        <li data-en="Kept automatic draft preservation and submit cooldown, with empty-content validation; removed the old ../../js/blog-post.js include to fix the stale comments-under-development alert and missing preview after submitting 11." data-zh="保留草稿自动保存与提交冷却，空内容会被拦截；移除旧 ../../js/blog-post.js 引用，修复提交“11”时弹出“评论功能正在开发中”且不显示的问题。"><strong>评论交互修复</strong>：保留草稿与基础校验，并移除旧脚本导致的开发中弹窗。</li>
+                        <li data-en="Defined the GitHub Issues integration plan: evaluate utterances for strict Issues-based comments; if reusing the changelog approach, note that it is Giscus/GitHub Discussions. Future integration will map each article by pathname or slug, replace the Beta preview, and reuse theme/language sync patterns." data-zh="制定 GitHub Issues 接入计划：若严格使用 Issues，优先评估 utterances；若沿用 changelog 当前方案则是 Giscus/GitHub Discussions。后续将以 pathname 或文章 slug 映射每篇文章，替换 Beta 预览区，并复用主题/语言同步思路。"><strong>GitHub Issues 计划</strong>：明确 Issues 与 Giscus/Discussions 的路线差异，并规划按文章路径或 slug 映射评论。</li>
+                        <li data-en="Validation passed: submitting 11 appears in the comment preview and clears the input; Beta badge, no stale script, no character counter, and no visible Local wording were verified; inline script syntax and git diff --check passed." data-zh="验证通过：提交 11 可显示在评论预览中，输入框会清空；Beta 标签、无旧脚本、无字数计数、无可见“本地”文案均已实测；内联脚本语法与 git diff --check 通过。"><strong>验证</strong>：评论预览、Beta 标签、旧脚本移除、字数计数移除和脚本语法均已检查。</li>
+                        <li data-en="Changed Files: pages/blog/moban_new_md.html, pages/blog/blogjs_markdown/markdown-renderer.js, css/blog-post.css, pages/changelog.html." data-zh="改动文件：pages/blog/moban_new_md.html、pages/blog/blogjs_markdown/markdown-renderer.js、css/blog-post.css、pages/changelog.html。"><strong>改动文件</strong>：pages/blog/moban_new_md.html、pages/blog/blogjs_markdown/markdown-renderer.js、css/blog-post.css、pages/changelog.html。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
                 <div class="timeline-date">2026-07-06</div>
                 <div class="timeline-content">
                     <h2 data-en="Markdown Reader Template — Sidebar, TOC, and Article Metadata UI Upgrade" data-zh="Markdown 阅读模板 — 侧边栏、目录与文章元信息 UI 升级">Markdown 阅读模板 — 侧边栏、目录与文章元信息 UI 升级</h2>

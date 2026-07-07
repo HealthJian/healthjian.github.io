@@ -345,7 +345,7 @@
 </head>
 <body class="light-mode">
     <!-- 导航栏 -->
-    <nav class="navbar">
+    <nav class="navbar md-reader-navbar">
         <div class="nav-left">
             <a href="../../index.html" class="logo">
                 <img src="../../images/githubherofigureimage.png" alt="Logo">
@@ -356,15 +356,7 @@
             <ul class="menu">
                 <li><a href="../../index.html" data-en="Home" data-zh="首页">首页</a></li>
                 <li><a href="../blog.html" data-en="Blog" data-zh="博客">博客</a></li>
-                <li><a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a></li>
-                <li><a href="../links.html" data-en="Links" data-zh="链接">链接</a></li>
-                <li><a href="../about.html" data-en="About" data-zh="关于">关于</a></li>
-                <li><a href="test-markdown.html" data-en="TEST" data-zh="测试详情">测试详情</a></li>
             </ul>
-            <div class="social-icons">
-                <a href="https://steamcommunity.com/id/yoursteamid" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
-                <a href="mailto:gaojian1573@foxmail.com" title="Email"><i class="fas fa-envelope"></i></a>
-            </div>
             <button id="theme-toggle" class="theme-toggle" title="切换主题">
                 <i class="fas fa-moon"></i>
                 <i class="fas fa-sun"></i>
@@ -435,6 +427,10 @@
                                     <i class="fas fa-expand" aria-hidden="true"></i>
                                     <span class="visually-hidden" data-en="Fullscreen" data-zh="全屏">全屏</span>
                                 </button>
+                                <button type="button" id="font-size-btn" class="md-icon-action" data-en-tooltip="Font size" data-zh-tooltip="字号" title="字号" aria-live="polite">
+                                    <i class="fas fa-text-height" aria-hidden="true"></i>
+                                    <span class="visually-hidden" data-en="Font size" data-zh="字号">字号</span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -453,60 +449,51 @@
             
             <!-- 评论区 -->
             <div class="comments-section">
-                <h3 data-en="Comments" data-zh="评论">评论</h3>
-                <div class="comment-form">
-                    <textarea placeholder="写下你的想法..." data-en-placeholder="Write your thoughts..." data-zh-placeholder="写下你的想法..."></textarea>
-                    <button data-en="Submit" data-zh="提交">提交</button>
+                <div class="md-comments-header">
+                    <div>
+                        <h3 data-en="Comments" data-zh="评论">评论</h3>
+                        <p data-en="Beta preview for article feedback. GitHub Issues can be connected later." data-zh="文章反馈功能 Beta 预览，后续可接入 GitHub Issues。">文章反馈功能 Beta 预览，后续可接入 GitHub Issues。</p>
+                    </div>
+                    <span class="md-comments-badge" data-en="Beta" data-zh="Beta">Beta</span>
                 </div>
+                <form class="comment-form" id="md-comment-form" novalidate>
+                    <label class="visually-hidden" for="md-comment-input" data-en="Write your thoughts" data-zh="写下你的想法">写下你的想法</label>
+                    <textarea id="md-comment-input" placeholder="写下你的想法..." data-en-placeholder="Write your thoughts..." data-zh-placeholder="写下你的想法..." aria-describedby="md-comment-status"></textarea>
+                    <div class="md-comment-form-footer">
+                        <span id="md-comment-status" class="md-comment-status" role="status" aria-live="polite" data-en="Draft is kept while typing." data-zh="输入时会自动保留草稿。">输入时会自动保留草稿。</span>
+                        <button type="submit" id="md-comment-submit" data-en="Submit" data-zh="提交">提交</button>
+                    </div>
+                </form>
                 <div class="comments-container">
-                    <p class="no-comments" data-en="Be the first to comment!" data-zh="成为第一个评论的人！">成为第一个评论的人！ <span class="emoji">🎉</span></p>
+                    <p class="no-comments" id="md-comments-empty" data-en="No comments yet." data-zh="暂无评论。">暂无评论。</p>
+                    <div id="md-local-comments" class="md-local-comments" aria-live="polite"></div>
                 </div>
             </div>
         </main>
     </div>
 
     <!-- 页脚 -->
-    <footer>
-        <div class="footer-container">
-            <div class="footer-logo-section">
-                <a href="../../index.html" class="footer-logo">
-                    <img src="../../images/githubherofigureimage.png" alt="HealthJian Logo">
-                    <span class="footer-logo-text" data-en="HealthJian Blog" data-zh="HealthJian Blog">HealthJian Blog</span>
+    <footer class="md-reader-footer">
+        <div class="md-reader-footer__inner">
+            <a href="../../index.html" class="md-reader-footer__brand">
+                <img src="../../images/githubherofigureimage.png" alt="HealthJian Logo">
+                <span data-en="HealthJian Blog" data-zh="HealthJian Blog">HealthJian Blog</span>
+            </a>
+            <nav class="md-reader-footer__links" aria-label="Article footer links">
+                <a href="../blog.html" id="post-back-link" class="md-reader-footer__link">
+                    <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                    <span id="post-back-label" data-en="Back to Blog" data-zh="返回博客列表">返回博客列表</span>
                 </a>
-                <div class="footer-copyright">
-                    <p>&copy; 2025-2026 CaiNiaojian & HealthJian</p>
-                    <p data-en="All Rights Reserved" data-zh="保留所有权利">保留所有权利</p>
-                </div>
-            </div>
-
-            <div class="footer-nav-section">
-                <h3 data-en="Quick Links" data-zh="快速链接">快速链接</h3>
-                <div class="footer-links-grid"></div>
-            </div>
-
-            <div class="footer-social-section">
-                <h3 data-en="Connect With Me" data-zh="联系我">联系我</h3>
-                <div class="footer-contact-info">
-                    <p data-en="Email: gaojian1573@foxmail.com" data-zh="邮箱：gaojian1573@foxmail.com">邮箱：<a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
-                    <p data-en="Location: China, Jiangsu" data-zh="地址：中国，江苏">地址：中国，江苏</p>
-                </div>
-                <div class="footer-social-icons">
-                    <a href="https://github.com/CaiNiaojian" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="#" title="WeChat"><i class="fab fa-weixin"></i></a>
-                    <a href="#" target="_blank" title="Twitter/X"><i class="fab fa-twitter"></i></a>
-                    <a href="mailto:gaojian1573@foxmail.com" title="Email"><i class="far fa-envelope"></i></a>
-                    <a href="https://steamcommunity.com/profiles/76561199031176587/" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
-                </div>
-
-                <div class="footer-clock-section">
-                    <div class="footer-clock">00:00:00</div>
-                    <div class="footer-date">2025年05月19日 星期一</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p data-en="Designed with ❤️ by " data-zh="由 ">由 <a href="../about.html">HealthJian</a> <span data-en="with " data-zh="用 ">用 </span>❤️ <span data-en="designed" data-zh="设计">设计</span></p>
+                <a href="#article-title" class="md-reader-footer__link">
+                    <i class="fas fa-arrow-up" aria-hidden="true"></i>
+                    <span data-en="Back to Top" data-zh="回到顶部">回到顶部</span>
+                </a>
+                <a href="mailto:gaojian1573@foxmail.com" class="md-reader-footer__link">
+                    <i class="far fa-envelope" aria-hidden="true"></i>
+                    <span data-en="Email" data-zh="邮箱">邮箱</span>
+                </a>
+            </nav>
+            <p class="md-reader-footer__copyright">&copy; 2025-2026 CaiNiaojian & HealthJian</p>
         </div>
     </footer>
 
@@ -514,12 +501,10 @@
     <script src="../../js/main.js"></script>
     <script src="../../js/theme.js"></script>
     <script src="../../js/language.js"></script>
-    <script src="../../js/footer.js"></script>
     <script src="../../js/blog-category-meta.js"></script>
     <script src="../../js/blog-posts-data.js"></script>
     <script src="../../js/gameblog-posts-data.js"></script>
     <script src="../../js/travelblog-posts-data.js"></script>
-    <script src="../../js/blog-post.js"></script>
     
     <!-- Markdown渲染器 -->
     <script src="blogjs_markdown/markdown-renderer.js"></script>
@@ -547,6 +532,12 @@
         let mdBaseFromUrl = '';
         let isFullscreen = false;
         let mdTocScrollTick = false;
+        const MD_FONT_SIZE_KEY = 'md-article-font-size';
+        const MD_FONT_SIZE_STEPS = ['normal', 'large', 'xlarge', 'small'];
+        const MD_COMMENT_DRAFT_PREFIX = 'md-comment-draft:';
+        const MD_COMMENT_LIST_PREFIX = 'md-comment-list:';
+        const MD_COMMENT_COOLDOWN_MS = 8000;
+        let mdCommentLastSubmitAt = 0;
 
         function getCurrentLang() {
             return document.body.classList.contains('en') ? 'en' : 'zh';
@@ -744,6 +735,8 @@
                     if (dt) drawerBtn.setAttribute('title', dt);
                 }
             }
+            syncFontSizeButtonLabel();
+            syncCommentChromeI18n();
         }
 
         function closeMobileSidebar() {
@@ -828,6 +821,8 @@
 
             initPageFeatures();
             initSidebarDrawer();
+            initArticleFontSizeControl();
+            initLocalComments();
             initThemeToggle();
             syncMdChromeI18n();
         });
@@ -1058,6 +1053,239 @@
                 if (!mdTocScrollTick) {
                     requestAnimationFrame(updateActiveTocItem);
                     mdTocScrollTick = true;
+                }
+            });
+        }
+
+        function normalizeArticleFontSize(size) {
+            return MD_FONT_SIZE_STEPS.includes(size) ? size : 'normal';
+        }
+
+        function getArticleFontSizeLabel(size, lang) {
+            const labels = {
+                small: { zh: '小号', en: 'Small' },
+                normal: { zh: '标准', en: 'Normal' },
+                large: { zh: '较大', en: 'Large' },
+                xlarge: { zh: '特大', en: 'Extra large' }
+            };
+            return labels[size][lang];
+        }
+
+        function applyArticleFontSize(size) {
+            const layout = document.getElementById('md-article-layout');
+            const nextSize = normalizeArticleFontSize(size);
+            if (layout) layout.setAttribute('data-font-size', nextSize);
+            try {
+                localStorage.setItem(MD_FONT_SIZE_KEY, nextSize);
+            } catch (e) {
+                console.warn('字号偏好保存失败:', e);
+            }
+            syncFontSizeButtonLabel();
+        }
+
+        function syncFontSizeButtonLabel() {
+            const btn = document.getElementById('font-size-btn');
+            const layout = document.getElementById('md-article-layout');
+            if (!btn || !layout) return;
+
+            const lang = getCurrentLang();
+            const size = normalizeArticleFontSize(layout.getAttribute('data-font-size'));
+            const label = getArticleFontSizeLabel(size, lang);
+            const prefix = lang === 'en' ? 'Font size' : '字号';
+            btn.setAttribute('title', `${prefix}: ${label}`);
+            btn.setAttribute('aria-label', `${prefix}: ${label}`);
+        }
+
+        function initArticleFontSizeControl() {
+            const btn = document.getElementById('font-size-btn');
+            const layout = document.getElementById('md-article-layout');
+            if (!btn || !layout) return;
+
+            let savedSize = 'normal';
+            try {
+                savedSize = localStorage.getItem(MD_FONT_SIZE_KEY) || 'normal';
+            } catch (e) {
+                savedSize = 'normal';
+            }
+            applyArticleFontSize(savedSize);
+
+            btn.addEventListener('click', function () {
+                const current = normalizeArticleFontSize(layout.getAttribute('data-font-size'));
+                const nextIndex = (MD_FONT_SIZE_STEPS.indexOf(current) + 1) % MD_FONT_SIZE_STEPS.length;
+                applyArticleFontSize(MD_FONT_SIZE_STEPS[nextIndex]);
+            });
+        }
+
+        function getCommentStorageIdentity() {
+            return normalizeMarkdownIdentity(mdBaseFromUrl || getMarkdownFileFromURL() || location.pathname) || location.pathname;
+        }
+
+        function getCommentStorageKey(prefix) {
+            return prefix + getCommentStorageIdentity();
+        }
+
+        function getCommentCopy(key) {
+            const lang = getCurrentLang();
+            const copy = {
+                draft: {
+                    zh: '输入时会自动保留草稿。',
+                    en: 'Draft is kept while typing.'
+                },
+                restored: {
+                    zh: '已恢复上次未提交的草稿。',
+                    en: 'Restored your draft.'
+                },
+                empty: {
+                    zh: '先写一点内容再提交。',
+                    en: 'Write something before submitting.'
+                },
+                cooldown: {
+                    zh: '提交太快了，请稍等几秒。',
+                    en: 'Please wait a few seconds before submitting again.'
+                },
+                saved: {
+                    zh: '已显示在评论预览中。',
+                    en: 'Shown in the comment preview.'
+                },
+                failed: {
+                    zh: '保存失败，请检查浏览器存储权限。',
+                    en: 'Save failed. Check browser storage permissions.'
+                },
+                none: {
+                    zh: '暂无评论。',
+                    en: 'No comments yet.'
+                }
+            };
+            return copy[key][lang];
+        }
+
+        function readLocalComments() {
+            try {
+                const raw = localStorage.getItem(getCommentStorageKey(MD_COMMENT_LIST_PREFIX));
+                const parsed = raw ? JSON.parse(raw) : [];
+                return Array.isArray(parsed) ? parsed : [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function writeLocalComments(comments) {
+            localStorage.setItem(getCommentStorageKey(MD_COMMENT_LIST_PREFIX), JSON.stringify(comments.slice(0, 20)));
+        }
+
+        function setCommentStatus(type, message) {
+            const status = document.getElementById('md-comment-status');
+            if (!status) return;
+            status.className = `md-comment-status md-comment-status--${type}`;
+            status.textContent = message;
+        }
+
+        function updateCommentCount() {
+            return;
+        }
+
+        function renderLocalComments() {
+            const list = document.getElementById('md-local-comments');
+            const empty = document.getElementById('md-comments-empty');
+            if (!list || !empty) return;
+
+            const comments = readLocalComments();
+            empty.style.display = comments.length ? 'none' : '';
+            empty.textContent = getCommentCopy('none');
+            list.innerHTML = '';
+
+            comments.forEach(function (comment) {
+                const item = document.createElement('article');
+                item.className = 'md-local-comment';
+
+                const meta = document.createElement('div');
+                meta.className = 'md-local-comment__meta';
+                const time = document.createElement('time');
+                time.dateTime = comment.createdAt;
+                time.textContent = new Date(comment.createdAt).toLocaleString(getCurrentLang() === 'en' ? 'en-US' : 'zh-CN');
+                meta.appendChild(time);
+
+                const body = document.createElement('p');
+                body.textContent = comment.text;
+
+                item.appendChild(meta);
+                item.appendChild(body);
+                list.appendChild(item);
+            });
+        }
+
+        function syncCommentChromeI18n() {
+            const input = document.getElementById('md-comment-input');
+            const form = document.getElementById('md-comment-form');
+            if (!form) return;
+            if (input) {
+                const placeholder = input.getAttribute(getCurrentLang() === 'en' ? 'data-en-placeholder' : 'data-zh-placeholder');
+                if (placeholder) input.setAttribute('placeholder', placeholder);
+            }
+            const status = document.getElementById('md-comment-status');
+            if (status && !status.className.includes('--error') && !status.className.includes('--success')) {
+                status.textContent = getCommentCopy('draft');
+            }
+            renderLocalComments();
+        }
+
+        function initLocalComments() {
+            const form = document.getElementById('md-comment-form');
+            const input = document.getElementById('md-comment-input');
+            if (!form || !input) return;
+
+            const draftKey = getCommentStorageKey(MD_COMMENT_DRAFT_PREFIX);
+            try {
+                const draft = localStorage.getItem(draftKey);
+                if (draft) {
+                    input.value = draft;
+                    setCommentStatus('info', getCommentCopy('restored'));
+                }
+            } catch (e) {
+                setCommentStatus('error', getCommentCopy('failed'));
+            }
+            updateCommentCount();
+            renderLocalComments();
+
+            input.addEventListener('input', function () {
+                updateCommentCount();
+                try {
+                    localStorage.setItem(draftKey, input.value);
+                    setCommentStatus('info', getCommentCopy('draft'));
+                } catch (e) {
+                    setCommentStatus('error', getCommentCopy('failed'));
+                }
+            });
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const text = input.value.trim();
+                const now = Date.now();
+
+                if (!text) {
+                    setCommentStatus('error', getCommentCopy('empty'));
+                    return;
+                }
+                if (now - mdCommentLastSubmitAt < MD_COMMENT_COOLDOWN_MS) {
+                    setCommentStatus('error', getCommentCopy('cooldown'));
+                    return;
+                }
+
+                try {
+                    const comments = readLocalComments();
+                    comments.unshift({
+                        text,
+                        createdAt: new Date().toISOString()
+                    });
+                    writeLocalComments(comments);
+                    localStorage.removeItem(draftKey);
+                    input.value = '';
+                    mdCommentLastSubmitAt = now;
+                    updateCommentCount();
+                    renderLocalComments();
+                    setCommentStatus('success', getCommentCopy('saved'));
+                } catch (err) {
+                    setCommentStatus('error', getCommentCopy('failed'));
                 }
             });
         }
