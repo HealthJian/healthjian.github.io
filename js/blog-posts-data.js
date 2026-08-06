@@ -1,6 +1,30 @@
 // 博客文章数据源：供 blog.js、博客页、分类页与首页最新文章复用
 window.BLOG_POSTS_DATA = [
         {
+            "id": "world-china-economy-ai-trust-tax-20260806",
+            "title": "百年变局下的世界经济与中国经济趋势深度研究报告",
+            "title_en": "In-Depth Research Report on the World Economy and China's Economic Trends Under the Once-in-a-Century Transformation",
+            "excerpt": "围绕全球经济低迷、AI泡沫之争、K型分化、中国离岸信托征税时代开启以及未来十年中国与世界经济走势展开系统研究，分析低增长、高波动、高债务与强分化格局下的关键变量。",
+            "excerpt_en": "A systematic research report on global economic sluggishness, the AI bubble debate, K-shaped divergence, the dawn of China's offshore trust taxation era, and the next decade of China and world economic trends under low growth, high volatility, high debt, and strong divergence.",
+            "date": "2026-08-06",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260806_zh_1.md",
+            "category": "idea",
+            "tags": ["世界经济", "中国经济", "AI泡沫", "离岸信托", "K型分化"],
+            "tags_en": ["World Economy", "China Economy", "AI Bubble", "Offshore Trusts", "K-Shaped Divergence"]
+        },
+        {
+            "id": "pc-component-price-surge-memory-ai-cycle-20260804",
+            "title": "等等党的至暗时刻：电脑配件全线涨价的周期、原因、趋势与未来",
+            "title_en": "The Darkest Hour for Wait-and-See Builders: The Cycle, Causes, Trends, and Future of the All-Round PC Component Price Surge",
+            "excerpt": "从中国装机市场与全球供应链视角，系统梳理内存、SSD、显卡、机械硬盘、电源、散热器等电脑配件全线涨价的幅度、根因、周期位置与未来拐点。",
+            "excerpt_en": "A supply-chain and China DIY market analysis of the all-round PC component price surge, covering DRAM, SSDs, GPUs, hard drives, power supplies, coolers, the causes behind the cycle, and likely future inflection points.",
+            "date": "2026-08-04",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260804_zh_1.md",
+            "category": "tech",
+            "tags": ["电脑装机", "存储芯片", "显卡", "AI数据中心", "供应链"],
+            "tags_en": ["PC Building", "Memory Chips", "Graphics Cards", "AI Data Centers", "Supply Chain"]
+        },
+        {
             "id": "semiconductor-virtual-metrology-lasso-rf-20260706",
             "title": "精读《Ensemble Virtual Metrology Models of Semiconductor Processes》：用 LASSO + RF 把半导体量测搬到“实时预测”里",
             "title_en": "Reading Ensemble Virtual Metrology Models of Semiconductor Processes: Moving Semiconductor Metrology Toward Real-Time Prediction with LASSO + RF",
