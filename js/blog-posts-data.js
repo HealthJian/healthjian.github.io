@@ -1,6 +1,18 @@
 // 博客文章数据源：供 blog.js、博客页、分类页与首页最新文章复用
 window.BLOG_POSTS_DATA = [
         {
+            "id": "github-pages-service-congestion-delay-20260807",
+            "title": "GitHub Pages服务侧暂时性的拥堵或延迟",
+            "title_en": "GitHub Pages Service-Side Congestion or Delays",
+            "excerpt": "记录 2026 年 8 月 GitHub Pages 部署中出现的 Timeout reached, aborting! 超时问题，说明其大概率来自平台侧队列拥堵或处理延迟，并整理状态页检查、重新触发部署、重置 Pages 源等排查办法。",
+            "excerpt_en": "A note on the August 2026 GitHub Pages deployment timeout issue, explaining why the common \"Timeout reached, aborting!\" failure likely comes from service-side queue congestion or delays, with practical retry and troubleshooting steps.",
+            "date": "2026-08-07",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260807_zh_1.md",
+            "category": "tech",
+            "tags": ["GitHub Pages", "部署", "静态网站", "GitHub Actions", "故障排查"],
+            "tags_en": ["GitHub Pages", "Deployment", "Static Sites", "GitHub Actions", "Troubleshooting"]
+        },
+        {
             "id": "world-china-economy-ai-trust-tax-20260806",
             "title": "百年变局下的世界经济与中国经济趋势深度研究报告",
             "title_en": "In-Depth Research Report on the World Economy and China's Economic Trends Under the Once-in-a-Century Transformation",
