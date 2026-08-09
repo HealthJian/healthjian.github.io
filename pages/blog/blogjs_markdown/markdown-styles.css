@@ -82,6 +82,57 @@
     border-radius: 3px;
 }
 
+/* 文献引用上标 */
+.markdown-content .md-footnote-ref {
+    font-size: 0.72em;
+    line-height: 0;
+    vertical-align: super;
+    margin-left: 0.08em;
+    scroll-margin-top: 96px;
+}
+
+.markdown-content .md-footnote-ref a {
+    border-bottom: none;
+    padding: 0 0.12em;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.markdown-content .md-footnote-ref a:hover {
+    border-bottom: none;
+    background-color: rgba(0, 122, 255, 0.12);
+    padding: 0 0.12em;
+    border-radius: 3px;
+}
+
+.markdown-content .markdown-footnotes {
+    margin-top: 2.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.94rem;
+}
+
+.markdown-content .markdown-footnotes h2 {
+    margin-top: 0;
+    font-size: 1.45rem;
+}
+
+.markdown-content .markdown-footnote-list {
+    padding-left: 1.5rem;
+}
+
+.markdown-content .markdown-footnote-item {
+    margin: 0.45rem 0;
+    line-height: 1.6;
+    word-break: break-word;
+    scroll-margin-top: 96px;
+}
+
+.markdown-content .markdown-footnote-label {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
 /* 列表样式 */
 .markdown-content ul,
 .markdown-content ol {

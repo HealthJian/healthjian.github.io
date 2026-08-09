@@ -4,6 +4,7 @@
 class MarkdownRenderer {
     constructor() {
         this.tocItems = [];
+        this.footnoteDefinitions = [];
         this._mermaidCounter = 0;
         this.currentLang = document.body.classList.contains('en') ? 'en' : 'zh';
         this.initializeRenderer();
@@ -341,6 +342,222 @@ class MarkdownRenderer {
         return div.innerHTML;
     }
 
+    escapeAttribute(text) {
+        return this.escapeHtml(text).replace(/"/g, '&quot;');
+    }
+
+    // 提取形如 [^1^]: https://example.com 的文末参考文献定义
+    extractFootnoteDefinitions(markdownText) {
+        const lines = String(markdownText || '').split(/\r?\n/);
+        const definitions = [];
+        const contentLines = [];
+        const definitionPattern = /^\[\^([^\]\r\n]+?)\^\]:\s*(.*)$/;
+        let inFence = false;
+        let fenceChar = '';
+        let fenceLength = 0;
+
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            const fenceMatch = line.match(/^ {0,3}(`{3,}|~{3,})/);
+            if (fenceMatch) {
+                const marker = fenceMatch[1];
+                if (!inFence) {
+                    inFence = true;
+                    fenceChar = marker[0];
+                    fenceLength = marker.length;
+                } else if (marker[0] === fenceChar && marker.length >= fenceLength) {
+                    inFence = false;
+                    fenceChar = '';
+                    fenceLength = 0;
+                }
+                contentLines.push(line);
+                continue;
+            }
+
+            if (inFence) {
+                contentLines.push(line);
+                continue;
+            }
+
+            const match = line.match(definitionPattern);
+            if (!match) {
+                contentLines.push(line);
+                continue;
+            }
+
+            const id = match[1].trim();
+            const bodyLines = [match[2].trim()];
+
+            while (i + 1 < lines.length && /^(?: {2,}|\t)\S/.test(lines[i + 1])) {
+                i++;
+                bodyLines.push(lines[i].trim());
+            }
+
+            if (id) {
+                definitions.push({
+                    id,
+                    content: bodyLines.join(' ').trim()
+                });
+            }
+        }
+
+        return {
+            text: contentLines.join('\n'),
+            definitions
+        };
+    }
+
+    normalizeFootnoteId(id) {
+        const encoded = encodeURIComponent(String(id || '').trim())
+            .replace(/%/g, '')
+            .toLowerCase()
+            .replace(/[^a-z0-9_-]+/g, '-')
+            .replace(/^-+|-+$/g, '');
+        return encoded || 'ref';
+    }
+
+    getFootnoteTargetId(id) {
+        return `md-footnote-${this.normalizeFootnoteId(id)}`;
+    }
+
+    getFootnoteRefId(id, index) {
+        return `md-footnote-ref-${this.normalizeFootnoteId(id)}-${index}`;
+    }
+
+    isInsideFootnoteIgnoredNode(node) {
+        let current = node && node.parentElement;
+        while (current) {
+            const tagName = current.tagName ? current.tagName.toLowerCase() : '';
+            if (['a', 'code', 'pre', 'script', 'style', 'textarea', 'kbd', 'samp'].includes(tagName)) {
+                return true;
+            }
+            if (current.classList && (
+                current.classList.contains('math-inline') ||
+                current.classList.contains('math-block') ||
+                current.classList.contains('md-footnote-ref') ||
+                current.classList.contains('markdown-footnotes')
+            )) {
+                return true;
+            }
+            current = current.parentElement;
+        }
+        return false;
+    }
+
+    createFootnoteReferenceElement(id, index) {
+        const sup = document.createElement('sup');
+        sup.className = 'md-footnote-ref';
+        sup.id = this.getFootnoteRefId(id, index);
+
+        const link = document.createElement('a');
+        link.href = `#${this.getFootnoteTargetId(id)}`;
+        link.setAttribute('data-footnote-ref', id);
+        link.setAttribute('aria-label', `${this.currentLang === 'en' ? 'Reference' : '参考文献'} ${id}`);
+        link.textContent = `[${id}]`;
+
+        sup.appendChild(link);
+        return sup;
+    }
+
+    replaceFootnoteReferences(container) {
+        const markerPattern = /\[\^([^\]\r\n]+?)\^\]/g;
+        const walker = document.createTreeWalker(
+            container,
+            NodeFilter.SHOW_TEXT,
+            {
+                acceptNode: (node) => {
+                    if (this.isInsideFootnoteIgnoredNode(node)) return NodeFilter.FILTER_REJECT;
+                    markerPattern.lastIndex = 0;
+                    return markerPattern.test(node.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+                }
+            }
+        );
+        const nodes = [];
+        while (walker.nextNode()) nodes.push(walker.currentNode);
+
+        const refCounts = {};
+        nodes.forEach((node) => {
+            const text = node.nodeValue;
+            const fragment = document.createDocumentFragment();
+            let lastIndex = 0;
+            markerPattern.lastIndex = 0;
+            let match;
+
+            while ((match = markerPattern.exec(text)) !== null) {
+                const id = match[1].trim();
+                if (match.index > lastIndex) {
+                    fragment.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
+                }
+
+                const normalizedId = this.normalizeFootnoteId(id);
+                refCounts[normalizedId] = (refCounts[normalizedId] || 0) + 1;
+                fragment.appendChild(this.createFootnoteReferenceElement(id, refCounts[normalizedId]));
+                lastIndex = markerPattern.lastIndex;
+            }
+
+            if (lastIndex < text.length) {
+                fragment.appendChild(document.createTextNode(text.slice(lastIndex)));
+            }
+
+            node.parentNode.replaceChild(fragment, node);
+        });
+    }
+
+    renderFootnoteContent(content) {
+        const escaped = this.escapeHtml(content || '');
+        const withMarkdownLinks = escaped.replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, (match, label, href) => {
+            return `<a href="${this.escapeAttribute(href)}">${label}</a>`;
+        });
+        return withMarkdownLinks.replace(/(^|[\s(>])(https?:\/\/[^\s<]+)/g, (match, prefix, url) => {
+            return `${prefix}<a href="${this.escapeAttribute(url)}">${url}</a>`;
+        });
+    }
+
+    appendFootnoteSection(container, definitions) {
+        if (!definitions || definitions.length === 0) return;
+
+        const seen = new Set();
+        const section = document.createElement('section');
+        section.className = 'markdown-footnotes';
+        section.id = 'markdown-references';
+
+        const heading = document.createElement('h2');
+        heading.textContent = this.currentLang === 'en' ? 'References' : '参考文献';
+        section.appendChild(heading);
+
+        const list = document.createElement('ol');
+        list.className = 'markdown-footnote-list';
+
+        definitions.forEach((definition) => {
+            const id = String(definition.id || '').trim();
+            if (!id) return;
+
+            const normalizedId = this.normalizeFootnoteId(id);
+            if (seen.has(normalizedId)) return;
+            seen.add(normalizedId);
+
+            const item = document.createElement('li');
+            item.id = this.getFootnoteTargetId(id);
+            item.className = 'markdown-footnote-item';
+            item.innerHTML = `<span class="markdown-footnote-label">[${this.escapeHtml(id)}]</span> ${this.renderFootnoteContent(definition.content)}`;
+
+            list.appendChild(item);
+        });
+
+        if (list.children.length > 0) {
+            section.appendChild(list);
+            container.appendChild(section);
+        }
+    }
+
+    postprocessFootnotes(html, definitions) {
+        const wrapper = document.createElement('div');
+        wrapper.innerHTML = html;
+        this.replaceFootnoteReferences(wrapper);
+        this.appendFootnoteSection(wrapper, definitions);
+        return wrapper.innerHTML;
+    }
+
     // 兼容常见 Markdown 写法中未完全按 LaTeX 转义的公式片段
     normalizeMathFormula(formula) {
         return String(formula).replace(/(^|[^\\])%/g, '$1\\%');
@@ -351,24 +568,30 @@ class MarkdownRenderer {
         try {
             // 重置目录项和 Mermaid 计数器
             this.tocItems = [];
+            this.footnoteDefinitions = [];
             this._mermaidCounter = 0;
 
             let htmlContent;
             let mathBlocks = [];
+            const footnoteResult = this.extractFootnoteDefinitions(markdownText);
+            const markdownBody = footnoteResult.text;
+            this.footnoteDefinitions = footnoteResult.definitions;
             
             if (this.useBasicRenderer) {
                 // 基础渲染器也支持数学公式
-                const mathResult = this.preprocessMath(markdownText);
+                const mathResult = this.preprocessMath(markdownBody);
                 const basicHtml = this.basicMarkdownRender(mathResult.text);
                 htmlContent = this.postprocessMath(basicHtml, mathResult.mathBlocks);
                 mathBlocks = mathResult.mathBlocks;
             } else {
                 // 使用marked.js渲染
-                const mathResult = this.preprocessMath(markdownText);
+                const mathResult = this.preprocessMath(markdownBody);
                 const markedHtml = marked(mathResult.text);
                 htmlContent = this.postprocessMath(markedHtml, mathResult.mathBlocks);
                 mathBlocks = mathResult.mathBlocks;
             }
+
+            htmlContent = this.postprocessFootnotes(htmlContent, this.footnoteDefinitions);
 
             // 将渲染后的HTML插入到目标元素
             if (targetElement) {
@@ -504,6 +727,16 @@ class MarkdownRenderer {
         const links = container.querySelectorAll('a');
         
         links.forEach(link => {
+            const hrefAttr = link.getAttribute('href') || '';
+            const isHashOnlyLink = hrefAttr.startsWith('#');
+            const isSamePageHashLink = link.hash && (
+                isHashOnlyLink ||
+                (
+                    link.hostname === window.location.hostname &&
+                    link.pathname === window.location.pathname
+                )
+            );
+
             // 外部链接在新窗口打开
             if (link.hostname && link.hostname !== window.location.hostname) {
                 link.target = '_blank';
@@ -511,7 +744,7 @@ class MarkdownRenderer {
             }
             
             // 内部锚点链接平滑滚动
-            if (link.hash && link.hostname === window.location.hostname) {
+            if (isSamePageHashLink) {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
                     const targetId = link.hash.substring(1);
