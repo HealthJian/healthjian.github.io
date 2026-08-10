@@ -1,6 +1,30 @@
 // 博客文章数据源：供 blog.js、博客页、分类页与首页最新文章复用
 window.BLOG_POSTS_DATA = [
         {
+            "id": "gold-price-retrospect-timeseries-crisis-rule-20260810",
+            "title": "黄金价格变化与回望：2022–2026 年时间序列分析与“乱世黄金”规律的再检验",
+            "title_en": "Gold Price Changes in Retrospect: A Time-Series Analysis of 2022–2026 and a Re-Examination of the \"Buy Gold in Times of Crisis\" Principle",
+            "excerpt": "基于 COMEX 黄金、标普500 与布伦特原油 2022–2026 年日度数据，系统复盘金价五阶段走势，检验“乱世黄金”规律，解析 2026 年金油悖论、央行购金与美元信用三重定价逻辑。",
+            "excerpt_en": "Using daily COMEX gold, S&P 500, and Brent crude data from 2022–2026, this report reviews gold's five-phase rally, re-examines the crisis-gold principle, and analyzes the 2026 gold-oil paradox, central-bank buying, and dollar-credit pricing logic.",
+            "date": "2026-08-10",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260810_zh_1.md",
+            "category": "idea",
+            "tags": ["黄金", "宏观经济", "时间序列", "央行购金", "地缘政治"],
+            "tags_en": ["Gold", "Macroeconomics", "Time Series", "Central Bank Buying", "Geopolitics"]
+        },
+        {
+            "id": "samsung-kla-mds-metrology-defect-detection-20260809",
+            "title": "论文精读：用计量数据“导航”缺陷检测——三星 × KLA 的 MDS 平台实践",
+            "title_en": "Paper Deep-Dive: Navigating Defect Detection with Metrology Data — Samsung × KLA's MDS Platform in Practice",
+            "excerpt": "围绕三星与 KLA 合作的 SPIE 2026 MDS 平台论文展开精读，讲解计量与检测数据融合、缺陷捕获率提升约 3 倍、类别不平衡处理、特征重要性与工艺根因分析，以及 e-beam 抽样检测的工程落地。",
+            "excerpt_en": "An in-depth read of Samsung and KLA's SPIE 2026 MDS platform paper, covering metrology-inspection data fusion, roughly 3× defect capture rate improvement, class imbalance handling, feature importance for root-cause analysis, and e-beam sampling deployment in fab engineering.",
+            "date": "2026-08-09",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260809_zh_1.md",
+            "category": "paper",
+            "tags": ["论文精读", "半导体", "缺陷检测", "计量数据", "良率"],
+            "tags_en": ["Paper Review", "Semiconductor", "Defect Detection", "Metrology", "Yield"]
+        },
+        {
             "id": "github-pages-service-congestion-delay-20260807",
             "title": "GitHub Pages服务侧暂时性的拥堵或延迟",
             "title_en": "GitHub Pages Service-Side Congestion or Delays",
