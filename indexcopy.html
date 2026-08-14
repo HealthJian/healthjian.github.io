@@ -1,736 +1,520 @@
 <!DOCTYPE html>
 <html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="images/favicon.ico" />
-    <title>HealthJian健康的博客</title>
-    
-    <!-- 预加载关键样式 -->
-    <link rel="preload" href="css/style.css" as="style">
-    <link rel="preload" href="css/dark-mode.css" as="style">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500&display=swap" as="style">
-    <link rel="preload" href="images/crycat_night.avif" as="image" type="image/avif">
-    
-    <!-- 样式表 -->
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/dark-mode.css">
-    <!-- <link rel="stylesheet" href="css/celebration-banner.css"> -->
-    <link rel="stylesheet" href="css/footer-enhanced.css">
-    <link rel="stylesheet" href="css/latest-articles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
-    <!-- 苹果风格字体 - 优化加载 -->
-    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
-    <!-- 添加Chewy字体用于问候语 -->
-    <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
-    
-    <!-- 添加ZCOOL KuaiLe中文字体 -->
-    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
-    
-    <!-- 字体加载失败时的后备方案 -->
-    <style>
-        /* 如果主字体加载失败，确保有合适的后备字体 */
-        body {
-            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', 
-                         Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 
-                         'Segoe UI Emoji', 'Segoe UI Symbol';
-        }
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="shortcut icon" href="images/favicon.ico" />
+		<title>HealthJian健康的博客</title>
 
-        /* 导航头像按主题切换（复用现有主题类，不改动原逻辑） */
-        .logo .nav-logo-night {
-            display: none;
-        }
-        body.dark-mode .logo .nav-logo-day {
-            display: none;
-        }
-        body.dark-mode .logo .nav-logo-night {
-            display: inline-block;
-        }
+		<!-- 预加载关键样式 -->
+		<link rel="preload" href="css/style.css" as="style">
+		<link rel="preload" href="css/dark-mode.css" as="style">
+		<link rel="preload" href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500&display=swap"
+			as="style">
+		<link rel="preload" href="images/crycat_night.avif" as="image" type="image/avif">
 
-        .avatar-container .avatar-night {
-            display: none;
-        }
-        body.dark-mode .avatar-container .avatar-day {
-            display: none;
-        }
-        body.dark-mode .avatar-container .avatar-night {
-            display: inline-block;
-        }
-    </style>
+		<!-- 样式表 -->
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/dark-mode.css">
+		<link rel="stylesheet" href="css/celebration-banner.css">
+		<link rel="stylesheet" href="css/footer-enhanced.css">
+		<link rel="stylesheet" href="css/latest-articles.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <!-- UI 升级：弥散渐变/玻璃拟态/便当盒网格/流光与交互（全部内联，避免新增文件） -->
-    <style id="ui-upgrade-inline-style">
-        :root{
-            --ui-radius-lg: 22px;
-            --ui-radius-md: 16px;
-            --ui-gap: 18px;
-            --ui-border: rgba(255,255,255,0.14);
-            --ui-glass: rgba(255,255,255,0.06);
-            --ui-glass-strong: rgba(255,255,255,0.10);
-            --ui-shadow: 0 24px 70px rgba(0,0,0,0.18);
-        }
+		<!-- 苹果风格字体 - 优化加载 -->
+		<link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap"
+			rel="stylesheet">
 
-        body{
-            color: rgba(18,18,20,0.92);
-            background: transparent;
-        }
+		<!-- 添加Chewy字体用于问候语 -->
+		<link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
 
-        body.dark-mode{
-            --ui-border: rgba(255,255,255,0.10);
-            --ui-glass: rgba(20,22,35,0.56);
-            --ui-glass-strong: rgba(28,30,50,0.66);
-            color: rgba(245,247,255,0.92);
-        }
+		<!-- 添加ZCOOL KuaiLe中文字体 -->
+		<link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
 
-        nav, main, footer{
-            position: relative;
-            z-index: 1;
-        }
+		<!-- 字体加载失败时的后备方案 -->
+		<style>
+			/* 如果主字体加载失败，确保有合适的后备字体 */
+			body {
+				font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+					Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji',
+					'Segoe UI Emoji', 'Segoe UI Symbol';
+			}
 
-        /* 页脚：取消本页内联 Reveal 带来的浮现/虚化（只影响 indexcopy.html） */
-        footer{
-            backdrop-filter: none !important;
-            -webkit-backdrop-filter: none !important;
-        }
-        footer, footer *{
-            animation: none !important;
-            filter: none !important;
-            opacity: 1 !important;
-            transform: none !important;
-        }
+			/* 导航头像按主题切换（复用现有主题类，不改动原逻辑） */
+			.logo .nav-logo-night {
+				display: none;
+			}
 
-        /* 导航栏：更现代、更自适应（只覆盖本页） */
-        .navbar{
-            padding: 14px clamp(16px, 3vw, 30px) !important;
-            border-top: 1px solid rgba(255,255,255,0.25);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            border-left: 1px solid rgba(255,255,255,0.15);
-            border-right: 1px solid rgba(255,255,255,0.15);
-            background: linear-gradient(180deg, rgba(250,235,215,0.78), rgba(250,235,215,0.55)) !important;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            transition: transform 220ms ease, background-color 220ms ease, border-color 220ms ease;
-        }
-        .navbar:hover{
-            transform: translateY(-1px);
-        }
-        body.dark-mode .navbar{
-            background: linear-gradient(180deg, rgba(0,51,102,0.74), rgba(0,51,102,0.52)) !important;
-            border-color: rgba(255,255,255,0.10) !important;
-        }
+			body.dark-mode .logo .nav-logo-day {
+				display: none;
+			}
 
-        .navbar .theme-toggle,
-        .navbar .lang-toggle{
-            background: rgba(255,255,255,0.08) !important;
-            border: 1px solid var(--ui-border);
-            box-shadow: 0 10px 22px rgba(0,0,0,0.08);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-        }
+			body.dark-mode .logo .nav-logo-night {
+				display: inline-block;
+			}
 
-        .navbar .menu a{
-            padding: 9px 12px;
-            border-radius: 999px;
-            transition: background-color 220ms ease, transform 220ms ease;
-        }
-        .navbar .menu a:hover{
-            background: rgba(255,255,255,0.10);
-            transform: translateY(-1px);
-        }
-        body.dark-mode .navbar .menu a:hover{
-            background: rgba(255,255,255,0.08);
-        }
-        body.dark-mode .navbar .theme-toggle,
-        body.dark-mode .navbar .lang-toggle{
-            background: rgba(255,255,255,0.06) !important;
-            box-shadow: 0 12px 26px rgba(0,0,0,0.35);
-        }
+			.avatar-container .avatar-night {
+				display: none;
+			}
 
-        /* Mesh Gradient：柔和且动态的色彩流动 */
-        #mesh-bg{
-            position: fixed;
-            inset: -25vh -12vw;
-            z-index: -2;
-            pointer-events: none;
-            filter: blur(44px) saturate(115%);
-            opacity: 0.95;
-            transform: translate3d(0,0,0);
-            background:
-                radial-gradient(900px circle at 15% 20%, rgba(147,112,219,0.38), transparent 60%),
-                radial-gradient(850px circle at 70% 10%, rgba(64,196,255,0.34), transparent 60%),
-                radial-gradient(900px circle at 80% 75%, rgba(255,120,220,0.22), transparent 62%),
-                radial-gradient(760px circle at 20% 80%, rgba(120,255,214,0.18), transparent 62%);
-            animation: mesh-drift 16s ease-in-out infinite;
-        }
-        body.dark-mode #mesh-bg{
-            opacity: 0.85;
-            background:
-                radial-gradient(900px circle at 15% 20%, rgba(147,112,219,0.30), transparent 62%),
-                radial-gradient(850px circle at 70% 10%, rgba(64,196,255,0.26), transparent 60%),
-                radial-gradient(900px circle at 80% 75%, rgba(255,120,220,0.17), transparent 62%),
-                radial-gradient(760px circle at 20% 80%, rgba(120,255,214,0.13), transparent 64%);
-        }
-        @keyframes mesh-drift{
-            0%{ transform: translate(-2%, -1%) scale(1.02); }
-            50%{ transform: translate(2%, 1%) scale(1.06); }
-            100%{ transform: translate(-2%, -1%) scale(1.02); }
-        }
+			body.dark-mode .avatar-container .avatar-day {
+				display: none;
+			}
 
-        /* Mouse Follower：沉浸式柔光 */
-        #mouse-follower{
-            position: fixed;
-            left: 50%;
-            top: 50%;
-            width: 280px;
-            height: 280px;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0;
-            transform: translate(-50%, -50%);
-            background:
-                radial-gradient(circle at center, rgba(255,255,255,0.22), rgba(255,255,255,0.00) 60%);
-            filter: blur(14px);
-            mix-blend-mode: screen;
-            transition: opacity 0.25s ease;
-            will-change: transform;
-        }
+			body.dark-mode .avatar-container .avatar-night {
+				display: inline-block;
+			}
 
-        /* Glassmorphism：统一玻璃层 */
-        .ui-glass-card{
-            background: var(--ui-glass) !important;
-            border: 1px solid var(--ui-border) !important;
-            box-shadow: var(--ui-shadow) !important;
-            border-radius: var(--ui-radius-lg) !important;
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            overflow: hidden;
-        }
+			/* ========== LOTTIE Cool_emoji 样式 START（删除至 END 可回档）========== */
+			.home-cool-emoji-wrap {
+				width: min(96px, 24vw);
+				margin: 6px auto 10px;
+				aspect-ratio: 1 / 1;
+				position: relative;
+				pointer-events: none;
+			}
 
-        .ui-glass-soft{
-            background: var(--ui-glass-strong) !important;
-            border: 1px solid var(--ui-border) !important;
-            border-radius: var(--ui-radius-md) !important;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-        }
+			.home-cool-emoji {
+				width: 100%;
+				height: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
 
-        /* Spotlight（聚光灯）高光层 */
-        [data-ui-spotlight="true"]{
-            --mx: 50%;
-            --my: 50%;
-            --spotlight-opacity: 0;
-            position: relative;
-            overflow: hidden;
-        }
-        [data-ui-spotlight="true"]::before{
-            content: "";
-            position: absolute;
-            inset: -40px;
-            background: radial-gradient(420px circle at var(--mx) var(--my),
-                rgba(255,255,255,0.36) 0%,
-                rgba(255,255,255,0.15) 22%,
-                rgba(255,255,255,0.00) 60%);
-            opacity: var(--spotlight-opacity);
-            transform: translateZ(0);
-            filter: blur(10px);
-            pointer-events: none;
-            transition: opacity 180ms ease;
-        }
-        body.dark-mode [data-ui-spotlight="true"]::before{
-            background: radial-gradient(420px circle at var(--mx) var(--my),
-                rgba(255,255,255,0.26) 0%,
-                rgba(147,112,219,0.16) 22%,
-                rgba(255,255,255,0.00) 60%);
-        }
-        [data-ui-spotlight="true"] > *{
-            position: relative;
-            z-index: 1;
-        }
+			.home-cool-emoji svg {
+				width: 100% !important;
+				height: auto !important;
+				max-height: 100%;
+			}
 
-        /* 便当盒 Bento Grid（在不改动业务 DOM 的前提下，重排现有模块） */
-        @media (min-width: 980px){
-            .blog-section{
-                display: grid;
-                grid-template-columns: 1.35fr 0.65fr;
-                gap: var(--ui-gap);
-                align-items: start;
-                margin-top: 26px;
-            }
+			.home-cool-emoji-fallback {
+				display: none;
+				font-size: 2.25rem;
+				line-height: 1;
+				text-align: center;
+				opacity: 0.45;
+			}
 
-            /* 修复：最新文章区域的右侧“查看全部文章”对齐 */
-            .blog-section .view-all{
-                position: static !important;
-                top: auto !important;
-                right: auto !important;
-            }
-            .blog-section .latest-articles-shell{
-                grid-column: 1;
-                margin: 0;
-                padding: 28px 22px !important; /* 对齐 latest-articles.css 的视觉比例 */
-            }
-            .blog-section .latest-view-all{
-                grid-column: 2;
-                margin-top: 0 !important;
-                padding-right: 0 !important;
-                align-self: start;
-                align-items: flex-start !important;
-                justify-content: flex-end !important;
-            }
-            .blog-section .latest-view-all a{
-                margin-top: 6px;
-            }
+			.home-cool-emoji-wrap.is-fallback .home-cool-emoji {
+				display: none;
+			}
 
-            .blog-updates .updates-container{
-                display: grid;
-                grid-template-columns: repeat(12, 1fr);
-                gap: 16px;
-            }
+			.home-cool-emoji-wrap.is-fallback .home-cool-emoji-fallback {
+				display: block;
+			}
 
-            .blog-updates .update-item:nth-child(1){ grid-column: span 7; }
-            .blog-updates .update-item:nth-child(2){ grid-column: span 5; }
-            .blog-updates .update-item:nth-child(3){ grid-column: span 4; }
-            .blog-updates .update-item:nth-child(4){ grid-column: span 8; }
-            .blog-updates .update-item:nth-child(5){ grid-column: span 12; }
+			/* ========== LOTTIE Cool_emoji 样式 END ========== */
 
-            .qia-immersive .qia-stack{
-                display: grid;
-                grid-template-columns: repeat(12, 1fr);
-                gap: var(--ui-gap);
-            }
-            .qia-immersive .qia-card:nth-child(1){ grid-column: span 7; }
-            .qia-immersive .qia-card:nth-child(2){ grid-column: span 5; }
-            .qia-immersive .qia-card:nth-child(3){ grid-column: span 12; }
-        }
+			/* ========== LOTTIE smile-face 样式 START（删除至 END 可回档）========== */
+			.home-smile-face-wrap {
+				width: min(180px, 42vw);
+				margin: 18px auto 32px;
+				aspect-ratio: 1 / 1;
+				position: relative;
+				pointer-events: none;
+			}
 
-        @media (max-width: 979px){
-            .blog-section{ margin-top: 18px; }
-            .blog-updates .updates-container{ display: grid; gap: 14px; }
-        }
+			.home-smile-face {
+				width: 100%;
+				height: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
 
-        /* Bento 内部卡片玻璃化 */
-        .bio,
-        .latest-articles-shell,
-        .update-item,
-        .qia-card,
-        .qia-header{
-            padding: 18px;
-        }
-        .bio{ padding: 20px !important; }
+			.home-smile-face svg {
+				width: 100% !important;
+				height: auto !important;
+				max-height: 100%;
+			}
 
-        .latest-articles-shell,
-        .update-item,
-        .qia-card,
-        .qia-header{
-            background: var(--ui-glass) !important;
-            border: 1px solid var(--ui-border) !important;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.12) !important;
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            overflow: hidden;
-        }
+			.home-smile-face-fallback {
+				display: none;
+				font-size: 3rem;
+				line-height: 1;
+				text-align: center;
+				opacity: 0.5;
+			}
 
-        /* Resume/CTA 磁吸按钮基底 */
-        .resume-link,
-        .latest-view-all a,
-        .start-explore-btn{
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            border-radius: 999px;
-            padding: 12px 18px;
-            border: 1px solid var(--ui-border);
-            background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.06));
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            box-shadow: 0 18px 50px rgba(0,0,0,0.12);
-            transform: translateZ(0);
-            will-change: transform;
-        }
+			.home-smile-face-wrap.is-fallback .home-smile-face {
+				display: none;
+			}
 
-        /* 细节：仅让“查看全部文章”更紧凑，避免右侧列被撑开 */
-        .latest-view-all a{
-            padding: 8px 12px;
-            font-weight: 600;
-        }
-        body.dark-mode .resume-link,
-        body.dark-mode .latest-view-all a,
-        body.dark-mode .start-explore-btn{
-            background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
-        }
+			.home-smile-face-wrap.is-fallback .home-smile-face-fallback {
+				display: block;
+			}
 
-        /* Marquee 滚动长廊 */
-        .ui-marquee-wrap{
-            max-width: 1180px;
-            margin: 26px auto 18px;
-            padding: 0 16px;
-        }
-        .ui-marquee{
-            border-radius: 999px;
-            border: 1px solid var(--ui-border);
-            background: var(--ui-glass) !important;
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            overflow: hidden;
-        }
-        .ui-marquee-track{
-            display: flex;
-            width: max-content;
-            gap: 28px;
-            padding: 10px 22px;
-            animation: ui-marquee 26s linear infinite;
-            will-change: transform;
-        }
-        .ui-marquee:hover .ui-marquee-track{ animation-play-state: paused; }
-        .ui-marquee-item{
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            color: inherit;
-            white-space: nowrap;
-            font-weight: 600;
-            letter-spacing: 0.2px;
-            opacity: 0.88;
-        }
-        .ui-marquee-dot{
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(147,112,219,0.9);
-            box-shadow: 0 0 0 6px rgba(147,112,219,0.14);
-        }
-        body.dark-mode .ui-marquee-dot{
-            background: rgba(147,112,219,0.95);
-            box-shadow: 0 0 0 6px rgba(147,112,219,0.18);
-        }
-        @keyframes ui-marquee{
-            from{ transform: translateX(0); }
-            to{ transform: translateX(-50%); }
-        }
+			/* ========== LOTTIE smile-face 样式 END ========== */
+		</style>
+	</head>
+	<body class="light-mode home-page">
+		<!-- 导航栏 -->
+		<nav class="navbar">
+			<div class="nav-left">
+				<a href="index.html" class="logo">
+					<img class="nav-logo-day"
+						src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/githubherofigureimage.png"
+						alt="Logo">
+					<img class="nav-logo-night" src="images/crycat_night.avif" alt="Logo">
+					<span class="site-name" data-en="HealthJian Blog" data-zh="HealthJian Blog">HealthJian</span>
+				</a>
+			</div>
+			<button class="home-menu-toggle" type="button" aria-label="打开导航菜单" aria-expanded="false"
+				aria-controls="homeNavRight">
+				<span></span>
+				<span></span>
+				<span></span>
+			</button>
+			<div class="nav-right" id="homeNavRight">
+				<ul class="menu">
+					<li><a href="index.html" data-en="Home" data-zh="首页">首页</a></li>
+					<li><a href="pages/blog.html" data-en="Blog" data-zh="博客">博客</a></li>
+					<!--<li><a href="pages/project/404notfound.html" data-en="Demo" data-zh="Demo">Demo</a></li>demo.html暂时停用pages/project/personalgallery.html-->
+					<li><a href="pages/links.html" data-en="Links" data-zh="链接">链接</a></li><!--links.html暂时停用-->
+					<li><a href="pages/about.html" data-en="About" data-zh="关于">关于</a></li>
+					<li><a href="resume/src/common.html" data-en="Resume" data-zh="简历">简历</a></li>
+					<!--resume.pdf暂时停用pages/project/404notfound.html-->
+				</ul>
+				<div class="social-icons">
+					<a href="https://github.com/CaiNiaojian" target="_blank" title="GitHub" aria-label="GitHub"><i
+							class="fab fa-github"></i></a>
+					<a href="https://steamcommunity.com/profiles/76561199031176587/" target="_blank" title="Steam"><i
+							class="fab fa-steam"></i></a>
+					<a href="mailto:gaojian1573@foxmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+					<a href="#" title="Douyin" aria-label="Douyin"><i class="fab fa-tiktok"></i></a>
+				</div>
+				<button id="theme-toggle" class="theme-toggle" title="切换主题">
+					<i class="fas fa-moon"></i>
+					<i class="fas fa-sun"></i>
+				</button>
+				<button id="lang-toggle" class="lang-toggle" title="切换语言">
+					<span data-en="EN" data-zh="中">中</span>
+				</button>
+			</div>
+		</nav>
 
-        @media (prefers-reduced-motion: reduce){
-            #mesh-bg{ animation: none !important; }
-            .ui-marquee-track{ animation: none !important; }
-            #mouse-follower{ display:none; }
-        }
-    </style>
-</head>
-<body class="light-mode">
-    <div id="mesh-bg" aria-hidden="true"></div>
-    <!-- 导航栏 -->
-    <nav class="navbar">
-        <div class="nav-left">
-            <a href="index.html" class="logo">
-                <img class="nav-logo-day" src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/githubherofigureimage.png" alt="Logo">
-                <img class="nav-logo-night" src="images/crycat_night.avif" alt="Logo">
-                <span class="site-name" data-en="HealthJian Blog" data-zh="HealthJian Blog">HealthJian</span>
-            </a>
-        </div>
-        <div class="nav-right">
-            <ul class="menu">
-                <li><a href="index.html" data-en="Home" data-zh="首页">首页</a></li>
-                <li><a href="pages/blog.html" data-en="Blog" data-zh="博客">博客</a></li>
-                <li><a href="pages/project/personalgallery.html" data-en="Demo" data-zh="Demo">Demo</a></li><!--demo.html暂时停用-->
-                <!--<li><a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub" data-zh="GitHub">GitHub</a></li>-->
-                <li><a href="pages/project/404notfound.html" data-en="Links" data-zh="链接">链接</a></li><!--links.html暂时停用-->
-                <li><a href="pages/about.html" data-en="About" data-zh="关于">关于</a></li>
-                <li><a href="pages/project/404notfound.html" data-en="Resume" data-zh="简历">简历</a></li>
-            </ul>
-            <div class="social-icons">
-                <a href="https://steamcommunity.com/profiles/76561199031176587/" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
-                <a href="mailto:gaojian1573@foxmail.com" title="Email"><i class="fas fa-envelope"></i></a>
-            </div>
-            <button id="theme-toggle" class="theme-toggle" title="切换主题">
-                <i class="fas fa-moon"></i>
-                <i class="fas fa-sun"></i>
-            </button>
-            <button id="lang-toggle" class="lang-toggle" title="切换语言">
-                <span data-en="EN" data-zh="中">中</span>
-            </button>
-        </div>
-    </nav>
+		<!-- 主要内容 -->
+		<main>
+			<section class="hero">
+				<div class="avatar-container">
+					<img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/catcat.avif"
+						alt="头像" class="avatar avatar-day" style="width: 243.75px; height: 243.75px;">
+					<img src="images/night_catcat.avif" alt="头像" class="avatar avatar-night"
+						style="width: 243.75px; height: 243.75px;">
+				</div>
+				<div class="hero-greeting" style="margin-top: 16px; text-align: center;">
+					<div class="greeting-text">
+						<span class="greeting" data-en="" data-zh=""></span>
+					</div>
+					<h1 class="quote" style="margin-top: 8px;">
+						<span class="quote-text">只要想的少 快乐追着跑！</span>
+					</h1>
+					<!-- ========== LOTTIE Cool_emoji START：删除本段至 END 可回档 ========== -->
+					<div class="home-cool-emoji-wrap" id="homeCoolEmojiWrap" title="Cool emoji animation"
+						aria-hidden="true">
+						<div id="homeCoolEmoji" class="home-cool-emoji"></div>
+						<span class="home-cool-emoji-fallback">😎</span>
+					</div>
+					<!-- ========== LOTTIE Cool_emoji END ========== -->
+				</div>
 
-    <!-- 主要内容 -->
-    <main>
-        <section class="hero">
-            <div class="avatar-container">
-                <img src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/crycat.avif" alt="头像" class="avatar avatar-day" style="width: 243.75px; height: 243.75px;">
-                <img src="images/crycat_night.avif" alt="头像" class="avatar avatar-night" style="width: 243.75px; height: 243.75px;">
-            </div>
-            <div class="hero-greeting" style="margin-top: 16px; text-align: center;">
-                <div class="greeting-text">
-                    <span class="greeting" data-en="" data-zh=""></span>
-                </div>
-                <h1 class="quote" style="margin-top: 8px;">
-                    <span class="quote-text">只要想的少 快乐追着跑！</span>
-                </h1>
-            </div>
-            
-            <style>
-                /* 头像光晕效果 */
-                .avatar-container {
-                    position: relative;
-                    display: inline-block;
-                    margin-bottom: 20px;
-                }
-                
-                .avatar {
-                    position: relative;
-                    z-index: 3;
-                    border-radius: 50%;
-                    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-                }
-                
-                /* 内层柔光 */
-                .avatar-container::before {
-                    content: "";
-                    position: absolute;
-                    top: -20px;
-                    left: -20px;
-                    right: -20px;
-                    bottom: -20px;
-                    border-radius: 50%;
-                    background: radial-gradient(
-                        ellipse at center,
-                        rgba(255, 215, 0, 0.6) 0%,
-                        rgba(255, 215, 0, 0.2) 40%,
-                        rgba(255, 215, 0, 0) 70%
-                    );
-                    z-index: 1;
-                    animation: pulse-light 4s infinite alternate ease-in-out;
-                }
-                
-                /* 正余弦感的金色波形光环 */
-                .avatar-container::after {
-                    content: "";
-                    position: absolute;
-                    inset: -28px;
-                    border-radius: 50%;
-                    z-index: 2;
-                    pointer-events: none;
-                    background: conic-gradient(
-                        from 0deg,
-                        rgba(255, 215, 64, 0.62) 0deg 18deg,
-                        rgba(255, 215, 64, 0.12) 18deg 36deg,
-                        rgba(255, 215, 64, 0.56) 36deg 54deg,
-                        rgba(255, 215, 64, 0.12) 54deg 72deg,
-                        rgba(255, 215, 64, 0.62) 72deg 90deg,
-                        rgba(255, 215, 64, 0.12) 90deg 108deg,
-                        rgba(255, 215, 64, 0.56) 108deg 126deg,
-                        rgba(255, 215, 64, 0.12) 126deg 144deg,
-                        rgba(255, 215, 64, 0.62) 144deg 162deg,
-                        rgba(255, 215, 64, 0.12) 162deg 180deg,
-                        rgba(255, 215, 64, 0.56) 180deg 198deg,
-                        rgba(255, 215, 64, 0.12) 198deg 216deg,
-                        rgba(255, 215, 64, 0.62) 216deg 234deg,
-                        rgba(255, 215, 64, 0.12) 234deg 252deg,
-                        rgba(255, 215, 64, 0.56) 252deg 270deg,
-                        rgba(255, 215, 64, 0.12) 270deg 288deg,
-                        rgba(255, 215, 64, 0.62) 288deg 306deg,
-                        rgba(255, 215, 64, 0.12) 306deg 324deg,
-                        rgba(255, 215, 64, 0.56) 324deg 342deg,
-                        rgba(255, 215, 64, 0.12) 342deg 360deg
-                    );
-                    mask: radial-gradient(circle at center, transparent 56%, rgba(0,0,0,0.8) 65%, transparent 72%);
-                    animation: wave-ring 8s linear infinite;
-                    mix-blend-mode: screen;
-                    filter: blur(0.4px);
-                    opacity: 0.88;
-                }
-                
-                /* 夜间模式下的紫金波形 */
-                body.dark-mode .avatar-container::before {
-                    background: radial-gradient(
-                        ellipse at center,
-                        rgba(147, 112, 219, 0.6) 0%,
-                        rgba(147, 112, 219, 0.2) 40%,
-                        rgba(147, 112, 219, 0) 70%
-                    );
-                    animation: pulse-dark 4s infinite alternate ease-in-out;
-                }
-                
-                body.dark-mode .avatar-container::after {
-                    background: conic-gradient(
-                        from 0deg,
-                        rgba(147, 112, 219, 0.38) 0deg 20deg,
-                        rgba(147, 112, 219, 0.06) 20deg 40deg,
-                        rgba(147, 112, 219, 0.32) 40deg 60deg,
-                        rgba(147, 112, 219, 0.06) 60deg 80deg,
-                        rgba(147, 112, 219, 0.38) 80deg 100deg,
-                        rgba(147, 112, 219, 0.06) 100deg 120deg,
-                        rgba(147, 112, 219, 0.32) 120deg 140deg,
-                        rgba(147, 112, 219, 0.06) 140deg 160deg,
-                        rgba(147, 112, 219, 0.38) 160deg 180deg,
-                        rgba(147, 112, 219, 0.06) 180deg 200deg,
-                        rgba(147, 112, 219, 0.32) 200deg 220deg,
-                        rgba(147, 112, 219, 0.06) 220deg 240deg,
-                        rgba(147, 112, 219, 0.38) 240deg 260deg,
-                        rgba(147, 112, 219, 0.06) 260deg 280deg,
-                        rgba(147, 112, 219, 0.32) 280deg 300deg,
-                        rgba(147, 112, 219, 0.06) 300deg 320deg,
-                        rgba(147, 112, 219, 0.38) 320deg 340deg,
-                        rgba(147, 112, 219, 0.06) 340deg 360deg
-                    );
-                    animation: wave-ring-dark 10s linear infinite;
-                    opacity: 0.78;
-                }
-                
-                @keyframes pulse-light {
-                    0% {
-                        transform: scale(1);
-                        opacity: 0.7;
-                    }
-                    50% {
-                        transform: scale(1.05);
-                        opacity: 0.9;
-                    }
-                    100% {
-                        transform: scale(1);
-                        opacity: 0.7;
-                    }
-                }
-                
-                @keyframes wave-ring {
-                    0% { transform: rotate(0deg) scale(0.98); opacity: 0.7; }
-                    50% { transform: rotate(180deg) scale(1.02); opacity: 0.9; }
-                    100% { transform: rotate(360deg) scale(0.98); opacity: 0.7; }
-                }
-                
-                @keyframes wave-ring-dark {
-                    0% { transform: rotate(0deg) scale(0.99); opacity: 0.72; }
-                    50% { transform: rotate(-180deg) scale(1.03); opacity: 0.92; }
-                    100% { transform: rotate(-360deg) scale(0.99); opacity: 0.72; }
-                }
-                
-                @keyframes pulse-dark {
-                    0% {
-                        transform: scale(1);
-                        opacity: 0.7;
-                    }
-                    50% {
-                        transform: scale(1.05);
-                        opacity: 0.9;
-                    }
-                    100% {
-                        transform: scale(1);
-                        opacity: 0.7;
-                    }
-                }
+				<style>
+					/* 头像光晕效果 */
+					.avatar-container {
+						position: relative;
+						display: inline-block;
+						margin-bottom: 20px;
+					}
 
-                /* 进入首页时仅显示头像+问候 */
-                .hero {
-                    min-height: calc(100vh - 80px);
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: flex-start;
-                    text-align: center;
-                    padding-top: clamp(80px, 12vh, 160px);
-                    padding-bottom: 30px;
-                }
-            </style>
-        </section>
+					.avatar {
+						position: relative;
+						z-index: 3;
+						border-radius: 50%;
+						box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+					}
 
-        <section class="hero-bio-section" style="padding: 40px 20px 40px; margin-top: -30px;">
-            <div class="bio" style="font-size: 150%; line-height: 2.0; padding: 20px; border-radius: 15px; background-color: rgba(255,255,255,0.1); max-width: 900px; margin: 0 auto;">
-                <div class="digital-garden" data-en="# Jian's Digital Garden🌍 # 🌱 Hi, I'm Jian😀, a fresh explorer navigating between reality and idealism. My web development journey began serendipitously, but the moment my first demo came to life, I knew I'd found my calling. Even in those time-starved days when hours fragment like falling leaves, code and writing remain my faithful shield against anxiety and uncertainty. ✍️ Blog Purpose: Tech Notes🤔 to document my learning process, Humanistic Essays💡 to capture fleeting moments of insight, Knowledge Curation📚 for systematic learning frameworks, and Mental Sanctuary🧘‍♂️ to find inner peace through words. 🧠 Philosophy: &quot;How far one can go is determined not by speed in prosperity, but by the duration it takes to rediscover one's true self through adversity.&quot;——The KMP Algorithm. As I like to say: &quot;Think less, and happiness will chase after you!&quot; This positive outlook fuels my continuous creation journey. When screen glow illuminates my face in the quiet hours, I know I'm making peace with the world in the most elegant way possible. Thank you for visiting my little corner of the internet. [To be continued...]" data-zh="# 我的数字乐园🌏 # 🌱 你好，我是健😀，一名在现实与理想间不断探索的菜鸟。Web开发之旅始于偶然，但当第一个DEMO成功运行的那一刻，我知道自己找到了值得坚持的方向。即便在时间碎成沙漏的繁忙日常里，代码与文字始终是我对抗焦虑与不确定性的忠实盾牌。✍️ 博客目的：技术札记🤔记录我的学习过程、人文随笔💡收藏生活中转瞬即逝的灵感、知识管理📚构建系统化的学习框架和心灵疗愈🧘‍♂️在文字间寻找内心的平静。🧠 理念：&quot;一个人能走多远不在于他在顺境中能走得多快，而在于他在逆境中多久能找到曾经的自己。&quot;——KMP算法。正如我常说的：&quot;只要想的少 快乐追着跑！&quot; 这种积极的心态，恰是我保持创作的永恒燃料。当屏幕蓝光在静谧时光映亮脸庞时，我知道自己正在用最优雅的方式与这个世界和解。感谢你访问我的小小角落。[未完待续...]" style="font-family: 'Chewy', cursive; text-indent: 2em; letter-spacing: 0.5px;">
-            </div>
-            <style>
-                .digital-garden[data-zh] {
-                    font-family: 'ZCOOL KuaiLe', sans-serif !important;
-                }
-                .digital-garden[data-en] {
-                    font-family: 'Chewy', cursive !important;
-                }
-                .digital-garden {
-                    margin: 0 auto;
-                    padding: 10px;
-                }
-            </style>
-            </div>
+					/* 内层柔光 */
+					.avatar-container::before {
+						content: "";
+						position: absolute;
+						top: -20px;
+						left: -20px;
+						right: -20px;
+						bottom: -20px;
+						border-radius: 50%;
+						background: radial-gradient(ellipse at center,
+								rgba(255, 215, 0, 0.6) 0%,
+								rgba(255, 215, 0, 0.2) 40%,
+								rgba(255, 215, 0, 0) 70%);
+						z-index: 1;
+						animation: pulse-light 4s infinite alternate ease-in-out;
+					}
+
+					/* 正余弦感的金色波形光环 */
+					.avatar-container::after {
+						content: "";
+						position: absolute;
+						inset: -28px;
+						border-radius: 50%;
+						z-index: 2;
+						pointer-events: none;
+						background: conic-gradient(from 0deg,
+								rgba(255, 215, 64, 0.62) 0deg 18deg,
+								rgba(255, 215, 64, 0.12) 18deg 36deg,
+								rgba(255, 215, 64, 0.56) 36deg 54deg,
+								rgba(255, 215, 64, 0.12) 54deg 72deg,
+								rgba(255, 215, 64, 0.62) 72deg 90deg,
+								rgba(255, 215, 64, 0.12) 90deg 108deg,
+								rgba(255, 215, 64, 0.56) 108deg 126deg,
+								rgba(255, 215, 64, 0.12) 126deg 144deg,
+								rgba(255, 215, 64, 0.62) 144deg 162deg,
+								rgba(255, 215, 64, 0.12) 162deg 180deg,
+								rgba(255, 215, 64, 0.56) 180deg 198deg,
+								rgba(255, 215, 64, 0.12) 198deg 216deg,
+								rgba(255, 215, 64, 0.62) 216deg 234deg,
+								rgba(255, 215, 64, 0.12) 234deg 252deg,
+								rgba(255, 215, 64, 0.56) 252deg 270deg,
+								rgba(255, 215, 64, 0.12) 270deg 288deg,
+								rgba(255, 215, 64, 0.62) 288deg 306deg,
+								rgba(255, 215, 64, 0.12) 306deg 324deg,
+								rgba(255, 215, 64, 0.56) 324deg 342deg,
+								rgba(255, 215, 64, 0.12) 342deg 360deg);
+						mask: radial-gradient(circle at center, transparent 56%, rgba(0, 0, 0, 0.8) 65%, transparent 72%);
+						animation: wave-ring 8s linear infinite;
+						mix-blend-mode: screen;
+						filter: blur(0.4px);
+						opacity: 0.88;
+					}
+
+					/* 夜间模式下的紫金波形 */
+					body.dark-mode .avatar-container::before {
+						background: radial-gradient(ellipse at center,
+								rgba(147, 112, 219, 0.6) 0%,
+								rgba(147, 112, 219, 0.2) 40%,
+								rgba(147, 112, 219, 0) 70%);
+						animation: pulse-dark 4s infinite alternate ease-in-out;
+					}
+
+					body.dark-mode .avatar-container::after {
+						background: conic-gradient(from 0deg,
+								rgba(147, 112, 219, 0.38) 0deg 20deg,
+								rgba(147, 112, 219, 0.06) 20deg 40deg,
+								rgba(147, 112, 219, 0.32) 40deg 60deg,
+								rgba(147, 112, 219, 0.06) 60deg 80deg,
+								rgba(147, 112, 219, 0.38) 80deg 100deg,
+								rgba(147, 112, 219, 0.06) 100deg 120deg,
+								rgba(147, 112, 219, 0.32) 120deg 140deg,
+								rgba(147, 112, 219, 0.06) 140deg 160deg,
+								rgba(147, 112, 219, 0.38) 160deg 180deg,
+								rgba(147, 112, 219, 0.06) 180deg 200deg,
+								rgba(147, 112, 219, 0.32) 200deg 220deg,
+								rgba(147, 112, 219, 0.06) 220deg 240deg,
+								rgba(147, 112, 219, 0.38) 240deg 260deg,
+								rgba(147, 112, 219, 0.06) 260deg 280deg,
+								rgba(147, 112, 219, 0.32) 280deg 300deg,
+								rgba(147, 112, 219, 0.06) 300deg 320deg,
+								rgba(147, 112, 219, 0.38) 320deg 340deg,
+								rgba(147, 112, 219, 0.06) 340deg 360deg);
+						animation: wave-ring-dark 10s linear infinite;
+						opacity: 0.78;
+					}
+
+					@keyframes pulse-light {
+						0% {
+							transform: scale(1);
+							opacity: 0.7;
+						}
+
+						50% {
+							transform: scale(1.05);
+							opacity: 0.9;
+						}
+
+						100% {
+							transform: scale(1);
+							opacity: 0.7;
+						}
+					}
+
+					@keyframes wave-ring {
+						0% {
+							transform: rotate(0deg) scale(0.98);
+							opacity: 0.7;
+						}
+
+						50% {
+							transform: rotate(180deg) scale(1.02);
+							opacity: 0.9;
+						}
+
+						100% {
+							transform: rotate(360deg) scale(0.98);
+							opacity: 0.7;
+						}
+					}
+
+					@keyframes wave-ring-dark {
+						0% {
+							transform: rotate(0deg) scale(0.99);
+							opacity: 0.72;
+						}
+
+						50% {
+							transform: rotate(-180deg) scale(1.03);
+							opacity: 0.92;
+						}
+
+						100% {
+							transform: rotate(-360deg) scale(0.99);
+							opacity: 0.72;
+						}
+					}
+
+					@keyframes pulse-dark {
+						0% {
+							transform: scale(1);
+							opacity: 0.7;
+						}
+
+						50% {
+							transform: scale(1.05);
+							opacity: 0.9;
+						}
+
+						100% {
+							transform: scale(1);
+							opacity: 0.7;
+						}
+					}
+
+					/* 进入首页时仅显示头像+问候 */
+					.hero {
+						min-height: calc(100vh - 80px);
+						display: flex;
+						flex-direction: column;
+						align-items: center;
+						justify-content: flex-start;
+						text-align: center;
+						padding-top: clamp(80px, 12vh, 160px);
+						padding-bottom: 30px;
+					}
+				</style>
+			</section>
+
+			<section class="hero-bio-section" style="padding: 40px 20px 40px; margin-top: -30px;">
+				<div class="bio"
+					style="font-size: 157.5%; line-height: 2.0; padding: 20px; border-radius: 15px; background-color: rgba(255,255,255,0.1); max-width: 900px; margin: 0 auto;">
+					<div class="digital-garden"
+						data-en="Hello! I'm Jian, the developer and operator of this webpage, HealthJian Github-just an ordinary, unremarkable guy.&#10;&#10;My intention in creating this site was very simple, and I am far from being the &quot;tech guru&quot; that others might consider me to be. At first, I blindly followed the tech-obsessed habits of my IT predecessors, dabbling in a little bit of everything. However, I always felt I couldn't catch up, and I never truly mastered anything.&#10;&#10;When I actually built this webpage, I found frontend development to be incredibly interesting. I love tinkering with UI beautification, the nested layers of webpages, and designing clever little features. So, I dove a bit deeper, even though there is still so much more I need to learn... With the explosion of technologies like LLMs, vibe coding, and OpenClow, I have grown even more fond of building little projects. Recently, people have been saying &quot;frontend is dead,&quot; but I think that's an overstatement. Personally, I believe that with the empowerment of AI, frontend development will usher in a new peak, though the demands placed on engineers will likely become much higher.&#10;&#10;An engineer's growth requires continuous learning. The progress of our era goes hand-in-hand with technological development, and the iteration of technology requires learners to constantly delve deeper. I've been away from studying for a while now. Looking back to half a year ago, I was still exploring new knowledge; even when I only had a superficial understanding of it, I felt a sense of joy. But now, I am afraid of falling behind and becoming obsolete. An undercurrent of anxiety is slowly eroding and affecting my &quot;underlying code.&quot;&#10;&#10;What can I do? Become an AI Product Manager (AIPM) or an Agent Engineer? A Frontend Developer, an Informatization Engineer, or perhaps a Data Engineer? I feel like I have fallen into a terrifying cognitive abyss where I am completely clueless about my own situation. This drain of self-confidence and self-awareness is a non-linear effect driven by the environment, independent of human will. As I grow older, I am gradually recognizing my past mistakes and naivety-I suppose this is the price of growing up.&#10;&#10;There is no turning back now. Creating this website was also about finding a quiet place to vent my frustrations. So, let this webpage become my space for learning and publishing my insights.&#10;&#10;Much like a core philosophy of the KMP algorithm: how far a person can go doesn't depend on how fast they run in favorable conditions, but rather on how quickly they can find their past self when facing adversity. And just as the theme of this website goes: think less, and happiness will chase after you!"
+						data-zh="您好！我是 Jian，HealthJian GitHub 这个网页的开发者兼运营者，一个平凡且不起眼的普通人。&#10;&#10;搭建这个网页的初衷非常单纯，我远没有达到别人眼中“技术大拿”的水平。起初，我只是盲目追随 IT 前辈们的技术狂热，什么都去学一点，却总是望尘莫及，博而不精。直到真正亲手建起这个网页，我才发觉前端的妙趣横生。我很享受琢磨 UI 的美化、梳理网页的层层嵌套，以及在细节处设计一些小巧思。于是我顺其自然地深入探索了下去，尽管我知道，自己要学的东西还有很多……随着 LLM、vibe coding、OpenClow 等技术的井喷式爆发，我愈发沉迷于开发一些有趣的小玩意儿。最近常听人唱衰“前端已死”，我倒觉得这恐怕有失偏颇。私以为，在“AI+”的赋能下，前端领域不仅不会消亡，反而会迎来新一波的发展高潮，只是对工程师的综合素质要求必将水涨船高。&#10;&#10;工程师的成长离不开持续的学习。时代在进步，技术在迭代，这便要求局中人不断钻研。我已经脱离系统性学习有一段时间了，回想起半年前，即使面对新知识只是一知半解，内心也充满探索的欣喜；而如今，取而代之的却是对技术断代和被淘汰的恐惧。一股隐秘的焦虑，正缓慢侵蚀着我内心的“底层代码”。&#10;&#10;我究竟还能做些什么？是去做 AIPM、Agent 工程师，还是继续做前端开发者？亦或是转向信息化工程师、数据工程师？我感觉自己跌入了一个可怕的“认知深谷”，对自身的处境一无所知。这种自信与自知的流失，就像是受环境影响的非线性函数，不以人的意志为转移。随着年岁渐长，我也逐渐看清了当初的错误与幼稚，这恐怕就是成长的代价吧。&#10;&#10;但开弓没有回头路。最初写这个网站，也是想给自己留一个能悄悄发牢骚的自留地。那么接下来，就让它成为我记录学习轨迹、发布心得体会的阵地吧。&#10;&#10;正如 KMP 算法所蕴含的哲学：一个人能走多远，不在于他在顺境中奔跑得多快，而在于他在逆境中能用多久找回曾经的自己。也正如这个网站的主题所言——只要想得少，快乐追着跑！"
+						style="font-family: 'Chewy', cursive; text-indent: 2em; letter-spacing: 0.5px;">
+					</div>
+					<style>
+						.digital-garden[data-zh] {
+							font-family: 'ZCOOL KuaiLe', sans-serif !important;
+						}
+
+						.digital-garden[data-en] {
+							font-family: 'Chewy', cursive !important;
+						}
+
+						.digital-garden {
+							margin: 0 auto;
+							padding: 10px;
+						}
+
+						.digital-garden p {
+							margin: 0 0 1.05em 0;
+							line-height: 1.95;
+						}
+
+						.digital-garden p:last-child {
+							margin-bottom: 0;
+						}
+					</style>
+				</div>
+				<!--
             <div style="text-align: center; margin-top: 12px;">
                 <a href="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/resume.pdf" class="resume-link" download><span data-en="【This is my resume】" data-zh="【这是我的简历】">【这是我的简历】</span></a>
             </div>
-            <div style="text-align: center; margin-top: 12px;">
-                <a href="#qia" class="start-explore-btn" data-ui-start-explore>开始探索 <i class="fas fa-arrow-right"></i></a>
-            </div>
-        </section>
+            -->
+			</section>
 
-        <!-- Marquee 滚动长廊：视觉分割与动感 -->
-        <div class="ui-marquee-wrap" aria-hidden="true">
-            <div class="ui-marquee">
-                <div class="ui-marquee-track">
-                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Glassmorphism</span>
-                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Bento Grid</span>
-                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Mesh Gradient</span>
-                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Spotlight</span>
-                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Magnetic CTA</span>
-                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>GSAP Reveal</span>
-                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>HealthJian</span>
-                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Glassmorphism</span>
-                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Bento Grid</span>
-                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Mesh Gradient</span>
-                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Spotlight</span>
-                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Magnetic CTA</span>
-                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>GSAP Reveal</span>
-                    <span class="ui-marquee-item"><span class="ui-marquee-dot"></span>HealthJian</span>
-                </div>
-            </div>
-        </div>
+			<!-- Marquee 滚动长廊：视觉分割与动感（正式版仅保留这一项 UI） -->
+			<div class="ui-marquee-wrap" aria-hidden="true">
+				<div class="ui-marquee">
+					<div class="ui-marquee-track">
+						<span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Marquee</span>
+						<span class="ui-marquee-item"><span class="ui-marquee-dot"></span>HealthJian</span>
+						<span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Modern Bento</span>
+						<span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Mesh Feeling</span>
+						<span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Glass Vibes</span>
+						<span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Spotlight</span>
+						<span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Marquee</span>
+						<span class="ui-marquee-item"><span class="ui-marquee-dot"></span>HealthJian</span>
+						<span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Modern Bento</span>
+						<span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Mesh Feeling</span>
+						<span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Glass Vibes</span>
+						<span class="ui-marquee-item"><span class="ui-marquee-dot"></span>Spotlight</span>
+					</div>
+				</div>
+			</div>
 
-        <section class="blog-section">
-            <div class="latest-articles-shell">
-                <h2 class="latest-articles-title" data-en="Latest Articles" data-zh="最新文章">最新文章</h2>
-                <div class="latest-articles-grid" id="latest-articles-grid">
-                    <!-- 由 js/latest-articles.js 动态渲染 -->
-                </div>
-            </div>
-            <div class="view-all latest-view-all">
-                <a href="/pages/blog.html" data-en="View All Articles" data-zh="查看全部文章">查看全部文章 <i class="fas fa-arrow-right"></i></a>
-            </div>
-        </section>
+			<section class="blog-section">
+				<div class="latest-articles-shell">
+					<h2 class="latest-articles-title" data-en="Latest Articles" data-zh="最新文章">最新文章</h2>
+					<div class="latest-articles-grid" id="latest-articles-grid">
+						<!-- 由 js/latest-articles.js 动态渲染 -->
+					</div>
+				</div>
+				<div class="view-all latest-view-all">
+					<a href="/pages/blog.html" data-en="View All Articles" data-zh="查看全部文章">查看全部文章 <i
+							class="fas fa-arrow-right"></i></a>
+				</div>
+			</section>
 
-        <section class="blog-updates">
-            <h2 data-en="Recent Updates" data-zh="博客动态">博客动态</h2>
-            <div class="updates-container">
-                <div class="update-item">
-                    <div class="update-date">2025-08-04</div>
-                    <div class="update-content">
-                        <h3 data-en="Version 2.0.0 Released: Blog Function Enhancements! 🎨" data-zh="2.0.0版本发布：博客功能增强！🎨">2.0.0版本发布：博客功能增强！🎨</h3>
-                        <p data-en="The blog now has a more complete function, including article list, article details, category list, tag list, and comment system. The content and layout have been optimized, and the text and content have been corrected." data-zh="内容和排版进行了升级和修复，增加了数据中心，修正了文字和内容。😀">内容和排版进行了升级和修复，增加了数据中心，修正了文字和内容。😀</p>
-                    </div>
-                </div>
-                <div class="update-item">
-                    <div class="update-date">2025-05-22</div>
-                    <div class="update-content">
-                        <h3 data-en="Version 1.3.0 Released: Blog Enhancements! 🎨" data-zh="1.3.0版本发布：博客增强！🎨">1.3.0版本发布：博客增强！🎨</h3>
-                        <p data-en="UI has been upgraded and fixed, and bugs have been optimized! 😀" data-zh="UI进行了升级和修复，bug进行了重大优化😀">UI进行了升级和修复，bug进行了重大优化😀</p>
-                    </div>
-                </div>
-                <div class="update-item">
-                    <div class="update-date">2025-04-14</div>
-                    <div class="update-content">
-                        <h3 data-en="Version 1.1.3 Released: CND Acceleration! 🎨" data-zh="1.1.3版本发布：CND加速！🎨">1.1.3版本发布：CND加速！🎨</h3>
-                        <p data-en="The website is now accelerated by CND, providing faster access! 😀" data-zh="网站现在使用CND加速，访问速度更快！😀">网站现在使用CND加速，访问速度更快！😀</p>
-                    </div>
-                </div>
-                <div class="update-item">
-                    <div class="update-date">2025-04-02</div>
-                    <div class="update-content">
-                        <h3 data-en="Version 1.1.2 Released: UI Enhancements & Personalization! 🎨" data-zh="1.1.2版本发布：UI增强与个性化更新! 🎨">1.1.2版本发布：UI增强与个性化更新! 🎨</h3>
-                        <p data-en="We've added time-based greetings with cool typewriter effect, stylish new fonts, and more engaging visuals! Check changelog for details. 😊" data-zh="我们添加了基于时间的问候语（带打字机效果）、精美字体和更多视觉元素！查看更新日志了解详情。😊">我们添加了基于时间的问候语（带打字机效果）、精美字体和更多视觉元素！查看更新日志了解详情。😊</p>
-                    </div>
-                </div>
-                <div class="update-item">
-                    <div class="update-date">2025-03-23</div>
-                    <div class="update-content">
-                        <h3 data-en="Version 1.1.1 Released: Blog Navigation Fixed! ✅" data-zh="1.1.1版本发布：博客导航已修复! ✅">1.1.1版本发布：博客导航已修复! ✅</h3>
-                        <p data-en="Great news! We've fixed the critical 404 errors when clicking 'Read More' links. All blog articles are now accessible, and JavaScript errors have been resolved. Enjoy smooth browsing! 🚀" data-zh="好消息！我们已修复点击"阅读更多"链接时出现的404错误。所有博客文章现在都可以访问，JavaScript错误也已解决。享受流畅的浏览体验吧！🚀">好消息！我们已修复点击"阅读更多"链接时出现的404错误。所有博客文章现在都可以访问，JavaScript错误也已解决。享受流畅的浏览体验吧！🚀</p>
-                    </div>
-                </div>
-                <!--
+			<section class="blog-updates">
+				<h2 data-en="Recent Updates" data-zh="博客动态">博客动态</h2>
+				<div class="updates-container">
+					<div class="update-item">
+						<div class="update-date">2025-08-04</div>
+						<div class="update-content">
+							<h3 data-en="Version 2.0.0 Released: Blog Function Enhancements! 🎨"
+								data-zh="2.0.0版本发布：博客功能增强！🎨">2.0.0版本发布：博客功能增强！🎨</h3>
+							<p data-en="The blog now has a more complete function, including article list, article details, category list, tag list, and comment system. The content and layout have been optimized, and the text and content have been corrected."
+								data-zh="内容和排版进行了升级和修复，增加了数据中心，修正了文字和内容。😀">内容和排版进行了升级和修复，增加了数据中心，修正了文字和内容。😀</p>
+						</div>
+					</div>
+					<div class="update-item">
+						<div class="update-date">2025-05-22</div>
+						<div class="update-content">
+							<h3 data-en="Version 1.3.0 Released: Blog Enhancements! 🎨" data-zh="1.3.0版本发布：博客增强！🎨">
+								1.3.0版本发布：博客增强！🎨</h3>
+							<p data-en="UI has been upgraded and fixed, and bugs have been optimized! 😀"
+								data-zh="UI进行了升级和修复，bug进行了重大优化😀">UI进行了升级和修复，bug进行了重大优化😀</p>
+						</div>
+					</div>
+					<div class="update-item">
+						<div class="update-date">2025-04-14</div>
+						<div class="update-content">
+							<h3 data-en="Version 1.1.3 Released: CND Acceleration! 🎨" data-zh="1.1.3版本发布：CND加速！🎨">
+								1.1.3版本发布：CND加速！🎨</h3>
+							<p data-en="The website is now accelerated by CND, providing faster access! 😀"
+								data-zh="网站现在使用CND加速，访问速度更快！😀">网站现在使用CND加速，访问速度更快！😀</p>
+						</div>
+					</div>
+					<div class="update-item">
+						<div class="update-date">2025-04-02</div>
+						<div class="update-content">
+							<h3 data-en="Version 1.1.2 Released: UI Enhancements & Personalization! 🎨"
+								data-zh="1.1.2版本发布：UI增强与个性化更新! 🎨">1.1.2版本发布：UI增强与个性化更新! 🎨</h3>
+							<p data-en="We've added time-based greetings with cool typewriter effect, stylish new fonts, and more engaging visuals! Check changelog for details. 😊"
+								data-zh="我们添加了基于时间的问候语（带打字机效果）、精美字体和更多视觉元素！查看更新日志了解详情。😊">
+								我们添加了基于时间的问候语（带打字机效果）、精美字体和更多视觉元素！查看更新日志了解详情。😊</p>
+						</div>
+					</div>
+					<!--
                 <div class="update-item">
                     <div class="update-date">2025-03-22</div>
                     <div class="update-content">
@@ -770,368 +554,347 @@
                     </div>
                 </div>
                 -->
-            </div>
-        </section>
+				</div>
+			</section>
 
-        <!-- 问答与想法 | 新版卡片样式（参考 textindex） -->
-        <section class="qia-immersive" id="qia">
-            <div class="qia-header">
-                <h2 data-en="Q_I&A (Questions, Issues, Ideas & Answers)" data-zh="问答与想法">问答与想法</h2>
-                <p class="qia-hint" data-en="Scroll to see ideas, issues and answers" data-zh="下滑查看想法、问题与解答">下滑查看想法、问题与解答</p>
-            </div>
+			<!-- 问答与想法 | 新版卡片样式（参考 textindex） -->
+			<section class="qia-immersive" id="qia">
+				<div class="qia-header">
+					<h2 data-en="Q_I&A (Questions, Issues, Ideas & Answers)" data-zh="问答与想法">问答与想法</h2>
+					<p class="qia-hint" data-en="Scroll to see ideas, issues and answers" data-zh="下滑查看想法、问题与解答">
+						下滑查看想法、问题与解答</p>
+				</div>
 
-            <div class="qia-stack">
-                <article class="qia-card">
-                    <div class="qia-card-bar idea">
-                        <div class="qia-card-title">
-                            <i class="fas fa-lightbulb"></i>
-                            <span data-en="Ideas" data-zh="想法">想法</span>
-                        </div>
-                        <span class="qia-part">Part 1/3</span>
-                    </div>
-                    <div class="qia-card-body">
-                        <div class="qia-entry">
-                            <h3 data-en="2025 National Computer Design Competition" data-zh="2025届全国计算机设计大赛落幕">2025届全国计算机设计大赛落幕</h3>
-                            <div class="qia-meta">
-                                <span class="qia-status success" data-en="Awarded 🎉" data-zh="获奖 🎉">获奖 🎉</span>
-                                <span class="qia-tag" data-en="2025" data-zh="2025">2025</span>
-                            </div>
-                            <p data-en="The 2025 National Computer Design Competition has come to an end, and I have won the national third prize." data-zh="2025年全国大学生计算机设计大赛落下帷幕，我获得了国家级三等奖。">2025年全国大学生计算机设计大赛落下帷幕，我获得了国家级三等奖。</p>
-                        </div>
-                        <div class="qia-entry">
-                            <h3 data-en="Idea🙃: New blog novel coming soon" data-zh="想法🙃：即将推出小说">想法🙃：即将推出小说</h3>
-                            <div class="qia-meta">
-                                <span class="qia-tag" data-en="Writing" data-zh="写作">写作</span>
-                                <span class="qia-tag" data-en="Healing" data-zh="治愈">治愈</span>
-                            </div>
-                            <p data-en="Although I've been busy lately, I still find time to slack off. When I feel emotionally confused or anxious, I spend an hour each day writing something - blog posts, journals, or even novels. My writing isn't great, but it helps shift my focus." data-zh="最近虽然忙，但是还是有空摆烂。情绪混乱或者焦虑的时候，我就每天花1个小时去写点东西，博客、日志甚至是小说。写的很烂，但是这能转移我的注意力。">最近虽然忙，但是还是有空摆烂。情绪混乱或者焦虑的时候，我就每天花1个小时去写点东西，博客、日志甚至是小说。写的很烂，但是这能转移我的注意力。</p>
-                        </div>
-                    </div>
-                </article>
+				<div class="qia-stack" id="homeQiaStack">
+					<article class="qia-card" data-qia-card>
+						<div class="qia-card-bar idea">
+							<div class="qia-card-title">
+								<i class="fas fa-lightbulb"></i>
+								<span data-en="Idea" data-zh="想法">想法</span>
+							</div>
+							<span class="qia-part">01</span>
+						</div>
+						<h3 data-en="Spring recruitment is over, received the OFFER — understand destiny through wisdom, accumulate deeply and unleash when ready."
+							data-zh="春招结束，收到OFFER，达而知命，厚积薄发">春招结束，收到OFFER，达而知命，厚积薄发</h3>
+						<p class="qia-preview" data-en="A milestone, not an endpoint; what follows still needs clarity, patience, and steady growth."
+							data-zh="是节点而非终点，往后仍须清醒、沉潜与生长。">是节点而非终点，往后仍须清醒、沉潜与生长。</p>
+						<div class="qia-card-body" aria-hidden="true">
+							<p data-en="A milestone, not an endpoint; what follows still needs clarity, patience, and steady growth."
+								data-zh="是节点而非终点，往后仍须清醒、沉潜与生长。">是节点而非终点，往后仍须清醒、沉潜与生长。</p>
+						</div>
+						<button class="qia-detail-toggle" type="button" aria-expanded="false" data-en="View Details"
+							data-zh="阅览详情">阅览详情</button>
+					</article>
 
-                <article class="qia-card">
-                    <div class="qia-card-bar issue">
-                        <div class="qia-card-title">
-                            <i class="fas fa-fire"></i>
-                            <span data-en="Issues & Fixes" data-zh="问题与修复">问题与修复</span>
-                        </div>
-                        <span class="qia-part">Part 2/3</span>
-                    </div>
-                    <div class="qia-card-body">
-                        <div class="qia-entry">
-                            <h3 data-en="Website image loading is slow🤡" data-zh="网站图片加载缓慢🤡">网站图片加载缓慢🤡</h3>
-                            <div class="qia-meta">
-                                <span class="qia-status warn" data-en="Pending" data-zh="待优化">待优化</span>
-                                <span class="qia-tag warn" data-en="CDN" data-zh="加速">加速</span>
-                            </div>
-                            <p data-en="The images in the blog posts and background images still load slowly, resulting in poor reading experience.🥵" data-zh="不论博客文章中的插图还是背景图片，改用avif图片后依然加载缓慢，阅读体验效果不理想。🥵">不论博客文章中的插图还是背景图片，改用avif图片后依然加载缓慢，阅读体验效果不理想。🥵</p>
-                            <div class="qia-answer-box">
-                                <strong data-en="Answer:" data-zh="解答：">解答：</strong>
-                                <span data-en="Limited by Github Pages bandwidth; domestic DNS/CDN not planned for now." data-zh="受限于Github Pages带宽，暂不考虑国内DNS/CDN加速。">受限于Github Pages带宽，暂不考虑国内DNS/CDN加速。</span>
-                            </div>
-                        </div>
-                        <div class="qia-entry">
-                            <h3 data-en="Blog post links 404 (Resolved✅)" data-zh="博客文章链接404（已解决✅）">博客文章链接404（已解决✅）</h3>
-                            <div class="qia-meta">
-                                <span class="qia-status" data-en="Fixed" data-zh="已修复">已修复</span>
-                                <span class="qia-tag success" data-en="v1.1.1" data-zh="v1.1.1">v1.1.1</span>
-                            </div>
-                            <p data-en="Homepage and blog page article links returned 404 due to inconsistent paths." data-zh="主页与博客页文章链接因路径不一致导致404。">主页与博客页文章链接因路径不一致导致404。</p>
-                            <div class="qia-answer-box">
-                                <strong data-en="Answer:" data-zh="解答：">解答：</strong>
-                                <span data-en="Unified paths and JS references; if still failing, clear cache." data-zh="已统一路径与JS引用，如仍异常请清缓存。">已统一路径与JS引用，如仍异常请清缓存。</span>
-                            </div>
-                        </div>
-                        <div class="qia-entry">
-                            <h3 data-en="Font loading issue on first visit (Resolved✅)" data-zh="首次访问字体加载异常（已解决✅）">首次访问字体加载异常（已解决✅）</h3>
-                            <div class="qia-meta">
-                                <span class="qia-status" data-en="Fixed" data-zh="已修复">已修复</span>
-                                <span class="qia-tag success" data-en="v1.1.0" data-zh="v1.1.0">v1.1.0</span>
-                            </div>
-                            <p data-en="Text fonts occasionally failed to render on first load." data-zh="首次加载时正文字体偶发渲染失败。">首次加载时正文字体偶发渲染失败。</p>
-                            <div class="qia-answer-box">
-                                <strong data-en="Answer:" data-zh="解答：">解答：</strong>
-                                <span data-en="Added default language + font fallback logic; content now shows on first visit." data-zh="已增加默认语言与字体兜底逻辑，首次访问即可显示内容。">已增加默认语言与字体兜底逻辑，首次访问即可显示内容。</span>
-                            </div>
-                        </div>
-                    </div>
-                </article>
+					<article class="qia-card" data-qia-card>
+						<div class="qia-card-bar question">
+							<div class="qia-card-title">
+								<i class="fas fa-comment-dots"></i>
+								<span data-en="Question" data-zh="疑问">疑问</span>
+							</div>
+							<span class="qia-part">02</span>
+						</div>
+						<h3 data-en="Any frontend UI layout experts out there? Please give me some advice and suggestions!"
+							data-zh="有精通前端UI布局的佬吗，为我提一些建议，出谋划策！">有精通前端UI布局的佬吗，为我提一些建议，出谋划策！</h3>
+						<p class="qia-preview" data-en="Leave your comments on GitHub Discussion or in the comment section of the website's footer update plan!"
+							data-zh="留言在GitHub discussion或者网站的页脚更新计划的留言评论区">留言在GitHub discussion或者网站的页脚更新计划的留言评论区</p>
+						<div class="qia-card-body" aria-hidden="true">
+							<p data-en="Leave your comments on GitHub Discussion or in the comment section of the website's footer update plan!"
+								data-zh="留言在GitHub discussion或者网站的页脚更新计划的留言评论区">留言在GitHub discussion或者网站的页脚更新计划的留言评论区</p>
+						</div>
+						<button class="qia-detail-toggle" type="button" aria-expanded="false" data-en="View Details"
+							data-zh="阅览详情">阅览详情</button>
+					</article>
 
-                <article class="qia-card">
-                    <div class="qia-card-bar question">
-                        <div class="qia-card-title">
-                            <i class="fas fa-comment-dots"></i>
-                            <span data-en="Questions & Plans" data-zh="疑问与计划">疑问与计划</span>
-                        </div>
-                        <span class="qia-part">Part 3/3</span>
-                    </div>
-                    <div class="qia-card-body">
-                        <div class="qia-entry">
-                            <h3 data-en="New blog series coming soon" data-zh="即将推出新专栏">即将推出新专栏</h3>
-                            <div class="qia-tags">
-                                <span class="qia-tag" data-en="Writing" data-zh="写作">写作</span>
-                                <span class="qia-tag" data-en="Data Mining" data-zh="数据挖掘">数据挖掘</span>
-                                <span class="qia-tag" data-en="C Language" data-zh="C语言">C语言</span>
-                            </div>
-                            <p data-en="Planned series: 'My First Twenty Years', '26-Year Essays', 'Data Mining', 'C Language for Beginners', 'Coding Practice Notes'." data-zh="计划专栏：《我的人生前二十》《26年随笔》《数据挖掘》《C语言入门》《刷题笔记》等。">计划专栏：《我的人生前二十》《26年随笔》《数据挖掘》《C语言入门》《刷题笔记》等。</p>
-                        </div>
-                        <div class="qia-entry">
-                            <h3 data-en="Update schedule" data-zh="更新计划">更新计划</h3>
-                            <div class="qia-meta">
-                                <span class="qia-status warn" data-en="Pending" data-zh="待更新">待更新</span>
-                                <span class="qia-tag" data-en="2026-06+" data-zh="2026年6月后">2026年6月后</span>
-                            </div>
-                            <p data-en="Time is tight now; regular updates will resume after June 2026." data-zh="现在时间紧张，预计26年6月后恢复常规更新。">现在时间紧张，预计26年6月后恢复常规更新。</p>
-                        </div>
-                    </div>
-                </article>
-            </div>
-        </section>
-    </main>
+					<article class="qia-card" data-qia-card>
+						<div class="qia-card-bar idea">
+							<div class="qia-card-title">
+								<i class="fas fa-lightbulb"></i>
+								<span data-en="Idea" data-zh="想法">想法</span>
+							</div>
+							<span class="qia-part">03</span>
+						</div>
+						<h3 data-en="Some things about spring recruitment" data-zh="春招的一些事情">春招的一些事情</h3>
+						<p class="qia-preview" data-en="After failing the postgraduate entrance exam, I decided to look for a job first, but obviously jobs aren't easy to find."
+							data-zh="自考研失败以后，我决定先去找工作，但显然工作不是很好找吖。">自考研失败以后，我决定先去找工作，但显然工作不是很好找吖。</p>
+						<div class="qia-card-body" aria-hidden="true">
+							<p data-en="After failing the postgraduate entrance exam, I decided to look for a job first, but obviously jobs aren't easy to find. So far I've had 4 interviews, 20+ written tests, waiting for responses from several companies, 3 HR interviews, still waiting for news... It's truly tough."
+								data-zh="自考研失败以后，我决定先去找工作，但显然工作不是很好找吖。现在一共面试了4家，笔试了20+家，等候若干消息，hr面3家，等待消息......真是太艰难了。">
+								自考研失败以后，我决定先去找工作，但显然工作不是很好找吖。现在一共面试了4家，笔试了20+家，等候若干消息，hr面3家，等待消息......真是太艰难了。</p>
+						</div>
+						<button class="qia-detail-toggle" type="button" aria-expanded="false" data-en="View Details"
+							data-zh="阅览详情">阅览详情</button>
+					</article>
+				</div>
+			</section>
 
-    <!-- 页脚 -->
-    <footer>
-        <div class="footer-container">
-            <!-- Logo部分 -->
-            <div class="footer-logo-section">
-                <a href="index.html" class="footer-logo">
-                    <img src="images/githubherofigureimage.png" alt="HealthJian Logo">
-                    <span class="footer-logo-text" data-en="HealthJian Blog" data-zh="HealthJian Blog">HealthJian Blog</span>
-                </a>
-                <div class="footer-copyright">
-                    <p>&copy; 2025 CaiNiaojian & HealthJian</p>
-                    <p data-en="All Rights Reserved" data-zh="保留所有权利">保留所有权利</p>
-                </div>
-            </div>
-            
-            <!-- 导航部分 -->
-            <div class="footer-nav-section">
-                <h3 data-en="Quick Links" data-zh="快速链接">快速链接</h3>
-                <div class="footer-links-grid">
-                    <a href="pages/blog.html" data-en="Blog" data-zh="博客">博客</a>
-                    <a href="pages/about.html" data-en="About" data-zh="关于">关于</a>
-                    <a href="pages/changelog.html" data-en="ChangeLog" data-zh="更新日志">更新日志</a>
-                    <a href="pages/project/personalgallery.html" data-en="Gallery" data-zh="图集">图集</a>
-                    <a href="pages/categories.html" data-en="Categories" data-zh="分类">分类</a>
-                    <a href="pages/links.html" data-en="Links" data-zh="网站">网站</a>
-                </div>
-            </div>
-            
-            <!-- 社交媒体部分 -->
-            <div class="footer-social-section">
-                <h3 data-en="Connect With Me" data-zh="联系我">联系我</h3>
-                <div class="footer-contact-info">
-                    <p data-en="Email: gaojian1573@foxmail.com" data-zh="邮箱：gaojian1573@foxmail.com">邮箱：<a href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
-                    <p data-en="Location: China, Jiangsu" data-zh="地址：中国，江苏">地址：中国，江苏</p>
-                </div>
-                <div class="footer-social-icons">
-                    <a href="https://github.com/CaiNiaojian" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="#" title="WeChat"><i class="fab fa-weixin"></i></a>
-                    <a href="#" target="_blank" title="Twitter/X"><i class="fab fa-twitter"></i></a>
-                    <a href="mailto:example@gmail.com" title="Gmail"><i class="far fa-envelope"></i></a>
-                    <a href="https://steamcommunity.com/id/yoursteamid" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
-                </div>
-                
-                <!-- 时钟部分移到这里 -->
-                <div class="footer-clock-section">
-                    <div class="footer-clock">00:00:00</div>
-                    <div class="footer-date" data-en="2025-05-19 Week One" data-zh="2025年05月19日 星期一">2025年05月19日 星期一</div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- 页脚底部信息 -->
-        <div class="footer-bottom">
-            <p data-en="Recorded by " data-zh="记录于 ">记录于 <a href="pages/about.html">HealthJian</a> </p>
-            <p data-en="Designed with ❤️ by Front-end technology" data-zh="Designed with ❤️ by Front-end technology">Designed with ❤️ by <a href="pages/about.html">HealthJian</a> <span data-en="with " data-zh="用 ">用 </span>❤️ <span data-en="designed" data-zh="设计">设计</span></p>
-        </div>
-    </footer>
+			<!-- ========== LOTTIE smile-face START：删除本段至 END 可回档 ========== -->
+			<div class="home-smile-face-wrap" id="homeSmileFaceWrap" aria-hidden="true">
+				<div class="home-smile-face" id="homeSmileFace"></div>
+				<div class="home-smile-face-fallback">☺</div>
+			</div>
+			<!-- ========== LOTTIE smile-face END ========== -->
+		</main>
 
-    <script src="js/main.js"></script>
-    <script src="js/theme.js"></script>
-    <script src="js/language.js"></script>
-    <script>
-        window.SKIP_BLOG_INIT = true;
-    </script>
-    <script src="js/blog.js"></script>
-    <script src="js/latest-articles.js"></script>
-    <script src="js/greeting.js"></script>
-    <!-- <script src="js/celebration-banner.js"></script> -->
-    <script src="js/footer.js"></script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-    <script>
-        (function () {
-            const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		<button id="homeBackToTop" class="home-back-to-top" type="button" title="回到顶部" aria-label="Back to top">
+			<i class="fas fa-chevron-up"></i>
+		</button>
 
-            document.addEventListener('DOMContentLoaded', function () {
-                // 1) Mouse Follower
-                const follower = document.getElementById('mouse-follower') || null;
-                const setFollowerVisible = (visible) => {
-                    if (!follower) return;
-                    follower.style.opacity = visible ? '1' : '0';
-                };
+		<!-- 页脚 -->
+		<footer>
+			<div class="footer-container">
+				<!-- Logo部分 -->
+				<div class="footer-logo-section">
+					<a href="index.html" class="footer-logo">
+						<img src="images/githubherofigureimage.png" alt="HealthJian Logo">
+						<span class="footer-logo-text" data-en="HealthJian Blog" data-zh="HealthJian Blog">HealthJian
+							Blog</span>
+					</a>
+					<div class="footer-copyright">
+						<p>&copy; 2025-2026 CaiNiaojian & HealthJian</p>
+						<p data-en="All Rights Reserved" data-zh="保留所有权利">保留所有权利</p>
+					</div>
+				</div>
 
-                if (!prefersReduced) {
-                    let rafId = 0;
-                    let lastX = window.innerWidth / 2;
-                    let lastY = window.innerHeight / 2;
+				<!-- 导航部分 -->
+				<div class="footer-nav-section">
+					<h3 data-en="Quick Links" data-zh="快速链接">快速链接</h3>
+					<div class="footer-links-grid">
+						<a href="index.html" data-en="Home" data-zh="首页">首页</a>
+						<a href="pages/blog.html" data-en="Blog" data-zh="博客">博客</a>
+						<a href="pages/categories.html" data-en="Categories" data-zh="分类">分类</a>
+						<a href="pages/about.html" data-en="About" data-zh="关于">关于</a>
+						<a href="resume/resume.html" data-en="Resume" data-zh="简历">简历</a>
+						<a href="pages/project/project.html" data-en="Projects" data-zh="项目">项目</a>
+						<a href="pages/project/personalgallery.html" data-en="Gallery" data-zh="图集">图集</a>
+						<a href="pages/links.html" data-en="Links" data-zh="链接">链接</a>
+						<a href="pages/changelog.html" data-en="ChangeLog" data-zh="更新日志">更新日志</a>
+						<a href="pages/project/datacenter.html" data-en="Data Center" data-zh="数据中心">数据中心</a>
+						<a href="pages/demo/index.html" data-en="Demos" data-zh="演示">演示</a>
+						<a href="pages/blog/noval/novel.html" data-en="Novel" data-zh="小说">小说</a>
+					</div>
+				</div>
 
-                    window.addEventListener('pointermove', function (e) {
-                        lastX = e.clientX;
-                        lastY = e.clientY;
-                        if (rafId) return;
-                        rafId = window.requestAnimationFrame(function () {
-                            rafId = 0;
-                            if (!follower) return;
-                            follower.style.left = lastX + 'px';
-                            follower.style.top = lastY + 'px';
-                            setFollowerVisible(true);
-                        });
-                    }, { passive: true });
+				<!-- 社交媒体部分 -->
+				<div class="footer-social-section">
+					<h3 data-en="Connect With Me" data-zh="联系我">联系我</h3>
+					<div class="footer-contact-info">
+						<p data-en="Email: gaojian1573@foxmail.com" data-zh="邮箱：gaojian1573@foxmail.com">邮箱：<a
+								href="mailto:gaojian1573@foxmail.com">gaojian1573@foxmail.com</a></p>
+						<p data-en="Location: China, Jiangsu" data-zh="地址：中国，江苏">地址：中国，江苏</p>
+					</div>
+					<div class="footer-social-icons">
+						<a href="https://github.com/CaiNiaojian" target="_blank" title="GitHub"><i
+								class="fab fa-github"></i></a>
+						<a href="#" title="WeChat"><i class="fab fa-weixin"></i></a>
+						<a href="#" target="_blank" title="Twitter/X"><i class="fab fa-twitter"></i></a>
+						<a href="mailto:example@gmail.com" title="Gmail"><i class="far fa-envelope"></i></a>
+						<a href="https://steamcommunity.com/profiles/76561199031176587/" target="_blank"
+							title="Steam"><i class="fab fa-steam"></i></a>
+					</div>
 
-                    window.addEventListener('pointerleave', function () {
-                        setFollowerVisible(false);
-                    });
-                }
+					<!-- 时钟部分移到这里 -->
+					<div class="footer-clock-section">
+						<div class="footer-clock">00:00:00</div>
+						<div class="footer-date">2025年05月19日 星期一
+						</div>
+					</div>
+				</div>
+			</div>
 
-                // 2) Spotlight（聚光灯高光跟随）
-                const spotlightTargets = Array.from(document.querySelectorAll(
-                    '.bio, .latest-articles-shell, .update-item, .qia-card, .qia-header'
-                ));
+			<!-- 页脚底部信息 -->
+			<div class="footer-bottom">
+				<p data-en="Recorded by " data-zh="记录于 ">记录于 <a href="pages/about.html">HealthJian</a> </p>
+				<p data-en="Designed with ❤️ by Front-end technology"
+					data-zh="Designed with ❤️ by Front-end technology">Designed with ❤️ by <a
+						href="pages/about.html">HealthJian</a> <span data-en="with " data-zh="用 ">用 </span>❤️ <span
+						data-en="designed" data-zh="设计">设计</span></p>
+			</div>
+		</footer>
 
-                spotlightTargets.forEach(function (el) {
-                    el.dataset.uiSpotlight = 'true';
-                });
+		<!-- ========== LOTTIE Cool_emoji 脚本 START（删除至 END 可回档）========== -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" crossorigin="anonymous">
+		</script>
+		<script>
+			(function() {
+				function initHomeLottieAnimation(config) {
+					const wrap = document.getElementById(config.wrapId);
+					const container = document.getElementById(config.containerId);
+					if (!wrap || !container) return;
+					if (typeof lottie === 'undefined') {
+						wrap.classList.add('is-fallback');
+						return;
+					}
+					const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+					let anim;
+					try {
+						anim = lottie.loadAnimation({
+							container: container,
+							renderer: 'svg',
+							loop: config.loop,
+							autoplay: !reducedMotion,
+							path: config.path
+						});
+					} catch (e) {
+						wrap.classList.add('is-fallback');
+						return;
+					}
+					anim.addEventListener('data_failed', () => {
+						wrap.classList.add('is-fallback');
+						try {
+							anim.destroy();
+						} catch (_) {}
+					});
+					if (reducedMotion) {
+						anim.addEventListener('DOMLoaded', () => {
+							anim.goToAndStop(0, true);
+						});
+					}
+				}
+				function initHomeCoolEmoji() {
+					initHomeLottieAnimation({
+						wrapId: 'homeCoolEmojiWrap',
+						containerId: 'homeCoolEmoji',
+						path: 'Cool_emoji.json',
+						loop: true
+					});
+				}
+				function initHomeSmileFace() {
+					initHomeLottieAnimation({
+						wrapId: 'homeSmileFaceWrap',
+						containerId: 'homeSmileFace',
+						path: 'smile-face.json',
+						loop: true
+					});
+				}
+				if (document.readyState === 'loading') {
+					document.addEventListener('DOMContentLoaded', function() {
+						initHomeCoolEmoji();
+						initHomeSmileFace();
+					});
+				} else {
+					initHomeCoolEmoji();
+					initHomeSmileFace();
+				}
+			})();
+		</script>
+		<!-- ========== LOTTIE Cool_emoji 脚本 END ========== -->
 
-                let activeEl = null;
-                let spotRaf = 0;
-                let spotX = 0;
-                let spotY = 0;
+		<script src="js/main.js"></script>
+		<script src="js/theme.js"></script>
+		<script src="js/language.js"></script>
+		<script>
+			window.SKIP_BLOG_INIT = true;
+		</script>
+		<script src="js/blog-posts-data.js"></script>
+		<script src="js/blog-category-meta.js"></script>
+		<script src="js/blog.js"></script>
+		<script src="js/latest-articles.js"></script>
+		<script src="js/home.js"></script>
+		<script src="js/greeting.js"></script>
+		<script src="js/celebration-banner.js"></script>
+		<script src="js/footer.js"></script>
+		<script>
+			// 首页“博客动态”内容与 pages/changelog.html 同步（取最新 5 条）
+			document.addEventListener('DOMContentLoaded', async function() {
+				const container = document.querySelector('.blog-updates .updates-container');
+				if (!container) return;
 
-                function updateSpotlight() {
-                    if (!activeEl) return;
-                    activeEl.style.setProperty('--mx', spotX + 'px');
-                    activeEl.style.setProperty('--my', spotY + 'px');
-                }
+				const currentLang = document.body.classList.contains('en') ? 'en' : 'zh';
+				const sourceUrl = 'pages/changelog.html';
 
-                spotlightTargets.forEach(function (el) {
-                    el.addEventListener('pointerenter', function () {
-                        activeEl = el;
-                        el.style.setProperty('--spotlight-opacity', '1');
-                    }, { passive: true });
-                    el.addEventListener('pointerleave', function () {
-                        if (activeEl === el) activeEl = null;
-                        el.style.setProperty('--spotlight-opacity', '0');
-                    }, { passive: true });
-                    el.addEventListener('pointermove', function (e) {
-                        if (prefersReduced) return;
-                        const rect = el.getBoundingClientRect();
-                        spotX = Math.max(0, Math.min(rect.width, e.clientX - rect.left));
-                        spotY = Math.max(0, Math.min(rect.height, e.clientY - rect.top));
-                        if (spotRaf) return;
-                        spotRaf = window.requestAnimationFrame(function () {
-                            spotRaf = 0;
-                            updateSpotlight();
-                        });
-                    }, { passive: true });
-                });
+				try {
+					const res = await fetch(sourceUrl, {
+						credentials: 'same-origin'
+					});
+					if (!res.ok) throw new Error('fetch failed: ' + res.status);
 
-                // 3) Magnetic Effect（磁吸按钮）
-                const magneticTargets = Array.from(document.querySelectorAll(
-                    '.resume-link, .latest-view-all a, .start-explore-btn'
-                ));
+					const html = await res.text();
+					const doc = new DOMParser().parseFromString(html, 'text/html');
 
-                magneticTargets.forEach(function (btn) {
-                    if (prefersReduced) return;
-                    let raf = 0;
-                    let tx = 0, ty = 0, rot = 0;
+					const timelineItems = Array.from(
+						doc.querySelectorAll('.changelog-timeline .timeline-item')
+					);
 
-                    btn.addEventListener('pointerenter', function () {
-                        btn.style.transition = 'transform 180ms ease';
-                    }, { passive: true });
+					const parsed = timelineItems.map(item => {
+						const date = (item.querySelector('.timeline-date')?.textContent || '').trim();
+						const titleEl = item.querySelector('.timeline-content h2');
+						const ul = item.querySelector('.timeline-content ul');
 
-                    btn.addEventListener('pointermove', function (e) {
-                        const rect = btn.getBoundingClientRect();
-                        const cx = rect.left + rect.width / 2;
-                        const cy = rect.top + rect.height / 2;
-                        const dx = (e.clientX - cx) / (rect.width / 2);
-                        const dy = (e.clientY - cy) / (rect.height / 2);
+						const titleZh = titleEl?.getAttribute('data-zh') || titleEl?.textContent || '';
+						const titleEn = titleEl?.getAttribute('data-en') || titleEl?.textContent || '';
 
-                        tx = dx * 8;
-                        ty = dy * 8;
-                        rot = dx * 2;
+						const liNodes = ul ? Array.from(ul.querySelectorAll('li')) : [];
+						// 取前 2 条作为“动态摘要”，避免过长
+						const liNodesShort = liNodes.slice(0, 2);
 
-                        if (raf) return;
-                        raf = window.requestAnimationFrame(function () {
-                            raf = 0;
-                            btn.style.transform = 'translate(' + tx + 'px,' + ty + 'px) rotate(' + rot + 'deg)';
-                        });
-                    }, { passive: true });
+						const excerptZh = liNodesShort
+							.map(li => li.getAttribute('data-zh') || li.textContent || '')
+							.map(s => String(s).trim())
+							.filter(Boolean)
+							.join('；');
+						const excerptEn = liNodesShort
+							.map(li => li.getAttribute('data-en') || li.textContent || '')
+							.map(s => String(s).trim())
+							.filter(Boolean)
+							.join('；');
 
-                    btn.addEventListener('pointerleave', function () {
-                        btn.style.transform = 'translate(0,0) rotate(0deg)';
-                    }, { passive: true });
-                });
+						return {
+							date,
+							titleZh,
+							titleEn,
+							excerptZh,
+							excerptEn
+						};
+					}).filter(x => /^\d{4}-\d{2}-\d{2}$/.test(x.date));
 
-                // 4) GSAP Reveal Animations（极简高级入场动态）
-                const revealSelectors = [
-                    '.hero .avatar-container',
-                    '.hero-greeting',
-                    '.hero-bio-section',
-                    '.blog-section',
-                    '.blog-updates',
-                    '.qia-immersive',
-                    // 页脚在本页已禁用浮现/虚化（避免“取消虚化”需求冲突）
-                ];
+					// changelog 页面通常是时间倒序，这里仍显式排序保证稳定
+					parsed.sort((a, b) => b.date.localeCompare(a.date));
+					const latest = parsed.slice(0, 5);
+					if (latest.length < 1) return;
 
-                const revealEls = [];
-                revealSelectors.forEach(function (sel) {
-                    revealEls.push.apply(revealEls, Array.from(document.querySelectorAll(sel)));
-                });
+					// 覆盖渲染：只动 updates-container 内部
+					container.innerHTML = '';
 
-                if (!prefersReduced && window.gsap) {
-                    revealEls.forEach(function (el, idx) {
-                        el.style.opacity = '0';
-                        el.style.transform = 'translateY(18px)';
-                        el.style.filter = 'blur(4px)';
-                        el.style.willChange = 'transform, opacity, filter';
-                        el.dataset.uiRevealIndex = String(idx);
-                    });
+					latest.forEach(item => {
+						const updateItemEl = document.createElement('div');
+						updateItemEl.className = 'update-item';
 
-                    const io = new IntersectionObserver(function (entries) {
-                        entries.forEach(function (entry) {
-                            if (!entry.isIntersecting) return;
-                            const el = entry.target;
-                            const idx = Number(el.dataset.uiRevealIndex || 0);
-                            io.unobserve(el);
+						const updateDateEl = document.createElement('div');
+						updateDateEl.className = 'update-date';
+						updateDateEl.textContent = item.date;
 
-                            window.gsap.to(el, {
-                                duration: 1.05,
-                                ease: 'power4.out',
-                                opacity: 1,
-                                y: 0,
-                                filter: 'blur(0px)',
-                                delay: Math.min(0.25, idx * 0.03)
-                            });
-                        });
-                    }, { threshold: 0.12 });
+						const updateContentEl = document.createElement('div');
+						updateContentEl.className = 'update-content';
 
-                    revealEls.forEach(function (el) {
-                        io.observe(el);
-                    });
-                } else {
-                    // 没有 gsap 或 reduced-motion：直接正常显示
-                    revealEls.forEach(function (el) {
-                        el.style.opacity = '';
-                        el.style.transform = '';
-                        el.style.filter = '';
-                    });
-                }
-            });
-        })();
-    </script>
+						const h3 = document.createElement('h3');
+						h3.setAttribute('data-en', item.titleEn);
+						h3.setAttribute('data-zh', item.titleZh);
+						h3.textContent = currentLang === 'en' ? item.titleEn : item.titleZh;
 
-    <div id="mouse-follower" aria-hidden="true"></div>
-</body>
-</html> 
+						const p = document.createElement('p');
+						p.setAttribute('data-en', item.excerptEn);
+						p.setAttribute('data-zh', item.excerptZh);
+						p.textContent = currentLang === 'en' ? item.excerptEn : item.excerptZh;
+
+						updateContentEl.appendChild(h3);
+						updateContentEl.appendChild(p);
+
+						updateItemEl.appendChild(updateDateEl);
+						updateItemEl.appendChild(updateContentEl);
+
+						container.appendChild(updateItemEl);
+					});
+
+					// 如果 language.js 暴露了统一更新函数，则再同步一次，确保切换状态一致
+					if (typeof updateAllLanguageElements === 'function') {
+						updateAllLanguageElements(currentLang);
+					}
+				} catch (e) {
+					// 抓取失败时保持静态内容不动，避免首页出错
+					console.warn('[sync blog-updates] fallback to static content:', e);
+				}
+			});
+		</script>
+	</body>
+</html>

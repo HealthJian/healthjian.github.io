@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-zh="分布实验室 · 中心极限定理" data-en="Distribution Lab & CLT">分布实验室 · 中心极限定理</title>
+
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/dark-mode.css">
+    <link rel="stylesheet" href="democss/demo.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <meta name="description" content="数据分布实验室：8 种概率分布实时抽样、直方图与理论曲线对照、样本统计量对比，以及中心极限定理可视化">
+    <meta name="keywords" content="概率分布,直方图,中心极限定理,正态分布,泊松分布,统计,数据分析">
+
+    <style>
+        /* ==========================================================
+           Distribution Lab & CLT — 页面专属样式
+           ========================================================== */
+        :root {
+            --lab-bg: #f6f8fc;
+            --lab-card: #ffffff;
+            --lab-border: #e4e9f2;
+            --lab-text: #1e293b;
+            --lab-muted: #64748b;
+            --lab-accent: #2563eb;
+            --lab-accent-soft: rgba(37, 99, 235, 0.10);
+            --lab-accent2: #8b5cf6;
+            --lab-ok: #16a34a;
+            --lab-warn: #d97706;
+            --lab-danger: #ef4444;
+            --lab-bar: rgba(37, 99, 235, 0.55);
+            --lab-bar-hi: rgba(37, 99, 235, 0.85);
+            --lab-shadow: 0 10px 30px rgba(30, 41, 59, 0.08);
+        }
+        body.dark-mode {
+            --lab-bg: #0b1120;
+            --lab-card: #101a2e;
+            --lab-border: #1e293b;
+            --lab-text: #e2e8f0;
+            --lab-muted: #94a3b8;
+            --lab-accent: #60a5fa;
+            --lab-accent-soft: rgba(96, 165, 250, 0.12);
+            --lab-accent2: #a78bfa;
+            --lab-ok: #34d399;
+            --lab-warn: #fbbf24;
+            --lab-danger: #f43f5e;
+            --lab-bar: rgba(96, 165, 250, 0.42);
+            --lab-bar-hi: rgba(96, 165, 250, 0.75);
+            --lab-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        }
+
+        .lab-main {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 2.2rem 1.6rem 4rem;
+        }
+
+        /* ---------- Hero ---------- */
+        .lab-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            color: var(--lab-accent);
+            background: var(--lab-accent-soft);
+            border: 1px solid color-mix(in srgb, var(--lab-accent) 28%, transparent);
+            border-radius: 999px;
+            padding: 0.4rem 0.85rem;
+            margin-bottom: 1rem;
+        }
+        .lab-hero h1 {
+            font-size: clamp(1.6rem, 3.4vw, 2.3rem);
+            letter-spacing: -0.01em;
+            color: var(--lab-text);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+        .lab-hero h1 i { color: var(--lab-accent); }
+        .lab-sub {
+            max-width: 760px;
+            color: var(--lab-muted);
+            line-height: 1.8;
+            margin: 0.7rem 0 1.1rem;
+            font-size: 0.95rem;
+        }
+        .lab-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .lab-chip {
+            font-size: 0.76rem;
+            font-weight: 600;
+            color: var(--lab-muted);
+            border: 1px solid var(--lab-border);
+            background: var(--lab-card);
+            border-radius: 999px;
+            padding: 0.32rem 0.8rem;
+        }
+        .lab-chip b { color: var(--lab-accent); font-weight: 700; }
+
+        /* ---------- 主栅格 ---------- */
+        .lab-grid {
+            margin-top: 1.6rem;
+            display: grid;
+            grid-template-columns: minmax(0, 1.25fr) minmax(310px, 0.9fr);
+            gap: 1.4rem;
+            align-items: start;
+        }
+        .lab-card {
+            background: var(--lab-card);
+            border: 1px solid var(--lab-border);
+            border-radius: 18px;
+            box-shadow: var(--lab-shadow);
+        }
+        .lab-card + .lab-card { margin-top: 1.2rem; }
+
+        /* ---------- 图表卡片 ---------- */
+        .chart-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            padding: 1rem 1.2rem 0.9rem;
+        }
+        .lab-tabs { display: inline-flex; background: var(--lab-bg); border: 1px solid var(--lab-border); border-radius: 12px; padding: 3px; gap: 3px; }
+        .lab-tabs button {
+            border: none; background: transparent; color: var(--lab-muted);
+            font-size: 0.82rem; font-weight: 700; padding: 0.45rem 0.9rem;
+            border-radius: 9px; cursor: pointer; transition: all 0.2s ease;
+        }
+        .lab-tabs button.active { background: var(--lab-accent); color: #fff; }
+        .chart-badge {
+            font-size: 0.74rem; font-weight: 700; color: var(--lab-accent2);
+            background: color-mix(in srgb, var(--lab-accent2) 10%, transparent);
+            border: 1px solid color-mix(in srgb, var(--lab-accent2) 30%, transparent);
+            padding: 0.32rem 0.75rem; border-radius: 999px;
+        }
+
+        .chart-stage { position: relative; padding: 0.2rem 0.6rem 0.4rem; }
+        #chartSvg {
+            width: 100%; height: auto; display: block;
+            background: transparent;
+        }
+        .chart-hint {
+            position: absolute; left: 50%; top: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.82rem; color: var(--lab-muted);
+            background: var(--lab-card);
+            border: 1px dashed var(--lab-border);
+            border-radius: 10px; padding: 0.5rem 1rem;
+            pointer-events: none; white-space: nowrap;
+            box-shadow: var(--lab-shadow);
+        }
+        .chart-hint.hidden { display: none; }
+
+        /* SVG 内部 */
+        .bar-rect { transition: y 0.28s ease, height 0.28s ease, fill 0.3s ease; }
+        .pdf-path {
+            fill: none; stroke: var(--lab-accent2); stroke-width: 2.4;
+            stroke-linecap: round; stroke-linejoin: round;
+            filter: drop-shadow(0 0 3px color-mix(in srgb, var(--lab-accent2) 45%, transparent));
+        }
+        .pdf-path.clt { stroke: var(--lab-accent); }
+        .grid-line { stroke: var(--lab-border); stroke-width: 1; stroke-dasharray: 3 4; }
+        .axis-line { stroke: var(--lab-muted); stroke-width: 1; opacity: 0.6; }
+        .tick-text { fill: var(--lab-muted); font-size: 11px; font-family: inherit; }
+        .axis-title { fill: var(--lab-muted); font-size: 11px; font-weight: 600; font-family: inherit; }
+        .dot {
+            transform-box: fill-box; transform-origin: center;
+            animation: dotFall var(--dur, 0.5s) cubic-bezier(0.5, 0, 0.75, 0.4) var(--delay, 0s) forwards;
+        }
+        @keyframes dotFall {
+            0%   { transform: translateY(calc(-1 * var(--fall, 200))) scaleY(1); opacity: 0; }
+            12%  { opacity: 1; }
+            86%  { transform: translateY(0) scaleY(1); opacity: 1; }
+            92%  { transform: translateY(0) scaleY(0.45); opacity: 1; }
+            100% { transform: translateY(0) scaleY(0.85); opacity: 0; }
+        }
+
+        /* 图表控制条 */
+        .chart-ctrl {
+            display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;
+            padding: 0.8rem 1.2rem 1.1rem;
+            border-top: 1px dashed var(--lab-border);
+        }
+        .ctrl-btn {
+            display: inline-flex; align-items: center; gap: 0.42rem;
+            border: 1px solid var(--lab-border); background: var(--lab-bg);
+            color: var(--lab-text); font-weight: 700; font-size: 0.8rem;
+            border-radius: 11px; padding: 0.5rem 0.85rem; cursor: pointer;
+            transition: all 0.18s ease;
+        }
+        .ctrl-btn:hover { transform: translateY(-1px); border-color: var(--lab-accent); }
+        .ctrl-btn.primary { background: var(--lab-accent); border-color: var(--lab-accent); color: #fff; }
+        .ctrl-btn.primary:hover { box-shadow: 0 5px 14px var(--lab-accent-soft); }
+        .ctrl-btn.running { background: var(--lab-warn); border-color: var(--lab-warn); color: #fff; }
+        .ctrl-btn.danger { color: var(--lab-danger); border-color: color-mix(in srgb, var(--lab-danger) 45%, transparent); }
+        .ctrl-btn.danger:hover { background: color-mix(in srgb, var(--lab-danger) 10%, transparent); }
+        .ctrl-btn:disabled { opacity: 0.5; pointer-events: none; }
+        .ctrl-slider {
+            display: inline-flex; align-items: center; gap: 0.55rem;
+            font-size: 0.74rem; color: var(--lab-muted); margin-left: auto;
+        }
+        .ctrl-slider input[type="range"] { accent-color: var(--lab-accent); cursor: pointer; }
+        .ctrl-slider .v { min-width: 3.4ch; font-weight: 800; color: var(--lab-accent); text-align: right; font-variant-numeric: tabular-nums; }
+
+        /* ---------- 侧栏 ---------- */
+        .lab-panel { padding: 1.2rem; }
+        .lab-block + .lab-block { margin-top: 1.35rem; padding-top: 1.35rem; border-top: 1px dashed var(--lab-border); }
+        .lab-block-title {
+            display: flex; align-items: center; gap: 0.5rem;
+            font-size: 0.84rem; font-weight: 800; color: var(--lab-text);
+            margin-bottom: 0.75rem; letter-spacing: 0.02em;
+        }
+        .lab-block-title i { color: var(--lab-accent); width: 1rem; text-align: center; }
+
+        .dist-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
+        .dist-btn {
+            border: 1px solid var(--lab-border); background: var(--lab-bg);
+            border-radius: 12px; padding: 0.5rem 0.2rem; cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; gap: 0.28rem;
+            color: var(--lab-muted); transition: all 0.18s ease;
+        }
+        .dist-btn .d-ico { font-size: 1.1rem; line-height: 1; transition: transform 0.18s ease; }
+        .dist-btn .d-name { font-size: 0.68rem; font-weight: 700; }
+        .dist-btn:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--lab-accent) 50%, transparent); color: var(--lab-text); }
+        .dist-btn:hover .d-ico { transform: scale(1.15); }
+        .dist-btn.active {
+            background: linear-gradient(135deg, var(--lab-accent), color-mix(in srgb, var(--lab-accent) 70%, var(--lab-accent2)));
+            border-color: transparent; color: #fff; box-shadow: 0 5px 14px var(--lab-accent-soft);
+        }
+
+        .dist-note {
+            margin-top: 0.7rem; font-size: 0.74rem; line-height: 1.7;
+            color: var(--lab-muted); border-left: 3px solid var(--lab-border);
+            padding-left: 0.7rem; min-height: 1.4em;
+        }
+
+        .param-row {
+            display: flex; align-items: center; gap: 0.7rem;
+            margin-bottom: 0.6rem; font-size: 0.76rem; color: var(--lab-muted);
+        }
+        .param-row label { min-width: 5.2em; font-weight: 700; color: var(--lab-text); }
+        .param-row input[type="range"] { flex: 1; accent-color: var(--lab-accent); cursor: pointer; }
+        .param-row .pv { min-width: 4ch; font-weight: 800; color: var(--lab-accent); text-align: right; font-variant-numeric: tabular-nums; }
+
+        /* 统计 */
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+        .stat-cell { background: var(--lab-bg); border: 1px solid var(--lab-border); border-radius: 12px; padding: 0.55rem 0.7rem; }
+        .stat-cell .sv { font-size: 1.06rem; font-weight: 800; color: var(--lab-text); font-variant-numeric: tabular-nums; display: flex; align-items: baseline; gap: 0.4rem; }
+        .stat-cell .sv small { font-size: 0.68rem; color: var(--lab-muted); font-weight: 600; }
+        .stat-cell .sv .delta { font-size: 0.72rem; font-weight: 700; }
+        .stat-cell .sv .delta.ok { color: var(--lab-ok); }
+        .stat-cell .sv .delta.warn { color: var(--lab-warn); }
+        .stat-cell .sl { font-size: 0.66rem; color: var(--lab-muted); margin-top: 0.14rem; }
+        .stat-full { grid-column: 1 / -1; }
+        .stat-full .sv { font-size: 1.5rem; }
+
+        .lab-note {
+            margin-top: 0.8rem; font-size: 0.7rem; color: var(--lab-muted);
+            line-height: 1.75; opacity: 0.92;
+            border-left: 3px solid color-mix(in srgb, var(--lab-accent) 55%, transparent);
+            padding-left: 0.7rem;
+        }
+        .lab-note b { color: var(--lab-accent); }
+
+        .formula {
+            margin-top: 0.75rem; text-align: center; font-size: 0.8rem;
+            color: var(--lab-text); background: var(--lab-bg);
+            border: 1px dashed var(--lab-border); border-radius: 10px; padding: 0.55rem 0.6rem;
+            font-variant-numeric: tabular-nums;
+        }
+        .formula i { color: var(--lab-accent2); font-style: normal; font-weight: 800; }
+
+        .clt-controls { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+        @media (max-width: 900px) {
+            .lab-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 480px) {
+            .dist-grid { grid-template-columns: repeat(4, 1fr); gap: 0.4rem; }
+            .dist-btn .d-name { font-size: 0.62rem; }
+            .stat-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .bar-rect, .dot { transition: none !important; animation: none !important; }
+        }
+    </style>
+</head>
+<body class="zh">
+    <!-- Navigation Bar -->
+    <nav class="demo-navbar">
+        <div class="demo-nav-container">
+            <div class="demo-nav-logo">
+                <a href="../../index.html" class="demo-logo-link">
+                    <div class="logo-icon">
+                        <i class="fas fa-chart-column"></i>
+                    </div>
+                    <div class="logo-text">
+                        <span class="logo-main" data-zh="分布实验室" data-en="Dist Lab">分布实验室</span>
+                        <span class="logo-sub" data-zh="StatsLab" data-en="StatsLab">StatsLab</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="demo-breadcrumb">
+                <a href="../../index.html" class="breadcrumb-item" data-zh="首页" data-en="Home">
+                    <i class="fas fa-home"></i>
+                    <span data-zh="首页" data-en="Home">首页</span>
+                </a>
+                <i class="fas fa-chevron-right breadcrumb-separator"></i>
+                <a href="index.html" class="breadcrumb-item" data-zh="Demo空间" data-en="Demo Space">
+                    <span data-zh="Demo空间" data-en="Demo Space">Demo空间</span>
+                </a>
+                <i class="fas fa-chevron-right breadcrumb-separator"></i>
+                <span class="breadcrumb-item current" data-zh="分布实验室" data-en="Distribution Lab">分布实验室</span>
+            </div>
+
+            <div class="demo-nav-menu">
+                <a href="../../index.html" class="demo-nav-link" data-zh="首页" data-en="Home">
+                    <i class="fas fa-home"></i>
+                    <span data-zh="首页" data-en="Home">首页</span>
+                </a>
+                <a href="../blog.html" class="demo-nav-link" data-zh="博客" data-en="Blog">
+                    <i class="fas fa-blog"></i>
+                    <span data-zh="博客" data-en="Blog">博客</span>
+                </a>
+                <a href="../project/project.html" class="demo-nav-link" data-zh="项目" data-en="Projects">
+                    <i class="fas fa-folder"></i>
+                    <span data-zh="项目" data-en="Projects">项目</span>
+                </a>
+                <a href="index.html" class="demo-nav-link" data-zh="Demo" data-en="Demo">
+                    <i class="fas fa-flask"></i>
+                    <span data-zh="Demo" data-en="Demo">Demo</span>
+                </a>
+            </div>
+
+            <button class="demo-mobile-toggle" id="mobile-menu-toggle">
+                <span></span><span></span><span></span>
+            </button>
+
+            <div class="demo-nav-controls">
+                <button id="lang-toggle" class="demo-control-btn" title="切换语言 / Switch Language">
+                    <i class="fas fa-globe"></i>
+                    <span class="control-text" data-zh="EN" data-en="中文">EN</span>
+                </button>
+                <button id="theme-toggle" class="demo-control-btn theme-toggle" title="切换主题 / Switch Theme">
+                    <i class="fas fa-moon"></i>
+                    <i class="fas fa-sun" style="display: none;"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="lab-main">
+        <!-- Hero -->
+        <section class="lab-hero">
+            <div class="lab-kicker"><i class="fas fa-chart-column"></i> demo / distribution-lab</div>
+            <h1>
+                <i class="fas fa-dice-d6"></i>
+                <span data-zh="分布实验室 · 中心极限定理" data-en="Distribution Lab &amp; CLT">分布实验室 · 中心极限定理</span>
+            </h1>
+            <p class="lab-sub" data-zh="从 8 种概率分布里抽样，看直方图如何逼近理论曲线；再切到「中心极限定理」，亲眼见证无论总体长什么样，均值的分布都会按 1/√n 收缩、趋于正态——这正是 Fab 里 SPC 敢用正态假设的原因。"
+               data-en="Draw samples from 8 probability distributions and watch the histogram approach the theoretical curve. Then switch to the Central Limit Theorem tab and witness how, no matter the shape of the population, the distribution of means shrinks by 1/√n toward a normal — the very reason SPC in a fab dares to assume normality.">
+                从 8 种概率分布里抽样，看直方图如何逼近理论曲线；再切到「中心极限定理」，亲眼见证无论总体长什么样，均值的分布都会按 1/√n 收缩、趋于正态——这正是 Fab 里 SPC 敢用正态假设的原因。
+            </p>
+            <div class="lab-chips">
+                <span class="lab-chip"><b data-zh="8" data-en="8">8</b>&nbsp;<span data-zh="种分布" data-en="distributions">种分布</span></span>
+                <span class="lab-chip"><i class="fas fa-bucket"></i>&nbsp;<span data-zh="实时直方图" data-en="live histogram">实时直方图</span></span>
+                <span class="lab-chip"><i class="fas fa-gauge"></i>&nbsp;<span data-zh="样本 vs 理论统计量" data-en="sample vs theory stats">样本 vs 理论统计量</span></span>
+                <span class="lab-chip"><i class="fas fa-chart-bell"></i>&nbsp;<span data-zh="中心极限定理演示" data-en="CLT demo">中心极限定理演示</span></span>
+            </div>
+        </section>
+
+        <div class="lab-grid">
+            <!-- ============ 左侧：图表 ============ -->
+            <section class="lab-card">
+                <div class="chart-head">
+                    <div class="lab-tabs" role="tablist">
+                        <button id="tabLab" class="active" role="tab" aria-selected="true" data-zh="分布实验室" data-en="Distribution Lab">分布实验室</button>
+                        <button id="tabClt" role="tab" aria-selected="false" data-zh="中心极限定理" data-en="Central Limit Theorem">中心极限定理</button>
+                    </div>
+                    <span class="chart-badge" id="distBadge">🎯 正态</span>
+                </div>
+
+                <div class="chart-stage">
+                    <svg id="chartSvg" viewBox="0 0 720 360" role="img" aria-label="Histogram chart"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <g id="gridLayer"></g>
+                        <g id="barLayer"></g>
+                        <g id="dotLayer"></g>
+                        <path id="pdfPath" class="pdf-path" d=""/>
+                        <g id="axisLayer"></g>
+                    </svg>
+                    <div class="chart-hint" id="chartHint" data-zh="点击「抽一批」或开启自动抽样" data-en="Click “Draw batch” or enable auto-sampling">点击「抽一批」或开启自动抽样</div>
+                </div>
+
+                <!-- 控制条（随 Tab 切换内容） -->
+                <div class="chart-ctrl" id="ctrlLab">
+                    <button id="btnBatch" class="ctrl-btn primary"><i class="fas fa-dice"></i><span data-zh="抽一批" data-en="Draw batch">抽一批</span></button>
+                    <button id="btnAuto" class="ctrl-btn"><i class="fas fa-play"></i><span data-zh="自动" data-en="Auto">自动</span></button>
+                    <button id="btnClear" class="ctrl-btn danger"><i class="fas fa-trash-can"></i><span data-zh="清空" data-en="Clear">清空</span></button>
+                    <label class="ctrl-slider">
+                        <span data-zh="分箱" data-en="Bins">分箱</span>
+                        <input type="range" id="binSlider" min="12" max="40" step="1" value="24">
+                        <span class="v" id="binVal">24</span>
+                    </label>
+                </div>
+                <div class="chart-ctrl" id="ctrlClt" style="display:none">
+                    <button id="btnCltStart" class="ctrl-btn primary"><i class="fas fa-play"></i><span data-zh="开始抽样" data-en="Start">开始抽样</span></button>
+                    <button id="btnCltBatch" class="ctrl-btn"><i class="fas fa-dice"></i><span data-zh="抽 30 组" data-en="Draw 30">抽 30 组</span></button>
+                    <button id="btnCltClear" class="ctrl-btn danger"><i class="fas fa-trash-can"></i><span data-zh="清空" data-en="Clear">清空</span></button>
+                    <label class="ctrl-slider">
+                        <span>n =</span>
+                        <input type="range" id="nSlider" min="1" max="60" step="1" value="30">
+                        <span class="v" id="nVal">30</span>
+                    </label>
+                    <label class="ctrl-slider">
+                        <i class="fas fa-gauge-high"></i>
+                        <input type="range" id="cltSpeed" min="10" max="300" step="10" value="80">
+                        <span class="v" id="cltSpeedVal">80</span>
+                    </label>
+                </div>
+            </section>
+
+            <!-- ============ 右侧：分布 / 参数 / 统计 ============ -->
+            <aside class="lab-card lab-panel">
+                <!-- 分布选择 -->
+                <div class="lab-block">
+                    <div class="lab-block-title">
+                        <i class="fas fa-shapes"></i>
+                        <span data-zh="总体分布" data-en="Population">总体分布</span>
+                    </div>
+                    <div class="dist-grid" id="distGrid"></div>
+                    <p class="dist-note" id="distNote"></p>
+                </div>
+
+                <!-- 参数 -->
+                <div class="lab-block" id="paramBlock">
+                    <div class="lab-block-title">
+                        <i class="fas fa-sliders"></i>
+                        <span data-zh="分布参数" data-en="Parameters">分布参数</span>
+                    </div>
+                    <div id="paramRows"></div>
+                </div>
+
+                <!-- 统计 -->
+                <div class="lab-block">
+                    <div class="lab-block-title">
+                        <i class="fas fa-calculator"></i>
+                        <span data-zh="样本 vs 理论" data-en="Sample vs Theory">样本 vs 理论</span>
+                    </div>
+                    <div class="stat-grid">
+                        <div class="stat-cell stat-full">
+                            <div class="sv" id="stN">0</div>
+                            <div class="sl" data-zh="样本数" data-en="Sample count">样本数</div>
+                        </div>
+                        <div class="stat-cell">
+                            <div class="sv"><span id="stMean">—</span><span class="delta" id="stMeanDelta"></span></div>
+                            <div class="sl" data-zh="样本均值 · 理论均值" data-en="Sample mean · theory">样本均值 · 理论均值</div>
+                        </div>
+                        <div class="stat-cell">
+                            <div class="sv"><span id="stSd">—</span><span class="delta" id="stSdDelta"></span></div>
+                            <div class="sl" data-zh="样本标准差 · 理论σ" data-en="Sample SD · theory">样本标准差 · 理论σ</div>
+                        </div>
+                        <div class="stat-cell">
+                            <div class="sv" id="stSkew">—</div>
+                            <div class="sl" data-zh="样本偏度" data-en="Sample skewness">样本偏度</div>
+                        </div>
+                        <div class="stat-cell">
+                            <div class="sv" id="stKurt">—</div>
+                            <div class="sl" data-zh="样本峰度" data-en="Sample kurtosis">样本峰度</div>
+                        </div>
+                    </div>
+                    <div class="formula" id="formulaBox"></div>
+                </div>
+
+                <!-- CLT 专属面板（切换 Tab 显示） -->
+                <div class="lab-block" id="cltBlock" style="display:none">
+                    <div class="lab-block-title">
+                        <i class="fas fa-chart-bell"></i>
+                        <span data-zh="均值分布统计" data-en="Mean distribution">均值分布统计</span>
+                    </div>
+                    <div class="stat-grid">
+                        <div class="stat-cell stat-full">
+                            <div class="sv" id="cltN">0</div>
+                            <div class="sl" data-zh="已抽组数（每组 n 个样本）" data-en="Groups drawn (n samples each)">已抽组数（每组 n 个样本）</div>
+                        </div>
+                        <div class="stat-cell">
+                            <div class="sv"><span id="cltMean">—</span><span class="delta" id="cltMeanDelta"></span></div>
+                            <div class="sl" data-zh="均值(样本) · 理论 μ" data-en="Mean (sample) · μ">均值(样本) · 理论 μ</div>
+                        </div>
+                        <div class="stat-cell">
+                            <div class="sv"><span id="cltSd">—</span><span class="delta" id="cltSdDelta"></span></div>
+                            <div class="sl" data-zh="标准差(样本) · 理论 σ/√n" data-en="SD (sample) · σ/√n">标准差(样本) · 理论 σ/√n</div>
+                        </div>
+                    </div>
+                    <p class="lab-note" id="cltNote"></p>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3 data-zh="分布实验室" data-en="Distribution Lab">分布实验室</h3>
+                <p data-zh="学习实践，探索创新" data-en="Learn Practice, Explore Innovation">学习实践，探索创新</p>
+            </div>
+            <div class="footer-section">
+                <h4 data-zh="快速链接" data-en="Quick Links">快速链接</h4>
+                <ul>
+                    <li><a href="../../index.html" data-zh="首页" data-en="Home">首页</a></li>
+                    <li><a href="../blog.html" data-zh="博客" data-en="Blog">博客</a></li>
+                    <li><a href="index.html" data-zh="Demo空间" data-en="Demo Space">Demo空间</a></li>
+                    <li><a href="changelog.html" data-zh="Demo更新日志" data-en="Demo Changelog">Demo更新日志</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4 data-zh="技术栈" data-en="Tech Stack">技术栈</h4>
+                <div class="footer-tech-stack">
+                    <span>SVG</span>
+                    <span>Vanilla JS</span>
+                    <span data-zh="蒙特卡洛" data-en="Monte Carlo">蒙特卡洛</span>
+                    <span data-zh="中心极限定理" data-en="CLT">中心极限定理</span>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 <span data-zh="分布实验室" data-en="Distribution Lab">分布实验室</span>. <span data-zh="本地计算 · 无网络请求" data-en="Local compute · no network">本地计算 · 无网络请求</span></p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../../js/theme.js"></script>
+    <script src="../../js/language.js"></script>
+    <script src="demojs/demo.js"></script>
+    <script>
+    /* ================================================================
+       Distribution Lab & CLT
+       - 8 种分布：正态/均匀/指数/泊松/二项/对数正态/伽马/贝塔
+       - 实时抽样 + 直方图 + 理论密度曲线对照 + 统计量对比
+       - 中心极限定理：均值分布按 1/√n 收缩趋于正态
+       - 全部本地蒙特卡洛，无网络请求
+       ================================================================ */
+    (function () {
+        'use strict';
+
+        /* ---------- 常量 ---------- */
+        const NS = 'http://www.w3.org/2000/svg';
+        const VW = 720, VH = 360, ML = 50, MR = 14, MT = 22, MB = 36;
+        const PW = VW - ML - MR, PH = VH - MT - MB;
+
+        const DIST_ORDER = ['normal', 'uniform', 'exponential', 'poisson', 'binomial', 'lognormal', 'gamma', 'beta'];
+        const DIST_EMOJI = { normal: '🎯', uniform: '📏', exponential: '⏱️', poisson: '💰', binomial: '🪙', lognormal: '📈', gamma: '🏔️', beta: '🧪' };
+        // 参数定义：{ id, min, max, step, def }
+        const PARAM_DEFS = {
+            normal:      [{ id: 'mu', min: -3, max: 3, step: 0.1, def: 0 }, { id: 'sigma', min: 0.1, max: 2, step: 0.05, def: 1 }],
+            uniform:     [{ id: 'a', min: -3, max: 0, step: 0.1, def: -1 }, { id: 'b', min: 0.1, max: 3, step: 0.1, def: 2 }],
+            exponential: [{ id: 'lam', min: 0.2, max: 5, step: 0.1, def: 1 }],
+            poisson:     [{ id: 'lam', min: 0.5, max: 15, step: 0.5, def: 4 }],
+            binomial:    [{ id: 'n', min: 1, max: 40, step: 1, def: 20 }, { id: 'p', min: 0.05, max: 0.95, step: 0.05, def: 0.5 }],
+            lognormal:   [{ id: 'mu', min: -1, max: 1, step: 0.05, def: 0 }, { id: 'sigma', min: 0.1, max: 1, step: 0.05, def: 0.5 }],
+            gamma:       [{ id: 'k', min: 0.5, max: 8, step: 0.1, def: 2 }, { id: 'th', min: 0.2, max: 2, step: 0.1, def: 1 }],
+            beta:        [{ id: 'alpha', min: 0.5, max: 8, step: 0.1, def: 2 }, { id: 'beta', min: 0.5, max: 8, step: 0.1, def: 2 }]
+        };
+        const DISCRETE = new Set(['poisson', 'binomial']);
+
+        /* ---------- 语言字典 ---------- */
+        const I18N = {
+            zh: {
+                distNames: { normal: '正态', uniform: '均匀', exponential: '指数', poisson: '泊松', binomial: '二项', lognormal: '对数正态', gamma: '伽马', beta: '贝塔' },
+                distNotes: {
+                    normal: '测量误差、器件参数的常见模型——SPC 与 Cpk 的出发点。',
+                    uniform: '均匀随机数：掷骰子、抽签，区间内每个值机会均等。',
+                    exponential: '无记忆性：设备故障间隔、服务等待时间。',
+                    poisson: '计数过程：单位时间到达数、晶圆上缺陷点数。',
+                    binomial: 'n 次独立伯努利：投硬币、良品/不良品计数。',
+                    lognormal: '右偏重尾：股票价格、金属疲劳寿命。',
+                    gamma: 'k 个独立指数事件的总等待时间（爱尔兰分布）。',
+                    beta: '定义在 0–1 区间：良率、转化率的自然先验。'
+                },
+                paramLabels: { mu: '均值 μ', sigma: '标准差 σ', a: '下界 a', b: '上界 b', lam: '速率 λ', n: '次数 n', p: '成功 p', k: '形状 k', th: '尺度 θ', alpha: 'α', beta: 'β' },
+                formula: {
+                    normal: 'f(x) = (1/σ√2π) · e^(−(x−μ)²/2σ²)',
+                    uniform: 'f(x) = 1/(b−a)',
+                    exponential: 'f(x) = λ·e^(−λx)',
+                    poisson: 'P(X=k) = e^(−λ)·λᵏ/k!',
+                    binomial: 'P(X=k) = C(n,k)·pᵏ·(1−p)^(n−k)',
+                    lognormal: 'X = e^Y, Y ~ N(μ, σ)',
+                    gamma: 'f(x) = x^(k−1)·e^(−x/θ) / (θᵏ·Γ(k))',
+                    beta: 'f(x) = x^(α−1)(1−x)^(β−1) / B(α,β)'
+                },
+                skewTheory: '偏度', kurtTheory: '峰度',
+                deltaOk: '≈', deltaNote: '',
+                emptyLab: '点击「抽一批」或开启自动抽样，样本会落入分箱',
+                emptyClt: '点击 ▶ 开始抽样，观察均值分布如何趋于正态',
+                cltNote: '<b>中心极限定理：</b>无论总体形状如何，只要样本量 n 足够大，样本均值的分布就近似正态，且标准差按 <b>σ/√n</b> 收缩。Fab 里的 SPC 敢用正态假设、Cpk 敢算 Z 值，靠的就是它。',
+                badgePrefix: '总体：'
+            },
+            en: {
+                distNames: { normal: 'Normal', uniform: 'Uniform', exponential: 'Exponential', poisson: 'Poisson', binomial: 'Binomial', lognormal: 'Lognormal', gamma: 'Gamma', beta: 'Beta' },
+                distNotes: {
+                    normal: 'The usual model for measurement error & device parameters — the starting point of SPC and Cpk.',
+                    uniform: 'Uniform random numbers: dice, lottery — every value in the interval is equally likely.',
+                    exponential: 'Memoryless: equipment failure intervals, service waiting times.',
+                    poisson: 'Counting process: arrivals per unit time, defect counts on a wafer.',
+                    binomial: 'n independent Bernoulli trials: coin flips, good/bad item counts.',
+                    lognormal: 'Right-skewed with a heavy tail: stock prices, metal fatigue life.',
+                    gamma: 'Total waiting time for k independent exponential events (Erlang).',
+                    beta: 'On 0–1: the natural prior for yields and conversion rates.'
+                },
+                paramLabels: { mu: 'mean μ', sigma: 'std σ', a: 'lower a', b: 'upper b', lam: 'rate λ', n: 'trials n', p: 'prob p', k: 'shape k', th: 'scale θ', alpha: 'α', beta: 'β' },
+                formula: {
+                    normal: 'f(x) = (1/σ√2π) · e^(−(x−μ)²/2σ²)',
+                    uniform: 'f(x) = 1/(b−a)',
+                    exponential: 'f(x) = λ·e^(−λx)',
+                    poisson: 'P(X=k) = e^(−λ)·λᵏ/k!',
+                    binomial: 'P(X=k) = C(n,k)·pᵏ·(1−p)^(n−k)',
+                    lognormal: 'X = e^Y, Y ~ N(μ, σ)',
+                    gamma: 'f(x) = x^(k−1)·e^(−x/θ) / (θᵏ·Γ(k))',
+                    beta: 'f(x) = x^(α−1)(1−x)^(β−1) / B(α,β)'
+                },
+                skewTheory: 'Skewness', kurtTheory: 'Kurtosis',
+                deltaOk: '≈', deltaNote: '',
+                emptyLab: 'Click “Draw batch” or enable auto-sampling — samples will fall into bins',
+                emptyClt: 'Click ▶ to start sampling and watch the means converge to normal',
+                cltNote: '<b>Central Limit Theorem:</b> no matter the population shape, for large enough n the distribution of sample means is approximately normal, and its SD shrinks by <b>σ/√n</b>. This is why SPC in a fab dares to assume normality and Cpk dares to use Z values.',
+                badgePrefix: 'Population: '
+            }
+        };
+
+        /* ---------- 数学工具 ---------- */
+        function gammaFn(z) { // Lanczos 近似
+            const g = 7, C = [0.99999999999980993, 676.5203681218851, -1259.1392167224028, 771.32342877765313, -176.61502916214059, 12.507343278686905, -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7];
+            if (z < 0.5) return Math.PI / (Math.sin(Math.PI * z) * gammaFn(1 - z));
+            z -= 1;
+            let x = C[0];
+            for (let i = 1; i < g + 2; i++) x += C[i] / (z + i);
+            const t = z + g + 0.5;
+            return Math.sqrt(2 * Math.PI) * Math.pow(t, z + 0.5) * Math.exp(-t) * x;
+        }
+        function betaFn(a, b) { return gammaFn(a) * gammaFn(b) / gammaFn(a + b); }
+
+        function rNormal(mu, sd) {
+            const u = Math.random() || 1e-9, v = Math.random();
+            return mu + sd * Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+        }
+        function rUniform(a, b) { return a + Math.random() * (b - a); }
+        function rExp(lam) { return -Math.log(1 - Math.random()) / lam; }
+        function rPoisson(lam) { // Knuth
+            const L = Math.exp(-lam);
+            let k = 0, p = 1;
+            do { k++; p *= Math.random(); } while (p > L);
+            return k - 1;
+        }
+        function rBinom(n, p) { let s = 0; for (let i = 0; i < n; i++) if (Math.random() < p) s++; return s; }
+        function rGamma(k, th) { // Marsaglia-Tsang
+            if (k < 1) return rGamma(k + 1, th) * Math.pow(Math.random(), 1 / k);
+            const d = k - 1 / 3, c = 1 / Math.sqrt(9 * d);
+            for (;;) {
+                const x = rNormal(0, 1), v = Math.pow(1 + c * x, 3);
+                if (v <= 0) continue;
+                const u = Math.random();
+                if (u < 1 - 0.0331 * x * x * x * x) return d * v * th;
+                if (Math.log(u) < 0.5 * x * x + d * (1 - v + Math.log(v))) return d * v * th;
+            }
+        }
+        function rLognormal(mu, sd) { return Math.exp(rNormal(mu, sd)); }
+        function rBeta(a, b) { const x = rGamma(a, 1), y = rGamma(b, 1); return x / (x + y); }
+
+        function density(dist, x, P) {
+            if (dist === 'binomial') {
+                if (x < 0 || x > P.n || x !== Math.floor(x)) return 0;
+                const lg = (z) => Math.log(gammaFn(z + 1));
+                return Math.exp(lg(P.n) - lg(x) - lg(P.n - x) + x * Math.log(P.p) + (P.n - x) * Math.log(1 - P.p));
+            }
+            switch (dist) {
+                case 'normal': { const z = (x - P.mu) / P.sigma; return Math.exp(-0.5 * z * z) / (P.sigma * Math.sqrt(2 * Math.PI)); }
+                case 'uniform': return (x >= P.a && x <= P.b) ? 1 / (P.b - P.a) : 0;
+                case 'exponential': return x >= 0 ? P.lam * Math.exp(-P.lam * x) : 0;
+                case 'poisson': return x >= 0 ? Math.exp(-P.lam + x * Math.log(P.lam) - Math.log(gammaFn(x + 1))) : 0;
+                case 'lognormal': return x > 0 ? Math.exp(-0.5 * Math.pow((Math.log(x) - P.mu) / P.sigma, 2)) / (x * P.sigma * Math.sqrt(2 * Math.PI)) : 0;
+                case 'gamma': return x > 0 ? Math.pow(x, P.k - 1) * Math.exp(-x / P.th) / (Math.pow(P.th, P.k) * gammaFn(P.k)) : 0;
+                case 'beta': return (x > 0 && x < 1) ? Math.pow(x, P.alpha - 1) * Math.pow(1 - x, P.beta - 1) / betaFn(P.alpha, P.beta) : 0;
+            }
+            return 0;
+        }
+
+        function theoStats(dist, P) {
+            switch (dist) {
+                case 'normal': return { mean: P.mu, sd: P.sigma };
+                case 'uniform': return { mean: (P.a + P.b) / 2, sd: (P.b - P.a) / Math.sqrt(12) };
+                case 'exponential': return { mean: 1 / P.lam, sd: 1 / P.lam };
+                case 'poisson': return { mean: P.lam, sd: Math.sqrt(P.lam) };
+                case 'binomial': return { mean: P.n * P.p, sd: Math.sqrt(P.n * P.p * (1 - P.p)) };
+                case 'lognormal': {
+                    const m = Math.exp(P.mu + P.sigma * P.sigma / 2);
+                    return { mean: m, sd: m * Math.sqrt(Math.exp(P.sigma * P.sigma) - 1) };
+                }
+                case 'gamma': return { mean: P.k * P.th, sd: Math.sqrt(P.k) * P.th };
+                case 'beta': {
+                    const s = P.alpha + P.beta;
+                    return { mean: P.alpha / s, sd: Math.sqrt(P.alpha * P.beta / (s * s * (s + 1))) };
+                }
+            }
+            return { mean: 0, sd: 1 };
+        }
+
+        function distRange(dist, P) {
+            switch (dist) {
+                case 'normal': return [P.mu - 4.5 * P.sigma, P.mu + 4.5 * P.sigma];
+                case 'uniform': return [P.a, P.b];
+                case 'exponential': return [0, 4.8 / P.lam];
+                case 'poisson': return [0, P.lam + 5 * Math.sqrt(P.lam) + 5];
+                case 'binomial': return [0, P.n];
+                case 'lognormal': return [0, Math.exp(P.mu + 4.5 * P.sigma)];
+                case 'gamma': { const m = P.k * P.th, s = Math.sqrt(P.k) * P.th; return [0, m + 4.5 * s]; }
+                case 'beta': return [0, 1];
+            }
+            return [0, 1];
+        }
+
+        /* ---------- 状态 ---------- */
+        const params = {};
+        DIST_ORDER.forEach(d => {
+            params[d] = {};
+            PARAM_DEFS[d].forEach(p => { params[d][p.id] = p.def; });
+        });
+        const state = {
+            tab: 'lab',          // lab | clt
+            dist: 'normal',
+            samples: [],         // 实验室样本
+            means: [],           // CLT 均值
+            n: 30,
+            running: false,      // CLT 自动
+            auto: false,         // 实验室自动
+            bins: 24,
+            cltSpeed: 80
+        };
+
+        /* ---------- DOM ---------- */
+        const $ = (id) => document.getElementById(id);
+        const barLayer = $('barLayer'), dotLayer = $('dotLayer'), gridLayer = $('gridLayer'),
+              axisLayer = $('axisLayer'), pdfPath = $('pdfPath'), hint = $('chartHint');
+
+        const lang = () => (document.body.classList.contains('en') ? 'en' : 'zh');
+        const T = (k) => I18N[lang()][k];
+
+        /* ---------- 当前渲染上下文 ---------- */
+        let curRange = [0, 1], curDiscrete = false, curBins = 1, curBinW = 1;
+
+        /* ---------- 分布按钮 ---------- */
+        function renderDistButtons() {
+            const grid = $('distGrid');
+            grid.innerHTML = '';
+            DIST_ORDER.forEach(d => {
+                const btn = document.createElement('button');
+                btn.className = 'dist-btn' + (d === state.dist ? ' active' : '');
+                btn.dataset.dist = d;
+                btn.setAttribute('aria-pressed', d === state.dist ? 'true' : 'false');
+                const ico = document.createElement('span');
+                ico.className = 'd-ico';
+                ico.textContent = DIST_EMOJI[d];
+                const name = document.createElement('span');
+                name.className = 'd-name';
+                name.textContent = T('distNames')[d];
+                btn.appendChild(ico);
+                btn.appendChild(name);
+                btn.addEventListener('click', () => {
+                    if (state.dist === d) return;
+                    state.dist = d;
+                    setActiveDist(d);
+                    renderParams();
+                    // 换了总体，旧样本与旧均值都不再代表新分布
+                    state.samples = [];
+                    state.means = [];
+                    redraw();
+                });
+                grid.appendChild(btn);
+            });
+            setActiveDist(state.dist);
+            $('distBadge').textContent = DIST_EMOJI[state.dist] + ' ' + T('distNames')[state.dist];
+        }
+        function setActiveDist(d) {
+            document.querySelectorAll('.dist-btn').forEach(b => {
+                const on = b.dataset.dist === d;
+                b.classList.toggle('active', on);
+                b.setAttribute('aria-pressed', on ? 'true' : 'false');
+            });
+        }
+
+        /* ---------- 参数滑杆 ---------- */
+        function renderParams() {
+            const wrap = $('paramRows');
+            wrap.innerHTML = '';
+            const defs = PARAM_DEFS[state.dist];
+            const labels = T('paramLabels');
+            defs.forEach(p => {
+                const row = document.createElement('div');
+                row.className = 'param-row';
+                const lab = document.createElement('label');
+                lab.textContent = labels[p.id];
+                lab.setAttribute('for', 'p_' + p.id);
+                const input = document.createElement('input');
+                input.type = 'range';
+                input.id = 'p_' + p.id;
+                input.min = p.min; input.max = p.max; input.step = p.step;
+                input.value = params[state.dist][p.id];
+                const val = document.createElement('span');
+                val.className = 'pv';
+                const fmt = (v) => (Number.isInteger(v) ? v : v.toFixed(2));
+                val.textContent = fmt(parseFloat(input.value));
+                input.addEventListener('input', () => {
+                    params[state.dist][p.id] = parseFloat(input.value);
+                    val.textContent = fmt(parseFloat(input.value));
+                    // 参数变化：旧样本不再代表新总体，清空实验室样本与 CLT 均值
+                    state.samples = [];
+                    state.means = [];
+                    redraw();
+                });
+                row.appendChild(lab);
+                row.appendChild(input);
+                row.appendChild(val);
+                wrap.appendChild(row);
+            });
+            $('distNote').textContent = T('distNotes')[state.dist];
+            $('formulaBox').innerHTML = '<i>' + T('formula')[state.dist] + '</i>';
+        }
+
+        /* ---------- 分箱 ---------- */
+        function computeBins(values, discrete) {
+            let lo, hi;
+            if (values.length === 0) {
+                const r = distRange(state.dist, params[state.dist]);
+                lo = r[0]; hi = r[1];
+            } else {
+                lo = Math.min.apply(null, values);
+                hi = Math.max.apply(null, values);
+                const r = distRange(state.dist, params[state.dist]);
+                // 兼顾理论范围与数据范围
+                lo = Math.min(lo, r[0]); hi = Math.max(hi, r[1]);
+                const pad = (hi - lo) * 0.04 || 0.2;
+                lo -= pad; hi += pad;
+            }
+            if (hi - lo < 1e-6) { hi = lo + 1; }
+            let bins;
+            if (discrete) {
+                const loI = Math.max(0, Math.floor(lo)), hiI = Math.ceil(hi);
+                const count = hiI - loI + 1;
+                bins = new Array(count).fill(0);
+                for (const v of values) {
+                    const k = Math.round(v) - loI;
+                    if (k >= 0 && k < count) bins[k]++;
+                }
+                curBins = count; curBinW = 1;
+                return { lo: loI, hi: hiI + 1, bins, binW: 1 };
+            } else {
+                const B = state.bins;
+                bins = new Array(B).fill(0);
+                const w = (hi - lo) / B;
+                for (const v of values) {
+                    let k = Math.floor((v - lo) / w);
+                    if (k < 0) k = 0; if (k >= B) k = B - 1;
+                    bins[k]++;
+                }
+                curBins = B; curBinW = w;
+                return { lo, hi, bins, binW: w };
+            }
+        }
+
+        /* ---------- 图表渲染 ---------- */
+        function xS(v, lo, hi) { return ML + (v - lo) / (hi - lo) * PW; }
+        function yS(v, maxY) { return MT + PH - (v / maxY) * PH; }
+
+        function renderGrid(lo, hi, maxY) {
+            gridLayer.innerHTML = '';
+            axisLayer.innerHTML = '';
+            // 水平网格 + y 刻度
+            const yTicks = 4;
+            for (let i = 0; i <= yTicks; i++) {
+                const v = maxY * i / yTicks;
+                const y = yS(v, maxY);
+                const line = document.createElementNS(NS, 'line');
+                line.setAttribute('x1', ML); line.setAttribute('x2', ML + PW);
+                line.setAttribute('y1', y); line.setAttribute('y2', y);
+                line.setAttribute('class', 'grid-line');
+                gridLayer.appendChild(line);
+                const txt = document.createElementNS(NS, 'text');
+                txt.setAttribute('x', ML - 8); txt.setAttribute('y', y + 4);
+                txt.setAttribute('text-anchor', 'end');
+                txt.setAttribute('class', 'tick-text');
+                txt.textContent = fmtTick(v);
+                axisLayer.appendChild(txt);
+            }
+            // x 刻度
+            const xTicks = 6;
+            for (let i = 0; i <= xTicks; i++) {
+                const v = lo + (hi - lo) * i / xTicks;
+                const x = xS(v, lo, hi);
+                const txt = document.createElementNS(NS, 'text');
+                txt.setAttribute('x', x); txt.setAttribute('y', VH - 10);
+                txt.setAttribute('text-anchor', 'middle');
+                txt.setAttribute('class', 'tick-text');
+                txt.textContent = fmtTick(v);
+                axisLayer.appendChild(txt);
+            }
+            // 坐标轴
+            const ax = document.createElementNS(NS, 'line');
+            ax.setAttribute('x1', ML); ax.setAttribute('x2', ML + PW);
+            ax.setAttribute('y1', MT + PH); ax.setAttribute('y2', MT + PH);
+            ax.setAttribute('class', 'axis-line');
+            axisLayer.appendChild(ax);
+            const ay = document.createElementNS(NS, 'line');
+            ay.setAttribute('x1', ML); ay.setAttribute('x2', ML);
+            ay.setAttribute('y1', MT); ay.setAttribute('y2', MT + PH);
+            ay.setAttribute('class', 'axis-line');
+            axisLayer.appendChild(ay);
+        }
+
+        function fmtTick(v) {
+            const a = Math.abs(v);
+            if (a >= 10000) return (v / 1000).toFixed(0) + 'k';
+            if (a >= 100) return v.toFixed(0);
+            if (a >= 10) return v.toFixed(1);
+            return v.toFixed(2);
+        }
+
+        function renderChart(values, opts) {
+            const { discrete, pdf, pdfClass, pdfFn } = opts;
+            const N = values.length;
+            const { lo, hi, bins, binW } = computeBins(values, discrete);
+            curRange = [lo, hi]; curDiscrete = discrete;
+
+            // 计算密度最大值（直方图密度 + 理论密度）
+            let maxY = 0.05;
+            const dens = bins.map(c => c / (Math.max(1, N) * binW));
+            for (const d of dens) if (d > maxY) maxY = d;
+            if (pdf && pdfFn) {
+                const steps = discrete ? Math.ceil(hi) - Math.floor(lo) : 90;
+                for (let i = 0; i <= steps; i++) {
+                    const x = discrete ? Math.floor(lo) + i : lo + (hi - lo) * i / steps;
+                    const d = pdfFn(x);
+                    if (d > maxY) maxY = d;
+                }
+            }
+            maxY *= 1.12;
+
+            renderGrid(lo, hi, maxY);
+
+            // 直方图柱子
+            barLayer.innerHTML = '';
+            for (let i = 0; i < bins.length; i++) {
+                const vLo = lo + i * binW, vHi = vLo + binW;
+                const x = xS(vLo, lo, hi);
+                const w = Math.max(0.6, xS(vHi, lo, hi) - x - 0.8);
+                const h = (dens[i] / maxY) * PH;
+                const y = MT + PH - h;
+                const rect = document.createElementNS(NS, 'rect');
+                rect.setAttribute('x', x);
+                rect.setAttribute('y', y);
+                rect.setAttribute('width', w);
+                rect.setAttribute('height', Math.max(0, h));
+                rect.setAttribute('rx', 1.2);
+                rect.setAttribute('class', 'bar-rect');
+                rect.setAttribute('fill', i % 2 ? 'var(--lab-bar)' : 'var(--lab-bar-hi)');
+                barLayer.appendChild(rect);
+            }
+
+            // 理论密度曲线
+            if (pdf && pdfFn) {
+                let d = '';
+                if (discrete) {
+                    // 阶梯形（在每个整数处画竖线 + 顶线）
+                    const loI = Math.floor(lo), hiI = Math.ceil(hi);
+                    let step = '';
+                    for (let x = loI; x <= hiI; x++) {
+                        const px = xS(x, lo, hi);
+                        const py = yS(pdfFn(x), maxY);
+                        if (x === loI) step += 'M' + px + ' ' + (MT + PH) + ' L' + px + ' ' + py;
+                        else step += ' L' + px + ' ' + py + ' L' + px + ' ' + (MT + PH);
+                    }
+                    d = step;
+                } else {
+                    const steps = 140;
+                    for (let i = 0; i <= steps; i++) {
+                        const x = lo + (hi - lo) * i / steps;
+                        const py = yS(pdfFn(x), maxY);
+                        d += (i === 0 ? 'M' : 'L') + xS(x, lo, hi).toFixed(1) + ' ' + py.toFixed(1);
+                    }
+                }
+                pdfPath.setAttribute('d', d);
+                pdfPath.classList.toggle('clt', pdfClass === 'clt');
+                // 按真实路径长度重播描边动画（离散路径可能很长，不能用固定值）
+                if (typeof pdfPath.getTotalLength === 'function') {
+                    const L = Math.max(1, pdfPath.getTotalLength());
+                    pdfPath.style.strokeDasharray = L;
+                    pdfPath.style.strokeDashoffset = L;
+                    pdfPath.style.transition = 'stroke-dashoffset 0.9s ease';
+                    void pdfPath.getBoundingClientRect();
+                    requestAnimationFrame(() => { pdfPath.style.strokeDashoffset = 0; });
+                }
+                pdfPath.style.display = '';
+            } else {
+                pdfPath.setAttribute('d', '');
+                pdfPath.style.display = 'none';
+            }
+
+            // 提示
+            hint.classList.toggle('hidden', values.length > 0);
+        }
+
+        /* ---------- 样本雨（装饰动画） ---------- */
+        let dotSeq = 0;
+        function rain(values) {
+            const { lo, hi } = curRange;
+            const n = Math.min(values.length, 220);
+            const topY = MT + 2, botY = MT + PH - 2;
+            dotLayer.innerHTML = '';
+            for (let i = 0; i < n; i++) {
+                const v = values[Math.floor(Math.random() * values.length)];
+                if (v < lo || v > hi) continue;
+                const x = xS(v, lo, hi) + (Math.random() * 7 - 3.5);
+                const c = document.createElementNS(NS, 'circle');
+                c.setAttribute('class', 'dot');
+                c.setAttribute('cx', x.toFixed(1));
+                c.setAttribute('cy', botY);
+                c.setAttribute('r', (1.3 + Math.random() * 1.1).toFixed(1));
+                c.setAttribute('fill', Math.random() < 0.75 ? 'var(--lab-accent)' : 'var(--lab-accent2)');
+                c.style.setProperty('--fall', (botY - topY).toFixed(0));
+                c.style.setProperty('--dur', (0.42 + Math.random() * 0.4).toFixed(2) + 's');
+                c.style.setProperty('--delay', (Math.random() * 0.3).toFixed(2) + 's');
+                dotLayer.appendChild(c);
+            }
+            dotSeq++;
+            const seq = dotSeq;
+            setTimeout(() => { if (dotSeq === seq) dotLayer.innerHTML = ''; }, 1300);
+        }
+
+        /* ---------- 统计量 ---------- */
+        function moments(arr) {
+            const n = arr.length;
+            if (n === 0) return { mean: 0, sd: 0, skew: 0, kurt: 0 };
+            let m = 0;
+            for (const v of arr) m += v;
+            m /= n;
+            if (n === 1) return { mean: m, sd: 0, skew: 0, kurt: 0 };
+            let s2 = 0, s3 = 0, s4 = 0;
+            for (const v of arr) { const d = v - m; s2 += d * d; s3 += d * d * d; s4 += d * d * d * d; }
+            const var1 = s2 / (n - 1), var0 = s2 / n;
+            return { mean: m, sd: Math.sqrt(var1), skew: (s3 / n) / Math.pow(var0, 1.5), kurt: (s4 / n) / (var0 * var0) };
+        }
+
+        function tweenText(el, target, dec, suffix) {
+            const from = parseFloat(el.textContent) || 0;
+            const t0 = performance.now(), dur = 400;
+            function tick(t) {
+                const p = Math.min(1, (t - t0) / dur);
+                const e = 1 - Math.pow(1 - p, 3);
+                el.textContent = (from + (target - from) * e).toFixed(dec) + (suffix || '');
+                if (p < 1) requestAnimationFrame(tick);
+            }
+            requestAnimationFrame(tick);
+        }
+
+        function deltaBadge(sample, theo) {
+            if (theo === undefined || theo === null || isNaN(theo)) return '';
+            const rel = Math.abs(theo) > 1e-9 ? Math.abs(sample - theo) / Math.abs(theo) : Math.abs(sample - theo);
+            if (sample === 0 && theo === 0) return '<span class="delta ok">≈</span>';
+            if (rel < 0.02) return '<span class="delta ok">≈</span>';
+            if (rel < 0.12) return '<span class="delta warn">±' + (rel * 100).toFixed(0) + '%</span>';
+            return '<span class="delta" style="color:var(--lab-danger)">±' + (rel * 100).toFixed(0) + '%</span>';
+        }
+
+        function renderLabStats() {
+            const arr = state.samples;
+            const N = arr.length;
+            const P = params[state.dist];
+            const theo = theoStats(state.dist, P);
+            const mom = moments(arr);
+            $('stN').textContent = N.toLocaleString();
+            if (N === 0) {
+                $('stMean').textContent = '—'; $('stSd').textContent = '—';
+                $('stSkew').textContent = '—'; $('stKurt').textContent = '—';
+                $('stMeanDelta').innerHTML = ''; $('stSdDelta').innerHTML = '';
+                return;
+            }
+            tweenText($('stMean'), mom.mean, 3);
+            tweenText($('stSd'), mom.sd, 3);
+            tweenText($('stSkew'), mom.skew, 2);
+            tweenText($('stKurt'), mom.kurt, 2);
+            $('stMeanDelta').innerHTML = deltaBadge(mom.mean, theo.mean);
+            $('stSdDelta').innerHTML = deltaBadge(mom.sd, theo.sd);
+        }
+
+        function renderCltStats() {
+            const arr = state.means;
+            const N = arr.length;
+            const P = params[state.dist];
+            const theo = theoStats(state.dist, P);
+            const mom = moments(arr);
+            const theoMean = theo.mean;
+            const theoStd = theo.sd / Math.sqrt(state.n);
+            $('cltN').textContent = N.toLocaleString();
+            if (N === 0) {
+                $('cltMean').textContent = '—'; $('cltSd').textContent = '—';
+                $('cltMeanDelta').innerHTML = ''; $('cltSdDelta').innerHTML = '';
+                return;
+            }
+            tweenText($('cltMean'), mom.mean, 4);
+            tweenText($('cltSd'), mom.sd, 4);
+            $('cltMeanDelta').innerHTML = deltaBadge(mom.mean, theoMean);
+            $('cltSdDelta').innerHTML = deltaBadge(mom.sd, theoStd);
+        }
+
+        /* ---------- 取样 ---------- */
+        function sampleOne() {
+            const P = params[state.dist];
+            switch (state.dist) {
+                case 'normal': return rNormal(P.mu, P.sigma);
+                case 'uniform': return rUniform(P.a, P.b);
+                case 'exponential': return rExp(P.lam);
+                case 'poisson': return rPoisson(P.lam);
+                case 'binomial': return rBinom(P.n, P.p);
+                case 'lognormal': return rLognormal(P.mu, P.sigma);
+                case 'gamma': return rGamma(P.k, P.th);
+                case 'beta': return rBeta(P.alpha, P.beta);
+            }
+            return 0;
+        }
+
+        function addSamples(k) {
+            const batch = [];
+            for (let i = 0; i < k; i++) batch.push(sampleOne());
+            state.samples.push.apply(state.samples, batch);
+            if (state.samples.length > 60000) state.samples.splice(0, state.samples.length - 60000);
+            rain(batch);
+            redraw();
+        }
+
+        /* ---------- 主重绘 ---------- */
+        function redraw() {
+            if (state.tab === 'lab') {
+                const discrete = DISCRETE.has(state.dist);
+                renderChart(state.samples, {
+                    discrete,
+                    pdf: true,
+                    pdfClass: '',
+                    pdfFn: (x) => density(state.dist, x, params[state.dist])
+                });
+                renderLabStats();
+            } else {
+                // CLT：理论曲线 = N(μ, σ/√n)，不是源分布本身
+                const theo = theoStats(state.dist, params[state.dist]);
+                const mu = theo.mean, sd = theo.sd / Math.sqrt(state.n);
+                renderChart(state.means, {
+                    discrete: false,
+                    pdf: state.means.length > 0,
+                    pdfClass: 'clt',
+                    pdfFn: (x) => density('normal', x, { mu, sigma: sd })
+                });
+                renderCltStats();
+            }
+            $('distBadge').textContent = DIST_EMOJI[state.dist] + ' ' + T('distNames')[state.dist];
+        }
+
+        /* ---------- CLT 抽样 ---------- */
+        let cltTimer = null;
+        function drawCltBatch(k) {
+            const P = params[state.dist];
+            const batch = [];
+            for (let g = 0; g < k; g++) {
+                let s = 0;
+                for (let i = 0; i < state.n; i++) s += sampleOne();
+                batch.push(s / state.n);
+            }
+            state.means.push.apply(state.means, batch);
+            if (state.means.length > 10000) {
+                state.means.splice(0, state.means.length - 10000);
+                stopClt();
+            }
+            rain(batch);
+            redraw();
+        }
+        function startClt() {
+            if (state.running) return;
+            state.running = true;
+            const btn = $('btnCltStart');
+            btn.classList.add('running');
+            btn.querySelector('i').className = 'fas fa-pause';
+            btn.querySelector('span').textContent = lang() === 'zh' ? '暂停' : 'Pause';
+            cltTimer = setInterval(() => drawCltBatch(Math.max(1, Math.round(state.cltSpeed / 10))), 100);
+        }
+        function stopClt() {
+            state.running = false;
+            clearInterval(cltTimer);
+            const btn = $('btnCltStart');
+            btn.classList.remove('running');
+            btn.querySelector('i').className = 'fas fa-play';
+            btn.querySelector('span').textContent = lang() === 'zh' ? '开始抽样' : 'Start';
+        }
+
+        /* ---------- Tab 切换 ---------- */
+        function switchTab(tab) {
+            state.tab = tab;
+            $('tabLab').classList.toggle('active', tab === 'lab');
+            $('tabClt').classList.toggle('active', tab === 'clt');
+            $('tabLab').setAttribute('aria-selected', tab === 'lab');
+            $('tabClt').setAttribute('aria-selected', tab === 'clt');
+            $('ctrlLab').style.display = tab === 'lab' ? 'flex' : 'none';
+            $('ctrlClt').style.display = tab === 'clt' ? 'flex' : 'none';
+            $('cltBlock').style.display = tab === 'clt' ? 'block' : 'none';
+            if (tab === 'lab') stopClt();
+            redraw();
+        }
+
+        /* ---------- 语言联动 ---------- */
+        function refreshDynamicLang() {
+            const names = T('distNames');
+            document.querySelectorAll('.dist-btn').forEach(btn => {
+                btn.querySelector('.d-name').textContent = names[btn.dataset.dist];
+            });
+            $('distBadge').textContent = DIST_EMOJI[state.dist] + ' ' + names[state.dist];
+            $('distNote').textContent = T('distNotes')[state.dist];
+            $('formulaBox').innerHTML = '<i>' + T('formula')[state.dist] + '</i>';
+            $('cltNote').innerHTML = T('cltNote');
+            renderParams();
+            if (state.running) {
+                $('btnCltStart').querySelector('span').textContent = lang() === 'zh' ? '暂停' : 'Pause';
+            }
+            redraw();
+        }
+        window.addEventListener('sitewide-language-change', refreshDynamicLang);
+
+        /* ---------- 控制绑定 ---------- */
+        $('btnBatch').addEventListener('click', () => addSamples(500));
+        $('btnAuto').addEventListener('click', () => {
+            state.auto = !state.auto;
+            const btn = $('btnAuto');
+            btn.classList.toggle('running', state.auto);
+            btn.querySelector('i').className = state.auto ? 'fas fa-pause' : 'fas fa-play';
+            btn.querySelector('span').textContent = state.auto ? (lang() === 'zh' ? '停止' : 'Stop') : (lang() === 'zh' ? '自动' : 'Auto');
+            if (state.auto && !window._labAutoTimer) {
+                window._labAutoTimer = setInterval(() => addSamples(120), 70);
+            } else if (!state.auto && window._labAutoTimer) {
+                clearInterval(window._labAutoTimer);
+                window._labAutoTimer = null;
+            }
+        });
+        $('btnClear').addEventListener('click', () => {
+            state.samples = [];
+            redraw();
+        });
+        $('binSlider').addEventListener('input', (e) => {
+            state.bins = parseInt(e.target.value, 10);
+            $('binVal').textContent = state.bins;
+            if (state.tab === 'lab') redraw();
+        });
+
+        $('btnCltStart').addEventListener('click', () => { state.running ? stopClt() : startClt(); });
+        $('btnCltBatch').addEventListener('click', () => drawCltBatch(30));
+        $('btnCltClear').addEventListener('click', () => {
+            state.means = [];
+            redraw();
+        });
+        $('nSlider').addEventListener('input', (e) => {
+            state.n = parseInt(e.target.value, 10);
+            $('nVal').textContent = state.n;
+            if (state.tab === 'clt') redraw(); // 理论 σ/√n 与分箱范围随 n 变化
+        });
+        $('cltSpeed').addEventListener('input', (e) => {
+            state.cltSpeed = parseInt(e.target.value, 10);
+            $('cltSpeedVal').textContent = state.cltSpeed;
+        });
+
+        $('tabLab').addEventListener('click', () => switchTab('lab'));
+        $('tabClt').addEventListener('click', () => switchTab('clt'));
+
+        /* ---------- 快捷键 ---------- */
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey || e.metaKey || e.altKey) return;
+            if (e.target && e.target.tagName === 'INPUT') return;
+            const k = e.key.toLowerCase();
+            if (k >= '1' && k <= '8') {
+                const d = DIST_ORDER[parseInt(k, 10) - 1];
+                state.dist = d;
+                setActiveDist(d);
+                renderParams();
+                state.means = [];
+                redraw();
+            } else if (k === ' ' && state.tab === 'lab') {
+                e.preventDefault();
+                $('btnAuto').click();
+            } else if (k === 'b') {
+                $('btnBatch').click();
+            } else if (k === 'c') {
+                $('btnClear').click();
+            }
+        });
+
+        /* ---------- 初始化 ---------- */
+        function init() {
+            renderDistButtons();
+            renderParams();
+            $('cltNote').innerHTML = T('cltNote');
+            // 初始撒一批正态样本，让页面一打开就有内容
+            for (let i = 0; i < 2000; i++) state.samples.push(sampleOne());
+            setTimeout(() => { redraw(); rain(state.samples.slice(-220)); }, 80);
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    })();
+    </script>
+</body>
+</html>

@@ -186,9 +186,13 @@
             const items = extractQiaItems(doc);
             if (items.length) {
                 renderQiaCards(items);
-                if (typeof updateAllLanguageElements === 'function') {
-                    updateAllLanguageElements(getLang());
-                }
+                // 仅刷新 QIA 卡片内的双语元素：
+                // 全局 updateAllLanguageElements 会重置问候语等元素文本，
+                // 与 greeting.js 打字机效果产生竞态（文本被重复追加）
+                const lang = getLang();
+                stack.querySelectorAll('[data-en][data-zh]').forEach(el => {
+                    el.textContent = el.getAttribute(`data-${lang}`) || '';
+                });
             }
         } catch (error) {
             console.warn('[home qia sync] fallback to static cards:', error);

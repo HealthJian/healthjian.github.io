@@ -1,0 +1,3342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>HealthJian</title>
+
+
+    <style>
+
+        /* =====================================================
+           Theme Variables
+        ====================================================== */
+
+        :root {
+
+            --text-primary: #302d29;
+            --text-secondary: #756d65;
+            --text-hover: #171513;
+
+            /*
+                导航栏：
+                毛玻璃 + 较高实体感
+                不会过于透明
+            */
+            --nav-bg:
+                rgba(246, 242, 235, 0.78);
+
+            --nav-border:
+                rgba(255, 255, 255, 0.65);
+
+            --nav-inner-border:
+                rgba(120, 105, 90, 0.08);
+
+            --nav-shadow:
+                0 12px 40px rgba(65, 55, 45, 0.10);
+
+            --nav-hover:
+                rgba(255, 255, 255, 0.62);
+
+            --active-bg:
+                rgba(255, 255, 255, 0.82);
+
+            --active-text:
+                #1d1a17;
+
+            --divider:
+                rgba(100, 90, 80, 0.12);
+
+            --icon-color: #655e57;
+
+            --logo-bg:
+                linear-gradient(
+                    135deg,
+                    #d9c3a3,
+                    #f6eee0
+                );
+
+            --logo-text: #5e4d3d;
+
+        }
+
+
+        body.dark-ui {
+
+            --text-primary: #edf3fa;
+            --text-secondary: #9aabba;
+            --text-hover: #ffffff;
+
+            --nav-bg:
+                rgba(12, 28, 49, 0.82);
+
+            --nav-border:
+                rgba(255, 255, 255, 0.10);
+
+            --nav-inner-border:
+                rgba(130, 190, 255, 0.08);
+
+            --nav-shadow:
+                0 14px 45px rgba(0, 0, 0, 0.30);
+
+            --nav-hover:
+                rgba(255, 255, 255, 0.07);
+
+            --active-bg:
+                rgba(34, 59, 88, 0.90);
+
+            --active-text:
+                #ffffff;
+
+            --divider:
+                rgba(255, 255, 255, 0.10);
+
+            --icon-color:
+                #b5c6d7;
+
+            --logo-bg:
+                linear-gradient(
+                    135deg,
+                    #24486d,
+                    #102b48
+                );
+
+            --logo-text:
+                #dceeff;
+        }
+
+
+        /* =====================================================
+           Reset
+        ====================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            overflow: hidden;
+
+            position: relative;
+
+            isolation: isolate;
+
+            background: #f5f0e6;
+
+            color: var(--text-primary);
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                "Helvetica Neue",
+                Arial,
+                sans-serif;
+
+            transition:
+                color 0.7s ease,
+                background-color 0.7s ease;
+
+            user-select: none;
+
+            -webkit-user-select: none;
+        }
+
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+
+        button {
+            font-family: inherit;
+        }
+
+
+        /* =====================================================
+           Particle Canvas
+        ====================================================== */
+
+        #particle-canvas {
+
+            position: fixed;
+
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            z-index: 0;
+
+            pointer-events: none;
+
+            transform: translateZ(0);
+        }
+
+
+        /* =====================================================
+           UI Layer
+        ====================================================== */
+
+        .ui-layer {
+
+            position: relative;
+
+            z-index: 10;
+
+            width: 100%;
+            min-height: 100vh;
+
+            pointer-events: none;
+        }
+
+
+        /* =====================================================
+           Navigation
+        ====================================================== */
+
+        .site-header {
+
+            position: fixed;
+
+            top: 22px;
+            left: 50%;
+
+            width: calc(100% - 48px);
+
+            max-width: 1420px;
+
+            transform: translateX(-50%);
+
+            z-index: 100;
+
+            pointer-events: none;
+        }
+
+
+        .navbar {
+
+            width: 100%;
+
+            min-height: 68px;
+
+            display: flex;
+
+            align-items: center;
+
+            padding: 8px 12px;
+
+            border-radius: 18px;
+
+            background: var(--nav-bg);
+
+            border:
+                1px solid var(--nav-border);
+
+            box-shadow:
+                var(--nav-shadow),
+                inset 0 1px 0 var(--nav-inner-border);
+
+            backdrop-filter:
+                blur(22px)
+                saturate(140%);
+
+            -webkit-backdrop-filter:
+                blur(22px)
+                saturate(140%);
+
+            pointer-events: auto;
+
+            transition:
+                background 0.7s ease,
+                border-color 0.7s ease,
+                box-shadow 0.7s ease;
+        }
+
+
+        /* =====================================================
+           Brand
+        ====================================================== */
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+            flex-shrink: 0;
+
+            padding: 6px 10px;
+        }
+
+
+        .brand-logo {
+
+            width: 36px;
+            height: 36px;
+
+            border-radius: 10px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+
+            overflow: hidden;
+
+            background: var(--logo-bg);
+
+            color: var(--logo-text);
+
+            box-shadow:
+                inset 0 1px 1px rgba(255, 255, 255, 0.25),
+                0 3px 10px rgba(0, 0, 0, 0.08);
+
+            transition:
+                background 0.7s ease,
+                color 0.7s ease,
+                transform 0.3s ease;
+        }
+
+
+        .brand:hover .brand-logo {
+
+            transform:
+                rotate(-3deg)
+                scale(1.04);
+        }
+
+
+        /*
+            Logo 占位符
+
+            后续可以替换为：
+
+            <img src="logo.png" alt="HealthJian">
+        */
+
+        .brand-logo span {
+
+            font-size: 17px;
+
+            font-weight: 700;
+
+            line-height: 1;
+        }
+
+
+        .brand-name {
+
+            font-size: 17px;
+
+            font-weight: 650;
+
+            letter-spacing: -0.35px;
+
+            color: var(--text-primary);
+
+            white-space: nowrap;
+
+            transition: color 0.7s ease;
+        }
+
+
+        /* =====================================================
+           Spacer
+        ====================================================== */
+
+        .nav-spacer {
+
+            flex: 1;
+
+            min-width: 30px;
+        }
+
+
+        /* =====================================================
+           Navigation Links
+        ====================================================== */
+
+        .nav-links {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 3px;
+
+            padding: 0 10px;
+
+            white-space: nowrap;
+        }
+
+
+        .nav-link {
+
+            position: relative;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            height: 40px;
+
+            padding: 0 13px;
+
+            border-radius: 10px;
+
+            color: var(--text-secondary);
+
+            font-size: 14px;
+
+            font-weight: 500;
+
+            transition:
+                color 0.25s ease,
+                background 0.25s ease,
+                transform 0.25s ease;
+        }
+
+
+        .nav-link:hover {
+
+            color: var(--text-hover);
+
+            background: var(--nav-hover);
+
+            transform: translateY(-1px);
+        }
+
+
+        .nav-link.active {
+
+            color: var(--active-text);
+
+            background: var(--active-bg);
+
+            box-shadow:
+                0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+
+        /* =====================================================
+           Divider
+        ====================================================== */
+
+        .nav-divider {
+
+            width: 1px;
+
+            height: 24px;
+
+            flex-shrink: 0;
+
+            margin: 0 8px;
+
+            background: var(--divider);
+
+            transition:
+                background 0.7s ease;
+        }
+
+
+        /* =====================================================
+           Social Links
+        ====================================================== */
+
+        .social-links {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 3px;
+        }
+
+
+        .icon-button {
+
+            width: 38px;
+            height: 38px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background: transparent;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            color: var(--icon-color);
+
+            cursor: pointer;
+
+            transition:
+                background 0.25s ease,
+                color 0.25s ease,
+                transform 0.25s ease;
+        }
+
+
+        .icon-button:hover {
+
+            background: var(--nav-hover);
+
+            color: var(--text-hover);
+
+            transform: translateY(-1px);
+        }
+
+
+        .icon-button:active {
+
+            transform: scale(0.94);
+        }
+
+
+        .icon-button svg {
+
+            width: 18px;
+            height: 18px;
+
+            fill: none;
+
+            stroke: currentColor;
+
+            stroke-width: 1.8;
+
+            stroke-linecap: round;
+
+            stroke-linejoin: round;
+        }
+
+
+        .icon-button.github svg,
+        .icon-button.steam svg,
+        .icon-button.douyin svg {
+
+            fill: currentColor;
+
+            stroke: none;
+        }
+
+
+        /* =====================================================
+           Theme Switcher
+        ====================================================== */
+
+        .theme-switcher {
+
+            display: flex;
+
+            align-items: center;
+
+            padding: 3px;
+
+            height: 42px;
+
+            border-radius: 12px;
+
+            background:
+                rgba(255, 255, 255, 0.08);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.05);
+
+            transition:
+                background 0.6s ease,
+                border-color 0.6s ease;
+        }
+
+
+        .theme-option {
+
+            appearance: none;
+
+            border: none;
+
+            outline: none;
+
+            width: 36px;
+            height: 34px;
+
+            border-radius: 9px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: transparent;
+
+            color: var(--text-secondary);
+
+            cursor: pointer;
+
+            transition:
+                color 0.3s ease,
+                background 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.2s ease;
+        }
+
+
+        .theme-option:hover {
+
+            color: var(--text-hover);
+        }
+
+
+        .theme-option:active {
+
+            transform: scale(0.92);
+        }
+
+
+        .theme-option.active {
+
+            color: var(--active-text);
+
+            background: var(--active-bg);
+
+            box-shadow:
+                0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+
+        .theme-option svg {
+
+            width: 16px;
+            height: 16px;
+
+            fill: none;
+
+            stroke: currentColor;
+
+            stroke-width: 1.8;
+
+            stroke-linecap: round;
+
+            stroke-linejoin: round;
+        }
+
+
+        /* =====================================================
+           Language Switcher
+        ====================================================== */
+
+        .language-switcher {
+
+            display: flex;
+
+            align-items: center;
+
+            height: 40px;
+
+            padding: 3px;
+
+            border-radius: 11px;
+
+            background:
+                rgba(255, 255, 255, 0.07);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.05);
+        }
+
+
+        .language-option {
+
+            appearance: none;
+
+            border: none;
+
+            outline: none;
+
+            min-width: 34px;
+
+            height: 32px;
+
+            padding: 0 8px;
+
+            border-radius: 8px;
+
+            background: transparent;
+
+            color: var(--text-secondary);
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            letter-spacing: 0.2px;
+
+            cursor: pointer;
+
+            transition:
+                background 0.3s ease,
+                color 0.3s ease;
+        }
+
+
+        .language-option.active {
+
+            color: var(--active-text);
+
+            background: var(--active-bg);
+
+            box-shadow:
+                0 2px 7px rgba(0, 0, 0, 0.07);
+        }
+
+
+        /* =====================================================
+           Bottom Hint
+        ====================================================== */
+
+        .hint {
+
+            position: fixed;
+
+            left: 50%;
+            bottom: 28px;
+
+            transform: translateX(-50%);
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            gap: 10px;
+
+            color: var(--text-primary);
+
+            opacity: 0.52;
+
+            pointer-events: none;
+
+            transition:
+                color 0.7s ease,
+                opacity 0.5s ease;
+        }
+
+
+        .mouse-icon {
+
+            position: relative;
+
+            width: 22px;
+            height: 34px;
+
+            border:
+                1.5px solid currentColor;
+
+            border-radius: 13px;
+        }
+
+
+        .mouse-icon::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: 6px;
+            left: 50%;
+
+            width: 1.5px;
+            height: 8px;
+
+            background: currentColor;
+
+            border-radius: 999px;
+
+            transform: translateX(-50%);
+        }
+
+
+        .hint-text {
+
+            font-size: 12px;
+
+            letter-spacing: 0.45px;
+
+            white-space: nowrap;
+        }
+
+
+        /* =====================================================
+           Tablet
+        ====================================================== */
+
+        @media (max-width: 1150px) {
+
+            .site-header {
+
+                width: calc(100% - 32px);
+            }
+
+
+            .navbar {
+
+                padding: 8px;
+            }
+
+
+            .nav-link {
+
+                padding: 0 9px;
+            }
+
+
+            .brand-name {
+
+                font-size: 16px;
+            }
+
+
+            .social-links .icon-button {
+
+                width: 34px;
+            }
+        }
+
+
+        /* =====================================================
+           Small Tablet
+        ====================================================== */
+
+        @media (max-width: 920px) {
+
+            .nav-link {
+
+                padding: 0 8px;
+
+                font-size: 13px;
+            }
+
+
+            .social-links {
+
+                gap: 0;
+            }
+
+
+            .social-links .icon-button {
+
+                width: 32px;
+                height: 36px;
+            }
+
+
+            .nav-divider {
+
+                margin: 0 5px;
+            }
+
+
+            .nav-spacer {
+
+                min-width: 10px;
+            }
+        }
+
+
+        /* =====================================================
+           Mobile
+        ====================================================== */
+
+        @media (max-width: 720px) {
+
+            .site-header {
+
+                top: 12px;
+
+                width: calc(100% - 24px);
+            }
+
+
+            .navbar {
+
+                min-height: 58px;
+
+                border-radius: 15px;
+            }
+
+
+            .brand {
+
+                padding-left: 6px;
+
+                gap: 8px;
+            }
+
+
+            .brand-logo {
+
+                width: 32px;
+                height: 32px;
+
+                border-radius: 9px;
+            }
+
+
+            .brand-name {
+
+                font-size: 15px;
+            }
+
+
+            /*
+                手机端隐藏文字导航
+                未来可以替换为汉堡菜单
+            */
+
+            .nav-links {
+
+                display: none;
+            }
+
+
+            .social-links {
+
+                display: none;
+            }
+
+
+            .nav-spacer {
+
+                flex: 1;
+            }
+
+
+            .nav-divider {
+
+                display: none;
+            }
+
+
+            .theme-switcher {
+
+                height: 38px;
+            }
+
+
+            .theme-option {
+
+                width: 32px;
+                height: 30px;
+            }
+
+
+            .language-switcher {
+
+                height: 38px;
+            }
+
+
+            .language-option {
+
+                height: 30px;
+
+                min-width: 30px;
+
+                padding: 0 6px;
+
+                font-size: 11px;
+            }
+
+
+            .hint {
+
+                bottom: 20px;
+            }
+
+
+            .hint-text {
+
+                font-size: 11px;
+            }
+        }
+
+
+        /* =====================================================
+           Very Small Screen
+        ====================================================== */
+
+        @media (max-width: 390px) {
+
+            .brand-name {
+
+                display: none;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         Particle Background
+    ====================================================== -->
+
+    <canvas id="particle-canvas"></canvas>
+
+
+    <!-- =====================================================
+         UI Layer
+    ====================================================== -->
+
+    <main class="ui-layer">
+
+
+        <!-- =================================================
+             Header
+        ================================================== -->
+
+        <header class="site-header">
+
+            <nav
+                class="navbar"
+                aria-label="Main Navigation"
+            >
+
+
+                <!-- Brand -->
+
+                <a
+                    href="#"
+                    class="brand"
+                >
+
+                    <!--
+                        LOGO 占位
+
+                        以后替换成：
+
+                        <div class="brand-logo">
+                            <img src="your-logo.png" alt="HealthJian">
+                        </div>
+                    -->
+
+                    <div class="brand-logo">
+                        <span>H</span>
+                    </div>
+
+
+                    <span class="brand-name">
+                        HealthJian
+                    </span>
+
+                </a>
+
+
+                <!-- Flexible Space -->
+
+                <div class="nav-spacer"></div>
+
+
+                <!-- Main Navigation -->
+
+                <div class="nav-links">
+
+                    <a
+                        href="#"
+                        class="nav-link active"
+                    >
+                        首页
+                    </a>
+
+                    <a
+                        href="#"
+                        class="nav-link"
+                    >
+                        博客
+                    </a>
+
+                    <a
+                        href="#"
+                        class="nav-link"
+                    >
+                        朋友
+                    </a>
+
+                    <a
+                        href="#"
+                        class="nav-link"
+                    >
+                        简历
+                    </a>
+
+                    <a
+                        href="#"
+                        class="nav-link"
+                    >
+                        关于
+                    </a>
+
+                </div>
+
+
+                <!-- Divider -->
+
+                <div class="nav-divider"></div>
+
+
+                <!-- Social -->
+
+                <div class="social-links">
+
+
+                    <!-- GitHub -->
+
+                    <a
+                        href="#"
+                        class="icon-button github"
+                        aria-label="GitHub"
+                        title="GitHub"
+                    >
+                        <svg
+                            viewBox="0 0 24 24"
+                        >
+                            <path d="
+                                M12 .7
+                                C5.75.7.7 5.75.7 12
+                                c0 4.98 3.23 9.2 7.7 10.69
+                                .56.1.77-.24.77-.54
+                                0-.27-.01-1.16-.02-2.1
+                                -3.13.68-3.79-1.33
+                                -3.79-1.33
+                                -.51-1.3-1.25-1.65
+                                -1.25-1.65
+                                -1.02-.7.08-.69.08-.69
+                                1.13.08 1.72 1.16
+                                1.72 1.16
+                                1 1.72 2.62 1.22
+                                3.26.93
+                                .1-.73.39-1.22.71-1.5
+                                -2.5-.28-5.13-1.25
+                                -5.13-5.57
+                                0-1.23.44-2.23
+                                1.16-3.02
+                                -.12-.28-.5-1.44
+                                .11-3
+                                0 0 .95-.3 3.08 1.15
+                                .9-.25 1.86-.38 2.82-.38
+                                .96 0 1.92.13 2.82.38
+                                2.13-1.45 3.08-1.15
+                                3.08-1.15
+                                .61 1.56.23 2.72
+                                .11 3
+                                .72.79 1.16 1.79
+                                1.16 3.02
+                                0 4.33-2.63 5.29
+                                -5.14 5.57
+                                .4.35.75 1.03.75 2.08
+                                0 1.5-.01 2.71-.01 3.08
+                                0 .3.2.65.78.54
+                                A11.3 11.3 0 0 0
+                                23.3 12
+                                C23.3 5.75 18.25.7 12 .7Z
+                            "/>
+                        </svg>
+                    </a>
+
+
+                    <!-- Steam -->
+
+                    <a
+                        href="#"
+                        class="icon-button steam"
+                        aria-label="Steam"
+                        title="Steam"
+                    >
+                        <svg
+                            viewBox="0 0 24 24"
+                        >
+                            <path d="
+                                M8.5 17.5
+                                3.8 15.6
+                                a3.1 3.1 0 1 0
+                                2.5 5.7
+                                l5-2.2
+                                A5.7 5.7 0 0 0
+                                18.4 14
+                                a5.7 5.7 0 0 0
+                                -11.3 0
+                                l1.4.6
+                                a4.1 4.1 0 1 1
+                                1.4 4.9
+                                l-1.4-.6Zm
+                                9.9-8.8
+                                a3.2 3.2 0 1 1
+                                0 6.4
+                                3.2 3.2 0 0 1
+                                0-6.4Z
+                            "/>
+                        </svg>
+                    </a>
+
+
+                    <!-- Email -->
+
+                    <a
+                        href="#"
+                        class="icon-button"
+                        aria-label="Email"
+                        title="Email"
+                    >
+                        <svg viewBox="0 0 24 24">
+                            <rect
+                                x="3"
+                                y="5"
+                                width="18"
+                                height="14"
+                                rx="2"
+                            />
+                            <path d="
+                                M3 7
+                                l9 6
+                                9-6
+                            " />
+                        </svg>
+                    </a>
+
+
+                    <!-- Douyin -->
+
+                    <a
+                        href="#"
+                        class="icon-button douyin"
+                        aria-label="Douyin"
+                        title="Douyin"
+                    >
+                        <svg
+                            viewBox="0 0 24 24"
+                        >
+                            <path d="
+                                M15.2 3
+                                c.4 2.6 1.8 4.3
+                                4.5 4.8
+                                v3.1
+                                c-1.7-.1-3.3-.6-4.5-1.6
+                                v5.5
+                                c0 3.7-2.7 6.2-6.1 6.2
+                                -3.2 0-5.8-2.5-5.8-5.7
+                                0-3.4 2.7-6 6.1-6
+                                .5 0 .9.1 1.3.2
+                                v3.2
+                                c-.4-.2-.8-.3-1.3-.3
+                                -1.6 0-2.9 1.2-2.9 2.8
+                                0 1.6 1.3 2.8 2.9 2.8
+                                1.8 0 2.8-1.2 2.8-3.1V3h3.0Z
+                            "/>
+                        </svg>
+                    </a>
+
+                </div>
+
+
+                <!-- Divider -->
+
+                <div class="nav-divider"></div>
+
+
+                <!-- =================================================
+                     Theme Switcher
+                ================================================== -->
+
+                <div
+                    class="theme-switcher"
+                    id="themeToggle"
+                >
+
+                    <button
+                        class="theme-option active"
+                        data-theme="day"
+                        type="button"
+                        aria-label="Day Mode"
+                        title="Day Mode"
+                    >
+
+                        <svg viewBox="0 0 24 24">
+
+                            <circle
+                                cx="12"
+                                cy="12"
+                                r="4.5"
+                            />
+
+                            <path d="M12 2v2" />
+                            <path d="M12 20v2" />
+                            <path d="M4.93 4.93l1.41 1.41" />
+                            <path d="M17.66 17.66l1.41 1.41" />
+                            <path d="M2 12h2" />
+                            <path d="M20 12h2" />
+                            <path d="M4.93 19.07l1.41-1.41" />
+                            <path d="M17.66 6.34l1.41-1.41" />
+
+                        </svg>
+
+                    </button>
+
+
+                    <button
+                        class="theme-option"
+                        data-theme="night"
+                        type="button"
+                        aria-label="Night Mode"
+                        title="Night Mode"
+                    >
+
+                        <svg viewBox="0 0 24 24">
+
+                            <path d="
+                                M21 12.79
+                                A9 9 0 1 1
+                                11.21 3
+                                7 7 0 0 0
+                                21 12.79z
+                            "/>
+
+                        </svg>
+
+                    </button>
+
+                </div>
+
+
+                <!-- Divider -->
+
+                <div class="nav-divider"></div>
+
+
+                <!-- =================================================
+                     Language Switcher
+                ================================================== -->
+
+                <div
+                    class="language-switcher"
+                    id="languageSwitcher"
+                >
+
+                    <button
+                        class="language-option active"
+                        data-lang="zh"
+                        type="button"
+                    >
+                        中
+                    </button>
+
+                    <button
+                        class="language-option"
+                        data-lang="en"
+                        type="button"
+                    >
+                        EN
+                    </button>
+
+                </div>
+
+
+            </nav>
+
+        </header>
+
+
+        <!-- =====================================================
+             Hint
+        ====================================================== -->
+
+        <div class="hint">
+
+            <div class="mouse-icon"></div>
+
+            <div class="hint-text">
+                Move your mouse or touch to interact
+            </div>
+
+        </div>
+
+
+    </main>
+
+
+    <script>
+
+        /* =====================================================
+           Utilities
+        ====================================================== */
+
+        const clamp = (value, min, max) =>
+            Math.max(min, Math.min(max, value));
+
+
+        const lerp = (a, b, t) =>
+            a + (b - a) * t;
+
+
+        function lerpColor(colorA, colorB, t) {
+
+            return [
+
+                Math.round(
+                    lerp(
+                        colorA[0],
+                        colorB[0],
+                        t
+                    )
+                ),
+
+                Math.round(
+                    lerp(
+                        colorA[1],
+                        colorB[1],
+                        t
+                    )
+                ),
+
+                Math.round(
+                    lerp(
+                        colorA[2],
+                        colorB[2],
+                        t
+                    )
+                )
+
+            ];
+        }
+
+
+        function rgba(
+            color,
+            alpha = 1
+        ) {
+
+            return `rgba(
+                ${color[0]},
+                ${color[1]},
+                ${color[2]},
+                ${alpha}
+            )`;
+        }
+
+
+        function smoothStep(t) {
+
+            t = clamp(t, 0, 1);
+
+            return t * t * (3 - 2 * t);
+        }
+
+
+        /* =====================================================
+           Themes
+        ====================================================== */
+
+        const THEMES = {
+
+            day: {
+
+                bg: [245, 240, 230],
+
+                warmGlow: [255, 223, 170],
+
+                centerGlow: [210, 220, 228],
+
+                particle: [175, 154, 122],
+
+                line: [155, 137, 110],
+
+                trail: [196, 163, 120]
+            },
+
+
+            night: {
+
+                bg: [5, 19, 40],
+
+                warmGlow: [35, 83, 125],
+
+                centerGlow: [70, 120, 170],
+
+                particle: [155, 210, 255],
+
+                line: [90, 165, 235],
+
+                trail: [100, 195, 255]
+            }
+
+        };
+
+
+        /* =====================================================
+           Particle System
+        ====================================================== */
+
+        class ParticleSystem {
+
+            constructor(canvas) {
+
+                this.canvas = canvas;
+
+                this.ctx =
+                    canvas.getContext(
+                        "2d",
+                        {
+                            alpha: false,
+                            desynchronized: true
+                        }
+                    );
+
+
+                this.running = true;
+
+                this.lastTime =
+                    performance.now();
+
+                this.time = 0;
+
+                this.animationId = null;
+
+
+                this.width = 0;
+                this.height = 0;
+                this.dpr = 1;
+
+
+                this.particles = [];
+
+                this.particleCount = 130;
+
+                this.maxParticles = 145;
+
+                this.minParticles = 45;
+
+
+                this.connectionRadius = 140;
+
+                this.connectionRadiusSq =
+                    this.connectionRadius *
+                    this.connectionRadius;
+
+
+                this.gridSize =
+                    this.connectionRadius;
+
+                this.grid = new Map();
+
+
+                /* Mouse */
+
+                this.mouse = {
+
+                    x: -9999,
+                    y: -9999,
+
+                    targetX: -9999,
+                    targetY: -9999,
+
+                    active: false,
+
+                    radius: 155,
+
+                    radiusSq:
+                        155 * 155,
+
+                    lastX: -9999,
+                    lastY: -9999,
+
+                    speed: 0
+                };
+
+
+                /* Trail */
+
+                this.mouseTrail = [];
+
+                this.maxTrailLength = 18;
+
+
+                /* Theme */
+
+                this.themeProgress = 0;
+
+                this.targetThemeProgress = 0;
+
+
+                /* FPS */
+
+                this.fps = 60;
+
+                this.frameCounter = 0;
+
+                this.fpsTimer =
+                    performance.now();
+
+
+                this.reducedMotion =
+                    window.matchMedia(
+                        "(prefers-reduced-motion: reduce)"
+                    ).matches;
+
+
+                this.initDeviceConfig();
+
+                this.resize();
+
+                this.initParticles();
+
+                this.bindEvents();
+
+                this.animate();
+            }
+
+
+            /* =================================================
+               Device
+            ================================================= */
+
+            initDeviceConfig() {
+
+                const width =
+                    window.innerWidth;
+
+
+                if (width < 600) {
+
+                    this.particleCount = 48;
+
+                    this.maxParticles = 60;
+
+                    this.minParticles = 32;
+
+                    this.mouse.radius = 90;
+
+                    this.connectionRadius = 85;
+                }
+
+                else if (width < 1100) {
+
+                    this.particleCount = 90;
+
+                    this.maxParticles = 105;
+
+                    this.minParticles = 55;
+
+                    this.mouse.radius = 120;
+
+                    this.connectionRadius = 110;
+                }
+
+                else {
+
+                    this.particleCount = 130;
+
+                    this.maxParticles = 145;
+
+                    this.minParticles = 75;
+
+                    this.mouse.radius = 155;
+
+                    this.connectionRadius = 140;
+                }
+
+
+                this.mouse.radiusSq =
+                    this.mouse.radius *
+                    this.mouse.radius;
+
+
+                this.connectionRadiusSq =
+                    this.connectionRadius *
+                    this.connectionRadius;
+
+
+                this.gridSize =
+                    this.connectionRadius;
+            }
+
+
+            /* =================================================
+               Resize
+            ================================================= */
+
+            resize() {
+
+                this.width =
+                    window.innerWidth;
+
+                this.height =
+                    window.innerHeight;
+
+
+                this.dpr =
+                    Math.min(
+                        window.devicePixelRatio || 1,
+                        2
+                    );
+
+
+                this.canvas.width =
+                    Math.floor(
+                        this.width *
+                        this.dpr
+                    );
+
+
+                this.canvas.height =
+                    Math.floor(
+                        this.height *
+                        this.dpr
+                    );
+
+
+                this.canvas.style.width =
+                    this.width + "px";
+
+                this.canvas.style.height =
+                    this.height + "px";
+
+
+                this.ctx.setTransform(
+                    this.dpr,
+                    0,
+                    0,
+                    this.dpr,
+                    0,
+                    0
+                );
+            }
+
+
+            /* =================================================
+               Particle Factory
+            ================================================= */
+
+            createParticle() {
+
+                const speed =
+                    0.18 +
+                    Math.random() * 0.35;
+
+
+                const angle =
+                    Math.random() *
+                    Math.PI *
+                    2;
+
+
+                return {
+
+                    x:
+                        Math.random() *
+                        this.width,
+
+                    y:
+                        Math.random() *
+                        this.height,
+
+                    vx:
+                        Math.cos(angle) *
+                        speed,
+
+                    vy:
+                        Math.sin(angle) *
+                        speed,
+
+                    baseSpeed: speed,
+
+                    baseAngle: angle,
+
+                    radius:
+                        0.55 +
+                        Math.random() * 1.15,
+
+                    glow:
+                        Math.random() < 0.10,
+
+                    glowStrength:
+                        0.6 +
+                        Math.random() * 0.6,
+
+                    phase:
+                        Math.random() *
+                        Math.PI *
+                        2
+                };
+            }
+
+
+            initParticles() {
+
+                this.particles = [];
+
+
+                for (
+                    let i = 0;
+                    i < this.particleCount;
+                    i++
+                ) {
+
+                    this.particles.push(
+                        this.createParticle()
+                    );
+                }
+            }
+
+
+            syncParticleCount() {
+
+                while (
+                    this.particles.length <
+                    this.particleCount
+                ) {
+
+                    this.particles.push(
+                        this.createParticle()
+                    );
+                }
+
+
+                if (
+                    this.particles.length >
+                    this.particleCount
+                ) {
+
+                    this.particles.length =
+                        this.particleCount;
+                }
+            }
+
+
+            /* =================================================
+               Events
+            ================================================= */
+
+            bindEvents() {
+
+                let resizeTimer;
+
+
+                window.addEventListener(
+                    "resize",
+                    () => {
+
+                        clearTimeout(resizeTimer);
+
+
+                        resizeTimer =
+                            setTimeout(
+                                () => {
+
+                                    this.initDeviceConfig();
+
+                                    this.resize();
+
+                                    this.syncParticleCount();
+
+                                },
+                                120
+                            );
+                    },
+                    {
+                        passive: true
+                    }
+                );
+
+
+                window.addEventListener(
+                    "pointermove",
+                    event => {
+
+                        this.mouse.targetX =
+                            event.clientX;
+
+                        this.mouse.targetY =
+                            event.clientY;
+
+                        this.mouse.active = true;
+                    },
+                    {
+                        passive: true
+                    }
+                );
+
+
+                window.addEventListener(
+                    "pointerdown",
+                    event => {
+
+                        this.mouse.targetX =
+                            event.clientX;
+
+                        this.mouse.targetY =
+                            event.clientY;
+
+                        this.mouse.active = true;
+                    },
+                    {
+                        passive: true
+                    }
+                );
+
+
+                window.addEventListener(
+                    "pointerleave",
+                    () => {
+
+                        this.mouse.active = false;
+                    },
+                    {
+                        passive: true
+                    }
+                );
+
+
+                document.addEventListener(
+                    "visibilitychange",
+                    () => {
+
+                        if (document.hidden) {
+
+                            this.running = false;
+
+                            cancelAnimationFrame(
+                                this.animationId
+                            );
+                        }
+
+                        else {
+
+                            if (!this.running) {
+
+                                this.running = true;
+
+                                this.lastTime =
+                                    performance.now();
+
+                                this.animate();
+                            }
+                        }
+                    }
+                );
+            }
+
+
+            /* =================================================
+               Theme
+            ================================================= */
+
+            setTheme(theme) {
+
+                this.targetThemeProgress =
+                    theme === "night"
+                        ? 1
+                        : 0;
+            }
+
+
+            /* =================================================
+               Grid
+            ================================================= */
+
+            buildSpatialGrid() {
+
+                this.grid.clear();
+
+
+                for (
+                    let i = 0;
+                    i < this.particles.length;
+                    i++
+                ) {
+
+                    const p =
+                        this.particles[i];
+
+
+                    const gx =
+                        Math.floor(
+                            p.x /
+                            this.gridSize
+                        );
+
+                    const gy =
+                        Math.floor(
+                            p.y /
+                            this.gridSize
+                        );
+
+
+                    const key =
+                        gx + "," + gy;
+
+
+                    if (
+                        !this.grid.has(key)
+                    ) {
+
+                        this.grid.set(
+                            key,
+                            []
+                        );
+                    }
+
+
+                    this.grid
+                        .get(key)
+                        .push(i);
+                }
+            }
+
+
+            /* =================================================
+               Mouse
+            ================================================= */
+
+            updateMouse(deltaScale) {
+
+                this.mouse.x +=
+                    (
+                        this.mouse.targetX -
+                        this.mouse.x
+                    ) *
+                    0.12 *
+                    deltaScale;
+
+
+                this.mouse.y +=
+                    (
+                        this.mouse.targetY -
+                        this.mouse.y
+                    ) *
+                    0.12 *
+                    deltaScale;
+
+
+                const dx =
+                    this.mouse.x -
+                    this.mouse.lastX;
+
+                const dy =
+                    this.mouse.y -
+                    this.mouse.lastY;
+
+
+                if (
+                    this.mouse.lastX > -9000
+                ) {
+
+                    this.mouse.speed =
+                        Math.min(
+                            Math.sqrt(
+                                dx * dx +
+                                dy * dy
+                            ),
+                            35
+                        );
+                }
+
+
+                this.mouse.lastX =
+                    this.mouse.x;
+
+                this.mouse.lastY =
+                    this.mouse.y;
+
+
+                if (this.mouse.active) {
+
+                    this.mouseTrail.push({
+
+                        x: this.mouse.x,
+
+                        y: this.mouse.y,
+
+                        life: 1
+                    });
+
+
+                    if (
+                        this.mouseTrail.length >
+                        this.maxTrailLength
+                    ) {
+
+                        this.mouseTrail.shift();
+                    }
+                }
+
+
+                for (
+                    let i =
+                        this.mouseTrail.length - 1;
+                    i >= 0;
+                    i--
+                ) {
+
+                    this.mouseTrail[i].life -=
+                        0.025 *
+                        deltaScale;
+
+
+                    if (
+                        this.mouseTrail[i].life <= 0
+                    ) {
+
+                        this.mouseTrail.splice(
+                            i,
+                            1
+                        );
+                    }
+                }
+            }
+
+
+            /* =================================================
+               Update
+            ================================================= */
+
+            updateParticles(deltaScale) {
+
+                if (this.reducedMotion) {
+                    return;
+                }
+
+
+                this.updateMouse(deltaScale);
+
+
+                this.time +=
+                    0.012 *
+                    deltaScale;
+
+
+                for (
+                    let i = 0;
+                    i < this.particles.length;
+                    i++
+                ) {
+
+                    const p =
+                        this.particles[i];
+
+
+                    /* Flow Field */
+
+                    const flowAngle =
+
+                        Math.sin(
+                            p.y * 0.0035 +
+                            this.time +
+                            p.phase
+                        ) *
+                        0.7
+
+                        +
+
+                        Math.cos(
+                            p.x * 0.0025 -
+                            this.time * 0.7
+                        ) *
+                        0.5;
+
+
+                    p.vx +=
+                        Math.cos(flowAngle) *
+                        0.008 *
+                        deltaScale;
+
+
+                    p.vy +=
+                        Math.sin(flowAngle) *
+                        0.008 *
+                        deltaScale;
+
+
+                    /* Natural recovery */
+
+                    const naturalX =
+                        Math.cos(
+                            p.baseAngle
+                        ) *
+                        p.baseSpeed;
+
+
+                    const naturalY =
+                        Math.sin(
+                            p.baseAngle
+                        ) *
+                        p.baseSpeed;
+
+
+                    p.vx +=
+                        (
+                            naturalX -
+                            p.vx
+                        ) *
+                        0.006 *
+                        deltaScale;
+
+
+                    p.vy +=
+                        (
+                            naturalY -
+                            p.vy
+                        ) *
+                        0.006 *
+                        deltaScale;
+
+
+                    /* Mouse field */
+
+                    if (this.mouse.active) {
+
+                        const dx =
+                            this.mouse.x -
+                            p.x;
+
+                        const dy =
+                            this.mouse.y -
+                            p.y;
+
+
+                        const distSq =
+                            dx * dx +
+                            dy * dy;
+
+
+                        if (
+                            distSq <
+                            this.mouse.radiusSq &&
+                            distSq > 1
+                        ) {
+
+                            const dist =
+                                Math.sqrt(
+                                    distSq
+                                );
+
+
+                            let force =
+                                1 -
+                                dist /
+                                this.mouse.radius;
+
+
+                            force =
+                                smoothStep(force);
+
+
+                            const nx =
+                                dx / dist;
+
+                            const ny =
+                                dy / dist;
+
+
+                            const pull =
+                                0.16 *
+                                force *
+                                deltaScale;
+
+
+                            const orbit =
+                                0.10 *
+                                force *
+                                deltaScale;
+
+
+                            const speedBoost =
+                                1 +
+                                this.mouse.speed *
+                                0.018;
+
+
+                            p.vx +=
+
+                                nx *
+                                pull *
+                                speedBoost
+
+                                +
+
+                                -ny *
+                                orbit;
+
+
+                            p.vy +=
+
+                                ny *
+                                pull *
+                                speedBoost
+
+                                +
+
+                                nx *
+                                orbit;
+                        }
+                    }
+
+
+                    /* Speed limit */
+
+                    const speedSq =
+                        p.vx * p.vx +
+                        p.vy * p.vy;
+
+
+                    const maxSpeed =
+                        1.4;
+
+
+                    if (
+                        speedSq >
+                        maxSpeed * maxSpeed
+                    ) {
+
+                        const scale =
+                            maxSpeed /
+                            Math.sqrt(speedSq);
+
+                        p.vx *= scale;
+                        p.vy *= scale;
+                    }
+
+
+                    p.x +=
+                        p.vx *
+                        deltaScale;
+
+                    p.y +=
+                        p.vy *
+                        deltaScale;
+
+
+                    /* Soft wrap */
+
+                    const padding = 30;
+
+
+                    if (p.x < -padding) {
+                        p.x =
+                            this.width + padding;
+                    }
+
+                    else if (
+                        p.x >
+                        this.width + padding
+                    ) {
+                        p.x = -padding;
+                    }
+
+
+                    if (p.y < -padding) {
+                        p.y =
+                            this.height + padding;
+                    }
+
+                    else if (
+                        p.y >
+                        this.height + padding
+                    ) {
+                        p.y = -padding;
+                    }
+                }
+            }
+
+
+            /* =================================================
+               Background
+            ================================================= */
+
+            drawBackground(progress) {
+
+                const ctx = this.ctx;
+
+
+                const bg =
+                    lerpColor(
+                        THEMES.day.bg,
+                        THEMES.night.bg,
+                        progress
+                    );
+
+
+                ctx.fillStyle =
+                    rgba(bg, 1);
+
+
+                ctx.fillRect(
+                    0,
+                    0,
+                    this.width,
+                    this.height
+                );
+
+
+                /* Warm Glow */
+
+                const warm =
+                    lerpColor(
+                        THEMES.day.warmGlow,
+                        THEMES.night.warmGlow,
+                        progress
+                    );
+
+
+                const warmGradient =
+                    ctx.createRadialGradient(
+
+                        this.width * 0.12,
+                        this.height * 0.40,
+                        0,
+
+                        this.width * 0.12,
+                        this.height * 0.40,
+
+                        Math.max(
+                            this.width,
+                            this.height
+                        ) * 0.72
+                    );
+
+
+                const warmAlpha =
+                    lerp(
+                        0.38,
+                        0.12,
+                        progress
+                    );
+
+
+                warmGradient.addColorStop(
+                    0,
+                    rgba(
+                        warm,
+                        warmAlpha
+                    )
+                );
+
+                warmGradient.addColorStop(
+                    0.45,
+                    rgba(
+                        warm,
+                        warmAlpha * 0.30
+                    )
+                );
+
+                warmGradient.addColorStop(
+                    1,
+                    rgba(warm, 0)
+                );
+
+
+                ctx.fillStyle =
+                    warmGradient;
+
+
+                ctx.fillRect(
+                    0,
+                    0,
+                    this.width,
+                    this.height
+                );
+
+
+                /* Center Aurora */
+
+                const center =
+                    lerpColor(
+                        THEMES.day.centerGlow,
+                        THEMES.night.centerGlow,
+                        progress
+                    );
+
+
+                const centerGradient =
+                    ctx.createRadialGradient(
+
+                        this.width *
+                        lerp(
+                            0.44,
+                            0.55,
+                            progress
+                        ),
+
+                        this.height *
+                        lerp(
+                            0.46,
+                            0.42,
+                            progress
+                        ),
+
+                        0,
+
+                        this.width *
+                        lerp(
+                            0.44,
+                            0.55,
+                            progress
+                        ),
+
+                        this.height *
+                        lerp(
+                            0.46,
+                            0.42,
+                            progress
+                        ),
+
+                        Math.max(
+                            this.width,
+                            this.height
+                        ) *
+                        0.62
+                    );
+
+
+                const centerAlpha =
+                    lerp(
+                        0.24,
+                        0.28,
+                        progress
+                    );
+
+
+                centerGradient.addColorStop(
+                    0,
+                    rgba(
+                        center,
+                        centerAlpha
+                    )
+                );
+
+                centerGradient.addColorStop(
+                    0.45,
+                    rgba(
+                        center,
+                        centerAlpha * 0.32
+                    )
+                );
+
+                centerGradient.addColorStop(
+                    1,
+                    rgba(center, 0)
+                );
+
+
+                ctx.fillStyle =
+                    centerGradient;
+
+
+                ctx.fillRect(
+                    0,
+                    0,
+                    this.width,
+                    this.height
+                );
+
+
+                /* Night depth */
+
+                if (progress > 0.01) {
+
+                    const gradient =
+                        ctx.createLinearGradient(
+
+                            this.width * 0.45,
+                            0,
+
+                            this.width,
+                            0
+                        );
+
+
+                    gradient.addColorStop(
+                        0,
+                        "rgba(0,0,0,0)"
+                    );
+
+
+                    gradient.addColorStop(
+                        1,
+                        `rgba(
+                            0,
+                            10,
+                            30,
+                            ${0.42 * progress}
+                        )`
+                    );
+
+
+                    ctx.fillStyle =
+                        gradient;
+
+
+                    ctx.fillRect(
+                        0,
+                        0,
+                        this.width,
+                        this.height
+                    );
+                }
+            }
+
+
+            /* =================================================
+               Trail
+            ================================================= */
+
+            drawTrail(color, progress) {
+
+                if (
+                    this.mouseTrail.length < 2
+                ) {
+                    return;
+                }
+
+
+                const ctx =
+                    this.ctx;
+
+
+                ctx.save();
+
+                ctx.lineCap = "round";
+
+
+                for (
+                    let i = 1;
+                    i < this.mouseTrail.length;
+                    i++
+                ) {
+
+                    const a =
+                        this.mouseTrail[i - 1];
+
+                    const b =
+                        this.mouseTrail[i];
+
+
+                    ctx.beginPath();
+
+                    ctx.moveTo(a.x, a.y);
+
+                    ctx.lineTo(b.x, b.y);
+
+
+                    ctx.strokeStyle =
+                        rgba(
+                            color,
+                            b.life *
+                            (
+                                0.025 +
+                                progress * 0.035
+                            )
+                        );
+
+
+                    ctx.lineWidth =
+                        0.7 +
+                        b.life * 0.7;
+
+
+                    ctx.stroke();
+                }
+
+
+                ctx.restore();
+            }
+
+
+            /* =================================================
+               Connections
+            ================================================= */
+
+            drawConnections(color, progress) {
+
+                const ctx =
+                    this.ctx;
+
+
+                for (
+                    let i = 0;
+                    i < this.particles.length;
+                    i++
+                ) {
+
+                    const p1 =
+                        this.particles[i];
+
+
+                    const gx =
+                        Math.floor(
+                            p1.x /
+                            this.gridSize
+                        );
+
+                    const gy =
+                        Math.floor(
+                            p1.y /
+                            this.gridSize
+                        );
+
+
+                    for (
+                        let ox = -1;
+                        ox <= 1;
+                        ox++
+                    ) {
+
+                        for (
+                            let oy = -1;
+                            oy <= 1;
+                            oy++
+                        ) {
+
+                            const bucket =
+                                this.grid.get(
+                                    (gx + ox) +
+                                    "," +
+                                    (gy + oy)
+                                );
+
+
+                            if (!bucket) {
+                                continue;
+                            }
+
+
+                            for (
+                                let n = 0;
+                                n < bucket.length;
+                                n++
+                            ) {
+
+                                const j =
+                                    bucket[n];
+
+
+                                if (j <= i) {
+                                    continue;
+                                }
+
+
+                                const p2 =
+                                    this.particles[j];
+
+
+                                const dx =
+                                    p2.x -
+                                    p1.x;
+
+                                const dy =
+                                    p2.y -
+                                    p1.y;
+
+
+                                const distSq =
+                                    dx * dx +
+                                    dy * dy;
+
+
+                                if (
+                                    distSq >
+                                    this.connectionRadiusSq
+                                ) {
+                                    continue;
+                                }
+
+
+                                const dist =
+                                    Math.sqrt(
+                                        distSq
+                                    );
+
+
+                                let alpha =
+                                    1 -
+                                    dist /
+                                    this.connectionRadius;
+
+
+                                alpha *= alpha;
+
+
+                                if (
+                                    this.mouse.active
+                                ) {
+
+                                    const mx =
+                                        this.mouse.x -
+                                        p1.x;
+
+                                    const my =
+                                        this.mouse.y -
+                                        p1.y;
+
+
+                                    if (
+                                        mx * mx +
+                                        my * my <
+                                        this.mouse.radiusSq
+                                    ) {
+
+                                        alpha *= 1.45;
+                                    }
+                                }
+
+
+                                const maxAlpha =
+                                    lerp(
+                                        0.075,
+                                        0.20,
+                                        progress
+                                    );
+
+
+                                const finalAlpha =
+                                    Math.min(
+                                        alpha *
+                                        maxAlpha,
+                                        0.28
+                                    );
+
+
+                                if (
+                                    finalAlpha < 0.005
+                                ) {
+                                    continue;
+                                }
+
+
+                                ctx.beginPath();
+
+                                ctx.moveTo(
+                                    p1.x,
+                                    p1.y
+                                );
+
+                                ctx.lineTo(
+                                    p2.x,
+                                    p2.y
+                                );
+
+
+                                ctx.strokeStyle =
+                                    rgba(
+                                        color,
+                                        finalAlpha
+                                    );
+
+
+                                ctx.lineWidth = 0.65;
+
+                                ctx.stroke();
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            /* =================================================
+               Particles
+            ================================================= */
+
+            drawParticles(color, progress) {
+
+                const ctx =
+                    this.ctx;
+
+
+                ctx.fillStyle =
+                    rgba(
+                        color,
+                        lerp(
+                            0.38,
+                            0.72,
+                            progress
+                        )
+                    );
+
+
+                for (
+                    let i = 0;
+                    i < this.particles.length;
+                    i++
+                ) {
+
+                    const p =
+                        this.particles[i];
+
+
+                    const pulse =
+                        1 +
+                        Math.sin(
+                            this.time +
+                            p.phase
+                        ) *
+                        0.08;
+
+
+                    ctx.beginPath();
+
+                    ctx.arc(
+                        p.x,
+                        p.y,
+                        p.radius * pulse,
+                        0,
+                        Math.PI * 2
+                    );
+
+                    ctx.fill();
+                }
+
+
+                /* Glow */
+
+                if (progress > 0.05) {
+
+                    ctx.save();
+
+                    ctx.shadowColor =
+                        rgba(
+                            color,
+                            0.7
+                        );
+
+
+                    ctx.shadowBlur =
+                        7 +
+                        progress * 8;
+
+
+                    ctx.fillStyle =
+                        `rgba(
+                            235,
+                            248,
+                            255,
+                            ${0.35 + progress * 0.4}
+                        )`;
+
+
+                    for (
+                        const p of this.particles
+                    ) {
+
+                        if (!p.glow) {
+                            continue;
+                        }
+
+
+                        ctx.beginPath();
+
+                        ctx.arc(
+                            p.x,
+                            p.y,
+                            p.radius *
+                            0.9 *
+                            p.glowStrength,
+                            0,
+                            Math.PI * 2
+                        );
+
+                        ctx.fill();
+                    }
+
+
+                    ctx.restore();
+                }
+            }
+
+
+            /* =================================================
+               Draw
+            ================================================= */
+
+            draw() {
+
+                this.themeProgress +=
+                    (
+                        this.targetThemeProgress -
+                        this.themeProgress
+                    ) *
+                    0.035;
+
+
+                if (
+                    Math.abs(
+                        this.targetThemeProgress -
+                        this.themeProgress
+                    ) <
+                    0.001
+                ) {
+
+                    this.themeProgress =
+                        this.targetThemeProgress;
+                }
+
+
+                const progress =
+                    smoothStep(
+                        this.themeProgress
+                    );
+
+
+                const particleColor =
+                    lerpColor(
+                        THEMES.day.particle,
+                        THEMES.night.particle,
+                        progress
+                    );
+
+
+                const lineColor =
+                    lerpColor(
+                        THEMES.day.line,
+                        THEMES.night.line,
+                        progress
+                    );
+
+
+                const trailColor =
+                    lerpColor(
+                        THEMES.day.trail,
+                        THEMES.night.trail,
+                        progress
+                    );
+
+
+                this.drawBackground(
+                    progress
+                );
+
+
+                this.buildSpatialGrid();
+
+
+                this.drawTrail(
+                    trailColor,
+                    progress
+                );
+
+
+                this.drawConnections(
+                    lineColor,
+                    progress
+                );
+
+
+                this.drawParticles(
+                    particleColor,
+                    progress
+                );
+            }
+
+
+            /* =================================================
+               FPS
+            ================================================= */
+
+            monitorFPS(now) {
+
+                this.frameCounter++;
+
+
+                if (
+                    now -
+                    this.fpsTimer <
+                    1000
+                ) {
+                    return;
+                }
+
+
+                this.fps =
+                    this.frameCounter *
+                    1000 /
+                    (
+                        now -
+                        this.fpsTimer
+                    );
+
+
+                if (
+                    this.fps < 38 &&
+                    this.particleCount >
+                    this.minParticles
+                ) {
+
+                    this.particleCount =
+                        Math.max(
+                            this.minParticles,
+                            this.particleCount - 8
+                        );
+
+                    this.syncParticleCount();
+                }
+
+
+                else if (
+                    this.fps > 57 &&
+                    this.particleCount <
+                    this.maxParticles
+                ) {
+
+                    this.particleCount =
+                        Math.min(
+                            this.maxParticles,
+                            this.particleCount + 4
+                        );
+
+                    this.syncParticleCount();
+                }
+
+
+                this.frameCounter = 0;
+
+                this.fpsTimer = now;
+            }
+
+
+            /* =================================================
+               Animation
+            ================================================= */
+
+            animate(now = performance.now()) {
+
+                if (!this.running) {
+                    return;
+                }
+
+
+                const delta =
+                    Math.min(
+                        now -
+                        this.lastTime,
+                        50
+                    );
+
+
+                const deltaScale =
+                    delta /
+                    16.6667;
+
+
+                this.lastTime = now;
+
+
+                this.updateParticles(
+                    deltaScale
+                );
+
+
+                this.draw();
+
+
+                this.monitorFPS(now);
+
+
+                this.animationId =
+                    requestAnimationFrame(
+                        time =>
+                            this.animate(time)
+                    );
+            }
+        }
+
+
+        /* =====================================================
+           Initialize
+        ====================================================== */
+
+        window.addEventListener(
+            "DOMContentLoaded",
+            () => {
+
+
+                /* Particle */
+
+                const canvas =
+                    document.getElementById(
+                        "particle-canvas"
+                    );
+
+
+                const system =
+                    new ParticleSystem(canvas);
+
+
+                /* =================================================
+                   Theme
+                ================================================= */
+
+                const themeOptions =
+                    document.querySelectorAll(
+                        ".theme-option"
+                    );
+
+
+                themeOptions.forEach(
+                    option => {
+
+                        option.addEventListener(
+                            "click",
+                            () => {
+
+                                const theme =
+                                    option.dataset.theme;
+
+
+                                themeOptions.forEach(
+                                    item =>
+                                        item.classList.remove(
+                                            "active"
+                                        )
+                                );
+
+
+                                option.classList.add(
+                                    "active"
+                                );
+
+
+                                document.body.classList.toggle(
+                                    "dark-ui",
+                                    theme === "night"
+                                );
+
+
+                                system.setTheme(
+                                    theme
+                                );
+                            }
+                        );
+                    }
+                );
+
+
+                /* =================================================
+                   Language
+                ================================================= */
+
+                const languageOptions =
+                    document.querySelectorAll(
+                        ".language-option"
+                    );
+
+
+                languageOptions.forEach(
+                    option => {
+
+                        option.addEventListener(
+                            "click",
+                            () => {
+
+                                languageOptions.forEach(
+                                    item =>
+                                        item.classList.remove(
+                                            "active"
+                                        )
+                                );
+
+
+                                option.classList.add(
+                                    "active"
+                                );
+
+
+                                /*
+                                    这里暂时只实现 UI 状态。
+
+                                    后续接入国际化：
+
+                                    zh → 中文
+                                    en → English
+                                */
+
+                                console.log(
+                                    "Language:",
+                                    option.dataset.lang
+                                );
+                            }
+                        );
+                    }
+                );
+
+
+                /* =================================================
+                   Navigation Active
+                ================================================= */
+
+                const navLinks =
+                    document.querySelectorAll(
+                        ".nav-link"
+                    );
+
+
+                navLinks.forEach(
+                    link => {
+
+                        link.addEventListener(
+                            "click",
+                            () => {
+
+                                navLinks.forEach(
+                                    item =>
+                                        item.classList.remove(
+                                            "active"
+                                        )
+                                );
+
+
+                                link.classList.add(
+                                    "active"
+                                );
+                            }
+                        );
+                    }
+                );
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>

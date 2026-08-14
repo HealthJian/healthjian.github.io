@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-zh="晶圆缺陷地图实验室" data-en="Wafer Defect Map Lab">晶圆缺陷地图实验室</title>
+
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/dark-mode.css">
+    <link rel="stylesheet" href="democss/demo.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <meta name="description" content="模拟晶圆良率地图：生成随机/团簇/环形/边缘/划痕等缺陷模式，手绘缺陷，实时空间统计与启发式模式识别">
+    <meta name="keywords" content="晶圆,良率,Bin Map,缺陷检测,空间统计,最近邻,半导体">
+
+    <style>
+        /* ==========================================================
+           Wafer Defect Map Lab — 页面专属样式（不污染其他页面）
+           ========================================================== */
+        :root {
+            --lab-bg: #f6f8fc;
+            --lab-card: #ffffff;
+            --lab-border: #e4e9f2;
+            --lab-text: #1e293b;
+            --lab-muted: #64748b;
+            --lab-accent: #2563eb;
+            --lab-accent-soft: rgba(37, 99, 235, 0.10);
+            --lab-bad: #ef4444;
+            --lab-wdie: #dce4f0;      /* 好 die 底色（亮色） */
+            --lab-wdie-edge: #cfd9e8;
+            --lab-grid: rgba(100, 116, 139, 0.28);
+            --lab-ok: #16a34a;
+            --lab-warn: #d97706;
+            --lab-ring: #94a3b8;
+            --lab-shadow: 0 10px 30px rgba(30, 41, 59, 0.08);
+        }
+        body.dark-mode {
+            --lab-bg: #0b1120;
+            --lab-card: #101a2e;
+            --lab-border: #1e293b;
+            --lab-text: #e2e8f0;
+            --lab-muted: #94a3b8;
+            --lab-accent: #60a5fa;
+            --lab-accent-soft: rgba(96, 165, 250, 0.12);
+            --lab-bad: #f43f5e;
+            --lab-wdie: #1b2942;
+            --lab-wdie-edge: #15233b;
+            --lab-grid: rgba(148, 163, 184, 0.14);
+            --lab-ok: #34d399;
+            --lab-warn: #fbbf24;
+            --lab-ring: #475569;
+            --lab-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        }
+
+        body {
+            /* 页面背景沿用 demo.css 的渐变 + 全站变量，不覆盖 */
+        }
+        .lab-main {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 2.2rem 1.6rem 4rem;
+        }
+
+        /* ---------- Hero ---------- */
+        .lab-hero .lab-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            color: var(--lab-accent);
+            background: var(--lab-accent-soft);
+            border: 1px solid color-mix(in srgb, var(--lab-accent) 28%, transparent);
+            border-radius: 999px;
+            padding: 0.4rem 0.85rem;
+            margin-bottom: 1rem;
+        }
+        .lab-hero h1 {
+            font-size: clamp(1.6rem, 3.4vw, 2.3rem);
+            letter-spacing: -0.01em;
+            color: var(--lab-text);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+        .lab-hero h1 i { color: var(--lab-accent); }
+        .lab-hero .lab-sub {
+            max-width: 720px;
+            color: var(--lab-muted);
+            line-height: 1.8;
+            margin: 0.7rem 0 1.1rem;
+            font-size: 0.95rem;
+        }
+        .lab-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .lab-chip {
+            font-size: 0.76rem;
+            font-weight: 600;
+            color: var(--lab-muted);
+            border: 1px solid var(--lab-border);
+            background: var(--lab-card);
+            border-radius: 999px;
+            padding: 0.32rem 0.8rem;
+        }
+        .lab-chip b { color: var(--lab-accent); font-weight: 700; }
+
+        /* ---------- 主栅格 ---------- */
+        .lab-grid {
+            margin-top: 1.6rem;
+            display: grid;
+            grid-template-columns: minmax(0, 1.25fr) minmax(310px, 0.9fr);
+            gap: 1.4rem;
+            align-items: start;
+        }
+        .lab-card {
+            background: var(--lab-card);
+            border: 1px solid var(--lab-border);
+            border-radius: 18px;
+            box-shadow: var(--lab-shadow);
+        }
+        .lab-card + .lab-card { margin-top: 1.2rem; }
+
+        /* ---------- 画布区 ---------- */
+        .lab-canvas-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            padding: 1rem 1.2rem;
+            border-bottom: 1px dashed var(--lab-border);
+        }
+        .lab-seg {
+            display: inline-flex;
+            background: var(--lab-bg);
+            border: 1px solid var(--lab-border);
+            border-radius: 12px;
+            padding: 3px;
+            gap: 3px;
+        }
+        .lab-seg button {
+            border: none;
+            background: transparent;
+            color: var(--lab-muted);
+            font-size: 0.82rem;
+            font-weight: 600;
+            padding: 0.42rem 0.85rem;
+            border-radius: 9px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .lab-seg button.active {
+            background: var(--lab-accent);
+            color: #fff;
+        }
+        .lab-scan-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            border: 1px solid color-mix(in srgb, var(--lab-accent) 40%, transparent);
+            background: var(--lab-accent-soft);
+            color: var(--lab-accent);
+            font-weight: 700;
+            font-size: 0.82rem;
+            padding: 0.5rem 0.95rem;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .lab-scan-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px var(--lab-accent-soft); }
+        .lab-scan-btn.scanning { opacity: 0.65; pointer-events: none; }
+        .lab-scan-btn.scanning i { animation: spin 0.9s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .wafer-stage {
+            position: relative;
+            padding: 1rem;
+            display: grid;
+            place-items: center;
+        }
+        #waferSvg {
+            width: 100%;
+            max-width: 470px;
+            height: auto;
+            display: block;
+            touch-action: none;
+            cursor: crosshair;
+        }
+        .wafer-note {
+            position: absolute;
+            bottom: 0.6rem;
+            right: 1.1rem;
+            font-size: 0.72rem;
+            color: var(--lab-muted);
+            opacity: 0.85;
+        }
+
+        /* SVG 内部元素 */
+        #waferBgStop1 { stop-color: var(--lab-wdie); }
+        #waferBgStop2 { stop-color: var(--lab-wdie-edge); }
+        .wafer-rim {
+            fill: none;
+            stroke: var(--lab-ring);
+            stroke-width: 2;
+            stroke-linecap: round;
+        }
+        .wafer-notch {
+            fill: none;
+            stroke: var(--lab-ring);
+            stroke-width: 1.6;
+        }
+        .die {
+            --d: 0ms;
+            transform-box: fill-box;
+            transform-origin: center;
+            fill: var(--lab-wdie);
+            stroke: var(--lab-grid);
+            stroke-width: 0.4;
+            transition: fill 0.45s ease, opacity 0.3s ease;
+        }
+        .die.hover { stroke: var(--lab-accent); stroke-width: 1.1; }
+        .die.die-bad { fill: var(--lab-bad); }
+        .die.die-bad.gen { animation: diePop 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) var(--d) backwards; }
+        .die.die-out { animation: dieOut 0.28s ease var(--d) forwards; }
+        .die.die-bad.scanned { animation: scanGlow 0.55s ease; }
+        @keyframes diePop {
+            0% { transform: scale(0); opacity: 0; }
+            60% { opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes dieOut {
+            to { transform: scale(0.15); opacity: 0; }
+        }
+        @keyframes scanGlow {
+            0% { filter: brightness(2.4) saturate(1.6); }
+            100% { filter: none; }
+        }
+        .brush-ring {
+            fill: none;
+            stroke: var(--lab-accent);
+            stroke-width: 1.4;
+            stroke-dasharray: 3 3;
+            pointer-events: none;
+        }
+        .brush-ring.erase { stroke: var(--lab-bad); }
+        #scanLine { display: none; }
+        .lab-canvas-foot {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.7rem 1.2rem 1rem;
+            font-size: 0.76rem;
+            color: var(--lab-muted);
+            flex-wrap: wrap;
+        }
+        .lab-canvas-foot kbd {
+            font-family: inherit;
+            background: var(--lab-bg);
+            border: 1px solid var(--lab-border);
+            border-bottom-width: 2px;
+            border-radius: 5px;
+            padding: 0.08rem 0.42rem;
+            font-size: 0.72rem;
+        }
+
+        /* 悬浮提示 */
+        .lab-tooltip {
+            position: fixed;
+            z-index: 60;
+            pointer-events: none;
+            background: var(--lab-text);
+            color: var(--lab-bg);
+            font-size: 0.72rem;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 0.35rem 0.6rem;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+            white-space: nowrap;
+            display: none;
+            transform: translate(12px, 14px);
+        }
+        .lab-tooltip.show { display: block; }
+        .lab-tooltip.bad { background: var(--lab-bad); }
+
+        /* ---------- 侧栏 ---------- */
+        .lab-panel { padding: 1.2rem; }
+        .lab-block + .lab-block { margin-top: 1.35rem; padding-top: 1.35rem; border-top: 1px dashed var(--lab-border); }
+        .lab-block-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.84rem;
+            font-weight: 800;
+            color: var(--lab-text);
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.02em;
+        }
+        .lab-block-title i { color: var(--lab-accent); width: 1rem; text-align: center; }
+        .lab-block-title .lab-dice {
+            margin-left: auto;
+            border: 1px solid var(--lab-border);
+            background: var(--lab-bg);
+            color: var(--lab-muted);
+            width: 1.9rem;
+            height: 1.9rem;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+        .lab-dice:hover { color: var(--lab-accent); border-color: var(--lab-accent); transform: rotate(-12deg); }
+
+        .pattern-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.55rem;
+        }
+        .pattern-btn {
+            border: 1px solid var(--lab-border);
+            background: var(--lab-bg);
+            border-radius: 12px;
+            padding: 0.55rem 0.2rem;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3rem;
+            color: var(--lab-muted);
+            transition: all 0.18s ease;
+        }
+        .pattern-btn .p-ico { font-size: 1.15rem; line-height: 1; transition: transform 0.18s ease; }
+        .pattern-btn .p-name { font-size: 0.7rem; font-weight: 700; }
+        .pattern-btn:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--lab-accent) 50%, transparent); color: var(--lab-text); }
+        .pattern-btn:hover .p-ico { transform: scale(1.15); }
+        .pattern-btn.active {
+            background: var(--lab-accent);
+            border-color: var(--lab-accent);
+            color: #fff;
+            box-shadow: 0 5px 14px var(--lab-accent-soft);
+        }
+        .pattern-btn.active .p-ico { transform: scale(1.12); }
+
+        .brush-row { display: flex; gap: 0.55rem; }
+        .brush-btn {
+            flex: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            border: 1px solid var(--lab-border);
+            background: var(--lab-bg);
+            color: var(--lab-muted);
+            font-weight: 700;
+            font-size: 0.8rem;
+            border-radius: 11px;
+            padding: 0.55rem 0.4rem;
+            cursor: pointer;
+            transition: all 0.18s ease;
+        }
+        .brush-btn:hover { color: var(--lab-text); transform: translateY(-1px); }
+        .brush-btn.active { background: var(--lab-accent); border-color: var(--lab-accent); color: #fff; }
+        .brush-btn.danger.active { background: var(--lab-bad); border-color: var(--lab-bad); }
+        .brush-btn.clear-btn { color: var(--lab-warn); border-color: color-mix(in srgb, var(--lab-warn) 45%, transparent); }
+        .brush-btn.clear-btn:hover { background: color-mix(in srgb, var(--lab-warn) 10%, transparent); }
+
+        .speed-row {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            margin-top: 0.7rem;
+            font-size: 0.76rem;
+            color: var(--lab-muted);
+        }
+        .speed-row input[type="range"] {
+            flex: 1;
+            accent-color: var(--lab-accent);
+            cursor: pointer;
+        }
+        .speed-row .speed-val { min-width: 3.2ch; font-weight: 800; color: var(--lab-accent); text-align: right; }
+
+        /* 统计 */
+        .stat-chips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+        .stat-chip {
+            background: var(--lab-bg);
+            border: 1px solid var(--lab-border);
+            border-radius: 12px;
+            padding: 0.55rem 0.7rem;
+            text-align: center;
+        }
+        .stat-chip .sv { font-size: 1.25rem; font-weight: 800; color: var(--lab-text); font-variant-numeric: tabular-nums; }
+        .stat-chip .sv small { font-size: 0.7rem; color: var(--lab-muted); font-weight: 600; }
+        .stat-chip .sl { font-size: 0.68rem; color: var(--lab-muted); margin-top: 0.15rem; }
+
+        .gauge-wrap { display: flex; align-items: center; gap: 1rem; margin-top: 0.8rem; }
+        #yieldGauge { width: 132px; height: 74px; flex: 0 0 auto; }
+        #yieldGauge .g-bg { stroke: var(--lab-bg); }
+        #yieldGauge .g-val { stroke: var(--lab-accent); transition: stroke-dashoffset 0.7s cubic-bezier(0.22, 1, 0.36, 1), stroke 0.3s; }
+        .gauge-info .g-big { font-size: 1.55rem; font-weight: 800; color: var(--lab-text); font-variant-numeric: tabular-nums; line-height: 1.1; }
+        .gauge-info .g-label { font-size: 0.72rem; color: var(--lab-muted); margin-top: 0.2rem; }
+        .gauge-info .g-sub { font-size: 0.7rem; color: var(--lab-muted); margin-top: 0.35rem; }
+        .gauge-info .g-sub b { color: var(--lab-accent); font-variant-numeric: tabular-nums; }
+
+        .meter-row { margin-top: 0.9rem; }
+        .meter-head { display: flex; justify-content: space-between; align-items: baseline; font-size: 0.74rem; color: var(--lab-muted); margin-bottom: 0.4rem; }
+        .meter-head b { color: var(--lab-text); font-variant-numeric: tabular-nums; }
+        .meter-head .zone { font-weight: 800; color: var(--lab-accent); }
+        .meter-track {
+            position: relative;
+            height: 10px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--lab-bad) 0%, var(--lab-warn) 34%, var(--lab-ok) 55%, var(--lab-warn) 78%, var(--lab-bad) 100%);
+            opacity: 0.85;
+        }
+        .meter-track .meter-marker {
+            position: absolute;
+            top: 50%;
+            width: 4px;
+            height: 18px;
+            border-radius: 3px;
+            background: var(--lab-text);
+            transform: translate(-50%, -50%);
+            transition: left 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+        }
+        .meter-scale { display: flex; justify-content: space-between; font-size: 0.66rem; color: var(--lab-muted); margin-top: 0.25rem; }
+
+        .radial-chart { display: flex; align-items: flex-end; gap: 5px; height: 74px; margin-top: 0.5rem; }
+        .radial-chart .bar {
+            flex: 1;
+            border-radius: 4px 4px 2px 2px;
+            background: linear-gradient(180deg, var(--lab-accent), color-mix(in srgb, var(--lab-accent) 45%, transparent));
+            height: 0%;
+            transition: height 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+            min-height: 2px;
+        }
+        .radial-chart .bar.peak { background: linear-gradient(180deg, var(--lab-bad), color-mix(in srgb, var(--lab-bad) 45%, transparent)); }
+        .radial-labels { display: flex; justify-content: space-between; font-size: 0.62rem; color: var(--lab-muted); margin-top: 0.3rem; }
+
+        .cls-row { margin-bottom: 0.5rem; }
+        .cls-row .cls-head { display: flex; justify-content: space-between; font-size: 0.74rem; margin-bottom: 0.28rem; }
+        .cls-row .cls-name { color: var(--lab-text); font-weight: 700; }
+        .cls-row .cls-name.top { color: var(--lab-accent); }
+        .cls-row .cls-val { color: var(--lab-muted); font-variant-numeric: tabular-nums; font-weight: 700; }
+        .cls-bar { height: 8px; border-radius: 999px; background: var(--lab-bg); overflow: hidden; }
+        .cls-bar i {
+            display: block;
+            height: 100%;
+            width: 0%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--lab-accent), color-mix(in srgb, var(--lab-accent) 55%, transparent));
+            transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .cls-row.top .cls-bar i { background: linear-gradient(90deg, var(--lab-bad), color-mix(in srgb, var(--lab-bad) 55%, transparent)); }
+        .cls-empty { font-size: 0.78rem; color: var(--lab-muted); padding: 0.5rem 0; }
+        .cls-note {
+            margin-top: 0.75rem;
+            font-size: 0.7rem;
+            color: var(--lab-muted);
+            line-height: 1.7;
+            opacity: 0.9;
+            border-left: 3px solid var(--lab-border);
+            padding-left: 0.7rem;
+        }
+
+        .lab-legend { display: flex; align-items: center; gap: 0.55rem; font-size: 0.7rem; color: var(--lab-muted); margin-top: 0.8rem; }
+        .lab-legend .lg-grad {
+            width: 110px;
+            height: 8px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #22d3ee, #818cf8, #f59e0b, #ef4444);
+        }
+
+        /* 响应式 */
+        @media (max-width: 900px) {
+            .lab-grid { grid-template-columns: 1fr; }
+            .pattern-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+        @media (max-width: 480px) {
+            .pattern-grid { grid-template-columns: repeat(4, 1fr); gap: 0.4rem; }
+            .pattern-btn .p-name { font-size: 0.64rem; }
+            .stat-chips { grid-template-columns: repeat(3, 1fr); gap: 0.4rem; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .die, .die.die-bad.gen, .die.die-out { animation: none !important; transition: none !important; }
+        }
+    </style>
+</head>
+<body class="zh">
+    <!-- Navigation Bar -->
+    <nav class="demo-navbar">
+        <div class="demo-nav-container">
+            <div class="demo-nav-logo">
+                <a href="../../index.html" class="demo-logo-link">
+                    <div class="logo-icon">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <div class="logo-text">
+                        <span class="logo-main" data-zh="缺陷地图实验室" data-en="Defect Map Lab">缺陷地图实验室</span>
+                        <span class="logo-sub" data-zh="WaferLab" data-en="WaferLab">WaferLab</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="demo-breadcrumb">
+                <a href="../../index.html" class="breadcrumb-item" data-zh="首页" data-en="Home">
+                    <i class="fas fa-home"></i>
+                    <span data-zh="首页" data-en="Home">首页</span>
+                </a>
+                <i class="fas fa-chevron-right breadcrumb-separator"></i>
+                <a href="index.html" class="breadcrumb-item" data-zh="Demo空间" data-en="Demo Space">
+                    <span data-zh="Demo空间" data-en="Demo Space">Demo空间</span>
+                </a>
+                <i class="fas fa-chevron-right breadcrumb-separator"></i>
+                <span class="breadcrumb-item current" data-zh="晶圆缺陷地图实验室" data-en="Wafer Defect Map Lab">晶圆缺陷地图实验室</span>
+            </div>
+
+            <div class="demo-nav-menu">
+                <a href="../../index.html" class="demo-nav-link" data-zh="首页" data-en="Home">
+                    <i class="fas fa-home"></i>
+                    <span data-zh="首页" data-en="Home">首页</span>
+                </a>
+                <a href="../blog.html" class="demo-nav-link" data-zh="博客" data-en="Blog">
+                    <i class="fas fa-blog"></i>
+                    <span data-zh="博客" data-en="Blog">博客</span>
+                </a>
+                <a href="../project/project.html" class="demo-nav-link" data-zh="项目" data-en="Projects">
+                    <i class="fas fa-folder"></i>
+                    <span data-zh="项目" data-en="Projects">项目</span>
+                </a>
+                <a href="index.html" class="demo-nav-link" data-zh="Demo" data-en="Demo">
+                    <i class="fas fa-flask"></i>
+                    <span data-zh="Demo" data-en="Demo">Demo</span>
+                </a>
+            </div>
+
+            <button class="demo-mobile-toggle" id="mobile-menu-toggle">
+                <span></span><span></span><span></span>
+            </button>
+
+            <div class="demo-nav-controls">
+                <button id="lang-toggle" class="demo-control-btn" title="切换语言 / Switch Language">
+                    <i class="fas fa-globe"></i>
+                    <span class="control-text" data-zh="EN" data-en="中文">EN</span>
+                </button>
+                <button id="theme-toggle" class="demo-control-btn theme-toggle" title="切换主题 / Switch Theme">
+                    <i class="fas fa-moon"></i>
+                    <i class="fas fa-sun" style="display: none;"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="lab-main">
+        <!-- Hero -->
+        <section class="lab-hero">
+            <div class="lab-kicker"><i class="fas fa-microchip"></i> demo / wafer-defect-lab</div>
+            <h1>
+                <i class="fas fa-bullseye"></i>
+                <span data-zh="晶圆缺陷地图实验室" data-en="Wafer Defect Map Lab">晶圆缺陷地图实验室</span>
+            </h1>
+            <p class="lab-sub" data-zh="把 Fab 里的 Bin Map 搬进浏览器：一键撒出随机、团簇、环形、划痕等缺陷模式，也可以拿鼠标直接在晶圆上画缺陷。所有空间统计与模式判定都在本地完成，不产生任何网络请求。"
+               data-en="Bring the fab's Bin Map into the browser: sprinkle random, cluster, ring, scratch and other defect patterns with one click, or paint defects directly on the wafer with your mouse. All spatial statistics and pattern judgement run locally — no network requests are made.">
+                把 Fab 里的 Bin Map 搬进浏览器：一键撒出随机、团簇、环形、划痕等缺陷模式，也可以拿鼠标直接在晶圆上画缺陷。所有空间统计与模式判定都在本地完成，不产生任何网络请求。
+            </p>
+            <div class="lab-chips">
+                <span class="lab-chip"><b data-zh="8" data-en="8">8</b>&nbsp;<span data-zh="种缺陷模式" data-en="defect patterns">种缺陷模式</span></span>
+                <span class="lab-chip"><b id="chipDies">0</b>&nbsp;<span data-zh="有效 Die" data-en="valid dies">有效 Die</span></span>
+                <span class="lab-chip"><i class="fas fa-draw-polygon"></i>&nbsp;<span data-zh="手绘笔刷" data-en="hand brush">手绘笔刷</span></span>
+                <span class="lab-chip"><i class="fas fa-chart-line"></i>&nbsp;<span data-zh="实时空间统计" data-en="live spatial stats">实时空间统计</span></span>
+            </div>
+        </section>
+
+        <div class="lab-grid">
+            <!-- ============ 左侧：晶圆画布 ============ -->
+            <section class="lab-card">
+                <div class="lab-canvas-head">
+                    <div class="lab-seg" role="tablist" aria-label="View mode">
+                        <button id="viewBin" class="active" role="tab" aria-selected="true" data-zh="Bin Map 缺陷图" data-en="Bin Map">Bin Map 缺陷图</button>
+                        <button id="viewHeat" role="tab" aria-selected="false" data-zh="密度热力图" data-en="Density Heatmap">密度热力图</button>
+                    </div>
+                    <button id="scanBtn" class="lab-scan-btn">
+                        <i class="fas fa-bolt"></i>
+                        <span data-zh="扫描检测" data-en="Scan">扫描检测</span>
+                    </button>
+                </div>
+
+                <div class="wafer-stage">
+                    <svg id="waferSvg" viewBox="0 0 220 220" role="img"
+                         aria-label="Wafer bin map canvas" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <clipPath id="waferClip">
+                                <circle cx="110" cy="110" r="101"/>
+                            </clipPath>
+                            <radialGradient id="waferBg" cx="50%" cy="42%" r="72%">
+                                <stop id="waferBgStop1" offset="0%"/>
+                                <stop id="waferBgStop2" offset="100%"/>
+                            </radialGradient>
+                        </defs>
+
+                        <!-- 晶圆本体 -->
+                        <circle cx="110" cy="110" r="102" fill="url(#waferBg)"/>
+                        <circle class="wafer-rim" cx="110" cy="110" r="101"/>
+
+                        <!-- 底部 Notch 标记 -->
+                        <circle class="wafer-notch" cx="110" cy="207" r="7"/>
+
+                        <!-- Die 网格（由 JS 填充，用晶圆圆形裁剪，边缘保留局部 die） -->
+                        <g id="dieGroup" clip-path="url(#waferClip)"></g>
+
+                        <!-- 扫描线（e-beam 模拟） -->
+                        <g id="scanLayer">
+                            <rect id="scanLine" x="-14" y="4" width="7" height="212"
+                                  fill="#22d3ee" opacity="0.22"/>
+                            <rect id="scanCore" x="-13" y="4" width="3" height="212"
+                                  fill="#67e8f9" opacity="0.55"/>
+                        </g>
+
+                        <!-- 笔刷指示环 -->
+                        <circle id="brushRing" class="brush-ring" cx="0" cy="0" r="12" display="none"/>
+                    </svg>
+                    <span class="wafer-note" data-zh="· 点击/拖拽可绘缺陷 · 再次点击当前模式可换一版" data-en="· click/drag to paint · re-click pattern to reroll">· 点击/拖拽可绘缺陷 · 再次点击当前模式可换一版</span>
+                </div>
+
+                <div class="lab-canvas-foot">
+                    <span><kbd>1</kbd>–<kbd>8</kbd> 模式</span>
+                    <span><kbd>P</kbd> 画笔</span>
+                    <span><kbd>E</kbd> 橡皮</span>
+                    <span><kbd>C</kbd> 清空</span>
+                    <span><kbd>S</kbd> 扫描</span>
+                    <span><kbd>V</kbd> 切换视图</span>
+                    <span style="margin-left:auto" data-zh="共 25×25 网格，圆内约 500 颗 Die" data-en="25×25 grid, ~500 dies inside the circle">共 25×25 网格，圆内约 500 颗 Die</span>
+                </div>
+            </section>
+
+            <!-- ============ 右侧：控制与分析 ============ -->
+            <aside class="lab-card lab-panel">
+                <!-- 缺陷模式 -->
+                <div class="lab-block">
+                    <div class="lab-block-title">
+                        <i class="fas fa-wand-magic-sparkles"></i>
+                        <span data-zh="缺陷模式生成" data-en="Defect Patterns">缺陷模式生成</span>
+                        <button id="diceBtn" class="lab-dice" title="随机换一种模式" data-zh="随机换一种模式" data-en="Random pattern">🎲</button>
+                    </div>
+                    <div class="pattern-grid" id="patternGrid"></div>
+                </div>
+
+                <!-- 笔刷与速度 -->
+                <div class="lab-block">
+                    <div class="lab-block-title">
+                        <i class="fas fa-paintbrush"></i>
+                        <span data-zh="手绘与速度" data-en="Brush &amp; Speed">手绘与速度</span>
+                    </div>
+                    <div class="brush-row">
+                        <button id="brushPaint" class="brush-btn active"><i class="fas fa-pen"></i><span data-zh="画笔" data-en="Paint">画笔</span></button>
+                        <button id="brushErase" class="brush-btn danger"><i class="fas fa-eraser"></i><span data-zh="橡皮" data-en="Erase">橡皮</span></button>
+                        <button id="brushClear" class="brush-btn clear-btn"><i class="fas fa-trash-can"></i><span data-zh="清空" data-en="Clear">清空</span></button>
+                    </div>
+                    <div class="speed-row">
+                        <i class="fas fa-gauge-high"></i>
+                        <span data-zh="撒点速度" data-en="Reveal speed">撒点速度</span>
+                        <input type="range" id="speedRange" min="0.5" max="2.6" step="0.1" value="1.7">
+                        <span class="speed-val" id="speedVal">1.7×</span>
+                    </div>
+                </div>
+
+                <!-- 统计 -->
+                <div class="lab-block">
+                    <div class="lab-block-title">
+                        <i class="fas fa-chart-simple"></i>
+                        <span data-zh="实时统计" data-en="Live Statistics">实时统计</span>
+                    </div>
+                    <div class="stat-chips">
+                        <div class="stat-chip">
+                            <div class="sv" id="statCount">0</div>
+                            <div class="sl" data-zh="缺陷 Die" data-en="Defective dies">缺陷 Die</div>
+                        </div>
+                        <div class="stat-chip">
+                            <div class="sv" id="statDensity">0<small>%</small></div>
+                            <div class="sl" data-zh="缺陷密度" data-en="Defect density">缺陷密度</div>
+                        </div>
+                        <div class="stat-chip">
+                            <div class="sv" id="statElong">1.0×</div>
+                            <div class="sl" data-zh="伸长比(方向性)" data-en="Elongation (directionality)">伸长比(方向性)</div>
+                        </div>
+                    </div>
+
+                    <div class="gauge-wrap">
+                        <svg id="yieldGauge" viewBox="0 0 150 82" aria-hidden="true">
+                            <path class="g-bg" d="M 15 75 A 60 60 0 0 1 135 75" fill="none" stroke-width="13" stroke-linecap="round"/>
+                            <path id="gaugeVal" class="g-val" d="M 15 75 A 60 60 0 0 1 135 75" fill="none" stroke-width="13" stroke-linecap="round"
+                                  stroke-dasharray="188.5" stroke-dashoffset="188.5"/>
+                        </svg>
+                        <div class="gauge-info">
+                            <div class="g-big"><span id="gaugeNum">100</span>%</div>
+                            <div class="g-label" data-zh="估算良率" data-en="Estimated yield">估算良率</div>
+                            <div class="g-sub"><b id="gaugeTotal">0</b> <span data-zh="颗有效 Die" data-en="valid dies">颗有效 Die</span></div>
+                        </div>
+                    </div>
+
+                    <!-- 最近邻 R 值 -->
+                    <div class="meter-row">
+                        <div class="meter-head">
+                            <span data-zh="最近邻 R 值" data-en="Nearest-neighbor R">最近邻 R 值</span>
+                            <b id="rVal">—</b>
+                            <span class="zone" id="rZone" data-zh="—" data-en="—">—</span>
+                        </div>
+                        <div class="meter-track"><div class="meter-marker" id="rMarker" style="left:50%"></div></div>
+                        <div class="meter-scale">
+                            <span data-zh="聚集 0" data-en="Clustered 0">聚集 0</span>
+                            <span data-zh="随机 1" data-en="Random 1">随机 1</span>
+                            <span data-zh="分散 2+" data-en="Dispersed 2+">分散 2+</span>
+                        </div>
+                    </div>
+
+                    <!-- 径向分布 -->
+                    <div class="meter-row">
+                        <div class="meter-head">
+                            <span data-zh="径向分布（内 → 外）" data-en="Radial distribution (in → out)">径向分布（内 → 外）</span>
+                            <span class="zone" id="radialPeak" data-zh="—" data-en="—">—</span>
+                        </div>
+                        <div class="radial-chart" id="radialChart"></div>
+                        <div class="radial-labels">
+                            <span data-zh="圆心" data-en="Center">圆心</span>
+                            <span data-zh="边缘" data-en="Edge">边缘</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 模式识别 -->
+                <div class="lab-block">
+                    <div class="lab-block-title">
+                        <i class="fas fa-brain"></i>
+                        <span data-zh="模式识别（启发式）" data-en="Pattern Recognition (heuristic)">模式识别（启发式）</span>
+                    </div>
+                    <div id="clsBox"></div>
+                    <div class="lab-legend" id="heatLegend" style="display:none">
+                        <span data-zh="局部密度" data-en="Local density">局部密度</span>
+                        <span class="lg-grad"></span>
+                        <span data-zh="低 → 高" data-en="low → high">低 → 高</span>
+                    </div>
+                    <p class="cls-note" data-zh="判定基于最近邻 R 值、径向分布与伸长比等启发式规则，仅用于学习演示，不代表工程结论。所有数据本地计算，不出浏览器。"
+                       data-en="Judgements use heuristic rules based on the nearest-neighbor R value, radial distribution and elongation — for learning purposes only, not engineering conclusions. Everything computes locally in your browser.">
+                        判定基于最近邻 R 值、径向分布与伸长比等启发式规则，仅用于学习演示，不代表工程结论。所有数据本地计算，不出浏览器。
+                    </p>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3 data-zh="晶圆缺陷地图实验室" data-en="Wafer Defect Map Lab">晶圆缺陷地图实验室</h3>
+                <p data-zh="学习实践，探索创新" data-en="Learn Practice, Explore Innovation">学习实践，探索创新</p>
+            </div>
+            <div class="footer-section">
+                <h4 data-zh="快速链接" data-en="Quick Links">快速链接</h4>
+                <ul>
+                    <li><a href="../../index.html" data-zh="首页" data-en="Home">首页</a></li>
+                    <li><a href="../blog.html" data-zh="博客" data-en="Blog">博客</a></li>
+                    <li><a href="index.html" data-zh="Demo空间" data-en="Demo Space">Demo空间</a></li>
+                    <li><a href="changelog.html" data-zh="Demo更新日志" data-en="Demo Changelog">Demo更新日志</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4 data-zh="技术栈" data-en="Tech Stack">技术栈</h4>
+                <div class="footer-tech-stack">
+                    <span>SVG</span>
+                    <span>Vanilla JS</span>
+                    <span>CSS Animations</span>
+                    <span data-zh="空间统计" data-en="Spatial Stats">空间统计</span>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 <span data-zh="晶圆缺陷地图实验室" data-en="Wafer Defect Map Lab">晶圆缺陷地图实验室</span>. <span data-zh="本地计算 · 无网络请求" data-en="Local compute · no network">本地计算 · 无网络请求</span></p>
+        </div>
+    </footer>
+
+    <!-- 悬浮提示 -->
+    <div class="lab-tooltip" id="labTooltip"></div>
+
+    <!-- Scripts -->
+    <script src="../../js/theme.js"></script>
+    <script src="../../js/language.js"></script>
+    <script src="demojs/demo.js"></script>
+    <script>
+    /* ================================================================
+       Wafer Defect Map Lab
+       - 25×25 die grid，圆形晶圆裁剪（边缘保留局部 die）
+       - 8 种缺陷模式生成 + 手绘笔刷 + 密度热力图 + e-beam 扫描
+       - 空间统计：最近邻 R 值、径向分布、伸长比、启发式模式识别
+       - 中英双语通过 language.js 事件联动，动态文案由本脚本渲染
+       ================================================================ */
+    (function () {
+        'use strict';
+
+        /* ---------- 常量 ---------- */
+        const NS = 'http://www.w3.org/2000/svg';
+        const N = 25, D = 8, R = 102, CX = 110, CY = 110;
+        const SVG_LEN = 220;
+        const GAUGE_LEN = 188.5; // 半圆弧长 π*60
+
+        const PATTERNS = [
+            { id: 'random',      ico: '🌫️' },
+            { id: 'cluster',     ico: '🎯' },
+            { id: 'ring',        ico: '🎡' },
+            { id: 'edge',        ico: '🌊' },
+            { id: 'scratch',     ico: '⚡' },
+            { id: 'comet',       ico: '☄️' },
+            { id: 'fingerprint', ico: '🖐️' },
+            { id: 'clean',       ico: '✨' }
+        ];
+
+        /* ---------- 语言字典（动态文案） ---------- */
+        const I18N = {
+            zh: {
+                pNames: ['随机', '团簇', '环形', '边缘', '划痕', '彗星', '指纹', '空片'],
+                clsNames: ['随机', '团簇', '环形', '边缘', '划痕'],
+                rZone: { cluster: '聚集', random: '随机', disperse: '分散' },
+                radialPeak: '峰值',
+                tooFew: '缺陷太少（<4），暂不判定',
+                tooltipOk: 'OK',
+                tooltipBad: '缺陷',
+                scanBusy: '扫描中…'
+            },
+            en: {
+                pNames: ['Random', 'Cluster', 'Ring', 'Edge', 'Scratch', 'Comet', 'Fingerprint', 'Clean'],
+                clsNames: ['Random', 'Cluster', 'Ring', 'Edge', 'Scratch'],
+                rZone: { cluster: 'Clustered', random: 'Random', disperse: 'Dispersed' },
+                radialPeak: 'Peak',
+                tooFew: 'Too few defects (<4) to judge',
+                tooltipOk: 'OK',
+                tooltipBad: 'Defect',
+                scanBusy: 'Scanning…'
+            }
+        };
+
+        /* ---------- 状态 ---------- */
+        const dies = [];           // {r,c,x,y,valid,el,i}
+        let validCount = 0;
+        const defects = new Set(); // die 下标集合
+        let brush = 'paint';       // paint | erase
+        let view = 'bin';          // bin | heat
+        let activePattern = 'random';
+        let scanning = false;
+        let swapTimer = null;
+        let analysisTimer = null;
+        let painting = false;
+        let lastPointer = null;
+
+        const lang = () => (document.body.classList.contains('en') ? 'en' : 'zh');
+        const T = (k) => I18N[lang()][k];
+
+        /* ---------- DOM ---------- */
+        const $ = (id) => document.getElementById(id);
+        const svg = $('waferSvg');
+        const dieGroup = $('dieGroup');
+        const brushRing = $('brushRing');
+        const tooltip = $('labTooltip');
+
+        /* ---------- 构建 Die 网格 ---------- */
+        function buildDies() {
+            const frag = document.createDocumentFragment();
+            for (let r = 0; r < N; r++) {
+                for (let c = 0; c < N; c++) {
+                    const x = CX + (c - 12) * D;
+                    const y = CY + (r - 12) * D;
+                    const valid = Math.hypot(x - CX, y - CY) < R;
+                    const el = document.createElementNS(NS, 'rect');
+                    el.setAttribute('x', x - D / 2);
+                    el.setAttribute('y', y - D / 2);
+                    el.setAttribute('width', D);
+                    el.setAttribute('height', D);
+                    el.setAttribute('rx', 1);
+                    el.classList.add('die');
+                    if (valid) {
+                        validCount++;
+                        frag.appendChild(el);
+                        const i = dies.length;
+                        dies.push({ r, c, x, y, valid, el, i });
+                        el.dataset.i = i;
+                    }
+                }
+            }
+            dieGroup.appendChild(frag);
+            $('chipDies').textContent = validCount;
+            $('gaugeTotal').textContent = validCount;
+            $('statCount').textContent = '0';
+        }
+
+        /* ---------- 缺陷模式生成器（返回 die 下标数组） ---------- */
+        const rand = Math.random;
+        function genRandom() {
+            const out = [];
+            dies.forEach(d => { if (rand() < 0.05) out.push(d.i); });
+            return out;
+        }
+        function genCluster() {
+            const out = [];
+            const clusters = 2 + (rand() < 0.35 ? 1 : 0);
+            for (let k = 0; k < clusters; k++) {
+                const ang = rand() * Math.PI * 2;
+                const rr = Math.sqrt(rand()) * R * 0.68;
+                const px = CX + rr * Math.cos(ang), py = CY + rr * Math.sin(ang);
+                const rad = 9 + rand() * 13;
+                dies.forEach(d => {
+                    const dist = Math.hypot(d.x - px, d.y - py);
+                    if (dist < rad * 2.6 && rand() < 0.6 * Math.exp(-0.5 * Math.pow(dist / (rad * 0.55), 2))) out.push(d.i);
+                });
+            }
+            dies.forEach(d => { if (rand() < 0.008) out.push(d.i); }); // 少量背景噪声
+            return out;
+        }
+        function genRing() {
+            const out = [];
+            const rmid = R * (0.56 + rand() * 0.2), spread = R * 0.09;
+            dies.forEach(d => {
+                const r = Math.hypot(d.x - CX, d.y - CY);
+                const z = (r - rmid) / spread;
+                if (Math.abs(z) < 2.6 && rand() < 0.52 * Math.exp(-0.5 * z * z)) out.push(d.i);
+            });
+            return out;
+        }
+        function genEdge() {
+            const out = [];
+            dies.forEach(d => {
+                const r = Math.hypot(d.x - CX, d.y - CY);
+                const z = (r - R * 0.8) / (R * 0.19);
+                if (z > 0 && rand() < Math.min(0.85, 0.1 + z * 0.5)) out.push(d.i);
+            });
+            return out;
+        }
+        function genScratch() {
+            const out = [];
+            const lines = 1 + (rand() < 0.55 ? 1 : 0) + (rand() < 0.2 ? 1 : 0);
+            for (let k = 0; k < lines; k++) {
+                const th = rand() * Math.PI;                       // 线方向
+                const off = (rand() * 2 - 1) * R * 0.52;           // 离圆心距离
+                const nx = -Math.sin(th), ny = Math.cos(th);       // 法向
+                const w = 2.6 + rand() * 3.2;
+                dies.forEach(d => {
+                    const dx = d.x - CX, dy = d.y - CY;
+                    const proj = dx * nx + dy * ny - off;          // 到线的垂直距离
+                    const along = Math.abs(dx * Math.cos(th) + dy * Math.sin(th));
+                    if (Math.abs(proj) < w && along < R * 1.02 && rand() < 0.85) out.push(d.i);
+                });
+            }
+            return out;
+        }
+        function genComet() {
+            const out = [];
+            const th = rand() * Math.PI * 2;
+            const len = R * (0.42 + rand() * 0.2), w = R * (0.09 + rand() * 0.05);
+            const rr = Math.sqrt(rand()) * R * 0.5;
+            const px = CX + rr * Math.cos(rand() * Math.PI * 2), py = CY + rr * Math.sin(rand() * Math.PI * 2);
+            dies.forEach(d => {
+                const dx = d.x - px, dy = d.y - py;
+                const along = dx * Math.cos(th) + dy * Math.sin(th);
+                const perp = -dx * Math.sin(th) + dy * Math.cos(th);
+                const score = Math.exp(-0.5 * (Math.pow(along / len, 2) + Math.pow(perp / w, 2)));
+                if (rand() < 0.75 * score + 0.008) out.push(d.i);
+            });
+            return out;
+        }
+        function genFingerprint() {
+            const out = [];
+            const arcs = 4 + (rand() < 0.3 ? 1 : 0);
+            const th0 = rand() * Math.PI * 2;
+            const span = (2.1 + rand() * 0.9);
+            const r0 = R * (0.4 + rand() * 0.12), step = R * (0.1 + rand() * 0.03);
+            for (let k = 0; k < arcs; k++) {
+                const rk = r0 + k * step;
+                if (rk > R * 0.96) break;
+                dies.forEach(d => {
+                    const r = Math.hypot(d.x - CX, d.y - CY);
+                    if (Math.abs(r - rk) > 3.2) return;
+                    let a = Math.atan2(d.y - CY, d.x - CX);
+                    if (a < 0) a += Math.PI * 2;
+                    let da = (a - th0 + Math.PI * 3) % (Math.PI * 2);
+                    if (da < span && rand() < 0.68) out.push(d.i);
+                });
+            }
+            return out;
+        }
+        function genClean() {
+            const out = [];
+            dies.forEach(d => { if (rand() < 0.003) out.push(d.i); });
+            return out;
+        }
+        const GENERATORS = {
+            random: genRandom, cluster: genCluster, ring: genRing, edge: genEdge,
+            scratch: genScratch, comet: genComet, fingerprint: genFingerprint, clean: genClean
+        };
+
+        /* ---------- 渲染模式按钮 ---------- */
+        function renderPatternButtons() {
+            const grid = $('patternGrid');
+            const names = T('pNames');
+            grid.innerHTML = '';
+            PATTERNS.forEach((p, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'pattern-btn' + (p.id === activePattern ? ' active' : '');
+                btn.dataset.pattern = p.id;
+                btn.setAttribute('aria-pressed', p.id === activePattern ? 'true' : 'false');
+
+                const ico = document.createElement('span');
+                ico.className = 'p-ico';
+                ico.textContent = p.ico;
+                const name = document.createElement('span');
+                name.className = 'p-name';
+                name.textContent = names[idx];
+
+                btn.appendChild(ico);
+                btn.appendChild(name);
+                btn.title = names[idx];
+                btn.addEventListener('click', () => {
+                    // 再次点击当前模式 = 换一版随机结果
+                    if (p.id === activePattern) { generate(p.id); return; }
+                    setActivePattern(p.id);
+                    generate(p.id);
+                });
+                grid.appendChild(btn);
+            });
+        }
+
+        function setActivePattern(id) {
+            activePattern = id;
+            document.querySelectorAll('.pattern-btn').forEach(b => {
+                const on = b.dataset.pattern === id;
+                b.classList.toggle('active', on);
+                b.setAttribute('aria-pressed', on ? 'true' : 'false');
+            });
+        }
+
+        /* ---------- 生成动画（分阶段：先退场，再入场） ---------- */
+        function generate(patternId) {
+            const gen = GENERATORS[patternId];
+            if (!gen) return;
+            const next = gen();
+            const speed = parseFloat($('speedRange').value);
+            const dur = Math.max(340, 1150 / speed);   // 入场总时长
+
+            // 阶段一：现有缺陷交错退场
+            const cur = [...defects];
+            clearTimeout(swapTimer);
+            const outStep = Math.min(26, cur.length ? 300 / cur.length : 0);
+            cur.forEach((i, k) => {
+                const el = dies[i].el;
+                el.style.setProperty('--d', (k * outStep) + 'ms');
+                el.classList.remove('gen');
+                el.classList.add('die-out');
+            });
+
+            // 阶段二：换底重撒
+            swapTimer = setTimeout(() => {
+                defects.clear();
+                document.querySelectorAll('.die').forEach(el => el.classList.remove('die-bad', 'die-out'));
+                const inStep = next.length ? dur / next.length : 0;
+                next.forEach((i, k) => {
+                    defects.add(i);
+                    const el = dies[i].el;
+                    el.style.setProperty('--d', (k * inStep) + 'ms');
+                    el.classList.add('die-bad', 'gen');
+                });
+                if (view === 'heat') renderHeat();
+                renderAnalysis();
+            }, cur.length ? 330 : 60);
+        }
+
+        /* ---------- 手绘笔刷 ---------- */
+        function dieFromEvent(e) {
+            const rect = svg.getBoundingClientRect();
+            const scale = SVG_LEN / rect.width;
+            const x = (e.clientX - rect.left) * scale;
+            const y = (e.clientY - rect.top) * scale;
+            const c = Math.round((x - CX) / D) + 12;
+            const r = Math.round((y - CY) / D) + 12;
+            if (c < 0 || c >= N || r < 0 || r >= N) return null;
+            return diesByRC.get(r + ',' + c) || null;
+        }
+        // 建立 (r,c) -> die 映射
+        const diesByRC = new Map();
+
+        function markDie(die, on) {
+            if (!die || !die.valid) return;
+            const has = defects.has(die.i);
+            if (on && !has) {
+                defects.add(die.i);
+                die.el.classList.add('die-bad');
+            } else if (!on && has) {
+                defects.delete(die.i);
+                die.el.classList.remove('die-bad');
+            }
+            scheduleAnalysis();
+        }
+
+        function paintAt(e) {
+            const die = dieFromEvent(e);
+            if (!die) return;
+            markDie(die, brush === 'paint');
+        }
+
+        /* ---------- 视图渲染 ---------- */
+        const HEAT_STOPS = [[34, 211, 238], [129, 140, 248], [245, 158, 11], [239, 68, 68]];
+        function lerpColor(t) {
+            t = Math.max(0, Math.min(1, t)) * (HEAT_STOPS.length - 1);
+            const i = Math.min(HEAT_STOPS.length - 2, Math.floor(t));
+            const f = t - i;
+            const a = HEAT_STOPS[i], b = HEAT_STOPS[i + 1];
+            return 'rgb(' + Math.round(a[0] + (b[0] - a[0]) * f) + ',' +
+                          Math.round(a[1] + (b[1] - a[1]) * f) + ',' +
+                          Math.round(a[2] + (b[2] - a[2]) * f) + ')';
+        }
+        function renderHeat() {
+            // 每个 die 统计 5×5 邻域内缺陷数，归一化着色
+            const maxLocal = 10;
+            dies.forEach(d => {
+                let cnt = 0;
+                for (let dr = -2; dr <= 2; dr++) {
+                    for (let dc = -2; dc <= 2; dc++) {
+                        const nb = diesByRC.get((d.r + dr) + ',' + (d.c + dc));
+                        if (nb && defects.has(nb.i)) cnt++;
+                    }
+                }
+                d.el.style.fill = cnt === 0 ? '' : lerpColor(cnt / maxLocal);
+            });
+        }
+        function renderBin() {
+            dies.forEach(d => { d.el.style.fill = ''; });
+        }
+        function switchView(v) {
+            view = v;
+            $('viewBin').classList.toggle('active', v === 'bin');
+            $('viewHeat').classList.toggle('active', v === 'heat');
+            $('viewBin').setAttribute('aria-selected', v === 'bin');
+            $('viewHeat').setAttribute('aria-selected', v === 'heat');
+            $('heatLegend').style.display = v === 'heat' ? 'flex' : 'none';
+            if (v === 'heat') renderHeat();
+            else renderBin();
+        }
+
+        /* ---------- 空间统计 ---------- */
+        function computeFeatures() {
+            const list = [...defects].map(i => dies[i]);
+            const n = list.length;
+            if (n === 0) return null;
+            const density = n / validCount;
+            // 质心
+            let sx = 0, sy = 0;
+            list.forEach(d => { sx += d.x; sy += d.y; });
+            const cx = sx / n, cy = sy / n;
+            // 径向直方图（8 桶）+ 质心半径
+            const hist = new Array(8).fill(0);
+            let centerMass = 0;
+            list.forEach(d => {
+                const r = Math.hypot(d.x - CX, d.y - CY) / R;
+                centerMass += r;
+                hist[Math.min(7, Math.floor(r * 8))]++;
+            });
+            centerMass /= n;
+            // 最近邻平均距离（die 间距单位）
+            let nnSum = 0;
+            for (let i = 0; i < n; i++) {
+                let m = Infinity;
+                for (let j = 0; j < n; j++) {
+                    if (i === j) continue;
+                    const g = Math.hypot(list[i].x - list[j].x, list[i].y - list[j].y) / D;
+                    if (g < m) m = g;
+                }
+                nnSum += m;
+            }
+            const nnMean = nnSum / n;
+            const expect = density > 0 ? 0.5 / Math.sqrt(density) : 1;
+            const Rstat = nnMean / expect;
+            // 协方差特征值 → 伸长比
+            let vx = 0, vy = 0, vxy = 0;
+            list.forEach(d => {
+                const u = (d.x - cx) / D, v = (d.y - cy) / D;
+                vx += u * u; vy += v * v; vxy += u * v;
+            });
+            vx /= n; vy /= n; vxy /= n;
+            const tr = vx + vy, det = vx * vy - vxy * vxy;
+            const disc = Math.sqrt(Math.max(0, tr * tr - 4 * det));
+            const l1 = (tr + disc) / 2, l2 = Math.max(1e-6, (tr - disc) / 2);
+            const elong = Math.sqrt(l1 / l2);
+            let peakBin = 0;
+            for (let b = 1; b < 8; b++) if (hist[b] > hist[peakBin]) peakBin = b;
+            return { n, density, centerMass, hist, peakBin, Rstat, elong };
+        }
+
+        function classify(f) {
+            const s = { random: 0, cluster: 0, ring: 0, edge: 0, scratch: 0 };
+            if (!f || f.n < 4) return s;
+            const { Rstat, peakBin, centerMass, elong } = f;
+            if (Rstat < 0.72) s.cluster += 62;
+            else if (Rstat < 0.95) s.cluster += 30;
+            if (Rstat > 0.82 && Rstat < 1.4) s.random += 52;
+            else if (Rstat > 1.4) s.random += 26;
+            if (peakBin >= 6) s.edge += 52;
+            else if (peakBin >= 4) s.ring += 48;
+            else if (peakBin <= 2) s.cluster += 16;
+            if (centerMass > 0.74) s.edge += 30;
+            else if (centerMass > 0.44 && centerMass < 0.8) s.ring += 26;
+            if (elong > 2.2) {
+                s.scratch += Math.min(74, (elong - 1.6) * 26);
+                s.cluster *= 0.35; // 线性缺陷挤压团簇得分
+            }
+            const total = Object.values(s).reduce((a, b) => a + b, 0);
+            if (total <= 0) return s;
+            const out = {};
+            for (const k in s) out[k] = Math.max(0, Math.round((s[k] / total) * 100));
+            // 四舍五入可能使总和≠100，把差额补到最大项
+            const sum = Object.values(out).reduce((a, b) => a + b, 0);
+            const top = Object.keys(out).reduce((a, b) => (out[b] > out[a] ? b : a));
+            out[top] += 100 - sum;
+            return out;
+        }
+
+        /* ---------- 渲染分析面板 ---------- */
+        function renderRadialBars(hist) {
+            const chart = $('radialChart');
+            const max = Math.max(...hist, 1);
+            chart.innerHTML = '';
+            let peakBin = 0;
+            for (let b = 1; b < 8; b++) if (hist[b] > hist[peakBin]) peakBin = b;
+            hist.forEach((v, b) => {
+                const bar = document.createElement('div');
+                bar.className = 'bar' + (b === peakBin ? ' peak' : '');
+                // 延迟动画，从左到右依次升起
+                bar.style.transitionDelay = (b * 30) + 'ms';
+                requestAnimationFrame(() => { bar.style.height = Math.max(3, (v / max) * 100) + '%'; });
+                chart.appendChild(bar);
+            });
+            // 峰值位置说明
+            let label = '—';
+            if (max > 0) {
+                const isZh = lang() === 'zh';
+                if (peakBin >= 6) label = (isZh ? '峰值: 边缘' : 'Peak: edge');
+                else if (peakBin >= 4) label = (isZh ? '峰值: 环带' : 'Peak: ring');
+                else if (peakBin <= 2) label = (isZh ? '峰值: 近圆心' : 'Peak: center');
+                else label = (isZh ? '峰值: 中部' : 'Peak: mid');
+            }
+            $('radialPeak').textContent = label;
+        }
+
+        function renderAnalysis() {
+            const f = computeFeatures();
+            const names = T('clsNames');
+            const zoneNames = T('rZone');
+
+            if (!f) {
+                $('statCount').textContent = '0';
+                $('statDensity').innerHTML = '0<small>%</small>';
+                $('statElong').textContent = '1.0×';
+                $('gaugeNum').textContent = '100';
+                setGauge(100, '#16a34a');
+                $('rVal').textContent = '—';
+                $('rZone').textContent = '—';
+                $('rMarker').style.left = '50%';
+                $('radialPeak').textContent = '—';
+                renderRadialBars(new Array(8).fill(0));
+                $('clsBox').innerHTML = '<div class="cls-empty">' + T('tooFew') + '</div>';
+                return;
+            }
+
+            $('statCount').textContent = f.n;
+            $('statDensity').innerHTML = (f.density * 100).toFixed(1) + '<small>%</small>';
+            $('statElong').textContent = f.elong.toFixed(1) + '×';
+
+            const yieldPct = Math.max(0, (1 - f.density) * 100);
+            $('gaugeNum').textContent = yieldPct.toFixed(1);
+            setGauge(yieldPct, yieldPct >= 90 ? '#16a34a' : yieldPct >= 75 ? '#d97706' : '#ef4444');
+
+            $('rVal').textContent = f.Rstat.toFixed(2);
+            const zone = f.Rstat < 0.8 ? 'cluster' : f.Rstat <= 1.3 ? 'random' : 'disperse';
+            $('rZone').textContent = zoneNames[zone];
+            const markerLeft = Math.min(97, Math.max(3, (f.Rstat / 2.1) * 100));
+            $('rMarker').style.left = markerLeft + '%';
+
+            renderRadialBars(f.hist);
+
+            // 分类
+            const scores = classify(f);
+            const order = Object.keys(scores).sort((a, b) => scores[b] - scores[a]);
+            const box = $('clsBox');
+            box.innerHTML = '';
+            const nameMap = { random: names[0], cluster: names[1], ring: names[2], edge: names[3], scratch: names[4] };
+            order.forEach((k, idx) => {
+                const top = idx === 0 && scores[k] > 0;
+                const row = document.createElement('div');
+                row.className = 'cls-row' + (top ? ' top' : '');
+
+                const head = document.createElement('div');
+                head.className = 'cls-head';
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'cls-name';
+                nameSpan.textContent = nameMap[k];
+                const valSpan = document.createElement('span');
+                valSpan.className = 'cls-val';
+                valSpan.textContent = scores[k] + '%';
+                head.appendChild(nameSpan);
+                head.appendChild(valSpan);
+
+                const barWrap = document.createElement('div');
+                barWrap.className = 'cls-bar';
+                const bar = document.createElement('i');
+                barWrap.appendChild(bar);
+
+                row.appendChild(head);
+                row.appendChild(barWrap);
+                box.appendChild(row);
+                requestAnimationFrame(() => { bar.style.width = scores[k] + '%'; });
+            });
+        }
+
+        function setGauge(v, color) {
+            const path = $('gaugeVal');
+            path.style.stroke = color;
+            path.style.strokeDashoffset = GAUGE_LEN * (1 - Math.max(0, Math.min(100, v)) / 100);
+        }
+
+        function scheduleAnalysis() {
+            if (analysisTimer) return;
+            analysisTimer = setTimeout(() => {
+                analysisTimer = null;
+                if (view === 'heat') renderHeat();
+                renderAnalysis();
+            }, 80);
+        }
+
+        /* ---------- e-beam 扫描模拟 ---------- */
+        function runScan() {
+            if (scanning || defects.size === 0) return;
+            scanning = true;
+            const btn = $('scanBtn');
+            btn.classList.add('scanning');
+            defects.forEach(i => dies[i].el.classList.remove('scanned'));
+
+            const line = $('scanLine'), core = $('scanCore');
+            line.style.display = 'block';
+            core.style.display = 'block';
+            const START = -14, END = 226, dur = 950, t0 = performance.now();
+            const passed = new Set();
+
+            function frame(t) {
+                const p = Math.min(1, (t - t0) / dur);
+                const x = START + (END - START) * p;
+                line.setAttribute('x', x);
+                core.setAttribute('x', x + 1);
+                defects.forEach(i => {
+                    const d = dies[i];
+                    if (!passed.has(i) && d.x <= x) {
+                        passed.add(i);
+                        const el = d.el;
+                        el.classList.remove('scanned');
+                        void el.getBoundingClientRect();
+                        el.classList.add('scanned');
+                    }
+                });
+                if (p < 1) requestAnimationFrame(frame);
+                else {
+                    scanning = false;
+                    btn.classList.remove('scanning');
+                    line.style.display = 'none';
+                    core.style.display = 'none';
+                    setTimeout(() => {
+                        defects.forEach(i => dies[i].el.classList.remove('scanned'));
+                    }, 700);
+                }
+            }
+            requestAnimationFrame(frame);
+        }
+
+        /* ---------- 指针交互 ---------- */
+        function svgPoint(e) {
+            const rect = svg.getBoundingClientRect();
+            const scale = SVG_LEN / rect.width;
+            return { x: (e.clientX - rect.left) * scale, y: (e.clientY - rect.top) * scale };
+        }
+        function moveBrush(e) {
+            const p = svgPoint(e);
+            brushRing.setAttribute('cx', p.x);
+            brushRing.setAttribute('cy', p.y);
+            brushRing.setAttribute('display', 'inline');
+            brushRing.classList.toggle('erase', brush === 'erase');
+        }
+        function hideBrush() {
+            brushRing.setAttribute('display', 'none');
+            document.querySelectorAll('.die.hover').forEach(el => el.classList.remove('hover'));
+        }
+        function showTooltip(e, die) {
+            if (e.pointerType === 'touch') return;
+            tooltip.textContent = 'R' + String(die.r).padStart(2, '0') + ' C' + String(die.c).padStart(2, '0') +
+                ' · ' + (defects.has(die.i) ? T('tooltipBad') : T('tooltipOk'));
+            tooltip.classList.toggle('bad', defects.has(die.i));
+            tooltip.classList.add('show');
+            tooltip.style.left = e.clientX + 'px';
+            tooltip.style.top = e.clientY + 'px';
+        }
+
+        svg.addEventListener('pointerdown', (e) => {
+            if (e.button !== undefined && e.button !== 0 && e.pointerType === 'mouse') return;
+            svg.setPointerCapture(e.pointerId);
+            painting = true;
+            lastPointer = e;
+            paintAt(e);
+        });
+        svg.addEventListener('pointermove', (e) => {
+            moveBrush(e);
+            const die = dieFromEvent(e);
+            document.querySelectorAll('.die.hover').forEach(el => el.classList.remove('hover'));
+            if (die) {
+                die.el.classList.add('hover');
+                showTooltip(e, die);
+                if (painting) paintAt(e);
+            } else {
+                tooltip.classList.remove('show');
+            }
+        });
+        svg.addEventListener('pointerup', (e) => { painting = false; });
+        svg.addEventListener('pointerleave', () => {
+            painting = false;
+            hideBrush();
+            tooltip.classList.remove('show');
+        });
+
+        /* ---------- 控制绑定 ---------- */
+        $('brushPaint').addEventListener('click', () => {
+            brush = 'paint';
+            $('brushPaint').classList.add('active');
+            $('brushErase').classList.remove('active');
+            brushRing.classList.toggle('erase', false);
+        });
+        $('brushErase').addEventListener('click', () => {
+            brush = 'erase';
+            $('brushErase').classList.add('active');
+            $('brushPaint').classList.remove('active');
+            brushRing.classList.toggle('erase', true);
+        });
+        $('brushClear').addEventListener('click', () => {
+            defects.clear();
+            document.querySelectorAll('.die').forEach(el => el.classList.remove('die-bad', 'gen', 'die-out', 'scanned'));
+            if (view === 'heat') renderHeat();
+            renderAnalysis();
+        });
+        $('viewBin').addEventListener('click', () => switchView('bin'));
+        $('viewHeat').addEventListener('click', () => switchView('heat'));
+        $('scanBtn').addEventListener('click', runScan);
+        $('diceBtn').addEventListener('click', () => {
+            const pool = PATTERNS.filter(p => p.id !== 'clean' && p.id !== activePattern);
+            const pick = pool[Math.floor(rand() * pool.length)].id;
+            setActivePattern(pick);
+            generate(pick);
+        });
+        $('speedRange').addEventListener('input', (e) => {
+            $('speedVal').textContent = parseFloat(e.target.value).toFixed(1) + '×';
+        });
+
+        /* ---------- 快捷键 ---------- */
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey || e.metaKey || e.altKey) return;
+            const k = e.key.toLowerCase();
+            if (k >= '1' && k <= '8') {
+                const id = PATTERNS[parseInt(k, 10) - 1].id;
+                setActivePattern(id);
+                generate(id);
+            } else if (k === 'p') { $('brushPaint').click(); }
+            else if (k === 'e') { $('brushErase').click(); }
+            else if (k === 'c') { $('brushClear').click(); }
+            else if (k === 's') { runScan(); }
+            else if (k === 'v') { switchView(view === 'bin' ? 'heat' : 'bin'); }
+        });
+
+        /* ---------- 语言切换联动 ---------- */
+        function refreshDynamicLang() {
+            // 模式按钮名
+            const names = T('pNames');
+            document.querySelectorAll('.pattern-btn').forEach((btn, i) => {
+                btn.querySelector('.p-name').textContent = names[i];
+                btn.title = names[i];
+            });
+            renderAnalysis(); // 分类名、区域名等动态文案
+        }
+        window.addEventListener('sitewide-language-change', refreshDynamicLang);
+
+        /* ---------- 初始化 ---------- */
+        function init() {
+            buildDies();
+            dies.forEach(d => diesByRC.set(d.r + ',' + d.c, d));
+            renderPatternButtons();
+            // 初始给一个"团簇"模式，视觉上更有冲击力
+            setActivePattern('cluster');
+            setTimeout(() => generate('cluster'), 120);
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    })();
+    </script>
+</body>
+</html>
