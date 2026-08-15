@@ -1151,7 +1151,8 @@ body.dark-mode .ui-marquee-dot{
     cursor: pointer;
     opacity: 0;
     pointer-events: none;
-    transition: opacity var(--transition-speed), background-color var(--transition-speed);
+    transition: background-color var(--transition-speed);
+    /* 2025-08-15 已移除 opacity 过渡：取消淡入淡出，滚动时即时显隐，不影响其他效果 */
 }
 
 .home-back-to-top.visible {
