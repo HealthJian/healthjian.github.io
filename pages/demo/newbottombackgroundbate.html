@@ -1,0 +1,3059 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+/>
+
+<title>HealthJian — Particle Blog</title>
+
+<style>
+/* =========================================================
+   01. GLOBAL
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --text: #403b36;
+    --text-soft: #716a63;
+    --nav-bg: rgba(255, 255, 255, 0.72);
+    --nav-border: rgba(255, 255, 255, 0.62);
+    --nav-shadow: rgba(50, 40, 30, 0.08);
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        "PingFang SC",
+        "Microsoft YaHei",
+        sans-serif;
+
+    color: var(--text);
+
+    overflow-x: hidden;
+
+    background: #f5f0e6;
+
+    transition:
+        color 0.8s ease,
+        background 0.8s ease;
+}
+
+
+/* =========================================================
+   02. PARTICLE CANVAS
+   最底层
+========================================================= */
+
+#particle-canvas {
+    position: fixed;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: -10;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   03. LIGHT ATMOSPHERE
+========================================================= */
+
+#atmosphere {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: -9;
+
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            circle at 50% 42%,
+            rgba(255,255,255,0.50),
+            transparent 45%
+        );
+
+    opacity: 0.7;
+
+    transition:
+        background 1.2s ease,
+        opacity 1.2s ease;
+}
+
+
+/* =========================================================
+   04. PAGE CONTENT
+========================================================= */
+
+.page {
+    position: relative;
+
+    min-height: 100vh;
+
+    z-index: 5;
+
+    pointer-events: none;
+}
+
+.page > * {
+    pointer-events: auto;
+}
+
+
+/* =========================================================
+   05. NAVIGATION
+========================================================= */
+
+.nav-wrapper {
+    position: fixed;
+
+    top: 22px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: min(1180px, calc(100% - 36px));
+
+    z-index: 100;
+}
+
+.navbar {
+    height: 66px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 7px 10px;
+
+    border-radius: 18px;
+
+    background: var(--nav-bg);
+
+    border: 1px solid var(--nav-border);
+
+    backdrop-filter: blur(18px) saturate(125%);
+    -webkit-backdrop-filter: blur(18px) saturate(125%);
+
+    box-shadow:
+        0 12px 40px var(--nav-shadow);
+
+    transition:
+        background 0.8s ease,
+        border-color 0.8s ease,
+        box-shadow 0.8s ease;
+}
+
+
+/* logo */
+
+.brand {
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 0 14px;
+
+    flex-shrink: 0;
+}
+
+.brand-logo {
+    width: 34px;
+    height: 34px;
+
+    border-radius: 10px;
+
+    object-fit: cover;
+
+    background: rgba(255,255,255,0.5);
+
+    border: 1px solid rgba(255,255,255,0.7);
+}
+
+.brand-name {
+    font-size: 17px;
+
+    font-weight: 650;
+
+    letter-spacing: -0.2px;
+
+    white-space: nowrap;
+}
+
+
+/* center navigation */
+
+.nav-links {
+    display: flex;
+    align-items: center;
+
+    gap: 4px;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.nav-link {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    height: 42px;
+
+    padding: 0 14px;
+
+    border-radius: 11px;
+
+    color: var(--text-soft);
+
+    font-size: 14px;
+
+    text-decoration: none;
+
+    transition:
+        color 0.3s ease,
+        background 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--text);
+
+    background: rgba(255,255,255,0.38);
+}
+
+.nav-link.active {
+    color: var(--text);
+
+    background: rgba(255,255,255,0.52);
+}
+
+
+/* right controls */
+
+.nav-tools {
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    flex-shrink: 0;
+}
+
+.icon-button {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+
+    border-radius: 11px;
+
+    color: var(--text-soft);
+
+    background: transparent;
+
+    cursor: pointer;
+
+    transition:
+        color 0.3s ease,
+        background 0.3s ease,
+        transform 0.3s ease;
+}
+
+.icon-button:hover {
+    color: var(--text);
+
+    background: rgba(255,255,255,0.42);
+
+    transform: translateY(-1px);
+}
+
+.icon-button svg {
+    width: 17px;
+    height: 17px;
+}
+
+
+/* theme switch */
+
+.theme-switch {
+    display: flex;
+
+    align-items: center;
+
+    gap: 2px;
+
+    padding: 4px;
+
+    margin-left: 4px;
+
+    border-radius: 13px;
+
+    background: rgba(0,0,0,0.045);
+
+    border: 1px solid rgba(0,0,0,0.04);
+}
+
+.theme-option {
+    height: 30px;
+
+    padding: 0 9px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 5px;
+
+    border-radius: 9px;
+
+    border: 0;
+
+    background: transparent;
+
+    color: #817970;
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+    transition:
+        color 0.4s ease,
+        background 0.4s ease,
+        box-shadow 0.4s ease;
+}
+
+.theme-option svg {
+    width: 14px;
+    height: 14px;
+}
+
+.theme-option.active {
+    color: #302b27;
+
+    background: rgba(255,255,255,0.92);
+
+    box-shadow:
+        0 2px 8px rgba(0,0,0,0.08);
+}
+
+
+/* language */
+
+.language-button {
+    font-size: 12px;
+
+    font-weight: 550;
+}
+
+
+/* =========================================================
+   06. DEMO ARTICLE
+   这里只放少量示例内容
+========================================================= */
+
+.article {
+    width: min(850px, calc(100% - 42px));
+
+    margin: 0 auto;
+
+    padding-top: 170px;
+    padding-bottom: 180px;
+}
+
+.article-header {
+    max-width: 760px;
+
+    margin: 0 auto 70px;
+}
+
+.article-category {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-bottom: 18px;
+
+    font-size: 12px;
+
+    color: #8b8279;
+
+    letter-spacing: 0.8px;
+}
+
+.article-category::before {
+    content: "";
+
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: currentColor;
+}
+
+.article h1 {
+    font-family:
+        Georgia,
+        "Times New Roman",
+        "Noto Serif SC",
+        serif;
+
+    font-size: clamp(36px, 5vw, 64px);
+
+    line-height: 1.15;
+
+    letter-spacing: -2px;
+
+    font-weight: 600;
+
+    color: #3f3934;
+}
+
+.article-meta {
+    margin-top: 24px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    color: #827970;
+
+    font-size: 13px;
+}
+
+.article-content {
+    max-width: 720px;
+
+    margin: 0 auto;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        "Noto Serif SC",
+        serif;
+
+    font-size: 17px;
+
+    line-height: 2;
+
+    color: #57504a;
+}
+
+.article-content p {
+    margin-bottom: 28px;
+}
+
+
+/* =========================================================
+   07. NIGHT UI
+========================================================= */
+
+body.dark {
+    --text: #e6edf5;
+    --text-soft: #aab8c8;
+
+    --nav-bg: rgba(12, 28, 48, 0.78);
+
+    --nav-border: rgba(255,255,255,0.10);
+
+    --nav-shadow:
+        rgba(0, 0, 0, 0.30);
+}
+
+body.dark .nav-link:hover,
+body.dark .nav-link.active,
+body.dark .icon-button:hover {
+    background: rgba(255,255,255,0.075);
+}
+
+body.dark .theme-switch {
+    background: rgba(0,0,0,0.22);
+
+    border-color: rgba(255,255,255,0.05);
+}
+
+body.dark .theme-option {
+    color: #91a0b2;
+}
+
+body.dark .theme-option.active {
+    color: #e8eef7;
+
+    background: rgba(39,58,80,0.95);
+
+    box-shadow:
+        0 2px 10px rgba(0,0,0,0.28);
+}
+
+body.dark .article h1 {
+    color: #e8eef7;
+}
+
+body.dark .article-content {
+    color: #b3bfcd;
+}
+
+body.dark .article-category,
+body.dark .article-meta {
+    color: #8292a5;
+}
+
+body.dark #atmosphere {
+    background:
+        radial-gradient(
+            circle at 50% 42%,
+            rgba(60,120,180,0.13),
+            transparent 48%
+        );
+
+    opacity: 0.8;
+}
+
+
+/* =========================================================
+   08. MOBILE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .nav-links {
+        gap: 0;
+    }
+
+    .nav-link {
+        padding: 0 9px;
+    }
+
+    .nav-link:nth-child(4),
+    .nav-link:nth-child(5) {
+        display: none;
+    }
+
+    .brand-name {
+        display: none;
+    }
+
+    .nav-wrapper {
+        width: calc(100% - 22px);
+
+        top: 11px;
+    }
+
+    .navbar {
+        height: 58px;
+
+        border-radius: 15px;
+    }
+
+    .brand {
+        padding: 0 7px;
+    }
+
+    .icon-button:nth-child(-n+4) {
+        display: none;
+    }
+
+    .article {
+        padding-top: 120px;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .nav-link {
+        display: none;
+    }
+
+    .nav-links {
+        margin: 0;
+    }
+
+    .nav-tools {
+        margin-left: auto;
+    }
+
+    .article h1 {
+        letter-spacing: -1px;
+    }
+
+    .article-content {
+        font-size: 16px;
+    }
+}
+
+
+/* reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.001ms !important;
+        transition-duration: 0.001ms !important;
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+<!-- =========================================================
+     BACKGROUND
+========================================================= -->
+
+<canvas id="particle-canvas"></canvas>
+
+<div id="atmosphere"></div>
+
+
+<!-- =========================================================
+     NAVIGATION
+========================================================= -->
+
+<div class="nav-wrapper">
+
+    <nav class="navbar">
+
+        <!-- Logo -->
+        <div class="brand">
+
+            <!-- 占位 Logo -->
+            <img
+                class="brand-logo"
+                src="logo.png"
+                alt="HealthJian"
+            >
+
+            <span class="brand-name">
+                HealthJian
+            </span>
+
+        </div>
+
+
+        <!-- Navigation -->
+        <div class="nav-links">
+
+            <a href="#" class="nav-link active">
+                首页
+            </a>
+
+            <a href="#" class="nav-link">
+                博客
+            </a>
+
+            <a href="#" class="nav-link">
+                朋友
+            </a>
+
+            <a href="#" class="nav-link">
+                简历
+            </a>
+
+            <a href="#" class="nav-link">
+                关于
+            </a>
+
+        </div>
+
+
+        <!-- Tools -->
+        <div class="nav-tools">
+
+            <!-- GitHub -->
+            <button class="icon-button" title="GitHub">
+                <svg viewBox="0 0 24 24"
+                     fill="currentColor">
+                    <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.85 10.91.57.1.78-.25.78-.55v-2.13c-3.19.69-3.86-1.54-3.86-1.54-.52-1.33-1.27-1.69-1.27-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.75 1.18 1.75 1.18 1.02 1.74 2.68 1.24 3.33.95.1-.74.4-1.24.73-1.53-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.47.11-3.06 0 0 .96-.31 3.15 1.18A10.9 10.9 0 0 1 12 6.91c.97 0 1.94.13 2.85.38 2.18-1.49 3.14-1.18 3.14-1.18.62 1.59.23 2.77.12 3.06.73.81 1.17 1.84 1.17 3.1 0 4.43-2.69 5.4-5.25 5.69.41.35.78 1.04.78 2.1v3.1c0 .3.2.66.79.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/>
+                </svg>
+            </button>
+
+
+            <!-- Steam -->
+            <button class="icon-button" title="Steam">
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.8">
+                    <circle cx="17.2" cy="6.8" r="3"/>
+                    <circle cx="8" cy="15.8" r="3"/>
+                    <path d="M10.6 14.4l4.3-5"/>
+                    <path d="M1.8 13.2l3.7 1.5"/>
+                </svg>
+            </button>
+
+
+            <!-- Email -->
+            <button class="icon-button" title="Email">
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.8">
+                    <rect x="3" y="5" width="18" height="14" rx="2"/>
+                    <path d="m4 7 8 6 8-6"/>
+                </svg>
+            </button>
+
+
+            <!-- Douyin -->
+            <button class="icon-button" title="抖音">
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.8">
+                    <path d="M14 4v10.2a4.2 4.2 0 1 1-3.2-4.08"/>
+                    <path d="M14 4c.6 2.4 2 3.8 4.5 4.1"/>
+                </svg>
+            </button>
+
+
+            <!-- Theme -->
+            <div class="theme-switch">
+
+                <button
+                    class="theme-option active"
+                    id="dayBtn"
+                >
+
+                    <svg viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2">
+
+                        <circle cx="12" cy="12" r="4"/>
+
+                        <path d="
+                            M12 2v2
+                            M12 20v2
+                            M4.93 4.93l1.42 1.42
+                            M17.65 17.65l1.42 1.42
+                            M2 12h2
+                            M20 12h2
+                            M4.93 19.07l1.42-1.42
+                            M17.65 6.35l1.42-1.42
+                        "/>
+
+                    </svg>
+
+                    Day
+
+                </button>
+
+
+                <button
+                    class="theme-option"
+                    id="nightBtn"
+                >
+
+                    <svg viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2">
+
+                        <path d="
+                            M21 12.8
+                            A9 9 0 1 1
+                            11.2 3
+                            A7 7 0 0 0
+                            21 12.8Z
+                        "/>
+
+                    </svg>
+
+                    Night
+
+                </button>
+
+            </div>
+
+
+            <!-- Language -->
+            <button
+                class="icon-button language-button"
+                id="languageBtn"
+            >
+                中 / EN
+            </button>
+
+        </div>
+
+    </nav>
+
+</div>
+
+
+
+<!-- =========================================================
+     PAGE
+========================================================= -->
+
+<main class="page">
+
+    <article class="article">
+
+        <header class="article-header">
+
+            <div class="article-category">
+                DESIGN / EXPERIMENT
+            </div>
+
+            <h1>
+                Fluid Particles
+                <br>
+                &amp; Living Interface
+            </h1>
+
+            <div class="article-meta">
+
+                <span>
+                    2026.08.14
+                </span>
+
+                <span>·</span>
+
+                <span>
+                    HealthJian
+                </span>
+
+                <span>·</span>
+
+                <span>
+                    8 min read
+                </span>
+
+            </div>
+
+        </header>
+
+
+        <section class="article-content">
+
+            <p>
+                这是一个用于测试背景粒子系统的文章阅读界面。
+                粒子不会成为页面的主体，而是作为一种非常轻微的动态环境，
+                在阅读过程中持续存在。
+            </p>
+
+            <p>
+                当鼠标靠近粒子时，粒子会产生柔性的流动与散射，
+                随着鼠标离开，粒子会逐渐回到自己的目标位置。
+            </p>
+
+            <p>
+                背景中的 IP 也并不是一张真正的图片，而是由大量独立粒子
+                根据图片采样结果重新构成。
+            </p>
+
+        </section>
+
+    </article>
+
+</main>
+
+
+
+<script>
+
+/* =========================================================
+   PARTICLE IP ENGINE
+========================================================= */
+
+
+/*
+    ==========================================================
+    只需要修改这里
+    ==========================================================
+*/
+
+const IP_IMAGE_SRC = "./7903.jpg";
+
+
+/*
+    IP 的最大尺寸
+
+    不建议太大。
+
+    它应该是背景里的彩蛋，
+    而不是正文里的巨大插画。
+*/
+
+const IP_MAX_WIDTH = 430;
+
+
+/*
+    粒子采样间距
+
+    数值越小：
+
+        粒子越多
+        图片越清晰
+        CPU/GPU 负担越大
+
+    推荐：
+
+        Desktop : 5 ~ 7
+        Mobile  : 8 ~ 11
+*/
+
+let IP_SAMPLE_STEP = 6;
+
+
+
+/* =========================================================
+   COLORS
+========================================================= */
+
+const THEMES = {
+
+    day: {
+
+        bg: [247, 243, 235],
+
+        particle: [165, 148, 126],
+
+        line: [158, 143, 125],
+
+        ip: [118, 108, 99],
+
+        glow: [238, 204, 145],
+
+        text: "#514a44"
+
+    },
+
+    night: {
+
+        bg: [5, 18, 38],
+
+        particle: [125, 180, 230],
+
+        line: [90, 145, 205],
+
+        ip: [172, 208, 238],
+
+        glow: [80, 175, 255],
+
+        text: "#9eacbd"
+
+    }
+
+};
+
+
+
+/* =========================================================
+   UTILITIES
+========================================================= */
+
+function lerp(a, b, t) {
+
+    return a + (b - a) * t;
+
+}
+
+
+function lerpColor(a, b, t) {
+
+    return [
+
+        Math.round(lerp(a[0], b[0], t)),
+
+        Math.round(lerp(a[1], b[1], t)),
+
+        Math.round(lerp(a[2], b[2], t))
+
+    ];
+
+}
+
+
+function rgba(c, alpha) {
+
+    return `rgba(
+        ${c[0]},
+        ${c[1]},
+        ${c[2]},
+        ${alpha}
+    )`;
+
+}
+
+
+function clamp(v, min, max) {
+
+    return Math.max(
+        min,
+        Math.min(max, v)
+    );
+
+}
+
+
+function randomRange(min, max) {
+
+    return min + Math.random() * (max - min);
+
+}
+
+
+
+/* =========================================================
+   PARTICLE SYSTEM
+========================================================= */
+
+class ParticleSystem {
+
+    constructor(canvas) {
+
+        this.canvas = canvas;
+
+        this.ctx =
+            canvas.getContext(
+                "2d",
+                {
+                    alpha: false,
+                    desynchronized: true
+                }
+            );
+
+
+        /*
+            主题动画
+        */
+
+        this.themeProgress = 0;
+
+        this.targetTheme = 0;
+
+
+        /*
+            pointer
+
+            注意：
+
+            这里不是把粒子吸到 pointer。
+
+            pointer 只产生局部扰动。
+
+            这正是防止：
+
+            「鼠标停住 → 全部粒子堆过去」
+
+            的核心。
+        */
+
+        this.pointer = {
+
+            x: -9999,
+
+            y: -9999,
+
+            lastX: -9999,
+
+            lastY: -9999,
+
+            vx: 0,
+
+            vy: 0,
+
+            active: false,
+
+            radius: 130,
+
+            lastMoveTime: 0
+
+        };
+
+
+        /*
+            IP 粒子
+        */
+
+        this.ipParticles = [];
+
+
+        /*
+            普通背景粒子
+        */
+
+        this.backgroundParticles = [];
+
+
+        /*
+            空间网格
+        */
+
+        this.grid = new Map();
+
+
+        /*
+            DPR 限制
+
+            不让 4K / 高 DPI 手机
+            把 Canvas 成本直接放大。
+        */
+
+        this.dpr =
+            Math.min(
+                window.devicePixelRatio || 1,
+                1.5
+            );
+
+
+        this.resize();
+
+        this.initBackground();
+
+        this.loadIP();
+
+
+        this.bindEvents();
+
+        this.animate();
+
+    }
+
+
+
+    /* ======================================================
+       RESIZE
+    ====================================================== */
+
+    resize() {
+
+        this.width =
+            window.innerWidth;
+
+        this.height =
+            window.innerHeight;
+
+
+        this.canvas.width =
+            Math.floor(
+                this.width * this.dpr
+            );
+
+        this.canvas.height =
+            Math.floor(
+                this.height * this.dpr
+            );
+
+
+        this.canvas.style.width =
+            this.width + "px";
+
+        this.canvas.style.height =
+            this.height + "px";
+
+
+        this.ctx.setTransform(
+            this.dpr,
+            0,
+            0,
+            this.dpr,
+            0,
+            0
+        );
+
+
+        /*
+            移动设备降低采样密度
+        */
+
+        if (this.width < 600) {
+
+            IP_SAMPLE_STEP = 9;
+
+            this.pointer.radius = 90;
+
+        }
+
+        else if (this.width < 1000) {
+
+            IP_SAMPLE_STEP = 7;
+
+            this.pointer.radius = 110;
+
+        }
+
+        else {
+
+            IP_SAMPLE_STEP = 6;
+
+            this.pointer.radius = 130;
+
+        }
+
+
+        /*
+            IP 位置重新计算
+        */
+
+        if (this.ipImage) {
+
+            this.generateIPParticles();
+
+        }
+
+    }
+
+
+
+    /* ======================================================
+       BACKGROUND PARTICLES
+    ====================================================== */
+
+    initBackground() {
+
+        let count;
+
+
+        if (this.width < 600) {
+
+            count = 35;
+
+        }
+
+        else if (this.width < 1000) {
+
+            count = 65;
+
+        }
+
+        else {
+
+            count = 100;
+
+        }
+
+
+        this.backgroundParticles = [];
+
+
+        for (let i = 0; i < count; i++) {
+
+            this.backgroundParticles.push({
+
+                x:
+                    Math.random()
+                    * this.width,
+
+                y:
+                    Math.random()
+                    * this.height,
+
+                vx:
+                    randomRange(
+                        -0.16,
+                        0.16
+                    ),
+
+                vy:
+                    randomRange(
+                        -0.16,
+                        0.16
+                    ),
+
+                radius:
+                    randomRange(
+                        0.5,
+                        1.25
+                    ),
+
+                phase:
+                    Math.random()
+                    * Math.PI
+                    * 2
+
+            });
+
+        }
+
+    }
+
+
+
+    /* ======================================================
+       LOAD IP IMAGE
+    ====================================================== */
+
+    loadIP() {
+
+        const image =
+            new Image();
+
+        image.onload = () => {
+
+            this.ipImage = image;
+
+            this.generateIPParticles();
+
+        };
+
+
+        image.onerror = () => {
+
+            console.warn(
+                "IP image not found:",
+                IP_IMAGE_SRC
+            );
+
+        };
+
+
+        image.src =
+            IP_IMAGE_SRC;
+
+    }
+
+
+
+    /* ======================================================
+       IMAGE → PARTICLES
+    ====================================================== */
+
+    generateIPParticles() {
+
+        if (!this.ipImage) {
+            return;
+        }
+
+
+        /*
+            建立离屏 Canvas
+        */
+
+        const offscreen =
+            document.createElement(
+                "canvas"
+            );
+
+        const offCtx =
+            offscreen.getContext(
+                "2d"
+            );
+
+
+        /*
+            保持原图片比例
+        */
+
+        const ratio =
+            this.ipImage.height /
+            this.ipImage.width;
+
+
+        const targetWidth =
+            Math.min(
+                IP_MAX_WIDTH,
+                this.width * 0.32
+            );
+
+
+        const targetHeight =
+            targetWidth * ratio;
+
+
+        offscreen.width =
+            Math.floor(targetWidth);
+
+        offscreen.height =
+            Math.floor(targetHeight);
+
+
+        offCtx.clearRect(
+            0,
+            0,
+            targetWidth,
+            targetHeight
+        );
+
+
+        /*
+            绘制图片
+        */
+
+        offCtx.drawImage(
+            this.ipImage,
+            0,
+            0,
+            targetWidth,
+            targetHeight
+        );
+
+
+        const imageData =
+            offCtx.getImageData(
+                0,
+                0,
+                targetWidth,
+                targetHeight
+            );
+
+
+        const data =
+            imageData.data;
+
+
+        /*
+            IP 放在页面右下/中下区域
+
+            不盖住正文。
+        */
+
+        const centerX =
+            this.width * 0.79;
+
+        const centerY =
+            this.height * 0.69;
+
+
+        /*
+            如果屏幕太窄，
+            IP 自动偏到右侧并缩小
+        */
+
+        let scale = 1;
+
+        if (this.width < 700) {
+
+            scale = 0.72;
+
+        }
+
+
+        const points = [];
+
+
+        /*
+            图片采样
+        */
+
+        for (
+            let y = 0;
+            y < targetHeight;
+            y += IP_SAMPLE_STEP
+        ) {
+
+            for (
+                let x = 0;
+                x < targetWidth;
+                x += IP_SAMPLE_STEP
+            ) {
+
+                const index =
+                    (y * targetWidth + x)
+                    * 4;
+
+
+                const r =
+                    data[index];
+
+                const g =
+                    data[index + 1];
+
+                const b =
+                    data[index + 2];
+
+                const a =
+                    data[index + 3];
+
+
+                /*
+                    白色背景不生成粒子
+
+                    判断亮度。
+                */
+
+                const brightness =
+                    (
+                        r * 0.299 +
+                        g * 0.587 +
+                        b * 0.114
+                    );
+
+
+                /*
+                    图片原本背景接近白色。
+
+                    越白越不生成。
+                */
+
+                if (
+                    a > 20 &&
+                    brightness < 238
+                ) {
+
+                    const px =
+                        centerX
+                        +
+                        (x - targetWidth / 2)
+                        * scale;
+
+                    const py =
+                        centerY
+                        +
+                        (y - targetHeight / 2)
+                        * scale;
+
+
+                    /*
+                        保存目标位置
+                    */
+
+                    points.push({
+
+                        tx: px,
+
+                        ty: py,
+
+                        color: [
+                            r,
+                            g,
+                            b
+                        ]
+
+                    });
+
+                }
+
+            }
+
+        }
+
+
+        /*
+            如果粒子太多，进行上限控制。
+
+            这样无论图片多大，
+            都不会导致性能崩溃。
+        */
+
+        const MAX_IP_PARTICLES =
+            this.width < 600
+                ? 850
+                : 1500;
+
+
+        if (
+            points.length >
+            MAX_IP_PARTICLES
+        ) {
+
+            /*
+                均匀抽样
+            */
+
+            const step =
+                points.length /
+                MAX_IP_PARTICLES;
+
+            const reduced = [];
+
+            for (
+                let i = 0;
+                i < points.length;
+                i += step
+            ) {
+
+                reduced.push(
+                    points[
+                        Math.floor(i)
+                    ]
+                );
+
+            }
+
+            points.length = 0;
+
+            points.push(...reduced);
+
+        }
+
+
+        /*
+            建立粒子
+        */
+
+        this.ipParticles =
+            points.map(
+                (point, index) => {
+
+                    /*
+                        初始状态：
+
+                        从随机位置汇聚到 IP
+                    */
+
+                    const angle =
+                        Math.random()
+                        * Math.PI
+                        * 2;
+
+                    const distance =
+                        randomRange(
+                            100,
+                            Math.max(
+                                this.width,
+                                this.height
+                            ) * 0.45
+                        );
+
+
+                    return {
+
+                        x:
+                            centerX
+                            +
+                            Math.cos(angle)
+                            * distance,
+
+                        y:
+                            centerY
+                            +
+                            Math.sin(angle)
+                            * distance,
+
+                        tx:
+                            point.tx,
+
+                        ty:
+                            point.ty,
+
+                        vx:
+                            randomRange(
+                                -0.2,
+                                0.2
+                            ),
+
+                        vy:
+                            randomRange(
+                                -0.2,
+                                0.2
+                            ),
+
+                        radius:
+                            randomRange(
+                                0.45,
+                                1.35
+                            ),
+
+                        color:
+                            point.color,
+
+                        seed:
+                            Math.random()
+                            * 100,
+
+                        index
+
+                    };
+
+                }
+            );
+
+    }
+
+
+
+    /* ======================================================
+       POINTER EVENTS
+    ====================================================== */
+
+    bindEvents() {
+
+
+        window.addEventListener(
+            "resize",
+            () => {
+
+                this.resize();
+
+                this.initBackground();
+
+            }
+        );
+
+
+        /*
+            鼠标移动
+        */
+
+        window.addEventListener(
+            "pointermove",
+            e => {
+
+                const oldX =
+                    this.pointer.x;
+
+                const oldY =
+                    this.pointer.y;
+
+
+                this.pointer.x =
+                    e.clientX;
+
+                this.pointer.y =
+                    e.clientY;
+
+
+                /*
+                    记录 pointer velocity
+
+                    只在鼠标移动时产生。
+
+                    鼠标静止：
+
+                    vx/vy 自动衰减到 0。
+                */
+
+                if (
+                    oldX > -1000
+                ) {
+
+                    this.pointer.vx =
+                        e.clientX - oldX;
+
+                    this.pointer.vy =
+                        e.clientY - oldY;
+
+                }
+
+
+                this.pointer.active =
+                    true;
+
+                this.pointer.lastMoveTime =
+                    performance.now();
+
+            }
+        );
+
+
+        /*
+            鼠标离开
+        */
+
+        window.addEventListener(
+            "pointerleave",
+            () => {
+
+                this.pointer.active =
+                    false;
+
+            }
+        );
+
+
+        /*
+            手机触摸
+        */
+
+        window.addEventListener(
+            "pointerdown",
+            e => {
+
+                this.pointer.x =
+                    e.clientX;
+
+                this.pointer.y =
+                    e.clientY;
+
+                this.pointer.active =
+                    true;
+
+
+                /*
+                    一次性爆发
+
+                    而不是持续吸附。
+                */
+
+                this.createTouchPulse(
+                    e.clientX,
+                    e.clientY
+                );
+
+            }
+        );
+
+
+        window.addEventListener(
+            "pointerup",
+            () => {
+
+                /*
+                    不立即消失，
+                    给粒子留一点回归时间。
+                */
+
+                setTimeout(
+                    () => {
+
+                        this.pointer.active =
+                            false;
+
+                    },
+                    450
+                );
+
+            }
+        );
+
+    }
+
+
+
+    /* ======================================================
+       TOUCH PULSE
+    ====================================================== */
+
+    createTouchPulse(x, y) {
+
+        /*
+            给附近粒子一次
+            径向爆发。
+        */
+
+        const radius = 170;
+
+        for (
+            const p of this.ipParticles
+        ) {
+
+            const dx =
+                p.x - x;
+
+            const dy =
+                p.y - y;
+
+            const distance =
+                Math.hypot(
+                    dx,
+                    dy
+                );
+
+
+            if (
+                distance < radius
+                &&
+                distance > 1
+            ) {
+
+                const force =
+                    1 -
+                    distance / radius;
+
+
+                p.vx +=
+                    dx /
+                    distance *
+                    force *
+                    4;
+
+
+                p.vy +=
+                    dy /
+                    distance *
+                    force *
+                    4;
+
+            }
+
+        }
+
+    }
+
+
+
+    /* ======================================================
+       UPDATE BACKGROUND
+    ====================================================== */
+
+    updateBackground() {
+
+        for (
+            const p of
+            this.backgroundParticles
+        ) {
+
+            p.x += p.vx;
+
+            p.y += p.vy;
+
+
+            /*
+                边界
+            */
+
+            if (
+                p.x < -20 ||
+                p.x > this.width + 20
+            ) {
+
+                p.vx *= -1;
+
+            }
+
+
+            if (
+                p.y < -20 ||
+                p.y > this.height + 20
+            ) {
+
+                p.vy *= -1;
+
+            }
+
+        }
+
+    }
+
+
+
+    /* ======================================================
+       UPDATE IP
+    ====================================================== */
+
+    updateIP() {
+
+        /*
+            pointer velocity 衰减
+
+            防止鼠标静止以后
+            粒子仍然持续获得能量。
+        */
+
+        this.pointer.vx *= 0.86;
+
+        this.pointer.vy *= 0.86;
+
+
+        const pointerIsMoving =
+            Math.abs(this.pointer.vx)
+            +
+            Math.abs(this.pointer.vy)
+            >
+            0.15;
+
+
+        for (
+            const p of
+            this.ipParticles
+        ) {
+
+
+            /*
+                ============================================
+                1.
+                IP 自身的目标吸引力
+                ============================================
+
+                这是整个系统最重要的稳定器。
+
+                每个粒子始终拥有自己的：
+
+                    tx
+                    ty
+
+                所以它永远有回家的方向。
+
+                pointer 不会成为它的最终目标。
+            */
+
+            const dx =
+                p.tx - p.x;
+
+            const dy =
+                p.ty - p.y;
+
+
+            p.vx +=
+                dx * 0.0065;
+
+            p.vy +=
+                dy * 0.0065;
+
+
+            /*
+                ============================================
+                2.
+                非常轻微的生命感
+                ============================================
+            */
+
+            const time =
+                performance.now()
+                * 0.0004;
+
+
+            p.vx +=
+                Math.sin(
+                    time + p.seed
+                ) * 0.002;
+
+
+            p.vy +=
+                Math.cos(
+                    time * 1.13
+                    +
+                    p.seed
+                ) * 0.002;
+
+
+            /*
+                ============================================
+                3.
+                鼠标局部磁场
+                ============================================
+            */
+
+            if (
+                this.pointer.active
+            ) {
+
+                const mdx =
+                    p.x -
+                    this.pointer.x;
+
+                const mdy =
+                    p.y -
+                    this.pointer.y;
+
+
+                const distance =
+                    Math.hypot(
+                        mdx,
+                        mdy
+                    );
+
+
+                const radius =
+                    this.pointer.radius;
+
+
+                if (
+                    distance < radius
+                ) {
+
+                    const safeDistance =
+                        Math.max(
+                            distance,
+                            1
+                        );
+
+
+                    const force =
+                        1 -
+                        distance / radius;
+
+
+                    /*
+                        ------------------------------
+                        A.
+                        柔性排斥
+                        ------------------------------
+
+                        注意：
+
+                        这里是 REPULSION
+
+                        不是 attraction。
+
+                        因此不会出现：
+
+                        鼠标放在那里
+                        ↓
+                        所有粒子聚过去
+                        ↓
+                        越来越多
+                        ↓
+                        崩坏
+
+                    */
+
+                    const repel =
+                        force *
+                        force *
+                        0.85;
+
+
+                    p.vx +=
+                        mdx /
+                        safeDistance *
+                        repel;
+
+
+                    p.vy +=
+                        mdy /
+                        safeDistance *
+                        repel;
+
+
+                    /*
+                        ------------------------------
+                        B.
+                        切向力
+                        ------------------------------
+
+                        让粒子不是简单爆炸，
+                        而是产生流体般的旋转。
+                    */
+
+                    const tangentX =
+                        -mdy /
+                        safeDistance;
+
+                    const tangentY =
+                        mdx /
+                        safeDistance;
+
+
+                    p.vx +=
+                        tangentX *
+                        force *
+                        0.18;
+
+                    p.vy +=
+                        tangentY *
+                        force *
+                        0.18;
+
+
+                    /*
+                        ------------------------------
+                        C.
+                        鼠标运动拖尾
+                        ------------------------------
+
+                        只有 pointer 正在移动
+                        时才注入。
+
+                        鼠标停住以后：
+
+                        pointer.vx → 0
+
+                        所以粒子不会无限获得能量。
+                    */
+
+                    if (
+                        pointerIsMoving
+                    ) {
+
+                        const speed =
+                            Math.min(
+                                Math.hypot(
+                                    this.pointer.vx,
+                                    this.pointer.vy
+                                ),
+                                30
+                            );
+
+
+                        const trail =
+                            force *
+                            speed *
+                            0.012;
+
+
+                        p.vx +=
+                            this.pointer.vx *
+                            trail;
+
+                        p.vy +=
+                            this.pointer.vy *
+                            trail;
+
+                    }
+
+                }
+
+            }
+
+
+            /*
+                ============================================
+                4.
+                速度限制
+                ============================================
+            */
+
+            const speed =
+                Math.hypot(
+                    p.vx,
+                    p.vy
+                );
+
+
+            const maxSpeed =
+                3.8;
+
+
+            if (
+                speed >
+                maxSpeed
+            ) {
+
+                p.vx =
+                    p.vx /
+                    speed *
+                    maxSpeed;
+
+                p.vy =
+                    p.vy /
+                    speed *
+                    maxSpeed;
+
+            }
+
+
+            /*
+                ============================================
+                5.
+                阻尼
+                ============================================
+            */
+
+            p.vx *= 0.92;
+
+            p.vy *= 0.92;
+
+
+            /*
+                ============================================
+                6.
+                移动
+                ============================================
+            */
+
+            p.x += p.vx;
+
+            p.y += p.vy;
+
+        }
+
+    }
+
+
+
+    /* ======================================================
+       DRAW BACKGROUND NETWORK
+    ====================================================== */
+
+    drawBackgroundNetwork(
+        particleColor,
+        lineColor
+    ) {
+
+        const particles =
+            this.backgroundParticles;
+
+
+        const radius = 115;
+
+
+        for (
+            let i = 0;
+            i < particles.length;
+            i++
+        ) {
+
+            const p =
+                particles[i];
+
+
+            for (
+                let j = i + 1;
+                j < particles.length;
+                j++
+            ) {
+
+                const q =
+                    particles[j];
+
+
+                const dx =
+                    p.x - q.x;
+
+                const dy =
+                    p.y - q.y;
+
+
+                const distance =
+                    Math.hypot(
+                        dx,
+                        dy
+                    );
+
+
+                if (
+                    distance < radius
+                ) {
+
+                    const alpha =
+                        (
+                            1 -
+                            distance / radius
+                        )
+                        *
+                        0.075;
+
+
+                    this.ctx.beginPath();
+
+                    this.ctx.moveTo(
+                        p.x,
+                        p.y
+                    );
+
+                    this.ctx.lineTo(
+                        q.x,
+                        q.y
+                    );
+
+
+                    this.ctx.strokeStyle =
+                        rgba(
+                            lineColor,
+                            alpha
+                        );
+
+                    this.ctx.lineWidth =
+                        0.65;
+
+                    this.ctx.stroke();
+
+                }
+
+            }
+
+        }
+
+    }
+
+
+
+    /* ======================================================
+       DRAW IP NETWORK
+    ====================================================== */
+
+    drawIPNetwork(
+        lineColor
+    ) {
+
+        /*
+            IP 粒子之间不要全部连线。
+
+            只在很小距离内连接。
+
+            这样才能保持「粒子图」的感觉。
+        */
+
+        const radius = 34;
+
+
+        /*
+            空间网格
+
+            避免 O(n²)
+        */
+
+        this.grid.clear();
+
+
+        for (
+            const p of
+            this.ipParticles
+        ) {
+
+            const gx =
+                Math.floor(
+                    p.x / radius
+                );
+
+            const gy =
+                Math.floor(
+                    p.y / radius
+                );
+
+
+            const key =
+                gx + "," + gy;
+
+
+            if (
+                !this.grid.has(key)
+            ) {
+
+                this.grid.set(
+                    key,
+                    []
+                );
+
+            }
+
+
+            this.grid
+                .get(key)
+                .push(p);
+
+        }
+
+
+        /*
+            遍历邻域
+        */
+
+        for (
+            const p of
+            this.ipParticles
+        ) {
+
+            const gx =
+                Math.floor(
+                    p.x / radius
+                );
+
+            const gy =
+                Math.floor(
+                    p.y / radius
+                );
+
+
+            for (
+                let ox = -1;
+                ox <= 1;
+                ox++
+            ) {
+
+                for (
+                    let oy = -1;
+                    oy <= 1;
+                    oy++
+                ) {
+
+                    const list =
+                        this.grid.get(
+                            (gx + ox)
+                            +
+                            ","
+                            +
+                            (gy + oy)
+                        );
+
+
+                    if (!list) {
+                        continue;
+                    }
+
+
+                    for (
+                        const q of list
+                    ) {
+
+                        if (
+                            q.index <=
+                            p.index
+                        ) {
+                            continue;
+                        }
+
+
+                        const dx =
+                            p.x - q.x;
+
+                        const dy =
+                            p.y - q.y;
+
+
+                        const distance =
+                            Math.hypot(
+                                dx,
+                                dy
+                            );
+
+
+                        if (
+                            distance < radius
+                        ) {
+
+                            const alpha =
+                                (
+                                    1 -
+                                    distance / radius
+                                )
+                                *
+                                0.12;
+
+
+                            this.ctx.beginPath();
+
+                            this.ctx.moveTo(
+                                p.x,
+                                p.y
+                            );
+
+                            this.ctx.lineTo(
+                                q.x,
+                                q.y
+                            );
+
+
+                            this.ctx.strokeStyle =
+                                rgba(
+                                    lineColor,
+                                    alpha
+                                );
+
+
+                            this.ctx.lineWidth =
+                                0.55;
+
+
+                            this.ctx.stroke();
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+
+
+    /* ======================================================
+       DRAW PARTICLES
+    ====================================================== */
+
+    drawParticles(
+        themeProgress
+    ) {
+
+        /*
+            背景粒子
+        */
+
+        const backgroundColor =
+            lerpColor(
+                THEMES.day.particle,
+                THEMES.night.particle,
+                themeProgress
+            );
+
+
+        for (
+            const p of
+            this.backgroundParticles
+        ) {
+
+            this.ctx.beginPath();
+
+            this.ctx.arc(
+                p.x,
+                p.y,
+                p.radius,
+                0,
+                Math.PI * 2
+            );
+
+
+            this.ctx.fillStyle =
+                rgba(
+                    backgroundColor,
+                    0.35 +
+                    themeProgress * 0.15
+                );
+
+
+            this.ctx.fill();
+
+        }
+
+
+
+        /*
+            IP 粒子
+        */
+
+        for (
+            const p of
+            this.ipParticles
+        ) {
+
+            /*
+                图片本身的颜色
+                与主题颜色混合。
+
+                白天：
+
+                    原图颜色更明显
+
+                夜间：
+
+                    向蓝白色融合
+            */
+
+            const ipColor =
+                lerpColor(
+                    p.color,
+                    THEMES.night.ip,
+                    themeProgress * 0.72
+                );
+
+
+            /*
+                IP 不要太亮。
+
+                它应该是：
+
+                    「发现以后才意识到它在那里」
+            */
+
+            let alpha =
+                0.18 +
+                themeProgress * 0.14;
+
+
+            /*
+                鼠标附近增强
+
+                让互动时更容易看见。
+            */
+
+            if (
+                this.pointer.active
+            ) {
+
+                const dx =
+                    p.x -
+                    this.pointer.x;
+
+                const dy =
+                    p.y -
+                    this.pointer.y;
+
+
+                const distance =
+                    Math.hypot(
+                        dx,
+                        dy
+                    );
+
+
+                if (
+                    distance <
+                    this.pointer.radius
+                ) {
+
+                    const force =
+                        1 -
+                        distance /
+                        this.pointer.radius;
+
+
+                    alpha +=
+                        force * 0.22;
+
+                }
+
+            }
+
+
+            this.ctx.beginPath();
+
+            this.ctx.arc(
+                p.x,
+                p.y,
+                p.radius,
+                0,
+                Math.PI * 2
+            );
+
+
+            this.ctx.fillStyle =
+                rgba(
+                    ipColor,
+                    alpha
+                );
+
+
+            this.ctx.fill();
+
+
+            /*
+                夜间小粒子 glow
+
+                只给很少一部分。
+            */
+
+            if (
+                themeProgress > 0.5 &&
+                p.radius > 1.05 &&
+                p.index % 13 === 0
+            ) {
+
+                this.ctx.beginPath();
+
+                this.ctx.arc(
+                    p.x,
+                    p.y,
+                    p.radius * 2.8,
+                    0,
+                    Math.PI * 2
+                );
+
+
+                this.ctx.fillStyle =
+                    rgba(
+                        THEMES.night.glow,
+                        0.035 *
+                        themeProgress
+                    );
+
+
+                this.ctx.fill();
+
+            }
+
+        }
+
+    }
+
+
+
+    /* ======================================================
+       DRAW
+    ====================================================== */
+
+    draw() {
+
+        /*
+            Theme interpolation
+        */
+
+        this.themeProgress +=
+            (
+                this.targetTheme
+                -
+                this.themeProgress
+            )
+            *
+            0.035;
+
+
+        const bg =
+            lerpColor(
+                THEMES.day.bg,
+                THEMES.night.bg,
+                this.themeProgress
+            );
+
+
+        const particleColor =
+            lerpColor(
+                THEMES.day.particle,
+                THEMES.night.particle,
+                this.themeProgress
+            );
+
+
+        const lineColor =
+            lerpColor(
+                THEMES.day.line,
+                THEMES.night.line,
+                this.themeProgress
+            );
+
+
+        /*
+            背景
+        */
+
+        this.ctx.fillStyle =
+            rgba(
+                bg,
+                1
+            );
+
+
+        this.ctx.fillRect(
+            0,
+            0,
+            this.width,
+            this.height
+        );
+
+
+        /*
+            极其轻微的中心光晕
+        */
+
+        const gradient =
+            this.ctx.createRadialGradient(
+                this.width * 0.52,
+                this.height * 0.45,
+                0,
+                this.width * 0.52,
+                this.height * 0.45,
+                Math.max(
+                    this.width,
+                    this.height
+                ) * 0.65
+            );
+
+
+        gradient.addColorStop(
+            0,
+            rgba(
+                this.themeProgress > 0.5
+                    ? [80,130,190]
+                    : [255,250,240],
+                this.themeProgress > 0.5
+                    ? 0.055
+                    : 0.20
+            )
+        );
+
+
+        gradient.addColorStop(
+            1,
+            rgba(
+                bg,
+                0
+            )
+        );
+
+
+        this.ctx.fillStyle =
+            gradient;
+
+
+        this.ctx.fillRect(
+            0,
+            0,
+            this.width,
+            this.height
+        );
+
+
+        /*
+            Background network
+        */
+
+        this.drawBackgroundNetwork(
+            particleColor,
+            lineColor
+        );
+
+
+        /*
+            IP network
+        */
+
+        this.drawIPNetwork(
+            lineColor
+        );
+
+
+        /*
+            Particles
+        */
+
+        this.drawParticles(
+            this.themeProgress
+        );
+
+    }
+
+
+
+    /* ======================================================
+       ANIMATION LOOP
+    ====================================================== */
+
+    animate() {
+
+        this.updateBackground();
+
+        this.updateIP();
+
+        this.draw();
+
+
+        requestAnimationFrame(
+            () => this.animate()
+        );
+
+    }
+
+}
+
+
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+window.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        const canvas =
+            document.getElementById(
+                "particle-canvas"
+            );
+
+
+        const particleSystem =
+            new ParticleSystem(
+                canvas
+            );
+
+
+
+        /* ==================================================
+           THEME SWITCH
+        ================================================== */
+
+        const dayBtn =
+            document.getElementById(
+                "dayBtn"
+            );
+
+        const nightBtn =
+            document.getElementById(
+                "nightBtn"
+            );
+
+
+        dayBtn.addEventListener(
+            "click",
+            () => {
+
+                document.body
+                    .classList
+                    .remove("dark");
+
+
+                dayBtn
+                    .classList
+                    .add("active");
+
+
+                nightBtn
+                    .classList
+                    .remove("active");
+
+
+                particleSystem
+                    .targetTheme = 0;
+
+            }
+        );
+
+
+        nightBtn.addEventListener(
+            "click",
+            () => {
+
+                document.body
+                    .classList
+                    .add("dark");
+
+
+                nightBtn
+                    .classList
+                    .add("active");
+
+
+                dayBtn
+                    .classList
+                    .remove("active");
+
+
+                particleSystem
+                    .targetTheme = 1;
+
+            }
+        );
+
+
+
+        /* ==================================================
+           LANGUAGE
+        ================================================== */
+
+        const languageBtn =
+            document.getElementById(
+                "languageBtn"
+            );
+
+
+        let english = false;
+
+
+        languageBtn.addEventListener(
+            "click",
+            () => {
+
+                english =
+                    !english;
+
+
+                languageBtn.textContent =
+                    english
+                        ? "EN / 中"
+                        : "中 / EN";
+
+            }
+        );
+
+    }
+);
+
+</script>
+
+</body>
+</html>

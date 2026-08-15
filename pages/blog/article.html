@@ -1,0 +1,2321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Fluid Particles & Living Interface | HealthJian</title>
+
+    <style>
+        /* =========================================================
+           1. 基础变量
+        ========================================================= */
+
+        :root {
+            --nav-h: 72px;
+
+            --bg: #f4eee4;
+            --bg-deep: #e9e0d2;
+
+            --text: #202832;
+            --text-soft: #68717b;
+            --text-muted: #939aa1;
+
+            --accent: #5f88a7;
+            --accent-soft: rgba(95, 136, 167, 0.12);
+
+            --glass: rgba(255, 255, 255, 0.58);
+            --glass-strong: rgba(255, 255, 255, 0.76);
+
+            --border: rgba(70, 78, 86, 0.10);
+            --shadow: 0 20px 60px rgba(56, 45, 32, 0.10);
+
+            --article-bg: rgba(255, 255, 255, 0.22);
+            --code-bg: rgba(26, 32, 39, 0.94);
+        }
+
+        body.dark {
+            --bg: #07172b;
+            --bg-deep: #0d213b;
+
+            --text: #edf3fa;
+            --text-soft: #aab8c8;
+            --text-muted: #708196;
+
+            --accent: #8bbbe2;
+            --accent-soft: rgba(139, 187, 226, 0.12);
+
+            --glass: rgba(15, 34, 57, 0.72);
+            --glass-strong: rgba(20, 42, 68, 0.88);
+
+            --border: rgba(190, 220, 245, 0.10);
+            --shadow: 0 24px 70px rgba(0, 0, 0, 0.30);
+
+            --article-bg: rgba(8, 24, 44, 0.18);
+            --code-bg: rgba(4, 12, 24, 0.90);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                "PingFang SC",
+                "Microsoft YaHei",
+                sans-serif;
+
+            background: var(--bg);
+            color: var(--text);
+
+            transition:
+                background 0.8s cubic-bezier(.16, 1, .3, 1),
+                color 0.5s ease;
+
+            overflow-x: hidden;
+        }
+
+
+        /* =========================================================
+           2. Canvas 粒子背景
+        ========================================================= */
+
+        #particle-canvas {
+            position: fixed;
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            z-index: -2;
+
+            pointer-events: none;
+        }
+
+
+        /* =========================================================
+           3. 背景柔光层
+        ========================================================= */
+
+        .ambient {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .ambient::before,
+        .ambient::after {
+            content: "";
+
+            position: absolute;
+            border-radius: 50%;
+
+            filter: blur(100px);
+
+            opacity: 0.28;
+
+            transition:
+                background 1s ease,
+                opacity 1s ease;
+        }
+
+        .ambient::before {
+            width: 420px;
+            height: 420px;
+
+            top: -150px;
+            left: -100px;
+
+            background: #ead7b2;
+        }
+
+        .ambient::after {
+            width: 500px;
+            height: 500px;
+
+            right: -180px;
+            bottom: 0;
+
+            background: #b7cee3;
+        }
+
+        body.dark .ambient::before {
+            background: #163b66;
+            opacity: 0.35;
+        }
+
+        body.dark .ambient::after {
+            background: #0b426e;
+            opacity: 0.28;
+        }
+
+
+        /* =========================================================
+           4. 顶部导航
+        ========================================================= */
+
+        .navbar-wrap {
+            position: fixed;
+
+            top: 26px;
+            left: 50%;
+
+            width: min(1240px, calc(100% - 40px));
+
+            transform: translateX(-50%);
+
+            z-index: 100;
+        }
+
+        .navbar {
+            height: var(--nav-h);
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 18px 0 22px;
+
+            border: 1px solid var(--border);
+            border-radius: 20px;
+
+            background: var(--glass);
+
+            backdrop-filter: blur(22px) saturate(130%);
+            -webkit-backdrop-filter: blur(22px) saturate(130%);
+
+            box-shadow: var(--shadow);
+
+            transition:
+                background .5s ease,
+                border-color .5s ease;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+
+            min-width: 210px;
+
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .brand-avatar {
+            width: 40px;
+            height: 40px;
+
+            border-radius: 12px;
+
+            display: grid;
+            place-items: center;
+
+            overflow: hidden;
+
+            background: var(--glass-strong);
+            border: 1px solid var(--border);
+        }
+
+        .brand-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .brand-name {
+            font-size: 17px;
+            font-weight: 720;
+            letter-spacing: -0.3px;
+        }
+
+        .nav-center {
+            flex: 1;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .nav-link {
+            position: relative;
+
+            padding: 10px 15px;
+
+            color: var(--text-soft);
+            text-decoration: none;
+
+            font-size: 14px;
+            font-weight: 500;
+
+            border-radius: 11px;
+
+            transition:
+                color .25s ease,
+                background .25s ease,
+                transform .25s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--text);
+            background: var(--accent-soft);
+            transform: translateY(-1px);
+        }
+
+        .nav-link.active {
+            color: var(--text);
+            background: var(--accent-soft);
+        }
+
+        .nav-actions {
+            min-width: 350px;
+
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+
+            gap: 6px;
+        }
+
+
+        /* =========================================================
+           5. 图标按钮
+        ========================================================= */
+
+        .icon-btn {
+            width: 36px;
+            height: 36px;
+
+            display: grid;
+            place-items: center;
+
+            border: 1px solid transparent;
+            border-radius: 11px;
+
+            background: transparent;
+            color: var(--text-soft);
+
+            cursor: pointer;
+
+            transition:
+                background .25s ease,
+                border-color .25s ease,
+                color .25s ease,
+                transform .25s ease;
+        }
+
+        .icon-btn:hover {
+            color: var(--text);
+
+            background: var(--accent-soft);
+            border-color: var(--border);
+
+            transform: translateY(-1px);
+        }
+
+        .icon-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+
+        /* =========================================================
+           6. 日夜切换
+        ========================================================= */
+
+        .theme-toggle {
+            height: 38px;
+
+            display: flex;
+            align-items: center;
+
+            padding: 3px;
+
+            border: 1px solid var(--border);
+            border-radius: 12px;
+
+            background: rgba(120, 130, 140, 0.06);
+
+            margin-left: 8px;
+        }
+
+        .theme-option {
+            height: 30px;
+
+            display: flex;
+            align-items: center;
+            gap: 5px;
+
+            padding: 0 10px;
+
+            border: none;
+            border-radius: 9px;
+
+            background: transparent;
+            color: var(--text-muted);
+
+            font-size: 12px;
+
+            cursor: pointer;
+
+            transition:
+                background .35s cubic-bezier(.16, 1, .3, 1),
+                color .35s ease,
+                box-shadow .35s ease;
+        }
+
+        .theme-option.active {
+            background: var(--glass-strong);
+            color: var(--text);
+
+            box-shadow: 0 4px 14px rgba(0,0,0,.08);
+        }
+
+
+        /* =========================================================
+           7. 新版语言切换
+        ========================================================= */
+
+        .language-switch {
+            position: relative;
+
+            height: 38px;
+
+            display: flex;
+            align-items: center;
+
+            padding: 3px;
+
+            margin-left: 6px;
+
+            border: 1px solid var(--border);
+            border-radius: 12px;
+
+            background: rgba(120, 130, 140, 0.06);
+
+            overflow: hidden;
+        }
+
+        .lang-btn {
+            position: relative;
+            z-index: 2;
+
+            height: 30px;
+            min-width: 43px;
+
+            padding: 0 9px;
+
+            border: none;
+            border-radius: 9px;
+
+            background: transparent;
+            color: var(--text-muted);
+
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .2px;
+
+            cursor: pointer;
+
+            transition: color .35s ease;
+        }
+
+        .lang-btn.active {
+            color: var(--text);
+        }
+
+        .lang-slider {
+            position: absolute;
+
+            z-index: 1;
+
+            width: 43px;
+            height: 30px;
+
+            left: 3px;
+            top: 3px;
+
+            border-radius: 9px;
+
+            background: var(--glass-strong);
+
+            box-shadow:
+                0 4px 14px rgba(0,0,0,.08),
+                inset 0 1px rgba(255,255,255,.2);
+
+            transition:
+                transform .42s cubic-bezier(.16, 1, .3, 1),
+                background .4s ease;
+        }
+
+        .language-switch.en .lang-slider {
+            transform: translateX(43px);
+        }
+
+
+        /* =========================================================
+           8. 阅读进度
+        ========================================================= */
+
+        .reading-progress {
+            position: fixed;
+
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: 2px;
+
+            z-index: 999;
+
+            background: transparent;
+        }
+
+        .reading-progress span {
+            display: block;
+
+            width: 0%;
+            height: 100%;
+
+            background: linear-gradient(
+                90deg,
+                var(--accent),
+                rgba(160, 210, 255, .9)
+            );
+
+            box-shadow: 0 0 12px var(--accent);
+
+            transition: width .08s linear;
+        }
+
+
+        /* =========================================================
+           9. 页面主体
+        ========================================================= */
+
+        .page {
+            width: min(1420px, calc(100% - 60px));
+
+            margin: 0 auto;
+
+            padding-top: 150px;
+            padding-bottom: 120px;
+        }
+
+
+        /* =========================================================
+           10. Hero
+        ========================================================= */
+
+        .article-hero {
+            width: min(960px, 100%);
+
+            margin-left: 230px;
+            margin-bottom: 60px;
+        }
+
+        .article-category {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            color: var(--text-muted);
+
+            font-size: 12px;
+            letter-spacing: 1.3px;
+            text-transform: uppercase;
+
+            margin-bottom: 22px;
+        }
+
+        .article-category::before {
+            content: "";
+
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: var(--accent);
+
+            box-shadow: 0 0 14px var(--accent);
+        }
+
+        .article-title {
+            max-width: 920px;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                "Noto Serif SC",
+                serif;
+
+            font-size: clamp(42px, 5vw, 78px);
+            line-height: 1.08;
+
+            letter-spacing: -2.8px;
+
+            color: var(--text);
+
+            margin-bottom: 28px;
+        }
+
+        .article-summary {
+            max-width: 700px;
+
+            font-size: 17px;
+            line-height: 1.9;
+
+            color: var(--text-soft);
+
+            margin-bottom: 28px;
+        }
+
+        .article-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+
+            color: var(--text-muted);
+
+            font-size: 13px;
+        }
+
+        .meta-dot {
+            width: 3px;
+            height: 3px;
+
+            border-radius: 50%;
+            background: var(--text-muted);
+        }
+
+
+        /* =========================================================
+           11. 阅读区域
+        ========================================================= */
+
+        .reading-layout {
+            display: grid;
+
+            grid-template-columns: 250px minmax(0, 760px) 1fr;
+            gap: 60px;
+
+            align-items: start;
+        }
+
+
+        /* =========================================================
+           12. 现代化目录
+        ========================================================= */
+
+        .toc-wrap {
+            position: sticky;
+            top: 122px;
+        }
+
+        .toc {
+            position: relative;
+
+            padding: 18px 12px 18px 18px;
+
+            border-left: 1px solid var(--border);
+        }
+
+        .toc-title {
+            margin-bottom: 16px;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            letter-spacing: 1.5px;
+
+            color: var(--text-muted);
+
+            text-transform: uppercase;
+        }
+
+        .toc-list {
+            list-style: none;
+
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .toc-list a {
+            position: relative;
+
+            display: block;
+
+            padding: 9px 10px 9px 14px;
+
+            color: var(--text-muted);
+            text-decoration: none;
+
+            border-radius: 9px;
+
+            font-size: 13px;
+            line-height: 1.45;
+
+            transition:
+                color .25s ease,
+                background .25s ease,
+                transform .25s ease;
+        }
+
+        .toc-list a::before {
+            content: "";
+
+            position: absolute;
+
+            left: -19px;
+            top: 50%;
+
+            width: 3px;
+            height: 0;
+
+            border-radius: 0 4px 4px 0;
+
+            background: var(--accent);
+
+            transform: translateY(-50%);
+
+            transition: height .3s ease;
+        }
+
+        .toc-list a:hover {
+            color: var(--text);
+            background: var(--accent-soft);
+
+            transform: translateX(2px);
+        }
+
+        .toc-list a.active {
+            color: var(--text);
+            background: var(--accent-soft);
+        }
+
+        .toc-list a.active::before {
+            height: 22px;
+        }
+
+        .toc-list .sub {
+            padding-left: 25px;
+            font-size: 12px;
+        }
+
+
+        /* =========================================================
+           13. 正文
+        ========================================================= */
+
+        .article-content {
+            min-width: 0;
+
+            padding: 48px 0;
+        }
+
+        .article-content h2 {
+            scroll-margin-top: 130px;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                "Noto Serif SC",
+                serif;
+
+            font-size: 32px;
+            line-height: 1.3;
+
+            letter-spacing: -0.7px;
+
+            margin:
+                0
+                0
+                26px;
+        }
+
+        .article-content h3 {
+            scroll-margin-top: 130px;
+
+            font-size: 21px;
+            line-height: 1.5;
+
+            margin:
+                48px
+                0
+                18px;
+        }
+
+        .article-content p {
+            font-family:
+                Georgia,
+                "Noto Serif SC",
+                "Songti SC",
+                serif;
+
+            font-size: 17px;
+            line-height: 2;
+
+            color: var(--text-soft);
+
+            margin-bottom: 24px;
+        }
+
+        .article-content strong {
+            color: var(--text);
+            font-weight: 700;
+        }
+
+
+        /* =========================================================
+           14. 开场引言
+        ========================================================= */
+
+        .lead {
+            padding: 28px 30px;
+
+            margin-bottom: 50px;
+
+            border: 1px solid var(--border);
+            border-radius: 18px;
+
+            background: var(--article-bg);
+
+            backdrop-filter: blur(16px);
+        }
+
+        .lead p {
+            margin: 0;
+
+            font-size: 18px;
+        }
+
+
+        /* =========================================================
+           15. 数据卡片
+        ========================================================= */
+
+        .stat-grid {
+            display: grid;
+
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 12px;
+
+            margin: 38px 0 50px;
+        }
+
+        .stat-card {
+            padding: 22px;
+
+            border: 1px solid var(--border);
+            border-radius: 16px;
+
+            background: var(--article-bg);
+
+            backdrop-filter: blur(12px);
+
+            transition:
+                transform .3s ease,
+                border-color .3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(130, 180, 220, .25);
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 750;
+
+            color: var(--text);
+
+            margin-bottom: 7px;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+
+        /* =========================================================
+           16. 图片区域
+        ========================================================= */
+
+        .article-image {
+            margin: 42px 0;
+
+            overflow: hidden;
+
+            border: 1px solid var(--border);
+            border-radius: 20px;
+
+            background: rgba(20, 30, 40, .1);
+
+            box-shadow: var(--shadow);
+        }
+
+        .article-image img {
+            display: block;
+
+            width: 100%;
+            height: auto;
+
+            transition: transform .7s cubic-bezier(.16, 1, .3, 1);
+        }
+
+        .article-image:hover img {
+            transform: scale(1.015);
+        }
+
+        .image-caption {
+            padding: 13px 18px;
+
+            color: var(--text-muted);
+            font-size: 12px;
+
+            border-top: 1px solid var(--border);
+        }
+
+
+        /* =========================================================
+           17. 引用
+        ========================================================= */
+
+        blockquote {
+            position: relative;
+
+            margin: 46px 0;
+            padding: 8px 0 8px 28px;
+
+            border-left: 3px solid var(--accent);
+        }
+
+        blockquote p {
+            margin: 0 !important;
+
+            font-size: 20px !important;
+            line-height: 1.8 !important;
+
+            color: var(--text) !important;
+        }
+
+
+        /* =========================================================
+           18. 时间线
+        ========================================================= */
+
+        .timeline {
+            position: relative;
+
+            margin: 36px 0 50px;
+
+            padding-left: 24px;
+
+            border-left: 1px solid var(--border);
+        }
+
+        .timeline-item {
+            position: relative;
+
+            padding-bottom: 30px;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: "";
+
+            position: absolute;
+
+            width: 8px;
+            height: 8px;
+
+            left: -29px;
+            top: 7px;
+
+            border-radius: 50%;
+
+            background: var(--accent);
+
+            box-shadow: 0 0 12px rgba(120, 180, 230, .6);
+        }
+
+        .timeline-year {
+            margin-bottom: 7px;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            color: var(--accent);
+        }
+
+        .timeline-content {
+            font-size: 14px;
+            line-height: 1.8;
+
+            color: var(--text-soft);
+        }
+
+
+        /* =========================================================
+           19. 代码块
+        ========================================================= */
+
+        .code-block {
+            position: relative;
+
+            margin: 38px 0 48px;
+
+            overflow: hidden;
+
+            border-radius: 18px;
+
+            border: 1px solid var(--border);
+
+            background: var(--code-bg);
+
+            box-shadow: var(--shadow);
+        }
+
+        .code-header {
+            height: 46px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 18px;
+
+            border-bottom: 1px solid rgba(255,255,255,.07);
+
+            color: rgba(255,255,255,.45);
+
+            font-size: 12px;
+        }
+
+        .code-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .code-dots span {
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,.25);
+        }
+
+        pre {
+            padding: 22px;
+
+            overflow-x: auto;
+
+            color: #c9d9e8;
+
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+
+        /* =========================================================
+           20. 分隔
+        ========================================================= */
+
+        .article-divider {
+            width: 80px;
+            height: 1px;
+
+            margin: 70px auto;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    var(--accent),
+                    transparent
+                );
+        }
+
+
+        /* =========================================================
+           21. 结论卡片
+        ========================================================= */
+
+        .conclusion {
+            padding: 34px;
+
+            margin-top: 48px;
+
+            border: 1px solid var(--border);
+            border-radius: 22px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--accent-soft),
+                    transparent
+                );
+
+            backdrop-filter: blur(16px);
+        }
+
+        .conclusion-label {
+            margin-bottom: 14px;
+
+            color: var(--accent);
+
+            font-size: 12px;
+            font-weight: 700;
+
+            letter-spacing: 1.3px;
+        }
+
+        .conclusion h2 {
+            margin-bottom: 15px;
+        }
+
+        .conclusion p {
+            margin-bottom: 0;
+        }
+
+
+        /* =========================================================
+           22. 标签
+        ========================================================= */
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+
+            margin-top: 60px;
+        }
+
+        .tag {
+            padding: 8px 12px;
+
+            border: 1px solid var(--border);
+            border-radius: 999px;
+
+            color: var(--text-soft);
+            background: var(--article-bg);
+
+            font-size: 12px;
+        }
+
+
+        /* =========================================================
+           23. 右侧 IP
+        ========================================================= */
+
+        .side-decoration {
+            position: sticky;
+            top: 160px;
+
+            height: 600px;
+
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+
+            pointer-events: none;
+        }
+
+        .ip-hint {
+            position: relative;
+
+            width: 250px;
+            height: 250px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(130, 190, 235, .08),
+                    transparent 65%
+                );
+
+            opacity: .75;
+        }
+
+        .ip-hint::before {
+            content: "PARTICLE\nSYSTEM";
+
+            white-space: pre;
+
+            position: absolute;
+
+            left: 50%;
+            top: 50%;
+
+            transform: translate(-50%, -50%);
+
+            color: var(--text-muted);
+
+            text-align: center;
+
+            font-size: 10px;
+            line-height: 2;
+            letter-spacing: 3px;
+        }
+
+
+        /* =========================================================
+           24. 上下篇
+        ========================================================= */
+
+        .article-navigation {
+            width: min(960px, 100%);
+
+            margin:
+                80px
+                0
+                0
+                230px;
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 14px;
+        }
+
+        .article-nav-card {
+            padding: 24px;
+
+            border: 1px solid var(--border);
+            border-radius: 18px;
+
+            background: var(--article-bg);
+
+            text-decoration: none;
+            color: var(--text);
+
+            backdrop-filter: blur(14px);
+
+            transition:
+                transform .3s ease,
+                background .3s ease;
+        }
+
+        .article-nav-card:hover {
+            transform: translateY(-4px);
+            background: var(--glass-strong);
+        }
+
+        .article-nav-label {
+            margin-bottom: 10px;
+
+            color: var(--text-muted);
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        .article-nav-title {
+            font-size: 16px;
+            font-weight: 650;
+            line-height: 1.5;
+        }
+
+        .article-nav-card.next {
+            text-align: right;
+        }
+
+
+        /* =========================================================
+           25. 响应式
+        ========================================================= */
+
+        @media (max-width: 1250px) {
+
+            .nav-actions {
+                min-width: auto;
+            }
+
+            .icon-btn:nth-child(-n+2) {
+                display: none;
+            }
+
+            .reading-layout {
+                grid-template-columns: 210px minmax(0, 1fr);
+                gap: 45px;
+            }
+
+            .side-decoration {
+                display: none;
+            }
+
+            .article-hero,
+            .article-navigation {
+                margin-left: 255px;
+            }
+        }
+
+        @media (max-width: 900px) {
+
+            .navbar-wrap {
+                top: 12px;
+                width: calc(100% - 24px);
+            }
+
+            .navbar {
+                padding: 0 10px 0 14px;
+                border-radius: 16px;
+            }
+
+            .brand {
+                min-width: auto;
+            }
+
+            .brand-name {
+                display: none;
+            }
+
+            .nav-center {
+                display: none;
+            }
+
+            .nav-actions {
+                flex: 1;
+            }
+
+            .page {
+                width: min(100% - 32px, 760px);
+                padding-top: 120px;
+            }
+
+            .article-hero,
+            .article-navigation {
+                margin-left: 0;
+            }
+
+            .reading-layout {
+                display: block;
+            }
+
+            .toc-wrap {
+                position: relative;
+                top: auto;
+
+                margin-bottom: 35px;
+            }
+
+            .toc {
+                border-left: none;
+
+                padding: 18px;
+
+                border: 1px solid var(--border);
+                border-radius: 16px;
+
+                background: var(--article-bg);
+            }
+
+            .toc-list {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .toc-list a::before {
+                display: none;
+            }
+
+            .article-content {
+                padding-top: 10px;
+            }
+
+            .article-title {
+                letter-spacing: -1.6px;
+            }
+
+            .stat-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .article-navigation {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 580px) {
+
+            .theme-toggle {
+                margin-left: 0;
+            }
+
+            .theme-option {
+                padding: 0 7px;
+            }
+
+            .theme-option span {
+                display: none;
+            }
+
+            .language-switch {
+                display: none;
+            }
+
+            .article-title {
+                font-size: 42px;
+            }
+
+            .article-content p {
+                font-size: 16px;
+            }
+
+            .toc-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- 阅读进度 -->
+<div class="reading-progress">
+    <span id="progressBar"></span>
+</div>
+
+
+<!-- 粒子背景 -->
+<canvas id="particle-canvas"></canvas>
+
+<div class="ambient"></div>
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<div class="navbar-wrap">
+    <nav class="navbar">
+
+        <!-- Brand -->
+        <a href="#" class="brand">
+
+            <div class="brand-avatar">
+                <!-- 替换成你的 IP 图片 -->
+                <img src="your-logo.png" alt="HealthJian">
+            </div>
+
+            <div class="brand-name">
+                HealthJian
+            </div>
+
+        </a>
+
+
+        <!-- Navigation -->
+        <div class="nav-center">
+
+            <a href="#" class="nav-link">
+                首页
+            </a>
+
+            <a href="#" class="nav-link active">
+                博客
+            </a>
+
+            <a href="#" class="nav-link">
+                朋友
+            </a>
+
+            <a href="#" class="nav-link">
+                简历
+            </a>
+
+            <a href="#" class="nav-link">
+                关于
+            </a>
+
+        </div>
+
+
+        <!-- Actions -->
+        <div class="nav-actions">
+
+            <!-- GitHub -->
+            <button class="icon-btn" aria-label="GitHub">
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.8">
+                    <path d="M15 22v-3.9c0-1 .1-1.4-.5-2 3.4-.4 7-1.7 7-7.5A5.8 5.8 0 0 0 20 4.5 5.4 5.4 0 0 0 19.9.7S18.6.3 15 2.7a16 16 0 0 0-6 0C5.4.3 4.1.7 4.1.7A5.4 5.4 0 0 0 4 4.5a5.8 5.8 0 0 0-1.5 4.1c0 5.8 3.6 7.1 7 7.5-.5.5-.5 1-.5 2V22"/>
+                </svg>
+            </button>
+
+            <!-- Share -->
+            <button class="icon-btn" aria-label="Share">
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.8">
+                    <circle cx="18" cy="5" r="2"/>
+                    <circle cx="6" cy="12" r="2"/>
+                    <circle cx="18" cy="19" r="2"/>
+                    <path d="M8 11l8-5M8 13l8 5"/>
+                </svg>
+            </button>
+
+            <!-- Email -->
+            <button class="icon-btn" aria-label="Email">
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.8">
+                    <rect x="3" y="5" width="18" height="14" rx="2"/>
+                    <path d="M3 7l9 6 9-6"/>
+                </svg>
+            </button>
+
+
+            <!-- Theme -->
+            <div class="theme-toggle">
+
+                <button class="theme-option active"
+                        data-theme="day">
+
+                    ☀
+                    <span>Day</span>
+
+                </button>
+
+                <button class="theme-option"
+                        data-theme="night">
+
+                    ☾
+                    <span>Night</span>
+
+                </button>
+
+            </div>
+
+
+            <!-- Language -->
+            <div class="language-switch" id="languageSwitch">
+
+                <div class="lang-slider"></div>
+
+                <button class="lang-btn active"
+                        data-lang="zh">
+                    中文
+                </button>
+
+                <button class="lang-btn"
+                        data-lang="en">
+                    EN
+                </button>
+
+            </div>
+
+        </div>
+
+    </nav>
+</div>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="page">
+
+
+    <!-- HERO -->
+
+    <header class="article-hero">
+
+        <div class="article-category">
+            Design / Experiment
+        </div>
+
+        <h1 class="article-title">
+            Fluid Particles<br>
+            & Living Interface
+        </h1>
+
+        <p class="article-summary">
+            一次关于网页背景、粒子系统与阅读体验的设计实验。
+            我希望背景不再只是静态的颜色，而是一个能够缓慢呼吸、
+            响应用户行为，并在页面背后持续存在的动态空间。
+        </p>
+
+        <div class="article-meta">
+
+            <span>2026.08.14</span>
+
+            <span class="meta-dot"></span>
+
+            <span>HealthJian</span>
+
+            <span class="meta-dot"></span>
+
+            <span>12 min read</span>
+
+            <span class="meta-dot"></span>
+
+            <span>Design & Technology</span>
+
+        </div>
+
+    </header>
+
+
+    <!-- CONTENT LAYOUT -->
+
+    <section class="reading-layout">
+
+
+        <!-- TOC -->
+
+        <aside class="toc-wrap">
+
+            <div class="toc">
+
+                <div class="toc-title">
+                    Contents
+                </div>
+
+                <ul class="toc-list">
+
+                    <li>
+                        <a href="#chapter-1"
+                           class="active">
+                            01. 一个不应该静止的背景
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#chapter-2">
+                            02. 粒子的缓慢流动
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#chapter-3"
+                           class="sub">
+                            2.1 聚合与散射
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#chapter-4"
+                           class="sub">
+                            2.2 如何避免粒子失控
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#chapter-5">
+                            03. IP 图像的粒子化
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#chapter-6">
+                            04. 日夜模式的连续变化
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#chapter-7">
+                            05. 阅读界面与背景共存
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#chapter-8">
+                            06. 最终结论
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </aside>
+
+
+        <!-- ARTICLE -->
+
+        <article class="article-content">
+
+
+            <div class="lead">
+
+                <p>
+                    这不是一个单纯的 Canvas 动画实验。
+                    真正想解决的问题是：<strong>如何让动态背景拥有生命感，
+                    同时又不破坏网页本身的阅读体验。</strong>
+                </p>
+
+            </div>
+
+
+            <h2 id="chapter-1">
+                01. 一个不应该静止的背景
+            </h2>
+
+            <p>
+                很多网页的背景最终只有两个功能：填充颜色，或者承载图片。
+                它们通常是静止的，因此用户在浏览页面的过程中，
+                很难感受到页面本身存在任何“生命”。
+            </p>
+
+            <p>
+                而我希望 HealthJian 的背景能够成为一个长期存在的数字环境。
+                它不需要抢占正文的注意力，也不应该制造大量复杂动画。
+                最理想的状态，是让用户在不经意之间感受到页面正在缓慢呼吸。
+            </p>
+
+
+            <div class="stat-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-value">
+                        60 FPS
+                    </div>
+
+                    <div class="stat-label">
+                        Target Rendering Performance
+                    </div>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <div class="stat-value">
+                        140
+                    </div>
+
+                    <div class="stat-label">
+                        Desktop Particle Count
+                    </div>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <div class="stat-value">
+                        O(n)
+                    </div>
+
+                    <div class="stat-label">
+                        Spatial Hash Optimization
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <h2 id="chapter-2">
+                02. 粒子的缓慢流动
+            </h2>
+
+            <p>
+                粒子的速度被控制在一个非常低的范围内。
+                如果运动速度过快，它们会变成一种明显的视觉特效；
+                如果完全静止，又失去了存在的意义。
+            </p>
+
+            <p>
+                所以这里选择的是一种接近环境变化的运动速度。
+                用户并不会持续关注某一个粒子，
+                但当他停留在页面数秒之后，会意识到整个空间仍然处于缓慢变化中。
+            </p>
+
+
+            <blockquote>
+
+                <p>
+                    最好的动态效果，并不是让用户注意到动画，
+                    而是让用户在动画消失时意识到：原来刚才的空间是活着的。
+                </p>
+
+            </blockquote>
+
+
+            <h3 id="chapter-3">
+                2.1 聚合与散射
+            </h3>
+
+            <p>
+                当鼠标靠近粒子时，并不是简单地把所有粒子吸向鼠标。
+                这种做法虽然直接，但很容易形成一个明显的粒子团，
+                并且当鼠标停留时间过长时，所有粒子可能失去原来的空间结构。
+            </p>
+
+            <p>
+                因此交互力被设计为一个局部柔性磁场。
+                粒子受到吸引，同时加入轻微的切向运动，
+                于是它们会产生类似流体环绕的感觉。
+            </p>
+
+
+            <div class="code-block">
+
+                <div class="code-header">
+
+                    <div class="code-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                    <span>particle-interaction.js</span>
+
+                </div>
+
+<pre>const force = 1 - distance / radius;
+
+const pull = force * attraction;
+const orbit = force * rotation;
+
+particle.vx += pullX + orbitX;
+particle.vy += pullY + orbitY;
+
+// 始终回归基础运动
+particle.vx += (baseVx - particle.vx) * damping;
+particle.vy += (baseVy - particle.vy) * damping;</pre>
+
+            </div>
+
+
+            <h3 id="chapter-4">
+                2.2 如何避免粒子失控
+            </h3>
+
+            <p>
+                最重要的一层机制是：每一个粒子都必须拥有自己的“目标位置”。
+                鼠标交互只能暂时改变它的位置和速度，
+                不能永久改变粒子的空间归属。
+            </p>
+
+            <p>
+                这意味着，即使用户把鼠标停留在一个位置很长时间，
+                粒子也不会全部堆积到那里。
+                当交互力减弱之后，它们仍然会重新向自己的目标位置回归。
+            </p>
+
+
+            <div class="article-divider"></div>
+
+
+            <h2 id="chapter-5">
+                03. IP 图像的粒子化
+            </h2>
+
+            <p>
+                下一步是将 HealthJian 的 IP 形象加入背景系统。
+                这里并不直接把原始 PNG 放到页面右侧，
+                而是先对图像进行采样，
+                再把采样结果转换为大量粒子的目标坐标。
+            </p>
+
+            <p>
+                于是这个 IP 角色本质上不再是一张图片，
+                而成为整个粒子系统的一部分。
+            </p>
+
+
+            <div class="timeline">
+
+                <div class="timeline-item">
+
+                    <div class="timeline-year">
+                        STEP 01
+                    </div>
+
+                    <div class="timeline-content">
+                        Canvas 绘制原始 IP 图像，并读取像素数据。
+                    </div>
+
+                </div>
+
+                <div class="timeline-item">
+
+                    <div class="timeline-year">
+                        STEP 02
+                    </div>
+
+                    <div class="timeline-content">
+                        根据透明度和亮度筛选有效像素，并降低采样密度。
+                    </div>
+
+                </div>
+
+                <div class="timeline-item">
+
+                    <div class="timeline-year">
+                        STEP 03
+                    </div>
+
+                    <div class="timeline-content">
+                        为每一个粒子分配唯一的 homeX / homeY。
+                    </div>
+
+                </div>
+
+                <div class="timeline-item">
+
+                    <div class="timeline-year">
+                        STEP 04
+                    </div>
+
+                    <div class="timeline-content">
+                        鼠标仅产生局部扰动，粒子最终回归 IP 轮廓。
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <h2 id="chapter-6">
+                04. 日夜模式的连续变化
+            </h2>
+
+            <p>
+                Day 与 Night 并不是两个完全独立的页面。
+                如果直接切换 CSS 颜色，会产生明显的状态断裂。
+            </p>
+
+            <p>
+                因此背景颜色、粒子颜色、连接线透明度，
+                甚至页面 UI 的玻璃层，
+                都通过统一的 progress 参数进行插值。
+            </p>
+
+
+            <div class="article-image">
+
+                <!-- 替换成你的文章图片 -->
+                <img
+                    src="your-article-cover.jpg"
+                    alt="Fluid Particles">
+
+                <div class="image-caption">
+                    Fluid Particle System · Day / Night Continuous Transition
+                </div>
+
+            </div>
+
+
+            <h2 id="chapter-7">
+                05. 阅读界面与背景共存
+            </h2>
+
+            <p>
+                背景系统最终必须让位于内容。
+                所以文章区域没有采用传统厚重的大白色卡片，
+                而是尽可能减少容器的边界。
+            </p>
+
+            <p>
+                正文像是悬浮在动态空间中，
+                但通过字体、行距、颜色和宽度建立足够稳定的阅读层级。
+            </p>
+
+            <p>
+                左侧目录则保持固定，
+                它不再是传统意义上的“侧边栏卡片”，
+                更像是一条轻量的阅读导航轨迹。
+            </p>
+
+
+            <section class="conclusion" id="chapter-8">
+
+                <div class="conclusion-label">
+                    FINAL THOUGHT
+                </div>
+
+                <h2>
+                    06. 最终结论
+                </h2>
+
+                <p>
+                    一个优秀的动态背景，不应该只是“炫技”。
+                    真正重要的是，它需要有自己的秩序、回归机制和交互边界。
+                    粒子可以短暂地因为用户而改变，
+                    但整个系统仍然应该保持自己的结构。
+                </p>
+
+            </section>
+
+
+            <div class="tags">
+
+                <span class="tag">#ParticleSystem</span>
+                <span class="tag">#Canvas</span>
+                <span class="tag">#WebDesign</span>
+                <span class="tag">#Interaction</span>
+                <span class="tag">#HealthJian</span>
+
+            </div>
+
+        </article>
+
+
+        <!-- RIGHT DECORATION -->
+
+        <aside class="side-decoration">
+
+            <div class="ip-hint"></div>
+
+        </aside>
+
+    </section>
+
+
+    <!-- ARTICLE NAVIGATION -->
+
+    <section class="article-navigation">
+
+        <a href="#" class="article-nav-card">
+
+            <div class="article-nav-label">
+                ← PREVIOUS ARTICLE
+            </div>
+
+            <div class="article-nav-title">
+                从静态页面到动态空间：
+                我对个人博客设计的重新思考
+            </div>
+
+        </a>
+
+
+        <a href="#"
+           class="article-nav-card next">
+
+            <div class="article-nav-label">
+                NEXT ARTICLE →
+            </div>
+
+            <div class="article-nav-title">
+                如何将一张图片转换为
+                可交互的粒子 IP 形象
+            </div>
+
+        </a>
+
+    </section>
+
+</main>
+
+
+<script>
+
+    /* =========================================================
+       1. Theme
+    ========================================================= */
+
+    const themeOptions =
+        document.querySelectorAll(".theme-option");
+
+    themeOptions.forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            const theme =
+                button.dataset.theme;
+
+            themeOptions.forEach(item =>
+                item.classList.remove("active")
+            );
+
+            button.classList.add("active");
+
+            document.body.classList.toggle(
+                "dark",
+                theme === "night"
+            );
+
+        });
+
+    });
+
+
+    /* =========================================================
+       2. Language Switch
+    ========================================================= */
+
+    const languageSwitch =
+        document.getElementById("languageSwitch");
+
+    const langButtons =
+        document.querySelectorAll(".lang-btn");
+
+    langButtons.forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            langButtons.forEach(item =>
+                item.classList.remove("active")
+            );
+
+            button.classList.add("active");
+
+            languageSwitch.classList.toggle(
+                "en",
+                button.dataset.lang === "en"
+            );
+
+        });
+
+    });
+
+
+    /* =========================================================
+       3. Reading Progress
+    ========================================================= */
+
+    const progressBar =
+        document.getElementById("progressBar");
+
+    window.addEventListener("scroll", () => {
+
+        const scrollTop =
+            window.scrollY;
+
+        const maxScroll =
+            document.documentElement.scrollHeight -
+            window.innerHeight;
+
+        const progress =
+            maxScroll > 0
+                ? scrollTop / maxScroll * 100
+                : 0;
+
+        progressBar.style.width =
+            progress + "%";
+
+    }, { passive: true });
+
+
+    /* =========================================================
+       4. TOC Active
+    ========================================================= */
+
+    const sections =
+        document.querySelectorAll(
+            ".article-content h2, .article-content h3"
+        );
+
+    const tocLinks =
+        document.querySelectorAll(".toc-list a");
+
+    function updateTOC() {
+
+        let currentId = "";
+
+        sections.forEach(section => {
+
+            const rect =
+                section.getBoundingClientRect();
+
+            if (rect.top <= 180) {
+                currentId = section.id;
+            }
+
+        });
+
+        tocLinks.forEach(link => {
+
+            link.classList.toggle(
+                "active",
+                link.getAttribute("href") ===
+                "#" + currentId
+            );
+
+        });
+
+    }
+
+    window.addEventListener(
+        "scroll",
+        updateTOC,
+        { passive: true }
+    );
+
+
+    /* =========================================================
+       5. Basic Particle Background
+       你可以直接替换成之前已经完成的
+       “IP 图片粒子化版本”
+    ========================================================= */
+
+    const canvas =
+        document.getElementById("particle-canvas");
+
+    const ctx =
+        canvas.getContext("2d");
+
+    let particles = [];
+
+    function resizeCanvas() {
+
+        canvas.width =
+            window.innerWidth *
+            devicePixelRatio;
+
+        canvas.height =
+            window.innerHeight *
+            devicePixelRatio;
+
+        canvas.style.width =
+            window.innerWidth + "px";
+
+        canvas.style.height =
+            window.innerHeight + "px";
+
+        ctx.setTransform(
+            devicePixelRatio,
+            0,
+            0,
+            devicePixelRatio,
+            0,
+            0
+        );
+
+    }
+
+    function createParticles() {
+
+        particles = [];
+
+        const count =
+            window.innerWidth < 700
+                ? 45
+                : 110;
+
+        for (let i = 0; i < count; i++) {
+
+            particles.push({
+
+                x:
+                    Math.random() *
+                    window.innerWidth,
+
+                y:
+                    Math.random() *
+                    window.innerHeight,
+
+                vx:
+                    (Math.random() - .5) *
+                    .18,
+
+                vy:
+                    (Math.random() - .5) *
+                    .18,
+
+                size:
+                    Math.random() * 1.3 + .4
+
+            });
+
+        }
+
+    }
+
+    function animateParticles() {
+
+        const isDark =
+            document.body.classList.contains("dark");
+
+        ctx.clearRect(
+            0,
+            0,
+            window.innerWidth,
+            window.innerHeight
+        );
+
+        particles.forEach(p => {
+
+            p.x += p.vx;
+            p.y += p.vy;
+
+            if (
+                p.x < 0 ||
+                p.x > window.innerWidth
+            ) {
+                p.vx *= -1;
+            }
+
+            if (
+                p.y < 0 ||
+                p.y > window.innerHeight
+            ) {
+                p.vy *= -1;
+            }
+
+            ctx.beginPath();
+
+            ctx.arc(
+                p.x,
+                p.y,
+                p.size,
+                0,
+                Math.PI * 2
+            );
+
+            ctx.fillStyle =
+                isDark
+                    ? "rgba(155,210,255,.48)"
+                    : "rgba(145,120,85,.32)";
+
+            ctx.fill();
+
+        });
+
+        requestAnimationFrame(
+            animateParticles
+        );
+
+    }
+
+    window.addEventListener(
+        "resize",
+        () => {
+
+            resizeCanvas();
+            createParticles();
+
+        }
+    );
+
+    resizeCanvas();
+    createParticles();
+    animateParticles();
+
+</script>
+
+</body>
+</html>

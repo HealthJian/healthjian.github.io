@@ -285,6 +285,16 @@ class MarkdownRenderer {
 
         // 再处理行内公式
         processedText = processedText.replace(this.mathPatterns.inlineMath, (match, formula) => {
+            // 防误判：正文中的金额/价格区间（如 $1,900→$2,040）会被误认为行内公式，
+            // 渲染出过宽且不可折行的 KaTeX 片段，撑破版心出现横向滚动条。
+            // 特征：含中文、Markdown 链接/图片/加粗语法、破折号/箭头，或是不含任何
+            // LaTeX 命令的自然语言短语——这些保持原文，不按公式处理。
+            if (/[\u4e00-\u9fa5]|\]\(|!\[|\*\*|→|–|—/.test(formula)) {
+                return match;
+            }
+            if (/[a-z]{3,}\s+[a-z]{3,}/i.test(formula) && !/\\[a-zA-Z]/.test(formula)) {
+                return match;
+            }
             const placeholder = this.createMathPlaceholder('INLINE', blockIndex);
             mathBlocks.push({
                 type: 'inline',

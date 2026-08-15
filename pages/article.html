@@ -693,21 +693,6 @@
             gap: 52px;
         }
 
-        /*
-            关键约束：弹性主列必须允许收缩到 0。
-            图片的 max-width:100% 在 min-content 计算中按固有尺寸计入，
-            没有 min-width:0 时，宽图（如 1280/1536px）会把主列撑出视口，
-            导致整页出现横向滚动条。
-        */
-        .md-article-layout .blog-post-main {
-            min-width: 0;
-        }
-
-        .md-article-layout .markdown-content img {
-            max-width: 100%;
-            height: auto;
-        }
-
         .md-article-layout .blog-sidebar {
             width: 240px;
             top: 132px;
@@ -951,14 +936,6 @@
 
         .md-article-layout .markdown-content code {
             font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-        }
-
-        /* 过宽的块级公式在容器内部横向滚动，不撑破版心 */
-        .md-article-layout .markdown-content .math-block,
-        .md-article-layout .markdown-content .katex-display {
-            max-width: 100%;
-            overflow-x: auto;
-            overflow-y: hidden;
         }
 
         /* ---------- 12. 评论区（玻璃卡片） ---------- */

@@ -1,6 +1,18 @@
 // 博客文章数据源：供 blog.js、博客页、分类页与首页最新文章复用
 window.BLOG_POSTS_DATA = [
         {
+            "id": "blog-visual-experience-particle-glass-reader-20260815",
+            "title": "全新的博客视觉体验：粒子引擎、毛玻璃导航与沉浸式阅读页",
+            "title_en": "A Brand-New Blog Visual Experience: Particle Engine, Frosted-Glass Navbar & the Immersive Reader",
+            "excerpt": "介绍全新的博客文章阅读页 pages/article.html：IP 粒子背景引擎、悬浮毛玻璃导航、日夜与中英一键切换、阅读进度条与沉浸式衬线排版的设计意图、实现要点和使用指南。",
+            "excerpt_en": "An introduction to the brand-new blog article reader pages/article.html — the IP particle background engine, floating frosted-glass navbar, one-click day/night and Chinese/English switching, reading progress bar, and immersive serif typography, covering design intent, implementation highlights, and the usage guide.",
+            "date": "2026-08-15",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260815_zh_1.md",
+            "category": "tech",
+            "tags": ["博客", "视觉体验", "粒子背景", "毛玻璃导航", "沉浸式阅读"],
+            "tags_en": ["Blog", "Visual Experience", "Particle Background", "Glass Navbar", "Immersive Reading"]
+        },
+        {
             "id": "gold-price-retrospect-timeseries-crisis-rule-20260810",
             "title": "黄金价格变化与回望：2022–2026 年时间序列分析与“乱世黄金”规律的再检验",
             "title_en": "Gold Price Changes in Retrospect: A Time-Series Analysis of 2022–2026 and a Re-Examination of the \"Buy Gold in Times of Crisis\" Principle",
