@@ -1,6 +1,18 @@
 // 博客文章数据源：供 blog.js、博客页、分类页与首页最新文章复用
 window.BLOG_POSTS_DATA = [
         {
+            "id": "niulai-boxoffice-ai-cult-film-20260816",
+            "title": "《牛来》票房一天超过80万，别把它当成笑话",
+            "title_en": "\"Niu Lai\" Grossed Over 800,000 Yuan in a Single Day — Don't Take It as a Joke",
+            "excerpt": "从一天突破 80 万票房的抽象动画《牛来》出发，讨论 AI 视频技术平权、地上 cult 片的题材土壤，以及中国电影市场面向新一代观众与下沉市场的潜力与反思。",
+            "excerpt_en": "Starting from Niu Lai — an absurd animated film that grossed over 800,000 yuan in a single day — this essay discusses AI video democratization, the soil for above-ground cult films, and the potential of China's film market with new-generation and lower-tier audiences in mind.",
+            "date": "2026-08-16",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260816_zh_1.md",
+            "category": "idea",
+            "tags": ["牛来", "电影", "AI视频", "cult片", "抽象文化", "技术平权"],
+            "tags_en": ["Niu Lai", "Film", "AI Video", "Cult Film", "Meme Culture", "Tech Democratization"]
+        },
+        {
             "id": "blog-visual-experience-particle-glass-reader-20260815",
             "title": "全新的博客视觉体验：粒子引擎、毛玻璃导航与沉浸式阅读页",
             "title_en": "A Brand-New Blog Visual Experience: Particle Engine, Frosted-Glass Navbar & the Immersive Reader",
