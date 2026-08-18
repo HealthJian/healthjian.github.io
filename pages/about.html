@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh" class="about-page">
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -178,24 +178,26 @@
 					<li><a href="../index.html" data-en="Home" data-zh="首页">首页</a></li>
 					<li><a href="blog.html" data-en="Blog" data-zh="博客">博客</a></li>
 					<li><a href="project/404notfound.html" data-en="Projects" data-zh="项目">项目</a></li>
-					<li><a href="project/404notfound.html" data-en="Demo" data-zh="Demo">Demo</a></li>
-					<li><a href="https://github.com/CaiNiaojian" target="_blank" data-en="GitHub"
-							data-zh="GitHub">GitHub</a></li>
 					<li><a href="links.html" data-en="Links" data-zh="链接">链接</a></li>
-					<li><a href="about.html" data-en="About" data-zh="关于">关于</a></li>
+					<li><a href="about.html" class="active" data-en="About" data-zh="关于">关于</a></li>
 				</ul>
+				<span class="nav-divider" aria-hidden="true"></span>
 				<div class="social-icons">
+					<a href="project/404notfound.html" title="Demo"><i class="fas fa-flask"></i></a>
+					<a href="https://github.com/CaiNiaojian" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
 					<a href="https://steamcommunity.com/profiles/76561199031176587/" target="_blank" title="Steam"><i
 							class="fab fa-steam"></i></a>
 					<a href="mailto:gaojian1573@foxmail.com" title="Email"><i class="fas fa-envelope"></i></a>
 				</div>
-				<button id="theme-toggle" class="theme-toggle" title="切换主题">
-					<i class="fas fa-moon"></i>
-					<i class="fas fa-sun"></i>
-				</button>
-				<button id="lang-toggle" class="lang-toggle" title="切换语言">
-					<span data-en="EN" data-zh="中">中</span>
-				</button>
+				<div class="nav-control-group">
+					<button id="theme-toggle" class="theme-toggle" title="切换主题">
+						<i class="fas fa-moon"></i>
+						<i class="fas fa-sun"></i>
+					</button>
+					<button id="lang-toggle" class="lang-toggle" title="切换语言">
+						<span data-en="EN" data-zh="中">中</span>
+					</button>
+				</div>
 			</div>
 		</nav>
 

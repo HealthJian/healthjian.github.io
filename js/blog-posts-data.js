@@ -1,6 +1,30 @@
 // 博客文章数据源：供 blog.js、博客页、分类页与首页最新文章复用
 window.BLOG_POSTS_DATA = [
         {
+            "id": "yield-decision-system-human-model-loop-20260818",
+            "title": "良率决策系统的人、模型与闭环：人工标注、LLM 必要性与大脑-手脚协同架构研究",
+            "title_en": "Humans, Models, and the Loop in Yield Decision Systems: Human Annotation, LLM Necessity, and a Brain-Hands Collaborative Architecture",
+            "excerpt": "《从 PPO 到 DAPO》姊妹篇：针对前作遗留的三个新问题给出基于文献证据的回答——良率场景无需逐条人工标注（工程师标规则、标金标准、审难例即可）；良率数值决策中 LLM 并非必要且 DAPO 无法整体嫁接普通网络；LLM 大脑+RL 手脚的四层闭环架构方向正确，但必须内置校验门并将自治度封顶在护栏内自动。",
+            "excerpt_en": "The companion piece to From PPO to DAPO, answering three follow-up questions with literature-grounded evidence: yield scenarios need no per-sample manual labeling (engineers label rules, gold standards, and review hard cases instead); LLMs are not strictly necessary for numeric yield decisions and DAPO cannot be grafted wholesale onto ordinary networks; and the four-layer brain-hands loop architecture is directionally correct but must embed verification gates and cap autonomy at guardrail-enclosed automation.",
+            "date": "2026-08-18",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260818_zh_2.md",
+            "category": "tech",
+            "tags": ["人工标注", "弱监督", "强化学习", "良率决策", "LLM", "人机协同"],
+            "tags_en": ["Human Annotation", "Weak Supervision", "Reinforcement Learning", "Yield Decision", "LLM", "Human-AI Collaboration"]
+        },
+        {
+            "id": "ppo-dapo-semiconductor-yield-rl-report-20260818",
+            "title": "从 PPO 到 DAPO：面向半导体良率决策的本地大模型强化学习研究报告",
+            "title_en": "From PPO to DAPO: A Research Report on Local LLM Reinforcement Learning for Semiconductor Yield Decision-Making",
+            "excerpt": "面向八吋厂良率决策场景的研究报告：在单/双张 RTX 6000（48GB）上评估将本地 Qwen 小模型从 SFT+PPO 管线迁移至 DAPO，围绕数据治理、算法迁移、训练监控、混合架构与行业格局五个问题给出三条核心结论：数据治理与奖励设计优先于算法选型、本地小模型+DAPO 是制造端大模型的机会窗口、工程形态收敛于级联为骨、工具调用为翼的混合架构。",
+            "excerpt_en": "A research report for 8-inch fab yield decision-making, evaluating the migration of local Qwen small models from an SFT+PPO pipeline to DAPO on one or two RTX 6000 (48GB) cards. Across five questions — data governance, algorithm migration, training monitoring, hybrid architecture, and industry landscape — it reaches three core conclusions: data governance and reward design outrank algorithm selection; local small models + DAPO form the opportunity window for manufacturing-side LLMs; and the engineering form converges on a cascade-backbone, tool-calling-wings hybrid architecture.",
+            "date": "2026-08-18",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260818_zh_1.md",
+            "category": "tech",
+            "tags": ["DAPO", "强化学习", "半导体", "良率决策", "RLVR", "本地大模型"],
+            "tags_en": ["DAPO", "Reinforcement Learning", "Semiconductor", "Yield Decision", "RLVR", "Local LLM"]
+        },
+        {
             "id": "niulai-boxoffice-ai-cult-film-20260816",
             "title": "《牛来》票房一天超过80万，别把它当成笑话",
             "title_en": "\"Niu Lai\" Grossed Over 800,000 Yuan in a Single Day — Don't Take It as a Joke",

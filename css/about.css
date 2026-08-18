@@ -1196,3 +1196,256 @@ body.dark-mode .back-to-top:hover {
     }
 }
 /* ========== 回到顶部浮动按钮 END ========== */
+/* ========== 导航栏新美学 START（样板 pages/demo/newbottombackground.html，删除至 END 可回档）========== */
+/* 仅作用于 about 页：html.about-page body 作用域，不污染共享的 style.css */
+
+/* 悬浮玻璃胶囊导航：让出顶部空间 */
+html.about-page body {
+    padding-top: 110px;
+}
+
+html.about-page body .navbar {
+    top: 22px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: min(1240px, calc(100% - 48px));
+    min-height: 68px;
+    padding: 8px 14px;
+    border-radius: 18px;
+    background: rgba(246, 242, 235, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    box-shadow: 0 12px 40px rgba(65, 55, 45, 0.10),
+                inset 0 1px 0 rgba(120, 105, 90, 0.08);
+    backdrop-filter: blur(22px) saturate(140%);
+    -webkit-backdrop-filter: blur(22px) saturate(140%);
+    transition: background 0.7s ease, border-color 0.7s ease, box-shadow 0.7s ease;
+}
+
+html.about-page body.dark-mode .navbar {
+    background: rgba(12, 28, 49, 0.82);
+    border-color: rgba(255, 255, 255, 0.10);
+    box-shadow: 0 14px 45px rgba(0, 0, 0, 0.30),
+                inset 0 1px 0 rgba(130, 190, 255, 0.08);
+}
+
+/* 站点名 */
+html.about-page body .site-name {
+    letter-spacing: -0.2px;
+}
+
+/* 菜单链接：软色文字 + 圆角悬浮底 */
+html.about-page body .nav-right {
+    gap: 12px;
+}
+
+html.about-page body .menu {
+    gap: 3px;
+}
+
+html.about-page body .menu a {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    padding: 0 13px;
+    border-radius: 10px;
+    color: #756d65;
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+}
+
+html.about-page body .menu a::after {
+    display: none; /* 用悬浮底替代下划线动画 */
+}
+
+html.about-page body .menu a:hover {
+    color: #171513;
+    background: rgba(255, 255, 255, 0.62);
+    transform: translateY(-1px);
+}
+
+html.about-page body .menu a.active {
+    color: #1d1a17;
+    background: rgba(255, 255, 255, 0.82);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+html.about-page body.dark-mode .menu a {
+    color: #9aabba;
+}
+
+html.about-page body.dark-mode .menu a:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.07);
+}
+
+html.about-page body.dark-mode .menu a.active {
+    color: #ffffff;
+    background: rgba(34, 59, 88, 0.90);
+}
+
+/* 分隔条 */
+html.about-page body .nav-divider {
+    width: 1px;
+    height: 24px;
+    flex-shrink: 0;
+    margin: 0 4px;
+    background: rgba(100, 90, 80, 0.12);
+    transition: background 0.7s ease;
+}
+
+html.about-page body.dark-mode .nav-divider {
+    background: rgba(255, 255, 255, 0.10);
+}
+
+/* 社交图标：圆角方块幽灵按钮 */
+html.about-page body .social-icons {
+    gap: 3px;
+}
+
+html.about-page body .social-icons a {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    font-size: 1.05rem;
+    color: #655e57;
+    transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+
+html.about-page body .social-icons a:hover {
+    background: rgba(255, 255, 255, 0.62);
+    color: #171513;
+    transform: translateY(-1px);
+}
+
+html.about-page body.dark-mode .social-icons a {
+    color: #b5c6d7;
+}
+
+html.about-page body.dark-mode .social-icons a:hover {
+    background: rgba(255, 255, 255, 0.07);
+    color: #ffffff;
+}
+
+/* 日夜间 + 中英文切换：内凹胶囊组（新美学） */
+html.about-page body .nav-control-group {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    height: 42px;
+    padding: 3px;
+    border-radius: 12px;
+    background: rgba(120, 110, 95, 0.10);
+    border: 1px solid rgba(120, 110, 95, 0.08);
+    transition: background 0.6s ease, border-color 0.6s ease;
+}
+
+html.about-page body.dark-mode .nav-control-group {
+    background: rgba(0, 0, 0, 0.22);
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+html.about-page body .theme-toggle,
+html.about-page body .lang-toggle {
+    height: 34px;
+    min-width: 36px;
+    padding: 0 8px;
+    border-radius: 9px;
+    color: #756d65;
+    font-size: 0.95rem;
+    transition: color 0.3s ease, background 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s ease;
+}
+
+html.about-page body .theme-toggle:hover,
+html.about-page body .lang-toggle:hover {
+    color: #171513;
+    background: rgba(255, 255, 255, 0.72);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+html.about-page body .theme-toggle:active,
+html.about-page body .lang-toggle:active {
+    transform: scale(0.92);
+}
+
+html.about-page body .lang-toggle span {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+}
+
+html.about-page body.dark-mode .theme-toggle,
+html.about-page body.dark-mode .lang-toggle {
+    color: #9aabba;
+}
+
+html.about-page body.dark-mode .theme-toggle:hover,
+html.about-page body.dark-mode .lang-toggle:hover {
+    color: #ffffff;
+    background: rgba(34, 59, 88, 0.90);
+}
+
+/* 移动端：菜单隐藏（沿用全站规则），图标/切换键全部保留 */
+@media (max-width: 768px) {
+    html.about-page body {
+        padding-top: 92px;
+    }
+
+    html.about-page body .navbar {
+        top: 12px;
+        width: calc(100% - 24px);
+        min-height: 58px;
+        padding: 6px 10px;
+        border-radius: 15px;
+        flex-wrap: nowrap;
+    }
+
+    html.about-page body .nav-right {
+        gap: 6px;
+        margin-left: auto;
+    }
+
+    html.about-page body .nav-divider {
+        display: none;
+    }
+
+    html.about-page body .social-icons {
+        gap: 0;
+    }
+
+    html.about-page body .social-icons a {
+        width: 32px;
+        height: 36px;
+        font-size: 0.95rem;
+    }
+
+    html.about-page body .nav-control-group {
+        height: 38px;
+    }
+
+    html.about-page body .theme-toggle,
+    html.about-page body .lang-toggle {
+        height: 30px;
+        min-width: 32px;
+        padding: 0 6px;
+    }
+
+    html.about-page body .site-name {
+        font-size: 1rem;
+    }
+}
+
+/* 小屏手机：隐藏 Email 图标，保 Demo/GitHub/Steam 与两个切换键 */
+@media (max-width: 460px) {
+    html.about-page body .social-icons a[title="Email"] {
+        display: none;
+    }
+
+    html.about-page body .logo img {
+        height: 26px;
+    }
+}
+/* ========== 导航栏新美学 END ========== */

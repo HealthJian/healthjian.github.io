@@ -23,103 +23,130 @@
 </head>
 <body>
 
-  <!-- Particle Background -->
+  <!-- Background layers -->
   <canvas id="r-particle-canvas"></canvas>
+  <div class="r-atmosphere" aria-hidden="true"></div>
 
-  <!-- Header -->
-  <header class="r-header">
-    <a class="r-logo" href="resume.html">
-      <div class="r-logo-icon" id="r-logo-letter">G</div>
-      <span>Resume Hub</span>
-    </a>
-    <nav class="r-nav-actions">
-      <button class="r-btn" id="r-lang-toggle">EN</button>
-      <button class="r-btn" id="r-theme-toggle"><i class="fas fa-moon"></i></button>
-      <a class="r-btn r-btn-home" id="r-home-btn" href="../index.html"><i class="fas fa-home"></i> 主站</a>
-    </nav>
-  </header>
-
-  <!-- Hero -->
-  <section class="r-hero">
-    <div class="r-hero-terminal" id="r-hero-terminal">$ cd ~/career && ls directions/</div>
-    <h1 id="r-hero-title">选择你感兴趣的<span class="r-highlight">职业方向</span></h1>
-    <p class="r-hero-desc" id="r-hero-desc">不同岗位需要不同的简历侧重点。请选择下方的方向入口，查看针对该 JD 定制的个人简历。</p>
-  </section>
-
-  <!-- Direction Cards -->
-  <section class="r-cards-section">
-    <div class="r-cards-grid">
-
-      <!-- Card 1: 良率大数据工程师 -->
-      <a class="r-card" href="src/common.html">
-        <div class="r-card-icon"><i class="fas fa-database"></i></div>
-        <div class="r-card-title">良率大数据工程师</div>
-        <div class="r-card-desc">聚焦半导体/制造业良率分析，利用大数据平台与机器学习驱动产线优化。</div>
-        <div class="r-card-tags">
-          <span class="r-card-tag">Spark</span>
-          <span class="r-card-tag">Hive</span>
-          <span class="r-card-tag">Python</span>
-          <span class="r-card-tag">ML</span>
-        </div>
-        <div class="r-card-arrow">
-          <span class="r-card-arrow-text">查看简历</span>
-          <i class="fas fa-arrow-right"></i>
-        </div>
+  <!-- Floating glass navigation -->
+  <div class="r-nav-wrapper">
+    <header class="r-header">
+      <a class="r-logo" href="resume.html">
+        <div class="r-logo-icon" id="r-logo-letter">G</div>
+        <span class="r-logo-name">Resume Hub</span>
       </a>
+      <nav class="r-nav-actions">
+        <button class="r-btn r-btn-lang" id="r-lang-toggle">EN</button>
+        <button class="r-btn r-btn-icon" id="r-theme-toggle" title="Theme"><i class="fas fa-moon"></i></button>
+        <a class="r-btn r-btn-home" id="r-home-btn" href="../index.html"><i class="fas fa-home"></i> 主站</a>
+      </nav>
+    </header>
+  </div>
 
-      <!-- Card 2: AI Agent 应用开发工程师 -->
-      <a class="r-card" href="src/common.html">
-        <div class="r-card-icon"><i class="fas fa-robot"></i></div>
-        <div class="r-card-title">AI Agent 应用开发工程师</div>
-        <div class="r-card-desc">基于大模型构建智能体应用，涵盖 RAG、Prompt Engineering 与多智能体协作。</div>
-        <div class="r-card-tags">
-          <span class="r-card-tag">LLM</span>
-          <span class="r-card-tag">RAG</span>
-          <span class="r-card-tag">Agent</span>
-          <span class="r-card-tag">LangChain</span>
-        </div>
-        <div class="r-card-arrow">
-          <span class="r-card-arrow-text">查看简历</span>
-          <i class="fas fa-arrow-right"></i>
-        </div>
-      </a>
+  <main class="r-page">
 
-      <!-- Card 3: 前端开发工程师 -->
-      <a class="r-card" href="src/common.html">
-        <div class="r-card-icon"><i class="fas fa-code"></i></div>
-        <div class="r-card-title">前端开发工程师</div>
-        <div class="r-card-desc">擅长响应式 Web 开发与交互设计，注重用户体验与性能优化。</div>
-        <div class="r-card-tags">
-          <span class="r-card-tag">HTML/CSS</span>
-          <span class="r-card-tag">JavaScript</span>
-          <span class="r-card-tag">Vue</span>
-          <span class="r-card-tag">React</span>
-        </div>
-        <div class="r-card-arrow">
-          <span class="r-card-arrow-text">查看简历</span>
-          <i class="fas fa-arrow-right"></i>
-        </div>
-      </a>
+    <!-- Hero -->
+    <section class="r-hero">
+      <div class="r-hero-terminal" id="r-hero-terminal">$ cd ~/career &amp;&amp; ls directions/</div>
+      <h1 id="r-hero-title">选择你感兴趣的<span class="r-highlight">职业方向</span></h1>
+      <p class="r-hero-desc" id="r-hero-desc">不同岗位需要不同的简历侧重点。请选择下方的方向入口，查看针对该 JD 定制的个人简历。</p>
+    </section>
 
-      <!-- Card 4: 数据分析工程师 -->
-      <a class="r-card" href="src/common.html">
-        <div class="r-card-icon"><i class="fas fa-chart-line"></i></div>
-        <div class="r-card-title">数据分析工程师</div>
-        <div class="r-card-desc">通过数据挖掘与可视化洞察业务趋势，赋能产品决策与增长策略。</div>
-        <div class="r-card-tags">
-          <span class="r-card-tag">SQL</span>
-          <span class="r-card-tag">Python</span>
-          <span class="r-card-tag">EDA</span>
-          <span class="r-card-tag">Tableau</span>
-        </div>
-        <div class="r-card-arrow">
-          <span class="r-card-arrow-text">查看简历</span>
-          <i class="fas fa-arrow-right"></i>
-        </div>
-      </a>
+    <!-- Direction List: 单板块列表式，行间以发丝线分隔 -->
+    <section class="r-list-section">
+      <div class="r-list">
 
-    </div>
-  </section>
+        <!-- Row 1: 良率大数据工程师 -->
+        <a class="r-card r-row" href="src/common.html">
+          <div class="r-card-icon"><i class="fas fa-database"></i></div>
+          <div class="r-row-main">
+            <div class="r-row-head">
+              <span class="r-row-num">01</span>
+              <span class="r-card-title">良率大数据工程师</span>
+            </div>
+            <div class="r-card-desc">聚焦半导体/制造业良率分析，利用大数据平台与机器学习驱动产线优化。</div>
+          </div>
+          <div class="r-card-tags">
+            <span class="r-card-tag">Spark</span>
+            <span class="r-card-tag">Hive</span>
+            <span class="r-card-tag">Python</span>
+            <span class="r-card-tag">ML</span>
+          </div>
+          <div class="r-card-arrow">
+            <span class="r-card-arrow-text">查看简历</span>
+            <i class="fas fa-arrow-right"></i>
+          </div>
+        </a>
+
+        <!-- Row 2: AI Agent 应用开发工程师 -->
+        <a class="r-card r-row" href="src/common.html">
+          <div class="r-card-icon"><i class="fas fa-robot"></i></div>
+          <div class="r-row-main">
+            <div class="r-row-head">
+              <span class="r-row-num">02</span>
+              <span class="r-card-title">AI Agent 应用开发工程师</span>
+            </div>
+            <div class="r-card-desc">基于大模型构建智能体应用，涵盖 RAG、Prompt Engineering 与多智能体协作。</div>
+          </div>
+          <div class="r-card-tags">
+            <span class="r-card-tag">LLM</span>
+            <span class="r-card-tag">RAG</span>
+            <span class="r-card-tag">Agent</span>
+            <span class="r-card-tag">LangChain</span>
+          </div>
+          <div class="r-card-arrow">
+            <span class="r-card-arrow-text">查看简历</span>
+            <i class="fas fa-arrow-right"></i>
+          </div>
+        </a>
+
+        <!-- Row 3: 前端开发工程师 -->
+        <a class="r-card r-row" href="src/common.html">
+          <div class="r-card-icon"><i class="fas fa-code"></i></div>
+          <div class="r-row-main">
+            <div class="r-row-head">
+              <span class="r-row-num">03</span>
+              <span class="r-card-title">前端开发工程师</span>
+            </div>
+            <div class="r-card-desc">擅长响应式 Web 开发与交互设计，注重用户体验与性能优化。</div>
+          </div>
+          <div class="r-card-tags">
+            <span class="r-card-tag">HTML/CSS</span>
+            <span class="r-card-tag">JavaScript</span>
+            <span class="r-card-tag">Vue</span>
+            <span class="r-card-tag">React</span>
+          </div>
+          <div class="r-card-arrow">
+            <span class="r-card-arrow-text">查看简历</span>
+            <i class="fas fa-arrow-right"></i>
+          </div>
+        </a>
+
+        <!-- Row 4: 数据分析工程师 -->
+        <a class="r-card r-row" href="src/common.html">
+          <div class="r-card-icon"><i class="fas fa-chart-line"></i></div>
+          <div class="r-row-main">
+            <div class="r-row-head">
+              <span class="r-row-num">04</span>
+              <span class="r-card-title">数据分析工程师</span>
+            </div>
+            <div class="r-card-desc">通过数据挖掘与可视化洞察业务趋势，赋能产品决策与增长策略。</div>
+          </div>
+          <div class="r-card-tags">
+            <span class="r-card-tag">SQL</span>
+            <span class="r-card-tag">Python</span>
+            <span class="r-card-tag">EDA</span>
+            <span class="r-card-tag">Tableau</span>
+          </div>
+          <div class="r-card-arrow">
+            <span class="r-card-arrow-text">查看简历</span>
+            <i class="fas fa-arrow-right"></i>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+  </main>
 
   <!-- Footer -->
   <footer class="r-footer">

@@ -244,6 +244,7 @@
                 font-size: .9rem;
             }
         }
+
     </style>
     <!-- ========== LOTTIE space_plant 样式 END ========== -->
 </head>
@@ -368,6 +369,28 @@
         </div>
     </aside>
 
+    <!-- ========== 粒子格言装饰 START（删除本段至 END 可回档）========== -->
+    <style>
+        /* 页脚上方的粒子格言：透明背景，融入页面 */
+        .blog-motto-particles {
+            position: relative;
+            width: 100%;
+            height: clamp(220px, 26vw, 320px);
+            overflow: hidden;
+            user-select: none;
+        }
+
+        .blog-motto-particles canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <section class="blog-motto-particles" id="blogMottoParticles" aria-hidden="true">
+        <canvas id="blogMottoCanvas"></canvas>
+    </section>
+    <!-- ========== 粒子格言装饰 END ========== -->
+
     <!-- 页脚 -->
     <footer>
         <div class="footer-container">
@@ -433,6 +456,7 @@
     <script src="../js/blog.js"></script>
     <script src="../js/theme.js"></script>
     <script src="../js/language.js"></script>
+    <script src="../js/blog-particle-motto.js"></script>
     <script src="../js/footer.js"></script>
     <script>
         // 渲染 textblog 风格的文章卡片
@@ -872,5 +896,6 @@
     })();
     </script>
     <!-- ========== LOTTIE space_plant 脚本 END ========== -->
+    
 </body>
 </html>

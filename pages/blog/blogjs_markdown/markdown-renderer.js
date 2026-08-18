@@ -331,13 +331,13 @@ class MarkdownRenderer {
             
             if (type === 'block') {
                 // 块级公式
-                const mathHtml = `<div class="math-block" data-formula="${this.escapeHtml(formula)}">$$${formula}$$</div>`;
+                const mathHtml = `<div class="math-block" data-formula="${this.escapeAttribute(formula)}">${this.escapeHtml(`$$${formula}$$`)}</div>`;
                 processedHtml = processedHtml
                     .replace(`<p>${placeholder}</p>`, mathHtml)
                     .split(placeholder).join(mathHtml);
             } else if (type === 'inline') {
                 // 行内公式
-                const mathHtml = `<span class="math-inline" data-formula="${this.escapeHtml(formula)}">$${formula}$</span>`;
+                const mathHtml = `<span class="math-inline" data-formula="${this.escapeAttribute(formula)}">${this.escapeHtml(`$${formula}$`)}</span>`;
                 processedHtml = processedHtml.split(placeholder).join(mathHtml);
             }
         });
