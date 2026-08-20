@@ -1,485 +1,274 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-zh="Demo工作学习空间 - Beta版本" data-en="Demo Work Study Space - Beta Version">Demo工作学习空间 - Beta版本</title>
-    
-    <!-- 基础样式 -->
-    <link rel="stylesheet" href="../../css/style.css">
-    <link rel="stylesheet" href="../../css/dark-mode.css">
-    <link rel="stylesheet" href="democss/demo.css">
-    
-    <!-- Font Awesome 图标 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- 预加载图片 -->
-    <link rel="preload" href="../../images/bg/fogforest.jpg" as="image">
-    
-    <meta name="description" content="Demo工作学习空间Beta版本，包含八大排序算法等学习内容">
-    <meta name="keywords" content="demo,学习,算法,排序,工作空间">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title data-zh="Demo工作学习空间 - Beta版本" data-en="Demo Work Study Space - Beta Version">Demo工作学习空间 - Beta版本</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 图标 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- 页面专用样式（独立于主站与旧 demo 样式） -->
+  <link rel="stylesheet" href="democss/demo-hub.css">
+
+  <meta name="description" content="Demo工作学习空间Beta版本，包含八大排序算法等学习内容">
+  <meta name="keywords" content="demo,学习,算法,排序,工作空间">
 </head>
 <body class="zh">
-    <!-- 优化导航栏 -->
-    <nav class="demo-navbar">
-        <div class="demo-nav-container">
-            <!-- Logo区域 -->
-            <div class="demo-nav-logo">
-                <a href="../../index.html" class="demo-logo-link">
-                    <div class="logo-icon">
-                        <i class="fas fa-flask"></i>
-                    </div>
-                    <div class="logo-text">
-                        <span class="logo-main" data-zh="Demo空间" data-en="Demo Space">Demo空间</span>
-                        <span class="logo-sub" data-zh="Beta" data-en="Beta">Beta</span>
-                    </div>
-                </a>
+
+  <!-- 背景层：粒子画布 + 氛围光 -->
+  <canvas id="d-particle-canvas"></canvas>
+  <div class="d-atmosphere" aria-hidden="true"></div>
+
+  <!-- 悬浮玻璃导航 -->
+  <div class="d-nav-wrapper">
+    <header class="d-header">
+      <a class="d-logo" href="index.html">
+        <div class="d-logo-icon"><i class="fas fa-flask"></i></div>
+        <span class="d-logo-name" data-zh="Demo空间" data-en="Demo Space">Demo空间</span>
+        <span class="d-logo-beta">Beta</span>
+      </a>
+      <nav class="d-nav-actions">
+        <button class="d-btn d-btn-lang" id="d-lang-toggle" data-zh="EN" data-en="中文">EN</button>
+        <button class="d-btn d-btn-icon" id="d-theme-toggle" title="切换主题 / Switch Theme"><i class="fas fa-moon"></i></button>
+        <a class="d-btn d-btn-home" href="../../index.html"><i class="fas fa-home"></i> <span data-zh="主站" data-en="Home">主站</span></a>
+      </nav>
+    </header>
+  </div>
+
+  <main class="d-page">
+
+    <!-- Hero -->
+    <section class="d-hero">
+      <div class="d-hero-terminal" data-zh="$ ls ~/demo-space --modules" data-en="$ ls ~/demo-space --modules">$ ls ~/demo-space --modules</div>
+      <h1 data-zh="Demo工作学习空间" data-en="Demo Work Study Space">Demo工作学习空间</h1>
+      <p class="d-hero-desc" data-zh="一个用于沉淀算法可视化、AI 产品原型与学习实验的轻量工作台。所有模块以列表形式索引，点击进入。" data-en="A lightweight workspace for algorithm visualization, AI product prototypes, and learning experiments. Every module is indexed in the list below — click to enter.">一个用于沉淀算法可视化、AI 产品原型与学习实验的轻量工作台。所有模块以列表形式索引，点击进入。</p>
+    </section>
+
+    <!-- 模块列表：单板块列表式，行间以发丝线分隔 -->
+    <section class="d-list-section" id="demo-modules">
+      <div class="d-list">
+
+        <!-- Row 1: 八大排序算法 -->
+        <a class="d-row" href="sort-visualizer.html">
+          <div class="d-row-icon"><i class="fas fa-sort"></i></div>
+          <div class="d-row-main">
+            <div class="d-row-head">
+              <span class="d-row-num">01</span>
+              <span class="d-row-title" data-zh="八大排序算法" data-en="Eight Sorting Algorithms">八大排序算法</span>
+              <span class="d-row-meta">demo / sort-visualizer</span>
+              <span class="d-row-pill">Beta</span>
             </div>
-            
-            <!-- 面包屑导航 -->
-            <div class="demo-breadcrumb">
-                <a href="../../index.html" class="breadcrumb-item">
-                    <i class="fas fa-home"></i>
-                    <span data-zh="首页" data-en="Home">首页</span>
-                </a>
-                <i class="fas fa-chevron-right breadcrumb-separator"></i>
-                <span class="breadcrumb-item current" data-zh="Demo空间" data-en="Demo Space">Demo空间</span>
+            <div class="d-row-desc" data-zh="经典排序算法的可视化学习和实践" data-en="Visualization learning and practice of classic sorting algorithms">经典排序算法的可视化学习和实践</div>
+            <div class="d-row-tags">
+              <span class="d-row-tag" data-zh="冒泡排序" data-en="Bubble">冒泡排序</span>
+              <span class="d-row-tag" data-zh="选择排序" data-en="Selection">选择排序</span>
+              <span class="d-row-tag" data-zh="插入排序" data-en="Insertion">插入排序</span>
+              <span class="d-row-tag" data-zh="希尔排序" data-en="Shell">希尔排序</span>
+              <span class="d-row-tag" data-zh="归并排序" data-en="Merge">归并排序</span>
+              <span class="d-row-tag" data-zh="快速排序" data-en="Quick">快速排序</span>
+              <span class="d-row-tag" data-zh="堆排序" data-en="Heap">堆排序</span>
+              <span class="d-row-tag" data-zh="基数排序" data-en="Radix">基数排序</span>
             </div>
-            
-            <!-- 导航菜单 -->
-            <div class="demo-nav-menu">
-                <a href="../../index.html" class="demo-nav-link">
-                    <i class="fas fa-home"></i>
-                    <span data-zh="首页" data-en="Home">首页</span>
-                </a>
-                <a href="../blog.html" class="demo-nav-link">
-                    <i class="fas fa-blog"></i>
-                    <span data-zh="博客" data-en="Blog">博客</span>
-                </a>
-                <a href="../project/project.html" class="demo-nav-link">
-                    <i class="fas fa-folder"></i>
-                    <span data-zh="项目" data-en="Projects">项目</span>
-                </a>
-                <a href="index.html" class="demo-nav-link active">
-                    <i class="fas fa-flask"></i>
-                    <span data-zh="Demo" data-en="Demo">Demo</span>
-                </a>
+          </div>
+          <div class="d-row-arrow">
+            <span class="d-row-arrow-text" data-zh="开始学习" data-en="Start Learning">开始学习</span>
+            <i class="fas fa-arrow-right"></i>
+          </div>
+        </a>
+
+        <!-- Row 2: 亦心的沟通宝典 -->
+        <a class="d-row" href="../project/yixin/index.html">
+          <div class="d-row-icon"><i class="fas fa-comments"></i></div>
+          <div class="d-row-main">
+            <div class="d-row-head">
+              <span class="d-row-num">02</span>
+              <span class="d-row-title" data-zh="亦心的沟通宝典" data-en="Yixin Communication Guide">亦心的沟通宝典</span>
+              <span class="d-row-meta">project / yixin</span>
+              <span class="d-row-pill">Beta</span>
             </div>
-            
-            <!-- 移动端菜单按钮 -->
-            <button class="demo-mobile-toggle" id="mobile-menu-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            
-            <!-- 控制按钮 -->
-            <div class="demo-nav-controls">
-                <!-- 语言切换 -->
-                <button id="lang-toggle" class="demo-control-btn" title="切换语言 / Switch Language">
-                    <i class="fas fa-globe"></i>
-                    <span class="control-text" data-zh="EN" data-en="中文">EN</span>
-                </button>
-                
-                <!-- 主题切换 -->
-                <button id="theme-toggle" class="demo-control-btn theme-toggle" title="切换主题 / Switch Theme">
-                    <i class="fas fa-moon"></i>
-                    <i class="fas fa-sun" style="display: none;"></i>
-                </button>
+            <div class="d-row-desc" data-zh="基于大模型的聊天助手，聚焦聊天技巧、雷区规避与场景应对。" data-en="A large-model chat assistant focused on communication skills, risk avoidance, and scenario handling.">基于大模型的聊天助手，聚焦聊天技巧、雷区规避与场景应对。</div>
+            <div class="d-row-tags">
+              <span class="d-row-tag">Coze</span>
+              <span class="d-row-tag">DouBao1.5Pro</span>
+              <span class="d-row-tag" data-zh="工作流" data-en="Workflow">工作流</span>
+              <span class="d-row-tag" data-zh="文本数据库" data-en="Text DB">文本数据库</span>
+              <span class="d-row-tag" data-zh="插件" data-en="Plugins">插件</span>
             </div>
+          </div>
+          <div class="d-row-arrow">
+            <span class="d-row-arrow-text" data-zh="立即体验" data-en="Try Now">立即体验</span>
+            <i class="fas fa-arrow-right"></i>
+          </div>
+        </a>
+
+        <!-- Row 3: 树与图可视化 -->
+        <a class="d-row" href="tree-visualizer.html">
+          <div class="d-row-icon"><i class="fas fa-tree"></i></div>
+          <div class="d-row-main">
+            <div class="d-row-head">
+              <span class="d-row-num">03</span>
+              <span class="d-row-title" data-zh="树与图可视化" data-en="Tree &amp; Graph Visualizer">树与图可视化</span>
+              <span class="d-row-meta">demo / tree-visualizer</span>
+              <span class="d-row-pill">Beta</span>
+            </div>
+            <div class="d-row-desc" data-zh="树与图核心算法的可视化学习和实践" data-en="Visualization learning of tree &amp; graph algorithms">树与图核心算法的可视化学习和实践</div>
+            <div class="d-row-tags">
+              <span class="d-row-tag" data-zh="二叉树(BST)" data-en="BST">二叉树(BST)</span>
+              <span class="d-row-tag" data-zh="BFS遍历" data-en="BFS">BFS遍历</span>
+              <span class="d-row-tag" data-zh="DFS遍历" data-en="DFS">DFS遍历</span>
+              <span class="d-row-tag" data-zh="无向图" data-en="Undirected Graph">无向图</span>
+              <span class="d-row-tag">Dijkstra</span>
+            </div>
+          </div>
+          <div class="d-row-arrow">
+            <span class="d-row-arrow-text" data-zh="开始学习" data-en="Start Learning">开始学习</span>
+            <i class="fas fa-arrow-right"></i>
+          </div>
+        </a>
+
+        <!-- Row 4: 电商运营中枢 -->
+        <a class="d-row" href="product-intro.html">
+          <div class="d-row-icon"><i class="fas fa-store"></i></div>
+          <div class="d-row-main">
+            <div class="d-row-head">
+              <span class="d-row-num">04</span>
+              <span class="d-row-title" data-zh="电商运营中枢" data-en="E-Commerce Agent Hub">电商运营中枢</span>
+              <span class="d-row-meta">demo / product-intro</span>
+              <span class="d-row-pill">Beta</span>
+            </div>
+            <div class="d-row-desc" data-zh="面向中小型电商团队的本地化多 Agent 智能运营桌面系统，AI 辅助决策、人工终审、全链路合规对接" data-en="Local multi-agent desktop ops hub for SMB e-commerce: AI-assisted decisions, human approval, compliant API integration">面向中小型电商团队的本地化多 Agent 智能运营桌面系统，AI 辅助决策、人工终审、全链路合规对接</div>
+            <div class="d-row-tags">
+              <span class="d-row-tag" data-zh="8 Agent" data-en="8 Agents">8 Agent</span>
+              <span class="d-row-tag" data-zh="小红书/美团/1688" data-en="XHS/Meituan/1688">小红书/美团/1688</span>
+              <span class="d-row-tag">LangGraph</span>
+              <span class="d-row-tag">Electron</span>
+              <span class="d-row-tag">FastAPI</span>
+            </div>
+          </div>
+          <div class="d-row-arrow">
+            <span class="d-row-arrow-text" data-zh="查看介绍" data-en="View Intro">查看介绍</span>
+            <i class="fas fa-arrow-right"></i>
+          </div>
+        </a>
+
+        <!-- Row 5: 生活成本-总包资产计算器 -->
+        <a class="d-row" href="cost_of_living_calculator.html">
+          <div class="d-row-icon"><i class="fas fa-calculator"></i></div>
+          <div class="d-row-main">
+            <div class="d-row-head">
+              <span class="d-row-num">05</span>
+              <span class="d-row-title" data-zh="生活成本-总包资产计算器" data-en="LifeCost Total Package Calculator">生活成本-总包资产计算器</span>
+              <span class="d-row-meta">demo / cost-of-living</span>
+              <span class="d-row-pill">Beta</span>
+            </div>
+            <div class="d-row-desc" data-zh="用于估算薪资、奖金福利、五险一金、企业年金、账户资产、生活开销与现金/月薪增长趋势的财务规划小工具。" data-en="A financial planning tool for salary, bonuses, benefits, social security, annuity, account assets, expenses, and cash/monthly salary trend projections.">用于估算薪资、奖金福利、五险一金、企业年金、账户资产、生活开销与现金/月薪增长趋势的财务规划小工具。</div>
+            <div class="d-row-tags">
+              <span class="d-row-tag" data-zh="五险一金" data-en="Social Security">五险一金</span>
+              <span class="d-row-tag" data-zh="总包估值" data-en="Total Package">总包估值</span>
+              <span class="d-row-tag" data-zh="企业年金" data-en="Annuity">企业年金</span>
+              <span class="d-row-tag" data-zh="趋势图表" data-en="Trend Charts">趋势图表</span>
+              <span class="d-row-tag" data-zh="隐私友好" data-en="Privacy Friendly">隐私友好</span>
+            </div>
+          </div>
+          <div class="d-row-arrow">
+            <span class="d-row-arrow-text" data-zh="打开工具" data-en="Open Tool">打开工具</span>
+            <i class="fas fa-arrow-right"></i>
+          </div>
+        </a>
+
+        <!-- Row 6: 晶圆缺陷地图实验室 -->
+        <a class="d-row" href="wafer-defect-lab.html">
+          <div class="d-row-icon"><i class="fas fa-microchip"></i></div>
+          <div class="d-row-main">
+            <div class="d-row-head">
+              <span class="d-row-num">06</span>
+              <span class="d-row-title" data-zh="晶圆缺陷地图实验室" data-en="Wafer Defect Map Lab">晶圆缺陷地图实验室</span>
+              <span class="d-row-meta">demo / wafer-defect-lab</span>
+              <span class="d-row-pill">Beta</span>
+            </div>
+            <div class="d-row-desc" data-zh="模拟 Fab 的 Bin Map：撒缺陷、手绘缺陷、实时空间统计与启发式模式识别，全程本地计算。" data-en="Simulate a fab bin map: sprinkle defects, paint by hand, live spatial statistics and heuristic pattern recognition — all computed locally.">模拟 Fab 的 Bin Map：撒缺陷、手绘缺陷、实时空间统计与启发式模式识别，全程本地计算。</div>
+            <div class="d-row-tags">
+              <span class="d-row-tag" data-zh="随机/团簇/环形" data-en="Random/Cluster/Ring">随机/团簇/环形</span>
+              <span class="d-row-tag" data-zh="划痕/彗星/指纹" data-en="Scratch/Comet/Fingerprint">划痕/彗星/指纹</span>
+              <span class="d-row-tag" data-zh="最近邻 R 值" data-en="NN R-value">最近邻 R 值</span>
+              <span class="d-row-tag" data-zh="密度热力图" data-en="Heatmap">密度热力图</span>
+              <span class="d-row-tag" data-zh="e-beam 扫描" data-en="e-beam Scan">e-beam 扫描</span>
+            </div>
+          </div>
+          <div class="d-row-arrow">
+            <span class="d-row-arrow-text" data-zh="开始探索" data-en="Explore">开始探索</span>
+            <i class="fas fa-arrow-right"></i>
+          </div>
+        </a>
+
+        <!-- Row 7: 分布实验室 · 中心极限定理 -->
+        <a class="d-row" href="distribution-lab.html">
+          <div class="d-row-icon"><i class="fas fa-chart-column"></i></div>
+          <div class="d-row-main">
+            <div class="d-row-head">
+              <span class="d-row-num">07</span>
+              <span class="d-row-title" data-zh="分布实验室 · 中心极限定理" data-en="Distribution Lab &amp; CLT">分布实验室 · 中心极限定理</span>
+              <span class="d-row-meta">demo / distribution-lab</span>
+              <span class="d-row-pill">Beta</span>
+            </div>
+            <div class="d-row-desc" data-zh="8 种概率分布实时抽样：直方图 vs 理论曲线、样本 vs 理论统计量，以及中心极限定理可视化（均值按 σ/√n 趋于正态）。" data-en="Draw samples from 8 probability distributions: histogram vs theory, sample vs theoretical stats, plus a CLT demo where means converge to normal by σ/√n.">8 种概率分布实时抽样：直方图 vs 理论曲线、样本 vs 理论统计量，以及中心极限定理可视化（均值按 σ/√n 趋于正态）。</div>
+            <div class="d-row-tags">
+              <span class="d-row-tag" data-zh="正态/均匀/指数" data-en="Normal/Uniform/Exp">正态/均匀/指数</span>
+              <span class="d-row-tag" data-zh="泊松/二项/伽马" data-en="Poisson/Binomial/Gamma">泊松/二项/伽马</span>
+              <span class="d-row-tag" data-zh="样本雨动画" data-en="Sample rain">样本雨动画</span>
+              <span class="d-row-tag" data-zh="σ/√n 收缩" data-en="σ/√n shrink">σ/√n 收缩</span>
+              <span class="d-row-tag" data-zh="本地蒙特卡洛" data-en="Local Monte Carlo">本地蒙特卡洛</span>
+            </div>
+          </div>
+          <div class="d-row-arrow">
+            <span class="d-row-arrow-text" data-zh="开始实验" data-en="Experiment">开始实验</span>
+            <i class="fas fa-arrow-right"></i>
+          </div>
+        </a>
+
+        <!-- Row 8: 更多内容（队列中，不可点击） -->
+        <div class="d-row d-row-queued">
+          <div class="d-row-icon"><i class="fas fa-plus"></i></div>
+          <div class="d-row-main">
+            <div class="d-row-head">
+              <span class="d-row-num">08</span>
+              <span class="d-row-title" data-zh="更多内容" data-en="More Content">更多内容</span>
+              <span class="d-row-meta">demo / roadmap</span>
+              <span class="d-row-pill queued">Queued</span>
+            </div>
+            <div class="d-row-desc" data-zh="敬请期待更多学习模块..." data-en="Stay tuned for more learning modules...">敬请期待更多学习模块...</div>
+          </div>
+          <div class="d-row-arrow">
+            <span class="d-row-arrow-text" data-zh="开发中" data-en="In Development">开发中</span>
+            <i class="fas fa-hourglass-half"></i>
+          </div>
         </div>
-    </nav>
 
-    <!-- 主要内容区域 -->
-    <main class="main-content">
-        <!-- 页面标题区域 -->
-        <section class="page-header">
-            <div class="header-content">
-                <div class="hero-eyebrow">
-                    <span class="repo-pill"><i class="fab fa-github"></i> HealthJian / demo-space</span>
-                    <span class="space-pill"><i class="fas fa-cube"></i> Spaces</span>
-                </div>
-                <h1 class="page-title">
-                    <i class="fas fa-flask"></i>
-                    <span data-zh="Demo工作学习空间" data-en="Demo Work Study Space">Demo工作学习空间</span>
-                    <span class="beta-tag" data-zh="Beta版本" data-en="Beta Version">Beta版本</span>
-                </h1>
-                <p class="page-subtitle" data-zh="一个用于沉淀算法可视化、AI 产品原型与学习实验的轻量工作台。" data-en="A lightweight workspace for algorithm visualization, AI product prototypes, and learning experiments.">一个用于沉淀算法可视化、AI 产品原型与学习实验的轻量工作台。</p>
-                <div class="hero-stats" aria-label="Demo workspace stats">
-                    <div class="hero-stat">
-                        <strong>7</strong>
-                        <span data-zh="可用模块" data-en="Active modules">可用模块</span>
-                    </div>
-                    <div class="hero-stat">
-                        <strong>Beta</strong>
-                        <span data-zh="迭代状态" data-en="Release channel">迭代状态</span>
-                    </div>
-                    <div class="hero-stat">
-                        <strong>CN / EN</strong>
-                        <span data-zh="双语支持" data-en="Bilingual">双语支持</span>
-                    </div>
-                </div>
-            </div>
-        </section>
+      </div>
+    </section>
 
-        <!-- Demo菜单区域 -->
-        <section class="demo-menu-section" id="demo-modules">
-            <div class="demo-container">
-                <div class="section-heading">
-                    <div>
-                        <p class="section-kicker" data-zh="Repository index" data-en="Repository index">Repository index</p>
-                        <h2 class="section-title" data-zh="学习模块" data-en="Learning Modules">学习模块</h2>
-                    </div>
-                    <div class="module-filter-note">
-                        <i class="fas fa-code-branch"></i>
-                        <span data-zh="功能链接保持原样" data-en="Original links preserved">功能链接保持原样</span>
-                    </div>
-                </div>
-                
-                <!-- Demo卡片网格 -->
-                <div class="demo-grid">
-                    <!-- 八大排序算法卡片 -->
-                    <div class="demo-card sorting-card">
-                        <div class="card-header">
-                            <div class="card-icon">
-                                <i class="fas fa-sort"></i>
-                            </div>
-                            <div class="card-title-group">
-                                <h3 class="card-title" data-zh="八大排序算法" data-en="Eight Sorting Algorithms">八大排序算法</h3>
-                                <p class="card-meta">demo / sort-visualizer</p>
-                            </div>
-                            <span class="beta-badge live" data-zh="Beta" data-en="Beta">Beta</span>
-                        </div>
-                        
-                        <div class="card-content">
-                            <p class="card-description" data-zh="经典排序算法的可视化学习和实践" data-en="Visualization learning and practice of classic sorting algorithms">经典排序算法的可视化学习和实践</p>
-                            
-                            <div class="algorithm-list">
-                                <span class="algorithm-tag" data-zh="冒泡排序" data-en="Bubble Sort">冒泡排序</span>
-                                <span class="algorithm-tag" data-zh="选择排序" data-en="Selection Sort">选择排序</span>
-                                <span class="algorithm-tag" data-zh="插入排序" data-en="Insertion Sort">插入排序</span>
-                                <span class="algorithm-tag" data-zh="希尔排序" data-en="Shell Sort">希尔排序</span>
-                                <span class="algorithm-tag" data-zh="归并排序" data-en="Merge Sort">归并排序</span>
-                                <span class="algorithm-tag" data-zh="快速排序" data-en="Quick Sort">快速排序</span>
-                                <span class="algorithm-tag" data-zh="堆排序" data-en="Heap Sort">堆排序</span>
-                                <span class="algorithm-tag" data-zh="基数排序" data-en="Radix Sort">基数排序</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card-footer card-actions">
-                            <a href="sort-visualizer.html" class="demo-btn">
-                                <i class="fas fa-arrow-right"></i>
-                                <span data-zh="开始学习" data-en="Start Learning">开始学习</span>
-                            </a>
-                            <a href="../project/404notfound.html" class="demo-btn secondary">
-                                <i class="fas fa-book-open"></i>
-                                <span data-zh="关联博客" data-en="Related Blog">关联博客</span>
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <!-- 亦心的沟通宝典beta卡片 -->
-                    <div class="demo-card">
-                        <div class="card-header">
-                            <div class="card-icon">
-                                <i class="fas fa-comments"></i>
-                            </div>
-                            <div class="card-title-group">
-                                <h3 class="card-title" data-zh="亦心的沟通宝典" data-en="Yixin Communication Guide">亦心的沟通宝典</h3>
-                                <p class="card-meta">project / yixin</p>
-                            </div>
-                            <span class="beta-badge live" data-zh="Beta" data-en="Beta">Beta</span>
-                        </div>
-                        
-                        <div class="card-content">
-                            <p class="card-description" data-zh="基于大模型的聊天助手，聚焦聊天技巧、雷区规避与场景应对。" data-en="A large-model chat assistant focused on communication skills, risk avoidance, and scenario handling.">基于大模型的聊天助手，聚焦聊天技巧、雷区规避与场景应对。</p>
-                            
-                            <div class="algorithm-list">
-                                <span class="algorithm-tag">Coze</span>
-                                <span class="algorithm-tag">DouBao1.5Pro</span>
-                                <span class="algorithm-tag" data-zh="工作流" data-en="Workflow">工作流</span>
-                                <span class="algorithm-tag" data-zh="文本数据库" data-en="Text DB">文本数据库</span>
-                                <span class="algorithm-tag" data-zh="插件" data-en="Plugins">插件</span>
-                                <span class="algorithm-tag" data-zh="测试版" data-en="Beta">测试版</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card-footer card-actions">
-                            <a href="../project/yixin/index.html" class="demo-btn">
-                                <i class="fas fa-arrow-right"></i>
-                                <span data-zh="立即体验" data-en="Try Now">立即体验</span>
-                            </a>
-                            <a href="../project/404notfound.html" class="demo-btn secondary">
-                                <i class="fas fa-book-open"></i>
-                                <span data-zh="关联博客" data-en="Related Blog">关联博客</span>
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <!-- 树与图算法卡片 -->
-                    <div class="demo-card treegraph-card">
-                        <div class="card-header">
-                            <div class="card-icon">
-                                <i class="fas fa-tree"></i>
-                            </div>
-                            <div class="card-title-group">
-                                <h3 class="card-title" data-zh="树与图可视化" data-en="Tree &amp; Graph Visualizer">树与图可视化</h3>
-                                <p class="card-meta">demo / tree-visualizer</p>
-                            </div>
-                            <span class="beta-badge live" data-zh="Beta" data-en="Beta">Beta</span>
-                        </div>
-                        
-                        <div class="card-content">
-                            <p class="card-description" data-zh="树与图核心算法的可视化学习和实践" data-en="Visualization learning of tree &amp; graph algorithms">树与图核心算法的可视化学习和实践</p>
-                            
-                            <div class="algorithm-list">
-                                <span class="algorithm-tag" data-zh="二叉树(BST)" data-en="BST">二叉树(BST)</span>
-                                <span class="algorithm-tag" data-zh="BFS遍历" data-en="BFS">BFS遍历</span>
-                                <span class="algorithm-tag" data-zh="DFS遍历" data-en="DFS">DFS遍历</span>
-                                <span class="algorithm-tag" data-zh="无向图" data-en="Undirected Graph">无向图</span>
-                                <span class="algorithm-tag" data-zh="Dijkstra" data-en="Dijkstra">Dijkstra</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card-footer card-actions">
-                            <a href="tree-visualizer.html" class="demo-btn">
-                                <i class="fas fa-arrow-right"></i>
-                                <span data-zh="开始学习" data-en="Start Learning">开始学习</span>
-                            </a>
-                            <a href="../project/404notfound.html" class="demo-btn secondary">
-                                <i class="fas fa-book-open"></i>
-                                <span data-zh="关联博客" data-en="Related Blog">关联博客</span>
-                            </a>
-                        </div>
-                    </div>
+  </main>
 
-                    <!-- 多 Agent 电商运营中枢产品介绍 -->
-                    <div class="demo-card ecommerce-card">
-                        <div class="card-header">
-                            <div class="card-icon">
-                                <i class="fas fa-store"></i>
-                            </div>
-                            <div class="card-title-group">
-                                <h3 class="card-title" data-zh="电商运营中枢" data-en="E-Commerce Agent Hub">电商运营中枢</h3>
-                                <p class="card-meta">demo / product-intro</p>
-                            </div>
-                            <span class="beta-badge live" data-zh="Beta" data-en="Beta">Beta</span>
-                        </div>
-                        
-                        <div class="card-content">
-                            <p class="card-description" data-zh="面向中小型电商团队的本地化多 Agent 智能运营桌面系统，AI 辅助决策、人工终审、全链路合规对接" data-en="Local multi-agent desktop ops hub for SMB e-commerce: AI-assisted decisions, human approval, compliant API integration">面向中小型电商团队的本地化多 Agent 智能运营桌面系统，AI 辅助决策、人工终审、全链路合规对接</p>
-                            
-                            <div class="algorithm-list">
-                                <span class="algorithm-tag" data-zh="8 Agent" data-en="8 Agents">8 Agent</span>
-                                <span class="algorithm-tag" data-zh="小红书/美团/1688" data-en="XHS/Meituan/1688">小红书/美团/1688</span>
-                                <span class="algorithm-tag" data-zh="LangGraph" data-en="LangGraph">LangGraph</span>
-                                <span class="algorithm-tag" data-zh="Electron" data-en="Electron">Electron</span>
-                                <span class="algorithm-tag" data-zh="FastAPI" data-en="FastAPI">FastAPI</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card-footer card-actions">
-                            <a href="product-intro.html" class="demo-btn">
-                                <i class="fas fa-arrow-right"></i>
-                                <span data-zh="查看介绍" data-en="View Intro">查看介绍</span>
-                            </a>
-                            <a href="../project/404notfound.html" class="demo-btn secondary">
-                                <i class="fas fa-book-open"></i>
-                                <span data-zh="关联博客" data-en="Related Blog">关联博客</span>
-                            </a>
-                        </div>
-                    </div>
+  <!-- Footer -->
+  <footer class="d-footer">
+    <div>&copy; 2025-2026 <span data-zh="Demo工作学习空间" data-en="Demo Work Study Space">Demo工作学习空间</span> &middot; <span data-zh="保留所有权利" data-en="All rights reserved">保留所有权利</span></div>
+    <div class="d-footer-links">
+      <a href="../../index.html" data-zh="首页" data-en="Home">首页</a>
+      <a href="../blog.html" data-zh="博客" data-en="Blog">博客</a>
+      <a href="../project/project.html" data-zh="项目" data-en="Projects">项目</a>
+      <a href="changelog.html" data-zh="Demo更新日志" data-en="Demo Changelog">Demo更新日志</a>
+    </div>
+    <div class="d-footer-motto" data-zh="学习实践，探索创新" data-en="Learn, practice, explore, innovate.">学习实践，探索创新</div>
+  </footer>
 
-                    <!-- 生活成本-总包资产计算器 -->
-                    <div class="demo-card finance-card">
-                        <div class="card-header">
-                            <div class="card-icon">
-                                <i class="fas fa-calculator"></i>
-                            </div>
-                            <div class="card-title-group">
-                                <h3 class="card-title" data-zh="生活成本-总包资产计算器" data-en="LifeCost Total Package Calculator">生活成本-总包资产计算器</h3>
-                                <p class="card-meta">demo / cost-of-living</p>
-                            </div>
-                            <span class="beta-badge live" data-zh="Beta" data-en="Beta">Beta</span>
-                        </div>
-
-                        <div class="card-content">
-                            <p class="card-description" data-zh="用于估算薪资、奖金福利、五险一金、企业年金、账户资产、生活开销与现金/月薪增长趋势的财务规划小工具。" data-en="A financial planning tool for salary, bonuses, benefits, social security, annuity, account assets, expenses, and cash/monthly salary trend projections.">用于估算薪资、奖金福利、五险一金、企业年金、账户资产、生活开销与现金/月薪增长趋势的财务规划小工具。</p>
-
-                            <div class="algorithm-list">
-                                <span class="algorithm-tag" data-zh="五险一金" data-en="Social Security">五险一金</span>
-                                <span class="algorithm-tag" data-zh="总包估值" data-en="Total Package">总包估值</span>
-                                <span class="algorithm-tag" data-zh="企业年金" data-en="Annuity">企业年金</span>
-                                <span class="algorithm-tag" data-zh="趋势图表" data-en="Trend Charts">趋势图表</span>
-                                <span class="algorithm-tag" data-zh="隐私友好" data-en="Privacy Friendly">隐私友好</span>
-                            </div>
-                        </div>
-
-                        <div class="card-footer card-actions">
-                            <a href="cost_of_living_calculator.html" class="demo-btn">
-                                <i class="fas fa-arrow-right"></i>
-                                <span data-zh="打开工具" data-en="Open Tool">打开工具</span>
-                            </a>
-                            <a href="changelog.html" class="demo-btn secondary">
-                                <i class="fas fa-clock-rotate-left"></i>
-                                <span data-zh="查看日志" data-en="View Log">查看日志</span>
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- 晶圆缺陷地图实验室 -->
-                    <div class="demo-card">
-                        <div class="card-header">
-                            <div class="card-icon">
-                                <i class="fas fa-microchip"></i>
-                            </div>
-                            <div class="card-title-group">
-                                <h3 class="card-title" data-zh="晶圆缺陷地图实验室" data-en="Wafer Defect Map Lab">晶圆缺陷地图实验室</h3>
-                                <p class="card-meta">demo / wafer-defect-lab</p>
-                            </div>
-                            <span class="beta-badge live" data-zh="Beta" data-en="Beta">Beta</span>
-                        </div>
-
-                        <div class="card-content">
-                            <p class="card-description" data-zh="模拟 Fab 的 Bin Map：撒缺陷、手绘缺陷、实时空间统计与启发式模式识别，全程本地计算。" data-en="Simulate a fab bin map: sprinkle defects, paint by hand, live spatial statistics and heuristic pattern recognition — all computed locally.">模拟 Fab 的 Bin Map：撒缺陷、手绘缺陷、实时空间统计与启发式模式识别，全程本地计算。</p>
-
-                            <div class="algorithm-list">
-                                <span class="algorithm-tag" data-zh="随机/团簇/环形" data-en="Random/Cluster/Ring">随机/团簇/环形</span>
-                                <span class="algorithm-tag" data-zh="划痕/彗星/指纹" data-en="Scratch/Comet/Fingerprint">划痕/彗星/指纹</span>
-                                <span class="algorithm-tag" data-zh="最近邻 R 值" data-en="NN R-value">最近邻 R 值</span>
-                                <span class="algorithm-tag" data-zh="密度热力图" data-en="Heatmap">密度热力图</span>
-                                <span class="algorithm-tag" data-zh="e-beam 扫描" data-en="e-beam Scan">e-beam 扫描</span>
-                            </div>
-                        </div>
-
-                        <div class="card-footer card-actions">
-                            <a href="wafer-defect-lab.html" class="demo-btn">
-                                <i class="fas fa-arrow-right"></i>
-                                <span data-zh="开始探索" data-en="Explore">开始探索</span>
-                            </a>
-                            <a href="../project/404notfound.html" class="demo-btn secondary">
-                                <i class="fas fa-book-open"></i>
-                                <span data-zh="关联博客" data-en="Related Blog">关联博客</span>
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- 分布实验室 · 中心极限定理 -->
-                    <div class="demo-card">
-                        <div class="card-header">
-                            <div class="card-icon">
-                                <i class="fas fa-chart-column"></i>
-                            </div>
-                            <div class="card-title-group">
-                                <h3 class="card-title" data-zh="分布实验室 · 中心极限定理" data-en="Distribution Lab &amp; CLT">分布实验室 · 中心极限定理</h3>
-                                <p class="card-meta">demo / distribution-lab</p>
-                            </div>
-                            <span class="beta-badge live" data-zh="Beta" data-en="Beta">Beta</span>
-                        </div>
-
-                        <div class="card-content">
-                            <p class="card-description" data-zh="8 种概率分布实时抽样：直方图 vs 理论曲线、样本 vs 理论统计量，以及中心极限定理可视化（均值按 σ/√n 趋于正态）。" data-en="Draw samples from 8 probability distributions: histogram vs theory, sample vs theoretical stats, plus a CLT demo where means converge to normal by σ/√n.">8 种概率分布实时抽样：直方图 vs 理论曲线、样本 vs 理论统计量，以及中心极限定理可视化（均值按 σ/√n 趋于正态）。</p>
-
-                            <div class="algorithm-list">
-                                <span class="algorithm-tag" data-zh="正态/均匀/指数" data-en="Normal/Uniform/Exp">正态/均匀/指数</span>
-                                <span class="algorithm-tag" data-zh="泊松/二项/伽马" data-en="Poisson/Binomial/Gamma">泊松/二项/伽马</span>
-                                <span class="algorithm-tag" data-zh="样本雨动画" data-en="Sample rain">样本雨动画</span>
-                                <span class="algorithm-tag" data-zh="σ/√n 收缩" data-en="σ/√n shrink">σ/√n 收缩</span>
-                                <span class="algorithm-tag" data-zh="本地蒙特卡洛" data-en="Local Monte Carlo">本地蒙特卡洛</span>
-                            </div>
-                        </div>
-
-                        <div class="card-footer card-actions">
-                            <a href="distribution-lab.html" class="demo-btn">
-                                <i class="fas fa-arrow-right"></i>
-                                <span data-zh="开始实验" data-en="Experiment">开始实验</span>
-                            </a>
-                            <a href="../project/404notfound.html" class="demo-btn secondary">
-                                <i class="fas fa-book-open"></i>
-                                <span data-zh="关联博客" data-en="Related Blog">关联博客</span>
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- 占位卡片 - 未来功能 -->
-                    <div class="demo-card placeholder-card">
-                        <div class="card-header">
-                            <div class="card-icon placeholder-icon">
-                                <i class="fas fa-plus"></i>
-                            </div>
-                            <div class="card-title-group">
-                                <h3 class="card-title" data-zh="更多内容" data-en="More Content">更多内容</h3>
-                                <p class="card-meta">demo / roadmap</p>
-                            </div>
-                            <span class="beta-badge muted" data-zh="Queued" data-en="Queued">Queued</span>
-                        </div>
-                        
-                        <div class="card-content">
-                            <p class="card-description" data-zh="敬请期待更多学习模块..." data-en="Stay tuned for more learning modules...">敬请期待更多学习模块...</p>
-                        </div>
-                        
-                        <div class="card-footer">
-                            <button class="demo-btn placeholder-btn" disabled>
-                                <i class="fas fa-hourglass-half"></i>
-                                <span data-zh="开发中" data-en="In Development">开发中</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- 页脚 -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3 data-zh="Demo空间" data-en="Demo Space">Demo空间</h3>
-                <p data-zh="学习实践，探索创新" data-en="Learn Practice, Explore Innovation">学习实践，探索创新</p>
-            </div>
-            
-            <div class="footer-section">
-                <h4 data-zh="快速链接" data-en="Quick Links">快速链接</h4>
-                <ul>
-                    <li><a href="../../index.html" data-zh="首页" data-en="Home">首页</a></li>
-                    <li><a href="../blog.html" data-zh="博客" data-en="Blog">博客</a></li>
-                    <li><a href="../project/project.html" data-zh="项目" data-en="Projects">项目</a></li>
-                    <li><a href="#demo-modules" data-zh="学习模块" data-en="Learning Modules">学习模块</a></li>
-                    <li><a href="changelog.html" data-zh="Demo更新日志" data-en="Demo Changelog">Demo更新日志</a></li>
-                    <li><a href="../project/404notfound.html" data-zh="文档（待开发）" data-en="Docs (TBD)">文档（待开发）</a></li>
-                    <li><a href="../project/404notfound.html" data-zh="相关研究（待开发）" data-en="Related Research (TBD)">相关研究（待开发）</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h4 data-zh="技术栈" data-en="Tech Stack">技术栈</h4>
-                <div class="footer-tech-stack" aria-label="Demo tech stack">
-                    <span>HTML5</span>
-                    <span>CSS3</span>
-                    <span>JavaScript</span>
-                    <span>Font Awesome</span>
-                    <span data-zh="响应式布局" data-en="Responsive UI">响应式布局</span>
-                    <span data-zh="双语切换" data-en="Bilingual">双语切换</span>
-                </div>
-            </div>
-            
-            <div class="footer-section">
-                <h4 data-zh="联系方式" data-en="Contact">联系方式</h4>
-                <div class="social-links">
-                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                    <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
-                </div>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; 2025-2026 <span data-zh="Demo工作学习空间" data-en="Demo Work Study Space">Demo工作学习空间</span>. <span data-zh="保留所有权利" data-en="All rights reserved">保留所有权利</span>.</p>
-        </div>
-    </footer>
-
-    <!-- JavaScript -->
-    <script src="../../js/theme.js"></script>
-    <script src="../../js/language.js"></script>
-    <script src="demojs/demo.js"></script>
+  <!-- 页面专用脚本（独立） -->
+  <script src="demojs/demo-hub.js"></script>
 </body>
 </html>

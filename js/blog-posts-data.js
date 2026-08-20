@@ -1,6 +1,18 @@
 // 博客文章数据源：供 blog.js、博客页、分类页与首页最新文章复用
 window.BLOG_POSTS_DATA = [
         {
+            "id": "sql-tutorial-quick-start-programmers-20260821",
+            "title": "SQL 学习笔记教程——给有计算机背景的快速入门手册",
+            "title_en": "SQL Study Notes Tutorial — A Quick-Start Handbook for Readers with a Programming Background",
+            "excerpt": "以 MySQL 8.x 为主方言的 20 章 SQL 速成教程：从四大语句族与逻辑执行顺序讲起，系统覆盖 SELECT/WHERE、函数大全、聚合分组、JOIN、子查询、窗口函数、CTE 递归、增删改、事务与隔离级别、索引与查询优化、编写规范，并收尾于高频八股、经典算法题、综合实战报表与速查表。",
+            "excerpt_en": "A 20-chapter SQL crash course built around MySQL 8.x: starting from the four statement families and logical execution order, it systematically covers SELECT/WHERE, a full function reference, aggregation and grouping, JOINs, subqueries, window functions, recursive CTEs, DML, transactions and isolation levels, indexing and query optimization, and coding standards — closing with high-frequency interview questions, classic algorithm problems, an end-to-end reporting exercise, and a cheat sheet.",
+            "date": "2026-08-21",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260821_zh_1.md",
+            "category": "tech",
+            "tags": ["SQL", "MySQL", "数据库", "教程", "面试八股", "窗口函数"],
+            "tags_en": ["SQL", "MySQL", "Database", "Tutorial", "Interview Prep", "Window Functions"]
+        },
+        {
             "id": "yield-decision-system-human-model-loop-20260818",
             "title": "良率决策系统的人、模型与闭环：人工标注、LLM 必要性与大脑-手脚协同架构研究",
             "title_en": "Humans, Models, and the Loop in Yield Decision Systems: Human Annotation, LLM Necessity, and a Brain-Hands Collaborative Architecture",

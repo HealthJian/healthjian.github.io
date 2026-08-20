@@ -611,6 +611,10 @@
                 <i data-lucide="activity" class="w-4 h-4"></i>
                 <span data-i18n="view_output">统计结果</span>
             </button>
+            <button type="button" id="offerViewBtn" class="view-tab" data-view="offer" role="tab" aria-selected="false" aria-controls="offerView">
+                <i data-lucide="scale" class="w-4 h-4"></i>
+                <span data-i18n="view_offer">Offer比较</span>
+            </button>
         </div>
 
         <div id="inputView" class="view-panel space-y-6 pr-1 lg:pr-2 pb-10" role="tabpanel" aria-labelledby="inputViewBtn" aria-hidden="false">
@@ -1420,6 +1424,80 @@
                 </div>
             </div>
         </div>
+        <div id="offerView" class="view-panel is-hidden space-y-6" role="tabpanel" aria-labelledby="offerViewBtn" aria-hidden="true">
+            <section class="glass-panel rounded-lg p-5">
+                <div class="flex items-center justify-between mb-4 border-b border-slate-300/40 dark:border-slate-600/40 pb-2">
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="scale" class="text-geek-primary w-5 h-5"></i>
+                        <h2 class="text-lg font-semibold" data-i18n="offer_title">Offer 比较器</h2>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button id="offerImportBtn" type="button" class="text-xs bg-geek-primary hover:bg-teal-600 text-white px-2 py-1 rounded flex items-center gap-1">
+                            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                            <span data-i18n="offer_import">导入当前填表 → A</span>
+                        </button>
+                        <button class="help-btn" data-help="offer" aria-label="Offer 比较器说明">?</button>
+                    </div>
+                </div>
+                <p class="text-xs muted leading-relaxed" data-i18n="offer_disclaimer">简化估算：未考虑社保上下限、专项附加扣除与股权单独计税，结果仅供横向比较。</p>
+            </section>
+
+            <div id="offerCardsContainer" class="grid grid-cols-1 lg:grid-cols-2 gap-4"></div>
+
+            <div class="flex justify-center">
+                <button id="offerAddBtn" type="button" class="text-xs bg-geek-primary hover:bg-teal-600 text-white px-3 py-1.5 rounded flex items-center gap-1.5">
+                    <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                    <span data-i18n="offer_add">新增 Offer</span>
+                </button>
+            </div>
+
+            <section class="glass-panel rounded-lg p-5">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-sm font-semibold flex items-center">
+                        <i data-lucide="git-compare" class="w-4 h-4 mr-2"></i>
+                        <span data-i18n="offer_results">对比结果</span>
+                    </h3>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                    <div class="mini-metric"><h4 data-i18n="offer_saving">年净结余</h4><strong id="offerVerdictSaving" class="text-xs">--</strong></div>
+                    <div class="mini-metric"><h4 data-i18n="offer_hourly">税后时薪</h4><strong id="offerVerdictHourly" class="text-xs">--</strong></div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead id="offerCompareHead"></thead>
+                        <tbody id="offerCompareBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="glass-panel p-4 rounded-lg">
+                <div class="chart-title-row">
+                    <h3 class="text-sm font-semibold" data-i18n="offer_chart_title">可视化对比</h3>
+                </div>
+                <div class="chart-frame">
+                    <canvas id="offerChart"></canvas>
+                </div>
+            </section>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <section class="glass-panel p-4 rounded-lg">
+                    <div class="chart-title-row">
+                        <h3 class="text-sm font-semibold" data-i18n="offer_chart_compose">总包构成对比</h3>
+                    </div>
+                    <div class="chart-frame">
+                        <canvas id="offerComposeChart"></canvas>
+                    </div>
+                </section>
+                <section class="glass-panel p-4 rounded-lg">
+                    <div class="chart-title-row">
+                        <h3 class="text-sm font-semibold" data-i18n="offer_chart_cum">公积金累计趋势（10 年）</h3>
+                    </div>
+                    <div class="chart-frame">
+                        <canvas id="offerCumChart"></canvas>
+                    </div>
+                </section>
+            </div>
+        </div>
     </main>
 
     <div id="helpModal" class="fixed inset-0 z-[80] hidden items-center justify-center bg-slate-950/70 p-2 sm:p-4">
@@ -1452,6 +1530,41 @@
                 subtitle: "An estimation bench for income, benefits, social security, assets, and living costs",
                 view_input: "Inputs",
                 view_output: "Results",
+                view_offer: "Offer Compare",
+                offer_title: "Offer Comparator",
+                offer_import: "Import current form → A",
+                offer_disclaimer: "Simplified estimate: social-security caps, special additional deductions, and separate equity taxation are not modeled. Results are for side-by-side comparison only.",
+                offer_salary: "Monthly Salary",
+                offer_months: "Salary Months / Year",
+                offer_signing: "Sign-on / One-off",
+                offer_other: "Other Cash / Year",
+                offer_equity: "Equity Vested / Year",
+                offer_benefits: "Benefits Value / Year",
+                offer_sec_rate: "Personal Security %",
+                offer_housing_rate: "Housing Fund % (Dual)",
+                offer_workdays: "Workdays / Year",
+                offer_hours: "Hours / Day",
+                offer_ot: "OT Hours / Month",
+                offer_living: "Living Cost / Month",
+                offer_results: "Comparison",
+                offer_metric: "Metric",
+                offer_diff: "Diff (B−A)",
+                offer_gross: "Cash Gross / Year",
+                offer_housing: "Housing Fund Credit / Year",
+                offer_net: "Net Cash / Year",
+                offer_total: "Total Package",
+                offer_saving: "Annual Savings",
+                offer_hourly: "Net Hourly",
+                offer_win_saving: "leads on annual savings",
+                offer_win_hourly: "leads on net hourly",
+                offer_tie: "Roughly tied",
+                offer_chart_title: "Visual Comparison",
+                offer_add: "Add Offer",
+                offer_best: "Best",
+                offer_security: "Personal Security / Year",
+                offer_tax: "Income Tax / Year",
+                offer_chart_compose: "Package Composition (incl. Security & Tax)",
+                offer_chart_cum: "Cumulative Housing Fund (10-yr linear projection)",
                 mod_income: "1. Income Vector",
                 base_salary: "Base Salary",
                 salary_type: "Salary Frequency",
@@ -1647,6 +1760,41 @@
                 subtitle: "收入、福利、五险一金与生活开销的估算工作台",
                 view_input: "信息填表",
                 view_output: "统计结果",
+                view_offer: "Offer比较",
+                offer_title: "Offer 比较器",
+                offer_import: "导入当前填表 → A",
+                offer_disclaimer: "简化估算：未考虑社保上下限、专项附加扣除与股权单独计税，结果仅供横向比较。",
+                offer_salary: "月薪",
+                offer_months: "年薪月数",
+                offer_signing: "签字费/一次性",
+                offer_other: "其他现金/年",
+                offer_equity: "股票归属/年",
+                offer_benefits: "福利估值/年",
+                offer_sec_rate: "个人五险一金 %",
+                offer_housing_rate: "公积金 %(个人+公司)",
+                offer_workdays: "年工作日",
+                offer_hours: "日均工时",
+                offer_ot: "月均加班小时",
+                offer_living: "月生活成本",
+                offer_results: "对比结果",
+                offer_metric: "指标",
+                offer_diff: "差值 (B−A)",
+                offer_gross: "现金年包",
+                offer_housing: "公积金年入账",
+                offer_net: "税后到手/年",
+                offer_total: "总包口径",
+                offer_saving: "年净结余",
+                offer_hourly: "税后时薪",
+                offer_win_saving: "年净结余领先",
+                offer_win_hourly: "税后时薪领先",
+                offer_tie: "基本持平",
+                offer_chart_title: "可视化对比",
+                offer_add: "新增 Offer",
+                offer_best: "最优",
+                offer_security: "个人五险一金/年",
+                offer_tax: "个税/年",
+                offer_chart_compose: "总包构成对比（含社保与个税占比）",
+                offer_chart_cum: "公积金累计趋势（按当前口径线性外推 10 年）",
                 mod_income: "1. 收入向量",
                 base_salary: "基础薪资 (支持10k, 1w, 10,000)",
                 salary_type: "薪资频率",
@@ -1840,6 +1988,40 @@
         };
 
         const helpDocs = {
+            offer: {
+                zh: {
+                    title: "Offer 比较器说明",
+                    body: "并列比较多个 Offer 的现金、税后、总包与时间价值。模型为简化口径：个税按年度速算扣除估算，未考虑社保上下限、专项附加扣除、股权单独计税与城市差异，结果仅供横向比较。",
+                    details: [
+                        ["现金年包", "月薪 x 年薪月数 + 签字费/一次性 + 其他现金。年薪月数含年终奖，如 13 薪填 13。"],
+                        ["公积金年入账", "月薪 x 12 x 公积金比例(个人+公司)。计入总包，属于强制储蓄，不是到手现金。"],
+                        ["税后到手/年", "现金年包 - 个人五险一金 - 年度个税速算。个人五险一金率默认 10.5%（养老8+医疗2+失业0.5）。"],
+                        ["总包口径", "现金年包 + 公积金年入账 + 股票年归属 + 福利估值。"],
+                        ["年净结余", "税后到手 + 公积金 + 股票 + 福利 - 月生活成本 x 12。最接近真实可积攒能力。"],
+                        ["个人五险一金/年", "月薪 x 12 x 个人缴纳比例，默认 10.5%（养老8+医疗2+失业0.5）。成本项，对比表中取最低为最优。"],
+                        ["个税/年", "按年度综合所得速算估算：(现金年包 - 个人五险一金 - 6万免征额) 套累进税率。成本项，取最低为最优。"],
+                        ["总包构成对比图", "堆叠柱展示每个 Offer 的税后现金、公积金、股票、福利、社保、个税构成，堆叠总量等于总包口径。"],
+                        ["公积金累计趋势图", "按当前公积金年入账线性外推 10 年的累计曲线，未考虑基数调整与政策变化。"],
+                        ["税后时薪", "税后到手 / (年工作日 x 日均工时 + 月均加班小时 x 12)。用于衡量时间单价，避免「高薪买命」陷阱。"]
+                    ]
+                },
+                en: {
+                    title: "Offer Comparator Guide",
+                    body: "Compare multiple offers side by side on cash, after-tax income, total package, and time value. The model is simplified: annual tax uses quick deductions; social-security caps, special additional deductions, separate equity taxation, and city differences are not modeled. For comparison only.",
+                    details: [
+                        ["Cash Gross / Year", "Monthly salary x salary months + sign-on + other cash. Salary months include the year-end bonus (e.g. 13 for 13-month pay)."],
+                        ["Housing Fund Credit / Year", "Monthly salary x 12 x housing fund rate (both sides). Counted in the package as forced savings, not take-home cash."],
+                        ["Net Cash / Year", "Cash gross - personal security - annual tax estimate. Personal security defaults to 10.5% (pension 8 + medical 2 + unemployment 0.5)."],
+                        ["Total Package", "Cash gross + housing fund + vested equity + benefit valuation."],
+                        ["Annual Savings", "Net cash + housing fund + equity + benefits - monthly living cost x 12. The closest proxy for real saving power."],
+                        ["Personal Security / Year", "Monthly salary x 12 x personal contribution rate, default 10.5% (pension 8 + medical 2 + unemployment 0.5). A cost metric — lowest wins in the table."],
+                        ["Income Tax / Year", "Annual quick-deduction estimate: (cash gross - personal security - 60k exemption) through progressive brackets. A cost metric — lowest wins."],
+                        ["Package Composition Chart", "Stacked bars show each offer's net cash, housing fund, equity, benefits, security, and tax; the stack total equals the total package."],
+                        ["Cumulative Housing Fund Chart", "A 10-year linear projection of the current annual housing-fund credit, ignoring base adjustments and policy changes."],
+                        ["Net Hourly", "Net cash / (workdays x hours per day + monthly OT hours x 12). Measures the unit price of your time."]
+                    ]
+                }
+            },
             summary: {
                 zh: {
                     title: "输出指标计算说明",
@@ -2321,19 +2503,22 @@
         }
 
         function setActiveView(view) {
-            activeView = view === 'output' ? 'output' : 'input';
-            const showOutput = activeView === 'output';
-            $('inputView').classList.toggle('is-hidden', showOutput);
-            $('outputView').classList.toggle('is-hidden', !showOutput);
-            $('inputViewBtn').classList.toggle('active', !showOutput);
-            $('outputViewBtn').classList.toggle('active', showOutput);
-            $('appShell').classList.toggle('results-wide', showOutput);
-            $('inputViewBtn').setAttribute('aria-selected', String(!showOutput));
-            $('outputViewBtn').setAttribute('aria-selected', String(showOutput));
-            $('inputView').setAttribute('aria-hidden', String(showOutput));
-            $('outputView').setAttribute('aria-hidden', String(!showOutput));
+            activeView = ['input', 'output', 'offer'].includes(view) ? view : 'input';
+            const viewMap = {
+                input: ['inputView', 'inputViewBtn'],
+                output: ['outputView', 'outputViewBtn'],
+                offer: ['offerView', 'offerViewBtn']
+            };
+            Object.entries(viewMap).forEach(([key, [panelId, btnId]]) => {
+                const isActive = activeView === key;
+                $(panelId).classList.toggle('is-hidden', !isActive);
+                $(btnId).classList.toggle('active', isActive);
+                $(btnId).setAttribute('aria-selected', String(isActive));
+                $(panelId).setAttribute('aria-hidden', String(!isActive));
+            });
+            $('appShell').classList.toggle('results-wide', activeView !== 'input');
 
-            if (showOutput) {
+            if (activeView === 'output') {
                 window.requestAnimationFrame(() => {
                     runEngine();
                     if (pendingChartData) updateCharts(pendingChartData);
@@ -2342,6 +2527,10 @@
                     });
                     if (lastRenderData) drawSankey(lastRenderData, getColors());
                 });
+            }
+
+            if (activeView === 'offer') {
+                window.requestAnimationFrame(() => renderOfferCompare());
             }
         }
 
@@ -3875,6 +4064,427 @@
             });
         }
 
+        /* ================= Offer 比较器（支持 N 个 Offer 并列对比） ================= */
+        const OFFER_PALETTE = ['#14b8a6', '#7c3aed', '#2563eb', '#d97706', '#e11d48', '#0891b2'];
+        const OFFER_MAX = 6;
+        const OFFER_FIELDS = [
+            { key: 'salary', i18n: 'offer_salary', type: 'text' },
+            { key: 'months', i18n: 'offer_months', type: 'number', step: '0.5' },
+            { key: 'signing', i18n: 'offer_signing', type: 'text' },
+            { key: 'other', i18n: 'offer_other', type: 'text' },
+            { key: 'equity', i18n: 'offer_equity', type: 'text' },
+            { key: 'benefits', i18n: 'offer_benefits', type: 'text' },
+            { key: 'secRate', i18n: 'offer_sec_rate', type: 'number', step: '0.1' },
+            { key: 'housingRate', i18n: 'offer_housing_rate', type: 'number', step: '0.1' },
+            { key: 'workdays', i18n: 'offer_workdays', type: 'number', step: '1' },
+            { key: 'hours', i18n: 'offer_hours', type: 'number', step: '0.5' },
+            { key: 'ot', i18n: 'offer_ot', type: 'number', step: '1' },
+            { key: 'living', i18n: 'offer_living', type: 'text' }
+        ];
+        let offerSeq = 0;
+        let offers = [];
+        let offerChart = null;
+        let offerComposeChart = null;
+        let offerCumChart = null;
+        let offerRenderTimer = null;
+
+        function offerColor(index) {
+            return OFFER_PALETTE[index % OFFER_PALETTE.length];
+        }
+
+        function offerName(index) {
+            return `Offer ${String.fromCharCode(65 + (index % 26))}`;
+        }
+
+        function makeOffer(overrides = {}) {
+            offerSeq += 1;
+            return Object.assign({
+                id: offerSeq,
+                name: '',
+                salary: '15k',
+                months: '13',
+                signing: '0',
+                other: '0',
+                equity: '0',
+                benefits: '0',
+                secRate: '10.5',
+                housingRate: '24',
+                workdays: '250',
+                hours: '8',
+                ot: '0',
+                living: '5k'
+            }, overrides);
+        }
+
+        function isOfferViewVisible() {
+            return $('offerView') && !$('offerView').classList.contains('is-hidden');
+        }
+
+        function computeOffer(offer, index) {
+            const num = (v) => {
+                const n = parseFloat(v);
+                return Number.isFinite(n) ? n : 0;
+            };
+            const name = (offer.name || '').trim() || offerName(index);
+            const monthly = parseMoney(offer.salary);
+            const months = Math.max(0, num(offer.months));
+            const signing = parseMoney(offer.signing);
+            const otherCash = parseMoney(offer.other);
+            const equity = parseMoney(offer.equity);
+            const benefits = parseMoney(offer.benefits);
+            const secRate = Math.max(0, num(offer.secRate)) / 100;
+            const housingRate = Math.max(0, num(offer.housingRate)) / 100;
+            const workdays = Math.max(0, num(offer.workdays));
+            const hoursPerDay = Math.max(0, num(offer.hours));
+            const otMonthly = Math.max(0, num(offer.ot));
+            const livingMonthly = Math.max(0, parseMoney(offer.living));
+
+            const cashGross = monthly * months + signing + otherCash;
+            const security = monthly * 12 * secRate;
+            const housing = monthly * 12 * housingRate;
+            const tax = calculateChinaTax(cashGross - security - 60000);
+            const netCash = cashGross - security - tax;
+            const totalPackage = cashGross + housing + equity + benefits;
+            const annualIncome = netCash + housing + equity + benefits;
+            const saving = annualIncome - livingMonthly * 12;
+            const annualHours = workdays * hoursPerDay + otMonthly * 12;
+            const hourly = annualHours > 0 ? netCash / annualHours : 0;
+            return { name, cashGross, security, housing, tax, netCash, totalPackage, annualIncome, saving, annualHours, hourly };
+        }
+
+        function offerFmtHourly(v) {
+            const sign = v < 0 ? '-' : '';
+            return `${sign}¥${Math.abs(v).toFixed(1)}/h`;
+        }
+
+        function renderOfferCards() {
+            const container = $('offerCardsContainer');
+            if (!container) return;
+            container.innerHTML = '';
+            offers.forEach((offer, index) => {
+                const color = offerColor(index);
+                const card = document.createElement('section');
+                card.className = 'glass-panel rounded-lg p-5 border-l-4';
+                card.style.borderLeftColor = color;
+                card.dataset.offerId = offer.id;
+                const fieldsHtml = OFFER_FIELDS.map(f => `
+                    <div>
+                        <label class="block text-xs font-medium mb-1" data-i18n="${f.i18n}">${i18n[currentLang][f.i18n] || f.i18n}</label>
+                        <input type="${f.type}" value="${escapeAttr(String(offer[f.key]))}" data-field="${f.key}"${f.step ? ` step="${f.step}" min="0"` : ''} class="w-full border rounded-md py-2 px-3 font-mono text-sm">
+                    </div>`).join('');
+                card.innerHTML = `
+                    <div class="flex items-center gap-2 mb-4">
+                        <input type="text" value="${escapeAttr(offer.name)}" data-field="name" placeholder="${offerName(index)}" class="w-full border rounded-md py-1.5 px-3 text-sm font-semibold">
+                        <button type="button" class="offer-remove help-btn !w-8 !h-8 shrink-0" aria-label="Remove offer" title="Remove offer" ${offers.length <= 1 ? 'disabled' : ''}>
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                    <div class="form-grid compact">${fieldsHtml}</div>`;
+                container.appendChild(card);
+            });
+            const addBtn = $('offerAddBtn');
+            if (addBtn) {
+                const atMax = offers.length >= OFFER_MAX;
+                addBtn.disabled = atMax;
+                addBtn.classList.toggle('opacity-50', atMax);
+                addBtn.classList.toggle('cursor-not-allowed', atMax);
+            }
+            lucide.createIcons();
+        }
+
+        function renderOfferCompare() {
+            if (!$('offerView')) return;
+            const t = (key) => i18n[currentLang][key] || key;
+            const computed = offers.map((offer, i) => computeOffer(offer, i));
+            const multi = computed.length > 1;
+
+            $('offerCompareHead').innerHTML = `<tr class="text-xs muted">
+                <th class="pb-2 pr-3 font-semibold">${t('offer_metric')}</th>
+                ${computed.map((c, i) => `<th class="pb-2 px-3 font-semibold" style="color:${offerColor(i)}">${escapeAttr(c.name)}</th>`).join('')}
+                ${multi ? `<th class="pb-2 pl-3 font-semibold">${t('offer_best')}</th>` : ''}
+            </tr>`;
+
+            const rows = [
+                { key: 'offer_gross', pick: c => c.cashGross, fmt: yuan },
+                { key: 'offer_security', pick: c => c.security, fmt: yuan, lowerBetter: true },
+                { key: 'offer_tax', pick: c => c.tax, fmt: yuan, lowerBetter: true },
+                { key: 'offer_housing', pick: c => c.housing, fmt: yuan },
+                { key: 'offer_net', pick: c => c.netCash, fmt: yuan },
+                { key: 'offer_total', pick: c => c.totalPackage, fmt: yuan },
+                { key: 'offer_saving', pick: c => c.saving, fmt: yuan },
+                { key: 'offer_hourly', pick: c => c.hourly, fmt: offerFmtHourly }
+            ];
+
+            $('offerCompareBody').innerHTML = rows.map(({ key, pick, fmt, lowerBetter }) => {
+                const values = computed.map(pick);
+                const target = lowerBetter ? Math.min(...values) : Math.max(...values);
+                const bestIdx = values.indexOf(target);
+                return `<tr class="border-t border-slate-300/30 dark:border-slate-600/30">
+                    <td class="py-2 pr-3 text-sm">${t(key)}</td>
+                    ${values.map((v, i) => `<td class="py-2 px-3 font-mono text-sm${multi && i === bestIdx ? ' font-bold' : ''}"${multi && i === bestIdx ? ` style="color:${offerColor(i)}"` : ''}>${fmt(v)}</td>`).join('')}
+                    ${multi ? `<td class="py-2 pl-3 font-mono text-sm font-semibold" style="color:${offerColor(bestIdx)}">${escapeAttr(computed[bestIdx].name)}</td>` : ''}
+                </tr>`;
+            }).join('');
+
+            const leaderLine = (pick, fmt, labelKey) => {
+                if (!multi) return '--';
+                const ranked = computed.map(c => ({ name: c.name, v: pick(c) })).sort((x, y) => y.v - x.v);
+                if (Math.abs(ranked[0].v - ranked[1].v) < 1e-9) return t('offer_tie');
+                return `${ranked[0].name} · ${t(labelKey)} +${fmt(ranked[0].v - ranked[1].v)}`;
+            };
+            setText('offerVerdictSaving', leaderLine(c => c.saving, yuan, 'offer_win_saving'));
+            setText('offerVerdictHourly', leaderLine(c => c.hourly, offerFmtHourly, 'offer_win_hourly'));
+
+            renderOfferChart(computed, t);
+            renderOfferComposeChart(computed, t);
+            renderOfferCumChart(computed, t);
+        }
+
+        function renderOfferChart(computed, t) {
+            if (!isOfferViewVisible()) return;
+            const canvas = $('offerChart');
+            if (!canvas || typeof Chart === 'undefined') return;
+            if (offerChart) {
+                offerChart.destroy();
+                offerChart = null;
+            }
+            const colors = getColors();
+            offerChart = new Chart(canvas.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: [t('offer_gross'), t('offer_net'), t('offer_total'), t('offer_saving')],
+                    datasets: computed.map((c, i) => ({
+                        label: c.name,
+                        data: [c.cashGross, c.netCash, c.totalPackage, c.saving],
+                        backgroundColor: offerColor(i) + 'a6',
+                        borderColor: offerColor(i),
+                        borderWidth: 1.5,
+                        borderRadius: 6
+                    }))
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: colors.text } },
+                        tooltip: {
+                            callbacks: {
+                                label: (ctx) => `${ctx.dataset.label}: ${yuan(ctx.parsed.y)}`
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { ticks: { color: colors.text }, grid: { color: colors.grid } },
+                        y: {
+                            ticks: {
+                                color: colors.text,
+                                callback: (v) => '¥' + (Math.round(v / 1000) / 10) + 'w'
+                            },
+                            grid: { color: colors.grid }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderOfferComposeChart(computed, t) {
+            if (!isOfferViewVisible()) return;
+            const canvas = $('offerComposeChart');
+            if (!canvas || typeof Chart === 'undefined') return;
+            if (offerComposeChart) {
+                offerComposeChart.destroy();
+                offerComposeChart = null;
+            }
+            const colors = getColors();
+            const parts = [
+                { key: 'offer_net', pick: c => c.netCash, color: '#14b8a6' },
+                { key: 'offer_housing', pick: c => c.housing, color: '#0891b2' },
+                { key: 'offer_equity', pick: c => c.equity, color: '#7c3aed' },
+                { key: 'offer_benefits', pick: c => c.benefits, color: '#2563eb' },
+                { key: 'offer_security', pick: c => c.security, color: '#d97706' },
+                { key: 'offer_tax', pick: c => c.tax, color: '#e11d48' }
+            ];
+            offerComposeChart = new Chart(canvas.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: computed.map(c => c.name),
+                    datasets: parts.map(part => ({
+                        label: t(part.key),
+                        data: computed.map(part.pick),
+                        backgroundColor: part.color + 'a6',
+                        borderColor: part.color,
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }))
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: colors.text, boxWidth: 12 } },
+                        tooltip: {
+                            callbacks: {
+                                label: (ctx) => `${ctx.dataset.label}: ${yuan(ctx.parsed.y)}`
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { stacked: true, ticks: { color: colors.text }, grid: { color: colors.grid } },
+                        y: {
+                            stacked: true,
+                            ticks: {
+                                color: colors.text,
+                                callback: (v) => '¥' + (Math.round(v / 1000) / 10) + 'w'
+                            },
+                            grid: { color: colors.grid }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderOfferCumChart(computed, t) {
+            if (!isOfferViewVisible()) return;
+            const canvas = $('offerCumChart');
+            if (!canvas || typeof Chart === 'undefined') return;
+            if (offerCumChart) {
+                offerCumChart.destroy();
+                offerCumChart = null;
+            }
+            const colors = getColors();
+            const years = Array.from({ length: 10 }, (_, i) => currentLang === 'zh' ? `${i + 1}年` : `Y${i + 1}`);
+            offerCumChart = new Chart(canvas.getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: years,
+                    datasets: computed.map((c, i) => ({
+                        label: c.name,
+                        data: years.map((_, yi) => Math.round(c.housing * (yi + 1))),
+                        borderColor: offerColor(i),
+                        backgroundColor: offerColor(i) + '33',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: false,
+                        pointRadius: 2.5
+                    }))
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: colors.text } },
+                        tooltip: {
+                            callbacks: {
+                                label: (ctx) => `${ctx.dataset.label}: ${yuan(ctx.parsed.y)}`
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { ticks: { color: colors.text }, grid: { color: colors.grid } },
+                        y: {
+                            ticks: {
+                                color: colors.text,
+                                callback: (v) => '¥' + (Math.round(v / 1000) / 10) + 'w'
+                            },
+                            grid: { color: colors.grid }
+                        }
+                    }
+                }
+            });
+        }
+
+        function scheduleOfferRender(delay = 120) {
+
+            window.clearTimeout(offerRenderTimer);
+            offerRenderTimer = window.setTimeout(renderOfferCompare, delay);
+        }
+
+        function syncOfferFromInput(input) {
+            const card = input.closest('[data-offer-id]');
+            const field = input.dataset.field;
+            if (!card || !field) return;
+            const offer = offers.find(o => o.id === Number(card.dataset.offerId));
+            if (!offer) return;
+            offer[field] = input.value;
+        }
+
+        function importFormToOfferA() {
+            const trimNum = (v) => String(Math.round(v * 100) / 100);
+            if (offers.length === 0) offers.push(makeOffer({ name: 'Offer A' }));
+            const target = offers[0];
+            const monthly = normalizeMonthlySalary();
+            const bonusMonths = numberVal('in_bonus_months');
+            const equityVested = parseMoney($('in_equity_grant').value) * Math.max(0, numberVal('in_equity_vesting_rate')) / 100;
+            const benefits = parseMoney($('in_holiday_bonus').value)
+                + parseMoney($('in_project_bonus').value)
+                + parseMoney($('in_welfare_value').value);
+            const secRate = numberVal('ins_pension') + numberVal('ins_medical')
+                + numberVal('ins_unemp') + numberVal('ins_injury') + numberVal('ins_maternity');
+            const housingRate = numberVal('ins_housing') + numberVal('co_housing');
+            const workdays = Math.max(0, numberVal('in_workdays')) || 250;
+            let annualExpense = 0;
+            expenses.forEach(exp => {
+                const amt = parseMoney(exp.amount);
+                if (exp.freq === 'daily') annualExpense += amt * workdays;
+                else if (exp.freq === 'monthly') annualExpense += amt * 12;
+                else annualExpense += amt;
+            });
+
+            target.salary = String(Math.round(monthly));
+            target.months = trimNum(12 + bonusMonths);
+            target.signing = '0';
+            target.other = '0';
+            target.equity = String(Math.round(equityVested));
+            target.benefits = String(Math.round(benefits));
+            target.secRate = trimNum(secRate);
+            target.housingRate = trimNum(housingRate);
+            target.workdays = trimNum(workdays);
+            target.hours = trimNum(Math.max(0, numberVal('in_standard_hours')) || 8);
+            target.ot = trimNum(Math.max(0, numberVal('in_workday_ot_hours')));
+            target.living = String(Math.round(annualExpense / 12));
+            renderOfferCards();
+            renderOfferCompare();
+        }
+
+        offers = [
+            makeOffer({ name: 'Offer A' }),
+            makeOffer({ name: 'Offer B', salary: '18k', months: '12', housingRate: '12', hours: '10', ot: '20', living: '6k' })
+        ];
+
+        $('offerViewBtn').addEventListener('click', () => setActiveView('offer'));
+        $('offerImportBtn').addEventListener('click', importFormToOfferA);
+        $('offerAddBtn').addEventListener('click', () => {
+            if (offers.length >= OFFER_MAX) return;
+            offers.push(makeOffer({ name: offerName(offers.length) }));
+            renderOfferCards();
+            renderOfferCompare();
+        });
+        $('offerCardsContainer').addEventListener('input', (event) => {
+            if (event.target.matches('input')) {
+                syncOfferFromInput(event.target);
+                scheduleOfferRender();
+            }
+        });
+        $('offerCardsContainer').addEventListener('change', (event) => {
+            if (event.target.matches('input')) {
+                syncOfferFromInput(event.target);
+                scheduleOfferRender(60);
+            }
+        });
+        $('offerCardsContainer').addEventListener('click', (event) => {
+            const btn = event.target.closest('.offer-remove');
+            if (!btn) return;
+            const card = btn.closest('[data-offer-id]');
+            const idx = offers.findIndex(o => o.id === Number(card.dataset.offerId));
+            if (idx >= 0 && offers.length > 1) {
+                offers.splice(idx, 1);
+                renderOfferCards();
+                renderOfferCompare();
+            }
+        });
+
+        renderOfferCards();
+
         function updateI18n() {
             document.documentElement.lang = currentLang;
             document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -3883,6 +4493,7 @@
             });
             renderExpenses();
             runEngine();
+            renderOfferCompare();
         }
 
         function openHelp(key) {
