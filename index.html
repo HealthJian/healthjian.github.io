@@ -11,7 +11,7 @@
 		<link rel="preload" href="css/dark-mode.css" as="style">
 		<link rel="preload" href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500&display=swap"
 			as="style">
-		<link rel="preload" href="images/night_catcat.avif" as="image" type="image/avif">
+		<link rel="preload" href="images/crycat_night.avif" as="image" type="image/avif">
 
 		<!-- 样式表（旧文件保持不变，继续沿用） -->
 		<link rel="stylesheet" href="css/style.css">
@@ -675,9 +675,9 @@
 				<a href="index_new.html" class="brand">
 					<div class="brand-logo">
 						<img class="nav-logo-day"
-							src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/githubherofigureimage.png" 
+							src="https://gcore.jsdelivr.net/gh/healthjian/healthjian.github.io@main/images/githubherofigureimage.png"
 							alt="Logo">
-						<img class="nav-logo-night" src="images/night_catcat.avif" alt="Logo">
+						<img class="nav-logo-night" src="images/crycat_night.avif" alt="Logo">
 					</div>
 					<span class="brand-name" data-en="HealthJian Blog" data-zh="HealthJian Blog">HealthJian</span>
 				</a>
@@ -1046,6 +1046,342 @@
 					<a href="/pages/blog.html" data-en="View All Articles" data-zh="查看全部文章">查看全部文章 <i
 							class="fas fa-arrow-right"></i></a>
 				</div>
+				<style>
+					/* ===== 最新文章 · 未来主义纵向列表（仅作用于本页，覆盖 css/latest-articles.css）===== */
+					.latest-articles-shell {
+						--la-accent: #007aff;
+						--la-accent-2: #5ac8fa;
+						--la-line: rgba(0, 0, 0, 0.1);
+						--la-sub: #6f7680;
+						position: relative;
+						border: 1px solid var(--la-line);
+						border-radius: 18px;
+						background: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.82));
+						box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+						padding: 30px 26px 22px;
+						overflow: hidden;
+					}
+
+					/* 顶部一道渐变光束，替代厚重方块感 */
+					.latest-articles-shell::before {
+						content: "";
+						position: absolute;
+						top: 0;
+						left: 10%;
+						right: 10%;
+						height: 1px;
+						background: linear-gradient(90deg, transparent, var(--la-accent-2), var(--la-accent), transparent);
+					}
+
+					.latest-articles-title {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						gap: 16px;
+						margin: 0 0 18px;
+						font-size: 1.7rem;
+						letter-spacing: 0.12em;
+					}
+
+					.latest-articles-title::before,
+					.latest-articles-title::after {
+						content: "";
+						width: 46px;
+						height: 1px;
+						background: linear-gradient(90deg, transparent, var(--la-accent-2));
+					}
+
+					.latest-articles-title::after {
+						background: linear-gradient(90deg, var(--la-accent-2), transparent);
+					}
+
+					/* 横向三卡片 → 纵向序列列表 */
+					.latest-articles-grid {
+						counter-reset: la-item;
+						display: flex;
+						flex-direction: column;
+						gap: 0;
+						min-height: 0;
+					}
+
+					.latest-article-card {
+						counter-increment: la-item;
+						position: relative;
+						display: flex;
+						align-items: flex-start;
+						gap: 20px;
+						flex: 0 0 auto;
+						padding: 18px 12px;
+						border: none;
+						border-bottom: 1px solid var(--la-line);
+						border-radius: 0;
+						background: transparent;
+						box-shadow: none;
+						overflow: visible;
+						will-change: auto;
+						transition: background-color 0.3s ease;
+					}
+
+					.latest-article-card:last-child {
+						border-bottom: none;
+					}
+
+					/* 序列编号：等宽数字 + 渐变文字 */
+					.latest-article-card::before {
+						content: counter(la-item, decimal-leading-zero);
+						flex: 0 0 auto;
+						margin-top: 3px;
+						font-size: 0.95rem;
+						font-weight: 600;
+						letter-spacing: 0.1em;
+						font-variant-numeric: tabular-nums;
+						background: linear-gradient(135deg, var(--la-accent), var(--la-accent-2));
+						-webkit-background-clip: text;
+						background-clip: text;
+						color: transparent;
+						opacity: 0.8;
+						transition: opacity 0.3s ease;
+					}
+
+					/* 悬停时左侧亮起的扫描细线 */
+					.latest-article-card::after {
+						content: "";
+						position: absolute;
+						left: 0;
+						top: 16px;
+						bottom: 16px;
+						width: 2px;
+						border-radius: 2px;
+						background: linear-gradient(180deg, var(--la-accent-2), var(--la-accent));
+						transform: scaleY(0);
+						transform-origin: top;
+						transition: transform 0.35s var(--spring-ease);
+					}
+
+					.latest-article-card:hover,
+					.latest-article-card:focus-within {
+						background: linear-gradient(90deg, rgba(0, 122, 255, 0.06), transparent 60%);
+					}
+
+					.latest-article-card:hover::before,
+					.latest-article-card:focus-within::before {
+						opacity: 1;
+					}
+
+					.latest-article-card:hover::after,
+					.latest-article-card:focus-within::after {
+						transform: scaleY(1);
+					}
+
+					/* 关闭旧的横向手风琴伸缩效果 */
+					.latest-articles-grid:hover .latest-article-card,
+					.latest-articles-grid:focus-within .latest-article-card,
+					.latest-articles-grid:hover .latest-article-card:hover,
+					.latest-articles-grid:focus-within .latest-article-card:focus-within {
+						flex: 0 0 auto;
+						transform: none;
+						box-shadow: none;
+					}
+
+					.latest-article-main {
+						display: grid;
+						grid-template-columns: 1fr auto;
+						grid-template-areas:
+							"date link"
+							"title title"
+							"excerpt excerpt";
+						align-items: baseline;
+						column-gap: 18px;
+						flex: 1;
+						min-width: 0;
+						height: auto;
+						padding: 0;
+					}
+
+					.latest-article-date {
+						grid-area: date;
+						margin-bottom: 6px;
+						font-size: 0.78rem;
+						letter-spacing: 0.14em;
+						color: var(--la-sub);
+						font-variant-numeric: tabular-nums;
+					}
+
+					.latest-article-date::before {
+						content: "// ";
+						color: var(--la-accent-2);
+					}
+
+					.latest-article-title {
+						grid-area: title;
+						margin: 0;
+						font-size: 1.08rem;
+						line-height: 1.5;
+						-webkit-line-clamp: 1;
+						line-clamp: 1;
+						transition: color 0.25s ease;
+					}
+
+					.latest-article-card:hover .latest-article-title,
+					.latest-article-card:focus-within .latest-article-title {
+						color: var(--la-accent);
+					}
+
+					.latest-article-excerpt {
+						grid-area: excerpt;
+						margin: 6px 0 0;
+						font-size: 0.88rem;
+						color: var(--la-sub);
+						opacity: 1;
+						max-height: none;
+						transform: none;
+						display: -webkit-box;
+						-webkit-box-orient: vertical;
+						-webkit-line-clamp: 1;
+						line-clamp: 1;
+						overflow: hidden;
+						transition: color 0.25s ease;
+					}
+
+					.latest-article-link {
+						grid-area: link;
+						margin-top: 0;
+						font-size: 0.85rem;
+						white-space: nowrap;
+					}
+
+					/* 「查看全部文章」：去掉胶囊块，改为与列表呼应的极简文字链 */
+					.latest-view-all {
+						margin-top: 4px;
+						padding: 16px 12px 0;
+						border-top: 1px solid rgba(255, 255, 255, 0.14);
+						justify-content: flex-end;
+					}
+
+					.latest-view-all a {
+						position: relative;
+						padding: 2px 0;
+						border: none;
+						border-radius: 0;
+						background: transparent;
+						font-size: 0.88rem;
+						letter-spacing: 0.12em;
+						color: var(--la-accent-2);
+						transition: color 0.25s ease;
+					}
+
+					/* 悬停时从左侧扫出的渐变下划线 */
+					.latest-view-all a::after {
+						content: "";
+						position: absolute;
+						left: 0;
+						right: 0;
+						bottom: -3px;
+						height: 1px;
+						background: linear-gradient(90deg, var(--la-accent), var(--la-accent-2), transparent);
+						transform: scaleX(0);
+						transform-origin: left;
+						transition: transform 0.35s var(--spring-ease);
+					}
+
+					.latest-view-all a:hover,
+					.latest-view-all a:focus-visible {
+						background: transparent;
+						border-color: transparent;
+						color: #d5f1ff;
+					}
+
+					.latest-view-all a:hover::after,
+					.latest-view-all a:focus-visible::after {
+						transform: scaleX(1);
+					}
+
+					/* 暗色模式适配 */
+					body.dark-mode .latest-articles-shell {
+						border-color: rgba(255, 255, 255, 0.14);
+						background: linear-gradient(180deg, rgba(6, 50, 95, 0.55), rgba(4, 44, 87, 0.75));
+						box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+					}
+
+					body.dark-mode .latest-article-card {
+						border: none;
+						border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+						border-radius: 0;
+						background: transparent;
+						box-shadow: none;
+					}
+
+					body.dark-mode .latest-article-card:last-child {
+						border-bottom: none;
+					}
+
+					body.dark-mode .latest-article-card:hover,
+					body.dark-mode .latest-article-card:focus-within {
+						background: linear-gradient(90deg, rgba(90, 200, 250, 0.1), transparent 60%);
+					}
+
+					body.dark-mode .latest-article-date,
+					body.dark-mode .latest-article-excerpt {
+						color: rgba(244, 246, 251, 0.65);
+					}
+
+					body.dark-mode .latest-view-all {
+						border-top-color: rgba(255, 255, 255, 0.12);
+					}
+
+					body.dark-mode .latest-view-all a {
+						background: transparent;
+						border-color: transparent;
+						color: var(--la-accent-2);
+					}
+
+					body.dark-mode .latest-view-all a:hover,
+					body.dark-mode .latest-view-all a:focus-visible {
+						background: transparent;
+						border-color: transparent;
+						color: #d5f1ff;
+					}
+
+					/* 窄屏：回到纯纵向堆叠 */
+					@media (max-width: 720px) {
+						.latest-articles-title {
+							letter-spacing: 0.06em;
+						}
+
+						.latest-article-card {
+							gap: 14px;
+							padding: 16px 8px;
+						}
+
+						.latest-article-main {
+							grid-template-columns: 1fr;
+							grid-template-areas:
+								"date"
+								"title"
+								"excerpt"
+								"link";
+						}
+
+						.latest-article-title {
+							-webkit-line-clamp: 2;
+							line-clamp: 2;
+						}
+
+						.latest-article-link {
+							margin-top: 8px;
+						}
+					}
+
+					@media (prefers-reduced-motion: reduce) {
+						.latest-article-card,
+						.latest-article-card::before,
+						.latest-article-card::after,
+						.latest-article-title,
+						.latest-article-excerpt {
+							transition: none;
+						}
+					}
+				</style>
 			</section>
 
 			<section class="blog-updates">
@@ -1129,6 +1465,141 @@
                 </div>
                 -->
 				</div>
+				<style>
+					/* ===== 博客动态 · 未来主义玻璃便当盒（仅作用于本页，覆盖 css/style.css，保留原 Bento 布局）===== */
+					.blog-updates {
+						--bu-accent: #007aff;
+						--bu-accent-2: #5ac8fa;
+						/* 日间（默认）主题变量 */
+						--bu-line: rgba(0, 0, 0, 0.12);
+						--bu-sub: #48505b;
+						--bu-title: #16233b;
+						--bu-date: #007aff;
+						--bu-hl: #007aff;
+						--bu-card-bg: rgba(255, 255, 255, 0.55);
+						--bu-card-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+						--bu-hover-border: rgba(0, 122, 255, 0.35);
+						--bu-hover-shadow: 0 12px 28px rgba(0, 0, 0, 0.12), 0 0 24px rgba(0, 122, 255, 0.1);
+					}
+
+					/* 夜间主题变量（跟随全站 body.dark-mode 切换） */
+					body.dark-mode .blog-updates {
+						--bu-line: rgba(255, 255, 255, 0.12);
+						--bu-sub: rgba(226, 236, 248, 0.62);
+						--bu-title: rgba(244, 246, 251, 0.95);
+						--bu-date: #5ac8fa;
+						--bu-hl: #5ac8fa;
+						--bu-card-bg: rgba(255, 255, 255, 0.05);
+						--bu-card-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+						--bu-hover-border: rgba(90, 200, 250, 0.4);
+						--bu-hover-shadow: 0 12px 28px rgba(0, 0, 0, 0.3), 0 0 24px rgba(90, 200, 250, 0.12);
+					}
+
+					/* 标题与「最新文章」板块统一的双侧细线 */
+					.blog-updates > h2 {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						gap: 16px;
+						letter-spacing: 0.12em;
+					}
+
+					.blog-updates > h2::before,
+					.blog-updates > h2::after {
+						content: "";
+						width: 46px;
+						height: 1px;
+						background: linear-gradient(90deg, transparent, var(--bu-hl));
+					}
+
+					.blog-updates > h2::after {
+						background: linear-gradient(90deg, var(--bu-hl), transparent);
+					}
+
+					/* 玻璃质感便当卡片（Bento 栅格比例不变） */
+					.blog-updates .update-item {
+						position: relative;
+						overflow: hidden;
+						background: var(--bu-card-bg);
+						border: 1px solid var(--bu-line);
+						border-radius: 16px;
+						box-shadow: var(--bu-card-shadow);
+						backdrop-filter: blur(14px);
+						-webkit-backdrop-filter: blur(14px);
+						transition:
+							transform 0.35s cubic-bezier(0.25, 1.08, 0.35, 1),
+							border-color 0.3s ease,
+							box-shadow 0.35s ease;
+					}
+
+					/* 卡片顶部的渐变光束，悬停时点亮 */
+					.blog-updates .update-item::before {
+						content: "";
+						position: absolute;
+						top: 0;
+						left: 12%;
+						right: 12%;
+						height: 1px;
+						background: linear-gradient(90deg, transparent, var(--bu-accent-2), var(--bu-accent), transparent);
+						opacity: 0;
+						transition: opacity 0.35s ease;
+					}
+
+					.blog-updates .update-item:hover {
+						transform: translateY(-3px);
+						border-color: var(--bu-hover-border);
+						box-shadow: var(--bu-hover-shadow);
+					}
+
+					.blog-updates .update-item:hover::before {
+						opacity: 1;
+					}
+
+					/* 日期：等宽数字 + 主题高亮色，分隔线更轻 */
+					.blog-updates .update-date {
+						color: var(--bu-date);
+						font-size: 0.85rem;
+						letter-spacing: 0.08em;
+						font-variant-numeric: tabular-nums;
+						border-right-color: var(--bu-line);
+					}
+
+					/* 内容改为左对齐，信息层次更清晰 */
+					.blog-updates .update-content h3 {
+						text-align: left;
+						color: var(--bu-title);
+						font-size: 1.1rem;
+					}
+
+					.blog-updates .update-content p {
+						text-align: left;
+						color: var(--bu-sub);
+						font-size: 0.92rem;
+						margin: 0;
+					}
+
+					/* 窄屏：日期与内容统一左对齐，去掉残留的右侧分隔线 */
+					@media (max-width: 768px) {
+						.blog-updates .update-item {
+							padding: 16px 18px;
+						}
+
+						.blog-updates .update-date {
+							border-right: none;
+							border-bottom: 1px solid var(--bu-line);
+							justify-content: flex-start;
+							padding-bottom: 8px;
+							margin-bottom: 4px;
+						}
+					}
+
+					@media (prefers-reduced-motion: reduce) {
+						.blog-updates .update-item,
+						.blog-updates .update-item::before {
+							transition: none;
+						}
+					}
+				</style>
 			</section>
 
 			<!-- 问答与想法 | 新版卡片样式（参考 textindex） -->
@@ -1200,6 +1671,199 @@
 							data-zh="阅览详情">阅览详情</button>
 					</article>
 				</div>
+				<style>
+					/* ===== 问答与想法 · 未来主义玻璃卡片（仅作用于本页，覆盖 css/style.css 与 dark-mode.css）===== */
+					.home-page .qia-immersive {
+						--qia-accent: #007aff;
+						--qia-accent-2: #5ac8fa;
+						/* 日间（默认）主题变量 */
+						--qia-hl: #007aff;
+						--qia-line: rgba(0, 0, 0, 0.1);
+						--qia-title: #16233b;
+						--qia-sub: #48505b;
+						--qia-card-bg: rgba(255, 255, 255, 0.6);
+						--qia-card-shadow: 0 14px 34px rgba(0, 0, 0, 0.08);
+						--qia-hover-border: rgba(0, 122, 255, 0.32);
+						--qia-hover-shadow: 0 18px 40px rgba(0, 0, 0, 0.12), 0 0 26px rgba(0, 122, 255, 0.1);
+						--qia-detail-bg: rgba(0, 122, 255, 0.05);
+						--qia-toggle-color: #007aff;
+						--qia-toggle-border: rgba(0, 122, 255, 0.28);
+						/* 类型色：想法 / 疑问 / 问题 */
+						--qia-idea: #0b8fd4;
+						--qia-question: #6f5de0;
+						--qia-issue: #c9a500;
+						background: transparent;
+					}
+
+					/* 夜间主题变量（跟随全站 body.dark-mode 切换） */
+					body.dark-mode .qia-immersive {
+						--qia-hl: #5ac8fa;
+						--qia-line: rgba(255, 255, 255, 0.12);
+						--qia-title: rgba(244, 246, 251, 0.95);
+						--qia-sub: rgba(226, 236, 248, 0.62);
+						--qia-card-bg: rgba(255, 255, 255, 0.05);
+						--qia-card-shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
+						--qia-hover-border: rgba(90, 200, 250, 0.4);
+						--qia-hover-shadow: 0 18px 40px rgba(0, 0, 0, 0.35), 0 0 26px rgba(90, 200, 250, 0.12);
+						--qia-detail-bg: rgba(255, 255, 255, 0.06);
+						--qia-toggle-color: #5ac8fa;
+						--qia-toggle-border: rgba(90, 200, 250, 0.35);
+						--qia-idea: #65cbf9;
+						--qia-question: #b5a8ff;
+						--qia-issue: #f5d547;
+						background: transparent;
+					}
+
+					/* 板块标题：去掉白底胶囊，统一为双侧细线风格 */
+					.home-page .qia-immersive h2 {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						gap: 16px;
+						padding: 0;
+						border: none;
+						border-radius: 0;
+						background: transparent;
+						box-shadow: none;
+						letter-spacing: 0.12em;
+						color: var(--qia-title);
+					}
+
+					.home-page .qia-immersive h2::before,
+					.home-page .qia-immersive h2::after {
+						content: "";
+						width: 46px;
+						height: 1px;
+						background: linear-gradient(90deg, transparent, var(--qia-hl));
+					}
+
+					.home-page .qia-immersive h2::after {
+						background: linear-gradient(90deg, var(--qia-hl), transparent);
+					}
+
+					.home-page .qia-hint {
+						color: var(--qia-sub);
+						opacity: 1;
+						letter-spacing: 0.05em;
+					}
+
+					/* 玻璃卡片（栅格与错位布局不变） */
+					.home-page .qia-card {
+						background: var(--qia-card-bg);
+						border: 1px solid var(--qia-line);
+						box-shadow: var(--qia-card-shadow);
+						backdrop-filter: blur(14px);
+						-webkit-backdrop-filter: blur(14px);
+						transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+					}
+
+					/* 去掉旧的多色径向渐变底纹 */
+					.home-page .qia-card::after {
+						background: none;
+					}
+
+					/* 顶部渐变光束：常亮 50%，悬停点亮；按类型着色 */
+					.home-page .qia-card::before {
+						content: "";
+						position: absolute;
+						top: 0;
+						left: 10%;
+						right: 10%;
+						height: 1px;
+						z-index: 2;
+						background: linear-gradient(90deg, transparent, var(--qia-accent-2), var(--qia-accent), transparent);
+						opacity: 0.5;
+						transition: opacity 0.3s ease;
+					}
+
+					.home-page .qia-card:hover {
+						border-color: var(--qia-hover-border);
+						box-shadow: var(--qia-hover-shadow);
+					}
+
+					.home-page .qia-card:hover::before {
+						opacity: 1;
+					}
+
+					.home-page .qia-card:has(.qia-card-bar.idea)::before {
+						background: linear-gradient(90deg, transparent, var(--qia-idea), transparent);
+					}
+
+					.home-page .qia-card:has(.qia-card-bar.question)::before {
+						background: linear-gradient(90deg, transparent, var(--qia-question), transparent);
+					}
+
+					.home-page .qia-card:has(.qia-card-bar.issue)::before {
+						background: linear-gradient(90deg, transparent, var(--qia-issue), transparent);
+					}
+
+					/* 头部条：彩色渐变条 → 细分隔线 + 类型色文字 */
+					.home-page .qia-card-bar,
+					.home-page .qia-card-bar.idea,
+					.home-page .qia-card-bar.issue,
+					.home-page .qia-card-bar.question {
+						background: transparent;
+						color: var(--qia-title);
+						border-bottom: 1px solid var(--qia-line);
+					}
+
+					.home-page .qia-card-bar.idea .qia-card-title {
+						color: var(--qia-idea);
+					}
+
+					.home-page .qia-card-bar.question .qia-card-title {
+						color: var(--qia-question);
+					}
+
+					.home-page .qia-card-bar.issue .qia-card-title {
+						color: var(--qia-issue);
+					}
+
+					/* 序号芯片：去底色，细线描边 */
+					.home-page .qia-part {
+						border: 1px solid var(--qia-line);
+						background: transparent;
+						color: var(--qia-sub);
+					}
+
+					.home-page .qia-card h3 {
+						color: var(--qia-title);
+					}
+
+					.home-page .qia-preview {
+						color: var(--qia-sub);
+						opacity: 1;
+					}
+
+					/* 展开详情：主题化底纹 */
+					.home-page .qia-card-body p {
+						background: var(--qia-detail-bg);
+						border: 1px solid var(--qia-line);
+						color: var(--qia-sub);
+					}
+
+					/* 详情按钮：去实心填充，细线描边 */
+					.home-page .qia-detail-toggle {
+						background: transparent;
+						border: 1px solid var(--qia-toggle-border);
+						color: var(--qia-toggle-color);
+						letter-spacing: 0.06em;
+					}
+
+					.home-page .qia-detail-toggle:hover {
+						background: var(--qia-detail-bg);
+						border-color: var(--qia-toggle-color);
+						transform: translateY(-1px);
+					}
+
+					@media (prefers-reduced-motion: reduce) {
+						.home-page .qia-card,
+						.home-page .qia-card::before,
+						.home-page .qia-detail-toggle {
+							transition: none;
+						}
+					}
+				</style>
 			</section>
 
 			<!-- ========== LOTTIE smile-face START：删除本段至 END 可回档 ========== -->
@@ -1220,7 +1884,7 @@
 				<!-- Logo部分 -->
 				<div class="footer-logo-section">
 					<a href="index.html" class="footer-logo">
-						<img src="images/blogIP.avif" alt="HealthJian Logo">
+						<img src="images/githubherofigureimage.png" alt="HealthJian Logo">
 						<span class="footer-logo-text" data-en="HealthJian Blog" data-zh="HealthJian Blog">HealthJian
 							Blog</span>
 					</a>
