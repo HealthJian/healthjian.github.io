@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>观物志 · 廿四节气 — 中国人的时间诗学</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23b23a2c'/><text x='32' y='46' font-size='38' text-anchor='middle' fill='%23f4efe6' font-family='serif'>节</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@300;400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ============ 基底与调色 ============ */
+:root{
+  --paper:#f4efe2; --paper2:#ece5d3; --ink:#221d14; --ink2:#5d5546;
+  --hair:rgba(34,29,20,.22); --seal:#b23a2c;
+  --accent:#b0642a; --deep:#4a2c10; --tint:#f2e7d2; /* 秋(默认,运行时随季节切换) */
+  --f-display:'Ma Shan Zheng',cursive;
+  --f-serif:'Noto Serif SC',serif;
+  --f-sans:'Noto Sans SC',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:var(--f-serif); font-weight:400;
+  overflow-x:hidden; -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--seal);color:var(--paper)}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;background:none;border:none;color:inherit;cursor:pointer}
+.wrap{max-width:1220px;margin:0 auto;padding:0 28px}
+
+/* ============ 纸纹噪点 ============ */
+.noise{position:fixed;inset:-60%;z-index:96;pointer-events:none;opacity:.055;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 9s steps(10) infinite}
+@keyframes grain{0%,100%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-3%)}60%{transform:translate(-2%,-2%)}80%{transform:translate(3%,2%)}}
+
+/* ============ 岁行进度 / 朱砂光标 ============ */
+#yearbar{position:fixed;top:0;left:0;height:3px;background:var(--seal);z-index:99;width:0}
+#cursor{position:fixed;top:0;left:0;width:9px;height:9px;border-radius:50%;background:var(--seal);
+  z-index:99;pointer-events:none;transform:translate(-50%,-50%);opacity:0;
+  transition:width .25s,height .25s,opacity .4s,background .3s}
+#cursor.big{width:34px;height:34px;background:transparent;border:1.5px solid var(--seal)}
+@media(pointer:coarse){#cursor{display:none}}
+
+/* ============ 顶栏 ============ */
+header{position:fixed;top:3px;left:0;right:0;z-index:90;background:rgba(244,239,226,.94);
+  border-bottom:1px solid var(--hair)}
+.hd{display:flex;align-items:center;gap:22px;height:60px;max-width:1220px;margin:0 auto;padding:0 28px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:.18em;font-size:17px}
+.brand .sealbox{width:30px;height:30px;background:var(--seal);color:#f4efe6;display:grid;place-items:center;
+  font-family:var(--f-display);font-size:20px;transform:rotate(-4deg);box-shadow:2px 2px 0 rgba(34,29,20,.15)}
+nav{display:flex;gap:26px;margin-left:auto;font-family:var(--f-sans);font-size:13px;letter-spacing:.2em;color:var(--ink2)}
+nav a{position:relative;padding:4px 0;transition:color .3s}
+nav a::after{content:'';position:absolute;left:0;bottom:0;width:100%;height:1px;background:var(--seal);
+  transform:scaleX(0);transform-origin:right;transition:transform .35s}
+nav a:hover{color:var(--seal)} nav a:hover::after{transform:scaleX(1);transform-origin:left}
+.today-chip{display:flex;align-items:center;gap:8px;font-family:var(--f-sans);font-size:12px;
+  letter-spacing:.12em;border:1px solid var(--hair);padding:6px 12px;white-space:nowrap}
+.today-chip b{color:var(--seal);font-weight:700}
+@media(max-width:860px){nav{display:none}.today-chip{margin-left:auto}}
+
+/* ============ 开篇 · 当下节气 ============ */
+.hero{position:relative;padding:150px 0 0;min-height:100svh;display:flex;flex-direction:column;
+  background:
+    repeating-linear-gradient(90deg,transparent 0 118px,rgba(34,29,20,.045) 118px 119px),
+    var(--paper)}
+.hero-grid{display:grid;grid-template-columns:70px 1fr minmax(300px,400px);gap:44px;flex:1;align-items:stretch}
+.side-strip{border-right:1px solid var(--hair);display:flex;flex-direction:column;align-items:center;
+  justify-content:space-between;padding:18px 0}
+.vtxt{writing-mode:vertical-rl;font-size:13px;letter-spacing:.55em;color:var(--ink2)}
+.side-strip .sealbox{width:44px;height:44px;background:var(--seal);color:#f4efe6;display:grid;place-items:center;
+  font-family:var(--f-display);font-size:28px;transform:rotate(-3deg)}
+.hero-main{padding:10px 0 40px;position:relative}
+.date-line{font-family:var(--f-sans);font-size:12px;letter-spacing:.4em;color:var(--ink2);
+  border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);display:inline-block;padding:8px 14px;margin-bottom:34px}
+.hero-chars{display:flex;flex-direction:column;line-height:.92;font-family:var(--f-display);
+  font-size:clamp(130px,21vw,265px);color:var(--ink)}
+.hero-chars span{display:block;overflow:hidden}
+.hero-chars i{display:block;font-style:normal;transform:translateY(112%);animation:rise 1s cubic-bezier(.2,.75,.2,1) forwards}
+.hero-chars span:nth-child(2) i{animation-delay:.18s}
+@keyframes rise{to{transform:translateY(0)}}
+.hero-sub{margin-top:34px;font-size:clamp(15px,1.6vw,19px);font-weight:300;letter-spacing:.14em;color:var(--ink2);max-width:520px;line-height:2}
+.hero-meta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.chip{font-family:var(--f-sans);font-size:12px;letter-spacing:.18em;border:1px solid var(--hair);padding:8px 14px}
+.chip.hot{border-color:var(--seal);color:var(--seal)}
+.hero-side{border-left:1px solid var(--hair);padding:10px 0 40px 40px;display:flex;flex-direction:column;justify-content:flex-end;gap:26px}
+.pent-mini h4{font-family:var(--f-sans);font-size:12px;letter-spacing:.4em;color:var(--seal);margin-bottom:16px}
+.pent-mini li{list-style:none;display:flex;gap:14px;align-items:baseline;padding:13px 0;border-top:1px dashed var(--hair)}
+.pent-mini li b{font-family:var(--f-display);font-size:24px;font-weight:400}
+.pent-mini li em{font-style:normal;font-size:12px;color:var(--ink2);letter-spacing:.2em;font-family:var(--f-sans)}
+.scroll-cue{font-family:var(--f-sans);font-size:11px;letter-spacing:.4em;color:var(--ink2);display:flex;align-items:center;gap:10px}
+.scroll-cue::before{content:'';width:46px;height:1px;background:var(--seal);animation:cue 1.8s ease-in-out infinite}
+@keyframes cue{0%,100%{transform:scaleX(.4);opacity:.4}50%{transform:scaleX(1);opacity:1}}
+@media(max-width:960px){.hero-grid{grid-template-columns:44px 1fr}.hero-side{display:none}}
+
+/* 节气名走马灯 */
+.marquee{border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);overflow:hidden;padding:15px 0;background:var(--paper2)}
+.mq-track{display:flex;gap:0;width:max-content;animation:mq 46s linear infinite}
+.marquee:hover .mq-track{animation-play-state:paused}
+.mq-track span{font-size:15px;letter-spacing:.3em;white-space:nowrap;padding:0 8px;color:var(--ink2)}
+.mq-track span.now{color:var(--seal);font-weight:700}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* ============ 章节标题 ============ */
+section{padding:110px 0}
+.sec-head{display:flex;align-items:flex-end;gap:22px;margin-bottom:52px}
+.kicker{color:var(--seal);font:600 12px/1 var(--f-sans);letter-spacing:.45em;white-space:nowrap;padding-bottom:10px}
+.sec-title{font:900 clamp(30px,4.4vw,52px)/1.1 var(--f-serif);letter-spacing:.08em;white-space:nowrap}
+.sec-rule{flex:1;height:1px;background:var(--hair);margin-bottom:14px}
+.sec-note{font:300 13px/1.8 var(--f-sans);letter-spacing:.1em;color:var(--ink2);max-width:280px;padding-bottom:4px}
+@media(max-width:760px){.sec-head{flex-wrap:wrap}.sec-note{max-width:none}}
+
+/* ============ 日轮 ============ */
+.wheel-grid{display:grid;grid-template-columns:minmax(320px,560px) 1fr;gap:60px;align-items:center}
+.ring-stage{position:relative;width:min(560px,88vw);aspect-ratio:1;margin:0 auto}
+.ring-stage svg{width:100%;height:100%;display:block}
+.rotor{transform-box:view-box;transform-origin:center;animation:rotor 200s linear infinite}
+.ring-stage:hover .rotor{animation-play-state:paused}
+@keyframes rotor{to{transform:rotate(360deg)}}
+.ring-center{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;text-align:center}
+.ring-center .rc-char{font-family:var(--f-display);font-size:clamp(72px,11vw,120px);line-height:1;transition:opacity .3s}
+.ring-center .rc-sub{font:400 12px/1.8 var(--f-sans);letter-spacing:.4em;color:var(--ink2)}
+.dot{fill:var(--paper);stroke:var(--ink);stroke-width:1.2;transition:fill .3s,stroke .3s}
+.dot.sel{fill:var(--accent);stroke:var(--deep);stroke-width:2}
+.ring-hit{cursor:pointer}
+.tick{stroke:var(--hair)}
+.tlabel{font:600 15px var(--f-serif);fill:var(--ink2);transition:fill .3s}
+.tlabel.sel{fill:var(--accent);font-weight:900}
+.sun-pulse{transform-box:fill-box;transform-origin:center;animation:pulse 2.4s ease-out infinite}
+@keyframes pulse{0%{transform:scale(.6);opacity:.9}100%{transform:scale(2.1);opacity:0}}
+.pv-panel{border:1px solid var(--hair);padding:38px;position:relative;background:var(--paper2);min-height:420px;display:flex;flex-direction:column;gap:18px}
+.pv-panel::before{content:'气';position:absolute;right:-8px;bottom:-30px;font-family:var(--f-display);
+  font-size:180px;color:var(--ink);opacity:.05;pointer-events:none}
+.pv-top{display:flex;gap:22px;align-items:flex-start}
+.pv-char{font-family:var(--f-display);font-size:88px;line-height:.9;color:var(--accent)}
+.pv-name{font-size:26px;font-weight:900;letter-spacing:.12em}
+.pv-en{font:400 11px/1.6 var(--f-sans);letter-spacing:.3em;color:var(--ink2);text-transform:uppercase}
+.pv-date{font:400 13px/1.6 var(--f-sans);letter-spacing:.14em;color:var(--seal)}
+.pv-desc{font-size:15px;line-height:2.1;font-weight:300;color:var(--ink);letter-spacing:.06em}
+.pv-pents{display:flex;gap:10px;flex-wrap:wrap}
+.pv-pents span{font-size:12px;letter-spacing:.14em;border:1px dashed var(--hair);padding:6px 10px;font-family:var(--f-sans)}
+.pv-btn{margin-top:auto;align-self:flex-start;display:inline-flex;gap:12px;align-items:center;
+  font:500 13px/1 var(--f-sans);letter-spacing:.3em;color:var(--seal);padding:12px 0;border-bottom:1px solid var(--seal);transition:gap .3s}
+.pv-btn:hover{gap:22px}
+.wheel-hint{margin-top:22px;font:300 12px/1.8 var(--f-sans);letter-spacing:.2em;color:var(--ink2);text-align:center}
+.wheel-hint kbd{border:1px solid var(--hair);padding:2px 8px;font-family:var(--f-sans);margin:0 2px}
+@media(max-width:960px){.wheel-grid{grid-template-columns:1fr}.pv-panel{min-height:0}}
+
+/* ============ 三候风物 · 粘性两栏 ============ */
+.detail-sec{background:var(--paper2);border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.d-ctrl{display:flex;gap:10px;margin-left:16px}
+.d-ctrl button{width:40px;height:40px;border:1px solid var(--hair);font-size:18px;transition:all .25s}
+.d-ctrl button:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.detail-grid{display:grid;grid-template-columns:minmax(280px,400px) 1fr;gap:64px;position:relative}
+.d-wipe{position:absolute;inset:0;background:var(--ink);transform:scaleX(0);transform-origin:left;z-index:6;pointer-events:none}
+.d-wipe.run{animation:wipe .72s cubic-bezier(.7,0,.3,1) forwards}
+@keyframes wipe{0%{transform:scaleX(0);transform-origin:left}49.9%{transform:scaleX(1);transform-origin:left}50%{transform:scaleX(1);transform-origin:right}100%{transform:scaleX(0);transform-origin:right}}
+.d-left{position:sticky;top:110px;align-self:start}
+.d-char{font-family:var(--f-display);font-size:clamp(110px,13vw,180px);line-height:.95;color:var(--accent)}
+.d-name{font-size:30px;font-weight:900;letter-spacing:.2em;margin-top:18px}
+.d-name small{font:400 11px/1 var(--f-sans);letter-spacing:.3em;color:var(--ink2);display:block;margin-top:10px;text-transform:uppercase}
+.d-date{font:400 13px/1.6 var(--f-sans);letter-spacing:.16em;color:var(--seal);margin-top:14px}
+.d-desc{margin-top:22px;font-size:15px;line-height:2.2;font-weight:300;letter-spacing:.05em;color:var(--ink)}
+.d-right{display:flex;flex-direction:column;gap:0}
+.d-block{border-top:1px solid var(--hair);padding:30px 0}
+.d-block h4{font:600 12px/1 var(--f-sans);letter-spacing:.5em;color:var(--seal);margin-bottom:24px}
+.pent-row{display:flex;gap:20px;align-items:baseline;padding:14px 0;border-bottom:1px dashed var(--hair)}
+.pent-row:last-child{border-bottom:none}
+.pent-row .idx{font-family:var(--f-sans);font-size:11px;letter-spacing:.3em;color:var(--ink2);white-space:nowrap;padding-top:6px}
+.pent-row b{font-family:var(--f-display);font-size:26px;font-weight:400}
+.cus-list{display:flex;flex-wrap:wrap;gap:10px}
+.cus-list span{font:400 13px/1 var(--f-sans);letter-spacing:.1em;border:1px solid var(--hair);padding:10px 14px;transition:all .3s}
+.cus-list span:hover{background:var(--ink);color:var(--paper);border-color:var(--ink);transform:translateY(-2px)}
+.d-quote{border-left:3px solid var(--seal);padding:6px 0 6px 22px;font-size:18px;font-weight:600;letter-spacing:.1em;line-height:1.9}
+.d-quote small{display:block;margin-top:10px;font:300 12px/1.6 var(--f-sans);letter-spacing:.2em;color:var(--ink2)}
+.d-fig{overflow:hidden;border:1px solid var(--hair);position:relative}
+.d-fig img{width:100%;height:320px;object-fit:cover}
+.kb{animation:kenburns 14s ease-in-out infinite alternate}
+@keyframes kenburns{from{transform:scale(1) translate(0,0)}to{transform:scale(1.09) translate(-1.5%,1.5%)}}
+.d-fig figcaption{position:absolute;left:0;bottom:0;background:var(--ink);color:var(--paper);
+  font:400 11px/1 var(--f-sans);letter-spacing:.3em;padding:10px 16px}
+@media(max-width:900px){.detail-grid{grid-template-columns:1fr}.d-left{position:static}}
+
+/* ============ 手卷横滚 ============ */
+.hs-sec{overflow:hidden}
+.hs{display:flex;gap:20px;overflow-x:auto;padding:10px 4px 30px;cursor:grab;scrollbar-width:none}
+.hs::-webkit-scrollbar{display:none}
+.hs.drag{cursor:grabbing}
+.card{flex:0 0 292px;scroll-snap-align:start;border:1px solid var(--hair);background:var(--paper);
+  display:flex;flex-direction:column;transition:transform .45s cubic-bezier(.2,.7,.2,1),box-shadow .45s;position:relative}
+.card:hover{transform:translateY(-10px);box-shadow:0 24px 40px -20px rgba(34,29,20,.35)}
+.card .c-img{height:190px;overflow:hidden;position:relative}
+.card .c-img img{width:100%;height:100%;object-fit:cover;transition:transform .8s}
+.card:hover .c-img img{transform:scale(1.07)}
+.card .c-no{position:absolute;top:10px;left:10px;background:var(--paper);font:700 11px/1 var(--f-sans);
+  letter-spacing:.2em;padding:6px 9px;color:var(--seal)}
+.card .c-sea{position:absolute;top:10px;right:10px;width:22px;height:22px;display:grid;place-items:center;
+  font-size:12px;background:var(--paper);font-family:var(--f-display)}
+.card .c-body{padding:18px 18px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card .c-name{font-size:21px;font-weight:900;letter-spacing:.14em}
+.card .c-name em{font:400 10px/1 var(--f-sans);letter-spacing:.25em;color:var(--ink2);font-style:normal;display:block;margin-top:6px;text-transform:uppercase}
+.card .c-date{font:400 11px/1.5 var(--f-sans);letter-spacing:.2em;color:var(--seal)}
+.card .c-desc{font-size:12.5px;line-height:1.9;font-weight:300;color:var(--ink2);flex:1}
+.card .c-pent{font:300 10.5px/1.7 var(--f-sans);letter-spacing:.1em;color:var(--ink2);border-top:1px dashed var(--hair);padding-top:10px}
+.hs-progress{height:2px;background:var(--hair);margin-top:6px;position:relative}
+.hs-progress i{position:absolute;left:0;top:0;height:100%;background:var(--seal);width:8%;transition:width .2s}
+.hs-hint{font:300 12px/1 var(--f-sans);letter-spacing:.35em;color:var(--ink2);margin-top:18px}
+
+/* ============ 观测图表 ============ */
+.obs-grid{display:grid;grid-template-columns:1fr 300px;gap:56px;align-items:start}
+.chart-wrap{position:relative;border:1px solid var(--hair);padding:26px 18px 14px;background:var(--paper2)}
+.chart-wrap svg{width:100%;height:auto;display:block}
+.gline{stroke:var(--hair);stroke-dasharray:3 5}
+.ax{font:400 11px var(--f-sans);fill:var(--ink2);letter-spacing:.1em}
+.pbar{fill:var(--accent);opacity:.28;transform:scaleY(0);transform-box:fill-box;transform-origin:bottom;
+  transition:transform .9s cubic-bezier(.2,.7,.2,1),opacity .3s}
+.chart-wrap.in .pbar{transform:scaleY(1)}
+.tline{fill:none;stroke:var(--seal);stroke-width:2.4;stroke-linecap:round}
+.tdot{fill:var(--paper);stroke:var(--seal);stroke-width:2;opacity:0;transition:opacity .4s .8s}
+.chart-wrap.in .tdot{opacity:1}
+.guide{stroke:var(--ink);stroke-dasharray:2 4;opacity:0;transition:opacity .2s}
+#tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--paper);font:400 11px/1.7 var(--f-sans);
+  letter-spacing:.12em;padding:9px 13px;opacity:0;transition:opacity .2s;white-space:nowrap;z-index:5}
+.legend{display:flex;gap:24px;margin-top:16px;font:400 12px/1 var(--f-sans);letter-spacing:.2em;color:var(--ink2)}
+.legend i{display:inline-block;width:22px;height:3px;vertical-align:middle;margin-right:8px}
+.obs-side{display:flex;flex-direction:column;gap:0}
+.stat{border-top:1px solid var(--hair);padding:26px 0}
+.stat:last-child{border-bottom:1px solid var(--hair)}
+.stat b{font:900 clamp(38px,4vw,54px)/1 var(--f-serif);letter-spacing:.02em;display:flex;align-items:baseline;gap:6px}
+.stat b small{font:400 13px/1 var(--f-serif);color:var(--seal)}
+.stat span{font:300 12px/1.9 var(--f-sans);letter-spacing:.22em;color:var(--ink2);display:block;margin-top:10px}
+.obs-note{font:300 12px/2 var(--f-sans);letter-spacing:.1em;color:var(--ink2);margin-top:22px}
+@media(max-width:920px){.obs-grid{grid-template-columns:1fr}}
+
+/* ============ 四时诗帖 ============ */
+.poem-sec{background:var(--tint);border-top:1px solid var(--hair);transition:background .8s}
+.season-tabs{display:flex;gap:10px;margin-bottom:46px;flex-wrap:wrap}
+.season-tabs button{width:74px;height:74px;border:1px solid var(--hair);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:5px;font-family:var(--f-display);font-size:30px;transition:all .35s;position:relative;background:var(--paper)}
+.season-tabs button small{font:400 9px/1 var(--f-sans);letter-spacing:.3em;color:var(--ink2)}
+.season-tabs button i{position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%}
+.season-tabs button.on{background:var(--ink);color:var(--paper);transform:translateY(-4px);box-shadow:0 14px 24px -14px rgba(34,29,20,.5)}
+.season-tabs button.on small{color:var(--paper)}
+.poem-stage{display:grid;grid-template-columns:1fr minmax(280px,420px);gap:60px;align-items:stretch}
+.poem-panel{position:relative;border:1px solid var(--hair);background:var(--paper);padding:44px;overflow:hidden}
+.poem-panel .wm{position:absolute;right:-30px;bottom:-50px;font-family:var(--f-display);font-size:260px;
+  color:var(--accent);opacity:.09;pointer-events:none;line-height:1}
+.poem-cols{writing-mode:vertical-rl;display:flex;gap:26px;height:400px;direction:rtl}
+.p-col{direction:ltr;writing-mode:vertical-rl;overflow:hidden;display:flex}
+.p-col>span{display:block;transition:transform 1s cubic-bezier(.2,.75,.2,1);transform:translateY(0)}
+.p-col.hide>span{transform:translateY(110%)}
+.p-col.title>span{font-weight:900;font-size:22px;letter-spacing:.3em;color:var(--accent)}
+.p-col.line>span{font-size:21px;font-weight:600;letter-spacing:.34em;line-height:1}
+.p-col.meta>span{font:300 13px/1 var(--f-sans);letter-spacing:.4em;color:var(--ink2)}
+.poem-cap{display:flex;flex-direction:column;justify-content:center;gap:22px}
+.poem-cap h3{font-size:clamp(26px,3vw,38px);font-weight:900;letter-spacing:.14em}
+.poem-cap .cap-seal{width:52px;height:52px;background:var(--seal);color:#f4efe6;display:grid;place-items:center;
+  font-family:var(--f-display);font-size:26px;transform:rotate(-4deg);align-self:flex-start}
+.poem-cap p{font-size:14px;font-weight:300;line-height:2.3;letter-spacing:.08em;color:var(--ink2);max-width:340px}
+@media(max-width:900px){.poem-stage{grid-template-columns:1fr}.poem-cols{height:340px}}
+
+/* ============ 卷尾 ============ */
+footer{border-top:1px solid var(--hair);padding:70px 0 46px}
+.ft-grid{display:grid;grid-template-columns:auto 1fr auto;gap:60px;align-items:start}
+.ft-brand .sealbox{width:64px;height:64px;background:var(--seal);color:#f4efe6;display:grid;place-items:center;
+  font-family:var(--f-display);font-size:40px;transform:rotate(-4deg)}
+.ft-brand p{margin-top:16px;font-size:15px;font-weight:900;letter-spacing:.3em;writing-mode:vertical-rl;height:120px}
+.ft-mid{font:300 13px/2.4 var(--f-sans);letter-spacing:.16em;color:var(--ink2);max-width:560px}
+.ft-mid b{color:var(--ink)}
+.ft-end{text-align:right;font:300 11px/2.4 var(--f-sans);letter-spacing:.2em;color:var(--ink2)}
+.ft-end a{color:var(--seal)}
+@media(max-width:820px){.ft-grid{grid-template-columns:1fr}.ft-end{text-align:left}}
+
+/* ============ 入场显现 ============ */
+[data-rv]{opacity:0;transform:translateY(30px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
+[data-rv].in{opacity:1;transform:none}
+
+/* ============ 降级动效 ============ */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  [data-rv]{opacity:1;transform:none}
+  .hero-chars i{transform:none}
+  .p-col>span{transform:none}
+  .chart-wrap .pbar{transform:scaleY(1)}
+  .tline{stroke-dashoffset:0!important}
+  #cursor{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="noise" aria-hidden="true"></div>
+<div id="yearbar"></div>
+<div id="cursor" aria-hidden="true"></div>
+
+<header>
+  <div class="hd">
+    <a class="brand" href="#top"><span class="sealbox">观</span>观物志</a>
+    <nav>
+      <a href="#wheel">日轮</a><a href="#detail">三候</a><a href="#scrolls">手卷</a><a href="#obs">观测</a><a href="#poems">诗帖</a>
+    </nav>
+    <div class="today-chip" id="todayChip"></div>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ◆ 开篇:此刻的节气 -->
+<section class="hero" style="padding-top:130px">
+  <div class="wrap hero-grid">
+    <div class="side-strip">
+      <span class="vtxt">廿四节气 · 观物志 · 中国人的时间诗学</span>
+      <span class="sealbox" id="heroSeal">气</span>
+    </div>
+    <div class="hero-main">
+      <div class="date-line" id="heroDate"></div>
+      <h1 class="hero-chars" id="heroChars" aria-label="处暑"></h1>
+      <p class="hero-sub" id="heroSub"></p>
+      <div class="hero-meta" id="heroMeta"></div>
+    </div>
+    <div class="hero-side">
+      <div class="pent-mini">
+        <h4>本 气 三 候</h4>
+        <ul id="heroPents"></ul>
+      </div>
+      <div class="scroll-cue">下 探 日 轮</div>
+    </div>
+  </div>
+  <div class="marquee" aria-hidden="true"><div class="mq-track" id="mqTrack"></div></div>
+</section>
+
+<!-- ◆ 节气之轮 -->
+<section id="wheel">
+  <div class="wrap">
+    <div class="sec-head" data-rv>
+      <span class="kicker">壹 / 日行有纪</span>
+      <h2 class="sec-title scr">节气之轮</h2>
+      <span class="sec-rule"></span>
+      <p class="sec-note">太阳沿黄道每行十五度,人间便换一个名字。点击轮上任意一点,翻阅那一气的风物。</p>
+      <div class="d-ctrl">
+        <button id="prevTerm" aria-label="上一气">←</button>
+        <button id="nextTerm" aria-label="下一气">→</button>
+      </div>
+    </div>
+    <div class="wheel-grid">
+      <div class="ring-stage" data-rv>
+        <svg id="ringSvg" viewBox="0 0 640 640" role="group" aria-label="二十四节气环形图"></svg>
+        <div class="ring-center">
+          <div>
+            <div class="rc-char" id="rcChar">处</div>
+            <div class="rc-sub" id="rcSub">秋 · 七月中</div>
+          </div>
+        </div>
+      </div>
+      <div class="pv-panel" id="pvPanel" data-rv style="--d:.15s">
+        <div class="pv-top">
+          <div class="pv-char" id="pvChar">处暑</div>
+          <div>
+            <div class="pv-name" id="pvName">处暑</div>
+            <div class="pv-en" id="pvEn">End of Heat</div>
+            <div class="pv-date" id="pvDate"></div>
+          </div>
+        </div>
+        <p class="pv-desc" id="pvDesc"></p>
+        <div class="pv-pents" id="pvPents"></div>
+        <a class="pv-btn" href="#detail">细 察 其 候 <span>→</span></a>
+      </div>
+    </div>
+    <p class="wheel-hint">滚轮缓缓转动 · 悬停即驻 · 亦可按 <kbd>←</kbd><kbd>→</kbd> 换气</p>
+  </div>
+</section>
+
+<!-- ◆ 三候风物志 -->
+<section class="detail-sec" id="detail">
+  <div class="wrap">
+    <div class="sec-head" data-rv>
+      <span class="kicker">贰 / 物候档案</span>
+      <h2 class="sec-title scr">三候风物志</h2>
+      <span class="sec-rule"></span>
+      <p class="sec-note">一气三候,十五日一候。鸟兽草木的移动,都是时间的落款。</p>
+    </div>
+    <div class="detail-grid">
+      <div class="d-wipe" id="dWipe"></div>
+      <aside class="d-left">
+        <div class="d-char" id="dChar">处暑</div>
+        <h3 class="d-name" id="dName">处暑<small id="dEn">END OF HEAT</small></h3>
+        <div class="d-date" id="dDate"></div>
+        <p class="d-desc" id="dDesc"></p>
+      </aside>
+      <div class="d-right">
+        <div class="d-block">
+          <h4>三 候</h4>
+          <div id="dPents"></div>
+        </div>
+        <div class="d-block">
+          <h4>风 俗 与 食 单</h4>
+          <div class="cus-list" id="dCus"></div>
+        </div>
+        <div class="d-block">
+          <h4>朱 批</h4>
+          <blockquote class="d-quote" id="dQuote"></blockquote>
+        </div>
+        <figure class="d-fig">
+          <img id="dImg" class="kb" src="https://picsum.photos/seed/jieqi-chushu-river/920/560" alt="处暑风物">
+          <figcaption id="dCap">处暑 · 七月之中</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ◆ 日迹手卷 -->
+<section class="hs-sec" id="scrolls">
+  <div class="wrap">
+    <div class="sec-head" data-rv>
+      <span class="kicker">叁 / 一岁长卷</span>
+      <h2 class="sec-title scr">日迹手卷</h2>
+      <span class="sec-rule"></span>
+      <p class="sec-note">廿四帧,自立春展至大寒。拖动展卷,点任一帧可回翻其档案。</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="hs" id="hs"></div>
+    <div class="hs-progress"><i id="hsBar"></i></div>
+    <p class="hs-hint">◀ 拖 动 展 卷 ▶</p>
+  </div>
+</section>
+
+<!-- ◆ 一岁寒暑录 -->
+<section id="obs">
+  <div class="wrap">
+    <div class="sec-head" data-rv>
+      <span class="kicker">肆 / 以数观天</span>
+      <h2 class="sec-title scr">一岁寒暑录</h2>
+      <span class="sec-rule"></span>
+      <p class="sec-note">节气的冷热雨雪,落到坐标上,便是大地的呼吸曲线(示例:华北平原)。</p>
+    </div>
+    <div class="obs-grid">
+      <div class="chart-wrap" id="chartWrap" data-rv>
+        <svg id="chartSvg" viewBox="0 0 760 340" role="img" aria-label="全年气温与降水图"></svg>
+        <div id="tip"></div>
+        <div class="legend">
+          <span><i style="background:var(--seal)"></i>平均气温 ℃</span>
+          <span><i style="background:var(--accent);opacity:.4"></i>月降水量 ㎜</span>
+        </div>
+      </div>
+      <aside class="obs-side" data-rv style="--d:.15s">
+        <div class="stat"><b><span class="num" data-n="24">0</span><small>气</small></b><span>太阳黄道每十五度一换</span></div>
+        <div class="stat"><b><span class="num" data-n="72">0</span><small>候</small></b><span>五日一候,鸟兽草木为之变</span></div>
+        <div class="stat"><b><span class="num" data-n="5000">0</span><small>年+</small></b><span>观象授时的古老传统</span></div>
+        <div class="stat"><b><span class="num" data-n="2016">0</span><small></small></b><span>列入联合国非遗名录之年</span></div>
+        <p class="obs-note">数据为华北平原常年均值示意,用于观其大势,非实时测站记录。</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ◆ 四时诗帖 -->
+<section class="poem-sec" id="poems">
+  <div class="wrap">
+    <div class="sec-head" data-rv>
+      <span class="kicker">伍 / 以诗纪时</span>
+      <h2 class="sec-title scr">四时诗帖</h2>
+      <span class="sec-rule"></span>
+      <p class="sec-note">四时各有其诗,亦各有其色。切换季节,全卷随之易装。</p>
+    </div>
+    <div class="season-tabs" id="seasonTabs" data-rv></div>
+    <div class="poem-stage" data-rv style="--d:.1s">
+      <div class="poem-panel">
+        <span class="wm" id="poemWm">秋</span>
+        <div class="poem-cols" id="poemCols"></div>
+      </div>
+      <div class="poem-cap">
+        <span class="cap-seal" id="capSeal">秋</span>
+        <h3 id="capTitle">山行</h3>
+        <p id="capDesc"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap ft-grid">
+    <div class="ft-brand"><span class="sealbox">观物</span><p>观物志 · 廿四节气</p></div>
+    <div class="ft-mid">
+      <b>古人仰观天文,俯察地理,以鸟兽草木为历。</b><br>
+      此卷以现代前端之技——交互之轮、横陈之卷、动息之图、竖排之帖——致敬那套温柔而精确的时间智慧。<br>
+      暑气至此而止,而网页之旅,自此而始。
+    </div>
+    <div class="ft-end">
+      卷终 · 公元二〇二六年 秋<br>
+      制图 / 前端一枚 · 字体 / 马善政 思源宋体<br>
+      <a href="#top">↑ 回到卷首</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ================= 数据 ================= */
+const SEASONS=[
+ {cn:'春',en:'SPRING',accent:'#5f7f3c',deep:'#2c3d1a',tint:'#e9eedd'},
+ {cn:'夏',en:'SUMMER',accent:'#b8432e',deep:'#4a1a10',tint:'#f5e2da'},
+ {cn:'秋',en:'AUTUMN',accent:'#b0642a',deep:'#4a2c10',tint:'#f2e7d2'},
+ {cn:'冬',en:'WINTER',accent:'#4f6474',deep:'#1c2830',tint:'#e2e9ee'}
+];
+const TERMS=[
+ {n:'立春',py:'lichun',en:'Beginning of Spring',m:2,d:4,s:0,desc:'春之始也。东风解冻,蛰虫始振,一年之计于此而定。',pents:['东风解冻','蛰虫始振','鱼陟负冰'],cus:['咬春 · 食春饼萝卜','鞭春牛 · 劝农耕','戴春胜 · 贴宜春帖'],note:'律回岁晚冰霜少,春到人间草木知。'},
+ {n:'雨水',py:'yushui',en:'Rain Water',m:2,d:19,s:0,desc:'冰雪消融,降雨渐多。春雨贵如油,润物细无声。',pents:['獭祭鱼','候雁北','草木萌动'],cus:['回娘家 · 拉保保','占稻色 · 卜丰歉','罐罐肉 · 谢父母'],note:'好雨知时节,当春乃发生。'},
+ {n:'惊蛰',py:'jingzhe',en:'Awakening of Insects',m:3,d:6,s:0,desc:'春雷乍动,惊醒地下蛰伏之虫,万物生机盎然。',pents:['桃始华','仓庚鸣','鹰化为鸠'],cus:['蒙鼓皮 · 应雷声','吃梨 · 润燥','祭白虎 · 化是非'],note:'微雨众卉新,一雷惊蛰始。'},
+ {n:'春分',py:'chunfen',en:'Spring Equinox',m:3,d:21,s:0,desc:'昼夜均而寒暑平。春色正中分,燕子来时,陌上草熏。',pents:['玄鸟至','雷乃发声','始电'],cus:['竖蛋','吃春菜 · 滚春汤','放风筝 · 踏青'],note:'春分雨脚落声微,柳岸斜风带客归。'},
+ {n:'清明',py:'qingming',en:'Clear and Bright',m:4,d:5,s:0,desc:'气清景明,万物皆显。既是节气,亦是扫墓踏青之期。',pents:['桐始华','田鼠化鴽','虹始见'],cus:['扫墓祭祖','踏青插柳','放断鹞 · 食青团'],note:'清明时节雨纷纷,路上行人欲断魂。'},
+ {n:'谷雨',py:'guyu',en:'Grain Rain',m:4,d:20,s:0,desc:'雨生百谷,春之将别。牡丹吐蕊,新茶正香,春事阑珊。',pents:['萍始生','鸣鸠拂其羽','戴胜降于桑'],cus:['赏牡丹','走谷雨 · 采新茶','祭仓颉 · 禁蝎虫'],note:'谷雨春光晓,山川黛色青。'},
+ {n:'立夏',py:'lixia',en:'Beginning of Summer',m:5,d:6,s:1,desc:'夏季开始。蝼蝈鸣叫,瓜蔓攀爬,作物进入旺季生长。',pents:['蝼蝈鸣','蚯蚓出','王瓜生'],cus:['立夏称人','斗蛋 · 吃立夏蛋','尝三新 · 饮新茶'],note:'绿阴铺野换新光,薰风初昼长。'},
+ {n:'小满',py:'xiaoman',en:'Lesser Fullness',m:5,d:21,s:1,desc:'物至于此,小得盈满。麦粒渐鼓而未熟,恰是最好状态。',pents:['苦菜秀','靡草死','麦秋至'],cus:['祭车神 · 抢水','食苦菜','祭蚕 · 祈丰收'],note:'最爱垄头麦,迎风笑落红。'},
+ {n:'芒种',py:'mangzhong',en:'Grain in Ear',m:6,d:6,s:1,desc:'有芒之谷可稼种矣。收与种于此交叠,故曰"忙着种"。',pents:['螳螂生','鵙始鸣','反舌无声'],cus:['送花神','安苗 · 打泥巴仗','煮青梅 · 饮梅酒'],note:'时雨及芒种,四野皆插秧。'},
+ {n:'夏至',py:'xiazhi',en:'Summer Solstice',m:6,d:21,s:1,desc:'日北至,日长之至,日影短至。阳气之极,一阴始生。',pents:['鹿角解','蜩始鸣','半夏生'],cus:['祭神祀祖','食夏至面','消夏避伏 · 赠折扇'],note:'昼晷已云极,宵漏自此长。'},
+ {n:'小暑',py:'xiaoshu',en:'Lesser Heat',m:7,d:7,s:1,desc:'温风至,盛夏登场。暑气蒸腾而未至极,故曰小暑。',pents:['温风至','蟋蟀居宇','鹰始鸷'],cus:['食新 · 晒伏','晒书画衣物','食藕 · 饮伏茶'],note:'万瓦鳞鳞若火龙,日车不动汗珠融。'},
+ {n:'大暑',py:'dashu',en:'Greater Heat',m:7,d:23,s:1,desc:'一年中最热之时,湿热交蒸至极,亦作物生长最快之际。',pents:['腐草为萤','土润溽暑','大雨时行'],cus:['送大暑船','饮伏茶 · 晒伏姜','食荔枝 · 吃仙草'],note:'桂轮开子夜,萤火照空时。'},
+ {n:'立秋',py:'liqiu',en:'Beginning of Autumn',m:8,d:8,s:2,desc:'秋之始也。凉风有信,暑去凉来,禾谷渐熟,收获在望。',pents:['凉风至','白露生','寒蝉鸣'],cus:['晒秋','贴秋膘 · 啃秋','戴楸叶 · 饮秋水'],note:'睡起秋声无觅处,满阶梧叶月明中。'},
+ {n:'处暑',py:'chushu',en:'End of Heat',m:8,d:23,s:2,desc:'处,止也,暑气至此而止。暑热渐退,秋凉渐起,禾黍盈畴。',pents:['鹰乃祭鸟','天地始肃','禾乃登'],cus:['放河灯 · 寄思','食鸭 · 润秋燥','开渔节 · 谢海'],note:'处暑无三日,新凉直万金。'},
+ {n:'白露',py:'bailu',en:'White Dew',m:9,d:8,s:2,desc:'阴气渐重,露凝而白。昼夜温差渐大,鸿雁南飞,秋意正浓。',pents:['鸿雁来','玄鸟归','群鸟养羞'],cus:['收清露','饮白露茶','酿白露米酒'],note:'蒹葭苍苍,白露为霜。'},
+ {n:'秋分',py:'qiufen',en:'Autumn Equinox',m:9,d:23,s:2,desc:'昼夜再度均分,秋之半也。丹桂飘香,蟹肥菊黄,岁稔年丰。',pents:['雷始收声','蛰虫坯户','水始涸'],cus:['祭月 · 拜月','竖蛋 · 吃秋菜','粘雀子嘴 · 庆丰收'],note:'金气秋分,风清露冷秋期半。'},
+ {n:'寒露',py:'hanlu',en:'Cold Dew',m:10,d:8,s:2,desc:'露气寒冷,将凝为霜。登高望远,菊有黄华,秋已深矣。',pents:['鸿雁来宾','雀入大水为蛤','菊有黄华'],cus:['登高 · 饮菊花酒','赏菊 · 食芝麻','秋钓边 · 收寒衣'],note:'袅袅凉风动,凄凄寒露零。'},
+ {n:'霜降',py:'shuangjiang',en:'Frost Descent',m:10,d:23,s:2,desc:'气肃而霜降,秋之终章。草木黄落,红叶满山,冬意叩门。',pents:['豺乃祭兽','草木黄落','蛰虫咸俯'],cus:['赏红叶','吃柿子','送芋鬼 · 进补'],note:'霜降水返壑,风落木归山。'},
+ {n:'立冬',py:'lidong',en:'Beginning of Winter',m:11,d:7,s:3,desc:'冬之始也。水始冰,地始冻,万物收藏,规避寒冷。',pents:['水始冰','地始冻','雉入大水为蜃'],cus:['迎冬 · 酿黄酒','食饺子 · 补冬','扫疥 · 问医'],note:'冻笔新诗懒写,寒炉美酒时温。'},
+ {n:'小雪',py:'xiaoxue',en:'Minor Snow',m:11,d:22,s:3,desc:'寒未深而雪未大。虹藏不见,闭塞成冬,人家腌菜储粮。',pents:['虹藏不见','天气上升地气下降','闭塞而成冬'],cus:['腌菜 · 储冬','晒鱼干 · 做腊肉','吃糍粑 · 刨汤肉'],note:'晚来天欲雪,能饮一杯无。'},
+ {n:'大雪',py:'daxue',en:'Major Snow',m:12,d:7,s:3,desc:'雪至此而盛。千里冰封,围炉夜话,亦是进补好时节。',pents:['鹖鴠不鸣','虎始交','荔挺出'],cus:['腌肉 · 进补','观赏封河','围炉 · 夜话'],note:'千山鸟飞绝,万径人踪灭。'},
+ {n:'冬至',py:'dongzhi',en:'Winter Solstice',m:12,d:22,s:3,desc:'日南至,日短之至。阴极之至,阳气始生,冬至大如年。',pents:['蚯蚓结','麋角解','水泉动'],cus:['北饺南圆','数九 · 画消寒图','祭祖 · 贺冬'],note:'天时人事日相催,冬至阳生春又来。'},
+ {n:'小寒',py:'xiaohan',en:'Minor Cold',m:1,d:6,s:3,desc:'冷气积久成寒,天渐寒而未至极。雁北乡,鹊始巢。',pents:['雁北乡','鹊始巢','雉始雊'],cus:['食腊八粥','探梅 · 赏雪','写春联 · 备年货'],note:'小寒连大吕,欢鹊垒新巢。'},
+ {n:'大寒',py:'dahan',en:'Greater Cold',m:1,d:20,s:3,desc:'寒气之逆极,故谓大寒。一岁将尽,坚冰深处春水生。',pents:['鸡始乳','征鸟厉疾','水泽腹坚'],cus:['尾牙祭 · 除旧布新','糊窗 · 赶年集','备年货 · 盼团圆'],note:'大寒须遣酒争豪,雪阵掀天浪拍鳌。'}
+];
+const POEMS=[
+ {title:'春晓',author:'孟浩然 · 唐',lines:['春眠不觉晓','处处闻啼鸟','夜来风雨声','花落知多少'],desc:'春天的早晨短得像一声鸟鸣。节气轮转之妙,在于它从不说教——只让一场夜雨,落满阶前。'},
+ {title:'晓出净慈寺送林子方',author:'杨万里 · 宋',lines:['毕竟西湖六月中','风光不与四时同','接天莲叶无穷碧','映日荷花别样红'],desc:'盛夏的颜色不讲道理,接天莲叶把绿推到极致,荷花映日,红得灼人。这是节气里最浓烈的一笔。'},
+ {title:'山行',author:'杜牧 · 唐',lines:['远上寒山石径斜','白云生处有人家','停车坐爱枫林晚','霜叶红于二月花'],desc:'秋到深处,霜叶胜花。古人于寒山石径间停下车马,只为一片红叶——时间的颜色,值得驻足。'},
+ {title:'江雪',author:'柳宗元 · 唐',lines:['千山鸟飞绝','万径人踪灭','孤舟蓑笠翁','独钓寒江雪'],desc:'冬之静,静到只剩一个钓翁与满江雪。节气至此收笔,天地留白,等待下一个立春。'}
+];
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const CN_D='〇一二三四五六七八九';
+const cn=n=>{ if(n<10) return CN_D[n]; if(n<20) return '十'+(n%10?CN_D[n%10]:''); if(n<100) return CN_D[Math.floor(n/10)]+'十'+(n%10?CN_D[n%10]:''); return String(n).split('').map(c=>CN_D[+c]).join(''); };
+
+/* ---- 当下节气推算 ---- */
+const NOW=new Date(), Y=NOW.getFullYear();
+function termStart(i,y){const t=TERMS[i];return new Date(y,t.m-1,t.d);}
+let curIdx=(()=>{for(let i=TERMS.length-1;i>=0;i--){const sd=i>=2?termStart(i,Y):termStart(i,Y); const s=(TERMS[i].m<=2)?termStart(i,Y):termStart(i,Y); const dt=new Date(NOW.getFullYear(),TERMS[i].m-1,TERMS[i].d); if(dt<=NOW) return i;} return 23;})();
+const curStart=curIdx>=2?termStart(curIdx,Y):termStart(curIdx,Y);
+const dayOfTerm=Math.floor((NOW-curStart)/864e5)+1;
+const nextIdx=(curIdx+1)%24;
+const nextStart=(TERMS[nextIdx].m<=2&&curIdx>=2)?termStart(nextIdx,Y+1):termStart(nextIdx,curIdx>=2?Y:Y);
+const daysToNext=Math.max(1,Math.ceil((nextStart-NOW)/864e5));
+const CUR=TERMS[curIdx];
+
+/* ---- 季节主题 ---- */
+function setSeason(i){
+  const s=SEASONS[i],r=document.documentElement.style;
+  r.setProperty('--accent',s.accent); r.setProperty('--deep',s.deep); r.setProperty('--tint',s.tint);
+  document.querySelectorAll('.season-tabs button').forEach((b,j)=>b.classList.toggle('on',j===i));
+  renderPoem(i);
+}
+
+/* ---- 开篇 ---- */
+(function hero(){
+  const d=NOW;
+  document.getElementById('heroDate').textContent=`公元${cn(d.getFullYear())}年 ${cn(d.getMonth()+1)}月${cn(d.getDate())}日 · ${CUR.n} 第${cn(dayOfTerm)}日`;
+  document.getElementById('heroChars').innerHTML=[...CUR.n].map(c=>`<span><i>${c}</i></span>`).join('');
+  document.getElementById('heroChars').setAttribute('aria-label',CUR.n);
+  document.getElementById('heroSub').textContent=CUR.desc;
+  document.getElementById('heroSeal').textContent=CUR.n[0];
+  document.getElementById('heroMeta').innerHTML=
+    `<span class="chip hot">${SEASONS[CUR.s].cn} · ${CUR.en}</span>
+     <span class="chip">距「${TERMS[nextIdx].n}」尚有 ${cn(daysToNext)} 日</span>
+     <span class="chip">一气三候 · 十五日而变</span>`;
+  document.getElementById('heroPents').innerHTML=CUR.pents.map((p,i)=>
+    `<li><b>${p}</b><em>${['一候','二候','三候'][i]}</em></li>`).join('');
+  document.getElementById('todayChip').innerHTML=`今日 <b>${CUR.n}</b> · 距${TERMS[nextIdx].n}${daysToNext}日`;
+  const y=(NOW-new Date(Y,0,1))/ (365*864e5);
+  document.getElementById('yearbar').style.width=(y*100).toFixed(2)+'%';
+  /* 走马灯 */
+  const seq=TERMS.map(t=>`<span class="${t.n===CUR.n?'now':''}">${t.n}</span><span>◆</span>`).join('');
+  document.getElementById('mqTrack').innerHTML=seq+seq;
+})();
+
+/* ---- 日轮 SVG ---- */
+let selIdx=curIdx;
+const svg=document.getElementById('ringSvg'), NS='http://www.w3.org/2000/svg';
+function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);(parent||svg).appendChild(e);return e;}
+function polar(r,deg){const a=(deg-90)*Math.PI/180;return[320+r*Math.cos(a),320+r*Math.sin(a)];}
+(function buildRing(){
+  const rotor=el('g',{class:'rotor'});
+  el('circle',{cx:320,cy:320,r:312,fill:'none',stroke:'var(--hair)'},rotor);
+  el('circle',{cx:320,cy:320,r:200,fill:'none',stroke:'var(--hair)'},rotor);
+  /* 四季色弧 */
+  SEASONS.forEach((s,k)=>{
+    const[a1x,a1y]=polar(286,k*90+3),[a2x,a2y]=polar(286,k*90+87);
+    el('path',{d:`M${a1x},${a1y} A286,286 0 0 1 ${a2x},${a2y}`,fill:'none',stroke:s.accent,'stroke-width':12,opacity:.42},rotor);
+  });
+  TERMS.forEach((t,i)=>{
+    const deg=i*15;
+    const[x1,y1]=polar(300,deg),[x2,y2]=polar(312,deg);
+    el('line',{x1,y1,x2,y2,class:'tick','stroke-width':i%6===0?2:1},rotor);
+    const[lx,ly]=polar(250,deg);
+    const txt=el('text',{x:lx,y:ly,class:'tlabel','text-anchor':'middle','dominant-baseline':'middle',transform:`rotate(${deg},${lx},${ly})`},rotor);
+    txt.textContent=t.n; txt.dataset.i=i; txt.style.cursor='pointer';
+    const[dx,dy]=polar(200,deg);
+    el('circle',{cx:dx,cy:dy,r:6,class:'dot','data-i':i},rotor);
+    const hit=el('circle',{cx:dx,cy:dy,r:20,fill:'transparent',class:'ring-hit'},rotor);
+    hit.addEventListener('click',()=>select(i));
+    txt.addEventListener('click',()=>select(i));
+  });
+  /* 当下节气 · 太阳标记 */
+  const[mx,my]=polar(200,curIdx*15);
+  el('circle',{cx:mx,cy:my,r:10,fill:'none',stroke:'var(--seal)','stroke-width':1.5,class:'sun-pulse'},rotor);
+  el('circle',{cx:mx,cy:my,r:5.5,fill:'var(--seal)'},rotor);
+})();
+
+/* ---- 选择节气 ---- */
+const dots=[...svg.querySelectorAll('.dot')], labels=[...svg.querySelectorAll('.tlabel')];
+function paintSel(){
+  dots.forEach(d=>d.classList.toggle('sel',+d.dataset.i===selIdx));
+  labels.forEach(l=>l.classList.toggle('sel',+l.dataset.i===selIdx));
+  const t=TERMS[selIdx],s=SEASONS[t.s];
+  document.getElementById('rcChar').textContent=t.n[0];
+  document.getElementById('rcSub').textContent=`${s.cn} · ${t.en}`;
+  document.getElementById('pvChar').textContent=t.n;
+  document.getElementById('pvName').textContent=t.n;
+  document.getElementById('pvEn').textContent=t.en;
+  document.getElementById('pvDate').textContent=`每年 ${t.m}月${t.d}日前后 · ${s.cn}季第${(selIdx%6===0&&selIdx<6)?'':''}${(selIdx-t.s*6+1)}气`;
+  document.getElementById('pvDesc').textContent=t.desc;
+  document.getElementById('pvPents').innerHTML=t.pents.map(p=>`<span>${p}</span>`).join('');
+}
+function renderDetail(t){
+  document.getElementById('dChar').innerHTML=[...t.n].join('<br>');
+  document.getElementById('dName').childNodes[0].textContent=t.n;
+  document.getElementById('dEn').textContent=t.en.toUpperCase();
+  document.getElementById('dDate').textContent=`每年 ${t.m}月${t.d}日前后交节 · ${SEASONS[t.s].cn}季`;
+  document.getElementById('dDesc').textContent=t.desc;
+  document.getElementById('dPents').innerHTML=t.pents.map((p,i)=>
+    `<div class="pent-row"><span class="idx">${['一候','二候','三候'][i]}</span><b>${p}</b></div>`).join('');
+  document.getElementById('dCus').innerHTML=t.cus.map(c=>`<span>${c}</span>`).join('');
+  document.getElementById('dQuote').innerHTML=`${t.note}<small>—— 古人朱批,今人共读</small>`;
+  const img=document.getElementById('dImg');
+  img.src=`https://picsum.photos/seed/jieqi-${t.py}-scene/920/560`; img.alt=t.n+'风物';
+  document.getElementById('dCap').textContent=`${t.n} · ${SEASONS[t.s].cn}季风物`;
+}
+let wiping=false;
+function select(i,fromKey){
+  selIdx=(i+24)%24; paintSel();
+  const wipe=document.getElementById('dWipe');
+  if(RM||wiping){renderDetail(TERMS[selIdx]);return;}
+  wiping=true; wipe.classList.remove('run'); void wipe.offsetWidth; wipe.classList.add('run');
+  setTimeout(()=>{renderDetail(TERMS[selIdx]);wiping=false;},330);
+}
+document.getElementById('prevTerm').onclick=()=>select(selIdx-1);
+document.getElementById('nextTerm').onclick=()=>select(selIdx+1);
+document.addEventListener('keydown',e=>{
+  if(/input|textarea/i.test(e.target.tagName))return;
+  if(e.key==='ArrowLeft')select(selIdx-1);
+  if(e.key==='ArrowRight')select(selIdx+1);
+});
+paintSel(); renderDetail(CUR);
+
+/* ---- 手卷 ---- */
+(function buildCards(){
+  const hs=document.getElementById('hs');
+  hs.innerHTML=TERMS.map((t,i)=>`
+   <article class="card" data-i="${i}" role="button" tabindex="0" aria-label="${t.n}">
+     <div class="c-img">
+       <img loading="lazy" src="https://picsum.photos/seed/jieqi-${t.py}-${['spring','summer','autumn','winter'][t.s]}/480/600" alt="${t.n}">
+       <span class="c-no">No.${String(i+1).padStart(2,'0')}</span>
+       <span class="c-sea">${SEASONS[t.s].cn}</span>
+     </div>
+     <div class="c-body">
+       <h3 class="c-name">${t.n}<em>${t.en}</em></h3>
+       <div class="c-date">${t.m}月${t.d}日前后</div>
+       <p class="c-desc">${t.desc}</p>
+       <div class="c-pent">一候${t.pents[0]} · 二候${t.pents[1]} · 三候${t.pents[2]}</div>
+     </div>
+   </article>`).join('');
+  hs.style.scrollSnapType='x mandatory';
+  hs.addEventListener('click',e=>{const c=e.target.closest('.card');if(!c)return;select(+c.dataset.i);document.getElementById('detail').scrollIntoView({behavior:RM?'auto':'smooth'});});
+  /* 拖动展卷 */
+  let down=false,sx=0,sl=0;
+  hs.addEventListener('pointerdown',e=>{down=true;sx=e.clientX;sl=hs.scrollLeft;hs.classList.add('drag');});
+  addEventListener('pointermove',e=>{if(!down)return;hs.scrollLeft=sl-(e.clientX-sx);});
+  addEventListener('pointerup',()=>{down=false;hs.classList.remove('drag');});
+  hs.addEventListener('wheel',e=>{if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){hs.scrollLeft+=e.deltaY;e.preventDefault();}},{passive:false});
+  const bar=document.getElementById('hsBar');
+  hs.addEventListener('scroll',()=>{const p=hs.scrollLeft/(hs.scrollWidth-hs.clientWidth||1);bar.style.width=Math.max(8,p*100)+'%';});
+})();
+
+/* ---- 气候图 ---- */
+(function chart(){
+  const svgC=document.getElementById('chartSvg');
+  const TEMP=[-3.5,-0.5,6,14,20,24.5,26.5,25.5,20.5,13.5,5,-1.5];
+  const RAIN=[3,5,10,22,35,75,175,160,50,22,8,3];
+  const MON=['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+  const L=46,R=20,T=22,B=38,W=760,H=340;
+  const x=i=>L+i*(W-L-R)/11;
+  const yT=v=>T+(30-v)/(30-(-10))*(H-T-B);
+  const yR=p=>(H-B)-p/180*(H-T-B-10);
+  const c=document.createElementNS.bind(document,NS);
+  const mk=(tag,a)=>{const e=document.createElementNS(NS,tag);for(const k in a)e.setAttribute(k,a[k]);svgC.appendChild(e);return e;};
+  [-10,0,10,20,30].forEach(v=>{
+    mk('line',{x1:L,x2:W-R,y1:yT(v),y2:yT(v),class:'gline'});
+    const t=mk('text',{x:L-10,y:yT(v)+4,class:'ax','text-anchor':'end'});t.textContent=v+'°';
+  });
+  MON.forEach((m,i)=>{const t=mk('text',{x:x(i),y:H-10,class:'ax','text-anchor':'middle'});t.textContent=m;});
+  RAIN.forEach((p,i)=>{const b=mk('rect',{x:x(i)-10,y:yR(p),width:20,height:(H-B)-yR(p),class:'pbar'});b.style.transitionDelay=(i*0.05)+'s';});
+  const pts=TEMP.map((v,i)=>[x(i),yT(v)]);
+  let d=`M${pts[0][0]},${pts[0][1]}`;
+  for(let i=0;i<pts.length-1;i++){
+    const p0=pts[Math.max(0,i-1)],p1=pts[i],p2=pts[i+1],p3=pts[Math.min(pts.length-1,i+2)];
+    d+=`C${(p1[0]+(p2[0]-p0[0])/6).toFixed(1)},${(p1[1]+(p2[1]-p0[1])/6).toFixed(1)} ${(p2[0]-(p3[0]-p1[0])/6).toFixed(1)},${(p2[1]-(p3[1]-p1[1])/6).toFixed(1)} ${p2[0]},${p2[1]}`;
+  }
+  const line=mk('path',{d,class:'tline'});
+  const LN=line.getTotalLength();
+  if(!RM){line.style.strokeDasharray=LN;line.style.strokeDashoffset=LN;line.style.transition='stroke-dashoffset 2.2s ease .3s';}
+  const gd=mk('line',{y1:T,y2:H-B,x1:-9,x2:-9,class:'guide'});
+  const dots=pts.map(p=>mk('circle',{cx:p[0],cy:p[1],r:4,class:'tdot'}));
+  const tip=document.getElementById('tip'), wrap=document.getElementById('chartWrap');
+  new IntersectionObserver((es,o)=>{es.forEach(en=>{if(en.isIntersecting){wrap.classList.add('in');if(!RM)line.style.strokeDashoffset=0;o.disconnect();}})},{threshold:.4}).observe(wrap);
+  svgC.addEventListener('mousemove',e=>{
+    const rc=svgC.getBoundingClientRect();
+    const px=(e.clientX-rc.left)/rc.width*W;
+    let i=Math.round((px-L)/((W-L-R)/11)); i=Math.max(0,Math.min(11,i));
+    gd.setAttribute('x1',x(i));gd.setAttribute('x2',x(i));gd.style.opacity=.5;
+    tip.style.opacity=1;
+    tip.textContent=`${MON[i]} · 均温 ${TEMP[i]}℃ · 降水 ${RAIN[i]}㎜`;
+    const wr=wrap.getBoundingClientRect();
+    tip.style.left=Math.min(e.clientX-wr.left+16,wr.width-170)+'px';
+    tip.style.top=(e.clientY-wr.top-14)+'px';
+    dots.forEach((dt,k)=>dt.setAttribute('r',k===i?6:4));
+  });
+  svgC.addEventListener('mouseleave',()=>{gd.style.opacity=0;tip.style.opacity=0;dots.forEach(dt=>dt.setAttribute('r',4));});
+})();
+
+/* ---- 数字滚动 ---- */
+document.querySelectorAll('.num').forEach(n=>{
+  const target=+n.dataset.n;
+  const io=new IntersectionObserver(es=>{es.forEach(en=>{
+    if(!en.isIntersecting)return; io.disconnect();
+    if(RM){n.textContent=target.toLocaleString();return;}
+    const t0=performance.now();
+    (function tick(t){const p=Math.min(1,(t-t0)/1300),e=1-Math.pow(1-p,3);
+      n.textContent=Math.round(target*e).toLocaleString();
+      if(p<1)requestAnimationFrame(tick);})(t0);
+  })},{threshold:.6}); io.observe(n);
+});
+
+/* ---- 诗帖 ---- */
+(function poems(){
+  const tabs=document.getElementById('seasonTabs');
+  tabs.innerHTML=SEASONS.map((s,i)=>`<button data-i="${i}" aria-label="${s.cn}"><i style="background:${s.accent}"></i>${s.cn}<small>${s.en}</small></button>`).join('');
+  tabs.addEventListener('click',e=>{const b=e.target.closest('button');if(b)setSeason(+b.dataset.i);});
+})();
+function renderPoem(si){
+  const p=POEMS[si],cols=document.getElementById('poemCols');
+  document.getElementById('poemWm').textContent=SEASONS[si].cn;
+  document.getElementById('capSeal').textContent=SEASONS[si].cn;
+  document.getElementById('capTitle').textContent=p.title;
+  document.getElementById('capDesc').textContent=p.desc;
+  cols.innerHTML=
+    `<div class="p-col meta hide"><span>${p.author}</span></div>`+
+    p.lines.map(l=>`<div class="p-col line hide"><span>${l}</span></div>`).join('')+
+    `<div class="p-col title hide"><span>《${p.title}》</span></div>`;
+  const items=[...cols.children];
+  if(RM){items.forEach(c=>c.classList.remove('hide'));return;}
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    items.forEach((c,k)=>{c.querySelector('span').style.transitionDelay=(k*0.14)+'s';c.classList.remove('hide');});
+  }));
+}
+
+/* ---- 显现 / 乱码解码 ---- */
+const io=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}})},{threshold:.15});
+document.querySelectorAll('[data-rv]').forEach(e=>io.observe(e));
+const POOL='节气风雨霜雪云雷山水月星河汉禾稼天地春秋';
+const ioS=new IntersectionObserver(es=>{es.forEach(en=>{
+  if(!en.isIntersecting)return; ioS.unobserve(en.target);
+  const elT=en.target,txt=elT.textContent;
+  if(RM){elT.textContent=txt;return;}
+  let f=0;const total=Math.max(26,txt.length*8);
+  (function step(){
+    f++;
+    const done=Math.floor(txt.length*(f/total));
+    elT.textContent=[...txt].map((c,i)=>i<done?c:POOL[Math.floor(Math.random()*POOL.length)]).join('');
+    if(f<total)requestAnimationFrame(step);else elT.textContent=txt;
+  })();
+})},{threshold:.6});
+document.querySelectorAll('.scr').forEach(e=>ioS.observe(e));
+
+/* ---- 朱砂光标 ---- */
+(function cursor(){
+  if(matchMedia('(pointer:coarse)').matches||RM)return;
+  const c=document.getElementById('cursor');let mx=innerWidth/2,my=innerHeight/2,cx=mx,cy=my;
+  addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;c.style.opacity=.9;});
+  document.addEventListener('mouseover',e=>{c.classList.toggle('big',!!e.target.closest('a,button,.card,.ring-hit,.cus-list span'));});
+  (function loop(){cx+=(mx-cx)*.18;cy+=(my-cy)*.18;c.style.transform=`translate(${cx}px,${cy}px) translate(-50%,-50%)`;requestAnimationFrame(loop);})();
+})();
+
+/* ---- 初始化 ---- */
+setSeason(CUR.s);
+</script>
+</body>
+</html>

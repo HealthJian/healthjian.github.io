@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>远征 ODYSSEY · 从地表到比邻星</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%2304060f'/><circle cx='32' cy='32' r='10' fill='%23ffb347'/><ellipse cx='32' cy='32' rx='26' ry='9' fill='none' stroke='%236fd9ff' stroke-width='2' transform='rotate(-18 32 32)'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#04060f; --panel:rgba(7,12,28,.86); --line:rgba(120,190,255,.18);
+  --cyan:#6fd9ff; --amber:#ffb347; --red:#ff5a4e; --txt:#dfe9f5; --dim:#7f8da8;
+  --f-disp:'Orbitron',sans-serif; --f-body:'Noto Sans SC',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{font-family:var(--f-body);font-weight:300;color:var(--txt);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:var(--amber);color:#1a1006}
+button{font-family:inherit;background:none;border:none;color:inherit;cursor:pointer}
+a{color:inherit;text-decoration:none}
+#stars{position:fixed;inset:0;z-index:0}
+.noise{position:fixed;inset:-60%;z-index:96;pointer-events:none;opacity:.045;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 9s steps(10) infinite}
+@keyframes grain{0%,100%{transform:translate(0)}25%{transform:translate(-2%,2%)}50%{transform:translate(2%,-1%)}75%{transform:translate(-1%,-2%)}}
+section{position:relative;z-index:2}
+.wrap{max-width:1180px;margin:0 auto;padding:0 26px}
+header{position:fixed;top:0;left:0;right:0;z-index:70;display:flex;align-items:center;gap:16px;padding:12px 24px;background:linear-gradient(180deg,rgba(4,6,15,.85),transparent)}
+.logo{display:flex;align-items:center;gap:12px;font-family:var(--f-disp);font-size:15px;letter-spacing:.3em;font-weight:800}
+.logo .dot{width:12px;height:12px;border-radius:50%;background:var(--amber);box-shadow:0 0 14px var(--amber);animation:blink 2.4s ease infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+.logo small{display:block;font:300 9px/1.4 var(--f-body);letter-spacing:.4em;color:var(--dim)}
+#phaseChip{margin-left:auto;font:600 10px var(--f-disp);letter-spacing:.3em;color:var(--cyan);border:1px solid var(--line);padding:8px 14px;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))}
+#hdrMet{font:600 12px var(--f-disp);letter-spacing:.14em;color:var(--amber)}
+#sfxBtn{font:600 10px var(--f-disp);letter-spacing:.2em;border:1px solid var(--line);padding:8px 12px;color:var(--dim);transition:.3s}
+#sfxBtn.on{color:var(--cyan);border-color:var(--cyan)}
+@media(max-width:720px){.logo small,#hdrMet{display:none}}
+/* ---- 发射场 ---- */
+#launch{height:100vh;min-height:640px;position:relative;overflow:hidden}
+#launchCv{position:absolute;inset:0;width:100%;height:100%}
+.l-title{position:absolute;top:86px;left:30px;z-index:5;pointer-events:none}
+.l-title h1{font:800 clamp(26px,4.4vw,50px)/1.15 var(--f-disp);letter-spacing:.16em;text-shadow:0 0 30px rgba(111,217,255,.35)}
+.l-title p{margin-top:10px;font:300 12px/2 var(--f-body);letter-spacing:.34em;color:var(--dim)}
+.launch-ctl{position:absolute;left:30px;bottom:44px;z-index:6;display:flex;flex-direction:column;gap:14px}
+#igniteBtn{font:800 18px var(--f-disp);letter-spacing:.3em;color:#1a0603;background:linear-gradient(180deg,#ff7a5c,#e33d2e);padding:20px 44px;clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px));box-shadow:0 0 34px rgba(255,90,78,.45);transition:.3s;animation:pulseBtn 2s ease-in-out infinite}
+#igniteBtn:hover{transform:translateY(-3px);box-shadow:0 0 60px rgba(255,90,78,.7)}
+#igniteBtn:disabled{filter:grayscale(.6);opacity:.6;animation:none;cursor:default}
+@keyframes pulseBtn{0%,100%{box-shadow:0 0 24px rgba(255,90,78,.35)}50%{box-shadow:0 0 54px rgba(255,90,78,.65)}}
+.ctl-note{font:300 11px/1.9 var(--f-body);letter-spacing:.26em;color:var(--dim)}
+.telemetry{position:absolute;right:30px;bottom:44px;z-index:6;display:flex;gap:12px}
+.tile{background:var(--panel);border:1px solid var(--line);padding:12px 16px;min-width:118px;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%)}
+.tile i{display:block;font:400 9px var(--f-disp);letter-spacing:.28em;color:var(--dim);font-style:normal;margin-bottom:7px}
+.tile b{font:600 20px var(--f-disp);letter-spacing:.06em;color:var(--cyan)}
+.tile b small{font-size:10px;color:var(--dim);letter-spacing:.1em}
+.feed{position:absolute;right:30px;top:96px;z-index:6;width:270px;display:flex;flex-direction:column;gap:7px}
+.feed p{font:400 11px/1.6 var(--f-body);letter-spacing:.16em;color:var(--dim);border-left:2px solid var(--line);padding-left:10px;opacity:0;transform:translateX(14px);transition:.5s}
+.feed p.on{opacity:1;transform:none;border-color:var(--amber);color:var(--txt)}
+#cdNum{position:absolute;left:50%;top:38%;transform:translateX(-50%);z-index:7;font:800 clamp(70px,12vw,150px) var(--f-disp);color:var(--amber);text-shadow:0 0 50px rgba(255,179,71,.6);letter-spacing:.06em;pointer-events:none;opacity:0;transition:opacity .3s}
+#cdNum.show{opacity:1}
+#orbitBanner{position:absolute;inset:0;z-index:8;display:none;place-items:center;background:radial-gradient(circle at 50% 60%,rgba(10,20,50,.2),rgba(3,6,15,.72))}
+#orbitBanner.show{display:grid}
+.ob-card{text-align:center;padding:50px 60px;border:1px solid var(--line);background:var(--panel);clip-path:polygon(0 0,calc(100% - 22px) 0,100% 22px,100% 100%,22px 100%,0 calc(100% - 22px))}
+.ob-card h2{font:800 clamp(26px,4vw,44px) var(--f-disp);letter-spacing:.2em;color:var(--cyan);text-shadow:0 0 30px rgba(111,217,255,.5)}
+.ob-card p{margin:18px 0 30px;font:300 13px/2.2 var(--f-body);letter-spacing:.24em;color:var(--dim)}
+#toDeck{font:800 15px var(--f-disp);letter-spacing:.28em;color:#04121c;background:var(--cyan);padding:16px 36px;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));transition:.3s}
+#toDeck:hover{box-shadow:0 0 44px rgba(111,217,255,.6);transform:translateY(-2px)}
+@media(max-width:760px){.feed{display:none}.telemetry{left:16px;right:16px;bottom:120px;flex-wrap:wrap}.tile{min-width:96px;flex:1}}
+/* ---- 指挥台 ---- */
+#deck{height:104vh;min-height:760px}
+#mapCv{position:absolute;inset:0;width:100%;height:100%;cursor:grab}
+#mapCv.drag{cursor:grabbing}
+.deck-head{position:absolute;top:76px;left:30px;z-index:5;pointer-events:none;max-width:560px}
+.deck-head h2{font:800 clamp(22px,3.4vw,38px) var(--f-disp);letter-spacing:.16em}
+.deck-head p{margin-top:8px;font:300 11.5px/2 var(--f-body);letter-spacing:.22em;color:var(--dim)}
+.map-tools{position:absolute;left:30px;top:190px;z-index:6;display:flex;flex-direction:column;gap:8px}
+.map-tools button{font:400 10.5px var(--f-disp);letter-spacing:.22em;color:var(--dim);border:1px solid var(--line);background:rgba(6,10,24,.7);padding:9px 13px;text-align:left;transition:.25s;min-width:148px}
+.map-tools button:hover{color:var(--cyan);border-color:var(--cyan)}
+.map-tools button.on{color:#04121c;background:var(--cyan);border-color:var(--cyan)}
+.dest-panel{position:absolute;right:24px;top:84px;bottom:120px;z-index:6;width:284px;display:flex;flex-direction:column;gap:8px;overflow-y:auto;padding-right:4px;scrollbar-width:thin}
+.dest-panel h3{font:600 10px var(--f-disp);letter-spacing:.4em;color:var(--dim);margin:4px 0 6px;flex:none}
+.dest{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:center;text-align:left;border:1px solid var(--line);background:rgba(6,10,24,.72);padding:12px 14px;transition:.3s;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%)}
+.dest:hover:not(:disabled){border-color:var(--amber);transform:translateX(-5px)}
+.dest:disabled{opacity:.4;cursor:default}
+.dest .dn{font:500 15px var(--f-body);letter-spacing:.16em}
+.dest .dn em{font:600 8.5px var(--f-disp);letter-spacing:.3em;color:var(--dim);font-style:normal;margin-left:8px}
+.dest .dd{grid-column:1;font:300 10px/1.6 var(--f-body);letter-spacing:.14em;color:var(--dim)}
+.dest .go{grid-row:1/3;font:800 11px var(--f-disp);letter-spacing:.14em;color:var(--cyan);border:1px solid var(--line);padding:8px 11px;transition:.3s}
+.dest:hover:not(:disabled) .go{background:var(--cyan);color:#04121c}
+.dest.wide{border-color:rgba(255,179,71,.4)}
+.map-tip{position:absolute;z-index:9;pointer-events:none;background:var(--panel);border:1px solid var(--cyan);padding:8px 12px;font:400 10.5px/1.8 var(--f-body);letter-spacing:.14em;display:none;white-space:nowrap}
+.map-tip b{font-family:var(--f-disp);letter-spacing:.2em;color:var(--cyan)}
+#mapNote{position:absolute;left:30px;bottom:118px;z-index:6;font:300 10.5px/1.9 var(--f-body);letter-spacing:.2em;color:var(--dim);max-width:420px;pointer-events:none}
+/* ---- 指令台 ---- */
+.console{position:fixed;left:50%;bottom:14px;transform:translate(-50%,140%);z-index:65;width:min(1080px,96vw);background:var(--panel);border:1px solid var(--line);display:grid;grid-template-columns:repeat(6,1fr);gap:1px;transition:transform .7s cubic-bezier(.2,.7,.2,1);clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,18px 100%,0 calc(100% - 18px))}
+.console.show{transform:translate(-50%,0)}
+.ctile{padding:12px 16px;background:rgba(4,8,20,.5)}
+.ctile i{display:block;font:400 8.5px var(--f-disp);letter-spacing:.26em;color:var(--dim);font-style:normal;margin-bottom:6px}
+.ctile b{font:600 17px var(--f-disp);letter-spacing:.04em;color:var(--txt)}
+.ctile b.hi{color:var(--amber)}.ctile b.cy{color:var(--cyan)}
+.ctile small{display:block;font:300 9px/1.7 var(--f-body);letter-spacing:.14em;color:var(--dim);margin-top:3px}
+@media(max-width:900px){.console{grid-template-columns:repeat(3,1fr)}.ctile b{font-size:14px}}
+/* ---- 抵达弹窗 ---- */
+#arrModal{position:fixed;inset:0;z-index:80;display:none;place-items:center;background:rgba(2,4,10,.8)}
+#arrModal.show{display:grid}
+.arr-card{width:min(620px,92vw);background:var(--panel);border:1px solid var(--line);padding:40px;display:grid;grid-template-columns:150px 1fr;gap:30px;align-items:center;clip-path:polygon(0 0,calc(100% - 24px) 0,100% 24px,100% 100%,24px 100%,0 calc(100% - 24px))}
+.arr-sphere{width:140px;height:140px;border-radius:50%;position:relative;animation:floaty 5s ease-in-out infinite alternate}
+@keyframes floaty{from{transform:translateY(-6px)}to{transform:translateY(6px)}}
+.arr-card h3{font:800 26px var(--f-disp);letter-spacing:.16em}
+.arr-card h3 em{display:block;font:300 10px/2 var(--f-body);letter-spacing:.4em;color:var(--dim);font-style:normal}
+.arr-facts{display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;margin:16px 0;font:300 11.5px/1.8 var(--f-body);letter-spacing:.1em;color:var(--dim)}
+.arr-facts b{color:var(--txt);font-weight:500}
+.arr-trivia{font:300 12px/2.1 var(--f-body);letter-spacing:.08em;color:var(--dim);border-left:2px solid var(--amber);padding-left:14px}
+.arr-btns{grid-column:1/-1;display:flex;gap:14px;margin-top:6px}
+.arr-btns button{flex:1;font:600 12px var(--f-disp);letter-spacing:.24em;padding:13px;border:1px solid var(--line);transition:.3s}
+.arr-btns button:hover{border-color:var(--cyan);color:var(--cyan)}
+.arr-btns .primary{background:var(--cyan);color:#04121c;border-color:var(--cyan)}
+@media(max-width:620px){.arr-card{grid-template-columns:1fr;justify-items:center;text-align:center}.arr-trivia{text-align:left}}
+/* ---- 档案 ---- */
+#archive{padding:130px 0 110px;background:linear-gradient(180deg,transparent,rgba(6,10,25,.7) 20%,rgba(6,10,25,.7) 80%,transparent)}
+.sec-head{margin-bottom:46px}
+.sec-head .kicker{font:600 11px var(--f-disp);letter-spacing:.5em;color:var(--amber)}
+.sec-head h2{font:800 clamp(30px,4.6vw,52px) var(--f-disp);letter-spacing:.1em;margin-top:14px}
+.sec-head h2 span{color:var(--cyan)}
+.sec-head p{margin-top:14px;font:300 13px/2.2 var(--f-body);letter-spacing:.2em;color:var(--dim)}
+.arc-strip{display:flex;gap:20px;overflow-x:auto;padding:14px 26px 30px;cursor:grab;scrollbar-width:none}
+.arc-strip::-webkit-scrollbar{display:none}
+.arc-card{flex:0 0 330px;border:1px solid var(--line);background:rgba(6,11,26,.75);padding:26px;clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,0 100%);transition:transform .5s cubic-bezier(.2,.7,.2,1),border-color .4s,box-shadow .5s;scroll-snap-align:start}
+.arc-card:hover{transform:translateY(-10px);border-color:var(--cyan);box-shadow:0 26px 50px -22px rgba(111,217,255,.3)}
+.arc-top{display:flex;gap:20px;align-items:center;margin-bottom:20px}
+.arc-sphere{width:74px;height:74px;border-radius:50%;flex:none;position:relative;animation:floaty 6s ease-in-out infinite alternate}
+.arc-card h4{font:700 20px/1.3 var(--f-body);letter-spacing:.2em}
+.arc-card h4 em{display:block;font:600 9px var(--f-disp);letter-spacing:.34em;color:var(--dim);font-style:normal;margin-top:5px}
+.arc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;border-top:1px dashed var(--line);padding-top:16px}
+.arc-grid div{font:300 11px/1.7 var(--f-body);letter-spacing:.08em;color:var(--dim)}
+.arc-grid b{display:block;color:var(--txt);font-weight:500;font-size:12.5px}
+.arc-note{margin-top:16px;font:300 11.5px/2 var(--f-body);letter-spacing:.06em;color:var(--dim);border-left:2px solid var(--amber);padding-left:12px}
+.ring::after{content:'';position:absolute;left:50%;top:50%;width:132%;height:34%;border:2px solid rgba(230,207,154,.55);border-radius:50%;transform:translate(-50%,-50%) rotate(-22deg)}
+/* ---- 尺度之渊 ---- */
+#abyss{padding:150px 0 170px}
+.aby-row{display:grid;grid-template-columns:minmax(150px,300px) 1fr;gap:34px;align-items:baseline;border-top:1px solid rgba(120,190,255,.1);padding:44px 0}
+.aby-row .big{font:800 clamp(40px,6vw,84px) var(--f-disp);color:var(--amber);text-shadow:0 0 34px rgba(255,179,71,.28)}
+.aby-row .big small{font-size:.32em;color:var(--dim);letter-spacing:.2em}
+.aby-row p{font:300 15px/2.35 var(--f-body);letter-spacing:.1em;color:var(--dim);max-width:680px}
+.aby-row p strong{color:var(--txt);font-weight:500}
+.aby-quote{margin:90px auto 0;max-width:760px;text-align:center;font:300 19px/2.6 var(--f-body);letter-spacing:.22em}
+.aby-quote cite{display:block;margin-top:24px;font:400 10px var(--f-disp);letter-spacing:.5em;color:var(--cyan);font-style:normal}
+.voy-ping{width:10px;height:10px;border-radius:50%;background:var(--amber);margin:70px auto 0;position:relative}
+.voy-ping::before,.voy-ping::after{content:'';position:absolute;inset:-6px;border:1px solid var(--amber);border-radius:50%;animation:ping 3s ease-out infinite}
+@keyframes ping{from{transform:scale(.6);opacity:.9}to{transform:scale(4.4);opacity:0}}
+@media(max-width:720px){.aby-row{grid-template-columns:1fr;gap:12px}}
+footer{position:relative;z-index:2;border-top:1px solid var(--line);padding:46px 26px;display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;font:300 11px/2 var(--f-body);letter-spacing:.24em;color:var(--dim)}
+footer b{color:var(--amber);font-weight:400}
+[data-rv]{opacity:0;transform:translateY(30px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
+[data-rv].in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  [data-rv]{opacity:1;transform:none}
+  .console{transform:translate(-50%,0)}
+}
+</style>
+</head>
+<body>
+<canvas id="stars"></canvas>
+<div class="noise" aria-hidden="true"></div>
+<header>
+  <a class="logo" href="#launch"><span class="dot"></span><span>远征 ODYSSEY<small>SOLAR TRANSIT AUTHORITY · 深空航行局</small></span></a>
+  <span id="phaseChip">PHASE · 发射前检查</span>
+  <span id="hdrMet">MET T-00:00</span>
+  <button id="sfxBtn" aria-pressed="false">SFX OFF</button>
+</header>
+
+<section id="launch">
+  <canvas id="launchCv"></canvas>
+  <div class="l-title">
+    <h1 class="scr">LAUNCH COMPLEX 09</h1>
+    <p>远征七号 · 轨道:400 KM LEO · 倾角 51.6°<br>点火前请确认:推进剂已满 · 惯性导航对准 · 全系统绿</p>
+  </div>
+  <div class="feed" id="feed"></div>
+  <div class="telemetry">
+    <div class="tile"><i>ALT 高度</i><b id="tAlt">0<small> KM</small></b></div>
+    <div class="tile"><i>VEL 速度</i><b id="tVel">0<small> M/S</small></b></div>
+    <div class="tile"><i>ACC 过载</i><b id="tAcc">1.0<small> G</small></b></div>
+  </div>
+  <div class="launch-ctl">
+    <button id="igniteBtn">点火 · IGNITE</button>
+    <p class="ctl-note">单击即可 —— 之后的一切交给物理</p>
+  </div>
+  <div id="cdNum">T-3</div>
+  <div id="orbitBanner">
+    <div class="ob-card">
+      <h2>ORBIT ACHIEVED</h2>
+      <p>近地轨道已建立 · 高度 400 KM · 速度 7.66 KM/S<br>发动机熄火 · 太阳翼展开 · 深空网上线</p>
+      <button id="toDeck">进入轨道指挥台 ▾</button>
+    </div>
+  </div>
+</section>
+
+<section id="deck">
+  <canvas id="mapCv"></canvas>
+  <div class="deck-head">
+    <h2 class="scr">SOLAR TRANSIT MAP</h2>
+    <p>滚轮缩放 · 拖拽平移 · 数字键 1-9 设定目标 · 转移途中可重新设定 —— 即时变轨<br>霍曼转移会自动等待发射窗口,与目标行星准时会合</p>
+  </div>
+  <div class="map-tools" id="mapTools">
+    <button data-v="inner" class="on">◉ 内太阳系</button>
+    <button data-v="outer">◎ 外太阳系</button>
+    <button data-v="kuiper">◌ 柯伊伯带</button>
+    <button data-v="abyss">▽ 深渊视图</button>
+    <button data-v="linear">━ 真实线性尺度</button>
+  </div>
+  <div class="dest-panel" id="destPanel"><h3>DESTINATIONS · 目的地</h3></div>
+  <div class="map-tip" id="mapTip"></div>
+  <p id="mapNote"></p>
+</section>
+
+<aside class="console" id="console" aria-live="off">
+  <div class="ctile"><i>MISSION CLOCK</i><b class="hi" id="cMET">T-00:00</b><small>任务时钟 MET</small></div>
+  <div class="ctile"><i>SUN RANGE</i><b class="cy" id="cSun">1.000 AU</b><small id="cSunLt">光行时 8.3 分</small></div>
+  <div class="ctile"><i>EARTH RANGE</i><b id="cEarth">0 KM</b><small id="cEarthLt">—</small></div>
+  <div class="ctile"><i>VELOCITY</i><b id="cVel">0.00 KM/S</b><small id="cPhase">待命 · LEO</small></div>
+  <div class="ctile"><i>NEAREST MASS</i><b class="cy" id="cBody">地球</b><small id="cGrav">g = 9.81 m/s²</small></div>
+  <div class="ctile"><i>TIME WARP</i><b id="cWarp">×1</b><small id="cSig">信号 100%</small></div>
+</aside>
+
+<div id="arrModal">
+  <div class="arr-card">
+    <div class="arr-sphere" id="arrSphere"></div>
+    <div>
+      <h3><span id="arrName">火星</span><em id="arrEn">MARS · 抵达确认</em></h3>
+      <div class="arr-facts" id="arrFacts"></div>
+      <p class="arr-trivia" id="arrTrivia"></p>
+    </div>
+    <div class="arr-btns">
+      <button id="arrHome">返航地球</button>
+      <button class="primary" id="arrNext">选择下一目的地</button>
+    </div>
+  </div>
+</div>
+
+<section id="archive">
+  <div class="wrap sec-head" data-rv>
+    <span class="kicker">DEEP SPACE ARCHIVE</span>
+    <h2>深空档案 <span>// 行星卷宗</span></h2>
+    <p>拖拽展卷 · 每一颗行星都是一份独立的世界档案</p>
+  </div>
+  <div class="arc-strip" id="arcStrip"></div>
+</section>
+
+<section id="abyss">
+  <div class="wrap">
+    <div class="sec-head" data-rv>
+      <span class="kicker">THE ABYSS OF SCALE</span>
+      <h2>尺度之渊 <span>// 深渊感</span></h2>
+      <p>把太阳缩成一颗直径 1 米的球,放在你的客厅——</p>
+    </div>
+    <div class="aby-row" data-rv><div class="big">107<small> M</small></div><p>地球是 <strong>9 毫米的玻璃珠</strong>,在一百零七米外绕着它转。你一步就能跨过地月距离——月球只有 2.6 毫米,悬在玻璃珠旁 26 厘米处。</p></div>
+    <div class="aby-row" data-rv style="--d:.05s"><div class="big">560<small> M</small></div><p>木星是一颗 <strong>10 厘米的橘子</strong>,在六个街区之外。它的质量,是其余所有行星加起来的两倍半。</p></div>
+    <div class="aby-row" data-rv style="--d:.1s"><div class="big">3.2<small> KM</small></div><p>海王星在三公里外的郊区。<strong>从太阳出发,你开车要四十分钟</strong>——而这段路,光只要走四小时。</p></div>
+    <div class="aby-row" data-rv style="--d:.15s"><div class="big">17.8<small> KM</small></div><p>旅行者 1 号——人类飞得最远的造物——在这套模型里,刚出城。<strong>每过 102 天,它再多一整个天文单位的孤独。</strong></p></div>
+    <div class="aby-row" data-rv style="--d:.2s"><div class="big">28,900<small> KM</small></div><p>比邻星在 <strong>两万八千九百公里</strong> 之外——差不多在真实地球的另一侧,再往外两倍。以旅行者号的速度,要走 <strong>七万五千年</strong>。而光,只要 4.24 年。</p></div>
+    <div class="voy-ping" data-rv></div>
+    <p class="aby-quote" data-rv>"再看看那个光点。它就在这里——那是家,那是我们。每一个你爱的人、认识的人、听说过的人,都在那里度过了一生。"<cite>— CARL SAGAN · 暗淡蓝点 · 1990</cite></p>
+  </div>
+</section>
+
+<footer>
+  <span>远征 ODYSSEY · <b>一次滚动与点击驱动的星际远征</b></span>
+  <span>轨道:开普勒方程数值解 · 转移:霍曼轨道 + 发射窗口会合 · 引力:GM/r² · 光行时按 299,792.458 km/s</span>
+  <span>深空航行局 · 地球 · 太阳系 · 猎户臂</span>
+</footer>
+
+<script>
+'use strict';
+/* ================= 工具 ================= */
+function $(s){return document.querySelector(s);}
+var RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+var TAU=Math.PI*2, AU_KM=1.496e8, C_KMS=299792.458, DAY=86400;
+function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+function lerp(a,b,t){return a+(b-a)*t;}
+function mixc(a,b,t){t=clamp(t,0,1);return[Math.round(lerp(a[0],b[0],t)),Math.round(lerp(a[1],b[1],t)),Math.round(lerp(a[2],b[2],t))];}
+function rgb(c){return 'rgb('+c[0]+','+c[1]+','+c[2]+')';}
+function fmtDays(d){return d<365?Math.round(d)+' 天':(d/365.25).toFixed(1)+' 年';}
+function fmtDist(au){if(au<0.01)return Math.round(au*AU_KM).toLocaleString()+' KM';return (au>=100?au.toFixed(1):au.toFixed(3))+' AU';}
+function ltStr(au){var s=au*AU_KM/C_KMS;if(s<60)return '光行时 '+s.toFixed(1)+' 秒';if(s<3600)return '光行时 '+(s/60).toFixed(1)+' 分';if(s<86400)return '光行时 '+(s/3600).toFixed(1)+' 时';return '光行时 '+(s/86400).toFixed(1)+' 天';}
+
+/* ================= 天体数据 ================= */
+var SUN_GM=1.3271244e20;
+var P=[
+ {id:'mercury',n:'水星',en:'MERCURY',a:0.387,T:87.97,r:2439,gm:2.203e13,g:3.7,m:0.055,moons:0,col:'#b8aa99',bg:'radial-gradient(circle at 32% 30%,#d8ccc0,#8f8175 55%,#4a423b)',trivia:'昼夜温差近 600 ℃。一年只有 88 天,一个太阳日却长达 176 天。'},
+ {id:'venus',n:'金星',en:'VENUS',a:0.723,T:224.7,r:6052,gm:4.868e14,g:8.87,m:0.815,moons:0,col:'#e8c46f',bg:'radial-gradient(circle at 32% 30%,#f7e3a9,#d8a94e 55%,#7a5a22)',trivia:'浓硫酸云与失控温室。自转一圈比公转一年还长,而且方向相反。'},
+ {id:'earth',n:'地球',en:'EARTH',a:1.000,T:365.25,r:6371,gm:3.986e14,g:9.81,m:1,moons:1,col:'#5da9e9',bg:'radial-gradient(circle at 32% 30%,#9fd0f2,#3e7fc4 50%,#143a6b 78%,#081c38)',trivia:'已知唯一有生命的行星。从深空回望,它只是 0.12 像素的暗淡蓝点。'},
+ {id:'mars',n:'火星',en:'MARS',a:1.524,T:687,r:3390,gm:4.282e13,g:3.71,m:0.107,moons:2,col:'#e0714f',bg:'radial-gradient(circle at 32% 30%,#f0a17c,#c05a38 55%,#5c2413)',trivia:'太阳系最高的火山奥林帕斯山(21.9 km)与最深的水手峡谷都在这里。'},
+ {id:'jupiter',n:'木星',en:'JUPITER',a:5.203,T:4333,r:69911,gm:1.267e17,g:24.79,m:317.8,moons:95,col:'#d8a76f',bg:'radial-gradient(circle at 32% 30%,#f0d4a8,#c8956a 45%,#8a5a3a 75%,#4a2f1e)',trivia:'质量是其余行星总和的 2.5 倍;大红斑风暴已呼啸至少 300 年。'},
+ {id:'saturn',n:'土星',en:'SATURN',a:9.537,T:10759,r:58232,gm:3.794e16,g:10.44,m:95.2,moons:146,col:'#e6cf9a',bg:'radial-gradient(circle at 32% 30%,#f7ecc9,#dcc188 55%,#8a744a)',ring:true,trivia:'平均密度低于水——若有一片足够大的海,它会浮起来。'},
+ {id:'uranus',n:'天王星',en:'URANUS',a:19.19,T:30687,r:25362,gm:5.794e15,g:8.87,m:14.5,moons:28,col:'#9fd6d2',bg:'radial-gradient(circle at 32% 30%,#d3f0ee,#8cc8c4 55%,#3f7a78)',trivia:'自转轴倾角 98°,是"躺着"绕太阳公转的行星。'},
+ {id:'neptune',n:'海王星',en:'NEPTUNE',a:30.07,T:60190,r:24622,gm:6.837e15,g:11.15,m:17.1,moons:16,col:'#5a7fe0',bg:'radial-gradient(circle at 32% 30%,#9fb4f0,#4a6bd0 55%,#1c2f6e)',trivia:'风速可达 2,100 km/h,是太阳系最狂暴的大气。'},
+ {id:'pluto',n:'冥王星',en:'PLUTO',a:39.48,T:90560,r:1188,gm:8.7e12,g:0.62,m:0.0022,moons:5,col:'#c9b29b',bg:'radial-gradient(circle at 32% 30%,#e0cdb4,#a08a6e 55%,#4e4232)',trivia:'2015 年"新视野号"传回那片心形冰原——冥界也有温柔。'}
+];
+P.forEach(function(p){p.phase=Math.random()*TAU;});
+var MOON={a:0.00257,T:27.32,gm:4.9049e12,phase:1.2};
+var ARR_DEEP={
+ voyager:{n:'旅行者 1 号',en:'VOYAGER 1',r:'165 AU',bg:'radial-gradient(circle at 35% 30%,#e8e2d4,#9a927e 60%,#3a352a)',trivia:'1977 年出发,携带金唱片。它的信号以光速飞行,仍需 22 个多小时才能抵达地球。此刻,它仍在飞行。'},
+ proxima:{n:'比邻星',en:'PROXIMA CENTAURI',r:'4.246 光年',bg:'radial-gradient(circle at 35% 30%,#ffe4b0,#ff9a4e 55%,#a33d1e)',trivia:'以旅行者号 17 km/s 的速度,这段路需要约 75,000 年。光只需要 4.24 年——深渊不在远处,在速度里。'}
+};
+
+/* ================= 全局状态 ================= */
+var metStart=null, missionReady=false, dtG=0;
+function setPhase(t){$('#phaseChip').textContent='PHASE · '+t;}
+function metStr(){
+  if(!metStart)return 'T-00:00';
+  var s=(performance.now()-metStart)/1000;
+  var h=Math.floor(s/3600),m=Math.floor(s%3600/60),ss=Math.floor(s%60);
+  function z(n){return (n<10?'0':'')+n;}
+  return 'T+'+z(h)+':'+z(m)+':'+z(ss);
+}
+
+/* ================= 音效 ================= */
+var AC=null,sfxOn=false;
+function ac(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)();}catch(e){}}return AC;}
+function beep(f,d,g){if(!sfxOn)return;var c=ac();if(!c)return;f=f||760;d=d||.06;g=g||.04;
+  var o=c.createOscillator(),ga=c.createGain();o.type='square';o.frequency.value=f;
+  ga.gain.setValueAtTime(g,c.currentTime);ga.gain.exponentialRampToValueAtTime(.0001,c.currentTime+d);
+  o.connect(ga);ga.connect(c.destination);o.start();o.stop(c.currentTime+d);}
+function rumble(dur){if(!sfxOn)return;var c=ac();if(!c)return;
+  var len=Math.floor(dur*c.sampleRate),buf=c.createBuffer(1,len,c.sampleRate),d=buf.getChannelData(0),i;
+  for(i=0;i<len;i++){d[i]=(Math.random()*2-1)*(1-i/len);}
+  var s=c.createBufferSource();s.buffer=buf;var f=c.createBiquadFilter();f.type='lowpass';f.frequency.value=120;
+  var ga=c.createGain();ga.gain.value=.5;s.connect(f);f.connect(ga);ga.connect(c.destination);s.start();}
+function chime(){if(!sfxOn)return;beep(660,.25,.05);setTimeout(function(){beep(990,.25,.05);},160);}
+$('#sfxBtn').addEventListener('click',function(){
+  sfxOn=!sfxOn;var c=ac();if(c&&c.state==='suspended')c.resume();
+  this.classList.toggle('on',sfxOn);this.textContent=sfxOn?'SFX ON':'SFX OFF';
+  this.setAttribute('aria-pressed',String(sfxOn));if(sfxOn)beep(880,.08);
+});
+
+/* ================= 星野画布 ================= */
+var scv=$('#stars'),sgx=scv.getContext('2d'),SW=0,SH=0,slist=[];
+function starResize(){SW=scv.width=innerWidth;SH=scv.height=innerHeight;
+  slist=[];for(var i=0;i<240;i++){slist.push({x:Math.random()*SW,y:Math.random()*SH,r:Math.random()*1.3+.2,ph:Math.random()*TAU,sp:.3+Math.random()});}}
+var parX=0,parY=0,mxT=0,myT=0;
+if(!RM){addEventListener('mousemove',function(e){mxT=e.clientX/innerWidth-.5;myT=e.clientY/innerHeight-.5;});}
+function drawStars(t){
+  if(SW===0)return;
+  sgx.clearRect(0,0,SW,SH);
+  var g=sgx.createRadialGradient(SW*.5,SH*.2,0,SW*.5,SH*.2,Math.max(SW,SH));
+  g.addColorStop(0,'#0a1226');g.addColorStop(.5,'#050914');g.addColorStop(1,'#02040a');
+  sgx.fillStyle=g;sgx.fillRect(0,0,SW,SH);
+  parX+=(mxT-parX)*.03;parY+=(myT-parY)*.03;
+  for(var i=0;i<slist.length;i++){var s=slist[i];
+    var tw=RM?1:(.5+.5*Math.sin(t*.001*s.sp+s.ph));
+    sgx.fillStyle='rgba(200,225,255,'+(.25+.55*tw).toFixed(3)+')';
+    sgx.beginPath();sgx.arc(s.x+parX*14*s.r,s.y+parY*10*s.r,s.r,0,TAU);sgx.fill();}
+}
+
+/* ================= 发射模块 ================= */
+var lcv=$('#launchCv'),lxx=lcv.getContext('2d'),LW=0,LH=0;
+var DPR=Math.min(2,window.devicePixelRatio||1);
+function lResize(){LW=lcv.clientWidth;LH=lcv.clientHeight;if(LW>0){lcv.width=LW*DPR;lcv.height=LH*DPR;lxx.setTransform(DPR,0,0,DPR,0,0);}}
+var L={phase:'idle',t:0,cd:0,alt:0,vel:0,acc:1,met:0,shake:0,burn:0,sep:null,fair:null,particles:[],smoke:[],lstars:[]};
+(function(){for(var i=0;i<130;i++){L.lstars.push({x:Math.random(),y:Math.random(),r:Math.random()*1.2+.2});}})();
+var ASCEND_DUR=17, evIdx=0;
+var EVENTS=[[0,'点火 · LIFTOFF'],[12,'俯仰程序 · 重力转向'],[62,'MAX Q · 最大动压'],[150,'整流罩分离'],[162,'主机熄火 MECO'],[166,'一二级分离'],[285,'二级点火 SES-1'],[505,'SECO · 末速 7.66 KM/S'],[520,'入轨 · 400 KM LEO']];
+function feedPush(txt){var el=$('#feed'),p=document.createElement('p');p.textContent='▸ '+txt;el.appendChild(p);
+  requestAnimationFrame(function(){p.classList.add('on');});
+  while(el.children.length>7){el.removeChild(el.firstChild);}}
+$('#igniteBtn').addEventListener('click',function(){
+  if(L.phase!=='idle')return;
+  L.phase='count';L.cd=3.0;this.disabled=true;this.textContent='点火序列运行中…';
+  beep(520,.12);setPhase('倒计时');$('#cdNum').classList.add('show');
+});
+function launchTick(dt){
+  if(L.phase==='count'){
+    L.cd-=dt;var cd=$('#cdNum');
+    cd.textContent=L.cd>0?('T-'+Math.ceil(L.cd)):'T+0';
+    if(L.cd<=0){L.phase='ascent';L.t=0;metStart=performance.now();cd.classList.remove('show');rumble(ASCEND_DUR);setPhase('上升段');}
+    return;
+  }
+  if(L.phase==='ascent'){
+    L.t+=dt;var p=clamp(L.t/ASCEND_DUR,0,1),met=p*520;
+    L.met=met;L.alt=400*Math.pow(p,1.7);
+    function s01(x){x=clamp(x,0,1);return x*x*(3-2*x);}
+    if(met<162){L.vel=2400*s01(met/162);L.acc=1.15+2.05*(met/162);L.burn=1;}
+    else if(met<285){L.vel=lerp(2400,2560,(met-162)/123);L.acc=.2;L.burn=0;}
+    else if(met<505){L.vel=lerp(2560,7660,s01((met-285)/220));L.acc=1+1.6*((met-285)/220);L.burn=2;}
+    else{L.vel=7660;L.acc=0;L.burn=0;}
+    L.shake=RM?0:(met<12?2.2:(L.burn?Math.max(.25,1.15-.0042*met):0));
+    if(met>=150&&!L.fair){L.fair={t:0};}
+    if(met>=166&&!L.sep){L.sep={x:0,y:0,vx:16,vy:42,rot:0,t:0};}
+    while(evIdx<EVENTS.length&&L.met>=EVENTS[evIdx][0]){feedPush(EVENTS[evIdx][1]);beep(1200,.05,.03);evIdx++;}
+    if(p>=1){L.phase='orbit';setPhase('近地轨道');$('#orbitBanner').classList.add('show');chime();
+      $('#console').classList.add('show');missionReady=true;renderDests();}
+  }
+  if(L.phase==='ascent'||L.phase==='orbit'){
+    $('#tAlt').innerHTML=L.alt.toFixed(L.alt<10?2:0)+'<small> KM</small>';
+    $('#tVel').innerHTML=Math.round(L.vel)+'<small> M/S</small>';
+    $('#tAcc').innerHTML=L.acc.toFixed(1)+'<small> G</small>';
+  }
+  drawLaunch();
+}
+function drawLaunch(){
+  if(LW===0)return;
+  var W=LW,H=LH,altN=L.alt/400,i;
+  lxx.save();
+  if(L.shake>0){lxx.translate((Math.random()-.5)*L.shake,(Math.random()-.5)*L.shake);}
+  var top=mixc([52,86,140],[3,5,12],Math.pow(altN,.55));
+  var bot=mixc([226,160,96],[8,14,32],Math.pow(altN,.5));
+  var g=lxx.createLinearGradient(0,0,0,H);g.addColorStop(0,rgb(top));g.addColorStop(1,rgb(bot));
+  lxx.fillStyle=g;lxx.fillRect(-8,-8,W+16,H+16);
+  var sa=clamp((L.alt-45)/220,0,1);
+  if(sa>0){for(i=0;i<L.lstars.length;i++){var st=L.lstars[i];
+    lxx.fillStyle='rgba(210,230,255,'+(sa*(.3+.7*st.r)).toFixed(3)+')';
+    lxx.fillRect(st.x*W,st.y*H*.8,st.r,st.r);}}
+  var shift=Math.min(L.alt*52,H*.6)+Math.max(0,L.alt-6)*1.2;
+  if(shift<H*1.4){lxx.fillStyle='rgba(230,235,240,'+(.16*(1-altN)).toFixed(3)+')';
+    for(i=0;i<5;i++){lxx.beginPath();lxx.ellipse((i*.23+.08)*W,H*.42+i*36-shift*.82,90+i*22,16,0,0,TAU);lxx.fill();}}
+  if(L.alt>110){
+    var R=W*1.5,topY=lerp(H+R,H*.78,clamp((L.alt-110)/290,0,1));
+    var eg=lxx.createLinearGradient(0,topY,0,topY+220);
+    eg.addColorStop(0,'rgba(120,190,255,.75)');eg.addColorStop(.12,'rgba(60,130,210,.9)');eg.addColorStop(1,'#0a2440');
+    lxx.fillStyle=eg;lxx.beginPath();lxx.arc(W/2,topY+R,R,0,TAU);lxx.fill();
+  }
+  var gy=H*.84+shift;
+  if(gy<H+80){
+    lxx.fillStyle='#0c1016';lxx.fillRect(-8,gy,W+16,H-gy+20);
+    lxx.fillStyle='#161c26';lxx.fillRect(W*.5-120,gy-8,240,8);
+    lxx.strokeStyle='#3a4556';lxx.lineWidth=3;
+    lxx.beginPath();lxx.moveTo(W*.5+42,gy);lxx.lineTo(W*.5+42,gy-150);
+    lxx.moveTo(W*.5+42,gy-40);lxx.lineTo(W*.5+16,gy-70);
+    lxx.moveTo(W*.5+42,gy-90);lxx.lineTo(W*.5+16,gy-118);lxx.stroke();
+    lxx.fillStyle=Math.sin(performance.now()*.006)>0?'#ff5a4e':'#5a2020';
+    lxx.fillRect(W*.5+39,gy-156,6,6);
+  }
+  var rx=W*.5,ry=H*.62,burn=(L.phase==='ascent')?L.burn:0;
+  var tilt=(L.phase==='ascent'||L.phase==='orbit')?clamp((L.met-12)/200,0,1)*.3:0;
+  lxx.save();lxx.translate(rx,ry);lxx.rotate(tilt);
+  if(burn===1){
+    var fl=46+Math.random()*20;
+    var fg=lxx.createLinearGradient(0,52,0,52+fl);
+    fg.addColorStop(0,'rgba(255,246,214,.95)');fg.addColorStop(.4,'rgba(255,150,60,.85)');fg.addColorStop(1,'rgba(255,80,40,0)');
+    lxx.fillStyle=fg;lxx.beginPath();lxx.moveTo(-9,52);lxx.quadraticCurveTo(0,52+fl*1.35,9,52);lxx.closePath();lxx.fill();
+    var fgc=lxx.createLinearGradient(0,52,0,52+fl*.55);
+    fgc.addColorStop(0,'rgba(255,255,240,.9)');fgc.addColorStop(1,'rgba(255,200,120,0)');
+    lxx.fillStyle=fgc;lxx.beginPath();lxx.moveTo(-4,52);lxx.quadraticCurveTo(0,52+fl*.8,4,52);lxx.closePath();lxx.fill();
+    if(!RM){for(i=0;i<3;i++){L.particles.push({x:(Math.random()-.5)*9,y:54,vx:(Math.random()-.5)*46,vy:130+Math.random()*170,l:.7});}}
+  }
+  if(burn===2){
+    var fl2=26+Math.random()*10;
+    var vg=lxx.createLinearGradient(0,4,0,4+fl2);
+    vg.addColorStop(0,'rgba(225,242,255,.85)');vg.addColorStop(.5,'rgba(140,200,255,.4)');vg.addColorStop(1,'rgba(120,180,255,0)');
+    lxx.fillStyle=vg;lxx.beginPath();lxx.moveTo(-4.5,4);lxx.quadraticCurveTo(0,4+fl2*1.3,4.5,4);lxx.closePath();lxx.fill();
+  }
+  var s1x=0,s1y=0,s1r=0,s1a=1;
+  if(L.sep){L.sep.t+=dtG;L.sep.vy+=dtG*26;L.sep.x+=L.sep.vx*dtG;L.sep.y+=L.sep.vy*dtG;L.sep.rot+=dtG*.85;
+    s1x=L.sep.x;s1y=L.sep.y;s1r=L.sep.rot;s1a=clamp(1.5-L.sep.t*.3,0,1);}
+  lxx.save();lxx.translate(s1x,s1y);lxx.rotate(s1r);lxx.globalAlpha=s1a;
+  lxx.fillStyle='#dfe6ee';lxx.fillRect(-11,2,22,42);
+  lxx.fillStyle='#ff5a4e';lxx.fillRect(-11,26,22,4);
+  lxx.fillStyle='#39424f';lxx.fillRect(-11,-2,22,4);
+  lxx.fillStyle='#aab4c0';lxx.fillRect(-15,6,4,9);lxx.fillRect(11,6,4,9);
+  lxx.fillStyle='#8f9aa8';
+  lxx.beginPath();lxx.moveTo(-11,38);lxx.lineTo(-18,50);lxx.lineTo(-11,46);lxx.closePath();lxx.fill();
+  lxx.beginPath();lxx.moveTo(11,38);lxx.lineTo(18,50);lxx.lineTo(11,46);lxx.closePath();lxx.fill();
+  lxx.fillStyle='#68727f';
+  for(i=-1;i<=1;i++){var bx=i*7;
+    lxx.beginPath();lxx.moveTo(bx-3,44);lxx.lineTo(bx+3,44);lxx.lineTo(bx+4.5,52);lxx.lineTo(bx-4.5,52);lxx.closePath();lxx.fill();}
+  lxx.restore();
+  lxx.fillStyle='#e8edf3';lxx.fillRect(-9,-30,18,28);
+  lxx.fillStyle='#ff5a4e';lxx.fillRect(-9,-8,18,2.4);
+  if(L.sep){
+    lxx.fillStyle='#7a8492';lxx.beginPath();lxx.moveTo(-3,-2);lxx.lineTo(3,-2);lxx.lineTo(5,4);lxx.lineTo(-5,4);lxx.closePath();lxx.fill();
+  }
+  if(!L.fair){
+    lxx.fillStyle='#cfd7e0';
+    lxx.beginPath();lxx.moveTo(-9,-30);lxx.lineTo(-9,-52);lxx.quadraticCurveTo(-9,-66,0,-70);lxx.quadraticCurveTo(9,-66,9,-52);lxx.lineTo(9,-30);lxx.closePath();lxx.fill();
+    lxx.fillStyle='#ff5a4e';lxx.fillRect(-9,-52,18,2.2);
+  }else{
+    L.fair.t+=dtG;var ft=L.fair.t;
+    lxx.globalAlpha=clamp(1.3-ft*.5,0,1);
+    for(i=0;i<2;i++){var sgn=i?1:-1;
+      lxx.save();lxx.translate(sgn*Math.min(ft*32,36),Math.min(ft*14,18)-46);lxx.rotate(sgn*Math.min(ft*.7,.8));
+      lxx.fillStyle='#cfd7e0';
+      lxx.beginPath();lxx.moveTo(0,-24);lxx.quadraticCurveTo(sgn*9,-20,sgn*9,-6);lxx.lineTo(sgn*9,16);lxx.lineTo(0,16);lxx.closePath();lxx.fill();
+      lxx.restore();}
+    lxx.globalAlpha=1;
+    lxx.fillStyle='#b9c4d0';lxx.fillRect(-6,-44,12,14);
+    lxx.fillStyle='#ffb347';lxx.beginPath();lxx.arc(0,-44,6,Math.PI,0);lxx.fill();
+    lxx.fillStyle='rgba(90,140,220,.9)';lxx.fillRect(-21,-40,13,7);lxx.fillRect(8,-40,13,7);
+  }
+  lxx.restore();
+  for(i=L.particles.length-1;i>=0;i--){var pp=L.particles[i];pp.l-=dtG;pp.x+=pp.vx*dtG;pp.y+=pp.vy*dtG;
+    if(pp.l<=0){L.particles.splice(i,1);continue;}
+    lxx.fillStyle='rgba(255,'+(140+Math.floor(pp.l*100))+',70,'+(pp.l*.7).toFixed(3)+')';
+    lxx.fillRect(rx+pp.x-tilt*52,ry+pp.y,2.4,2.4);}
+  if(L.phase==='ascent'&&L.met<40&&gy<H+60){
+    for(i=0;i<2;i++){L.smoke.push({x:W*.5+(Math.random()-.5)*30,y:gy-14,vx:(Math.random()-.5)*130,vy:-20-Math.random()*40,r:8+Math.random()*14,l:1});}}
+  for(i=L.smoke.length-1;i>=0;i--){var sm=L.smoke[i];sm.l-=dtG*.7;sm.x+=sm.vx*dtG;sm.y+=sm.vy*dtG;sm.r+=dtG*26;
+    if(sm.l<=0){L.smoke.splice(i,1);continue;}
+    lxx.fillStyle='rgba(210,215,222,'+(sm.l*.4).toFixed(3)+')';
+    lxx.beginPath();lxx.arc(sm.x,sm.y,sm.r,0,TAU);lxx.fill();}
+  lxx.restore();
+}
+
+/* ================= 任务模块 ================= */
+var mcv=$('#mapCv'),mxx=mcv.getContext('2d'),MW=0,MH=0;
+function mResize(){MW=mcv.clientWidth;MH=mcv.clientHeight;if(MW>0){mcv.width=MW*DPR;mcv.height=MH*DPR;mxx.setTransform(DPR,0,0,DPR,0,0);}}
+var view={mode:'log',zoom:1.1,ox:0,oy:0};
+function RMAP(au){return view.mode==='log'?view.zoom*92*Math.log2(1+au):view.zoom*11*au;}
+var simDays=0,deckVisible=false;
+new IntersectionObserver(function(es){es.forEach(function(e){deckVisible=e.isIntersecting;});},{threshold:.05}).observe($('#deck'));
+var KU=[],MSTARS=[],i0;
+for(i0=0;i0<340;i0++){KU.push({a:34+Math.random()*16,ang:Math.random()*TAU});}
+for(i0=0;i0<170;i0++){MSTARS.push({x:Math.random(),y:Math.random(),r:Math.random()*1.1+.2});}
+var ship={mode:'earth',pos:{x:1,y:0},prev:{x:1,y:0},prevDays:0,vEma:0,atBody:'earth',trail:[],waiting:false}
+var trans=null;
+function earthPos(){var e=P[2],a=e.phase+TAU*simDays/e.T;return{x:e.a*Math.cos(a),y:e.a*Math.sin(a)};}
+function planetPos(p){var a=p.phase+TAU*simDays/p.T;return{x:p.a*Math.cos(a),y:p.a*Math.sin(a)};}
+function moonPos(){var e=earthPos(),a=MOON.phase+TAU*simDays/MOON.T;return{x:e.x+MOON.a*Math.cos(a),y:e.y+MOON.a*Math.sin(a)};}
+function keplerE(M,e){var E=M,i;for(i=0;i<8;i++){E-=(E-e*Math.sin(E)-M)/(1-e*Math.cos(E));}return E;}
+var DESTS=[{id:'moon',n:'月球',en:'LUNA',kind:'moon',dur:9,dv:'Δv ≈ 3.9 km/s',info:'地月转移 · 约 3 天'}];
+(function(){
+  var ids=['mars','jupiter','saturn','uranus','neptune','pluto'];
+  var dvs={mars:3.6,jupiter:6.3,saturn:7.6,uranus:8.9,neptune:9.6,pluto:10.3};
+  ids.forEach(function(id){
+    var p=null,i;for(i=0;i<P.length;i++){if(P[i].id===id)p=P[i];}
+    var aT=(1+p.a)/2,days=.5*Math.pow(aT,1.5)*365.25;
+    DESTS.push({id:id,n:p.n,en:p.en,kind:'planet',p:p,dur:clamp(20+Math.log2(p.a)*6,20,44),days:days,dv:'Δv ≈ '+dvs[id]+' km/s',info:'霍曼转移 · '+fmtDays(days)});
+  });
+  DESTS.push({id:'voyager',n:'旅行者 1 号',en:'VOYAGER 1',kind:'deep',r:165,dur:42,dv:'巡航 16.9 km/s',info:'外逸层 · 引力弹弓 ×3',wide:true});
+  DESTS.push({id:'proxima',n:'比邻星',en:'PROXIMA',kind:'deep',r:268770,dur:50,dv:'巡航 16.9 km/s',info:'4.246 光年 · 75,000 年',wide:true});
+})();
+function startTransfer(dest){
+  if(!missionReady)return;
+  var from={x:ship.pos.x,y:ship.pos.y};
+  var r1=Math.hypot(from.x,from.y),dep=Math.atan2(from.y,from.x),t;
+  if(dest.kind==='planet'){
+    if(dest.id===ship.atBody&&ship.mode==='at')return;
+    var r2=dest.p.a,aT=(r1+r2)/2,e=Math.abs(r2-r1)/(r1+r2);
+    var days=.5*Math.pow(aT,1.5)*365.25;
+    var out=r2>=r1,M0=out?0:Math.PI;
+    var thNow=dest.p.phase+TAU*simDays/dest.p.T;
+    var need=((dep+Math.PI-thNow)%TAU+TAU)%TAU;
+    var wait=need/TAU*dest.p.T;
+    t={kind:'hoh',a:aT,e:e,M0:M0,nu0:out?0:Math.PI,dep:dep,r1:r1,days:days,wait:wait,total:days+wait,t0:simDays,durReal:dest.dur,dest:dest};
+  }else if(dest.kind==='moon'){
+    if(r1>1.3)return;
+    var daysM=3,arr=dep+2.2;
+    var thM=MOON.phase+TAU*simDays/MOON.T;
+    var needM=((arr-thM-TAU*daysM/MOON.T)%TAU+TAU)%TAU;
+    var waitM=needM/TAU*MOON.T;
+    t={kind:'moon',days:daysM,wait:waitM,total:daysM+waitM,t0:simDays,durReal:dest.dur,dest:dest,arr:arr};
+  }else{
+    var v=16.9,daysL=(dest.r-r1)*AU_KM/v/DAY;
+    t={kind:'line',dep:dep,days:daysL,wait:0,total:daysL,t0:simDays,durReal:dest.dur,dest:dest,r0:r1};
+  }
+  trans=t;ship.mode='transfer';ship.trail=[];
+  setPhase(dest.kind==='deep'?'深空巡航':'转移 · '+dest.n);
+  beep(980,.1);renderDests();
+}
+function transferPos(){
+  var el=simDays-trans.t0;
+  if(trans.kind==='hoh'){
+    if(el<trans.wait){
+      var Tc=Math.pow(trans.r1,1.5)*365.25,aw=trans.dep+TAU*el/Tc;
+      return{x:trans.r1*Math.cos(aw),y:trans.r1*Math.sin(aw),done:false,wait:true};
+    }
+    var prog=clamp((el-trans.wait)/trans.days,0,1);
+    var M=trans.M0+Math.PI*prog,E=keplerE(M,trans.e);
+    var r=trans.a*(1-trans.e*Math.cos(E));
+    var nu=2*Math.atan2(Math.sqrt(1+trans.e)*Math.sin(E/2),Math.sqrt(1-trans.e)*Math.cos(E/2));
+    var ang=trans.dep+nu-trans.nu0;
+    return{x:r*Math.cos(ang),y:r*Math.sin(ang),done:prog>=1};
+  }
+  if(trans.kind==='moon'){
+    if(el<trans.wait){var ew=earthPos();return{x:ew.x,y:ew.y,done:false,wait:true};}
+    var prog2=clamp((el-trans.wait)/trans.days,0,1);
+    var e=earthPos(),mmx=Math.cos(trans.arr)*MOON.a,mmy=Math.sin(trans.arr)*MOON.a;
+    var pe=Math.pow(prog2,.7),arc=Math.sin(pe*Math.PI)*0.0016;
+    return{x:e.x+mmx*pe-mmy*arc*40,y:e.y+mmy*pe+mmx*arc*40,done:prog2>=1};
+  }
+  var prog3=clamp(el/trans.days,0,1);
+  var rl=trans.r0+(trans.dest.r-trans.r0)*prog3;
+  return{x:rl*Math.cos(trans.dep),y:rl*Math.sin(trans.dep),done:prog3>=1};
+}
+function arrive(){
+  var d=trans.dest;ship.mode='at';ship.atBody=d.id;
+  setPhase('抵达 · '+d.n);chime();trans=null;
+  if(d.kind==='planet'){ship.pos=planetPos(d.p);}
+  showArrival(d);renderDests();
+}
+/* 目的地面板 */
+function renderDests(){
+  var dp=$('#destPanel'),old=dp.querySelectorAll('.dest'),i;
+  for(i=0;i<old.length;i++){old[i].parentNode.removeChild(old[i]);}
+  DESTS.forEach(function(d,idx){
+    var b=document.createElement('button');b.className='dest'+(d.wide?' wide':'');
+    b.innerHTML='<span class="dn">'+d.n+'<em>'+d.en+' · '+(idx+1)+'</em></span>'+
+      '<span class="dd">'+d.info+' · '+d.dv+'</span>'+
+      '<span class="go">'+(ship.mode==='transfer'?'变轨':'GO ▸')+'</span>';
+    if(d.kind==='moon'&&Math.hypot(ship.pos.x,ship.pos.y)>1.3){b.disabled=true;}
+    b.addEventListener('click',function(){startTransfer(d);});
+    dp.appendChild(b);
+  });
+  if(ship.mode==='at'&&ship.atBody!=='earth'){
+    var b2=document.createElement('button');b2.className='dest';
+    b2.innerHTML='<span class="dn">返回地球<em>RETURN EARTH</em></span><span class="dd">霍曼返航 · 相位校准</span><span class="go">GO ▸</span>';
+    b2.addEventListener('click',function(){startTransfer({id:'earth',n:'地球',kind:'planet',p:P[2],dur:24});});
+    dp.appendChild(b2);
+  }
+}
+/* 地图交互 */
+var drag=false,dsx=0,dsy=0;
+mcv.addEventListener('pointerdown',function(e){drag=true;dsx=e.clientX-view.ox;dsy=e.clientY-view.oy;mcv.classList.add('drag');});
+addEventListener('pointermove',function(e){if(drag){view.ox=e.clientX-dsx;view.oy=e.clientY-dsy;}});
+addEventListener('pointerup',function(){drag=false;mcv.classList.remove('drag');});
+mcv.addEventListener('wheel',function(e){e.preventDefault();view.zoom=clamp(view.zoom*Math.pow(1.13,e.deltaY<0?1:-1),.02,60);},{passive:false});
+$('#mapTools').addEventListener('click',function(e){
+  var b=e.target.closest('button');if(!b)return;
+  var all=$('#mapTools').querySelectorAll('button'),i;
+  for(i=0;i<all.length;i++){all[i].classList.remove('on');}
+  b.classList.add('on');view.ox=0;view.oy=0;
+  var v=b.getAttribute('data-v');
+  if(v==='inner'){view.mode='log';view.zoom=1.15;}
+  if(v==='outer'){view.mode='log';view.zoom=.5;}
+  if(v==='kuiper'){view.mode='log';view.zoom=.16;}
+  if(v==='abyss'){view.mode='log';view.zoom=.045;}
+  if(v==='linear'){view.mode='linear';view.zoom=.5;}
+  beep(700,.06);updateMapNote();
+});
+function updateMapNote(){
+  $('#mapNote').textContent=view.mode==='linear'
+   ?'真实线性尺度:内行星全部挤在太阳旁的一粒微尘里。空旷,才是太阳系的真相。'
+   :'对数尺度下远方被压缩 —— 切换到「真实线性尺度」感受真实的距离。';
+}
+addEventListener('keydown',function(e){
+  var n=parseInt(e.key,10);
+  if(n>=1&&n<=DESTS.length&&missionReady){startTransfer(DESTS[n-1]);}
+});
+/* 悬停提示 */
+mcv.addEventListener('mousemove',function(e){
+  var rect=mcv.getBoundingClientRect(),px=e.clientX-rect.left,py=e.clientY-rect.top;
+  var cxp=MW/2+view.ox,cyp=MH/2+view.oy,hit=null,best=14,i;
+  for(i=0;i<P.length;i++){var p=P[i],pp=planetPos(p),d=Math.hypot(pp.x,pp.y)||1,rr=RMAP(d);
+    var sx=cxp+pp.x/d*rr,sy=cyp+pp.y/d*rr,dd=Math.hypot(sx-px,sy-py);
+    if(dd<best){best=dd;hit=p;}}
+  var tip=$('#mapTip');
+  if(hit){tip.style.display='block';tip.style.left=(px+16)+'px';tip.style.top=(py-10)+'px';
+    var soiKm=hit.a*Math.pow(hit.m/333000,.4)*AU_KM;
+    var soiTxt=soiKm>=1e5?Math.round(soiKm/1e4)+' 万 km':Math.round(soiKm).toLocaleString()+' km';
+    tip.innerHTML='<b>'+hit.n+' '+hit.en+'</b><br>轨道 '+hit.a+' AU · 表面重力 '+hit.g+' m/s²<br>引力影响球 SOI ≈ '+soiTxt;}
+  else{tip.style.display='none';}
+});
+/* 地图绘制 */
+function drawMap(){
+  if(MW===0)return;
+  var cxp=MW/2+view.ox,cyp=MH/2+view.oy,i;
+  mxx.fillStyle='#03050e';mxx.fillRect(0,0,MW,MH);
+  var nb=mxx.createRadialGradient(MW*.72,MH*.28,0,MW*.72,MH*.28,MW*.6);
+  nb.addColorStop(0,'rgba(40,50,110,.16)');nb.addColorStop(1,'rgba(0,0,0,0)');
+  mxx.fillStyle=nb;mxx.fillRect(0,0,MW,MH);
+  for(i=0;i<MSTARS.length;i++){var s=MSTARS[i];
+    mxx.fillStyle='rgba(190,215,255,'+(.2+.4*s.r).toFixed(3)+')';mxx.fillRect(s.x*MW,s.y*MH,s.r,s.r);}
+  for(i=0;i<P.length;i++){var rr=RMAP(P[i].a);
+    mxx.strokeStyle=P[i].id==='earth'?'rgba(111,217,255,.35)':'rgba(120,170,230,.14)';mxx.lineWidth=1;
+    mxx.beginPath();mxx.arc(cxp,cyp,rr,0,TAU);mxx.stroke();}
+  if(RMAP(35)>40&&RMAP(50)<Math.max(MW,MH)*2){mxx.fillStyle='rgba(150,190,230,.28)';
+    for(i=0;i<KU.length;i++){var k=KU[i],kr=RMAP(k.a);
+      mxx.fillRect(cxp+Math.cos(k.ang)*kr-1,cyp+Math.sin(k.ang)*kr-1,2,2);}}
+  if(view.mode==='log'&&view.zoom<0.1){
+    var ro=RMAP(50000);
+    mxx.setLineDash([4,10]);mxx.strokeStyle='rgba(140,180,240,.2)';
+    mxx.beginPath();mxx.arc(cxp,cyp,ro,0,TAU);mxx.stroke();mxx.setLineDash([]);
+    mxx.fillStyle='rgba(140,180,240,.5)';mxx.font='11px "Noto Sans SC"';
+    mxx.fillText('奥尔特云 ≈ 50,000 AU',cxp+ro*.7,cyp-ro*.7);
+    var pa=-0.9,rp=RMAP(268770),px2=cxp+Math.cos(pa)*rp,py2=cyp+Math.sin(pa)*rp;
+    if(px2>-40&&px2<MW+40&&py2>-40&&py2<MH+40){
+      mxx.fillStyle='#ffd98a';mxx.beginPath();mxx.arc(px2,py2,4,0,TAU);mxx.fill();
+      mxx.strokeStyle='rgba(255,217,138,.4)';
+      mxx.beginPath();mxx.arc(px2,py2,12+3*Math.sin(performance.now()*.002),0,TAU);mxx.stroke();
+      mxx.fillStyle='#ffd98a';mxx.fillText('比邻星 · 4.246 光年',px2+18,py2+4);}
+  }
+  var sr=Math.max(6.5,RMAP(0.045));
+  var sg2=mxx.createRadialGradient(cxp,cyp,0,cxp,cyp,sr*5);
+  sg2.addColorStop(0,'rgba(255,220,140,.9)');sg2.addColorStop(.25,'rgba(255,179,71,.35)');sg2.addColorStop(1,'rgba(0,0,0,0)');
+  mxx.fillStyle=sg2;mxx.beginPath();mxx.arc(cxp,cyp,sr*5,0,TAU);mxx.fill();
+  mxx.fillStyle='#ffdf9a';mxx.beginPath();mxx.arc(cxp,cyp,sr*.8,0,TAU);mxx.fill();
+  for(i=0;i<P.length;i++){var p=P[i],pp=planetPos(p),d=Math.hypot(pp.x,pp.y)||1,pr=RMAP(d);
+    var sx=cxp+pp.x/d*pr,sy=cyp+pp.y/d*pr;
+    if(sx<-30||sx>MW+30||sy<-30||sy>MH+30){continue;}
+    var sz=clamp(1.9+Math.sqrt(p.r)*.045,2.4,13);
+    mxx.fillStyle=p.col;mxx.beginPath();mxx.arc(sx,sy,sz,0,TAU);mxx.fill();
+    var ux=(cxp-sx),uy=(cyp-sy),ud=Math.hypot(ux,uy)||1;ux/=ud;uy/=ud;
+    var pg=mxx.createRadialGradient(sx+ux*sz*1.4,sy+uy*sz*1.4,sz*.15,sx,sy,sz*2.1);
+    pg.addColorStop(0,'rgba(255,255,255,.32)');pg.addColorStop(.42,'rgba(255,255,255,0)');
+    pg.addColorStop(.72,'rgba(2,4,12,0)');pg.addColorStop(1,'rgba(2,4,12,.62)');
+    mxx.fillStyle=pg;mxx.beginPath();mxx.arc(sx,sy,sz,0,TAU);mxx.fill();
+    if(p.ring){mxx.strokeStyle='rgba(230,207,154,.7)';mxx.lineWidth=1.4;
+      mxx.beginPath();mxx.ellipse(sx,sy,sz*2.1,sz*.8,-.4,0,TAU);mxx.stroke();}
+    if(view.zoom>.35||p.a>4){mxx.fillStyle='rgba(200,220,245,.7)';mxx.font='11px "Noto Sans SC"';mxx.fillText(p.n,sx+sz+6,sy+4);}}
+  if(view.zoom>6&&view.mode==='log'){
+    var ep=earthPos(),er=Math.hypot(ep.x,ep.y)||1,erx=cxp+ep.x/er*RMAP(er),ery=cyp+ep.y/er*RMAP(er);
+    var mp=moonPos(),ma=Math.atan2(mp.y-ep.y,mp.x-ep.x),mr=RMAP(er)+14;
+    var mxp=cxp+Math.cos(ma)*mr,myp=cyp+Math.sin(ma)*mr;
+    mxx.fillStyle='#cfd3d6';mxx.beginPath();mxx.arc(mxp,myp,2.2,0,TAU);mxx.fill();
+    if(view.zoom>18){mxx.fillStyle='rgba(200,220,245,.6)';mxx.font='10px "Noto Sans SC"';mxx.fillText('月球',mxp+7,myp+3);}}
+  if(trans&&trans.kind==='hoh'){
+    mxx.setLineDash([5,7]);mxx.strokeStyle='rgba(255,179,71,.38)';mxx.lineWidth=1;
+    mxx.beginPath();
+    for(i=0;i<=72;i++){var pq=i/72,Mq=trans.M0+Math.PI*pq,Eq=keplerE(Mq,trans.e);
+      var rq=trans.a*(1-trans.e*Math.cos(Eq));
+      var nq=2*Math.atan2(Math.sqrt(1+trans.e)*Math.sin(Eq/2),Math.sqrt(1-trans.e)*Math.cos(Eq/2));
+      var aq=trans.dep+nq-trans.nu0;
+      if(i===0){mxx.moveTo(cxp+Math.cos(aq)*RMAP(rq),cyp+Math.sin(aq)*RMAP(rq));}
+      else{mxx.lineTo(cxp+Math.cos(aq)*RMAP(rq),cyp+Math.sin(aq)*RMAP(rq));}}
+    mxx.stroke();mxx.setLineDash([]);}
+  if(missionReady){
+    var sp=ship.pos,sd=Math.hypot(sp.x,sp.y)||1,srr=RMAP(sd);
+    var sx2=cxp+sp.x/sd*srr,sy2=cyp+sp.y/sd*srr;
+    if(ship.trail.length>1){mxx.strokeStyle='rgba(111,217,255,.45)';mxx.lineWidth=1.2;mxx.beginPath();
+      for(i=0;i<ship.trail.length;i++){var q=ship.trail[i],qd=Math.hypot(q.x,q.y)||1,qr=RMAP(qd);
+        var qx=cxp+q.x/qd*qr,qy=cyp+q.y/qd*qr;
+        if(i===0){mxx.moveTo(qx,qy);}else{mxx.lineTo(qx,qy);}}
+      mxx.stroke();}
+    var ang=Math.atan2(sp.y-ship.prev.y,sp.x-ship.prev.x);
+    mxx.save();mxx.translate(sx2,sy2);mxx.rotate(ang);
+    mxx.fillStyle='#6fd9ff';mxx.beginPath();mxx.moveTo(7,0);mxx.lineTo(-5,-4.4);mxx.lineTo(-5,4.4);mxx.closePath();mxx.fill();
+    mxx.restore();
+    mxx.strokeStyle='rgba(111,217,255,.6)';
+    mxx.beginPath();mxx.arc(sx2,sy2,10+2*Math.sin(performance.now()*.004),0,TAU);mxx.stroke();
+    mxx.fillStyle='#6fd9ff';mxx.font='10px Orbitron';mxx.fillText('ODYSSEY',sx2+14,sy2-8);
+  }
+}
+/* 仪表盘 */
+function updateConsole(){
+  if(!missionReady)return;
+  $('#cMET').textContent=metStr();$('#hdrMet').textContent='MET '+metStr();
+  var rs=Math.hypot(ship.pos.x,ship.pos.y);
+  var ep=earthPos(),de=Math.hypot(ship.pos.x-ep.x,ship.pos.y-ep.y);
+  $('#cSun').textContent=fmtDist(rs);$('#cSunLt').textContent=ltStr(rs);
+  $('#cEarth').textContent=fmtDist(de);$('#cEarthLt').textContent=de<0.0001?'与地球同行':ltStr(de);
+  $('#cVel').textContent=ship.vEma.toFixed(2)+' KM/S';
+  $('#cWarp').textContent='×'+(trans?(trans.total*DAY/trans.durReal).toExponential(1):'1');
+  $('#cSig').textContent='信号 '+(100/Math.max(1,rs*rs)).toFixed(rs>10?2:0)+'%';
+  $('#cPhase').textContent=trans?((ship.waiting?'窗口等待':'转移中')+' · 目标 '+trans.dest.n):(ship.mode==='at'?'驻留 · '+ship.atBody.toUpperCase():'待命 · LEO');
+  var best={n:'太阳',g:SUN_GM/Math.pow(rs*AU_KM*1000,2)},i;
+  for(i=0;i<P.length;i++){var p=P[i],pp=planetPos(p);
+    var dm=Math.hypot(ship.pos.x-pp.x,ship.pos.y-pp.y)*AU_KM*1000;
+    var g=p.gm/(dm*dm);if(g>best.g){best={n:p.n,g:g};}}
+  var mpp=moonPos(),dmm=Math.hypot(ship.pos.x-mpp.x,ship.pos.y-mpp.y)*AU_KM*1000;
+  var gm=MOON.gm/(dmm*dmm);if(gm>best.g){best={n:'月球',g:gm};}
+  $('#cBody').textContent=best.n;
+  $('#cGrav').textContent='g = '+(best.g>=0.01?best.g.toFixed(2):best.g.toExponential(2))+' m/s²';
+}
+/* 抵达弹窗 */
+function showArrival(d){
+  var S=$('#arrSphere');
+  if(d.kind==='deep'){var info=ARR_DEEP[d.id];
+    S.style.background=info.bg;S.classList.remove('ring');
+    $('#arrName').textContent=info.n;$('#arrEn').textContent=info.en+' · 抵达确认';
+    $('#arrFacts').innerHTML='<span>当前位置 <b>'+info.r+'</b></span><span>信号功率 <b>-157 dBm</b></span>';
+    $('#arrTrivia').textContent=info.trivia;
+  }else{
+    var p=(d.kind==='moon')?{n:'月球',en:'LUNA',a:'384,400 km',aL:'距地',T:'27.3 天',r:1737,g:1.62,moons:'—',bg:'radial-gradient(circle at 32% 30%,#e8eaec,#a9adb3 55%,#4c5158)',trivia:'潮汐锁定的伴侣。人类最深远的足迹留在这里——阿波罗 17 号,1972。'}:d.p;
+    S.style.background=p.bg;S.classList.toggle('ring',!!p.ring);
+    $('#arrName').textContent=p.n;$('#arrEn').textContent=p.en+' · 抵达确认';
+    $('#arrFacts').innerHTML='<span>'+(p.aL||'距日')+' <b>'+p.a+(p.aL?'':' AU')+'</b></span><span>表面重力 <b>'+p.g+' m/s²</b></span><span>半径 <b>'+p.r.toLocaleString()+' km</b></span><span>卫星 <b>'+p.moons+'</b></span>';
+    $('#arrTrivia').textContent=p.trivia;
+  }
+  $('#arrModal').classList.add('show');
+}
+$('#arrNext').addEventListener('click',function(){$('#arrModal').classList.remove('show');});
+$('#arrHome').addEventListener('click',function(){$('#arrModal').classList.remove('show');
+  if(ship.atBody!=='earth'){startTransfer({id:'earth',n:'地球',kind:'planet',p:P[2],dur:24});}});
+$('#toDeck').addEventListener('click',function(){$('#deck').scrollIntoView({behavior:RM?'auto':'smooth'});});
+
+/* ================= 主循环 ================= */
+var lastT=performance.now();
+function loop(t){
+  dtG=clamp((t-lastT)/1000,0,.05);lastT=t;
+  drawStars(t);
+  launchTick(dtG);
+  if(missionReady){
+    var dps=6;
+    if(trans){dps=trans.total/trans.durReal;}
+    simDays+=dps*dtG;
+    if(ship.mode==='transfer'&&trans){
+      ship.prev={x:ship.pos.x,y:ship.pos.y};ship.prevDays=simDays;
+      var np=transferPos();ship.pos={x:np.x,y:np.y};ship.waiting=!!np.wait;
+      var dAU=Math.hypot(ship.pos.x-ship.prev.x,ship.pos.y-ship.prev.y);
+      var dS=(simDays-ship.prevDays)*DAY;
+      if(dS>0){var v=dAU*AU_KM/dS;ship.vEma=ship.vEma?ship.vEma*.85+v*.15:v;}
+      if(!RM){ship.trail.push({x:ship.pos.x,y:ship.pos.y});if(ship.trail.length>900){ship.trail.shift();}}
+      if(np.done){arrive();}
+    }else if(ship.mode==='at'){
+      ship.prev={x:ship.pos.x,y:ship.pos.y};
+      if(ship.atBody==='earth'){ship.pos=earthPos();}
+      else if(ship.atBody==='moon'){ship.pos=moonPos();}
+      else{for(var i=0;i<P.length;i++){if(P[i].id===ship.atBody){ship.pos=planetPos(P[i]);}}}
+      ship.vEma=ship.vEma*.9;
+    }else{ship.pos=earthPos();}
+    if(deckVisible){drawMap();}
+    updateConsole();
+  }
+  requestAnimationFrame(loop);
+}
+
+/* ================= 档案 / 显现 ================= */
+function buildArchive(){
+  var ARC=[{n:'太阳',en:'SOL',a:'—',T:'—',r:'696,340 km',g:'274',m:'333,000',moons:'8 颗行星',bg:'radial-gradient(circle at 35% 30%,#fff0c0,#ffb347 55%,#c2551b)',note:'占太阳系总质量的 99.86%。其余一切,都是零头。'}];
+  P.forEach(function(p){ARC.push({n:p.n,en:p.en,a:p.a+' AU',T:(p.T>365?(p.T/365.25).toFixed(1)+' 年':p.T+' 天'),r:p.r.toLocaleString()+' km',g:p.g,m:p.m,moons:p.moons,bg:p.bg,ring:p.ring,note:p.trivia});});
+  ARC.push({n:'旅行者 1 号',en:'VOYAGER 1',a:'165 AU',T:'逃离中',r:'825 kg',g:'—',m:'825 kg',moons:'金唱片 ×1',bg:'radial-gradient(circle at 35% 30%,#e8e2d4,#9a927e 60%,#3a352a)',note:'1977 年出发,仍在以 16.9 km/s 远离。信号抵达地球需 22 小时。'});
+  var html='';
+  ARC.forEach(function(a){
+    html+='<article class="arc-card"><div class="arc-top"><div class="arc-sphere'+(a.ring?' ring':'')+'" style="background:'+a.bg+'"></div><h4>'+a.n+'<em>'+a.en+'</em></h4></div>'+
+    '<div class="arc-grid"><div>距日轨道 <b>'+a.a+'</b></div><div>轨道周期 <b>'+a.T+'</b></div><div>半径/质量 <b>'+a.r+'</b></div><div>表面重力 <b>'+a.g+(String(a.g).match(/m|—/)?'':' m/s²')+'</b></div><div>质量(地球=1) <b>'+a.m+'</b></div><div>卫星 <b>'+a.moons+'</b></div></div>'+
+    '<p class="arc-note">'+a.note+'</p></article>';
+  });
+  $('#arcStrip').innerHTML=html;
+  var strip=$('#arcStrip'),down=false,sx=0,sl=0;
+  strip.addEventListener('pointerdown',function(e){down=true;sx=e.clientX;sl=strip.scrollLeft;});
+  addEventListener('pointermove',function(e){if(down){strip.scrollLeft=sl-(e.clientX-sx);}});
+  addEventListener('pointerup',function(){down=false;});
+}
+var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});},{threshold:.12});
+function initReveal(){var els=document.querySelectorAll('[data-rv]'),i;for(i=0;i<els.length;i++){io.observe(els[i]);}}
+var POOL='01▓▒░Δ∇+/·:=<>#';
+function initScramble(){
+  var els=document.querySelectorAll('.scr'),i;
+  var ioS=new IntersectionObserver(function(es){es.forEach(function(en){
+    if(!en.isIntersecting)return;ioS.unobserve(en.target);
+    if(RM)return;
+    var elT=en.target,txt=elT.textContent,f=0,total=Math.max(22,txt.length*4);
+    (function step(){f++;var done=Math.floor(txt.length*(f/total)),out='',j;
+      for(j=0;j<txt.length;j++){out+=j<done?txt[j]:POOL[Math.floor(Math.random()*POOL.length)];}
+      elT.textContent=out;
+      if(f<total){requestAnimationFrame(step);}else{elT.textContent=txt;}})();
+  });},{threshold:.5});
+  for(i=0;i<els.length;i++){ioS.observe(els[i]);}
+}
+
+/* ================= 启动 ================= */
+function boot(){
+  starResize();lResize();mResize();
+  updateMapNote();renderDests();buildArchive();initReveal();initScramble();
+  requestAnimationFrame(loop);
+}
+addEventListener('resize',function(){starResize();lResize();mResize();});
+if(document.readyState==='complete'){boot();}
+else{addEventListener('load',boot);}
+</script>
+</body>
+</html>

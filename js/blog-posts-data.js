@@ -1,6 +1,18 @@
 // 博客文章数据源：供 blog.js、博客页、分类页与首页最新文章复用
 window.BLOG_POSTS_DATA = [
         {
+            "id": "mdp-dapo-semiconductor-fab-progress-20260905",
+            "title": "把 DAPO 从大模型搬进晶圆厂：MDP-DAPO 研究进展记录",
+            "title_en": "Bringing DAPO from LLMs into the Fab: A Progress Report on MDP-DAPO",
+            "excerpt": "把 LLM 强化学习的训练稳定技术（DAPO 四组件）系统性迁移到半导体产线动态抽检决策的长文复盘：主推配置 PPO+C1+C4 在 V2.3 合成仿真器上以 reward 0.0991 胜出（比 PPO 高 20.1%），组件归因、负面结果（C3 净负、GRPO-DAPO 坍缩）、五轮模拟评审的原始意见与每版处置、仿真器完整规格与数学公式逐条教学全部如实呈现，合成阶段于 V6.2 封版。",
+            "excerpt_en": "A long-form retrospective on systematically porting DAPO's four training-stability components from LLM RL to dynamic sampling decisions on a semiconductor fab line: the recommended PPO+C1+C4 configuration wins with reward 0.0991 on the V2.3 synthetic simulator (+20.1% over PPO). Component attribution, negative results (C3 as a net-negative, GRPO-DAPO collapses), five rounds of mock review verbatim with per-version dispositions, the full simulator specification, and line-by-line math walkthroughs are all reported honestly; the synthetic phase closed at V6.2.",
+            "date": "2026-09-05",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260905_zh_1.md",
+            "category": "tech",
+            "tags": ["强化学习", "DAPO", "PPO", "半导体制造", "动态抽检", "研究复盘"],
+            "tags_en": ["Reinforcement Learning", "DAPO", "PPO", "Semiconductor Manufacturing", "Dynamic Sampling", "Research Retrospective"]
+        },
+        {
             "id": "sql-tutorial-quick-start-programmers-20260821",
             "title": "SQL 学习笔记教程——给有计算机背景的快速入门手册",
             "title_en": "SQL Study Notes Tutorial — A Quick-Start Handbook for Readers with a Programming Background",
