@@ -121,6 +121,21 @@
 
         <section class="changelog-timeline" data-changelog-view-panel="logs">
             <div class="timeline-item">
+                <div class="timeline-date">2026-09-06</div>
+                <div class="timeline-content">
+                    <h2 data-en="Blog Archive — Grid/List View Toggle" data-zh="博客文章总览 — 网格/列表视图切换上线">博客文章总览 — 网格/列表视图切换上线</h2>
+                    <ul>
+                        <li data-en="Added a View toggle button at the end of the category filter bar on pages/blog.html: one click switches the article area between the original responsive grid (1/2/3 columns) and a single-column list view where each article takes a full row. The button intentionally avoids the .filter-btn class and stays outside .filter-tags so it is never mistaken for a category filter." data-zh="在 pages/blog.html 分类栏末尾新增「视图」按钮：点击即可在原有响应式网格（1/2/3 列）与单列列表视图（每行一篇文章、整行宽卡片）之间切换；按钮刻意不使用 .filter-btn 类且置于 .filter-tags 容器之外，避免被当作分类筛选。"><strong>视图切换按钮</strong>：分类栏末尾新增「视图」按钮，网格 ⇄ 列表一键切换，与分类筛选完全隔离。</li>
+                        <li data-en="List view card layout: on desktop each card becomes horizontal — a fixed-width meta column (date + category badge, dashed divider) on the left and title / excerpt (clamped to 3 lines) / tags / Read More on the right; on mobile it falls back to vertical stacking. In grid view .blog-card-body uses display: contents so the original card spacing is pixel-identical to before." data-zh="列表视图卡片布局：桌面端卡片改为横向——左侧固定宽度元信息列（日期 + 分类徽标，虚线分隔），右侧为标题 / 摘要（限 3 行）/ 标签 / 阅读更多；移动端回落为纵向堆叠。网格视图下 .blog-card-body 以 display: contents 渲染，原有卡片间距与之前像素级一致。"><strong>列表卡片布局</strong>：桌面横向双栏、移动纵向堆叠，网格视图样式零回归。</li>
+                        <li data-en="Full compatibility with existing logic: switching views re-renders through the original renderCurrentPage(), so pagination, per-page size (12/24/36/48), category filtering and search all work unchanged in both views; the view preference persists via localStorage (key blog-view-mode) and syncs with the Chinese/English and day/night switches." data-zh="与既有逻辑完全兼容：切换视图后仍走原有 renderCurrentPage() 渲染，分页、每页数量（12/24/36/48）、分类筛选与搜索在两种视图下均不受影响；视图偏好通过 localStorage（键 blog-view-mode）持久化，并与中/英、日/夜切换联动。"><strong>兼容性</strong>：分页、每页数量、筛选、搜索零改动兼容，视图偏好持久化并联动双语双主题。</li>
+                        <li data-en="Heritage conventions kept: all new markup, styles and logic are wrapped in ========== START/END (delete to roll back) ========== comment blocks, matching the page's existing LOTTIE section convention — the whole feature can be reverted by deleting the marked segments." data-zh="传承约定保留：新增按钮、样式与逻辑全部包裹在 ========== START/END（删除至 END 可回档）========== 注释块中，与页面既有 LOTTIE 段约定一致，整段删除即可回滚。"><strong>可回档约定</strong>：全部新增代码按 START/END 注释块包裹，删除即回滚。</li>
+                        <li data-en="Validation passed: jsdom drove the real page DOM over a local static server — 18 assertions all green, covering default grid render, list-view single column, pagination / page-size / category / search in list view, view preference persistence and count consistency after switching back; all 5 inline scripts passed syntax checks." data-zh="验证通过：jsdom 经本地静态服务器驱动真实页面 DOM，18 项断言全部通过——覆盖默认网格渲染、列表单列、列表视图下翻页/每页数量/分类/搜索、视图偏好持久化与切回后数量一致性；5 段内联脚本均通过语法校验。"><strong>验证</strong>：真实页面 DOM 18 项断言全绿，内联脚本语法校验通过。</li>
+                        <li data-en="Changed Files: pages/blog.html, pages/changelog.html." data-zh="改动文件：pages/blog.html、pages/changelog.html。"><strong>改动文件</strong>：pages/blog.html、pages/changelog.html。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
                 <div class="timeline-date">2026-08-23</div>
                 <div class="timeline-content">
                     <h2 data-en="Homepage Content Sections — Futuristic Minimal UI Overhaul (Latest Articles / Blog Updates / QIA)" data-zh="首页内容板块 — 未来主义极简 UI 重构（最新文章 / 博客动态 / 问答与想法）">首页内容板块 — 未来主义极简 UI 重构（最新文章 / 博客动态 / 问答与想法）</h2>

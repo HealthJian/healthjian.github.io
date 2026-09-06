@@ -247,6 +247,52 @@
 
     </style>
     <!-- ========== LOTTIE space_plant 样式 END ========== -->
+
+    <!-- ========== 视图切换（列表视图）样式 START（删除至 END 可回档）========== -->
+    <style>
+        /* 列表视图：卡片横向布局，左侧元信息列 + 右侧内容 */
+        #blog-grid.list-view > article {
+            flex-direction: column;
+        }
+        /* 默认（含网格视图）body 不参与布局，保持原卡片间距不变 */
+        .blog-card-body {
+            display: contents;
+        }
+        @media (min-width: 768px) {
+            #blog-grid.list-view > article {
+                flex-direction: row;
+                align-items: stretch;
+                gap: 1.75rem;
+            }
+            #blog-grid.list-view > article > .blog-card-meta {
+                flex: 0 0 9.5rem;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: flex-start;
+                gap: 0.75rem;
+                border-right: 1px dashed rgba(0,0,0,.25);
+                padding-right: 1.25rem;
+            }
+            .dark #blog-grid.list-view > article > .blog-card-meta {
+                border-right-color: rgba(255,255,255,.3);
+            }
+            #blog-grid.list-view > article > .blog-card-body {
+                flex: 1 1 auto;
+                min-width: 0;
+                display: flex;
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+            /* 列表视图下摘要限 3 行，保持行高整齐 */
+            #blog-grid.list-view > article .blog-card-desc {
+                display: -webkit-box;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+        }
+    </style>
+    <!-- ========== 视图切换（列表视图）样式 END ========== -->
 </head>
 <body class="light-mode" data-blog-ui="textblog">
     <!-- 导航栏 -->
@@ -313,6 +359,13 @@
                                 <button class="filter-btn px-4 py-2 font-mono font-bold text-xs border border-black dark:border-white bg-white dark:bg-darkCard text-gray-700 dark:text-gray-200 transition-all hover:bg-green-100 dark:hover:bg-green-900/30" data-category="excerpt" data-en="Excerpt" data-zh="摘抄">摘抄</button>
                                 <button class="filter-btn px-4 py-2 font-mono font-bold text-xs border border-black dark:border-white bg-white dark:bg-darkCard text-gray-700 dark:text-gray-200 transition-all hover:bg-red-100 dark:hover:bg-red-900/30" data-category="paper" data-en="Paper" data-zh="论文">论文</button>
                             </div>
+                            <!-- ========== 视图切换按钮 START（删除至 END 可回档）========== -->
+                            <button id="blog-view-toggle" type="button" aria-pressed="false"
+                                    class="shrink-0 px-4 py-2 font-mono font-bold text-xs border border-black dark:border-white bg-white dark:bg-darkCard text-gray-700 dark:text-gray-200 transition-all hover:bg-cyan-100 dark:hover:bg-cyan-900/30 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.25)] inline-flex items-center gap-1.5">
+                                <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+                                <span id="blog-view-toggle-text" data-en="View: Grid" data-zh="视图：网格">视图：网格</span>
+                            </button>
+                            <!-- ========== 视图切换按钮 END ========== -->
                         </div>
                     </div>
                 </div>
@@ -537,6 +590,39 @@
             let currentPageSize = parseInt(pageSizeSelect?.value || '12', 10);
             let filteredArticles = articles;
 
+            // ========== 视图切换逻辑 START（删除至 END 可回档）==========
+            const GRID_CLASSES = 'blog-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 transition-all duration-300';
+            const LIST_CLASSES = 'blog-list list-view grid grid-cols-1 gap-6 transition-all duration-300';
+            const VIEW_STORAGE_KEY = 'blog-view-mode';
+            const viewToggleBtn = document.getElementById('blog-view-toggle');
+            const viewToggleText = document.getElementById('blog-view-toggle-text');
+            let currentView = 'grid';
+            try {
+                currentView = localStorage.getItem(VIEW_STORAGE_KEY) === 'list' ? 'list' : 'grid';
+            } catch (_) {}
+
+            const applyView = () => {
+                if (grid) grid.className = currentView === 'list' ? LIST_CLASSES : GRID_CLASSES;
+                if (viewToggleText) {
+                    viewToggleText.dataset.en = currentView === 'list' ? 'View: List' : 'View: Grid';
+                    viewToggleText.dataset.zh = currentView === 'list' ? '视图：列表' : '视图：网格';
+                    viewToggleText.textContent = getLang() === 'en' ? viewToggleText.dataset.en : viewToggleText.dataset.zh;
+                }
+                if (viewToggleBtn) {
+                    viewToggleBtn.setAttribute('aria-pressed', currentView === 'list' ? 'true' : 'false');
+                    const iconHolder = viewToggleBtn.querySelector('svg, i[data-lucide]');
+                    if (iconHolder) {
+                        const icon = document.createElement('i');
+                        icon.setAttribute('data-lucide', currentView === 'list' ? 'list' : 'layout-grid');
+                        icon.className = 'w-3.5 h-3.5';
+                        iconHolder.replaceWith(icon);
+                    }
+                }
+                try { localStorage.setItem(VIEW_STORAGE_KEY, currentView); } catch (_) {}
+                lucide.createIcons();
+            };
+            // ========== 视图切换逻辑 END ==========
+
             const getLang = () => document.body.classList.contains('en') ? 'en' : 'zh';
             const getCategoryMeta = (category) => {
                 if (typeof getBlogCategoryMeta === 'function') return getBlogCategoryMeta(category);
@@ -601,22 +687,24 @@
                     card.className = 'group relative overflow-hidden border border-black dark:border-white bg-white dark:bg-darkCard p-6 flex flex-col gap-4 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.12)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.08)] transition-transform duration-300 hover:-translate-y-1';
 
                     card.innerHTML = `
-                        <div class="flex items-start justify-between gap-3">
+                        <div class="blog-card-meta flex items-start justify-between gap-3">
                             <div class="text-xs font-mono font-bold text-gray-600 dark:text-gray-400 border border-gray-300 dark:border-gray-600 px-2 py-1">${item.date}</div>
                             <div class="flex gap-2 items-center">
                                 <span class="blog-cat-badge ${catClass} text-xs font-mono px-2 py-1 border">${catText}</span>
                             </div>
                         </div>
-                        <h3 class="text-xl font-bold leading-tight dark:text-white">
-                            <a href="${item.url}" target="_blank" class="hover:underline">${lang === 'en' ? item.title_en : item.title}</a>
-                        </h3>
-                        <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">${lang === 'en' ? item.desc_en : item.desc}</p>
-                        <div class="flex flex-wrap gap-2">
-                            ${(lang === 'en' ? (item.tags_en || item.tags) : item.tags).map(t => `<span class="text-xs px-3 py-1 rounded-full border border-black/30 dark:border-white/40 bg-blue-50 dark:bg-blue-900/30 text-blue-900 dark:text-blue-200">${t}</span>`).join('')}
-                        </div>
-                        <div class="flex items-center gap-2 text-sm font-semibold text-blue-600 dark:text-blue-300">
-                            <span>${lang === 'en' ? 'Read More' : '阅读更多'}</span>
-                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        <div class="blog-card-body">
+                            <h3 class="text-xl font-bold leading-tight dark:text-white">
+                                <a href="${item.url}" target="_blank" class="hover:underline">${lang === 'en' ? item.title_en : item.title}</a>
+                            </h3>
+                            <p class="blog-card-desc text-sm text-gray-700 dark:text-gray-300 leading-relaxed">${lang === 'en' ? item.desc_en : item.desc}</p>
+                            <div class="flex flex-wrap gap-2">
+                                ${(lang === 'en' ? (item.tags_en || item.tags) : item.tags).map(t => `<span class="text-xs px-3 py-1 rounded-full border border-black/30 dark:border-white/40 bg-blue-50 dark:bg-blue-900/30 text-blue-900 dark:text-blue-200">${t}</span>`).join('')}
+                            </div>
+                            <div class="flex items-center gap-2 text-sm font-semibold text-blue-600 dark:text-blue-300">
+                                <span>${lang === 'en' ? 'Read More' : '阅读更多'}</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </div>
                         </div>
                     `;
                     grid.appendChild(card);
@@ -697,6 +785,15 @@
                 });
             }
 
+            // 视图切换：网格 ⇄ 列表，分页与每页数量逻辑不变
+            if (viewToggleBtn) {
+                viewToggleBtn.addEventListener('click', () => {
+                    currentView = currentView === 'list' ? 'grid' : 'list';
+                    applyView();
+                    renderCurrentPage();
+                });
+            }
+
             if (prevPageBtn) {
                 prevPageBtn.addEventListener('click', () => {
                     if (currentPage > 1) {
@@ -737,6 +834,7 @@
 
             // 初始同步一次
             syncTailwindTheme();
+            applyView();
 
             filteredArticles = getFilteredArticles();
             renderCurrentPage();
