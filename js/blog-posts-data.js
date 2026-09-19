@@ -1,6 +1,18 @@
 // 博客文章数据源：供 blog.js、博客页、分类页与首页最新文章复用
 window.BLOG_POSTS_DATA = [
         {
+            "id": "chatgpt-windows-install-troubleshooting-sop-20260919",
+            "title": "ChatGPT Windows 桌面版安装故障排查：从 Microsoft Store 卡死到 MSIX 成功部署",
+            "title_en": "Troubleshooting ChatGPT for Windows: From Microsoft Store Failures to Successful MSIX Deployment",
+            "excerpt": "一次完整的 ChatGPT Windows 11 桌面版安装故障排查实录：Microsoft Store 安装按钮灰色、winget 能识别软件包却卡在获取阶段、官方 MSIX 图形安装器同样无响应。通过逐层验证 Microsoft Store、msstore 软件源、winget、MSIX 与 Windows AppX 部署链路，最终定位问题并使用 PowerShell Add-AppxPackage 成功完成安装。本文将整个排查过程整理为可复用 SOP，并总结故障分层、诊断思路、VPN 判断以及后续更新的兜底方案。",
+            "excerpt_en": "A complete troubleshooting record for installing the ChatGPT desktop app on Windows 11: the Microsoft Store install button was disabled, winget could identify the package but stalled during acquisition, and even the official MSIX graphical installer became unresponsive. By isolating each layer of the installation chain—Microsoft Store, the msstore source, winget, MSIX, and Windows AppX deployment—the issue was narrowed down and ultimately bypassed using PowerShell's Add-AppxPackage. This post turns the full investigation into a reusable SOP, including diagnostic logic, VPN considerations, and a fallback strategy for future updates.",
+            "date": "2026-09-19",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20260919_zh_1.md",
+            "category": "tech",
+            "tags": ["ChatGPT", "Windows 11", "故障排查", "Microsoft Store", "winget", "MSIX", "PowerShell", "SOP"],
+            "tags_en": ["ChatGPT", "Windows 11", "Troubleshooting", "Microsoft Store", "winget", "MSIX", "PowerShell", "SOP"]
+        },
+        {
             "id": "mdp-dapo-semiconductor-fab-progress-20260905",
             "title": "把 DAPO 从大模型搬进晶圆厂：MDP-DAPO 研究进展记录",
             "title_en": "Bringing DAPO from LLMs into the Fab: A Progress Report on MDP-DAPO",

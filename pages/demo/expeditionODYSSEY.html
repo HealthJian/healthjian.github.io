@@ -71,6 +71,11 @@ header{position:fixed;top:0;left:0;right:0;z-index:70;display:flex;align-items:c
 #deck{height:104vh;min-height:760px}
 #mapCv{position:absolute;inset:0;width:100%;height:100%;cursor:grab}
 #mapCv.drag{cursor:grabbing}
+#cv3d{position:absolute;inset:0;width:100%;height:100%;cursor:grab}
+#cv3d.drag{cursor:grabbing}
+#lb3{position:absolute;inset:0;z-index:4;pointer-events:none;overflow:hidden}
+.lb3{position:absolute;left:0;top:0;font:400 11px "Noto Sans SC",sans-serif;letter-spacing:.08em;color:rgba(200,220,245,.78);white-space:nowrap;text-shadow:0 0 6px rgba(0,0,0,.85);display:none}
+.lb3.ship{font:400 10px Orbitron,sans-serif;letter-spacing:.18em;color:#6fd9ff}
 .deck-head{position:absolute;top:76px;left:30px;z-index:5;pointer-events:none;max-width:560px}
 .deck-head h2{font:800 clamp(22px,3.4vw,38px) var(--f-disp);letter-spacing:.16em}
 .deck-head p{margin-top:8px;font:300 11.5px/2 var(--f-body);letter-spacing:.22em;color:var(--dim)}
@@ -289,18 +294,18 @@ function ltStr(au){var s=au*AU_KM/C_KMS;if(s<60)return '光行时 '+s.toFixed(1)
 /* ================= 天体数据 ================= */
 var SUN_GM=1.3271244e20;
 var P=[
- {id:'mercury',n:'水星',en:'MERCURY',a:0.387,T:87.97,r:2439,gm:2.203e13,g:3.7,m:0.055,moons:0,col:'#b8aa99',bg:'radial-gradient(circle at 32% 30%,#d8ccc0,#8f8175 55%,#4a423b)',trivia:'昼夜温差近 600 ℃。一年只有 88 天,一个太阳日却长达 176 天。'},
- {id:'venus',n:'金星',en:'VENUS',a:0.723,T:224.7,r:6052,gm:4.868e14,g:8.87,m:0.815,moons:0,col:'#e8c46f',bg:'radial-gradient(circle at 32% 30%,#f7e3a9,#d8a94e 55%,#7a5a22)',trivia:'浓硫酸云与失控温室。自转一圈比公转一年还长,而且方向相反。'},
- {id:'earth',n:'地球',en:'EARTH',a:1.000,T:365.25,r:6371,gm:3.986e14,g:9.81,m:1,moons:1,col:'#5da9e9',bg:'radial-gradient(circle at 32% 30%,#9fd0f2,#3e7fc4 50%,#143a6b 78%,#081c38)',trivia:'已知唯一有生命的行星。从深空回望,它只是 0.12 像素的暗淡蓝点。'},
- {id:'mars',n:'火星',en:'MARS',a:1.524,T:687,r:3390,gm:4.282e13,g:3.71,m:0.107,moons:2,col:'#e0714f',bg:'radial-gradient(circle at 32% 30%,#f0a17c,#c05a38 55%,#5c2413)',trivia:'太阳系最高的火山奥林帕斯山(21.9 km)与最深的水手峡谷都在这里。'},
- {id:'jupiter',n:'木星',en:'JUPITER',a:5.203,T:4333,r:69911,gm:1.267e17,g:24.79,m:317.8,moons:95,col:'#d8a76f',bg:'radial-gradient(circle at 32% 30%,#f0d4a8,#c8956a 45%,#8a5a3a 75%,#4a2f1e)',trivia:'质量是其余行星总和的 2.5 倍;大红斑风暴已呼啸至少 300 年。'},
- {id:'saturn',n:'土星',en:'SATURN',a:9.537,T:10759,r:58232,gm:3.794e16,g:10.44,m:95.2,moons:146,col:'#e6cf9a',bg:'radial-gradient(circle at 32% 30%,#f7ecc9,#dcc188 55%,#8a744a)',ring:true,trivia:'平均密度低于水——若有一片足够大的海,它会浮起来。'},
- {id:'uranus',n:'天王星',en:'URANUS',a:19.19,T:30687,r:25362,gm:5.794e15,g:8.87,m:14.5,moons:28,col:'#9fd6d2',bg:'radial-gradient(circle at 32% 30%,#d3f0ee,#8cc8c4 55%,#3f7a78)',trivia:'自转轴倾角 98°,是"躺着"绕太阳公转的行星。'},
- {id:'neptune',n:'海王星',en:'NEPTUNE',a:30.07,T:60190,r:24622,gm:6.837e15,g:11.15,m:17.1,moons:16,col:'#5a7fe0',bg:'radial-gradient(circle at 32% 30%,#9fb4f0,#4a6bd0 55%,#1c2f6e)',trivia:'风速可达 2,100 km/h,是太阳系最狂暴的大气。'},
- {id:'pluto',n:'冥王星',en:'PLUTO',a:39.48,T:90560,r:1188,gm:8.7e12,g:0.62,m:0.0022,moons:5,col:'#c9b29b',bg:'radial-gradient(circle at 32% 30%,#e0cdb4,#a08a6e 55%,#4e4232)',trivia:'2015 年"新视野号"传回那片心形冰原——冥界也有温柔。'}
+ {id:'mercury',n:'水星',en:'MERCURY',a:0.387,T:87.97,r:2439,gm:2.203e13,g:3.7,m:0.055,moons:0,rot:1407.6,tilt:0.03,incl:7.0,node:0.6,col:'#b8aa99',bg:'radial-gradient(circle at 32% 30%,#d8ccc0,#8f8175 55%,#4a423b)',trivia:'昼夜温差近 600 ℃。一年只有 88 天,一个太阳日却长达 176 天。'},
+ {id:'venus',n:'金星',en:'VENUS',a:0.723,T:224.7,r:6052,gm:4.868e14,g:8.87,m:0.815,moons:0,rot:-5832.5,tilt:177.4,incl:3.39,node:1.8,col:'#e8c46f',bg:'radial-gradient(circle at 32% 30%,#f7e3a9,#d8a94e 55%,#7a5a22)',trivia:'浓硫酸云与失控温室。自转一圈比公转一年还长,而且方向相反。'},
+ {id:'earth',n:'地球',en:'EARTH',a:1.000,T:365.25,r:6371,gm:3.986e14,g:9.81,m:1,moons:1,rot:23.9,tilt:23.4,incl:0.0,node:0.0,col:'#5da9e9',bg:'radial-gradient(circle at 32% 30%,#9fd0f2,#3e7fc4 50%,#143a6b 78%,#081c38)',trivia:'已知唯一有生命的行星。从深空回望,它只是 0.12 像素的暗淡蓝点。'},
+ {id:'mars',n:'火星',en:'MARS',a:1.524,T:687,r:3390,gm:4.282e13,g:3.71,m:0.107,moons:2,rot:24.6,tilt:25.2,incl:1.85,node:0.9,col:'#e0714f',bg:'radial-gradient(circle at 32% 30%,#f0a17c,#c05a38 55%,#5c2413)',trivia:'太阳系最高的火山奥林帕斯山(21.9 km)与最深的水手峡谷都在这里。'},
+ {id:'jupiter',n:'木星',en:'JUPITER',a:5.203,T:4333,r:69911,gm:1.267e17,g:24.79,m:317.8,moons:95,rot:9.9,tilt:3.1,incl:1.3,node:2.6,col:'#d8a76f',bg:'radial-gradient(circle at 32% 30%,#f0d4a8,#c8956a 45%,#8a5a3a 75%,#4a2f1e)',trivia:'质量是其余行星总和的 2.5 倍;大红斑风暴已呼啸至少 300 年。'},
+ {id:'saturn',n:'土星',en:'SATURN',a:9.537,T:10759,r:58232,gm:3.794e16,g:10.44,m:95.2,moons:146,rot:10.7,tilt:26.7,incl:2.49,node:0.4,col:'#e6cf9a',bg:'radial-gradient(circle at 32% 30%,#f7ecc9,#dcc188 55%,#8a744a)',ring:true,trivia:'平均密度低于水——若有一片足够大的海,它会浮起来。'},
+ {id:'uranus',n:'天王星',en:'URANUS',a:19.19,T:30687,r:25362,gm:5.794e15,g:8.87,m:14.5,moons:28,rot:-17.2,tilt:97.8,incl:0.77,node:1.2,col:'#9fd6d2',bg:'radial-gradient(circle at 32% 30%,#d3f0ee,#8cc8c4 55%,#3f7a78)',trivia:'自转轴倾角 98°,是"躺着"绕太阳公转的行星。'},
+ {id:'neptune',n:'海王星',en:'NEPTUNE',a:30.07,T:60190,r:24622,gm:6.837e15,g:11.15,m:17.1,moons:16,rot:16.1,tilt:28.3,incl:1.77,node:2.1,col:'#5a7fe0',bg:'radial-gradient(circle at 32% 30%,#9fb4f0,#4a6bd0 55%,#1c2f6e)',trivia:'风速可达 2,100 km/h,是太阳系最狂暴的大气。'},
+ {id:'pluto',n:'冥王星',en:'PLUTO',a:39.48,T:90560,r:1188,gm:8.7e12,g:0.62,m:0.0022,moons:5,rot:-153.3,tilt:122.5,incl:17.2,node:3.6,col:'#c9b29b',bg:'radial-gradient(circle at 32% 30%,#e0cdb4,#a08a6e 55%,#4e4232)',trivia:'2015 年"新视野号"传回那片心形冰原——冥界也有温柔。'}
 ];
 P.forEach(function(p){p.phase=Math.random()*TAU;});
-var MOON={a:0.00257,T:27.32,gm:4.9049e12,phase:1.2};
+var MOON={a:0.00257,T:27.32,gm:4.9049e12,phase:1.2,rot:655.7,incl:5.14};
 var ARR_DEEP={
  voyager:{n:'旅行者 1 号',en:'VOYAGER 1',r:'165 AU',bg:'radial-gradient(circle at 35% 30%,#e8e2d4,#9a927e 60%,#3a352a)',trivia:'1977 年出发,携带金唱片。它的信号以光速飞行,仍需 22 个多小时才能抵达地球。此刻,它仍在飞行。'},
  proxima:{n:'比邻星',en:'PROXIMA CENTAURI',r:'4.246 光年',bg:'radial-gradient(circle at 35% 30%,#ffe4b0,#ff9a4e 55%,#a33d1e)',trivia:'以旅行者号 17 km/s 的速度,这段路需要约 75,000 年。光只需要 4.24 年——深渊不在远处,在速度里。'}
@@ -541,7 +546,7 @@ function startTransfer(dest){
     var days=.5*Math.pow(aT,1.5)*365.25;
     var out=r2>=r1,M0=out?0:Math.PI;
     var thNow=dest.p.phase+TAU*simDays/dest.p.T;
-    var need=((dep+Math.PI-thNow)%TAU+TAU)%TAU;
+    var need=((dep+Math.PI-thNow-TAU*days/dest.p.T)%TAU+TAU)%TAU;
     var wait=need/TAU*dest.p.T;
     t={kind:'hoh',a:aT,e:e,M0:M0,nu0:out?0:Math.PI,dep:dep,r1:r1,days:days,wait:wait,total:days+wait,t0:simDays,durReal:dest.dur,dest:dest};
   }else if(dest.kind==='moon'){
@@ -577,8 +582,8 @@ function transferPos(){
     if(el<trans.wait){var ew=earthPos();return{x:ew.x,y:ew.y,done:false,wait:true};}
     var prog2=clamp((el-trans.wait)/trans.days,0,1);
     var e=earthPos(),mmx=Math.cos(trans.arr)*MOON.a,mmy=Math.sin(trans.arr)*MOON.a;
-    var pe=Math.pow(prog2,.7),arc=Math.sin(pe*Math.PI)*0.0016;
-    return{x:e.x+mmx*pe-mmy*arc*40,y:e.y+mmy*pe+mmx*arc*40,done:prog2>=1};
+    var pe=Math.pow(prog2,.7),arc=Math.sin(pe*Math.PI)*MOON.a*0.9;
+    return{x:e.x+mmx*pe-mmy*arc,y:e.y+mmy*pe+mmx*arc,done:prog2>=1};
   }
   var prog3=clamp(el/trans.days,0,1);
   var rl=trans.r0+(trans.dest.r-trans.r0)*prog3;
@@ -627,6 +632,7 @@ $('#mapTools').addEventListener('click',function(e){
   if(v==='kuiper'){view.mode='log';view.zoom=.16;}
   if(v==='abyss'){view.mode='log';view.zoom=.045;}
   if(v==='linear'){view.mode='linear';view.zoom=.5;}
+  if(OK3D){var pr={inner:300,outer:640,kuiper:330,abyss:300,linear:430};if(pr[v])camS.r=pr[v];}
   beep(700,.06);updateMapNote();
 });
 function updateMapNote(){
@@ -775,6 +781,259 @@ $('#arrHome').addEventListener('click',function(){$('#arrModal').classList.remov
   if(ship.atBody!=='earth'){startTransfer({id:'earth',n:'地球',kind:'planet',p:P[2],dur:24});}});
 $('#toDeck').addEventListener('click',function(){$('#deck').scrollIntoView({behavior:RM?'auto':'smooth'});});
 
+/* ================= 3D 指挥台 ================= */
+var THREE=null,OK3D=false,dpsG=6;
+var r3=null,sc3=null,cam3=null,cv3=null,lbBox=null;
+var camS={r:300,th:0.6,ph:0.95};
+var D2R=Math.PI/180;
+var pGroup=[],pSpin=[],pOrbit=[],sun3=null,sunGlow=null,moon3=null,ku3=null;
+var oort3=null,prox3=null,ship3=null,trail3=null,trans3=null;
+var lbEls={},lastProj=[],tmpArr3=new Float32Array(3),tmpV3=null;
+var TRAIL_MAX=900,TRANS_PTS=96;
+function hex2rgb(h){return[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];}
+function planetTex(p){
+  var c=document.createElement('canvas');c.width=256;c.height=128;var g=c.getContext('2d');
+  var b=hex2rgb(p.col),i,j;
+  g.fillStyle=rgb(b);g.fillRect(0,0,256,128);
+  var bands=(p.id==='jupiter'||p.id==='saturn')?10:5;
+  for(i=0;i<bands;i++){
+    var t=Math.random()*.5-.25;
+    g.fillStyle='rgba('+Math.round(b[0]*(1+t))+','+Math.round(b[1]*(1+t))+','+Math.round(b[2]*(1+t))+',.5)';
+    g.fillRect(0,Math.random()*128,256,4+Math.random()*18);
+  }
+  if(p.id==='earth'){
+    g.fillStyle='rgba(74,144,82,.85)';
+    for(j=0;j<26;j++){g.beginPath();g.ellipse(Math.random()*256,22+Math.random()*84,4+Math.random()*14,3+Math.random()*8,Math.random()*3,0,TAU);g.fill();}
+    g.fillStyle='rgba(240,246,252,.9)';g.fillRect(0,0,256,7);g.fillRect(0,121,256,7);
+  }
+  for(j=0;j<380;j++){
+    var v=Math.random()*.4-.2;
+    g.fillStyle=v>0?'rgba(255,255,255,'+(v*.5).toFixed(3)+')':'rgba(0,0,10,'+(-v*.5).toFixed(3)+')';
+    g.fillRect(Math.random()*256,Math.random()*128,1+Math.random()*2,1+Math.random()*2);
+  }
+  return new THREE.CanvasTexture(c);
+}
+function size3(p){return clamp(0.8+Math.sqrt(p.r)*0.02,1.0,6.0);}
+function au3n(x,y,incl,node,out,idx){
+  var d=Math.sqrt(x*x+y*y);if(d<1e-9)d=1e-9;
+  var rr=RMAP(d),ux=x/d,uy=y/d;
+  var ca=Math.cos(node),sa=Math.sin(node);
+  var dx=ux*ca-uy*sa,dy=ux*sa+uy*ca;
+  out[idx]=dx*rr;out[idx+1]=dy*rr*Math.sin(incl);out[idx+2]=dy*rr*Math.cos(incl);
+}
+function au3v(x,y,incl,node,v){au3n(x,y,incl,node,tmpArr3,0);v.set(tmpArr3[0],tmpArr3[1],tmpArr3[2]);}
+function shipPlane(){
+  if(trans&&trans.dest&&trans.dest.p)return[trans.dest.p.incl*D2R,trans.dest.p.node];
+  if(ship.mode==='at'){for(var i=0;i<P.length;i++){if(P[i].id===ship.atBody)return[P[i].incl*D2R,P[i].node];}}
+  return[0,0];
+}
+function glowSprite(inner,outer,size){
+  var c=document.createElement('canvas');c.width=c.height=128;
+  var g=c.getContext('2d'),grd=g.createRadialGradient(64,64,0,64,64,64);
+  grd.addColorStop(0,inner);grd.addColorStop(.35,outer);grd.addColorStop(1,'rgba(0,0,0,0)');
+  g.fillStyle=grd;g.fillRect(0,0,128,128);
+  var sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),blending:THREE.AdditiveBlending,depthWrite:false,transparent:true}));
+  sp.scale.setScalar(size);return sp;
+}
+function init3D(){
+  if(OK3D||!THREE)return;
+  var deck=$('#deck'),i;
+  try{r3=new THREE.WebGLRenderer({antialias:true});}
+  catch(e){r3=null;return;}
+  OK3D=true;
+  cv3=r3.domElement;cv3.id='cv3d';
+  deck.insertBefore(cv3,$('.deck-head'));
+  lbBox=document.createElement('div');lbBox.id='lb3';deck.appendChild(lbBox);
+  r3.setPixelRatio(DPR);
+  sc3=new THREE.Scene();
+  sc3.background=new THREE.Color(0x03050e);
+  cam3=new THREE.PerspectiveCamera(50,1,0.1,60000);
+  tmpV3=new THREE.Vector3();
+  sc3.add(new THREE.AmbientLight(0x36415a,0.65));
+  sc3.add(new THREE.PointLight(0xfff2dd,1.7,0));
+  var sg=new THREE.BufferGeometry(),sp=new Float32Array(700*3);
+  for(i=0;i<700;i++){
+    var th=Math.random()*TAU,ph2=Math.acos(Math.random()*2-1),rr=20000;
+    sp[i*3]=rr*Math.sin(ph2)*Math.cos(th);sp[i*3+1]=rr*Math.cos(ph2);sp[i*3+2]=rr*Math.sin(ph2)*Math.sin(th);
+  }
+  sg.setAttribute('position',new THREE.BufferAttribute(sp,3));
+  var st3=new THREE.Points(sg,new THREE.PointsMaterial({color:0xbdd7ff,size:24,transparent:true,opacity:.8}));
+  st3.frustumCulled=false;sc3.add(st3);
+  sun3=new THREE.Mesh(new THREE.SphereGeometry(1,48,32),new THREE.MeshBasicMaterial({color:0xffdf9a}));
+  sc3.add(sun3);
+  sunGlow=glowSprite('rgba(255,220,140,.85)','rgba(255,179,71,.3)',40);sc3.add(sunGlow);
+  for(i=0;i<P.length;i++){
+    var p=P[i];
+    var grp=new THREE.Group();grp.rotation.z=p.tilt*D2R;
+    var mesh=new THREE.Mesh(new THREE.SphereGeometry(1,40,28),new THREE.MeshStandardMaterial({map:planetTex(p),roughness:.92,metalness:.04}));
+    grp.add(mesh);
+    if(p.ring){
+      var ring=new THREE.Mesh(new THREE.RingGeometry(1.35,2.15,64),new THREE.MeshBasicMaterial({color:0xe6cf9a,transparent:true,opacity:.5,side:THREE.DoubleSide}));
+      ring.rotation.x=Math.PI/2;grp.add(ring);
+    }
+    sc3.add(grp);pGroup.push(grp);pSpin.push(mesh);
+    var og=new THREE.BufferGeometry();
+    og.setAttribute('position',new THREE.BufferAttribute(new Float32Array(129*3),3));
+    var ol=new THREE.Line(og,new THREE.LineBasicMaterial({color:p.id==='earth'?0x6fd9ff:0x78aae6,transparent:true,opacity:p.id==='earth'?0.5:0.2}));
+    ol.frustumCulled=false;sc3.add(ol);pOrbit.push(ol);
+    var lb=document.createElement('div');lb.className='lb3';lb.textContent=p.n;
+    lbBox.appendChild(lb);lbEls[p.id]=lb;
+  }
+  moon3=new THREE.Mesh(new THREE.SphereGeometry(0.7,20,14),new THREE.MeshStandardMaterial({color:0xcfd3d6,roughness:1}));
+  moon3.visible=false;sc3.add(moon3);
+  var mlb=document.createElement('div');mlb.className='lb3';mlb.textContent='月球';lbBox.appendChild(mlb);lbEls.moon=mlb;
+  var kg=new THREE.BufferGeometry();
+  kg.setAttribute('position',new THREE.BufferAttribute(new Float32Array(KU.length*3),3));
+  ku3=new THREE.Points(kg,new THREE.PointsMaterial({color:0x96bee6,size:1.7,transparent:true,opacity:.5}));
+  ku3.frustumCulled=false;sc3.add(ku3);
+  var og2=new THREE.BufferGeometry();
+  og2.setAttribute('position',new THREE.BufferAttribute(new Float32Array(129*3),3));
+  oort3=new THREE.Line(og2,new THREE.LineDashedMaterial({color:0x8cb4f0,dashSize:4,gapSize:8,transparent:true,opacity:.3}));
+  oort3.frustumCulled=false;oort3.visible=false;sc3.add(oort3);
+  prox3=new THREE.Mesh(new THREE.SphereGeometry(2.2,16,12),new THREE.MeshBasicMaterial({color:0xffd98a}));
+  prox3.visible=false;sc3.add(prox3);
+  var olb=document.createElement('div');olb.className='lb3';olb.textContent='奥尔特云 ≈ 50,000 AU';lbBox.appendChild(olb);lbEls.oort=olb;
+  var xlb=document.createElement('div');xlb.className='lb3';xlb.textContent='比邻星 · 4.246 光年';lbBox.appendChild(xlb);lbEls.proxima=xlb;
+  ship3=new THREE.Group();
+  var cg=new THREE.ConeGeometry(1.1,3.4,8);cg.rotateX(Math.PI/2);
+  ship3.add(new THREE.Mesh(cg,new THREE.MeshBasicMaterial({color:0x6fd9ff})));
+  ship3.add(glowSprite('rgba(111,217,255,.9)','rgba(111,217,255,.28)',9));
+  ship3.visible=false;sc3.add(ship3);
+  var slb=document.createElement('div');slb.className='lb3 ship';slb.textContent='ODYSSEY';lbBox.appendChild(slb);lbEls.ship=slb;
+  var tg=new THREE.BufferGeometry();
+  tg.setAttribute('position',new THREE.BufferAttribute(new Float32Array(TRAIL_MAX*3),3));
+  trail3=new THREE.Line(tg,new THREE.LineBasicMaterial({color:0x6fd9ff,transparent:true,opacity:.45}));
+  trail3.frustumCulled=false;trail3.visible=false;sc3.add(trail3);
+  var tg2=new THREE.BufferGeometry();
+  tg2.setAttribute('position',new THREE.BufferAttribute(new Float32Array(TRANS_PTS*3),3));
+  trans3=new THREE.Line(tg2,new THREE.LineDashedMaterial({color:0xffb347,dashSize:2.2,gapSize:1.6,transparent:true,opacity:.55}));
+  trans3.frustumCulled=false;trans3.visible=false;sc3.add(trans3);
+  var cdrag=false,cdx=0,cdy=0;
+  cv3.addEventListener('pointerdown',function(e){cdrag=true;cdx=e.clientX;cdy=e.clientY;cv3.classList.add('drag');});
+  addEventListener('pointermove',function(e){
+    if(cdrag){camS.th-=(e.clientX-cdx)*.005;camS.ph=clamp(camS.ph-(e.clientY-cdy)*.005,.12,1.5);cdx=e.clientX;cdy=e.clientY;}
+  });
+  addEventListener('pointerup',function(){cdrag=false;if(cv3)cv3.classList.remove('drag');});
+  cv3.addEventListener('wheel',function(e){e.preventDefault();camS.r=clamp(camS.r*Math.pow(1.13,e.deltaY<0?1:-1),20,4000);},{passive:false});
+  cv3.addEventListener('mousemove',hover3D);
+  r3Resize();
+}
+function r3Resize(){
+  if(!OK3D||MW===0)return;
+  r3.setSize(MW,MH,false);
+  cam3.aspect=MW/MH;cam3.updateProjectionMatrix();
+}
+function proj2lb(lb,v,dx,dy){
+  if(v.z<1){lb.style.display='block';
+    lb.style.transform='translate('+((v.x*.5+.5)*MW+dx)+'px,'+((-v.y*.5+.5)*MH+dy)+'px)';}
+  else{lb.style.display='none';}
+}
+function hover3D(e){
+  if(!OK3D)return;
+  var rect=cv3.getBoundingClientRect(),px=e.clientX-rect.left,py=e.clientY-rect.top;
+  var hit=null,best=18,i;
+  for(i=0;i<lastProj.length;i++){var lp=lastProj[i];
+    if(!lp||!lp.vis)continue;
+    var dd=Math.hypot(lp.x-px,lp.y-py);
+    if(dd<best){best=dd;hit=P[i];}}
+  var tip=$('#mapTip');
+  if(hit){
+    tip.style.display='block';tip.style.left=(px+16)+'px';tip.style.top=(py-10)+'px';
+    var soiKm=hit.a*Math.pow(hit.m/333000,.4)*AU_KM;
+    var soiTxt=soiKm>=1e5?Math.round(soiKm/1e4)+' 万 km':Math.round(soiKm).toLocaleString()+' km';
+    tip.innerHTML='<b>'+hit.n+' '+hit.en+'</b><br>轨道 '+hit.a+' AU · 表面重力 '+hit.g+' m/s²<br>引力影响球 SOI ≈ '+soiTxt;
+  }else{tip.style.display='none';}
+}
+function render3D(){
+  if(!OK3D||MW===0)return;
+  var i,j;
+  cam3.position.set(camS.r*Math.sin(camS.ph)*Math.cos(camS.th),camS.r*Math.cos(camS.ph),camS.r*Math.sin(camS.ph)*Math.sin(camS.th));
+  cam3.lookAt(0,0,0);
+  var SR3=Math.max(6.5,RMAP(0.045));
+  sun3.scale.setScalar(SR3);sunGlow.scale.setScalar(SR3*7);
+  var deep=view.mode==='log'&&view.zoom<0.1;
+  for(i=0;i<P.length;i++){
+    var p=P[i],pp=planetPos(p),grp=pGroup[i];
+    au3v(pp.x,pp.y,p.incl*D2R,p.node,grp.position);
+    grp.scale.setScalar(size3(p));
+    if(!RM){pSpin[i].rotation.y+=clamp(TAU*24*dpsG/Math.abs(p.rot)*.04,0,4)*(p.rot<0?-1:1)*dtG;}
+    var ob=pOrbit[i].geometry.attributes.position.array;
+    for(j=0;j<=128;j++){var an=j/128*TAU;au3n(p.a*Math.cos(an),p.a*Math.sin(an),p.incl*D2R,p.node,ob,j*3);}
+    pOrbit[i].geometry.attributes.position.needsUpdate=true;
+    tmpV3.copy(grp.position).project(cam3);
+    var sx=(tmpV3.x*.5+.5)*MW,sy=(-tmpV3.y*.5+.5)*MH;
+    lastProj[i]={x:sx,y:sy,vis:tmpV3.z<1};
+    proj2lb(lbEls[p.id],tmpV3,size3(p)+6,-4);
+  }
+  var nearE=camS.r<240;
+  moon3.visible=nearE;lbEls.moon.style.display='none';
+  if(nearE){
+    var ep=earthPos(),mp=moonPos(),ma=Math.atan2(mp.y-ep.y,mp.x-ep.x);
+    au3v(ep.x,ep.y,0,0,tmpV3);
+    moon3.position.set(tmpV3.x+Math.cos(ma)*7,tmpV3.y,tmpV3.z+Math.sin(ma)*7);
+    if(!RM){moon3.rotation.y+=clamp(TAU*24*dpsG/MOON.rot*.04,0,4)*dtG;}
+    tmpV3.copy(moon3.position).project(cam3);
+    if(camS.r<140){proj2lb(lbEls.moon,tmpV3,7,-3);}
+  }
+  var kb=ku3.geometry.attributes.position.array;
+  for(i=0;i<KU.length;i++){var k=KU[i],kr=RMAP(k.a);
+    kb[i*3]=Math.cos(k.ang)*kr;kb[i*3+1]=((i*37)%13-6)*.9;kb[i*3+2]=Math.sin(k.ang)*kr;}
+  ku3.geometry.attributes.position.needsUpdate=true;
+  oort3.visible=deep;prox3.visible=deep;
+  lbEls.oort.style.display='none';lbEls.proxima.style.display='none';
+  if(deep){
+    var ro=RMAP(50000),ob2=oort3.geometry.attributes.position.array;
+    for(i=0;i<=128;i++){var a2=i/128*TAU;ob2[i*3]=Math.cos(a2)*ro;ob2[i*3+1]=0;ob2[i*3+2]=Math.sin(a2)*ro;}
+    oort3.geometry.attributes.position.needsUpdate=true;
+    oort3.computeLineDistances();
+    tmpV3.set(Math.cos(.8)*ro,0,Math.sin(.8)*ro).project(cam3);
+    proj2lb(lbEls.oort,tmpV3,8,-4);
+    var pa=-0.9,rp2=RMAP(268770);
+    prox3.position.set(Math.cos(pa)*rp2,0,Math.sin(pa)*rp2);
+    tmpV3.copy(prox3.position).project(cam3);
+    proj2lb(lbEls.proxima,tmpV3,10,-4);
+  }
+  ship3.visible=missionReady;trail3.visible=missionReady;trans3.visible=false;
+  lbEls.ship.style.display='none';
+  if(missionReady){
+    var pl2=shipPlane();
+    au3v(ship.pos.x,ship.pos.y,pl2[0],pl2[1],ship3.position);
+    var ddx=ship.pos.x-ship.prev.x,ddy=ship.pos.y-ship.prev.y;
+    if(ddx*ddx+ddy*ddy>1e-14){
+      au3v(ship.pos.x+ddx,ship.pos.y+ddy,pl2[0],pl2[1],tmpV3);
+      ship3.lookAt(tmpV3);
+    }
+    var tb=trail3.geometry.attributes.position.array,tn=Math.min(ship.trail.length,TRAIL_MAX);
+    for(i=0;i<tn;i++){au3n(ship.trail[i].x,ship.trail[i].y,pl2[0],pl2[1],tb,i*3);}
+    trail3.geometry.setDrawRange(0,tn);
+    trail3.geometry.attributes.position.needsUpdate=true;
+    if(trans){
+      var tp=trans3.geometry.attributes.position.array;
+      var dip=trans.dest&&trans.dest.p?[trans.dest.p.incl*D2R,trans.dest.p.node]:[0,0];
+      if(trans.kind==='hoh'){
+        for(i=0;i<TRANS_PTS;i++){var pq=i/(TRANS_PTS-1),Mq=trans.M0+Math.PI*pq,Eq=keplerE(Mq,trans.e);
+          var rq=trans.a*(1-trans.e*Math.cos(Eq));
+          var nq=2*Math.atan2(Math.sqrt(1+trans.e)*Math.sin(Eq/2),Math.sqrt(1-trans.e)*Math.cos(Eq/2));
+          au3n(rq*Math.cos(trans.dep+nq-trans.nu0),rq*Math.sin(trans.dep+nq-trans.nu0),dip[0],dip[1],tp,i*3);}
+      }else{
+        var sv=simDays;
+        for(i=0;i<TRANS_PTS;i++){
+          simDays=trans.t0+trans.wait+(trans.total-trans.wait)*i/(TRANS_PTS-1);
+          var qp=transferPos();
+          au3n(qp.x,qp.y,dip[0],dip[1],tp,i*3);}
+        simDays=sv;
+      }
+      trans3.geometry.setDrawRange(0,TRANS_PTS);
+      trans3.geometry.attributes.position.needsUpdate=true;
+      trans3.computeLineDistances();
+      trans3.visible=true;
+    }
+    tmpV3.copy(ship3.position).project(cam3);
+    proj2lb(lbEls.ship,tmpV3,14,-8);
+  }
+  r3.render(sc3,cam3);
+}
+
 /* ================= 主循环 ================= */
 var lastT=performance.now();
 function loop(t){
@@ -784,12 +1043,14 @@ function loop(t){
   if(missionReady){
     var dps=6;
     if(trans){dps=trans.total/trans.durReal;}
+    dpsG=dps;
     simDays+=dps*dtG;
     if(ship.mode==='transfer'&&trans){
-      ship.prev={x:ship.pos.x,y:ship.pos.y};ship.prevDays=simDays;
-      var np=transferPos();ship.pos={x:np.x,y:np.y};ship.waiting=!!np.wait;
-      var dAU=Math.hypot(ship.pos.x-ship.prev.x,ship.pos.y-ship.prev.y);
-      var dS=(simDays-ship.prevDays)*DAY;
+      var np=transferPos();
+      var dAU=Math.hypot(np.x-ship.pos.x,np.y-ship.pos.y);
+      var dS=dps*dtG*DAY;
+      ship.prev={x:ship.pos.x,y:ship.pos.y};
+      ship.pos={x:np.x,y:np.y};ship.waiting=!!np.wait;
       if(dS>0){var v=dAU*AU_KM/dS;ship.vEma=ship.vEma?ship.vEma*.85+v*.15:v;}
       if(!RM){ship.trail.push({x:ship.pos.x,y:ship.pos.y});if(ship.trail.length>900){ship.trail.shift();}}
       if(np.done){arrive();}
@@ -800,9 +1061,10 @@ function loop(t){
       else{for(var i=0;i<P.length;i++){if(P[i].id===ship.atBody){ship.pos=planetPos(P[i]);}}}
       ship.vEma=ship.vEma*.9;
     }else{ship.pos=earthPos();}
-    if(deckVisible){drawMap();}
+    if(deckVisible&&!OK3D){drawMap();}
     updateConsole();
   }
+  if(deckVisible&&OK3D){render3D();}
   requestAnimationFrame(loop);
 }
 
@@ -844,9 +1106,12 @@ function initScramble(){
 function boot(){
   starResize();lResize();mResize();
   updateMapNote();renderDests();buildArchive();initReveal();initScramble();
+  import('./demojs/vendor/three.module.js').then(function(m){
+    THREE=m;try{init3D();}catch(e){OK3D=false;}
+  }).catch(function(){OK3D=false;});
   requestAnimationFrame(loop);
 }
-addEventListener('resize',function(){starResize();lResize();mResize();});
+addEventListener('resize',function(){starResize();lResize();mResize();r3Resize();});
 if(document.readyState==='complete'){boot();}
 else{addEventListener('load',boot);}
 </script>
