@@ -1,6 +1,18 @@
 // 博客文章数据源：供 blog.js、博客页、分类页与首页最新文章复用
 window.BLOG_POSTS_DATA = [
         {
+            "id": "wafer-fab-sampling-control-revision-r1-retrospective-20261017",
+            "title": "晶圆厂缺陷抽检控制：Revision R1 全过程复盘",
+            "title_en": "Wafer Fab Defect Sampling Control: A Full Retrospective of Revision R1",
+            "excerpt": "一次严格评审把 MDP-DAPO 手稿 V8.2 判决为\"大修后重审\"之后，我们用十天时间、216 次新训练和数万次冻结评测逐条审判论文里的每一个主张：修复 RNG 失步的 FabEnvPaired 配对环境、把延迟拆成四种协议、重画轴标反的策略热图、引入 tuned PPO 与调优规则家族做公平对手。结果是旗舰叙事大面积崩塌——规则家族与 tuned PPO 显著反超旗舰，C4b 是唯一承重墙组件——但废墟上站起了一条更干净、更诚实的证据链。",
+            "excerpt_en": "After a strict review sentenced the MDP-DAPO manuscript V8.2 to \"major revision and re-review\", we spent ten days, 216 fresh training runs, and tens of thousands of frozen evaluations re-judging every claim in the paper: fixing RNG desynchronization with the FabEnvPaired paired environment, splitting delay into four protocols, redrawing the axis-flipped policy heatmap, and bringing in tuned PPO and tuned rule families as fair opponents. The flagship narrative largely collapsed — rule families and tuned PPO significantly overtook the flagship, and C4b emerged as the only load-bearing component — yet a cleaner, more honest evidence chain rose from the ruins.",
+            "date": "2026-10-17",
+            "url": "/pages/blog/moban_new_md.html?md=../../context/20261017_zh_1.md",
+            "category": "tech",
+            "tags": ["强化学习", "DAPO", "PPO", "半导体制造", "消融实验", "研究复盘"],
+            "tags_en": ["Reinforcement Learning", "DAPO", "PPO", "Semiconductor Manufacturing", "Ablation Study", "Research Retrospective"]
+        },
+        {
             "id": "chatgpt-windows-install-troubleshooting-sop-20260919",
             "title": "ChatGPT Windows 桌面版安装故障排查：从 Microsoft Store 卡死到 MSIX 成功部署",
             "title_en": "Troubleshooting ChatGPT for Windows: From Microsoft Store Failures to Successful MSIX Deployment",
